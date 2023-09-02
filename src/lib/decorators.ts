@@ -1,6 +1,6 @@
 import {adoptStyles} from 'lit';
 
-import {GLOBAL} from './consts';
+import {GLOBAL_TINI} from './consts';
 import {UseComponentsList, ThemingOptions} from './types';
 import {useComponents} from './methods';
 
@@ -63,15 +63,15 @@ export function Theming<Themes extends string>({
     target.prototype.connectedCallback = function () {
       originalConnectedCallback?.bind(this)();
       // watch for soul change
-      if (!GLOBAL.$tiniThemingSubscriptions) {
-        GLOBAL.$tiniThemingSubscriptions = new Map();
+      if (!GLOBAL_TINI.themingSubscriptions) {
+        GLOBAL_TINI.themingSubscriptions = new Map();
       }
-      GLOBAL.$tiniThemingSubscriptions.set(unsubscribeKey, soul => {
+      GLOBAL_TINI.themingSubscriptions.set(unsubscribeKey, soul => {
         applyStyles(this, soul as Themes);
         applyScripts(this, soul as Themes);
       });
       this[unsubscribeKey] = () =>
-        GLOBAL.$tiniThemingSubscriptions?.delete(unsubscribeKey);
+        GLOBAL_TINI.themingSubscriptions?.delete(unsubscribeKey);
       // apply styles
       applyStyles(this);
     };

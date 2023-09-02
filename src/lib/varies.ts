@@ -1,11 +1,406 @@
 import {unsafeCSS} from 'lit';
 
-export type SizeFactors = SizeBasicFactors | SizeExtraFactors;
-export type FontSizeFactors = SizeFactors;
-export type SpaceSizeFactors = SizeFactors;
-export type ColorsAndGradients = Colors | Gradients;
+export enum VaryGroups {
+  Scheme = 'scheme',
+  Background = 'background',
+  Color = 'color',
+  Scale = 'scale',
+  Space = 'space',
+  Margin = 'margin',
+  Padding = 'padding',
+  FontSize = 'font-size',
+  FontType = 'font-type',
+  FontWeight = 'font-weight',
+  TextAlign = 'text-align',
+  TextTransform = 'text-transform',
+  JustifyContent = 'justify-content',
+  OutlineWidth = 'outline-width',
+  OutlineStyle = 'outline-style',
+  OutlineColor = 'outline-color',
+  OutlineOffset = 'outline-offset',
+  BorderWidth = 'border-width',
+  BorderStyle = 'border-style',
+  BorderColor = 'border-color',
+  BorderRadius = 'border-radius',
+  BoxShadow = 'box-shadow',
+}
 
-export enum Sizes {
+export interface RenderValues {
+  name: string;
+  groupName: string;
+  fullName: string;
+}
+
+export interface ColorRenderValues extends RenderValues {
+  baseName: string;
+  suffixName: string;
+  isContrast: boolean;
+  color: string;
+  contrast: string;
+}
+export type ColorVaryRender = (values: ColorRenderValues) => string;
+export interface GradientRenderValues extends ColorRenderValues {
+  gradient: string;
+  gradientContrast: string;
+}
+export type GradientVaryRender = (values: GradientRenderValues) => string;
+
+export interface ScaleRenderValues extends RenderValues {
+  scale: string;
+}
+export type ScaleVaryRender = (values: ScaleRenderValues) => string;
+
+export interface SpaceRenderValues extends RenderValues {
+  space: string;
+}
+export type SpaceVaryRender = (values: SpaceRenderValues) => string;
+
+export interface FontSizeRenderValues extends RenderValues {
+  size: string;
+}
+export type FontSizeVaryRender = (values: FontSizeRenderValues) => string;
+export interface FontTypeRenderValues extends RenderValues {
+  type: string;
+}
+export type FontTypeVaryRender = (values: FontTypeRenderValues) => string;
+export interface FontWeightRenderValues extends RenderValues {
+  weight: string;
+}
+export type FontWeightVaryRender = (values: FontWeightRenderValues) => string;
+
+export interface TextAlignRenderValues extends RenderValues {
+  align: string;
+}
+export type TextAlignVaryRender = (values: TextAlignRenderValues) => string;
+export interface TextTransformRenderValues extends RenderValues {
+  transform: string;
+}
+export type TextTransformVaryRender = (
+  values: TextTransformRenderValues
+) => string;
+
+export interface JustifyContentRenderValues extends RenderValues {
+  justify: string;
+}
+export type JustifyContentVaryRender = (
+  values: JustifyContentRenderValues
+) => string;
+
+export interface OutlineWidthRenderValues extends RenderValues {
+  width: string;
+}
+export type OutlineWidthVaryRender = (
+  values: OutlineWidthRenderValues
+) => string;
+export interface OutlineStyleRenderValues extends RenderValues {
+  style: string;
+}
+export type OutlineStyleVaryRender = (
+  values: OutlineStyleRenderValues
+) => string;
+export interface OutlineOffsetRenderValues extends RenderValues {
+  offset: string;
+}
+export type OutlineOffsetVaryRender = (
+  values: OutlineOffsetRenderValues
+) => string;
+
+export interface BorderWidthRenderValues extends RenderValues {
+  width: string;
+}
+export type BorderWidthVaryRender = (values: BorderWidthRenderValues) => string;
+export interface BorderStyleRenderValues extends RenderValues {
+  style: string;
+}
+export type BorderStyleVaryRender = (values: BorderStyleRenderValues) => string;
+export interface BorderRadiusRenderValues extends RenderValues {
+  radius: string;
+}
+export type BorderRadiusVaryRender = (
+  values: BorderRadiusRenderValues
+) => string;
+
+export interface BoxShadowRenderValues extends RenderValues {
+  shadow: string;
+}
+export type BoxShadowVaryRender = (values: BoxShadowRenderValues) => string;
+
+export enum ColorSuffixes {
+  Contrast = 'contrast',
+  Shade = 'shade',
+  Tint = 'tint',
+}
+export const COLOR_SUFFIXES = Object.values(ColorSuffixes);
+
+export enum Colors {
+  Primary = 'primary',
+  PrimaryContrast = 'primary-contrast',
+  PrimaryShade = 'primary-shade',
+  PrimaryTint = 'primary-tint',
+  Secondary = 'secondary',
+  SecondaryContrast = 'secondary-contrast',
+  SecondaryShade = 'secondary-shade',
+  SecondaryTint = 'secondary-tint',
+  Tertiary = 'tertiary',
+  TertiaryContrast = 'tertiary-contrast',
+  TertiaryShade = 'tertiary-shade',
+  TertiaryTint = 'tertiary-tint',
+  Success = 'success',
+  SuccessContrast = 'success-contrast',
+  SuccessShade = 'success-shade',
+  SuccessTint = 'success-tint',
+  Danger = 'danger',
+  DangerContrast = 'danger-contrast',
+  DangerShade = 'danger-shade',
+  DangerTint = 'danger-tint',
+  Warning = 'warning',
+  WarningContrast = 'warning-contrast',
+  WarningShade = 'warning-shade',
+  WarningTint = 'warning-tint',
+  Dark = 'dark',
+  DarkContrast = 'dark-contrast',
+  DarkShade = 'dark-shade',
+  DarkTint = 'dark-tint',
+  Medium = 'medium',
+  MediumContrast = 'medium-contrast',
+  MediumShade = 'medium-shade',
+  MediumTint = 'medium-tint',
+  Light = 'light',
+  LightContrast = 'light-contrast',
+  LightShade = 'light-shade',
+  LightTint = 'light-tint',
+  Background = 'background',
+  BackgroundContrast = 'background-contrast',
+  BackgroundShade = 'background-shade',
+  BackgroundTint = 'background-tint',
+  Middleground = 'middleground',
+  MiddlegroundContrast = 'middleground-contrast',
+  MiddlegroundShade = 'middleground-shade',
+  MiddlegroundTint = 'middleground-tint',
+  Foreground = 'foreground',
+  ForegroundContrast = 'foreground-contrast',
+  ForegroundShade = 'foreground-shade',
+  ForegroundTint = 'foreground-tint',
+}
+export enum CommonColors {
+  Gray = 'gray',
+  GrayContrast = 'gray-contrast',
+  GrayShade = 'gray-shade',
+  GrayTint = 'gray-tint',
+  Zinc = 'zinc',
+  ZincContrast = 'zinc-contrast',
+  ZincShade = 'zinc-shade',
+  ZincTint = 'zinc-tint',
+  Brown = 'brown',
+  BrownContrast = 'brown-contrast',
+  BrownShade = 'brown-shade',
+  BrownTint = 'brown-tint',
+  Amber = 'amber',
+  AmberContrast = 'amber-contrast',
+  AmberShade = 'amber-shade',
+  AmberTint = 'amber-tint',
+  Yellow = 'yellow',
+  YellowContrast = 'yellow-contrast',
+  YellowShade = 'yellow-shade',
+  YellowTint = 'yellow-tint',
+  Orange = 'orange',
+  OrangeContrast = 'orange-contrast',
+  OrangeShade = 'orange-shade',
+  OrangeTint = 'orange-tint',
+  Lime = 'lime',
+  LimeContrast = 'lime-contrast',
+  LimeShade = 'lime-shade',
+  LimeTint = 'lime-tint',
+  Green = 'green',
+  GreenContrast = 'green-contrast',
+  GreenShade = 'green-shade',
+  GreenTint = 'green-tint',
+  Teal = 'teal',
+  TealContrast = 'teal-contrast',
+  TealShade = 'teal-shade',
+  TealTint = 'teal-tint',
+  Cyan = 'cyan',
+  CyanContrast = 'cyan-contrast',
+  CyanShade = 'cyan-shade',
+  CyanTint = 'cyan-tint',
+  Blue = 'blue',
+  BlueContrast = 'blue-contrast',
+  BlueShade = 'blue-shade',
+  BlueTint = 'blue-tint',
+  Navy = 'navy',
+  NavyContrast = 'navy-contrast',
+  NavyShade = 'navy-shade',
+  NavyTint = 'navy-tint',
+  Indigo = 'indigo',
+  IndigoContrast = 'indigo-contrast',
+  IndigoShade = 'indigo-shade',
+  IndigoTint = 'indigo-tint',
+  Violet = 'violet',
+  VioletContrast = 'violet-contrast',
+  VioletShade = 'violet-shade',
+  VioletTint = 'violet-tint',
+  Purple = 'purple',
+  PurpleContrast = 'purple-contrast',
+  PurpleShade = 'purple-shade',
+  PurpleTint = 'purple-tint',
+  Pink = 'pink',
+  PinkContrast = 'pink-contrast',
+  PinkShade = 'pink-shade',
+  PinkTint = 'pink-tint',
+  Red = 'red',
+  RedContrast = 'red-contrast',
+  RedShade = 'red-shade',
+  RedTint = 'red-tint',
+}
+export const COLORS = Object.values(Colors);
+export const BASE_COLORS = COLORS.filter(item => !~item.indexOf('-'));
+export const COMMON_COLORS = Object.values(CommonColors);
+export const BASE_COMMON_COLORS = COMMON_COLORS.filter(
+  item => !~item.indexOf('-')
+);
+export const ALL_COLORS = [...COLORS, ...COMMON_COLORS];
+export const ALL_BASE_COLORS = [...BASE_COLORS, ...BASE_COMMON_COLORS];
+
+export enum GradientSuffixes {
+  Contrast = ColorSuffixes.Contrast,
+  Shade = ColorSuffixes.Shade,
+  Tint = ColorSuffixes.Tint,
+}
+
+export const GRADIENT_SUFFIXES = Object.values(GradientSuffixes);
+
+export enum Gradients {
+  Primary = 'gradient-primary',
+  PrimaryContrast = 'gradient-primary-contrast',
+  PrimaryShade = 'gradient-primary-shade',
+  PrimaryTint = 'gradient-primary-tint',
+  Secondary = 'gradient-secondary',
+  SecondaryContrast = 'gradient-secondary-contrast',
+  SecondaryShade = 'gradient-secondary-shade',
+  SecondaryTint = 'gradient-secondary-tint',
+  Tertiary = 'gradient-tertiary',
+  TertiaryContrast = 'gradient-tertiary-contrast',
+  TertiaryShade = 'gradient-tertiary-shade',
+  TertiaryTint = 'gradient-tertiary-tint',
+  Success = 'gradient-success',
+  SuccessContrast = 'gradient-success-contrast',
+  SuccessShade = 'gradient-success-shade',
+  SuccessTint = 'gradient-success-tint',
+  Danger = 'gradient-danger',
+  DangerContrast = 'gradient-danger-contrast',
+  DangerShade = 'gradient-danger-shade',
+  DangerTint = 'gradient-danger-tint',
+  Warning = 'gradient-warning',
+  WarningContrast = 'gradient-warning-contrast',
+  WarningShade = 'gradient-warning-shade',
+  WarningTint = 'gradient-warning-tint',
+  Dark = 'gradient-dark',
+  DarkContrast = 'gradient-dark-contrast',
+  DarkShade = 'gradient-dark-shade',
+  DarkTint = 'gradient-dark-tint',
+  Medium = 'gradient-medium',
+  MediumContrast = 'gradient-medium-contrast',
+  MediumShade = 'gradient-medium-shade',
+  MediumTint = 'gradient-medium-tint',
+  Light = 'gradient-light',
+  LightContrast = 'gradient-light-contrast',
+  LightShade = 'gradient-light-shade',
+  LightTint = 'gradient-light-tint',
+  Background = 'gradient-background',
+  BackgroundContrast = 'gradient-background-contrast',
+  BackgroundShade = 'gradient-background-shade',
+  BackgroundTint = 'gradient-background-tint',
+  Middleground = 'gradient-middleground',
+  MiddlegroundContrast = 'gradient-middleground-contrast',
+  MiddlegroundShade = 'gradient-middleground-shade',
+  MiddlegroundTint = 'gradient-middleground-tint',
+  Foreground = 'gradient-foreground',
+  ForegroundContrast = 'gradient-foreground-contrast',
+  ForegroundShade = 'gradient-foreground-shade',
+  ForegroundTint = 'gradient-foreground-tint',
+}
+export enum CommonGradients {
+  VitalOcean = 'gradient-vital-ocean',
+  VitalOceanContrast = 'gradient-vital-ocean-contrast',
+  VitalOceanShade = 'gradient-vital-ocean-shade',
+  VitalOceanTint = 'gradient-vital-ocean-tint',
+  KaleSalad = 'gradient-kale-salad',
+  KaleSaladContrast = 'gradient-kale-salad-contrast',
+  KaleSaladShade = 'gradient-kale-salad-shade',
+  KaleSaladTint = 'gradient-kale-salad-tint',
+  DiscoClub = 'gradient-disco-club',
+  DiscoClubContrast = 'gradient-disco-club-contrast',
+  DiscoClubShade = 'gradient-disco-club-shade',
+  DiscoClubTint = 'gradient-disco-club-tint',
+  ShadyLane = 'gradient-shady-lane',
+  ShadyLaneContrast = 'gradient-shady-lane-contrast',
+  ShadyLaneShade = 'gradient-shady-lane-shade',
+  ShadyLaneTint = 'gradient-shady-lane-tint',
+  RetroWagon = 'gradient-retro-wagon',
+  RetroWagonContrast = 'gradient-retro-wagon-contrast',
+  RetroWagonShade = 'gradient-retro-wagon-shade',
+  RetroWagonTint = 'gradient-retro-wagon-tint',
+  FrescoCrush = 'gradient-fresco-crush',
+  FrescoCrushContrast = 'gradient-fresco-crush-contrast',
+  FrescoCrushShade = 'gradient-fresco-crush-shade',
+  FrescoCrushTint = 'gradient-fresco-crush-tint',
+  CucumberWater = 'gradient-cucumber-water',
+  CucumberWaterContrast = 'gradient-cucumber-water-contrast',
+  CucumberWaterShade = 'gradient-cucumber-water-shade',
+  CucumberWaterTint = 'gradient-cucumber-water-tint',
+  SeaSalt = 'gradient-sea-salt',
+  SeaSaltContrast = 'gradient-sea-salt-contrast',
+  SeaSaltShade = 'gradient-sea-salt-shade',
+  SeaSaltTint = 'gradient-sea-salt-tint',
+  ParFour = 'gradient-par-four',
+  ParFourContrast = 'gradient-par-four-contrast',
+  ParFourShade = 'gradient-par-four-shade',
+  ParFourTint = 'gradient-par-four-tint',
+  OoeyGooey = 'gradient-ooey-gooey',
+  OoeyGooeyContrast = 'gradient-ooey-gooey-contrast',
+  OoeyGooeyShade = 'gradient-ooey-gooey-shade',
+  OoeyGooeyTint = 'gradient-ooey-gooey-tint',
+  BloodyMimosa = 'gradient-bloody-mimosa',
+  BloodyMimosaContrast = 'gradient-bloody-mimosa-contrast',
+  BloodyMimosaShade = 'gradient-bloody-mimosa-shade',
+  BloodyMimosaTint = 'gradient-bloody-mimosa-tint',
+  LovelyLilly = 'gradient-lovely-lilly',
+  LovelyLillyContrast = 'gradient-lovely-lilly-contrast',
+  LovelyLillyShade = 'gradient-lovely-lilly-shade',
+  LovelyLillyTint = 'gradient-lovely-lilly-tint',
+  AquaSpray = 'gradient-aqua-spray',
+  AquaSprayContrast = 'gradient-aqua-spray-contrast',
+  AquaSprayShade = 'gradient-aqua-spray-shade',
+  AquaSprayTint = 'gradient-aqua-spray-tint',
+  MelloYellow = 'gradient-mello-yellow',
+  MelloYellowContrast = 'gradient-mello-yellow-contrast',
+  MelloYellowShade = 'gradient-mello-yellow-shade',
+  MelloYellowTint = 'gradient-mello-yellow-tint',
+  DustyCactus = 'gradient-dusty-cactus',
+  DustyCactusContrast = 'gradient-dusty-cactus-contrast',
+  DustyCactusShade = 'gradient-dusty-cactus-shade',
+  DustyCactusTint = 'gradient-dusty-cactus-tint',
+  PremiumDark = 'gradient-premium-dark',
+  PremiumDarkContrast = 'gradient-premium-dark-contrast',
+  PremiumDarkShade = 'gradient-premium-dark-shade',
+  PremiumDarkTint = 'gradient-premium-dark-tint',
+  PerfectWhite = 'gradient-perfect-white',
+  PerfectWhiteContrast = 'gradient-perfect-white-contrast',
+  PerfectWhiteShade = 'gradient-perfect-white-shade',
+  PerfectWhiteTint = 'gradient-perfect-white-tint',
+}
+export const GRADIENTS = Object.values(Gradients);
+export const BASE_GRADIENTS = GRADIENTS.filter(
+  item => item.split('-').length <= 2
+);
+export const COMMON_GRADIENTS = Object.values(CommonGradients);
+export const BASE_COMMON_GRADIENTS = COMMON_GRADIENTS.filter(
+  item => item.split('-').length <= 3
+);
+export const ALL_GRADIENTS = [...GRADIENTS, ...COMMON_GRADIENTS];
+export const ALL_BASE_GRADIENTS = [...BASE_GRADIENTS, ...BASE_COMMON_GRADIENTS];
+
+export enum Scales {
   XXXS = 'xxxs',
   XXS = 'xxs',
   XS = 'xs',
@@ -19,9 +414,9 @@ export enum Sizes {
   XXL = 'xxl',
   XXXL = 'xxxl',
 }
-export const SIZES = Object.values(Sizes);
+export const SCALES = Object.values(Scales);
 
-export enum SizeBasicFactors {
+export enum Factors {
   X0 = '0x',
   X0_1 = '0_1x',
   X0_2 = '0_2x',
@@ -42,223 +437,13 @@ export enum SizeBasicFactors {
   X3 = '3x',
   X4 = '4x',
   X5 = '5x',
-}
-export const BASIC_FACTORS = Object.values(SizeBasicFactors);
-
-export enum SizeExtraFactors {
   X6 = '6x',
   X7 = '7x',
   X8 = '8x',
   X9 = '9x',
   X10 = '10x',
 }
-export const EXTRA_FACTORS = Object.values(SizeExtraFactors);
-
-export const SIZE_FACTORS = [...BASIC_FACTORS, ...EXTRA_FACTORS];
-
-export enum Colors {
-  Primary = 'primary',
-  PrimaryContrast = 'primary-contrast',
-  PrimaryShade = 'primary-shade',
-  PrimaryShade2 = 'primary-shade-2',
-  PrimaryShade3 = 'primary-shade-3',
-  PrimaryShade4 = 'primary-shade-4',
-  PrimaryShade5 = 'primary-shade-5',
-  PrimaryTint = 'primary-tint',
-  PrimaryTint2 = 'primary-tint-2',
-  PrimaryTint3 = 'primary-tint-3',
-  PrimaryTint4 = 'primary-tint-4',
-  PrimaryTint5 = 'primary-tint-5',
-  Secondary = 'secondary',
-  SecondaryContrast = 'secondary-contrast',
-  SecondaryShade = 'secondary-shade',
-  SecondaryShade2 = 'secondary-shade-2',
-  SecondaryShade3 = 'secondary-shade-3',
-  SecondaryShade4 = 'secondary-shade-4',
-  SecondaryShade5 = 'secondary-shade-5',
-  SecondaryTint = 'secondary-tint',
-  SecondaryTint2 = 'secondary-tint-2',
-  SecondaryTint3 = 'secondary-tint-3',
-  SecondaryTint4 = 'secondary-tint-4',
-  SecondaryTint5 = 'secondary-tint-5',
-  Tertiary = 'tertiary',
-  TertiaryContrast = 'tertiary-contrast',
-  TertiaryShade = 'tertiary-shade',
-  TertiaryShade2 = 'tertiary-shade-2',
-  TertiaryShade3 = 'tertiary-shade-3',
-  TertiaryShade4 = 'tertiary-shade-4',
-  TertiaryShade5 = 'tertiary-shade-5',
-  TertiaryTint = 'tertiary-tint',
-  TertiaryTint2 = 'tertiary-tint-2',
-  TertiaryTint3 = 'tertiary-tint-3',
-  TertiaryTint4 = 'tertiary-tint-4',
-  TertiaryTint5 = 'tertiary-tint-5',
-  Success = 'success',
-  SuccessContrast = 'success-contrast',
-  SuccessShade = 'success-shade',
-  SuccessShade2 = 'success-shade-2',
-  SuccessShade3 = 'success-shade-3',
-  SuccessShade4 = 'success-shade-4',
-  SuccessShade5 = 'success-shade-5',
-  SuccessTint = 'success-tint',
-  SuccessTint2 = 'success-tint-2',
-  SuccessTint3 = 'success-tint-3',
-  SuccessTint4 = 'success-tint-4',
-  SuccessTint5 = 'success-tint-5',
-  Danger = 'danger',
-  DangerContrast = 'danger-contrast',
-  DangerShade = 'danger-shade',
-  DangerShade2 = 'danger-shade-2',
-  DangerShade3 = 'danger-shade-3',
-  DangerShade4 = 'danger-shade-4',
-  DangerShade5 = 'danger-shade-5',
-  DangerTint = 'danger-tint',
-  DangerTint2 = 'danger-tint-2',
-  DangerTint3 = 'danger-tint-3',
-  DangerTint4 = 'danger-tint-4',
-  DangerTint5 = 'danger-tint-5',
-  Warning = 'warning',
-  WarningContrast = 'warning-contrast',
-  WarningShade = 'warning-shade',
-  WarningShade2 = 'warning-shade-2',
-  WarningShade3 = 'warning-shade-3',
-  WarningShade4 = 'warning-shade-4',
-  WarningShade5 = 'warning-shade-5',
-  WarningTint = 'warning-tint',
-  WarningTint2 = 'warning-tint-2',
-  WarningTint3 = 'warning-tint-3',
-  WarningTint4 = 'warning-tint-4',
-  WarningTint5 = 'warning-tint-5',
-  Dark = 'dark',
-  DarkContrast = 'dark-contrast',
-  DarkShade = 'dark-shade',
-  DarkShade2 = 'dark-shade-2',
-  DarkShade3 = 'dark-shade-3',
-  DarkShade4 = 'dark-shade-4',
-  DarkShade5 = 'dark-shade-5',
-  DarkTint = 'dark-tint',
-  DarkTint2 = 'dark-tint-2',
-  DarkTint3 = 'dark-tint-3',
-  DarkTint4 = 'dark-tint-4',
-  DarkTint5 = 'dark-tint-5',
-  Medium = 'medium',
-  MediumContrast = 'medium-contrast',
-  MediumShade = 'medium-shade',
-  MediumShade2 = 'medium-shade-2',
-  MediumShade3 = 'medium-shade-3',
-  MediumShade4 = 'medium-shade-4',
-  MediumShade5 = 'medium-shade-5',
-  MediumTint = 'medium-tint',
-  MediumTint2 = 'medium-tint-2',
-  MediumTint3 = 'medium-tint-3',
-  MediumTint4 = 'medium-tint-4',
-  MediumTint5 = 'medium-tint-5',
-  Light = 'light',
-  LightContrast = 'light-contrast',
-  LightShade = 'light-shade',
-  LightShade2 = 'light-shade-2',
-  LightShade3 = 'light-shade-3',
-  LightShade4 = 'light-shade-4',
-  LightShade5 = 'light-shade-5',
-  LightTint = 'light-tint',
-  LightTint2 = 'light-tint-2',
-  LightTint3 = 'light-tint-3',
-  LightTint4 = 'light-tint-4',
-  LightTint5 = 'light-tint-5',
-  Background = 'background',
-  BackgroundContrast = 'background-contrast',
-  BackgroundShade = 'background-shade',
-  BackgroundShade2 = 'background-shade-2',
-  BackgroundShade3 = 'background-shade-3',
-  BackgroundShade4 = 'background-shade-4',
-  BackgroundShade5 = 'background-shade-5',
-  BackgroundTint = 'background-tint',
-  BackgroundTint2 = 'background-tint-2',
-  BackgroundTint3 = 'background-tint-3',
-  BackgroundTint4 = 'background-tint-4',
-  BackgroundTint5 = 'background-tint-5',
-  Middleground = 'middleground',
-  MiddlegroundContrast = 'middleground-contrast',
-  MiddlegroundShade = 'middleground-shade',
-  MiddlegroundShade2 = 'middleground-shade-2',
-  MiddlegroundShade3 = 'middleground-shade-3',
-  MiddlegroundShade4 = 'middleground-shade-4',
-  MiddlegroundShade5 = 'middleground-shade-5',
-  MiddlegroundTint = 'middleground-tint',
-  MiddlegroundTint2 = 'middleground-tint-2',
-  MiddlegroundTint3 = 'middleground-tint-3',
-  MiddlegroundTint4 = 'middleground-tint-4',
-  MiddlegroundTint5 = 'middleground-tint-5',
-  Foreground = 'foreground',
-  ForegroundContrast = 'foreground-contrast',
-  ForegroundShade = 'foreground-shade',
-  ForegroundShade2 = 'foreground-shade-2',
-  ForegroundShade3 = 'foreground-shade-3',
-  ForegroundShade4 = 'foreground-shade-4',
-  ForegroundShade5 = 'foreground-shade-5',
-  ForegroundTint = 'foreground-tint',
-  ForegroundTint2 = 'foreground-tint-2',
-  ForegroundTint3 = 'foreground-tint-3',
-  ForegroundTint4 = 'foreground-tint-4',
-  ForegroundTint5 = 'foreground-tint-5',
-}
-export const COLORS = Object.values(Colors);
-export const BASE_COLORS = COLORS.filter(item => !~item.indexOf('-'));
-
-export enum Gradients {
-  GradientPrimary = 'gradient-primary',
-  GradientPrimaryContrast = 'gradient-primary-contrast',
-  GradientPrimaryShade = 'gradient-primary-shade',
-  GradientPrimaryTint = 'gradient-primary-tint',
-  GradientSecondary = 'gradient-secondary',
-  GradientSecondaryContrast = 'gradient-secondary-contrast',
-  GradientSecondaryShade = 'gradient-secondary-shade',
-  GradientSecondaryTint = 'gradient-secondary-tint',
-  GradientTertiary = 'gradient-tertiary',
-  GradientTertiaryContrast = 'gradient-tertiary-contrast',
-  GradientTertiaryShade = 'gradient-tertiary-shade',
-  GradientTertiaryTint = 'gradient-tertiary-tint',
-  GradientSuccess = 'gradient-success',
-  GradientSuccessContrast = 'gradient-success-contrast',
-  GradientSuccessShade = 'gradient-success-shade',
-  GradientSuccessTint = 'gradient-success-tint',
-  GradientDanger = 'gradient-danger',
-  GradientDangerContrast = 'gradient-danger-contrast',
-  GradientDangerShade = 'gradient-danger-shade',
-  GradientDangerTint = 'gradient-danger-tint',
-  GradientWarning = 'gradient-warning',
-  GradientWarningContrast = 'gradient-warning-contrast',
-  GradientWarningShade = 'gradient-warning-shade',
-  GradientWarningTint = 'gradient-warning-tint',
-  GradientDark = 'gradient-dark',
-  GradientDarkContrast = 'gradient-dark-contrast',
-  GradientDarkShade = 'gradient-dark-shade',
-  GradientDarkTint = 'gradient-dark-tint',
-  GradientMedium = 'gradient-medium',
-  GradientMediumContrast = 'gradient-medium-contrast',
-  GradientMediumShade = 'gradient-medium-shade',
-  GradientMediumTint = 'gradient-medium-tint',
-  GradientLight = 'gradient-light',
-  GradientLightContrast = 'gradient-light-contrast',
-  GradientLightShade = 'gradient-light-shade',
-  GradientLightTint = 'gradient-light-tint',
-  GradientBackground = 'gradient-background',
-  GradientBackgroundContrast = 'gradient-background-contrast',
-  GradientBackgroundShade = 'gradient-background-shade',
-  GradientBackgroundTint = 'gradient-background-tint',
-  GradientMiddleground = 'gradient-middleground',
-  GradientMiddlegroundContrast = 'gradient-middleground-contrast',
-  GradientMiddlegroundShade = 'gradient-middleground-shade',
-  GradientMiddlegroundTint = 'gradient-middleground-tint',
-  GradientForeground = 'gradient-foreground',
-  GradientForegroundContrast = 'gradient-foreground-contrast',
-  GradientForegroundShade = 'gradient-foreground-shade',
-  GradientForegroundTint = 'gradient-foreground-tint',
-}
-export const GRADIENTS = Object.values(Gradients);
-export const BASE_GRADIENTS = GRADIENTS.filter(
-  item => !~item.replace('gradient-', '').indexOf('-')
-);
+export const FACTORS = Object.values(Factors);
 
 export enum FontTypes {
   Head = 'head',
@@ -281,6 +466,18 @@ export enum FontWeights {
 }
 export const FONT_WEIGHTS = Object.values(FontWeights);
 
+export enum TextAligns {
+  Start = 'start',
+  End = 'end',
+  Left = 'left',
+  Right = 'right',
+  Center = 'center',
+  Justify = 'justify',
+  JustifyAll = 'justify-all',
+  MatchParent = 'match-parent',
+}
+export const TEXT_ALIGNS = Object.values(TextAligns);
+
 export enum TextTransforms {
   Capitalize = 'capitalize',
   Lowercase = 'lowercase',
@@ -298,7 +495,18 @@ export enum JustifyContents {
 }
 export const JUSTIFY_CONTENTS = Object.values(JustifyContents);
 
-export enum BorderStyles {
+export enum OutlineWidths {
+  Zero = 'zero',
+  Tiny = 'tiny',
+  Small = 'small',
+  Base = 'base',
+  Big = 'big',
+  Huge = 'huge',
+  Massive = 'massive',
+}
+export const OUTLINE_WIDTHS = Object.values(OutlineWidths);
+
+export enum OutlineStyles {
   Solid = 'solid',
   Dashed = 'dashed',
   Dotted = 'dotted',
@@ -310,114 +518,390 @@ export enum BorderStyles {
   Hidden = 'hidden',
   None = 'none',
 }
+export const OUTLINE_STYLES = Object.values(OutlineStyles);
+
+export enum OutlineOffsets {
+  Zero = OutlineWidths.Zero,
+  Tiny = OutlineWidths.Tiny,
+  Small = OutlineWidths.Small,
+  Base = OutlineWidths.Base,
+  Big = OutlineWidths.Big,
+  Huge = OutlineWidths.Huge,
+  Massive = OutlineWidths.Massive,
+}
+export const OUTLINE_OFFSETS = Object.values(OutlineOffsets);
+
+export enum BorderWidths {
+  Zero = OutlineWidths.Zero,
+  Tiny = OutlineWidths.Tiny,
+  Small = OutlineWidths.Small,
+  Base = OutlineWidths.Base,
+  Big = OutlineWidths.Big,
+  Huge = OutlineWidths.Huge,
+  Massive = OutlineWidths.Massive,
+}
+export const BORDER_WIDTHS = Object.values(BorderWidths);
+
+export enum BorderStyles {
+  Solid = OutlineStyles.Solid,
+  Dashed = OutlineStyles.Dashed,
+  Dotted = OutlineStyles.Dotted,
+  Double = OutlineStyles.Double,
+  Groove = OutlineStyles.Groove,
+  Ridge = OutlineStyles.Ridge,
+  Inset = OutlineStyles.Inset,
+  Outset = OutlineStyles.Outset,
+  Hidden = OutlineStyles.Hidden,
+  None = OutlineStyles.None,
+}
 export const BORDER_STYLES = Object.values(BorderStyles);
 
+export enum BorderRadiuses {
+  Zero = OutlineWidths.Zero,
+  Tiny = OutlineWidths.Tiny,
+  Small = OutlineWidths.Small,
+  Base = OutlineWidths.Base,
+  Big = OutlineWidths.Big,
+  Huge = OutlineWidths.Huge,
+  Massive = OutlineWidths.Massive,
+  Quarter = 'quarter',
+  Half = 'half',
+  ThreeQuarters = 'three-quarters',
+  Full = 'full',
+  Max = 'max',
+}
+export const BORDER_RADIUSES = Object.values(BorderRadiuses);
+
+export enum BoxShadows {
+  None = 'none',
+  Normal = 'normal',
+  Least = 'least',
+  Lesser = 'lesser',
+  Greater = 'greater',
+  Greatest = 'greatest',
+  Scarcity = 'scarcity',
+  Excess = 'excess',
+}
+export const BOX_SHADOWS = Object.values(BoxShadows);
+
 export function generateColorVaries(
-  render: ColorOrGradientVaryRender<ColorRenderValues>
+  render: ColorVaryRender,
+  excludeCommon = false
 ) {
   return unsafeCSS(
-    COLORS.map(name => {
-      const baseName = name.split('-')[0];
-      const isContrast = ~name.indexOf('-contrast');
-      // colors
-      const color = `var(--color-${name})`;
-      const contrast = `var(${
-        isContrast ? `--color-${baseName}` : `--color-${baseName}-contrast`
-      })`;
-      // render
-      return render({
-        baseName,
-        name,
-        color,
-        contrast,
-      });
-    }).join('')
+    (excludeCommon ? COLORS : ALL_COLORS)
+      .map(name => {
+        const nameSplits = name.split('-');
+        const lastSegment = nameSplits[nameSplits.length - 1];
+        const suffixName =
+          nameSplits.length < 2 ||
+          !~COLOR_SUFFIXES.indexOf(lastSegment as ColorSuffixes)
+            ? ''
+            : lastSegment;
+        const groupName = VaryGroups.Scheme;
+        const fullName = `${groupName}-${name}`;
+        const baseName = nameSplits
+          .slice(0, !suffixName ? nameSplits.length : nameSplits.length - 1)
+          .join('-');
+        const isContrast = suffixName === GradientSuffixes.Contrast;
+        // colors
+        const color = `var(--color-${name})`;
+        const contrast = `var(${
+          isContrast ? `--color-${baseName}` : `--color-${baseName}-contrast`
+        })`;
+        // render
+        return render({
+          name,
+          groupName,
+          fullName,
+          baseName,
+          suffixName,
+          isContrast,
+          color,
+          contrast,
+        });
+      })
+      .join('')
   );
 }
 export function generateGradientVaries(
-  render: ColorOrGradientVaryRender<GradientRenderValues>
+  render: GradientVaryRender,
+  excludeCommon = false
 ) {
   return unsafeCSS(
-    GRADIENTS.map(name => {
-      const baseName = name.split('-')[1];
-      const isContrast = ~name.indexOf('-contrast');
-      // colors
-      const color = `var(--color-${name.replace('gradient-', '')})`;
-      const contrast = `var(${
-        isContrast ? `--color-${baseName}` : `--color-${baseName}-contrast`
-      })`;
-      // gradients
-      const gradient = `var(--${name})`;
-      const gradientContrast = `var(${
-        isContrast ? `--${name}` : `--${name}-contrast`
-      })`;
-      // render
+    (excludeCommon ? GRADIENTS : ALL_GRADIENTS)
+      .map(name => {
+        const nameSplits = name.replace('gradient-', '').split('-');
+        const lastSegment = nameSplits[nameSplits.length - 1];
+        const suffixName =
+          nameSplits.length < 2 ||
+          !~GRADIENT_SUFFIXES.indexOf(lastSegment as GradientSuffixes)
+            ? ''
+            : lastSegment;
+        const groupName = VaryGroups.Scheme;
+        const fullName = `${groupName}-${name}`;
+        const baseName = nameSplits
+          .slice(0, !suffixName ? nameSplits.length : nameSplits.length - 1)
+          .join('-');
+        const isContrast = suffixName === GradientSuffixes.Contrast;
+        // colors
+        const color = `var(--color-${baseName})`;
+        const contrast = `var(${
+          isContrast ? `--color-${baseName}` : `--color-${baseName}-contrast`
+        })`;
+        // gradients
+        const gradient = `var(--${name})`;
+        const gradientContrast = `var(${
+          isContrast ? `--${name}` : `--${name}-contrast`
+        })`;
+        // render
+        return render({
+          name,
+          groupName,
+          fullName,
+          baseName,
+          suffixName,
+          isContrast,
+          color,
+          contrast,
+          gradient,
+          gradientContrast,
+        });
+      })
+      .join('')
+  );
+}
+
+export function generateScaleVaries(render: ScaleVaryRender) {
+  return unsafeCSS(
+    SCALES.map(name => {
+      const groupName = VaryGroups.Scale;
+      const fullName = `${groupName}-${name}`;
+      const scale = `var(--scale-${name})`;
       return render({
-        baseName,
         name,
-        color,
-        contrast,
-        gradient,
-        gradientContrast,
+        groupName,
+        fullName,
+        scale,
       });
     }).join('')
   );
 }
 
-export function generateSizeVaries(render: SizeVaryRender) {
-  return unsafeCSS(SIZES.map(size => render(size)).join(''));
-}
-
-export function generateBasicFactorVaries(render: SizeFactorVaryRender) {
+export function generateSpaceVaries(render: SpaceVaryRender) {
   return unsafeCSS(
-    BASIC_FACTORS.map(sizeFactor => render(sizeFactor)).join('')
+    FACTORS.map(name => {
+      const groupName = VaryGroups.Space;
+      const fullName = `${groupName}-${name}`;
+      const space = `var(--size-space-${name})`;
+      return render({
+        name,
+        groupName,
+        fullName,
+        space,
+      });
+    }).join('')
   );
 }
-export function generateSpaceVaries(render: SizeFactorVaryRender) {
-  return unsafeCSS(SIZE_FACTORS.map(factor => render(factor)).join(''));
-}
 
+export function generateFontSizeVaries(render: FontSizeVaryRender) {
+  return unsafeCSS(
+    FACTORS.map(name => {
+      const groupName = VaryGroups.FontSize;
+      const fullName = `${groupName}-${name}`;
+      const size = `var(--size-text-${name})`;
+      return render({
+        name,
+        groupName,
+        fullName,
+        size,
+      });
+    }).join('')
+  );
+}
 export function generateFontTypeVaries(render: FontTypeVaryRender) {
-  return unsafeCSS(FONT_TYPES.map(fontType => render(fontType)).join(''));
+  return unsafeCSS(
+    FONT_TYPES.map(name => {
+      const groupName = VaryGroups.FontType;
+      const fullName = `${groupName}-${name}`;
+      const type = `var(--font-${name})`;
+      return render({
+        name,
+        groupName,
+        fullName,
+        type,
+      });
+    }).join('')
+  );
 }
 export function generateFontWeightVaries(render: FontWeightVaryRender) {
-  return unsafeCSS(FONT_WEIGHTS.map(fontWeight => render(fontWeight)).join(''));
+  return unsafeCSS(
+    FONT_WEIGHTS.map(name => {
+      const groupName = VaryGroups.FontWeight;
+      const fullName = `${groupName}-${name}`;
+      const weight = name;
+      return render({
+        name,
+        groupName,
+        fullName,
+        weight,
+      });
+    }).join('')
+  );
 }
-export function generateFontSizeVaries(render: SizeFactorVaryRender) {
-  return unsafeCSS(SIZE_FACTORS.map(factor => render(factor)).join(''));
+
+export function generateTextAlignVaries(render: TextAlignVaryRender) {
+  return unsafeCSS(
+    TEXT_ALIGNS.map(name => {
+      const groupName = VaryGroups.TextAlign;
+      const fullName = `${groupName}-${name}`;
+      const align = name;
+      return render({
+        name,
+        groupName,
+        fullName,
+        align,
+      });
+    }).join('')
+  );
 }
 
 export function generateTextTransformVaries(render: TextTransformVaryRender) {
   return unsafeCSS(
-    TEXT_TRANSFORMS.map(transform => render(transform)).join('')
+    TEXT_TRANSFORMS.map(name => {
+      const groupName = VaryGroups.TextTransform;
+      const fullName = `${groupName}-${name}`;
+      const transform = name;
+      return render({
+        name,
+        groupName,
+        fullName,
+        transform,
+      });
+    }).join('')
   );
 }
 
-export function generateJustifyVaries(render: JustifyVaryRender) {
-  return unsafeCSS(JUSTIFY_CONTENTS.map(justify => render(justify)).join(''));
+export function generateJustifyContentVaries(render: JustifyContentVaryRender) {
+  return unsafeCSS(
+    JUSTIFY_CONTENTS.map(name => {
+      const groupName = VaryGroups.JustifyContent;
+      const fullName = `${groupName}-${name}`;
+      const justify = name;
+      return render({
+        name,
+        groupName,
+        fullName,
+        justify,
+      });
+    }).join('')
+  );
 }
 
+export function generateOutlineWidthVaries(render: OutlineWidthVaryRender) {
+  return unsafeCSS(
+    OUTLINE_WIDTHS.map(name => {
+      const groupName = VaryGroups.OutlineWidth;
+      const fullName = `${groupName}-${name}`;
+      const width = `var(--size-outline-${name})`;
+      return render({
+        name,
+        groupName,
+        fullName,
+        width,
+      });
+    }).join('')
+  );
+}
+export function generateOutlineStyleVaries(render: OutlineStyleVaryRender) {
+  return unsafeCSS(
+    OUTLINE_STYLES.map(name => {
+      const groupName = VaryGroups.OutlineStyle;
+      const fullName = `${groupName}-${name}`;
+      const style = name;
+      return render({
+        name,
+        groupName,
+        fullName,
+        style,
+      });
+    }).join('')
+  );
+}
+export function generateOutlineOffsetVaries(render: OutlineOffsetVaryRender) {
+  return unsafeCSS(
+    OUTLINE_OFFSETS.map(name => {
+      const groupName = VaryGroups.OutlineOffset;
+      const fullName = `${groupName}-${name}`;
+      const offset = `var(--size-outline-${name})`;
+      return render({
+        name,
+        groupName,
+        fullName,
+        offset,
+      });
+    }).join('')
+  );
+}
+
+export function generateBorderWidthVaries(render: BorderWidthVaryRender) {
+  return unsafeCSS(
+    BORDER_WIDTHS.map(name => {
+      const groupName = VaryGroups.BorderWidth;
+      const fullName = `${groupName}-${name}`;
+      const width = `var(--size-border-${name})`;
+      return render({
+        name,
+        groupName,
+        fullName,
+        width,
+      });
+    }).join('')
+  );
+}
 export function generateBorderStyleVaries(render: BorderStyleVaryRender) {
   return unsafeCSS(
-    BORDER_STYLES.map(borderStyle => render(borderStyle)).join('')
+    BORDER_STYLES.map(name => {
+      const groupName = VaryGroups.BorderStyle;
+      const fullName = `${groupName}-${name}`;
+      const style = name;
+      return render({
+        name,
+        groupName,
+        fullName,
+        style,
+      });
+    }).join('')
+  );
+}
+export function generateBorderRadiusVaries(render: BorderRadiusVaryRender) {
+  return unsafeCSS(
+    BORDER_RADIUSES.map(name => {
+      const groupName = VaryGroups.BorderRadius;
+      const fullName = `${groupName}-${name}`;
+      const radius = `var(--size-radius-${name})`;
+      return render({
+        name,
+        groupName,
+        fullName,
+        radius,
+      });
+    }).join('')
   );
 }
 
-type SizeVaryRender = (size: Sizes) => string;
-type SizeFactorVaryRender = (sizeFactor: SizeFactors) => string;
-type FontTypeVaryRender = (fontType: FontTypes) => string;
-type FontWeightVaryRender = (fontWeight: FontWeights) => string;
-type TextTransformVaryRender = (transform: TextTransforms) => string;
-type JustifyVaryRender = (justify: JustifyContents) => string;
-type BorderStyleVaryRender = (borderStyle: BorderStyles) => string;
-type ColorOrGradientVaryRender<Values> = (values: Values) => string;
-interface ColorRenderValues {
-  baseName: string;
-  name: string;
-  color: string;
-  contrast: string;
-}
-interface GradientRenderValues extends ColorRenderValues {
-  gradient: string;
-  gradientContrast: string;
+export function generateBoxShadowVaries(render: BoxShadowVaryRender) {
+  return unsafeCSS(
+    BOX_SHADOWS.map(name => {
+      const groupName = VaryGroups.BoxShadow;
+      const fullName = `${groupName}-${name}`;
+      const shadow = `var(--shadow-${name})`;
+      return render({
+        name,
+        groupName,
+        fullName,
+        shadow,
+      });
+    }).join('')
+  );
 }

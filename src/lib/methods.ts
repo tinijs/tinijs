@@ -1,8 +1,17 @@
 import {ClassInfo} from 'lit/directives/class-map.js';
+import {StyleInfo} from 'lit/directives/style-map.js';
 
-import {UseComponentsList} from './types';
-import {GLOBAL, CHANGE_THEME_EVENT} from './consts';
-import {SIZE_FACTORS, BORDER_STYLES, COLORS} from './varies';
+import {UseComponentsList, Transform} from './types';
+import {GLOBAL_TINI, CHANGE_THEME_EVENT} from './consts';
+import {
+  VaryGroups,
+  COLORS,
+  FACTORS,
+  OUTLINE_WIDTHS,
+  OUTLINE_STYLES,
+  BORDER_WIDTHS,
+  BORDER_STYLES,
+} from './varies';
 
 export function useComponents(items: UseComponentsList) {
   items.forEach(item => {
@@ -39,7 +48,7 @@ export function changeTheme({
     document.body.dataset.theme = `${soulId}/${skinId}`;
     if (soulId !== currentSoulId) {
       // notify all subscribers
-      GLOBAL.$tiniThemingSubscriptions?.forEach(subscription =>
+      GLOBAL_TINI.themingSubscriptions?.forEach(subscription =>
         subscription(soulId as string)
       );
       // dispatch a global event
@@ -52,14 +61,12 @@ export function changeTheme({
   }
 }
 
-export function sizeFactorsToClassInfo(
+export function factorsToClassInfo(
   prefix: string,
-  sizeFactors?: string
+  factors?: string
 ): ClassInfo {
-  if (!sizeFactors) return {};
-  const list = sizeFactors
-    .split(' ')
-    .filter(item => ~SIZE_FACTORS.indexOf(item as any));
+  if (!factors) return {};
+  const list = factors.split(' ').filter(item => ~FACTORS.indexOf(item as any));
   if (list.length === 4) {
     return {
       [`${prefix}-top-${list[0]}`]: true,
@@ -93,57 +100,128 @@ export function sizeFactorsToClassInfo(
   }
 }
 
-export function borderingToClassInfo(bordering?: string) {
-  if (!bordering) return {};
-  const list = bordering.split(' ');
+export function outlineToClassInfo(outline?: string): ClassInfo {
+  if (!outline) return {};
+  const list = outline.split(' ');
   if (
     list.length === 3 &&
-    ~SIZE_FACTORS.indexOf(list[0] as any) &&
-    ~BORDER_STYLES.indexOf(list[1] as any) &&
+    ~OUTLINE_WIDTHS.indexOf(list[0] as any) &&
+    ~OUTLINE_STYLES.indexOf(list[1] as any) &&
     ~COLORS.indexOf(list[2] as any)
   ) {
     return {
-      [`border-width-${list[0]}`]: true,
-      [`border-style-${list[1]}`]: true,
-      [`border-color-${list[2]}`]: true,
+      [`${VaryGroups.OutlineWidth}-${list[0]}`]: true,
+      [`${VaryGroups.OutlineStyle}-${list[1]}`]: true,
+      [`${VaryGroups.OutlineColor}-${list[2]}`]: true,
     };
   } else if (list.length === 2) {
     if (
-      ~SIZE_FACTORS.indexOf(list[0] as any) &&
-      ~BORDER_STYLES.indexOf(list[1] as any)
+      ~OUTLINE_WIDTHS.indexOf(list[0] as any) &&
+      ~OUTLINE_STYLES.indexOf(list[1] as any)
     ) {
       return {
-        [`border-width-${list[0]}`]: true,
-        [`border-style-${list[1]}`]: true,
+        [`${VaryGroups.OutlineWidth}-${list[0]}`]: true,
+        [`${VaryGroups.OutlineStyle}-${list[1]}`]: true,
       };
     } else if (
-      ~BORDER_STYLES.indexOf(list[0] as any) &&
+      ~OUTLINE_STYLES.indexOf(list[0] as any) &&
       ~COLORS.indexOf(list[1] as any)
     ) {
       return {
-        [`border-style-${list[0]}`]: true,
-        [`border-color-${list[1]}`]: true,
+        [`${VaryGroups.OutlineStyle}-${list[0]}`]: true,
+        [`${VaryGroups.OutlineColor}-${list[1]}`]: true,
       };
     } else {
       return {};
     }
   } else if (list.length === 1) {
-    if (~SIZE_FACTORS.indexOf(list[0] as any)) {
+    if (~OUTLINE_WIDTHS.indexOf(list[0] as any)) {
       return {
-        [`border-width-${list[0]}`]: true,
+        [`${VaryGroups.OutlineWidth}-${list[0]}`]: true,
       };
-    } else if (~BORDER_STYLES.indexOf(list[0] as any)) {
+    } else if (~OUTLINE_STYLES.indexOf(list[0] as any)) {
       return {
-        [`border-style-${list[0]}`]: true,
+        [`${VaryGroups.OutlineStyle}-${list[0]}`]: true,
       };
     } else if (~COLORS.indexOf(list[0] as any)) {
       return {
-        [`border-color-${list[0]}`]: true,
+        [`${VaryGroups.OutlineColor}-${list[0]}`]: true,
       };
     } else {
       return {};
     }
   } else {
     return {};
+  }
+}
+
+export function borderToClassInfo(border?: string): ClassInfo {
+  if (!border) return {};
+  const list = border.split(' ');
+  if (
+    list.length === 3 &&
+    ~BORDER_WIDTHS.indexOf(list[0] as any) &&
+    ~BORDER_STYLES.indexOf(list[1] as any) &&
+    ~COLORS.indexOf(list[2] as any)
+  ) {
+    return {
+      [`${VaryGroups.BorderWidth}-${list[0]}`]: true,
+      [`${VaryGroups.BorderStyle}-${list[1]}`]: true,
+      [`${VaryGroups.BorderColor}-${list[2]}`]: true,
+    };
+  } else if (list.length === 2) {
+    if (
+      ~BORDER_WIDTHS.indexOf(list[0] as any) &&
+      ~BORDER_STYLES.indexOf(list[1] as any)
+    ) {
+      return {
+        [`${VaryGroups.BorderWidth}-${list[0]}`]: true,
+        [`${VaryGroups.BorderStyle}-${list[1]}`]: true,
+      };
+    } else if (
+      ~BORDER_STYLES.indexOf(list[0] as any) &&
+      ~COLORS.indexOf(list[1] as any)
+    ) {
+      return {
+        [`${VaryGroups.BorderStyle}-${list[0]}`]: true,
+        [`${VaryGroups.BorderColor}-${list[1]}`]: true,
+      };
+    } else {
+      return {};
+    }
+  } else if (list.length === 1) {
+    if (~BORDER_WIDTHS.indexOf(list[0] as any)) {
+      return {
+        [`${VaryGroups.BorderWidth}-${list[0]}`]: true,
+      };
+    } else if (~BORDER_STYLES.indexOf(list[0] as any)) {
+      return {
+        [`${VaryGroups.BorderStyle}-${list[0]}`]: true,
+      };
+    } else if (~COLORS.indexOf(list[0] as any)) {
+      return {
+        [`${VaryGroups.BorderColor}-${list[0]}`]: true,
+      };
+    } else {
+      return {};
+    }
+  } else {
+    return {};
+  }
+}
+
+export function transformToStyleInfo(transform?: Transform): StyleInfo {
+  if (!transform) {
+    return {};
+  } else if (typeof transform === 'string') {
+    return {transform};
+  } else {
+    const {value, origin, box, style} = transform;
+    return {
+      transform: value,
+      transformOrigin: origin,
+      transformBox: box,
+      transformStyle: style,
+    };
   }
 }

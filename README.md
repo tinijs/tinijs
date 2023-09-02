@@ -46,19 +46,19 @@ changeTheme({ soulId: 'bootstrap', skinId: 'dark' });
 - Varies generators
 
 ```ts
-import {generateColorVaries, generateSizeVaries} from 'tinijs';
+import {generateColorVaries, generateScaleVaries} from 'tinijs';
 
 css`
 
-  ${generateColorVaries(({name, color}) => `
-    .scheme-${name} {
+  ${generateColorVaries(({fullName, color}) => `
+    .${fullName} {
       background: ${color};
     }
   `)}
 
-  ${generateSizeVaries(size => `
-    .size-${size} {
-      padding: var(--size-space-${size});
+  ${generateScaleVaries(({fullName, scale}) => `
+    .${fullName} {
+      padding: ${scale};
     }
   `)}
 

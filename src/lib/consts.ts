@@ -1,5 +1,9 @@
-export const GLOBAL = window as unknown as {
-  $tiniThemingSubscriptions?: Map<symbol, (soul: string) => void>;
-};
+import {ThemingSubscription} from './types';
+
+export const GLOBAL_TINI = ((
+  window as unknown as Record<string, unknown>
+).TiniJS = {} as {
+  themingSubscriptions?: Map<symbol, ThemingSubscription>;
+});
 
 export const CHANGE_THEME_EVENT = 'tini:changetheme';
