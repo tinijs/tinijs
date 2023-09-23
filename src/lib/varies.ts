@@ -584,6 +584,29 @@ export enum BoxShadows {
 }
 export const BOX_SHADOWS = Object.values(BoxShadows);
 
+export enum Displays {
+  None = 'none',
+  Block = 'block',
+  Inline = 'inline',
+  InlineBlock = 'inline-block',
+  Flex = 'flex',
+  InlineFlex = 'inline-flex',
+  Grid = 'grid',
+  InlineGrid = 'inline-grid',
+  FlowRoot = 'flow-root',
+  Contents = 'contents',
+}
+export const DISPLAYS = Object.values(Displays);
+
+export enum Positions {
+  Static = 'static',
+  Relative = 'relative',
+  Absolute = 'absolute',
+  Fixed = 'fixed',
+  Sticky = 'sticky',
+}
+export const POSITIONS = Object.values(Positions);
+
 export function generateColorVaries(
   render: ColorVaryRender,
   excludeCommon = false
