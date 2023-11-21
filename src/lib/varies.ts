@@ -40,6 +40,7 @@ export interface ColorRenderValues extends RenderValues {
 }
 export type ColorVaryRender = (values: ColorRenderValues) => string;
 export interface GradientRenderValues extends ColorRenderValues {
+  colorName: string;
   gradient: string;
   gradientContrast: string;
 }
@@ -400,6 +401,63 @@ export const BASE_COMMON_GRADIENTS = COMMON_GRADIENTS.filter(
 export const ALL_GRADIENTS = [...GRADIENTS, ...COMMON_GRADIENTS];
 export const ALL_BASE_GRADIENTS = [...BASE_GRADIENTS, ...BASE_COMMON_GRADIENTS];
 
+export const COMMON_GRADIENTS_TO_COMMON_COLORS = [
+  [CommonGradients.VitalOcean, CommonColors.Blue],
+  [CommonGradients.KaleSalad, CommonColors.Teal],
+  [CommonGradients.DiscoClub, CommonColors.Pink],
+  [CommonGradients.ShadyLane, CommonColors.Indigo],
+  [CommonGradients.RetroWagon, CommonColors.Lime],
+  [CommonGradients.FrescoCrush, CommonColors.Brown],
+  [CommonGradients.CucumberWater, CommonColors.Gray],
+  [CommonGradients.SeaSalt, CommonColors.Navy],
+  [CommonGradients.ParFour, CommonColors.Green],
+  [CommonGradients.OoeyGooey, CommonColors.Blue],
+  [CommonGradients.BloodyMimosa, CommonColors.Red],
+  [CommonGradients.LovelyLilly, CommonColors.Indigo],
+  [CommonGradients.AquaSpray, CommonColors.Blue],
+  [CommonGradients.MelloYellow, CommonColors.Lime],
+  [CommonGradients.DustyCactus, CommonColors.Yellow],
+  [CommonGradients.PremiumDark, CommonColors.Zinc],
+  [CommonGradients.PerfectWhite, CommonColors.Gray],
+].reduce(
+  (result, [key, value]) => {
+    result[key] = value;
+    GRADIENT_SUFFIXES.forEach(
+      suffix => (result[`${key}-${suffix}`] = `${value}-${suffix}`)
+    );
+    return result;
+  },
+  {} as Record<string, string>
+);
+export const COMMON_COLORS_TO_COMMON_GRADIENTS = [
+  [CommonColors.Gray, CommonGradients.CucumberWater],
+  [CommonColors.Zinc, CommonGradients.PremiumDark],
+  [CommonColors.Brown, CommonGradients.SeaSalt],
+  [CommonColors.Amber, CommonGradients.FrescoCrush],
+  [CommonColors.Yellow, CommonGradients.DustyCactus],
+  [CommonColors.Orange, CommonGradients.RetroWagon],
+  [CommonColors.Lime, CommonGradients.MelloYellow],
+  [CommonColors.Green, CommonGradients.ParFour],
+  [CommonColors.Teal, CommonGradients.OoeyGooey],
+  [CommonColors.Cyan, CommonGradients.KaleSalad],
+  [CommonColors.Blue, CommonGradients.AquaSpray],
+  [CommonColors.Navy, CommonGradients.VitalOcean],
+  [CommonColors.Indigo, CommonGradients.PerfectWhite],
+  [CommonColors.Violet, CommonGradients.ShadyLane],
+  [CommonColors.Purple, CommonGradients.LovelyLilly],
+  [CommonColors.Pink, CommonGradients.DiscoClub],
+  [CommonColors.Red, CommonGradients.BloodyMimosa],
+].reduce(
+  (result, [key, value]) => {
+    result[key] = value;
+    COLOR_SUFFIXES.forEach(
+      suffix => (result[`${key}-${suffix}`] = `${value}-${suffix}`)
+    );
+    return result;
+  },
+  {} as Record<string, string>
+);
+
 export enum Scales {
   XXXS = 'xxxs',
   XXS = 'xxs',
@@ -668,9 +726,13 @@ export function generateGradientVaries(
           .join('-');
         const isContrast = suffixName === GradientSuffixes.Contrast;
         // colors
-        const color = `var(--color-${baseName})`;
+        const fallbackColorName = (
+          COMMON_GRADIENTS_TO_COMMON_COLORS as Record<string, string>
+        )[`gradient-${baseName}`] as string;
+        const colorName = fallbackColorName || baseName;
+        const color = `var(--color-${colorName})`;
         const contrast = `var(${
-          isContrast ? `--color-${baseName}` : `--color-${baseName}-contrast`
+          isContrast ? `--color-${colorName}` : `--color-${colorName}-contrast`
         })`;
         // gradients
         const gradient = `var(--${name})`;
@@ -683,6 +745,7 @@ export function generateGradientVaries(
           groupName,
           fullName,
           baseName,
+          colorName,
           suffixName,
           isContrast,
           color,

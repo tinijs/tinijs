@@ -2,7 +2,7 @@ import {adoptStyles} from 'lit';
 
 import {GLOBAL_TINI} from './consts';
 import {UseComponentsList, ThemingOptions} from './types';
-import {useComponents} from './methods';
+import {useComponents, getSoulId} from './methods';
 
 export function Components(items: UseComponentsList) {
   return function (target: any) {
@@ -28,7 +28,7 @@ export function Theming<Themes extends string>({
     // styles
     const unsubscribeKey = Symbol();
     const applyStyles = (host: any, soulId?: Themes) => {
-      soulId ||= document.body.dataset.theme?.split('/')[0] as Themes;
+      soulId ||= getSoulId() as Themes;
       // retrieve styles
       const originalStyles = target.styles || [];
       const styles = (
@@ -46,7 +46,7 @@ export function Theming<Themes extends string>({
     // scripts
     const unscriptKey = Symbol();
     const applyScripts = (host: any, soulId?: Themes) => {
-      soulId ||= document.body.dataset.theme?.split('/')[0] as Themes;
+      soulId ||= getSoulId() as Themes;
       // retrieve scripts
       const scripts: any = !scripting
         ? {}
@@ -66,10 +66,14 @@ export function Theming<Themes extends string>({
       if (!GLOBAL_TINI.themingSubscriptions) {
         GLOBAL_TINI.themingSubscriptions = new Map();
       }
-      GLOBAL_TINI.themingSubscriptions.set(unsubscribeKey, soul => {
-        applyStyles(this, soul as Themes);
-        applyScripts(this, soul as Themes);
-      });
+      GLOBAL_TINI.themingSubscriptions.set(
+        unsubscribeKey,
+        ({soulId, prevSoulId}) => {
+          if (soulId === prevSoulId) return;
+          applyStyles(this, soulId as Themes);
+          applyScripts(this, soulId as Themes);
+        }
+      );
       this[unsubscribeKey] = () =>
         GLOBAL_TINI.themingSubscriptions?.delete(unsubscribeKey);
       // apply styles

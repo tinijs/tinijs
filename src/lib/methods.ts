@@ -1,7 +1,12 @@
 import {ClassInfo} from 'lit/directives/class-map.js';
 import {StyleInfo} from 'lit/directives/style-map.js';
 
-import {UseComponentsList, Transform} from './types';
+import {
+  GlobalComponentOptions,
+  UseComponentsList,
+  Transform,
+  ThemingSubscriptionParam,
+} from './types';
 import {GLOBAL_TINI, CHANGE_THEME_EVENT} from './consts';
 import {
   VaryGroups,
@@ -32,6 +37,30 @@ export function useComponents(items: UseComponentsList) {
 
 export const importComponents = useComponents;
 
+export function setGlobalComponentOptions(options: GlobalComponentOptions) {
+  return (GLOBAL_TINI.globalComponentOptions = options || {});
+}
+
+export function getGlobalComponentOptions() {
+  return GLOBAL_TINI.globalComponentOptions || {};
+}
+
+export function getTheme() {
+  return document.body.dataset.theme;
+}
+
+export function getSoulId() {
+  return getTheme()?.split('/')[0];
+}
+
+export function getSkinId() {
+  return getTheme()?.split('/')[1];
+}
+
+export function setTheme(theme: string) {
+  return (document.body.dataset.theme = theme);
+}
+
 export function changeTheme({
   soulId,
   skinId,
@@ -39,22 +68,29 @@ export function changeTheme({
   soulId?: string;
   skinId?: string;
 }) {
-  const [currentSoulId, currentSkinId] =
-    document.body.dataset.theme?.split('/') || [];
+  const [currentSoulId, currentSkinId] = getTheme()?.split('/') || [];
   soulId ||= currentSoulId;
   skinId ||= currentSkinId;
   if (soulId && skinId) {
+    const newTheme = `${soulId}/${skinId}`;
     // <body data-theme="...">
-    document.body.dataset.theme = `${soulId}/${skinId}`;
-    if (soulId !== currentSoulId) {
+    setTheme(newTheme);
+    if (soulId !== currentSoulId || skinId !== currentSkinId) {
+      const themeData: ThemingSubscriptionParam = {
+        theme: newTheme,
+        soulId,
+        skinId,
+        prevSoulId: currentSoulId,
+        prevSkinId: currentSkinId,
+      };
       // notify all subscribers
       GLOBAL_TINI.themingSubscriptions?.forEach(subscription =>
-        subscription(soulId as string)
+        subscription(themeData)
       );
       // dispatch a global event
       window.dispatchEvent(
         new CustomEvent(CHANGE_THEME_EVENT, {
-          detail: {soulId, skinId},
+          detail: themeData,
         })
       );
     }
