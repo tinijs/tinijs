@@ -1,31 +1,62 @@
 import {LitElement, CSSResult} from 'lit';
 import {ClassInfo} from 'lit/directives/class-map.js';
 import {StyleInfo} from 'lit/directives/style-map.js';
-import {Displays, Positions} from './varies';
+import {
+  ContainerTypes,
+  Displays,
+  AlignItems,
+  JustifyContents,
+  Positions,
+  Visibilities,
+  MixBlendModes,
+} from './varies';
 
 export type ConstructorArgs = any[];
 export type Constructor<T = {}> = new (...args: ConstructorArgs) => T;
 
 export type LitElementInterface = LitElement;
 export interface TiniElementInterface {
+  activeRootClassesParts: ClassInfo | PartInfo;
+  activeRootStyles: StyleInfo;
   componentName: string;
   componentMetas: ComponentMetas;
-  rootClassesParts: ClassInfo | PartInfo;
-  rootStyles: StyleInfo;
-  display?: Displays;
-  position?: Positions;
-  top?: string;
-  right?: string;
-  bottom?: string;
-  left?: string;
-  margin?: string;
-  padding?: string;
-  zIndex?: string;
-  transform?: Transform;
-  filter?: string;
-  transition?: string;
-  animation?: string;
+  referLightDOM: boolean;
+  xContainerType?: ContainerTypes;
+  xContainerName?: string;
+  xDisplay?: Displays;
+  xAlignItems?: AlignItems;
+  xJustifyContent?: JustifyContents;
+  xWidth?: string;
+  xHeight?: string;
+  xOpacity?: string;
+  xVisibility?: Visibilities;
+  xPosition?: Positions;
+  xInset?: string;
+  xTop?: string;
+  xRight?: string;
+  xBottom?: string;
+  xLeft?: string;
+  xMargin?: string;
+  xPadding?: string;
+  xColor?: string;
+  xBackground?: string;
+  xBorder?: string;
+  xBorderRadius?: string;
+  xShadow?: string;
+  xZIndex?: string;
+  xTransform?: Transform;
+  xFilter?: string;
+  xTransition?: string;
+  xAnimation?: string;
+  xMixBlendMode?: MixBlendModes;
+  xBackdropFilter?: string;
+  xClipPath?: string;
+  xMask?: string;
+  hostStyles?: StyleInfo;
+  rootStyles?: StyleInfo;
   hoverMap?: Record<string, any>;
+  focusMap?: Record<string, any>;
+  activeMap?: Record<string, any>;
   refers?: ComponentRefers;
   extendRootClassesParts(
     input: ExtendRootClassesPartsInput

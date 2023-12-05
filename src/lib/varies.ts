@@ -543,13 +543,33 @@ export enum TextTransforms {
 }
 export const TEXT_TRANSFORMS = Object.values(TextTransforms);
 
+export enum AlignItems {
+  Normal = 'normal',
+  Center = 'center',
+  Start = 'start',
+  End = 'end',
+  FlexStart = 'flex-start',
+  FlexEnd = 'flex-end',
+  SelfStart = 'self-start',
+  SelfEnd = 'self-end',
+  Baseline = 'baseline',
+  Stretch = 'stretch',
+}
+export const ALIGN_ITEMS = Object.values(AlignItems);
+
 export enum JustifyContents {
+  Normal = 'normal',
   Center = 'center',
   Left = 'left',
   Right = 'right',
+  Start = 'start',
+  End = 'end',
+  FlexStart = 'flex-start',
+  FlexEnd = 'flex-end',
   SpaceBetween = 'space-between',
   SpaceEvenly = 'space-evenly',
   SpaceAround = 'space-around',
+  Stretch = 'stretch',
 }
 export const JUSTIFY_CONTENTS = Object.values(JustifyContents);
 
@@ -642,6 +662,13 @@ export enum BoxShadows {
 }
 export const BOX_SHADOWS = Object.values(BoxShadows);
 
+export enum ContainerTypes {
+  Normal = 'normal',
+  Size = 'size',
+  InlineSize = 'inline-size',
+}
+export const CONTAINER_TYPES = Object.values(ContainerTypes);
+
 export enum Displays {
   None = 'none',
   Block = 'block',
@@ -664,6 +691,33 @@ export enum Positions {
   Sticky = 'sticky',
 }
 export const POSITIONS = Object.values(Positions);
+
+export enum Visibilities {
+  Visible = 'visible',
+  Hidden = 'hidden',
+  Collapse = 'collapse',
+}
+export const VISIBILITIES = Object.values(Visibilities);
+
+export enum MixBlendModes {
+  Normal = 'normal',
+  Multiply = 'multiply',
+  Screen = 'screen',
+  Overlay = 'overlay',
+  Darken = 'darken',
+  Lighten = 'lighten',
+  ColorDodge = 'color-dodge',
+  ColorBurn = 'color-burn',
+  HardLight = 'hard-light',
+  SoftLight = 'soft-light',
+  Difference = 'difference',
+  Exclusion = 'exclusion',
+  Hue = 'hue',
+  Saturation = 'saturation',
+  Color = 'color',
+  Luminosity = 'luminosity',
+}
+export const MIX_BLEND_MODES = Object.values(MixBlendModes);
 
 export function generateColorVaries(
   render: ColorVaryRender,

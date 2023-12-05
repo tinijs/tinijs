@@ -20,37 +20,67 @@ import {
 } from './methods';
 import {
   VaryGroups,
+  ContainerTypes,
   Displays,
+  AlignItems,
+  JustifyContents,
   Positions,
+  Visibilities,
+  MixBlendModes,
   COMMON_COLORS_TO_COMMON_GRADIENTS,
 } from './varies';
 
 function TiniElementMixin(SuperClass: any) {
   class TiniElement extends SuperClass {
-    private currentTransforms?: StyleInfo;
-    private currentTheme = getTheme();
     private globalComponentOptions = getGlobalComponentOptions();
+    private currentTheme = getTheme();
+    private currentTransforms?: StyleInfo;
+    private currentCustomRootStyles?: StyleInfo;
+
+    protected activeRootClassesParts: ClassInfo | PartInfo = {};
+    protected activeRootStyles: StyleInfo = {};
 
     readonly componentName = 'unnamed';
     readonly componentMetas: ComponentMetas = {};
-    protected rootClassesParts: ClassInfo | PartInfo = {};
-    protected rootStyles: StyleInfo = {};
+    readonly referLightDOM = false;
 
     /* eslint-disable prettier/prettier */
-    @property({type: String, reflect: true}) declare display?: Displays;
-    @property({type: String, reflect: true}) declare position?: Positions;
-    @property({type: String, reflect: true}) declare top?: string;
-    @property({type: String, reflect: true}) declare right?: string;
-    @property({type: String, reflect: true}) declare bottom?: string;
-    @property({type: String, reflect: true}) declare left?: string;
-    @property({type: String, reflect: true}) declare margin?: string;
-    @property({type: String, reflect: true}) declare padding?: string;
-    @property({type: String, reflect: true}) declare zIndex?: string;
-    @property({type: String, reflect: true}) declare transform?: Transform;
-    @property({type: String, reflect: true}) declare filter?: string;
-    @property({type: String, reflect: true}) declare transition?: string;
-    @property({type: String, reflect: true}) declare animation?: string;
+    @property({type: String, reflect: true}) declare xContainerType?: ContainerTypes;
+    @property({type: String, reflect: true}) declare xContainerName?: string;
+    @property({type: String, reflect: true}) declare xDisplay?: Displays;
+    @property({type: String, reflect: true}) declare xAlignItems?: AlignItems;
+    @property({type: String, reflect: true}) declare xJustifyContent?: JustifyContents;
+    @property({type: String, reflect: true}) declare xWidth?: string;
+    @property({type: String, reflect: true}) declare xHeight?: string;
+    @property({type: String, reflect: true}) declare xOpacity?: string;
+    @property({type: String, reflect: true}) declare xVisibility?: Visibilities;
+    @property({type: String, reflect: true}) declare xPosition?: Positions;
+    @property({type: String, reflect: true}) declare xInset?: string;
+    @property({type: String, reflect: true}) declare xTop?: string;
+    @property({type: String, reflect: true}) declare xRight?: string;
+    @property({type: String, reflect: true}) declare xBottom?: string;
+    @property({type: String, reflect: true}) declare xLeft?: string;
+    @property({type: String, reflect: true}) declare xMargin?: string;
+    @property({type: String, reflect: true}) declare xPadding?: string;
+    @property({type: String, reflect: true}) declare xColor?: string;
+    @property({type: String, reflect: true}) declare xBackground?: string;
+    @property({type: String, reflect: true}) declare xBorder?: string;
+    @property({type: String, reflect: true}) declare xBorderRadius?: string;
+    @property({type: String, reflect: true}) declare xShadow?: string;
+    @property({type: String, reflect: true}) declare xZIndex?: string;
+    @property({type: String, reflect: true}) declare xTransform?: Transform;
+    @property({type: String, reflect: true}) declare xFilter?: string;
+    @property({type: String, reflect: true}) declare xTransition?: string;
+    @property({type: String, reflect: true}) declare xAnimation?: string;
+    @property({type: String, reflect: true}) declare xMixBlendMode?: MixBlendModes;
+    @property({type: String, reflect: true}) declare xBackdropFilter?: string;
+    @property({type: String, reflect: true}) declare xClipPath?: string;
+    @property({type: String, reflect: true}) declare xMask?: string;
+    @property({type: Object}) declare hostStyles?: StyleInfo;
+    @property({type: Object}) declare rootStyles?: StyleInfo;
     @property({type: Object}) declare hoverMap?: Record<string, any>;
+    @property({type: Object}) declare focusMap?: Record<string, any>;
+    @property({type: Object}) declare activeMap?: Record<string, any>;
     @property({type: Object}) declare refers?: ComponentRefers;
     /* eslint-enable prettier/prettier */
 
@@ -79,12 +109,30 @@ function TiniElementMixin(SuperClass: any) {
 
     willUpdate() {
       // root classes and parts
-      this.rootClassesParts = {root: true};
+      this.activeRootClassesParts = {root: true};
       // root styles
-      this.rootStyles = {
-        filter: this.filter,
-        transition: this.transition,
-        animation: this.animation,
+      this.activeRootStyles = {
+        padding: this.xPadding,
+        width: this.xWidth,
+        height: this.xHeight,
+        opacity: this.xOpacity,
+        visibility: this.xVisibility,
+        color: this.xColor,
+        background: this.xBackground,
+        border: this.xBorder,
+        borderRadius: this.xBorderRadius,
+        shadow: this.xShadow,
+        filter: this.xFilter,
+        webkitFilter: this.xFilter,
+        transition: this.xTransition,
+        animation: this.xAnimation,
+        mixBlendMode: this.xMixBlendMode,
+        backdropFilter: this.xBackdropFilter,
+        clipPath: this.xClipPath,
+        mask: this.xMask,
+        webkitMask: this.xMask,
+        // custom root styles
+        ...this.rootStyles,
       };
       // host styles
       this.updateHostStyles();
@@ -131,8 +179,8 @@ function TiniElementMixin(SuperClass: any) {
         otherInfo[`${VaryGroups.Scheme}-${hoverScheme}-hover`] = true;
       }
       // result
-      return (this.rootClassesParts = {
-        ...this.rootClassesParts,
+      return (this.activeRootClassesParts = {
+        ...this.activeRootClassesParts,
         ...info,
         ...hoverInfo,
         ...overridableInfo,
@@ -141,7 +189,7 @@ function TiniElementMixin(SuperClass: any) {
     }
 
     extendRootStyles(info: StyleInfo) {
-      return (this.rootStyles = {...this.rootStyles, ...info});
+      return (this.activeRootStyles = {...this.activeRootStyles, ...info});
     }
 
     private getGlobalOptions() {
@@ -159,11 +207,11 @@ function TiniElementMixin(SuperClass: any) {
       // no theme info
       if (!this.currentTheme) return originalValue;
       // refer map
-      const pascalName = name.replace(/-(\w)/g, (_, letter) =>
+      const camelName = name.replace(/-(\w)/g, (_, letter) =>
         letter.toUpperCase()
       );
       const referValue =
-        this.refers?.[this.currentTheme]?.[pascalName] ||
+        this.refers?.[this.currentTheme]?.[camelName] ||
         this.refers?.[this.currentTheme]?.[name];
       if (referValue) return referValue;
       // refer gradient scheme
@@ -183,26 +231,53 @@ function TiniElementMixin(SuperClass: any) {
     }
 
     private updateHostStyles() {
-      this.style.display = !this.display ? '' : this.display;
-      this.style.position = !this.position ? '' : this.position;
-      this.style.top = !this.top ? '' : this.top;
-      this.style.right = !this.right ? '' : this.right;
-      this.style.bottom = !this.bottom ? '' : this.bottom;
-      this.style.left = !this.left ? '' : this.left;
-      this.style.margin = !this.margin ? '' : this.margin;
-      this.style.padding = !this.padding ? '' : this.padding;
-      this.style.zIndex = !this.zIndex ? '' : this.zIndex;
-      if (this.transform) {
-        this.currentTransforms = transformToStyleInfo(this.transform);
-        Object.keys(this.currentTransforms).forEach(
-          key => (this.style[key] = this.currentTransforms![key])
-        );
+      this.style.display = !this.xDisplay ? '' : this.xDisplay;
+      this.style.alignItems = !this.xAlignItems ? '' : this.xAlignItems;
+      this.style.justifyContent = !this.xJustifyContent
+        ? ''
+        : this.xJustifyContent;
+      this.style.position = !this.xPosition ? '' : this.xPosition;
+      this.style.inset = !this.xInset ? '' : this.xInset;
+      this.style.top = !this.xTop ? '' : this.xTop;
+      this.style.right = !this.xRight ? '' : this.xRight;
+      this.style.bottom = !this.xBottom ? '' : this.xBottom;
+      this.style.left = !this.xLeft ? '' : this.xLeft;
+      this.style.margin = !this.xMargin ? '' : this.xMargin;
+      this.style.zIndex = !this.xZIndex ? '' : this.xZIndex;
+      // apply all styles to the host
+      if (this.referLightDOM) {
+        Object.keys(this.activeRootStyles).forEach(key => {
+          const value = this.activeRootStyles![key];
+          return (this.style[key] = !value ? '' : value);
+        });
+      }
+      // transform
+      if (this.xTransform) {
+        this.currentTransforms = transformToStyleInfo(this.xTransform);
+        Object.keys(this.currentTransforms).forEach(key => {
+          const value = this.currentTransforms![key];
+          return (this.style[key] = !value ? '' : value);
+        });
         this.style.webkitFilter = 'blur(0px)';
       } else if (this.currentTransforms) {
         Object.keys(this.currentTransforms).forEach(
           key => (this.style[key] = '')
         );
         this.style.webkitFilter = '';
+        this.currentTransforms = undefined;
+      }
+      // custom host styles
+      if (this.hostStyles) {
+        this.currentCustomRootStyles = this.hostStyles;
+        Object.keys(this.currentCustomRootStyles).forEach(key => {
+          const value = this.currentCustomRootStyles![key];
+          return (this.style[key] = !value ? '' : value);
+        });
+      } else if (this.currentCustomRootStyles) {
+        Object.keys(this.currentCustomRootStyles).forEach(
+          key => (this.style[key] = '')
+        );
+        this.currentCustomRootStyles = undefined;
       }
     }
   }

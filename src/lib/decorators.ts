@@ -41,7 +41,7 @@ export function Theming<Themes extends string>({
         originalStyles instanceof Array ? originalStyles : [originalStyles]
       );
       // affect
-      adoptStyles(host.shadowRoot, styles);
+      adoptStyles(host.shadowRoot || host, styles);
     };
     // scripts
     const unscriptKey = Symbol();
