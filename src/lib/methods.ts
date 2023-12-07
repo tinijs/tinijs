@@ -45,6 +45,32 @@ export function getGlobalComponentOptions() {
   return GLOBAL_TINI.globalComponentOptions || {};
 }
 
+/*
+ * CSS color mixing
+ */
+
+export function mix(...params: string[]) {
+  const method =
+    params[0]?.substring(0, 3) !== 'in ' ? 'in oklab' : params.shift();
+  return `color-mix(${method}, ${params.slice(0, 2).join(', ')})`;
+}
+
+export function darken(color: string, amount = 0.1) {
+  return mix(color, `black ${amount * 100}%`);
+}
+
+export function brighten(color: string, amount = 0.1) {
+  return mix(color, `white ${amount * 100}%`);
+}
+
+export function transparentize(color: string, amount = 0.1) {
+  return mix(color, `transparent ${(1 - amount) * 100}%`);
+}
+
+/*
+ * Theme
+ */
+
 export function getTheme() {
   return document.body.dataset.theme;
 }
@@ -96,6 +122,10 @@ export function changeTheme({
     }
   }
 }
+
+/*
+ * Class, style
+ */
 
 export function factorsToClassInfo(
   prefix: string,

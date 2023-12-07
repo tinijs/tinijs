@@ -42,6 +42,8 @@ export interface TiniElementInterface {
   xBackground?: string;
   xBorder?: string;
   xBorderRadius?: string;
+  xOutline?: string;
+  xOutlineOffset?: string;
   xShadow?: string;
   xZIndex?: string;
   xTransform?: Transform;

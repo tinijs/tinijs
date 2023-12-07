@@ -66,6 +66,8 @@ function TiniElementMixin(SuperClass: any) {
     @property({type: String, reflect: true}) declare xBackground?: string;
     @property({type: String, reflect: true}) declare xBorder?: string;
     @property({type: String, reflect: true}) declare xBorderRadius?: string;
+    @property({type: String, reflect: true}) declare xOutline?: string;
+    @property({type: String, reflect: true}) declare xOutlineOffset?: string;
     @property({type: String, reflect: true}) declare xShadow?: string;
     @property({type: String, reflect: true}) declare xZIndex?: string;
     @property({type: String, reflect: true}) declare xTransform?: Transform;
@@ -121,6 +123,8 @@ function TiniElementMixin(SuperClass: any) {
         background: this.xBackground,
         border: this.xBorder,
         borderRadius: this.xBorderRadius,
+        outline: this.xOutline,
+        outlineOffset: this.xOutlineOffset,
         shadow: this.xShadow,
         filter: this.xFilter,
         webkitFilter: this.xFilter,

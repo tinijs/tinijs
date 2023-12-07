@@ -13,6 +13,9 @@ export enum VaryGroups {
   FontWeight = 'font-weight',
   TextAlign = 'text-align',
   TextTransform = 'text-transform',
+  Display = 'display',
+  Position = 'position',
+  AlignItems = 'align-items',
   JustifyContent = 'justify-content',
   OutlineWidth = 'outline-width',
   OutlineStyle = 'outline-style',
@@ -23,6 +26,9 @@ export enum VaryGroups {
   BorderColor = 'border-color',
   BorderRadius = 'border-radius',
   BoxShadow = 'box-shadow',
+  ContainerType = 'container-type',
+  Visibility = 'visibility',
+  MixBlendMode = 'mix-blend-mode',
 }
 
 export interface RenderValues {
@@ -35,12 +41,16 @@ export interface ColorRenderValues extends RenderValues {
   baseName: string;
   suffixName: string;
   isContrast: boolean;
+  baseColor: string;
+  baseContrast: string;
   color: string;
   contrast: string;
 }
 export type ColorVaryRender = (values: ColorRenderValues) => string;
 export interface GradientRenderValues extends ColorRenderValues {
   colorName: string;
+  baseGradient: string;
+  baseGradientContrast: string;
   gradient: string;
   gradientContrast: string;
 }
@@ -127,6 +137,7 @@ export interface BoxShadowRenderValues extends RenderValues {
 export type BoxShadowVaryRender = (values: BoxShadowRenderValues) => string;
 
 export enum ColorSuffixes {
+  Subtle = 'subtle',
   Contrast = 'contrast',
   Shade = 'shade',
   Tint = 'tint',
@@ -135,120 +146,149 @@ export const COLOR_SUFFIXES = Object.values(ColorSuffixes);
 
 export enum Colors {
   Primary = 'primary',
+  PrimarySubtle = 'primary-subtle',
   PrimaryContrast = 'primary-contrast',
   PrimaryShade = 'primary-shade',
   PrimaryTint = 'primary-tint',
   Secondary = 'secondary',
+  SecondarySubtle = 'secondary-subtle',
   SecondaryContrast = 'secondary-contrast',
   SecondaryShade = 'secondary-shade',
   SecondaryTint = 'secondary-tint',
   Tertiary = 'tertiary',
+  TertiarySubtle = 'tertiary-subtle',
   TertiaryContrast = 'tertiary-contrast',
   TertiaryShade = 'tertiary-shade',
   TertiaryTint = 'tertiary-tint',
   Success = 'success',
+  SuccessSubtle = 'success-subtle',
   SuccessContrast = 'success-contrast',
   SuccessShade = 'success-shade',
   SuccessTint = 'success-tint',
   Danger = 'danger',
+  DangerSubtle = 'danger-subtle',
   DangerContrast = 'danger-contrast',
   DangerShade = 'danger-shade',
   DangerTint = 'danger-tint',
   Warning = 'warning',
+  WarningSubtle = 'warning-subtle',
   WarningContrast = 'warning-contrast',
   WarningShade = 'warning-shade',
   WarningTint = 'warning-tint',
   Dark = 'dark',
+  DarkSubtle = 'dark-subtle',
   DarkContrast = 'dark-contrast',
   DarkShade = 'dark-shade',
   DarkTint = 'dark-tint',
   Medium = 'medium',
+  MediumSubtle = 'medium-subtle',
   MediumContrast = 'medium-contrast',
   MediumShade = 'medium-shade',
   MediumTint = 'medium-tint',
   Light = 'light',
+  LightSubtle = 'light-subtle',
   LightContrast = 'light-contrast',
   LightShade = 'light-shade',
   LightTint = 'light-tint',
   Background = 'background',
+  BackgroundSubtle = 'background-subtle',
   BackgroundContrast = 'background-contrast',
   BackgroundShade = 'background-shade',
   BackgroundTint = 'background-tint',
   Middleground = 'middleground',
+  MiddlegroundSubtle = 'middleground-subtle',
   MiddlegroundContrast = 'middleground-contrast',
   MiddlegroundShade = 'middleground-shade',
   MiddlegroundTint = 'middleground-tint',
   Foreground = 'foreground',
+  ForegroundSubtle = 'foreground-subtle',
   ForegroundContrast = 'foreground-contrast',
   ForegroundShade = 'foreground-shade',
   ForegroundTint = 'foreground-tint',
 }
 export enum CommonColors {
   Gray = 'gray',
+  GraySubtle = 'gray-subtle',
   GrayContrast = 'gray-contrast',
   GrayShade = 'gray-shade',
   GrayTint = 'gray-tint',
   Zinc = 'zinc',
+  ZincSubtle = 'zinc-subtle',
   ZincContrast = 'zinc-contrast',
   ZincShade = 'zinc-shade',
   ZincTint = 'zinc-tint',
   Brown = 'brown',
+  BrownSubtle = 'brown-subtle',
   BrownContrast = 'brown-contrast',
   BrownShade = 'brown-shade',
   BrownTint = 'brown-tint',
   Amber = 'amber',
+  AmberSubtle = 'amber-subtle',
   AmberContrast = 'amber-contrast',
   AmberShade = 'amber-shade',
   AmberTint = 'amber-tint',
   Yellow = 'yellow',
+  YellowSubtle = 'yellow-subtle',
   YellowContrast = 'yellow-contrast',
   YellowShade = 'yellow-shade',
   YellowTint = 'yellow-tint',
   Orange = 'orange',
+  OrangeSubtle = 'orange-subtle',
   OrangeContrast = 'orange-contrast',
   OrangeShade = 'orange-shade',
   OrangeTint = 'orange-tint',
   Lime = 'lime',
+  LimeSubtle = 'lime-subtle',
   LimeContrast = 'lime-contrast',
   LimeShade = 'lime-shade',
   LimeTint = 'lime-tint',
   Green = 'green',
+  GreenSubtle = 'green-subtle',
   GreenContrast = 'green-contrast',
   GreenShade = 'green-shade',
   GreenTint = 'green-tint',
   Teal = 'teal',
+  TealSubtle = 'teal-subtle',
   TealContrast = 'teal-contrast',
   TealShade = 'teal-shade',
   TealTint = 'teal-tint',
   Cyan = 'cyan',
+  CyanSubtle = 'cyan-subtle',
   CyanContrast = 'cyan-contrast',
   CyanShade = 'cyan-shade',
   CyanTint = 'cyan-tint',
   Blue = 'blue',
+  BlueSubtle = 'blue-subtle',
   BlueContrast = 'blue-contrast',
   BlueShade = 'blue-shade',
   BlueTint = 'blue-tint',
   Navy = 'navy',
+  NavySubtle = 'navy-subtle',
   NavyContrast = 'navy-contrast',
   NavyShade = 'navy-shade',
   NavyTint = 'navy-tint',
   Indigo = 'indigo',
+  IndigoSubtle = 'indigo-subtle',
   IndigoContrast = 'indigo-contrast',
   IndigoShade = 'indigo-shade',
   IndigoTint = 'indigo-tint',
   Violet = 'violet',
+  VioletSubtle = 'violet-subtle',
   VioletContrast = 'violet-contrast',
   VioletShade = 'violet-shade',
   VioletTint = 'violet-tint',
   Purple = 'purple',
+  PurpleSubtle = 'purple-subtle',
   PurpleContrast = 'purple-contrast',
   PurpleShade = 'purple-shade',
   PurpleTint = 'purple-tint',
   Pink = 'pink',
+  PinkSubtle = 'pink-subtle',
   PinkContrast = 'pink-contrast',
   PinkShade = 'pink-shade',
   PinkTint = 'pink-tint',
   Red = 'red',
+  RedSubtle = 'red-subtle',
   RedContrast = 'red-contrast',
   RedShade = 'red-shade',
   RedTint = 'red-tint',
@@ -263,6 +303,7 @@ export const ALL_COLORS = [...COLORS, ...COMMON_COLORS];
 export const ALL_BASE_COLORS = [...BASE_COLORS, ...BASE_COMMON_COLORS];
 
 export enum GradientSuffixes {
+  Subtle = ColorSuffixes.Subtle,
   Contrast = ColorSuffixes.Contrast,
   Shade = ColorSuffixes.Shade,
   Tint = ColorSuffixes.Tint,
@@ -272,120 +313,149 @@ export const GRADIENT_SUFFIXES = Object.values(GradientSuffixes);
 
 export enum Gradients {
   Primary = 'gradient-primary',
+  PrimarySubtle = 'gradient-primary-subtle',
   PrimaryContrast = 'gradient-primary-contrast',
   PrimaryShade = 'gradient-primary-shade',
   PrimaryTint = 'gradient-primary-tint',
   Secondary = 'gradient-secondary',
+  SecondarySubtle = 'gradient-secondary-subtle',
   SecondaryContrast = 'gradient-secondary-contrast',
   SecondaryShade = 'gradient-secondary-shade',
   SecondaryTint = 'gradient-secondary-tint',
   Tertiary = 'gradient-tertiary',
+  TertiarySubtle = 'gradient-tertiary-subtle',
   TertiaryContrast = 'gradient-tertiary-contrast',
   TertiaryShade = 'gradient-tertiary-shade',
   TertiaryTint = 'gradient-tertiary-tint',
   Success = 'gradient-success',
+  SuccessSubtle = 'gradient-success-subtle',
   SuccessContrast = 'gradient-success-contrast',
   SuccessShade = 'gradient-success-shade',
   SuccessTint = 'gradient-success-tint',
   Danger = 'gradient-danger',
+  DangerSubtle = 'gradient-danger-subtle',
   DangerContrast = 'gradient-danger-contrast',
   DangerShade = 'gradient-danger-shade',
   DangerTint = 'gradient-danger-tint',
   Warning = 'gradient-warning',
+  WarningSubtle = 'gradient-warning-subtle',
   WarningContrast = 'gradient-warning-contrast',
   WarningShade = 'gradient-warning-shade',
   WarningTint = 'gradient-warning-tint',
   Dark = 'gradient-dark',
+  DarkSubtle = 'gradient-dark-subtle',
   DarkContrast = 'gradient-dark-contrast',
   DarkShade = 'gradient-dark-shade',
   DarkTint = 'gradient-dark-tint',
   Medium = 'gradient-medium',
+  MediumSubtle = 'gradient-medium-subtle',
   MediumContrast = 'gradient-medium-contrast',
   MediumShade = 'gradient-medium-shade',
   MediumTint = 'gradient-medium-tint',
   Light = 'gradient-light',
+  LightSubtle = 'gradient-light-subtle',
   LightContrast = 'gradient-light-contrast',
   LightShade = 'gradient-light-shade',
   LightTint = 'gradient-light-tint',
   Background = 'gradient-background',
+  BackgroundSubtle = 'gradient-background-subtle',
   BackgroundContrast = 'gradient-background-contrast',
   BackgroundShade = 'gradient-background-shade',
   BackgroundTint = 'gradient-background-tint',
   Middleground = 'gradient-middleground',
+  MiddlegroundSubtle = 'gradient-middleground-subtle',
   MiddlegroundContrast = 'gradient-middleground-contrast',
   MiddlegroundShade = 'gradient-middleground-shade',
   MiddlegroundTint = 'gradient-middleground-tint',
   Foreground = 'gradient-foreground',
+  ForegroundSubtle = 'gradient-foreground-subtle',
   ForegroundContrast = 'gradient-foreground-contrast',
   ForegroundShade = 'gradient-foreground-shade',
   ForegroundTint = 'gradient-foreground-tint',
 }
 export enum CommonGradients {
   VitalOcean = 'gradient-vital-ocean',
+  VitalOceanSubtle = 'gradient-vital-ocean-subtle',
   VitalOceanContrast = 'gradient-vital-ocean-contrast',
   VitalOceanShade = 'gradient-vital-ocean-shade',
   VitalOceanTint = 'gradient-vital-ocean-tint',
   KaleSalad = 'gradient-kale-salad',
+  KaleSaladSubtle = 'gradient-kale-salad-subtle',
   KaleSaladContrast = 'gradient-kale-salad-contrast',
   KaleSaladShade = 'gradient-kale-salad-shade',
   KaleSaladTint = 'gradient-kale-salad-tint',
   DiscoClub = 'gradient-disco-club',
+  DiscoClubSubtle = 'gradient-disco-club-subtle',
   DiscoClubContrast = 'gradient-disco-club-contrast',
   DiscoClubShade = 'gradient-disco-club-shade',
   DiscoClubTint = 'gradient-disco-club-tint',
   ShadyLane = 'gradient-shady-lane',
+  ShadyLaneSubtle = 'gradient-shady-lane-subtle',
   ShadyLaneContrast = 'gradient-shady-lane-contrast',
   ShadyLaneShade = 'gradient-shady-lane-shade',
   ShadyLaneTint = 'gradient-shady-lane-tint',
   RetroWagon = 'gradient-retro-wagon',
+  RetroWagonSubtle = 'gradient-retro-wagon-subtle',
   RetroWagonContrast = 'gradient-retro-wagon-contrast',
   RetroWagonShade = 'gradient-retro-wagon-shade',
   RetroWagonTint = 'gradient-retro-wagon-tint',
   FrescoCrush = 'gradient-fresco-crush',
+  FrescoCrushSubtle = 'gradient-fresco-crush-subtle',
   FrescoCrushContrast = 'gradient-fresco-crush-contrast',
   FrescoCrushShade = 'gradient-fresco-crush-shade',
   FrescoCrushTint = 'gradient-fresco-crush-tint',
   CucumberWater = 'gradient-cucumber-water',
+  CucumberWaterSubtle = 'gradient-cucumber-water-subtle',
   CucumberWaterContrast = 'gradient-cucumber-water-contrast',
   CucumberWaterShade = 'gradient-cucumber-water-shade',
   CucumberWaterTint = 'gradient-cucumber-water-tint',
   SeaSalt = 'gradient-sea-salt',
+  SeaSaltSubtle = 'gradient-sea-salt-subtle',
   SeaSaltContrast = 'gradient-sea-salt-contrast',
   SeaSaltShade = 'gradient-sea-salt-shade',
   SeaSaltTint = 'gradient-sea-salt-tint',
   ParFour = 'gradient-par-four',
+  ParFourSubtle = 'gradient-par-four-subtle',
   ParFourContrast = 'gradient-par-four-contrast',
   ParFourShade = 'gradient-par-four-shade',
   ParFourTint = 'gradient-par-four-tint',
   OoeyGooey = 'gradient-ooey-gooey',
+  OoeyGooeySubtle = 'gradient-ooey-gooey-subtle',
   OoeyGooeyContrast = 'gradient-ooey-gooey-contrast',
   OoeyGooeyShade = 'gradient-ooey-gooey-shade',
   OoeyGooeyTint = 'gradient-ooey-gooey-tint',
   BloodyMimosa = 'gradient-bloody-mimosa',
+  BloodyMimosaSubtle = 'gradient-bloody-mimosa-subtle',
   BloodyMimosaContrast = 'gradient-bloody-mimosa-contrast',
   BloodyMimosaShade = 'gradient-bloody-mimosa-shade',
   BloodyMimosaTint = 'gradient-bloody-mimosa-tint',
   LovelyLilly = 'gradient-lovely-lilly',
+  LovelyLillySubtle = 'gradient-lovely-lilly-subtle',
   LovelyLillyContrast = 'gradient-lovely-lilly-contrast',
   LovelyLillyShade = 'gradient-lovely-lilly-shade',
   LovelyLillyTint = 'gradient-lovely-lilly-tint',
   AquaSpray = 'gradient-aqua-spray',
+  AquaSpraySubtle = 'gradient-aqua-spray-subtle',
   AquaSprayContrast = 'gradient-aqua-spray-contrast',
   AquaSprayShade = 'gradient-aqua-spray-shade',
   AquaSprayTint = 'gradient-aqua-spray-tint',
   MelloYellow = 'gradient-mello-yellow',
+  MelloYellowSubtle = 'gradient-mello-yellow-subtle',
   MelloYellowContrast = 'gradient-mello-yellow-contrast',
   MelloYellowShade = 'gradient-mello-yellow-shade',
   MelloYellowTint = 'gradient-mello-yellow-tint',
   DustyCactus = 'gradient-dusty-cactus',
+  DustyCactusSubtle = 'gradient-dusty-cactus-subtle',
   DustyCactusContrast = 'gradient-dusty-cactus-contrast',
   DustyCactusShade = 'gradient-dusty-cactus-shade',
   DustyCactusTint = 'gradient-dusty-cactus-tint',
   PremiumDark = 'gradient-premium-dark',
+  PremiumDarkSubtle = 'gradient-premium-dark-subtle',
   PremiumDarkContrast = 'gradient-premium-dark-contrast',
   PremiumDarkShade = 'gradient-premium-dark-shade',
   PremiumDarkTint = 'gradient-premium-dark-tint',
   PerfectWhite = 'gradient-perfect-white',
+  PerfectWhiteSubtle = 'gradient-perfect-white-subtle',
   PerfectWhiteContrast = 'gradient-perfect-white-contrast',
   PerfectWhiteShade = 'gradient-perfect-white-shade',
   PerfectWhiteTint = 'gradient-perfect-white-tint',
@@ -738,12 +808,17 @@ export function generateColorVaries(
         const baseName = nameSplits
           .slice(0, !suffixName ? nameSplits.length : nameSplits.length - 1)
           .join('-');
-        const isContrast = suffixName === GradientSuffixes.Contrast;
+        const isContrast = suffixName === ColorSuffixes.Contrast;
+        const isSubtle = suffixName === ColorSuffixes.Subtle;
         // colors
         const color = `var(--color-${name})`;
-        const contrast = `var(${
-          isContrast ? `--color-${baseName}` : `--color-${baseName}-contrast`
-        })`;
+        const baseColor = `var(--color-${baseName})`;
+        const baseContrast = `var(--color-${baseName}-contrast)`;
+        const contrast = isSubtle
+          ? 'var(--color-foreground)'
+          : isContrast
+          ? baseColor
+          : baseContrast;
         // render
         return render({
           name,
@@ -752,6 +827,8 @@ export function generateColorVaries(
           baseName,
           suffixName,
           isContrast,
+          baseColor,
+          baseContrast,
           color,
           contrast,
         });
@@ -779,20 +856,31 @@ export function generateGradientVaries(
           .slice(0, !suffixName ? nameSplits.length : nameSplits.length - 1)
           .join('-');
         const isContrast = suffixName === GradientSuffixes.Contrast;
+        const isSubtle = suffixName === GradientSuffixes.Subtle;
         // colors
         const fallbackColorName = (
           COMMON_GRADIENTS_TO_COMMON_COLORS as Record<string, string>
         )[`gradient-${baseName}`] as string;
         const colorName = fallbackColorName || baseName;
-        const color = `var(--color-${colorName})`;
-        const contrast = `var(${
-          isContrast ? `--color-${colorName}` : `--color-${colorName}-contrast`
-        })`;
+        const color = isSubtle
+          ? `var(--color-${colorName}-subtle)`
+          : `var(--color-${colorName})`;
+        const baseColor = `var(--color-${colorName})`;
+        const baseContrast = `var(--color-${colorName}-contrast)`;
+        const contrast = isSubtle
+          ? 'var(--color-foreground)'
+          : isContrast
+          ? baseColor
+          : baseContrast;
         // gradients
         const gradient = `var(--${name})`;
-        const gradientContrast = `var(${
-          isContrast ? `--${name}` : `--${name}-contrast`
-        })`;
+        const baseGradient = `var(--${name})`;
+        const baseGradientContrast = `var(--${name}-contrast)`;
+        const gradientContrast = isSubtle
+          ? 'var(--gradient-foreground)'
+          : isContrast
+          ? baseGradient
+          : baseGradientContrast;
         // render
         return render({
           name,
@@ -802,8 +890,12 @@ export function generateGradientVaries(
           colorName,
           suffixName,
           isContrast,
+          baseColor,
+          baseContrast,
           color,
           contrast,
+          baseGradient,
+          baseGradientContrast,
           gradient,
           gradientContrast,
         });
