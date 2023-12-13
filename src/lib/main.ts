@@ -1,104 +1,68 @@
-import {LitElement} from 'lit';
+import {
+  LitElement,
+  ReactiveElement,
+  PropertyValues,
+  CSSResultOrNative,
+  unsafeCSS,
+  getCompatibleStyle,
+  adoptStyles,
+} from 'lit';
 import {property} from 'lit/decorators/property.js';
 import {ClassInfo} from 'lit/directives/class-map.js';
-import {StyleInfo} from 'lit/directives/style-map.js';
 
 import {
   ConstructorArgs,
   TiniElementConstructor,
-  Transform,
-  PartInfo,
+  ExtendRootClassesInput,
   ComponentMetas,
-  ExtendRootClassesPartsInput,
-  ComponentRefers,
+  RefersProp,
 } from './types';
 import {CHANGE_THEME_EVENT} from './consts';
-import {
-  transformToStyleInfo,
-  getTheme,
-  getGlobalComponentOptions,
-} from './methods';
-import {
-  VaryGroups,
-  ContainerTypes,
-  Displays,
-  AlignItems,
-  JustifyContents,
-  Positions,
-  Visibilities,
-  MixBlendModes,
-  COMMON_COLORS_TO_COMMON_GRADIENTS,
-} from './varies';
+import {getTheme, getGlobalComponentOptions} from './methods';
+import {VaryGroups, COMMON_COLORS_TO_COMMON_GRADIENTS} from './varies';
 
 function TiniElementMixin(SuperClass: any) {
   class TiniElement extends SuperClass {
-    private globalComponentOptions = getGlobalComponentOptions();
     private currentTheme = getTheme();
-    private currentTransforms?: StyleInfo;
-    private currentCustomRootStyles?: StyleInfo;
+    private globalOptions = getGlobalComponentOptions();
 
-    protected activeRootClassesParts: ClassInfo | PartInfo = {};
-    protected activeRootStyles: StyleInfo = {};
+    private themeStyles?: CSSResultOrNative[];
+    private extraStyle?: CSSResultOrNative;
+    private extraStyleAdopted = false;
 
     readonly componentName = 'unnamed';
     readonly componentMetas: ComponentMetas = {};
-    readonly referLightDOM = false;
+
+    protected rootClasses: ClassInfo = {root: true};
 
     /* eslint-disable prettier/prettier */
-    @property({type: String, reflect: true}) declare xContainerType?: ContainerTypes;
-    @property({type: String, reflect: true}) declare xContainerName?: string;
-    @property({type: String, reflect: true}) declare xDisplay?: Displays;
-    @property({type: String, reflect: true}) declare xAlignItems?: AlignItems;
-    @property({type: String, reflect: true}) declare xJustifyContent?: JustifyContents;
-    @property({type: String, reflect: true}) declare xWidth?: string;
-    @property({type: String, reflect: true}) declare xHeight?: string;
-    @property({type: String, reflect: true}) declare xOpacity?: string;
-    @property({type: String, reflect: true}) declare xVisibility?: Visibilities;
-    @property({type: String, reflect: true}) declare xPosition?: Positions;
-    @property({type: String, reflect: true}) declare xInset?: string;
-    @property({type: String, reflect: true}) declare xTop?: string;
-    @property({type: String, reflect: true}) declare xRight?: string;
-    @property({type: String, reflect: true}) declare xBottom?: string;
-    @property({type: String, reflect: true}) declare xLeft?: string;
-    @property({type: String, reflect: true}) declare xMargin?: string;
-    @property({type: String, reflect: true}) declare xPadding?: string;
-    @property({type: String, reflect: true}) declare xColor?: string;
-    @property({type: String, reflect: true}) declare xBackground?: string;
-    @property({type: String, reflect: true}) declare xBorder?: string;
-    @property({type: String, reflect: true}) declare xBorderRadius?: string;
-    @property({type: String, reflect: true}) declare xOutline?: string;
-    @property({type: String, reflect: true}) declare xOutlineOffset?: string;
-    @property({type: String, reflect: true}) declare xShadow?: string;
-    @property({type: String, reflect: true}) declare xZIndex?: string;
-    @property({type: String, reflect: true}) declare xTransform?: Transform;
-    @property({type: String, reflect: true}) declare xFilter?: string;
-    @property({type: String, reflect: true}) declare xTransition?: string;
-    @property({type: String, reflect: true}) declare xAnimation?: string;
-    @property({type: String, reflect: true}) declare xMixBlendMode?: MixBlendModes;
-    @property({type: String, reflect: true}) declare xBackdropFilter?: string;
-    @property({type: String, reflect: true}) declare xClipPath?: string;
-    @property({type: String, reflect: true}) declare xMask?: string;
-    @property({type: Object}) declare hostStyles?: StyleInfo;
-    @property({type: Object}) declare rootStyles?: StyleInfo;
-    @property({type: Object}) declare hoverMap?: Record<string, any>;
-    @property({type: Object}) declare focusMap?: Record<string, any>;
-    @property({type: Object}) declare activeMap?: Record<string, any>;
-    @property({type: Object}) declare refers?: ComponentRefers;
+    @property() declare styleDeep?: string | CSSResultOrNative;
+    @property({type: Object}) declare refers?: RefersProp;
     /* eslint-enable prettier/prettier */
+
+    constructor(...args: ConstructorArgs) {
+      super(...args);
+    }
+
+    protected createRenderRoot() {
+      const renderRoot =
+        this.shadowRoot ??
+        this.attachShadow(
+          (this.constructor as typeof ReactiveElement).shadowRootOptions
+        );
+      this.customAdoptStyles(renderRoot);
+      return renderRoot;
+    }
 
     private onThemeChange = (e: Event) => {
       this.currentTheme = (e as CustomEvent).detail.theme;
       return this.requestUpdate();
     };
 
-    constructor(...args: ConstructorArgs) {
-      super(...args);
-    }
-
     connectedCallback() {
       super.connectedCallback();
       // on theme change
-      if (this.refers || Object.keys(this.globalComponentOptions).length) {
+      if (this.refers || Object.keys(this.globalOptions).length) {
         window.addEventListener(CHANGE_THEME_EVENT, this.onThemeChange);
       }
     }
@@ -109,55 +73,43 @@ function TiniElementMixin(SuperClass: any) {
       window.removeEventListener(CHANGE_THEME_EVENT, this.onThemeChange);
     }
 
-    willUpdate() {
-      // root classes and parts
-      this.activeRootClassesParts = {root: true};
-      // root styles
-      this.activeRootStyles = {
-        padding: this.xPadding,
-        width: this.xWidth,
-        height: this.xHeight,
-        opacity: this.xOpacity,
-        visibility: this.xVisibility,
-        color: this.xColor,
-        background: this.xBackground,
-        border: this.xBorder,
-        borderRadius: this.xBorderRadius,
-        outline: this.xOutline,
-        outlineOffset: this.xOutlineOffset,
-        shadow: this.xShadow,
-        filter: this.xFilter,
-        webkitFilter: this.xFilter,
-        transition: this.xTransition,
-        animation: this.xAnimation,
-        mixBlendMode: this.xMixBlendMode,
-        backdropFilter: this.xBackdropFilter,
-        clipPath: this.xClipPath,
-        mask: this.xMask,
-        webkitMask: this.xMask,
-        // custom root styles
-        ...this.rootStyles,
-      };
-      // host styles
-      this.updateHostStyles();
+    willUpdate(changedProperties: PropertyValues<this>) {
+      // re-style deep
+      if (changedProperties.has('styleDeep')) {
+        if (!this.extraStyleAdopted) {
+          this.extraStyleAdopted = true;
+        } else {
+          this.customAdoptStyles(this.shadowRoot || this);
+        }
+      }
     }
 
-    extendRootClassesParts(input: ExtendRootClassesPartsInput) {
-      const {info = {}, hover = {}, overridable = {}} = input;
-      const otherInfo = {} as Record<string, boolean>;
-      const overridableFinalValues = {} as Record<string, string>;
-      const {componentOptions} = this.getGlobalOptions();
-      // build hover info
-      const hoverInfo = Object.keys(hover).reduce(
+    extendRootClasses(input: ExtendRootClassesInput) {
+      const {raw = {}, pseudo = {}, overridable = {}} = input;
+      const {componentOptions} = this.retrieveGlobalOptions();
+      // build pseudo info
+      const pseudoInfo = Object.keys(pseudo).reduce(
         (result, key) => {
-          const value = hover![key];
-          if (!value) return result;
-          result[`${key}-${value}-hover`] = true;
-          return result;
+          const value = pseudo![key];
+          return !value
+            ? result
+            : {
+                ...result,
+                ...Object.keys(value).reduce(
+                  (r, k) => {
+                    const v = value![k];
+                    if (!v) return r;
+                    r[`${k}-${v}-${key}`] = true;
+                    return r;
+                  },
+                  {} as Record<string, boolean>
+                ),
+              };
         },
         {} as Record<string, boolean>
       );
       // build overridable info
+      const overridableFinalValues = {} as Record<string, string>;
       const overridableInfo = Object.keys(overridable).reduce(
         (result, key) => {
           const originalValue = overridable![key];
@@ -169,7 +121,9 @@ function TiniElementMixin(SuperClass: any) {
         },
         {} as Record<string, boolean>
       );
-      // refer gradient scheme on hover
+      // other info:
+      // + refer gradient scheme on hover
+      const otherInfo = {} as Record<string, boolean>;
       const schemeValue = overridableFinalValues[VaryGroups.Scheme];
       if (
         componentOptions.referGradientSchemeOnHover &&
@@ -183,34 +137,29 @@ function TiniElementMixin(SuperClass: any) {
         otherInfo[`${VaryGroups.Scheme}-${hoverScheme}-hover`] = true;
       }
       // result
-      return (this.activeRootClassesParts = {
-        ...this.activeRootClassesParts,
-        ...info,
-        ...hoverInfo,
+      return (this.rootClasses = {
+        ...this.rootClasses,
+        ...raw,
+        ...pseudoInfo,
         ...overridableInfo,
         ...otherInfo,
       });
     }
 
-    extendRootStyles(info: StyleInfo) {
-      return (this.activeRootStyles = {...this.activeRootStyles, ...info});
-    }
-
-    private getGlobalOptions() {
+    private retrieveGlobalOptions() {
       const themeOptions =
-        (!this.currentTheme
-          ? null
-          : this.globalComponentOptions?.[this.currentTheme]) || {};
+        (!this.currentTheme ? null : this.globalOptions?.[this.currentTheme]) ||
+        {};
       const componentOptions =
         (themeOptions.perComponent as any)?.[this.componentName] || {};
       return {themeOptions, componentOptions};
     }
 
     private calculatePropValue(name: string, originalValue: string) {
-      const {themeOptions} = this.getGlobalOptions();
-      // no theme info
+      const {themeOptions} = this.retrieveGlobalOptions();
+      // no theme
       if (!this.currentTheme) return originalValue;
-      // refer map
+      // refers map
       const camelName = name.replace(/-(\w)/g, (_, letter) =>
         letter.toUpperCase()
       );
@@ -220,7 +169,7 @@ function TiniElementMixin(SuperClass: any) {
       if (referValue) return referValue;
       // refer gradient scheme
       if (
-        !this.componentMetas.colorOnlyScheme &&
+        !this.componentMetas?.colorOnlyScheme &&
         name === VaryGroups.Scheme &&
         themeOptions.referGradientScheme
       ) {
@@ -234,55 +183,21 @@ function TiniElementMixin(SuperClass: any) {
       return originalValue;
     }
 
-    private updateHostStyles() {
-      this.style.display = !this.xDisplay ? '' : this.xDisplay;
-      this.style.alignItems = !this.xAlignItems ? '' : this.xAlignItems;
-      this.style.justifyContent = !this.xJustifyContent
-        ? ''
-        : this.xJustifyContent;
-      this.style.position = !this.xPosition ? '' : this.xPosition;
-      this.style.inset = !this.xInset ? '' : this.xInset;
-      this.style.top = !this.xTop ? '' : this.xTop;
-      this.style.right = !this.xRight ? '' : this.xRight;
-      this.style.bottom = !this.xBottom ? '' : this.xBottom;
-      this.style.left = !this.xLeft ? '' : this.xLeft;
-      this.style.margin = !this.xMargin ? '' : this.xMargin;
-      this.style.zIndex = !this.xZIndex ? '' : this.xZIndex;
-      // apply all styles to the host
-      if (this.referLightDOM) {
-        Object.keys(this.activeRootStyles).forEach(key => {
-          const value = this.activeRootStyles![key];
-          return (this.style[key] = !value ? '' : value);
-        });
-      }
-      // transform
-      if (this.xTransform) {
-        this.currentTransforms = transformToStyleInfo(this.xTransform);
-        Object.keys(this.currentTransforms).forEach(key => {
-          const value = this.currentTransforms![key];
-          return (this.style[key] = !value ? '' : value);
-        });
-        this.style.webkitFilter = 'blur(0px)';
-      } else if (this.currentTransforms) {
-        Object.keys(this.currentTransforms).forEach(
-          key => (this.style[key] = '')
-        );
-        this.style.webkitFilter = '';
-        this.currentTransforms = undefined;
-      }
-      // custom host styles
-      if (this.hostStyles) {
-        this.currentCustomRootStyles = this.hostStyles;
-        Object.keys(this.currentCustomRootStyles).forEach(key => {
-          const value = this.currentCustomRootStyles![key];
-          return (this.style[key] = !value ? '' : value);
-        });
-      } else if (this.currentCustomRootStyles) {
-        Object.keys(this.currentCustomRootStyles).forEach(
-          key => (this.style[key] = '')
-        );
-        this.currentCustomRootStyles = undefined;
-      }
+    private customAdoptStyles(renderRoot: HTMLElement | DocumentFragment) {
+      // process extra style
+      this.extraStyle = !this.styleDeep
+        ? undefined
+        : getCompatibleStyle(
+            typeof this.styleDeep === 'string'
+              ? unsafeCSS(this.styleDeep.replace(/&/g, '.root'))
+              : this.styleDeep
+          );
+      // adopt styles
+      adoptStyles(renderRoot as unknown as ShadowRoot, [
+        ...(!this.themeStyles ? [] : this.themeStyles),
+        ...(this.constructor as typeof ReactiveElement).elementStyles,
+        ...(!this.extraStyle ? [] : [this.extraStyle]),
+      ]);
     }
   }
   return TiniElement as unknown as TiniElementConstructor;

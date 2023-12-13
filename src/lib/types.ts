@@ -1,82 +1,34 @@
 import {LitElement, CSSResult} from 'lit';
 import {ClassInfo} from 'lit/directives/class-map.js';
-import {StyleInfo} from 'lit/directives/style-map.js';
-import {
-  ContainerTypes,
-  Displays,
-  AlignItems,
-  JustifyContents,
-  Positions,
-  Visibilities,
-  MixBlendModes,
-} from './varies';
+
+export type PartInfo = ClassInfo;
 
 export type ConstructorArgs = any[];
 export type Constructor<T = {}> = new (...args: ConstructorArgs) => T;
 
 export type LitElementInterface = LitElement;
 export interface TiniElementInterface {
-  activeRootClassesParts: ClassInfo | PartInfo;
-  activeRootStyles: StyleInfo;
-  componentName: string;
-  componentMetas: ComponentMetas;
-  referLightDOM: boolean;
-  xContainerType?: ContainerTypes;
-  xContainerName?: string;
-  xDisplay?: Displays;
-  xAlignItems?: AlignItems;
-  xJustifyContent?: JustifyContents;
-  xWidth?: string;
-  xHeight?: string;
-  xOpacity?: string;
-  xVisibility?: Visibilities;
-  xPosition?: Positions;
-  xInset?: string;
-  xTop?: string;
-  xRight?: string;
-  xBottom?: string;
-  xLeft?: string;
-  xMargin?: string;
-  xPadding?: string;
-  xColor?: string;
-  xBackground?: string;
-  xBorder?: string;
-  xBorderRadius?: string;
-  xOutline?: string;
-  xOutlineOffset?: string;
-  xShadow?: string;
-  xZIndex?: string;
-  xTransform?: Transform;
-  xFilter?: string;
-  xTransition?: string;
-  xAnimation?: string;
-  xMixBlendMode?: MixBlendModes;
-  xBackdropFilter?: string;
-  xClipPath?: string;
-  xMask?: string;
-  hostStyles?: StyleInfo;
-  rootStyles?: StyleInfo;
-  hoverMap?: Record<string, any>;
-  focusMap?: Record<string, any>;
-  activeMap?: Record<string, any>;
-  refers?: ComponentRefers;
-  extendRootClassesParts(
-    input: ExtendRootClassesPartsInput
-  ): ClassInfo | PartInfo;
-  extendRootStyles(info: StyleInfo): StyleInfo;
+  readonly componentName: string;
+  readonly componentMetas: ComponentMetas;
+  rootClasses: ClassInfo;
+  styleDeep?: string;
+  refers?: RefersProp;
+  extendRootClasses(input: ExtendRootClassesInput): ClassInfo;
 }
 
 export type TiniElementDerived = LitElementInterface & TiniElementInterface;
 export type TiniElementConstructor = Constructor<TiniElementDerived>;
 export type TiniElementInstance = Omit<TiniElementDerived, 'constructor'>;
 
+export type RefersProp = Record<string, Record<string, any>>;
+
 export interface ComponentMetas {
   colorOnlyScheme?: boolean;
 }
-export type ComponentRefers = Record<string, Record<string, any>>;
-export interface ExtendRootClassesPartsInput {
-  info?: ClassInfo | PartInfo;
-  hover?: Record<string, undefined | string>;
+
+export interface ExtendRootClassesInput {
+  raw?: ClassInfo;
+  pseudo?: Record<string, Record<string, undefined | string>>;
   overridable?: Record<string, undefined | string>;
 }
 
@@ -112,15 +64,3 @@ export interface ThemingSubscriptionParam {
   prevSoulId: string;
   prevSkinId: string;
 }
-
-export interface PartInfo {
-  readonly [name: string]: string | boolean | number;
-}
-
-export interface CustomTransform {
-  value: string;
-  origin?: string;
-  box?: string;
-  style?: string;
-}
-export type Transform = string | CustomTransform;

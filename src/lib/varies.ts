@@ -1,10 +1,13 @@
 import {unsafeCSS} from 'lit';
 
 export enum VaryGroups {
+  Mode = 'mode',
   Scheme = 'scheme',
   Background = 'background',
   Color = 'color',
   Scale = 'scale',
+  Wide = 'wide',
+  Breakpoint = 'breakpoint',
   Space = 'space',
   Margin = 'margin',
   Padding = 'padding',
@@ -41,6 +44,7 @@ export interface ColorRenderValues extends RenderValues {
   baseName: string;
   suffixName: string;
   isContrast: boolean;
+  isSubtle: boolean;
   baseColor: string;
   baseContrast: string;
   color: string;
@@ -60,6 +64,16 @@ export interface ScaleRenderValues extends RenderValues {
   scale: string;
 }
 export type ScaleVaryRender = (values: ScaleRenderValues) => string;
+
+export interface WideRenderValues extends RenderValues {
+  wide: string;
+}
+export type WideVaryRender = (values: WideRenderValues) => string;
+
+export interface BreakpointRenderValues extends RenderValues {
+  breakpoint: number;
+}
+export type BreakpointVaryRender = (values: BreakpointRenderValues) => string;
 
 export interface SpaceRenderValues extends RenderValues {
   space: string;
@@ -473,7 +487,7 @@ export const ALL_BASE_GRADIENTS = [...BASE_GRADIENTS, ...BASE_COMMON_GRADIENTS];
 
 export const COMMON_GRADIENTS_TO_COMMON_COLORS = [
   [CommonGradients.VitalOcean, CommonColors.Blue],
-  [CommonGradients.KaleSalad, CommonColors.Teal],
+  [CommonGradients.KaleSalad, CommonColors.Cyan],
   [CommonGradients.DiscoClub, CommonColors.Pink],
   [CommonGradients.ShadyLane, CommonColors.Indigo],
   [CommonGradients.RetroWagon, CommonColors.Lime],
@@ -483,7 +497,7 @@ export const COMMON_GRADIENTS_TO_COMMON_COLORS = [
   [CommonGradients.ParFour, CommonColors.Green],
   [CommonGradients.OoeyGooey, CommonColors.Blue],
   [CommonGradients.BloodyMimosa, CommonColors.Red],
-  [CommonGradients.LovelyLilly, CommonColors.Indigo],
+  [CommonGradients.LovelyLilly, CommonColors.Gray],
   [CommonGradients.AquaSpray, CommonColors.Blue],
   [CommonGradients.MelloYellow, CommonColors.Lime],
   [CommonGradients.DustyCactus, CommonColors.Yellow],
@@ -543,6 +557,40 @@ export enum Scales {
   XXXL = 'xxxl',
 }
 export const SCALES = Object.values(Scales);
+
+export enum Wides {
+  XXXS = Scales.XXXS,
+  XXS = Scales.XXS,
+  XS = Scales.XS,
+  SS = Scales.SS,
+  SM = Scales.SM,
+  MD = Scales.MD,
+  ML = Scales.ML,
+  LG = Scales.LG,
+  SL = Scales.SL,
+  XL = Scales.XL,
+  XXL = Scales.XXL,
+  XXXL = Scales.XXXL,
+}
+export const WIDES = Object.values(Wides);
+
+export enum Breakpoints {
+  XXXS = '150',
+  XXS = '240',
+  XS = '320',
+  SS = '425',
+  SM = '576',
+  MD = '768',
+  ML = '992',
+  LG = '1024',
+  SL = '1200',
+  XL = '1440',
+  XXL = '2560',
+  XXXL = '3840',
+}
+export const BREAKPOINTS = Object.values(Breakpoints).map(item =>
+  parseInt(item)
+);
 
 export enum Factors {
   X0 = '0x',
@@ -827,6 +875,7 @@ export function generateColorVaries(
           baseName,
           suffixName,
           isContrast,
+          isSubtle,
           baseColor,
           baseContrast,
           color,
@@ -890,6 +939,7 @@ export function generateGradientVaries(
           colorName,
           suffixName,
           isContrast,
+          isSubtle,
           baseColor,
           baseContrast,
           color,
@@ -917,6 +967,42 @@ export function generateScaleVaries(render: ScaleVaryRender) {
         scale,
       });
     }).join('')
+  );
+}
+
+export function generateWideVaries(render: WideVaryRender) {
+  return unsafeCSS(
+    WIDES.map(name => {
+      const groupName = VaryGroups.Wide;
+      const fullName = `${groupName}-${name}`;
+      const wide = `var(--wide-${name})`;
+      return render({
+        name,
+        groupName,
+        fullName,
+        wide,
+      });
+    }).join('')
+  );
+}
+
+export function generateBreakpointVaries(render: BreakpointVaryRender) {
+  return unsafeCSS(
+    Object.keys(Breakpoints)
+      .map(name => {
+        const groupName = VaryGroups.Breakpoint;
+        const fullName = `${groupName}-${name}`;
+        const breakpoint = parseInt(
+          Breakpoints[name as keyof typeof Breakpoints]
+        );
+        return render({
+          name,
+          groupName,
+          fullName,
+          breakpoint,
+        });
+      })
+      .join('')
   );
 }
 

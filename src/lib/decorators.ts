@@ -1,4 +1,4 @@
-import {adoptStyles} from 'lit';
+import {adoptStyles, ReactiveElement, CSSResult, getCompatibleStyle} from 'lit';
 
 import {GLOBAL_TINI} from './consts';
 import {UseComponentsList, ThemingOptions} from './types';
@@ -25,24 +25,32 @@ export function Theming<Themes extends string>({
     const originalConnectedCallback = target.prototype.connectedCallback;
     const originalDisconnectedCallback = target.prototype.disconnectedCallback;
     const originalUpdated = target.prototype.updated;
+
     // styles
-    const unsubscribeKey = Symbol();
+    const unstyleKey = Symbol();
     const applyStyles = (host: any, soulId?: Themes) => {
       soulId ||= getSoulId() as Themes;
-      // retrieve styles
-      const originalStyles = target.styles || [];
-      const styles = (
+      // retrieve theme styles
+      host.themeStyles = (
         !styling
           ? []
           : !soulId || !styling[soulId]
           ? Object.values(styling)[0]
           : (styling[soulId] as any)
-      ).concat(
-        originalStyles instanceof Array ? originalStyles : [originalStyles]
-      );
+      ).map((style: CSSResult) => getCompatibleStyle(style));
       // affect
-      adoptStyles(host.shadowRoot || host, styles);
+      const renderRoot = (host.shadowRoot || host) as ShadowRoot;
+      if (host.customAdoptStyles) {
+        host.customAdoptStyles(renderRoot);
+      } else {
+        adoptStyles(renderRoot, [
+          ...host.themeStyles,
+          ...(host.constructor as typeof ReactiveElement).elementStyles,
+          ...(!host.extraStyle ? [] : [host.extraStyle]),
+        ]);
+      }
     };
+
     // scripts
     const unscriptKey = Symbol();
     const applyScripts = (host: any, soulId?: Themes) => {
@@ -59,7 +67,18 @@ export function Theming<Themes extends string>({
       if (scripts?.script) scripts.script(host);
     };
 
-    // connected/disconnected
+    // createRenderRoot
+    target.prototype.createRenderRoot = function () {
+      const renderRoot =
+        this.shadowRoot ??
+        this.attachShadow(
+          (this.constructor as typeof ReactiveElement).shadowRootOptions
+        );
+      applyStyles(this);
+      return renderRoot;
+    };
+
+    // connectedCallback / disconnectedCallback
     target.prototype.connectedCallback = function () {
       originalConnectedCallback?.bind(this)();
       // watch for soul change
@@ -67,22 +86,20 @@ export function Theming<Themes extends string>({
         GLOBAL_TINI.themingSubscriptions = new Map();
       }
       GLOBAL_TINI.themingSubscriptions.set(
-        unsubscribeKey,
+        unstyleKey,
         ({soulId, prevSoulId}) => {
           if (soulId === prevSoulId) return;
           applyStyles(this, soulId as Themes);
           applyScripts(this, soulId as Themes);
         }
       );
-      this[unsubscribeKey] = () =>
-        GLOBAL_TINI.themingSubscriptions?.delete(unsubscribeKey);
-      // apply styles
-      applyStyles(this);
+      this[unstyleKey] = () =>
+        GLOBAL_TINI.themingSubscriptions?.delete(unstyleKey);
     };
     target.prototype.disconnectedCallback = function () {
       originalDisconnectedCallback?.bind(this)();
       // unwatch for soul change
-      this[unsubscribeKey]?.();
+      this[unstyleKey]?.();
     };
 
     // updated

@@ -1,15 +1,14 @@
 import {ClassInfo} from 'lit/directives/class-map.js';
-import {StyleInfo} from 'lit/directives/style-map.js';
 
 import {
   GlobalComponentOptions,
   UseComponentsList,
-  Transform,
   ThemingSubscriptionParam,
 } from './types';
 import {GLOBAL_TINI, CHANGE_THEME_EVENT} from './consts';
 import {
   VaryGroups,
+  Breakpoints,
   COLORS,
   FACTORS,
   OUTLINE_WIDTHS,
@@ -63,7 +62,7 @@ export function brighten(color: string, amount = 0.1) {
   return mix(color, `white ${amount * 100}%`);
 }
 
-export function transparentize(color: string, amount = 0.1) {
+export function opacity(color: string, amount = 0.1) {
   return mix(color, `transparent ${(1 - amount) * 100}%`);
 }
 
@@ -121,6 +120,22 @@ export function changeTheme({
       );
     }
   }
+}
+
+export function retrieveThemeBreakpoints<
+  EnumKey extends keyof typeof Breakpoints,
+  Key extends Lowercase<EnumKey>,
+>() {
+  const style = getComputedStyle(document.body);
+  return Object.keys(Breakpoints).reduce(
+    (result, enumKey) => {
+      const key = enumKey.toLowerCase() as Key;
+      const value = style.getPropertyValue(`--wide-${key}`);
+      result[key] = parseInt(value || Breakpoints[enumKey as EnumKey]);
+      return result;
+    },
+    {} as Record<Key, number>
+  );
 }
 
 /*
@@ -276,18 +291,18 @@ export function borderToClassInfo(border?: string): ClassInfo {
   }
 }
 
-export function transformToStyleInfo(transform?: Transform): StyleInfo {
-  if (!transform) {
-    return {};
-  } else if (typeof transform === 'string') {
-    return {transform};
-  } else {
-    const {value, origin, box, style} = transform;
-    return {
-      transform: value,
-      transformOrigin: origin,
-      transformBox: box,
-      transformStyle: style,
-    };
+/*
+ * Misc
+ */
+
+export function randomClassName(length = 6, privatePrefix = false) {
+  const chars =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  while (result.length < length - 1) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
+  return `${
+    privatePrefix ? '_' : chars[Math.floor(Math.random() * 52)]
+  }${result}`;
 }
