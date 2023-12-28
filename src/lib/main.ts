@@ -36,8 +36,8 @@ function TiniElementMixin(SuperClass: any) {
     protected rootClasses: ClassInfo = {root: true};
 
     /* eslint-disable prettier/prettier */
-    @property() declare styleDeep?: string | CSSResultOrNative;
     @property({type: Object}) declare refers?: RefersProp;
+    @property() declare styleDeep?: string | CSSResultOrNative;
     /* eslint-enable prettier/prettier */
 
     constructor(...args: ConstructorArgs) {

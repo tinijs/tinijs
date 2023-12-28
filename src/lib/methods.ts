@@ -306,3 +306,61 @@ export function randomClassName(length = 6, privatePrefix = false) {
     privatePrefix ? '_' : chars[Math.floor(Math.random() * 52)]
   }${result}`;
 }
+
+export function extractGenericAttributes(
+  attributes: NamedNodeMap,
+  componentProps: string[]
+) {
+  let styleAttributes: undefined | Record<string, string>;
+  let forwardAttributes: undefined | Record<string, string>;
+  for (let i = 0; i < attributes.length; i++) {
+    const {name, value} = attributes[i];
+    if (
+      name in HTMLElement.prototype ||
+      ~componentProps.indexOf(name) ||
+      name.startsWith('data-') ||
+      name.startsWith('aria-')
+    )
+      continue;
+    if (name.substring(name.length - 5) !== '-attr') {
+      if (!styleAttributes) styleAttributes = {};
+      styleAttributes[name] = value;
+    } else {
+      if (!forwardAttributes) forwardAttributes = {};
+      forwardAttributes[name.substring(0, name.length - 5)] = value;
+    }
+  }
+  return {styleAttributes, forwardAttributes};
+}
+
+export function buildStyleTextFromAttributes(
+  className: string,
+  styleAttributes: undefined | Record<string, string>
+) {
+  return !styleAttributes
+    ? ''
+    : `
+    .${className} {
+      ${Object.entries(styleAttributes)
+        .map(([name, value]) => `${name}: ${value};`)
+        .join('\n')}
+    }
+  `;
+}
+
+export function buildStyleTextFromTheming(
+  theming: undefined | Record<string, string>,
+  currentTheme: undefined | string,
+  postprocessor: (styleText: string) => string
+) {
+  if (!theming || !currentTheme) return '';
+  if (theming[currentTheme]) {
+    return postprocessor(theming[currentTheme]);
+  }
+  const soulOnly = `${currentTheme.split('/')[0]}/*`;
+  if (!theming[soulOnly]) {
+    return '';
+  } else {
+    return postprocessor(theming[soulOnly]);
+  }
+}
