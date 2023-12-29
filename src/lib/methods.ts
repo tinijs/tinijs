@@ -1,11 +1,14 @@
+import {LitElement, CSSResultOrNative} from 'lit';
 import {ClassInfo} from 'lit/directives/class-map.js';
 
 import {
-  GlobalComponentOptions,
-  UseComponentsList,
-  ThemingSubscriptionParam,
+  UIOptions,
+  RegisterComponentsList,
+  ActiveTheme,
+  GenericThemingOptions,
+  ThemingOptions,
 } from './types';
-import {GLOBAL_TINI, CHANGE_THEME_EVENT} from './consts';
+import {GLOBAL_TINI, THEME_CHANGE_EVENT} from './consts';
 import {
   VaryGroups,
   Breakpoints,
@@ -17,125 +20,237 @@ import {
   BORDER_STYLES,
 } from './varies';
 
-export function useComponents(items: UseComponentsList) {
-  items.forEach(item => {
+export function registerComponents(items: RegisterComponentsList) {
+  return items.forEach(item => {
     const useCustomTagName = item instanceof Array;
     const [constructor, tagName] = useCustomTagName
       ? item
       : [item, (item as any).defaultTagName];
-    if (!tagName || !constructor) return;
-    const isDefined = customElements.get(tagName);
-    if (!isDefined) {
-      customElements.define(
-        tagName,
-        !useCustomTagName ? constructor : class extends constructor {}
-      );
-    }
+    if (!tagName || !constructor || customElements.get(tagName)) return;
+    customElements.define(
+      tagName,
+      !useCustomTagName ? constructor : class extends constructor {}
+    );
   });
 }
 
-export const importComponents = useComponents;
-
-export function setGlobalComponentOptions(options: GlobalComponentOptions) {
-  return (GLOBAL_TINI.globalComponentOptions = options || {});
+export function setUIOptions(options: UIOptions) {
+  return (GLOBAL_TINI.uiOptions = options || {});
 }
 
-export function getGlobalComponentOptions() {
-  return GLOBAL_TINI.globalComponentOptions || {};
+export function getUIOptions() {
+  return GLOBAL_TINI.uiOptions || {};
 }
 
 /*
- * CSS color mixing
+ * Scripting
  */
 
-export function mix(...params: string[]) {
-  const method =
-    params[0]?.substring(0, 3) !== 'in ' ? 'in oklab' : params.shift();
-  return `color-mix(${method}, ${params.slice(0, 2).join(', ')})`;
-}
-
-export function darken(color: string, amount = 0.1) {
-  return mix(color, `black ${amount * 100}%`);
-}
-
-export function brighten(color: string, amount = 0.1) {
-  return mix(color, `white ${amount * 100}%`);
-}
-
-export function opacity(color: string, amount = 0.1) {
-  return mix(color, `transparent ${(1 - amount) * 100}%`);
+export function adoptScripts(
+  host: HTMLElement,
+  activeTheme: ActiveTheme,
+  scripting: ThemingOptions<string>['scripting']
+) {
+  if (!scripting || !activeTheme) return;
+  const {soulId, themeId} = activeTheme;
+  const scripts =
+    scripting[themeId] ||
+    scripting[soulId] ||
+    Object.values(scripting)[0] ||
+    {};
+  (host as any).___themeUnscript?.(host);
+  (host as any).___themeUnscript = scripts.unscript;
+  if (scripts.script) scripts.script(host);
 }
 
 /*
  * Theme
  */
 
-export function getTheme() {
-  return document.body.dataset.theme;
+export function getTheme(
+  forced = false,
+  prevData?: Pick<ActiveTheme, 'prevSoulId' | 'prevSkinId' | 'prevThemeId'>
+) {
+  if (!forced && GLOBAL_TINI.activeTheme) return GLOBAL_TINI.activeTheme;
+  // themeId, soulId, skinId
+  const themeId = document.body.dataset.theme;
+  if (!themeId) throw new Error('No Tini UI theme found!');
+  const [soulId, skinId] = themeId.split('/');
+  // breakpoints
+  const computedStyle = getComputedStyle(document.body);
+  const breakpoints = Object.entries(Breakpoints).reduce(
+    (result, [enumKey, defaultValue]) => {
+      const key = enumKey.toLowerCase() as Lowercase<keyof typeof Breakpoints>;
+      const value = computedStyle.getPropertyValue(`--wide-${key}`);
+      result[key] = value || defaultValue;
+      return result;
+    },
+    {} as Record<Lowercase<keyof typeof Breakpoints>, string>
+  );
+  // result
+  return (GLOBAL_TINI.activeTheme = {
+    prevSoulId: prevData?.prevSoulId || soulId,
+    prevSkinId: prevData?.prevSkinId || skinId,
+    prevThemeId: prevData?.prevThemeId || themeId,
+    soulId,
+    skinId,
+    themeId,
+    breakpoints,
+  });
 }
 
-export function getSoulId() {
-  return getTheme()?.split('/')[0];
-}
-
-export function getSkinId() {
-  return getTheme()?.split('/')[1];
-}
-
-export function setTheme(theme: string) {
-  return (document.body.dataset.theme = theme);
-}
-
-export function changeTheme({
-  soulId,
-  skinId,
-}: {
-  soulId?: string;
-  skinId?: string;
-}) {
-  const [currentSoulId, currentSkinId] = getTheme()?.split('/') || [];
+export function setTheme({soulId, skinId}: {soulId?: string; skinId?: string}) {
+  const {soulId: currentSoulId, skinId: currentSkinId} = getTheme();
   soulId ||= currentSoulId;
   skinId ||= currentSkinId;
-  if (soulId && skinId) {
-    const newTheme = `${soulId}/${skinId}`;
-    // <body data-theme="...">
-    setTheme(newTheme);
-    if (soulId !== currentSoulId || skinId !== currentSkinId) {
-      const themeData: ThemingSubscriptionParam = {
-        theme: newTheme,
-        soulId,
-        skinId,
-        prevSoulId: currentSoulId,
-        prevSkinId: currentSkinId,
-      };
-      // notify all subscribers
-      GLOBAL_TINI.themingSubscriptions?.forEach(subscription =>
-        subscription(themeData)
-      );
-      // dispatch a global event
-      window.dispatchEvent(
-        new CustomEvent(CHANGE_THEME_EVENT, {
-          detail: themeData,
-        })
-      );
-    }
+  if (!soulId || !skinId) throw new Error('Invalid soulId or skinId!');
+  // 1. set <body data-theme="...">
+  document.body.dataset.theme = `${soulId}/${skinId}`;
+  // 2. dispatch a global event
+  if (soulId !== currentSoulId || skinId !== currentSkinId) {
+    dispatchEvent(
+      new CustomEvent(THEME_CHANGE_EVENT, {
+        detail: getTheme(true, {
+          prevSoulId: currentSoulId,
+          prevSkinId: currentSkinId,
+          prevThemeId: `${currentSoulId}/${currentSkinId}`,
+        }),
+      })
+    );
   }
 }
 
-export function retrieveThemeBreakpoints<
-  EnumKey extends keyof typeof Breakpoints,
-  Key extends Lowercase<EnumKey>,
->() {
-  const style = getComputedStyle(document.body);
-  return Object.keys(Breakpoints).reduce(
-    (result, enumKey) => {
-      const key = enumKey.toLowerCase() as Key;
-      const value = style.getPropertyValue(`--wide-${key}`);
-      result[key] = parseInt(value || Breakpoints[enumKey as EnumKey]);
-      return result;
-    },
-    {} as Record<Key, number>
+/*
+ * Component styles
+ */
+
+export function processComponentStyles(
+  allStyles: Array<string | CSSResultOrNative>,
+  activeTheme: ActiveTheme,
+  additionalProcess?: (styleText: string, activeTheme: ActiveTheme) => string
+) {
+  // 1. combine all styles
+  let styleText = allStyles
+    .map(style => {
+      if (typeof style === 'string') {
+        return style;
+      } else if (style instanceof CSSStyleSheet) {
+        let text = '';
+        for (const rule of style.cssRules as any) {
+          text += '\n' + rule.cssText;
+        }
+        return text;
+      } else {
+        return style.cssText;
+      }
+    })
+    .join('\n');
+  // 2. run additional process
+  if (additionalProcess) styleText = additionalProcess(styleText, activeTheme);
+  // 3. replace breakpoints
+  Object.entries(activeTheme.breakpoints).forEach(
+    ([key, value]) =>
+      (styleText = styleText.replace(
+        new RegExp(`: ?(${key}|${key.toUpperCase()})\\)`, 'g'),
+        `: ${value})`
+      ))
   );
+  // result
+  return styleText;
+}
+
+export function genericComponentProcessAttributes<
+  Component extends LitElement & {
+    styleAttributes?: Map<string, string>;
+    forwardAttributes?: Map<string, string>;
+  },
+>(component: Component) {
+  const attributes = component.attributes;
+  const componentProps = ((component.constructor as any).observedAttributes ||
+    []) as string[];
+  // process attributes
+  let styleAttributes: Component['styleAttributes'];
+  let forwardAttributes: Component['forwardAttributes'];
+  for (let i = 0; i < attributes.length; i++) {
+    const {name, value} = attributes[i];
+    if (
+      name in HTMLElement.prototype ||
+      ~componentProps.indexOf(name) ||
+      name.startsWith('data-') ||
+      name.startsWith('aria-')
+    )
+      continue;
+    if (name.substring(name.length - 5) !== '-attr') {
+      styleAttributes ||= new Map();
+      styleAttributes.set(name, value);
+    } else {
+      forwardAttributes ||= new Map();
+      forwardAttributes.set(name.substring(0, name.length - 5), value);
+    }
+  }
+  // set values
+  component.styleAttributes = styleAttributes;
+  component.forwardAttributes = forwardAttributes;
+  return component;
+}
+
+export function genericComponentBuildStyleTextFromAttributes(
+  className: string,
+  styleAttributes: undefined | Map<string, string>
+) {
+  return !styleAttributes
+    ? ''
+    : `
+    .${className} {
+      ${Array.from(styleAttributes)
+        .map(([name, value]) => `${name}: ${value};`)
+        .join('\n')}
+    }
+  `;
+}
+
+export function genericComponentBuildStyleTextFromStyling(
+  styling: undefined | GenericThemingOptions['styling'],
+  themeId: undefined | string
+) {
+  if (!styling || !themeId) return '';
+  if (styling[themeId]) return styling[themeId];
+  const soulId = themeId.split('/')[0];
+  return !styling[soulId] ? '' : styling[soulId];
+}
+
+export function genericComponentBuildAndCacheStyles<
+  Style extends string | CSSResultOrNative,
+>(
+  precomputed: undefined | string,
+  activeTheme: ActiveTheme,
+  cacheStorage: Record<string, undefined | Style[]>,
+  buildStyles: () => Style[]
+) {
+  // ignore caching
+  if (!precomputed) return buildStyles();
+  // build styles and cache
+  const buildCacheKey = (name: string) => `${activeTheme.themeId} => ${name}`;
+  // check cache
+  const cacheKey = buildCacheKey(precomputed);
+  if (cacheStorage[cacheKey] || !~precomputed!.indexOf('/')) {
+    return cacheStorage[cacheKey] || (cacheStorage[cacheKey] = buildStyles());
+  } else {
+    // get parent styles
+    const parentStyles: Style[] = [];
+    const currentPaths: string[] = [];
+    precomputed!.split('/').forEach((item, i, list) => {
+      if (i === list.length - 1) return;
+      currentPaths.push(item);
+      const currentStyles =
+        cacheStorage![buildCacheKey(currentPaths.join('/'))];
+      if (currentStyles) parentStyles.push(...currentStyles);
+    });
+    // child styles
+    const childStyles = buildStyles();
+    // merge and cache
+    return (cacheStorage[cacheKey] = [...parentStyles, ...childStyles]);
+  }
 }
 
 /*
@@ -292,10 +407,32 @@ export function borderToClassInfo(border?: string): ClassInfo {
 }
 
 /*
+ * CSS color mixing utils
+ */
+
+export function mix(...params: string[]) {
+  const method =
+    params[0]?.substring(0, 3) !== 'in ' ? 'in oklab' : params.shift();
+  return `color-mix(${method}, ${params.slice(0, 2).join(', ')})`;
+}
+
+export function darken(color: string, amount = 0.1) {
+  return mix(color, `black ${amount * 100}%`);
+}
+
+export function brighten(color: string, amount = 0.1) {
+  return mix(color, `white ${amount * 100}%`);
+}
+
+export function opacity(color: string, amount = 0.1) {
+  return mix(color, `transparent ${(1 - amount) * 100}%`);
+}
+
+/*
  * Misc
  */
 
-export function randomClassName(length = 6, privatePrefix = false) {
+export function simpleRandom(length = 6, privatePrefix = false) {
   const chars =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
@@ -305,62 +442,4 @@ export function randomClassName(length = 6, privatePrefix = false) {
   return `${
     privatePrefix ? '_' : chars[Math.floor(Math.random() * 52)]
   }${result}`;
-}
-
-export function extractGenericAttributes(
-  attributes: NamedNodeMap,
-  componentProps: string[]
-) {
-  let styleAttributes: undefined | Record<string, string>;
-  let forwardAttributes: undefined | Record<string, string>;
-  for (let i = 0; i < attributes.length; i++) {
-    const {name, value} = attributes[i];
-    if (
-      name in HTMLElement.prototype ||
-      ~componentProps.indexOf(name) ||
-      name.startsWith('data-') ||
-      name.startsWith('aria-')
-    )
-      continue;
-    if (name.substring(name.length - 5) !== '-attr') {
-      if (!styleAttributes) styleAttributes = {};
-      styleAttributes[name] = value;
-    } else {
-      if (!forwardAttributes) forwardAttributes = {};
-      forwardAttributes[name.substring(0, name.length - 5)] = value;
-    }
-  }
-  return {styleAttributes, forwardAttributes};
-}
-
-export function buildStyleTextFromAttributes(
-  className: string,
-  styleAttributes: undefined | Record<string, string>
-) {
-  return !styleAttributes
-    ? ''
-    : `
-    .${className} {
-      ${Object.entries(styleAttributes)
-        .map(([name, value]) => `${name}: ${value};`)
-        .join('\n')}
-    }
-  `;
-}
-
-export function buildStyleTextFromTheming(
-  theming: undefined | Record<string, string>,
-  currentTheme: undefined | string,
-  postprocessor: (styleText: string) => string
-) {
-  if (!theming || !currentTheme) return '';
-  if (theming[currentTheme]) {
-    return postprocessor(theming[currentTheme]);
-  }
-  const soulOnly = `${currentTheme.split('/')[0]}/*`;
-  if (!theming[soulOnly]) {
-    return '';
-  } else {
-    return postprocessor(theming[soulOnly]);
-  }
 }

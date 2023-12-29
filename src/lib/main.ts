@@ -1,6 +1,5 @@
 import {
   LitElement,
-  ReactiveElement,
   PropertyValues,
   CSSResultOrNative,
   unsafeCSS,
@@ -11,196 +10,207 @@ import {property} from 'lit/decorators/property.js';
 import {ClassInfo} from 'lit/directives/class-map.js';
 
 import {
-  ConstructorArgs,
-  TiniElementConstructor,
   ExtendRootClassesInput,
   ComponentMetas,
-  RefersProp,
+  ThemingOptions,
+  ActiveTheme,
 } from './types';
-import {CHANGE_THEME_EVENT} from './consts';
-import {getTheme, getGlobalComponentOptions} from './methods';
-import {VaryGroups, COMMON_COLORS_TO_COMMON_GRADIENTS} from './varies';
+import {THEME_CHANGE_EVENT} from './consts';
+import {
+  getUIOptions,
+  getTheme,
+  adoptScripts,
+  processComponentStyles,
+} from './methods';
+import {COMMON_COLORS_TO_COMMON_GRADIENTS, VaryGroups} from './varies';
 
-function TiniElementMixin(SuperClass: any) {
-  class TiniElement extends SuperClass {
-    private currentTheme = getTheme();
-    private globalOptions = getGlobalComponentOptions();
+export class TiniElement extends LitElement {
+  static readonly defaultTagName: string = 'tini-element';
+  static readonly componentName: string = 'unnamed';
+  static readonly componentMetas: ComponentMetas = {};
+  static readonly theming?: ThemingOptions<string>; // NOTE: only available by using the 'tini ui build' command (setted via the @TiniElementTheming() decorator)
 
-    private themeStyles?: CSSResultOrNative[];
-    private extraStyle?: CSSResultOrNative;
-    private extraStyleAdopted = false;
+  private uiOptions = getUIOptions();
+  private activeTheme = getTheme();
+  private extraStyleAdopted = false;
 
-    readonly componentName = 'unnamed';
-    readonly componentMetas: ComponentMetas = {};
+  protected rootClasses: ClassInfo = {root: true};
 
-    protected rootClasses: ClassInfo = {root: true};
+  /* eslint-disable prettier/prettier */
+  @property({type: String, reflect: true}) declare styleDeep?: string;
+  @property({type: Object}) declare refers?: Record<string, Record<string, any>>;
+  /* eslint-enable prettier/prettier */
 
-    /* eslint-disable prettier/prettier */
-    @property({type: Object}) declare refers?: RefersProp;
-    @property() declare styleDeep?: string | CSSResultOrNative;
-    /* eslint-enable prettier/prettier */
-
-    constructor(...args: ConstructorArgs) {
-      super(...args);
-    }
-
-    protected createRenderRoot() {
-      const renderRoot =
-        this.shadowRoot ??
-        this.attachShadow(
-          (this.constructor as typeof ReactiveElement).shadowRootOptions
-        );
-      this.customAdoptStyles(renderRoot);
-      return renderRoot;
-    }
-
-    private onThemeChange = (e: Event) => {
-      this.currentTheme = (e as CustomEvent).detail.theme;
-      return this.requestUpdate();
-    };
-
-    connectedCallback() {
-      super.connectedCallback();
-      // on theme change
-      if (this.refers || Object.keys(this.globalOptions).length) {
-        window.addEventListener(CHANGE_THEME_EVENT, this.onThemeChange);
-      }
-    }
-
-    disconnectedCallback() {
-      super.disconnectedCallback();
-      // off theme change
-      window.removeEventListener(CHANGE_THEME_EVENT, this.onThemeChange);
-    }
-
-    willUpdate(changedProperties: PropertyValues<this>) {
-      // re-style deep
-      if (changedProperties.has('styleDeep')) {
-        if (!this.extraStyleAdopted) {
-          this.extraStyleAdopted = true;
-        } else {
-          this.customAdoptStyles(this.shadowRoot || this);
-        }
-      }
-    }
-
-    extendRootClasses(input: ExtendRootClassesInput) {
-      const {raw = {}, pseudo = {}, overridable = {}} = input;
-      const {componentOptions} = this.retrieveGlobalOptions();
-      // build pseudo info
-      const pseudoInfo = Object.keys(pseudo).reduce(
-        (result, key) => {
-          const value = pseudo![key];
-          return !value
-            ? result
-            : {
-                ...result,
-                ...Object.keys(value).reduce(
-                  (r, k) => {
-                    const v = value![k];
-                    if (!v) return r;
-                    r[`${k}-${v}-${key}`] = true;
-                    return r;
-                  },
-                  {} as Record<string, boolean>
-                ),
-              };
-        },
-        {} as Record<string, boolean>
+  protected createRenderRoot() {
+    const renderRoot =
+      this.shadowRoot ??
+      this.attachShadow(
+        (this.constructor as typeof LitElement).shadowRootOptions
       );
-      // build overridable info
-      const overridableFinalValues = {} as Record<string, string>;
-      const overridableInfo = Object.keys(overridable).reduce(
-        (result, key) => {
-          const originalValue = overridable![key];
-          if (!originalValue) return result;
-          const value = this.calculatePropValue(key, originalValue);
-          overridableFinalValues[key] = value;
-          result[`${key}-${value}`] = true;
-          return result;
-        },
-        {} as Record<string, boolean>
-      );
-      // other info:
-      // + refer gradient scheme on hover
-      const otherInfo = {} as Record<string, boolean>;
-      const schemeValue = overridableFinalValues[VaryGroups.Scheme];
-      if (
-        componentOptions.referGradientSchemeOnHover &&
-        schemeValue &&
-        !~schemeValue.indexOf('gradient')
-      ) {
-        const hoverScheme =
-          (COMMON_COLORS_TO_COMMON_GRADIENTS as Record<string, string>)[
-            schemeValue
-          ] || `gradient-${schemeValue}`;
-        otherInfo[`${VaryGroups.Scheme}-${hoverScheme}-hover`] = true;
+    this.customAdoptStyles(renderRoot);
+    return renderRoot;
+  }
+
+  private onThemeChange = (e: Event) => {
+    this.activeTheme = (e as CustomEvent<ActiveTheme>).detail;
+    return this.requestUpdate();
+  };
+
+  connectedCallback() {
+    super.connectedCallback();
+    addEventListener(THEME_CHANGE_EVENT, this.onThemeChange);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    removeEventListener(THEME_CHANGE_EVENT, this.onThemeChange);
+  }
+
+  protected willUpdate(changedProperties: PropertyValues<this>) {
+    // re-style when deepStyle changed
+    if (changedProperties.has('styleDeep')) {
+      if (!this.extraStyleAdopted) {
+        this.extraStyleAdopted = true; // skip the first time, already adopted in createRenderRoot()
+      } else {
+        this.customAdoptStyles(this.shadowRoot || this);
       }
-      // result
-      return (this.rootClasses = {
-        ...this.rootClasses,
-        ...raw,
-        ...pseudoInfo,
-        ...overridableInfo,
-        ...otherInfo,
-      });
-    }
-
-    private retrieveGlobalOptions() {
-      const themeOptions =
-        (!this.currentTheme ? null : this.globalOptions?.[this.currentTheme]) ||
-        {};
-      const componentOptions =
-        (themeOptions.perComponent as any)?.[this.componentName] || {};
-      return {themeOptions, componentOptions};
-    }
-
-    private calculatePropValue(name: string, originalValue: string) {
-      const {themeOptions} = this.retrieveGlobalOptions();
-      // no theme
-      if (!this.currentTheme) return originalValue;
-      // refers map
-      const camelName = name.replace(/-(\w)/g, (_, letter) =>
-        letter.toUpperCase()
-      );
-      const referValue =
-        this.refers?.[this.currentTheme]?.[camelName] ||
-        this.refers?.[this.currentTheme]?.[name];
-      if (referValue) return referValue;
-      // refer gradient scheme
-      if (
-        !this.componentMetas?.colorOnlyScheme &&
-        name === VaryGroups.Scheme &&
-        themeOptions.referGradientScheme
-      ) {
-        return ~originalValue.indexOf('gradient')
-          ? originalValue
-          : (COMMON_COLORS_TO_COMMON_GRADIENTS as Record<string, string>)[
-              originalValue
-            ] || `gradient-${originalValue}`;
-      }
-      // default value
-      return originalValue;
-    }
-
-    private customAdoptStyles(renderRoot: HTMLElement | DocumentFragment) {
-      // process extra style
-      this.extraStyle = !this.styleDeep
-        ? undefined
-        : getCompatibleStyle(
-            typeof this.styleDeep === 'string'
-              ? unsafeCSS(this.styleDeep.replace(/&/g, '.root'))
-              : this.styleDeep
-          );
-      // adopt styles
-      adoptStyles(renderRoot as unknown as ShadowRoot, [
-        ...(!this.themeStyles ? [] : this.themeStyles),
-        ...(this.constructor as typeof ReactiveElement).elementStyles,
-        ...(!this.extraStyle ? [] : [this.extraStyle]),
-      ]);
     }
   }
-  return TiniElement as unknown as TiniElementConstructor;
-}
 
-export const TiniElement = TiniElementMixin(LitElement);
+  protected updated() {
+    this.customAdoptScripts();
+  }
+
+  extendRootClasses(input: ExtendRootClassesInput) {
+    const {raw = {}, pseudo = {}, overridable = {}} = input;
+    const {componentOptions} = this.getGlobalOptions();
+    // build pseudo info
+    const pseudoInfo = Object.entries(pseudo).reduce(
+      (result, [key, value]) => {
+        return !value
+          ? result
+          : {
+              ...result,
+              ...Object.entries(value).reduce(
+                (r, [k, v]) => {
+                  if (!v) return r;
+                  r[`${k}-${v}-${key}`] = true;
+                  return r;
+                },
+                {} as Record<string, boolean>
+              ),
+            };
+      },
+      {} as Record<string, boolean>
+    );
+    // build overridable info
+    const overridableFinalValues = {} as Record<string, string>;
+    const overridableInfo = Object.entries(overridable).reduce(
+      (result, [key, originalValue]) => {
+        if (!originalValue) return result;
+        const value = this.calculatePropertyValue(key, originalValue);
+        overridableFinalValues[key] = value;
+        result[`${key}-${value}`] = true;
+        return result;
+      },
+      {} as Record<string, boolean>
+    );
+    // other info:
+    // + refer gradient scheme on hover
+    const otherInfo = {} as Record<string, boolean>;
+    const schemeValue = overridableFinalValues[VaryGroups.Scheme];
+    if (
+      componentOptions.referGradientSchemeOnHover &&
+      schemeValue &&
+      !~schemeValue.indexOf('gradient')
+    ) {
+      const hoverScheme =
+        (COMMON_COLORS_TO_COMMON_GRADIENTS as Record<string, string>)[
+          schemeValue
+        ] || `gradient-${schemeValue}`;
+      otherInfo[`${VaryGroups.Scheme}-${hoverScheme}-hover`] = true;
+    }
+    // result
+    return (this.rootClasses = {
+      ...this.rootClasses,
+      ...raw,
+      ...pseudoInfo,
+      ...overridableInfo,
+      ...otherInfo,
+    });
+  }
+
+  private getGlobalOptions() {
+    const themeOptions =
+      this.uiOptions?.[this.activeTheme.themeId] ||
+      this.uiOptions?.[this.activeTheme.soulId] ||
+      {};
+    const componentOptions =
+      (themeOptions.perComponent as any)?.[
+        (this.constructor as typeof TiniElement).componentName
+      ] || {};
+    return {themeOptions, componentOptions};
+  }
+
+  private calculatePropertyValue(name: string, originalValue: string) {
+    const {themeOptions} = this.getGlobalOptions();
+    // no theme
+    if (!this.activeTheme) return originalValue;
+    // refers
+    const camelName = name.replace(/-(\w)/g, (_, letter) =>
+      letter.toUpperCase()
+    );
+    const referValue =
+      this.refers?.[this.activeTheme.themeId]?.[camelName] ||
+      this.refers?.[this.activeTheme.themeId]?.[name];
+    if (referValue) return referValue;
+    // refer gradient scheme
+    if (
+      !(this.constructor as typeof TiniElement).componentMetas
+        ?.colorOnlyScheme &&
+      name === VaryGroups.Scheme &&
+      themeOptions.referGradientScheme
+    ) {
+      return ~originalValue.indexOf('gradient')
+        ? originalValue
+        : (COMMON_COLORS_TO_COMMON_GRADIENTS as Record<string, string>)[
+            originalValue
+          ] || `gradient-${originalValue}`;
+    }
+    // default value
+    return originalValue;
+  }
+
+  private customAdoptStyles(renderRoot: HTMLElement | DocumentFragment) {
+    const allStyles = [] as Array<string | CSSResultOrNative>;
+    // theme styles (multiple themes, via @TiniElementTheming() only)
+    const styling = (this.constructor as typeof TiniElement).theming?.styling;
+    if (styling) {
+      const {soulId, themeId} = this.activeTheme;
+      allStyles.push(
+        ...(styling[themeId] ||
+          styling[soulId] ||
+          Object.values(styling)[0] ||
+          [])
+      );
+    }
+    // element styles
+    allStyles.push(...(this.constructor as typeof LitElement).elementStyles);
+    // from styleDeep
+    if (this.styleDeep) allStyles.push(this.styleDeep);
+    // adopt styles
+    const styleText = processComponentStyles(allStyles, this.activeTheme);
+    adoptStyles(renderRoot as unknown as ShadowRoot, [
+      getCompatibleStyle(unsafeCSS(styleText)),
+    ]);
+  }
+
+  private customAdoptScripts() {
+    // theme scripts (multiple themes, via @TiniElementTheming() only)
+    adoptScripts(
+      this,
+      this.activeTheme,
+      (this.constructor as typeof TiniElement).theming?.scripting
+    );
+  }
+}

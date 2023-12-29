@@ -1,30 +1,8 @@
-import {LitElement, CSSResult} from 'lit';
+import {CSSResultOrNative} from 'lit';
 import {ClassInfo} from 'lit/directives/class-map.js';
+import {Breakpoints} from './varies';
 
 export type PartInfo = ClassInfo;
-
-export type ConstructorArgs = any[];
-export type Constructor<T = {}> = new (...args: ConstructorArgs) => T;
-
-export type LitElementInterface = LitElement;
-export interface TiniElementInterface {
-  readonly componentName: string;
-  readonly componentMetas: ComponentMetas;
-  rootClasses: ClassInfo;
-  styleDeep?: string;
-  refers?: RefersProp;
-  extendRootClasses(input: ExtendRootClassesInput): ClassInfo;
-}
-
-export type TiniElementDerived = LitElementInterface & TiniElementInterface;
-export type TiniElementConstructor = Constructor<TiniElementDerived>;
-export type TiniElementInstance = Omit<TiniElementDerived, 'constructor'>;
-
-export type RefersProp = Record<string, Record<string, any>>;
-
-export interface ComponentMetas {
-  colorOnlyScheme?: boolean;
-}
 
 export interface ExtendRootClassesInput {
   raw?: ClassInfo;
@@ -32,7 +10,11 @@ export interface ExtendRootClassesInput {
   overridable?: Record<string, undefined | string>;
 }
 
-export type GlobalComponentOptions = Record<
+export interface ComponentMetas {
+  colorOnlyScheme?: boolean;
+}
+
+export type UIOptions = Record<
   string,
   {
     referGradientScheme?: boolean;
@@ -44,23 +26,28 @@ export type GlobalComponentOptions = Record<
   }
 >;
 
-export type UseComponentsList = Array<
+export type RegisterComponentsList = Array<
   CustomElementConstructor | [CustomElementConstructor, string]
 >;
 
+export interface ActiveTheme {
+  prevSoulId: string;
+  prevSkinId: string;
+  prevThemeId: string;
+  soulId: string;
+  skinId: string;
+  themeId: string;
+  breakpoints: Record<Lowercase<keyof typeof Breakpoints>, string>;
+}
 export interface ThemingScripting {
   script?: (host: HTMLElement) => void;
   unscript?: ThemingScripting['script'];
 }
-export interface ThemingOptions<Themes extends string> {
-  styling?: Record<Themes, CSSResult[]>;
-  scripting?: Record<Themes, ThemingScripting>;
+export interface ThemingOptions<ThemeId extends string> {
+  styling?: Record<ThemeId, CSSResultOrNative[]>;
+  scripting?: Record<ThemeId, ThemingScripting>;
 }
-export type ThemingSubscription = (param: ThemingSubscriptionParam) => void;
-export interface ThemingSubscriptionParam {
-  theme: string;
-  soulId: string;
-  skinId: string;
-  prevSoulId: string;
-  prevSkinId: string;
+export interface GenericThemingOptions {
+  styling?: Record<string, string>;
+  scripting?: ThemingOptions<string>['scripting'];
 }

@@ -20,27 +20,24 @@ import {partMap} from 'tinijs';
 html`<div part=${partMap({ a: true, b: false })}></div>`;
 ```
 
-- `useComponents()`
+- `registerComponents()`
 
 ```ts
-import {useComponents, importComponents} from 'tinijs';
+import {registerComponents} from 'tinijs';
 import {TiniButtonComponent} from '@tinijs/ui-bootstrap/components/button';
 
-// use Tini UI components
-useComponents([TiniButtonComponent]);
-
-// or (for React apps)
-importComponents([TiniButtonComponent]);
+// register Tini UI components
+registerComponents([TiniButtonComponent]);
 ```
 
-- `changeTheme()`
+- `setTheme()`
 
 ```ts
-import {changeTheme} from 'tinijs';
+import {setTheme} from 'tinijs';
 
-changeTheme({ skinId: 'dark' });
-changeTheme({ soulId: 'bootstrap' });
-changeTheme({ soulId: 'bootstrap', skinId: 'dark' });
+setTheme({ skinId: 'dark' });
+setTheme({ soulId: 'bootstrap' });
+setTheme({ soulId: 'bootstrap', skinId: 'dark' });
 ```
 
 - Varies generators

@@ -71,7 +71,7 @@ export interface WideRenderValues extends RenderValues {
 export type WideVaryRender = (values: WideRenderValues) => string;
 
 export interface BreakpointRenderValues extends RenderValues {
-  breakpoint: number;
+  breakpoint: string;
 }
 export type BreakpointVaryRender = (values: BreakpointRenderValues) => string;
 
@@ -575,22 +575,20 @@ export enum Wides {
 export const WIDES = Object.values(Wides);
 
 export enum Breakpoints {
-  XXXS = '150',
-  XXS = '240',
-  XS = '320',
-  SS = '425',
-  SM = '576',
-  MD = '768',
-  ML = '992',
-  LG = '1024',
-  SL = '1200',
-  XL = '1440',
-  XXL = '2560',
-  XXXL = '3840',
+  XXXS = '150px',
+  XXS = '240px',
+  XS = '320px',
+  SS = '425px',
+  SM = '576px',
+  MD = '768px',
+  ML = '992px',
+  LG = '1024px',
+  SL = '1200px',
+  XL = '1440px',
+  XXL = '2560px',
+  XXXL = '3840px',
 }
-export const BREAKPOINTS = Object.values(Breakpoints).map(item =>
-  parseInt(item)
-);
+export const BREAKPOINTS = Object.values(Breakpoints);
 
 export enum Factors {
   X0 = '0x',
@@ -988,13 +986,10 @@ export function generateWideVaries(render: WideVaryRender) {
 
 export function generateBreakpointVaries(render: BreakpointVaryRender) {
   return unsafeCSS(
-    Object.keys(Breakpoints)
-      .map(name => {
+    Object.entries(Breakpoints)
+      .map(([name, breakpoint]) => {
         const groupName = VaryGroups.Breakpoint;
         const fullName = `${groupName}-${name}`;
-        const breakpoint = parseInt(
-          Breakpoints[name as keyof typeof Breakpoints]
-        );
         return render({
           name,
           groupName,

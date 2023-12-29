@@ -1,8 +1,8 @@
 import {PartInfo} from './types';
 
 export function partMap(info: PartInfo) {
-  return Object.keys(info).reduce((result, part) => {
-    if (info[part]) result += ` ${part}`;
+  return Object.entries(info).reduce((result, [part, truthy]) => {
+    if (truthy) result += ` ${part}`;
     return result;
   }, '');
 }
