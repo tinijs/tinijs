@@ -427,19 +427,3 @@ export function brighten(color: string, amount = 0.1) {
 export function opacity(color: string, amount = 0.1) {
   return mix(color, `transparent ${(1 - amount) * 100}%`);
 }
-
-/*
- * Misc
- */
-
-export function simpleRandom(length = 6, privatePrefix = false) {
-  const chars =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '';
-  while (result.length < length - 1) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return `${
-    privatePrefix ? '_' : chars[Math.floor(Math.random() * 52)]
-  }${result}`;
-}

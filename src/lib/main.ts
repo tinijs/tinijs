@@ -162,7 +162,9 @@ export class TiniElement extends LitElement {
     );
     const referValue =
       this.refers?.[this.activeTheme.themeId]?.[camelName] ||
-      this.refers?.[this.activeTheme.themeId]?.[name];
+      this.refers?.[this.activeTheme.themeId]?.[name] ||
+      this.refers?.[this.activeTheme.soulId]?.[camelName] ||
+      this.refers?.[this.activeTheme.soulId]?.[name];
     if (referValue) return referValue;
     // refer gradient scheme
     if (
