@@ -30,6 +30,15 @@ export type RegisterComponentsList = Array<
   CustomElementConstructor | [CustomElementConstructor, string]
 >;
 
+export interface EventForwarding {
+  name: string;
+  rename?: string;
+  target?: string | Element[] | NodeListOf<Element>;
+  keepPropagation?: boolean;
+  preventDefault?: boolean;
+  dispatchOptions?: Omit<CustomEventInit, 'detail'>;
+}
+
 export interface ActiveTheme {
   prevSoulId: string;
   prevSkinId: string;

@@ -14,10 +14,12 @@ import {
   ComponentMetas,
   ThemingOptions,
   ActiveTheme,
+  EventForwarding,
 } from './types';
 import {THEME_CHANGE_EVENT} from './consts';
 import {
   getUIOptions,
+  forwardEvents,
   getTheme,
   adoptScripts,
   processComponentStyles,
@@ -28,6 +30,7 @@ export class TiniElement extends LitElement {
   static readonly defaultTagName: string = 'tini-element';
   static readonly componentName: string = 'unnamed';
   static readonly componentMetas: ComponentMetas = {};
+  static readonly mainNonRootSelector?: string;
   static readonly theming?: ThemingOptions<string>; // NOTE: only available by using the 'tini ui build' command (setted via the @TiniElementTheming() decorator)
 
   private uiOptions = getUIOptions();
@@ -39,6 +42,7 @@ export class TiniElement extends LitElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) declare styleDeep?: string;
   @property({type: Object}) declare refers?: Record<string, Record<string, any>>;
+  @property() declare events?: string | Array<string | EventForwarding>;
   /* eslint-enable prettier/prettier */
 
   protected createRenderRoot() {
@@ -75,6 +79,10 @@ export class TiniElement extends LitElement {
         this.customAdoptStyles(this.shadowRoot || this);
       }
     }
+  }
+
+  protected firstUpdated() {
+    if (this.events) forwardEvents(this, this.events);
   }
 
   protected updated() {
