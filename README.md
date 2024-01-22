@@ -12,12 +12,12 @@ For more, please visit: <https://tinijs.dev> (TODO)
 
 ## Usage
 
-- `partMap`
+- `partAttrMap`
 
 ```ts
-import {partMap} from 'tinijs';
+import {partAttrMap} from 'tinijs';
 
-html`<div part=${partMap({ a: true, b: false })}></div>`;
+html`<div part=${partAttrMap({ a: true, b: false })}></div>`;
 ```
 
 - `registerComponents()`

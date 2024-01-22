@@ -1,8 +1,8 @@
-import {PartInfo} from './types';
+import {PartAttrInfo} from './types';
 
-export function partMap(info: PartInfo) {
-  return Object.entries(info).reduce((result, [part, truthy]) => {
-    if (truthy) result += ` ${part}`;
+export function partAttrMap(info: PartAttrInfo) {
+  return Object.entries(info).reduce((result, [partAttr, truthy]) => {
+    if (truthy) result += ` ${partAttr}`;
     return result;
   }, '');
 }

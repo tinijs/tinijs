@@ -2,7 +2,7 @@ import {CSSResultOrNative} from 'lit';
 import {ClassInfo} from 'lit/directives/class-map.js';
 import {Breakpoints} from './varies';
 
-export type PartInfo = ClassInfo;
+export type PartAttrInfo = ClassInfo;
 
 export interface ExtendRootClassesInput {
   raw?: ClassInfo;
