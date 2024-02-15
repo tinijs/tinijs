@@ -14,14 +14,31 @@ export interface ComponentMetas {
   colorOnlyScheme?: boolean;
 }
 
+export interface UICommonOptions {
+  any?: any;
+}
+
+export interface UIButtonOptions {
+  referGradientSchemeOnHover?: boolean;
+}
+
+export interface UICodeOptions {
+  engine: string;
+  highlight: (
+    language: string,
+    code: string,
+    styleElement: HTMLStyleElement
+  ) => string | Promise<string>;
+  theme?: string;
+}
+
 export type UIOptions = Record<
   string,
   {
     referGradientScheme?: boolean;
     perComponent?: {
-      button?: {
-        referGradientSchemeOnHover?: boolean;
-      };
+      button?: UIButtonOptions;
+      code?: UICodeOptions;
     };
   }
 >;

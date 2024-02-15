@@ -10,6 +10,7 @@ import {property} from 'lit/decorators/property.js';
 import {ClassInfo} from 'lit/directives/class-map.js';
 
 import {
+  UICommonOptions,
   ExtendRootClassesInput,
   ComponentMetas,
   ThemingOptions,
@@ -89,6 +90,19 @@ export class TiniElement extends LitElement {
     this.customAdoptScripts();
   }
 
+  protected getGlobalOptions() {
+    const commonOptions = (this.uiOptions?.$ || {}) as UICommonOptions;
+    const themeOptions =
+      this.uiOptions?.[this.activeTheme.themeId] ||
+      this.uiOptions?.[this.activeTheme.soulId] ||
+      {};
+    const componentOptions =
+      (themeOptions.perComponent as any)?.[
+        (this.constructor as typeof TiniElement).componentName
+      ] || {};
+    return {commonOptions, themeOptions, componentOptions};
+  }
+
   extendRootClasses(input: ExtendRootClassesInput) {
     const {raw = {}, pseudo = {}, overridable = {}} = input;
     const {componentOptions} = this.getGlobalOptions();
@@ -146,18 +160,6 @@ export class TiniElement extends LitElement {
       ...overridableInfo,
       ...otherInfo,
     });
-  }
-
-  private getGlobalOptions() {
-    const themeOptions =
-      this.uiOptions?.[this.activeTheme.themeId] ||
-      this.uiOptions?.[this.activeTheme.soulId] ||
-      {};
-    const componentOptions =
-      (themeOptions.perComponent as any)?.[
-        (this.constructor as typeof TiniElement).componentName
-      ] || {};
-    return {themeOptions, componentOptions};
   }
 
   private calculatePropertyValue(name: string, originalValue: string) {
