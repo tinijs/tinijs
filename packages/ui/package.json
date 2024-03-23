@@ -1,0 +1,86 @@
+{
+  "name": "@tinijs/ui",
+  "version": "0.16.0",
+  "description": "The UI system of the TiniJS Framework.",
+  "author": "Nhan Lam",
+  "homepage": "https://tinijs.dev",
+  "license": "MIT",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./dist/public-api.js",
+    "./app/*": "./dist/app/*"
+  },
+  "files": [
+    "dist",
+    "!**/*.spec.*"
+  ],
+  "scripts": {
+    "dev": "tini ui dev && tini dev",
+    "preview": "tini preview",
+    "build": "rimraf ./dist && tsc",
+    "publish": "npm run publish:1:bare && npm run publish:2:common && npm run publish:3:bootstrap",
+    "build:0:app": "tini ui dev && tini build",
+    "build:1:bare": "tini ui build",
+    "publish:1:bare": "cd build/@tinijs/ui && npm publish --access public",
+    "build:2:common": "tini ui build @tinijs/ui",
+    "publish:2:common": "cd build/@tinijs/ui-common && npm publish --access public",
+    "build:3:bootstrap": "tini ui build @tinijs/ui bootstrap && parcel build build/@tinijs/ui-bootstrap/components/*.bundle.ts --dist-dir build/@tinijs/ui-bootstrap/components --no-cache --log-level warn",
+    "publish:3:bootstrap": "cd build/@tinijs/ui-bootstrap && npm publish --access public",
+    "lint": "gts lint",
+    "fix": "gts fix"
+  },
+  "keywords": [
+    "TiniJS",
+    "Web Components",
+    "UI Library"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tinijs/tinijs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tinijs/tinijs/issues"
+  },
+  "dependencies": {
+    "@tinijs/cli": "*",
+    "@tinijs/core": "*",
+    "@tinijs/project": "*",
+    "@tinijs/router": "*",
+    "@tinijs/store": "*",
+    "chroma-js": "^2.4.2",
+    "consola": "^3.2.3",
+    "defu": "^6.1.4",
+    "destr": "^2.0.3",
+    "fs-extra": "^11.2.0",
+    "gradient-parser": "^1.0.2",
+    "grapick": "^0.1.13",
+    "highlight.js": "^11.9.0",
+    "knitwork": "^1.0.0",
+    "lit": "^3.1.2",
+    "magicast": "^0.3.3",
+    "nanoid": "^5.0.4",
+    "pathe": "^1.1.2",
+    "prettier": "^3.1.0",
+    "prismjs": "^1.29.0",
+    "typescript": "^5.4.3"
+  },
+  "devDependencies": {
+    "@lit/react": "^1.0.2",
+    "@tinijs/default-compiler": "*",
+    "@tinijs/parcel-builder": "*",
+    "@types/chroma-js": "^2.4.3",
+    "@types/fs-extra": "^11.0.4",
+    "@types/gradient-parser": "^0.1.5",
+    "@types/prismjs": "^1.26.3",
+    "parcel": "^2.10.3",
+    "process": "^0.11.10",
+    "react": "^18.2.0"
+  }
+}

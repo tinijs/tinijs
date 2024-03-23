@@ -1,0 +1,6 @@
+.DS_Store
+.nx/cache
+.tini
+node_modules
+dist
+*.tgz

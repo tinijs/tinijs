@@ -1,0 +1,39 @@
+{
+  "name": "@tinijs/webpack-builder",
+  "version": "0.0.1",
+  "description": "Build TiniJS app using Webpack.",
+  "author": "Nhan Lam",
+  "homepage": "https://tinijs.dev",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./dist/public-api.js"
+  },
+  "files": [
+    "dist",
+    "!**/*.spec.*"
+  ],
+  "scripts": {
+    "build": "rimraf ./dist && tsc",
+    "test": "vitest run",
+    "lint": "gts lint",
+    "fix": "gts fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tinijs/tinijs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tinijs/tinijs/issues"
+  },
+  "dependencies": {
+    "@tinijs/cli": "*",
+    "@tinijs/project": "*"
+  }
+}

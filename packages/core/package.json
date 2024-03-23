@@ -1,0 +1,54 @@
+{
+  "name": "@tinijs/core",
+  "version": "0.16.0",
+  "description": "The core of the TiniJS framework.",
+  "author": "Nhan Lam",
+  "homepage": "https://tinijs.dev",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./dist/public-api.js"
+  },
+  "files": [
+    "dist",
+    "!**/*.spec.*"
+  ],
+  "keywords": [
+    "Javascript",
+    "Framework",
+    "Web Component",
+    "Lit",
+    "Angular",
+    "Vue",
+    "React",
+    "Svelte",
+    "Vite",
+    "Nuxt",
+    "Next",
+    "SvelteKit"
+  ],
+  "scripts": {
+    "build": "rimraf ./dist && tsc",
+    "test": "vitest run",
+    "lint": "gts lint",
+    "fix": "gts fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tinijs/tinijs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tinijs/tinijs/issues"
+  },
+  "dependencies": {
+    "defu": "^6.1.4",
+    "lit": "^3.1.2",
+    "nanoid": "^5.0.6"
+  }
+}

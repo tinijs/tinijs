@@ -1,0 +1,37 @@
+{
+  "name": "@tinijs/skeleton",
+  "version": "0.16.0",
+  "description": "The base structure of a TiniJS app.",
+  "author": "Nhan Lam",
+  "homepage": "https://tinijs.dev",
+  "license": "MIT",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dev": "tini dev",
+    "build": "tini build",
+    "preview": "tini preview",
+    "lint": "gts lint",
+    "fix": "gts fix"
+  },
+  "dependencies": {
+    "@tinijs/cli": "file:../../packages/cli",
+    "@tinijs/core": "file:../../packages/core",
+    "@tinijs/meta": "file:../../packages/meta",
+    "@tinijs/router": "file:../../packages/router",
+    "@tinijs/store": "file:../../packages/store",
+    "lit": "^3.1.2"
+  },
+  "devDependencies": {
+    "@tinijs/default-compiler": "file:../../packages/default-compiler",
+    "@tinijs/parcel-builder": "file:../../packages/parcel-builder",
+    "gts": "^5.3.0",
+    "typescript": "~5.4.3"
+  },
+  "@parcel/resolver-default": {
+    "packageExports": true
+  }
+}

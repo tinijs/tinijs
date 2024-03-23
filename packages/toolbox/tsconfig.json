@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "dist"
+  },
+  "include": [
+    "**/*"
+  ],
+  "typedocOptions": {
+    "entryPoints": [
+      "schema/index.ts",
+      "app/index.ts",
+      "common/index.ts",
+      "content/index.ts",
+      "crypto/index.ts",
+      "fetch/index.ts",
+      "localstorage/index.ts",
+      "gun/index.ts"
+    ],
+    "out": "docs"
+  }
+}

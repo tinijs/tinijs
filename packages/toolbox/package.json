@@ -1,0 +1,66 @@
+{
+  "name": "@tinijs/toolbox",
+  "version": "0.16.0",
+  "description": "Useful services, helpers, ... for TiniJS apps.",
+  "author": "Nhan Lam",
+  "homepage": "https://tinijs.dev",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./dist/public-api.js",
+    "./app": "./app/public-api.js",
+    "./app/*": "./app/*",
+    "./common": "./common/public-api.js",
+    "./common/*": "./common/*",
+    "./content": "./content/public-api.js",
+    "./content/*": "./content/*",
+    "./crypto": "./crypto/public-api.js",
+    "./crypto/*": "./crypto/*",
+    "./fetch": "./fetch/public-api.js",
+    "./fetch/*": "./fetch/*",
+    "./gun": "./gun/public-api.js",
+    "./gun/*": "./gun/*",
+    "./localstorage": "./localstorage/public-api.js",
+    "./localstorage/*": "./localstorage/*",
+    "./schema": "./schema/public-api.js",
+    "./schema/*": "./schema/*"
+  },
+  "files": [
+    "dist",
+    "!**/*.spec.*"
+  ],
+  "scripts": {
+    "build": "rimraf ./dist && tsc",
+    "test": "vitest run",
+    "lint": "gts lint",
+    "fix": "gts fix"
+  },
+  "keywords": [
+    "Javascript",
+    "Framework",
+    "Web Component",
+    "Lit",
+    "TiniJS"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tinijs/tinijs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tinijs/tinijs/issues"
+  },
+  "dependencies": {
+    "@sindresorhus/slugify": "^2.2.1",
+    "@sindresorhus/transliterate": "^1.6.0",
+    "flexsearch": "^0.7.43",
+    "gun": "^0.2020.1239",
+    "localforage": "^1.10.0",
+    "share-api-polyfill": "^1.1.1"
+  }
+}

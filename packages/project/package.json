@@ -1,0 +1,46 @@
+{
+  "name": "@tinijs/project",
+  "version": "0.16.0",
+  "description": "TiniJS project.",
+  "author": "Nhan Lam",
+  "homepage": "https://tinijs.dev",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./dist/public-api.js"
+  },
+  "files": [
+    "dist",
+    "!**/*.spec.*"
+  ],
+  "scripts": {
+    "build": "rimraf ./dist && tsc",
+    "test": "vitest run",
+    "lint": "gts lint",
+    "fix": "gts fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tinijs/tinijs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tinijs/tinijs/issues"
+  },
+  "dependencies": {
+    "citty": "^0.1.6",
+    "defu": "^6.1.4",
+    "fs-extra": "^11.2.0",
+    "hookable": "^5.5.3",
+    "jiti": "^1.21.0",
+    "lit": "^3.1.2",
+    "magicast": "^0.3.3",
+    "pathe": "^1.1.2",
+    "type-fest": "^4.14.0"
+  }
+}

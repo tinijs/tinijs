@@ -1,0 +1,51 @@
+{
+  "name": "@tinijs/router",
+  "version": "0.16.0",
+  "description": "The router module for the TiniJS framework.",
+  "author": "Nhan Lam",
+  "homepage": "https://tinijs.dev",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./dist/public-api.js"
+  },
+  "files": [
+    "dist",
+    "!**/*.spec.*"
+  ],
+  "scripts": {
+    "build": "rimraf ./dist && tsc",
+    "test": "vitest run",
+    "lint": "gts lint",
+    "fix": "gts fix"
+  },
+  "keywords": [
+    "Javascript",
+    "Framework",
+    "Angular",
+    "Vue",
+    "React",
+    "NuxtJS",
+    "NextJS"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tinijs/tinijs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tinijs/tinijs/issues"
+  },
+  "peerDependencies": {
+    "lit": "^3.1.2"
+  },
+  "dependencies": {
+    "@tinijs/core": "*",
+    "path-to-regexp": "^6.2.1"
+  }
+}

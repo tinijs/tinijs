@@ -1,0 +1,65 @@
+{
+  "name": "@tinijs/content",
+  "version": "0.0.1",
+  "description": "A basic file-based content system.",
+  "author": "Nhan Lam",
+  "homepage": "https://tinijs.dev",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./dist/public-api.js",
+    "./11ty/*": "./dist/11ty/*"
+  },
+  "files": [
+    "11ty",
+    "assets",
+    "dist",
+    "!**/*.spec.*"
+  ],
+  "scripts": {
+    "build": "rimraf ./dist && tsc",
+    "test": "vitest run",
+    "lint": "gts lint",
+    "fix": "gts fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tinijs/tinijs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tinijs/tinijs/issues"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy-img": "^3.1.8",
+    "@11ty/eleventy-plugin-bundle": "^1.0.5",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
+    "@iarna/toml": "^2.2.5",
+    "@sindresorhus/slugify": "^2.2.1",
+    "@sindresorhus/transliterate": "^1.6.0",
+    "@tinijs/cli": "*",
+    "@tinijs/project": "*",
+    "chalk": "^5.3.0",
+    "colorette": "^2.0.20",
+    "consola": "^3.2.3",
+    "entities": "^4.5.0",
+    "execa": "^8.0.1",
+    "fs-extra": "^11.2.0",
+    "gray-matter": "^4.0.3",
+    "html-minifier": "^4.0.0",
+    "markdown-it-anchor": "^8.6.7",
+    "ora": "^8.0.1",
+    "pathe": "^1.1.2",
+    "toml": "^3.0.0",
+    "yaml": "^2.3.4"
+  },
+  "devDependencies": {
+    "@types/html-minifier": "^4.0.5"
+  }
+}
