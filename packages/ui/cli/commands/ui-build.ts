@@ -1,16 +1,19 @@
 import {resolve} from 'pathe';
+import {defu} from 'defu';
 import {createCLICommand} from '@tinijs/cli';
 import {consola} from 'consola';
+import {AsyncReturnType} from 'type-fest';
 
 import {
-  listAvailableComponents,
-  listAvailableThemeFamilies,
+  listAvailableComponentsAndThemeFamilies,
   outputBuildResults,
   buildGlobal,
   buildSkins,
   buildBases,
   buildComponents,
   buildSetup,
+  buildPublicAPI,
+  buildDistributable,
 } from '../utils/build.js';
 
 import cliExpansion from '../expand.js';
@@ -28,41 +31,78 @@ export const uiBuildCommand = createCLICommand(
     } = cliExpansion;
     const uiConfig = tiniProject.config.ui;
     if (!uiConfig) return consola.error('No UI configuration found.');
-    const ourDir = resolve(uiConfig.outDir || './node_modules/@tinijs/ui');
 
-    const availableComponents = await listAvailableComponents(uiConfig.sources);
-    const availableThemeFamilies = await listAvailableThemeFamilies(
-      uiConfig.sources
+    const packConfigs = [uiConfig].concat(
+      !uiConfig.outPacks
+        ? []
+        : uiConfig.outPacks.map(pack =>
+            pack.extends === false ? pack : defu(pack, uiConfig)
+          )
     );
 
-    const global = await buildGlobal();
-    await outputBuildResults(ourDir, global);
+    const cachedAvailable = {} as Record<
+      string,
+      AsyncReturnType<typeof listAvailableComponentsAndThemeFamilies>
+    >;
+    for (const {outDir, sources, pick, react, distributable} of packConfigs) {
+      if (!sources?.length || !pick) continue;
+      const ourDir = resolve(outDir || './node_modules/@tinijs/app-ui');
+      const {
+        components: availableComponents,
+        themeFamilies: availableThemeFamilies,
+      } = (cachedAvailable[sources.join(',')] ||=
+        await listAvailableComponentsAndThemeFamilies(sources));
 
-    const skins = await buildSkins(
-      ourDir,
-      availableThemeFamilies,
-      uiConfig.pick
-    );
-    await outputBuildResults(ourDir, skins);
+      // build global styles
+      const globalResult = await buildGlobal();
+      await outputBuildResults(ourDir, globalResult);
 
-    const bases = await buildBases(
-      ourDir,
-      availableThemeFamilies,
-      uiConfig.pick
-    );
-    await outputBuildResults(ourDir, bases);
+      // build skins
+      const skinResults = await buildSkins(
+        ourDir,
+        availableThemeFamilies,
+        pick
+      );
+      await outputBuildResults(ourDir, skinResults);
 
-    const components = await buildComponents(
-      ourDir,
-      availableComponents,
-      availableThemeFamilies,
-      uiConfig.pick,
-      uiConfig.react
-    );
-    await outputBuildResults(ourDir, components);
+      // build bases
+      const baseResults = await buildBases(
+        ourDir,
+        availableThemeFamilies,
+        pick
+      );
+      await outputBuildResults(ourDir, baseResults);
 
-    const setup = await buildSetup();
-    await outputBuildResults(ourDir, setup);
+      // build components
+      const componentResults = await buildComponents(
+        ourDir,
+        availableComponents,
+        availableThemeFamilies,
+        pick,
+        react
+      );
+      await outputBuildResults(ourDir, componentResults);
+
+      // build setup
+      const setupResult = await buildSetup();
+      await outputBuildResults(ourDir, setupResult);
+
+      // build public-api
+      const publicAPIResult = await buildPublicAPI([
+        globalResult,
+        ...skinResults,
+        ...baseResults,
+        ...componentResults,
+        setupResult,
+      ]);
+      await outputBuildResults(ourDir, publicAPIResult);
+
+      // build distributable package
+      if (distributable) {
+        const distributableResults = await buildDistributable(distributable);
+        await outputBuildResults(ourDir, distributableResults);
+      }
+    }
   }
 );
 

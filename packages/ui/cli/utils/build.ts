@@ -1,5 +1,5 @@
 import {readdir, readFile} from 'node:fs/promises';
-import {pathExistsSync, outputFile} from 'fs-extra/esm';
+import {pathExistsSync, outputFile, readJSON} from 'fs-extra/esm';
 import typescript from 'typescript';
 import {ParsedPath} from 'node:path';
 import {resolve, parse, relative} from 'pathe';
@@ -10,7 +10,7 @@ import {
   genArrayFromRaw,
 } from 'knitwork';
 import {safeDestr} from 'destr';
-import {parseName} from '@tinijs/cli';
+import {parseName, loadProjectPackageJSON} from '@tinijs/cli';
 import {UIConfig} from '@tinijs/project';
 
 import {getSkinCommon, getDefaultGlobal} from './global.js';
@@ -73,6 +73,47 @@ function resolveSourceDir(sourceDir: string) {
   return /^\.\.?(\/|\\)/.test(sourceDir)
     ? resolve(sourceDir)
     : resolve('node_modules', sourceDir, 'dist', 'ui');
+}
+
+export function constructFileContent(def: BuildDef) {
+  const imports = def.imports.map(args => genImport(...args));
+  const exports_ = !def.exports
+    ? []
+    : def.exports.map(args => genExport(...args));
+  const blocks = def.blocks.map(([key, value]) => {
+    if (value instanceof Array) {
+      if (value[0] instanceof Array) {
+        return `${key} ${genArrayFromRaw(...(value as GenArrayParams))};`;
+      } else {
+        return `${key} ${genObjectFromRaw(...(value as GenObjectParams))};`;
+      }
+    } else {
+      return `${key} ${value};`;
+    }
+  });
+  return [imports.join('\n'), exports_.join('\n'), blocks.join('\n\n')].join(
+    '\n\n'
+  );
+}
+
+export async function outputBuildResults(
+  outDir: string,
+  resultOrResults: BuildResult | BuildResult[]
+) {
+  for (const result of resultOrResults instanceof Array
+    ? resultOrResults
+    : [resultOrResults]) {
+    await outputFile(resolve(outDir, result.path), result.content);
+  }
+}
+
+export async function listAvailableComponentsAndThemeFamilies(
+  sourceDirs: string[]
+) {
+  return {
+    components: await listAvailableComponents(sourceDirs),
+    themeFamilies: await listAvailableThemeFamilies(sourceDirs),
+  };
 }
 
 export async function listAvailableComponents(sourceDirs: string[]) {
@@ -139,38 +180,6 @@ export async function listAvailableThemeFamilies(sourceDirs: string[]) {
   return result;
 }
 
-export function constructFileContent(def: BuildDef) {
-  const imports = def.imports.map(args => genImport(...args));
-  const exports_ = !def.exports
-    ? []
-    : def.exports.map(args => genExport(...args));
-  const blocks = def.blocks.map(([key, value]) => {
-    if (value instanceof Array) {
-      if (value[0] instanceof Array) {
-        return `${key} ${genArrayFromRaw(...(value as GenArrayParams))};`;
-      } else {
-        return `${key} ${genObjectFromRaw(...(value as GenObjectParams))};`;
-      }
-    } else {
-      return `${key} ${value};`;
-    }
-  });
-  return [imports.join('\n'), exports_.join('\n'), blocks.join('\n\n')].join(
-    '\n\n'
-  );
-}
-
-export async function outputBuildResults(
-  outDir: string,
-  resultOrResults: BuildResult | BuildResult[]
-) {
-  for (const result of resultOrResults instanceof Array
-    ? resultOrResults
-    : [resultOrResults]) {
-    await outputFile(resolve(outDir, result.path), result.content);
-  }
-}
-
 export async function buildGlobal() {
   const file: BuildDef = {
     imports: [],
@@ -180,7 +189,7 @@ export async function buildGlobal() {
   file.imports.push(['lit', ['css']]);
 
   file.blocks.push([
-    'export default',
+    'export const globalStyles =',
     `css\`${getSkinCommon()}${getDefaultGlobal()}\``,
   ]);
 
@@ -193,7 +202,7 @@ export async function buildGlobal() {
 export async function buildSkins(
   ourDir: string,
   themeFamilies: Record<string, AvailableThemeFamily>,
-  pick: UIConfig['pick']
+  pick: NonNullable<UIConfig['pick']>
 ) {
   const results: BuildResult[] = [];
 
@@ -201,6 +210,7 @@ export async function buildSkins(
     imports: [],
     blocks: [],
   };
+  const indexTSExportNames: string[] = [];
   const indexTSExportDefaultValue: Record<string, string> = {};
   for (const [familyId, {skins: pickedSkins}] of Object.entries(
     pick.families
@@ -212,18 +222,23 @@ export async function buildSkins(
         const availableSkin = family.skins[skinId];
         if (availableSkin) {
           const skinNames = parseName(skinId);
-          const importName = `${familyNames.varName}${skinNames.className}`;
+          const importName = `${familyNames.varName}${skinNames.className}SkinStyles`;
           const importPath = relative(
             resolve(ourDir, 'skins'),
             renameTSToJS(availableSkin.path)
           );
+          indexTSExportNames.push(importName);
           indexTS.imports.push([importPath, importName]);
           indexTSExportDefaultValue[`${familyId}/${skinId}`] = importName;
         }
       }
     }
   }
-  indexTS.blocks.push(['export default', [indexTSExportDefaultValue]]);
+  indexTS.blocks.push(['export', `{ ${indexTSExportNames.join(', ')} }`]);
+  indexTS.blocks.push([
+    'export const availableSkins =',
+    [indexTSExportDefaultValue],
+  ]);
   results.push({
     path: 'skins/index.ts',
     content: constructFileContent(indexTS),
@@ -236,7 +251,7 @@ export async function buildSkins(
 export async function buildBases(
   ourDir: string,
   themeFamilies: Record<string, AvailableThemeFamily>,
-  pick: UIConfig['pick']
+  pick: NonNullable<UIConfig['pick']>
 ) {
   const results: BuildResult[] = [];
 
@@ -260,29 +275,37 @@ export async function buildBases(
       imports: [],
       blocks: [],
     };
+    const familyTSExportNames: string[] = [];
     const familyTSExportDefaultValue: string[] = [];
     for (const baseId of pickedBases) {
       const availableBase = themeFamilies[familyId]?.bases[baseId];
       if (availableBase) {
         const baseNames = parseName(baseId);
-        const importName = `${familyNames.varName}${baseNames.className}`;
+        const importName = `${familyNames.varName}${baseNames.className}BaseStyles`;
         const importPath = relative(
           resolve(ourDir, 'bases'),
           renameTSToJS(availableBase.path)
         );
+        familyTSExportNames.push(importName);
         familyTS.imports.push([importPath, importName]);
         familyTSExportDefaultValue.push(importName);
       }
     }
-    familyTS.blocks.push(['export default', [familyTSExportDefaultValue]]);
+    if (familyTSExportNames.length) {
+      familyTS.blocks.push(['export', `{ ${familyTSExportNames.join(', ')} }`]);
+    }
+    familyTS.blocks.push([
+      `export const ${familyNames.varName}BaseStyles =`,
+      [familyTSExportDefaultValue],
+    ]);
     results.push({
       path: `bases/${familyId}.ts`,
       content: constructFileContent(familyTS),
     });
 
-    const importName = `${familyNames.varName}Bases`;
+    const importName = `${familyNames.varName}BaseStyles`;
     const importPath = `./${familyId}.js`;
-    indexTS.imports.push([importPath, importName]);
+    indexTS.imports.push([importPath, [importName]]);
     indexTSExportDefaultValue[familyId] = importName;
   }
 
@@ -294,9 +317,10 @@ export async function buildBases(
       },
     ],
   ]);
-
-  indexTS.blocks.push(['export const bases =', [indexTSExportDefaultValue]]);
-
+  indexTS.blocks.push([
+    'export const availableBases =',
+    [indexTSExportDefaultValue],
+  ]);
   results.push({
     path: 'bases/index.ts',
     content: constructFileContent(indexTS),
@@ -310,7 +334,7 @@ export async function buildComponents(
   ourDir: string,
   components: Record<string, AvailableComponent>,
   themeFamilies: Record<string, AvailableThemeFamily>,
-  pick: UIConfig['pick'],
+  pick: NonNullable<UIConfig['pick']>,
   react?: boolean
 ) {
   const results: BuildResult[] = [];
@@ -347,7 +371,7 @@ export async function buildComponents(
       resolve(ourDir, 'components'),
       renameTSToJS(componentPath)
     );
-    componentTS.imports.push([componentImportPath, 'BaseComponent']);
+    componentTS.imports.push([componentImportPath, 'OriginalComponent']);
     componentTS.exports!.push([componentImportPath, '*']);
 
     const componentTSThemingValue = {} as Record<string, string>;
@@ -366,7 +390,7 @@ export async function buildComponents(
     }
 
     componentTS.blocks.push([
-      `export class ${componentImportName} extends BaseComponent`,
+      `export class ${componentImportName} extends OriginalComponent`,
       `{
   static readonly componentName = '${componentNames.tagName}';
   static readonly defaultTagName = 'tini-${componentNames.tagName}';
@@ -425,17 +449,17 @@ export async function buildSetup() {
   };
 
   file.imports.push(['@tinijs/core', ['initUI', 'listifyStyles']]);
-  file.imports.push(['./global.js', 'global']);
-  file.imports.push(['./skins/index.js', 'skins']);
-  file.imports.push(['./bases/index.js', ['bases', 'basesMetadata']]);
+  file.imports.push(['./global.js', ['globalStyles']]);
+  file.imports.push(['./skins/index.js', ['availableSkins']]);
+  file.imports.push(['./bases/index.js', ['availableBases', 'basesMetadata']]);
 
   file.blocks.push([
     'export async function setupUI()',
     `{
     return initUI({
-      skins,
-      global,
-      shares: bases,
+      global: globalStyles,
+      skins: availableSkins,
+      shares: availableBases,
       internal: {
         basesMetadata,
       }
@@ -447,4 +471,52 @@ export async function buildSetup() {
     path: 'setup.ts',
     content: constructFileContent(file),
   } as BuildResult;
+}
+
+export async function buildPublicAPI(results: BuildResult[]) {
+  const contentArr: string[] = results.map(
+    ({path}) => `export * from './${renameTSToJS(path)}';`
+  );
+  return {
+    path: 'public-api.ts',
+    content: contentArr.join('\n'),
+  } as BuildResult;
+}
+
+export async function buildDistributable(
+  distributable: NonNullable<UIConfig['distributable']>
+) {
+  const result: BuildResult[] = [];
+
+  const {packageJSON} = (distributable === true ? {} : distributable) as Exclude<typeof distributable, true>;
+
+  // package.json
+  const projectPackageJSON = await loadProjectPackageJSON();
+  result.push({
+    path: 'package.json',
+    content: JSON.stringify(
+      {
+        ...projectPackageJSON,
+        ...(!packageJSON
+          ? {}
+          : typeof packageJSON !== 'string'
+            ? packageJSON
+            : await readJSON(resolve(packageJSON))),
+        scripts: {},
+        dependencies: {},
+        devDependencies: {},
+        peerDependencies: {},
+        type: 'module',
+        exports: {
+          '.': './public-api.js',
+          './icons/*': './icons/*',
+        },
+        files: ['*'],
+      },
+      null,
+      2
+    ),
+  });
+
+  return result;
 }

@@ -4,8 +4,6 @@ import uiCLIExpansion from './cli/expand.js';
 
 export default defineTiniConfig({
   ui: {
-    outDir: '.tini/ui',
-    react: true,
     sources: ['./ui'],
     pick: {
       families: {
@@ -18,6 +16,17 @@ export default defineTiniConfig({
       },
       bases: ['*'],
     },
+    outDir: '.tini/ui',
+    outPacks: [
+      {
+        react: true,
+        outDir: '.tini/ui-react',
+      },
+      {
+        extends: false,
+        outDir: '.tini/ui-blank',
+      },
+    ],
   },
 
   cli: {
