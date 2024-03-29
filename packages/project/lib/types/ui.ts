@@ -16,7 +16,8 @@ export interface UIConfig {
     | {
         dir: string;
         subs?: Array<string | {name: string; suffix?: boolean | string}>;
-        transform?: () => any;
+        filterPaths?: (paths: string[]) => string[];
+        transformName?: (name: string) => string;
       }
   >;
   outDir?: string;

@@ -49,6 +49,7 @@
     "url": "https://github.com/tinijs/tinijs/issues"
   },
   "dependencies": {
+    "@sindresorhus/slugify": "^2.2.1",
     "@tinijs/cli": "*",
     "@tinijs/core": "*",
     "@tinijs/project": "*",
@@ -62,6 +63,7 @@
     "gradient-parser": "^1.0.2",
     "grapick": "^0.1.13",
     "highlight.js": "^11.9.0",
+    "isomorphic-dompurify": "^2.6.0",
     "knitwork": "^1.0.0",
     "lit": "^3.1.2",
     "magicast": "^0.3.3",
@@ -69,6 +71,7 @@
     "pathe": "^1.1.2",
     "prettier": "^3.1.0",
     "prismjs": "^1.29.0",
+    "svgo": "^3.2.0",
     "typescript": "^5.4.3"
   },
   "devDependencies": {

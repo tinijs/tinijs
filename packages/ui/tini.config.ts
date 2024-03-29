@@ -16,6 +16,7 @@ export default defineTiniConfig({
       },
       bases: ['*'],
     },
+    icons: ['./test-icons'],
     outDir: '.tini/ui',
     outPacks: [
       {

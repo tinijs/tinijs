@@ -5,6 +5,7 @@ import {consola} from 'consola';
 import {AsyncReturnType} from 'type-fest';
 
 import {
+  BuildResult,
   listAvailableComponentsAndThemeFamilies,
   outputBuildResults,
   buildGlobal,
@@ -15,6 +16,7 @@ import {
   buildPublicAPI,
   buildDistributable,
 } from '../utils/build.js';
+import {buildIcons} from '../utils/icon.js';
 
 import cliExpansion from '../expand.js';
 
@@ -44,7 +46,14 @@ export const uiBuildCommand = createCLICommand(
       string,
       AsyncReturnType<typeof listAvailableComponentsAndThemeFamilies>
     >;
-    for (const {outDir, sources, pick, react, distributable} of packConfigs) {
+    for (const {
+      outDir,
+      sources,
+      pick,
+      icons,
+      react,
+      distributable,
+    } of packConfigs) {
       if (!sources?.length || !pick) continue;
       const ourDir = resolve(outDir || './node_modules/@tinijs/app-ui');
       const {
@@ -83,6 +92,13 @@ export const uiBuildCommand = createCLICommand(
       );
       await outputBuildResults(ourDir, componentResults);
 
+      // build icons
+      let iconResults: BuildResult[] = [];
+      if (icons) {
+        iconResults = await buildIcons(icons, react);
+        await outputBuildResults(ourDir, iconResults);
+      }
+
       // build setup
       const setupResult = await buildSetup();
       await outputBuildResults(ourDir, setupResult);
@@ -93,6 +109,7 @@ export const uiBuildCommand = createCLICommand(
         ...skinResults,
         ...baseResults,
         ...componentResults,
+        ...iconResults,
         setupResult,
       ]);
       await outputBuildResults(ourDir, publicAPIResult);

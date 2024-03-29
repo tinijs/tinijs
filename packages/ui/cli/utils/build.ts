@@ -392,8 +392,8 @@ export async function buildComponents(
     componentTS.blocks.push([
       `export class ${componentImportName} extends OriginalComponent`,
       `{
-  static readonly componentName = '${componentNames.tagName}';
-  static readonly defaultTagName = 'tini-${componentNames.tagName}';
+  static readonly componentName: string = '${componentNames.tagName}';
+  static readonly defaultTagName: string = 'tini-${componentNames.tagName}';
   ${
     buildInstructions.raw
       ? ''
@@ -488,7 +488,9 @@ export async function buildDistributable(
 ) {
   const result: BuildResult[] = [];
 
-  const {packageJSON} = (distributable === true ? {} : distributable) as Exclude<typeof distributable, true>;
+  const {packageJSON} = (
+    distributable === true ? {} : distributable
+  ) as Exclude<typeof distributable, true>;
 
   // package.json
   const projectPackageJSON = await loadProjectPackageJSON();
