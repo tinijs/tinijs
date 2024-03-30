@@ -1,16 +1,14 @@
 import {html, css, nothing} from 'lit';
 import {queryAssignedElements} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
-import {partAttrMap} from '@tinijs/core';
 import {
   Component,
   TiniComponent,
   Input,
   Reactive,
-  stylingWithBases,
+  partAttrMap,
 } from '@tinijs/core';
-import {commonBases, buttonBases} from '@tinijs/ui/bases';
-import {TiniIconComponent} from '@tinijs/ui/components/icon';
+import {TiniIconComponent} from '@ui';
 
 export interface TabItem {
   name: string;
@@ -20,9 +18,6 @@ export interface TabItem {
 
 @Component({
   components: [TiniIconComponent],
-  theming: {
-    styling: stylingWithBases([commonBases, buttonBases]),
-  },
 })
 export class AppTabsComponent extends TiniComponent {
   static readonly defaultTagName = 'app-tabs';

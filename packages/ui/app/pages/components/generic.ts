@@ -1,41 +1,24 @@
 import {html} from 'lit';
-import {Page, TiniComponent, stylingWithBases} from '@tinijs/core';
-import {
-  commonBases,
-  headingsBases,
-  linkBases,
-  textBases,
-  codeBases,
-} from '@tinijs/ui/bases';
-import {TiniGenericComponent} from '@tinijs/ui/components/generic';
-import {TiniGenericUnscopedComponent} from '@tinijs/ui/components/generic-unscoped';
+import {Page, TiniComponent} from '@tinijs/core';
+// import {TiniGenericComponent, TiniGenericUnscopedComponent} from '@ui';
 
-import {renderSection, RenderSectionOptions} from '../../helpers/varies';
-import {ConsumerPlatforms} from '../../consts/main';
-import {CodeBuilder} from '../../helpers/code-builder';
+import {renderSection, RenderSectionOptions} from '../../utils/varies.js';
+import {ConsumerPlatforms} from '../../consts/main.js';
+import {CodeBuilder} from '../../utils/code-builder.js';
 
-import {AppComponentPageComponent} from '../../components/component-page';
-import {AppSectionComponent} from '../../components/section';
-import {AppCodeComponent} from '../../components/code';
+import {AppComponentPageComponent} from '../../components/component-page.js';
+import {AppSectionComponent} from '../../components/section.js';
+import {AppCodeComponent} from '../../components/code.js';
 
 @Page({
   name: 'app-page-components-generic',
   components: [
-    TiniGenericComponent,
-    TiniGenericUnscopedComponent,
+    // TiniGenericComponent,
+    // TiniGenericUnscopedComponent,
     AppComponentPageComponent,
     AppSectionComponent,
     AppCodeComponent,
   ],
-  theming: {
-    styling: stylingWithBases([
-      commonBases,
-      headingsBases,
-      linkBases,
-      textBases,
-      codeBases,
-    ]),
-  },
 })
 export class AppPageComponentsGeneric extends TiniComponent {
   private readonly PART_LIST = [['root', 'The root part']];

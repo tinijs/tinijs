@@ -105,12 +105,12 @@ export const uiBuildCommand = createCLICommand(
 
       // build public-api
       const publicAPIResult = await buildPublicAPI([
+        setupResult,
         globalResult,
         ...skinResults,
         ...baseResults,
         ...componentResults,
         ...iconResults,
-        setupResult,
       ]);
       await outputBuildResults(ourDir, publicAPIResult);
 

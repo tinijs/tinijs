@@ -1,4 +1,4 @@
-import {FONTS} from '../consts/theme';
+import {FONTS} from '../consts/theme.js';
 
 const FONT_SUPPLIERS_RECORD = FONTS.reduce(
   (result, [font, webSafe]) => {

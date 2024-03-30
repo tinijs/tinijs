@@ -1,4 +1,4 @@
-import {TiniBoxComponent} from '@tinijs/ui/components/box';
+import {TiniBoxComponent} from '@ui';
 
 export type CodeBuilder = (
   builder: CodeBuilderHelper

@@ -1,28 +1,12 @@
 import {html} from 'lit';
-import {Page, TiniComponent, stylingWithBases} from '@tinijs/core';
-import {
-  commonBases,
-  headingsBases,
-  linkBases,
-  textBases,
-  codeBases,
-} from '@tinijs/ui/bases';
+import {Page, TiniComponent} from '@tinijs/core';
 
-import {AppCodeComponent} from '../../components/code';
-import {AppSectionComponent} from '../../components/section';
+import {AppCodeComponent} from '../../components/code.js';
+import {AppSectionComponent} from '../../components/section.js';
 
 @Page({
   name: 'app-page-guides-customization',
   components: [AppCodeComponent, AppSectionComponent],
-  theming: {
-    styling: stylingWithBases([
-      commonBases,
-      headingsBases,
-      linkBases,
-      textBases,
-      codeBases,
-    ]),
-  },
 })
 export class AppPageGuidesCustomization extends TiniComponent {
   protected render() {

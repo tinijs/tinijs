@@ -4,17 +4,9 @@ import {StyleInfo} from 'lit/directives/style-map.js';
 import {repeat} from 'lit/directives/repeat.js';
 import {cache} from 'lit/directives/cache.js';
 import {until} from 'lit/directives/until.js';
-import {
-  Component,
-  TiniComponent,
-  Input,
-  Reactive,
-  stylingWithBases,
-} from '@tinijs/core';
-import {commonBases, buttonBases} from '@tinijs/ui/bases';
-import {IconCodeComponent} from '@tinijs/bootstrap-icons/code';
+import {Component, TiniComponent, Input, Reactive} from '@tinijs/core';
 
-import {ConsumerPlatforms} from '../consts/main';
+import {ConsumerPlatforms} from '../consts/main.js';
 import {
   ICON_TINI,
   ICON_VUE,
@@ -22,13 +14,13 @@ import {
   ICON_ANGULAR,
   ICON_SVELTE,
   ICON_HTML,
-} from '../consts/icons';
-import {mainStore} from '../stores/main';
-import {formatHTML} from '../helpers/format';
-import {CodeBuilder, CodeBuilderHelper} from '../helpers/code-builder';
+} from '../consts/icons.js';
+import {mainStore} from '../stores/main.js';
+import {formatHTML} from '../utils/format.js';
+import {CodeBuilder, CodeBuilderHelper} from '../utils/code-builder.js';
 
-import {AppTabsComponent, TabItem} from '../components/tabs';
-import {AppCodeComponent} from '../components/code';
+import {AppTabsComponent, TabItem} from '../components/tabs.js';
+import {AppCodeComponent} from '../components/code.js';
 
 export const WRAPPER_CLASS_NAME = 'wrapper';
 
@@ -94,11 +86,7 @@ function extractHTMLCode(elem: null | HTMLElement) {
   return elem?.innerHTML;
 }
 
-@Component({
-  theming: {
-    styling: stylingWithBases([commonBases]),
-  },
-})
+@Component()
 class AppSectionPreviewComponent extends TiniComponent {
   static readonly defaultTagName = 'app-section-preview';
 
@@ -138,10 +126,7 @@ class AppSectionPreviewComponent extends TiniComponent {
 }
 
 @Component({
-  components: [IconCodeComponent, AppTabsComponent, AppCodeComponent],
-  theming: {
-    styling: stylingWithBases([commonBases]),
-  },
+  components: [AppTabsComponent, AppCodeComponent],
 })
 class AppSectionCodeComponent extends TiniComponent {
   static readonly defaultTagName = 'app-section-code';
@@ -263,9 +248,6 @@ class AppSectionCodeComponent extends TiniComponent {
 
 @Component({
   components: [AppSectionPreviewComponent, AppSectionCodeComponent],
-  theming: {
-    styling: stylingWithBases([commonBases, buttonBases]),
-  },
 })
 export class AppSectionComponent extends TiniComponent {
   static readonly defaultTagName = 'app-section';

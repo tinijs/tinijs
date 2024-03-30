@@ -1,28 +1,23 @@
 import {html} from 'lit';
 import {ref, Ref, createRef} from 'lit/directives/ref.js';
-import {Page, TiniComponent, stylingWithBases} from '@tinijs/core';
+import {Page, TiniComponent} from '@tinijs/core';
 import {
-  commonBases,
-  headingsBases,
-  linkBases,
-  textBases,
-  codeBases,
-} from '@tinijs/ui/bases';
-import {TiniButtonComponent} from '@tinijs/ui/components/button';
-import {TiniInputComponent} from '@tinijs/ui/components/input';
-import {TiniDialogComponent} from '@tinijs/ui/components/dialog';
+  TiniButtonComponent,
+  TiniInputComponent,
+  TiniDialogComponent,
+} from '@ui';
 
 import {
   renderSection,
   renderDefaultSection,
   renderStyleDeepSection,
   RenderSectionOptions,
-} from '../../helpers/varies';
-import {ConsumerPlatforms} from '../../consts/main';
-import {CodeBuilder} from '../../helpers/code-builder';
+} from '../../utils/varies.js';
+import {ConsumerPlatforms} from '../../consts/main.js';
+import {CodeBuilder} from '../../utils/code-builder.js';
 
-import {AppComponentPageComponent} from '../../components/component-page';
-import {AppSectionComponent} from '../../components/section';
+import {AppComponentPageComponent} from '../../components/component-page.js';
+import {AppSectionComponent} from '../../components/section.js';
 
 @Page({
   name: 'app-page-components-dialog',
@@ -33,15 +28,6 @@ import {AppSectionComponent} from '../../components/section';
     AppComponentPageComponent,
     AppSectionComponent,
   ],
-  theming: {
-    styling: stylingWithBases([
-      commonBases,
-      headingsBases,
-      linkBases,
-      textBases,
-      codeBases,
-    ]),
-  },
 })
 export class AppPageComponentsDialog extends TiniComponent {
   private readonly PART_LIST = [

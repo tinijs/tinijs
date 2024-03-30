@@ -1,4 +1,4 @@
-import {getText} from './http';
+import {getText} from './http.js';
 
 export interface VariableDef {
   title: string;

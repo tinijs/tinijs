@@ -2,8 +2,8 @@ import {html} from 'lit';
 import {TiniComponent, OnCreate} from '@tinijs/core';
 import {createRouter, AppWithRouter} from '@tinijs/router';
 
-import {Configurable} from './configurable';
-import {initTheme} from './helpers/theme';
+import {Configurable} from './configurable.js';
+import {initTheme} from './utils/theme.js';
 
 import './layouts/default';
 

@@ -1,17 +1,6 @@
 import {html, css} from 'lit';
-import {Page, TiniComponent, stylingWithBases} from '@tinijs/core';
-import {
-  commonBases,
-  headingsBases,
-  linkBases,
-  textBases,
-  codeBases,
-} from '@tinijs/ui/bases';
-import {TiniBoxComponent} from '@tinijs/ui/components/box';
-import {TiniButtonComponent} from '@tinijs/ui/components/button';
-import {IconChevronLeftComponent} from '@tinijs/bootstrap-icons/chevron-left';
-import {IconChevronRightComponent} from '@tinijs/bootstrap-icons/chevron-right';
-import {IconHeartFillComponent} from '@tinijs/bootstrap-icons/heart-fill';
+import {Page, TiniComponent} from '@tinijs/core';
+import {TiniBoxComponent, TiniButtonComponent} from '@ui';
 
 import {
   renderSection,
@@ -26,39 +15,27 @@ import {
   renderBoxShadowsSection,
   renderStyleDeepSection,
   RenderSectionOptions,
-} from '../../helpers/varies';
-import {ConsumerPlatforms} from '../../consts/main';
-import {CodeBuilder, ReactCommonProps} from '../../helpers/code-builder';
+} from '../../utils/varies.js';
+import {ConsumerPlatforms} from '../../consts/main.js';
+import {CodeBuilder, ReactCommonProps} from '../../utils/code-builder.js';
 
-import {AppComponentPageComponent} from '../../components/component-page';
+import {AppComponentPageComponent} from '../../components/component-page.js';
 import {
   AppSectionComponent,
   BLOCK_STYLES,
   FLEX_COLUMN_STYLES,
   FLEX_ROW_GAP2X_STYLES,
   WIDE_XS_STYLES,
-} from '../../components/section';
+} from '../../components/section.js';
 
 @Page({
   name: 'app-page-components-button',
   components: [
-    IconChevronLeftComponent,
-    IconChevronRightComponent,
-    IconHeartFillComponent,
     TiniBoxComponent,
     TiniButtonComponent,
     AppComponentPageComponent,
     AppSectionComponent,
   ],
-  theming: {
-    styling: stylingWithBases([
-      commonBases,
-      headingsBases,
-      linkBases,
-      textBases,
-      codeBases,
-    ]),
-  },
 })
 export class AppPageComponentsButton extends TiniComponent {
   private readonly PART_LIST = [['root', 'The root part']];

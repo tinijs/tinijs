@@ -1,18 +1,11 @@
 import {html} from 'lit';
-import {Page, TiniComponent, stylingWithBases} from '@tinijs/core';
+import {Page, TiniComponent} from '@tinijs/core';
 import {
-  commonBases,
-  headingsBases,
-  linkBases,
-  textBases,
-  codeBases,
-} from '@tinijs/ui/bases';
-import {TiniBoxComponent} from '@tinijs/ui/components/box';
-import {
+  TiniBoxComponent,
   TiniSelectComponent,
   SelectOption,
   SelectOptgroup,
-} from '@tinijs/ui/components/select';
+} from '@ui';
 
 import {
   renderSection,
@@ -21,17 +14,17 @@ import {
   renderScalesSection,
   renderStyleDeepSection,
   RenderSectionOptions,
-} from '../../helpers/varies';
-import {ConsumerPlatforms} from '../../consts/main';
-import {CodeBuilder, ReactCommonProps} from '../../helpers/code-builder';
+} from '../../utils/varies.js';
+import {ConsumerPlatforms} from '../../consts/main.js';
+import {CodeBuilder, ReactCommonProps} from '../../utils/code-builder.js';
 
-import {AppComponentPageComponent} from '../../components/component-page';
+import {AppComponentPageComponent} from '../../components/component-page.js';
 import {
   AppSectionComponent,
   BLOCK_STYLES,
   FLEX_COLUMN_STYLES,
   WIDE_XXS_STYLES,
-} from '../../components/section';
+} from '../../components/section.js';
 
 @Page({
   name: 'app-page-components-select',
@@ -41,15 +34,6 @@ import {
     AppComponentPageComponent,
     AppSectionComponent,
   ],
-  theming: {
-    styling: stylingWithBases([
-      commonBases,
-      headingsBases,
-      linkBases,
-      textBases,
-      codeBases,
-    ]),
-  },
 })
 export class AppPageComponentsSelect extends TiniComponent {
   private readonly PART_LIST = [

@@ -9,19 +9,13 @@ import {
   Output,
   EventEmitter,
   Reactive,
-  stylingWithBases,
 } from '@tinijs/core';
 // @ts-ignore
 import * as Grapick from 'grapick';
-import {commonBases, formBases} from '@tinijs/ui/bases';
 
-import {parseGradient} from '../helpers/gradient';
+import {parseGradient} from '../utils/gradient.js';
 
-@Component({
-  theming: {
-    styling: stylingWithBases([commonBases, formBases]),
-  },
-})
+@Component()
 export class AppGradientPickerComponent extends TiniComponent {
   static readonly defaultTagName = 'app-gradient-picker';
 

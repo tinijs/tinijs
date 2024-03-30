@@ -22,17 +22,9 @@
     "!**/*.spec.*"
   ],
   "scripts": {
-    "dev": "tini ui dev && tini dev",
+    "dev": "tini ui build && tini dev",
     "preview": "tini preview",
     "build": "rimraf ./dist && tsc",
-    "publish": "npm run publish:1:bare && npm run publish:2:common && npm run publish:3:bootstrap",
-    "build:0:app": "tini ui dev && tini build",
-    "build:1:bare": "tini ui build",
-    "publish:1:bare": "cd build/@tinijs/ui && npm publish --access public",
-    "build:2:common": "tini ui build @tinijs/ui",
-    "publish:2:common": "cd build/@tinijs/ui-common && npm publish --access public",
-    "build:3:bootstrap": "tini ui build @tinijs/ui bootstrap && parcel build build/@tinijs/ui-bootstrap/components/*.bundle.ts --dist-dir build/@tinijs/ui-bootstrap/components --no-cache --log-level warn",
-    "publish:3:bootstrap": "cd build/@tinijs/ui-bootstrap && npm publish --access public",
     "lint": "gts lint",
     "fix": "gts fix"
   },

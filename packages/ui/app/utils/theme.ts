@@ -1,7 +1,5 @@
-import {setTheme} from '@tinijs/core';
-
-import {Configurable} from '../configurable';
-import {mainStore} from '../stores/main';
+import {Configurable} from '../configurable.js';
+import {mainStore} from '../stores/main.js';
 
 function getKey() {
   return `TiniApp:${Configurable.getOption('appId')}:theme`;
@@ -10,7 +8,7 @@ function getKey() {
 function commitTheme(soulId: string, skinId: string) {
   mainStore.commit('activeSoulId', soulId);
   mainStore.commit('activeSkinId', skinId);
-  return setTheme({soulId, skinId});
+  throw Error('setTheme()');
 }
 
 export function initTheme() {

@@ -1,37 +1,17 @@
 import {html, css, nothing} from 'lit';
 import {unsafeHTML} from 'lit/directives/unsafe-html.js';
-import {Page, TiniComponent, Reactive, stylingWithBases} from '@tinijs/core';
-import {
-  commonBases,
-  headingsBases,
-  textBases,
-  linkBases,
-  buttonBases,
-  formBases,
-  codeBases,
-} from '@tinijs/ui/bases';
+import {Page, TiniComponent, Reactive} from '@tinijs/core';
 import {Subscribe} from '@tinijs/store';
 
-import {Configurable} from '../../configurable';
-import {mainStore} from '../../stores/main';
+import {Configurable} from '../../configurable.js';
+import {mainStore} from '../../stores/main.js';
 
-import {AppCodeComponent} from '../../components/code';
-import {AppSectionComponent} from '../../components/section';
+import {AppCodeComponent} from '../../components/code.js';
+import {AppSectionComponent} from '../../components/section.js';
 
 @Page({
   name: 'app-page-components-bases',
   components: [AppCodeComponent, AppSectionComponent],
-  theming: {
-    styling: stylingWithBases([
-      commonBases,
-      headingsBases,
-      textBases,
-      linkBases,
-      buttonBases,
-      formBases,
-      codeBases,
-    ]),
-  },
 })
 export class AppPageComponentsBases extends TiniComponent {
   private readonly PACKAGE_PREFIX = Configurable.getOption('packagePrefix');

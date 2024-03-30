@@ -1,14 +1,6 @@
 import {html} from 'lit';
-import {Page, TiniComponent, stylingWithBases} from '@tinijs/core';
-import {
-  commonBases,
-  headingsBases,
-  linkBases,
-  textBases,
-  codeBases,
-} from '@tinijs/ui/bases';
-import {TiniBoxComponent} from '@tinijs/ui/components/box';
-import {TiniBadgeComponent} from '@tinijs/ui/components/badge';
+import {Page, TiniComponent} from '@tinijs/core';
+import {TiniBoxComponent, TiniBadgeComponent} from '@ui';
 
 import {
   renderSection,
@@ -19,12 +11,15 @@ import {
   renderScalesSection,
   renderStyleDeepSection,
   RenderSectionOptions,
-} from '../../helpers/varies';
-import {ConsumerPlatforms} from '../../consts/main';
-import {CodeBuilder, ReactCommonProps} from '../../helpers/code-builder';
+} from '../../utils/varies.js';
+import {ConsumerPlatforms} from '../../consts/main.js';
+import {CodeBuilder, ReactCommonProps} from '../../utils/code-builder.js';
 
-import {AppComponentPageComponent} from '../../components/component-page';
-import {AppSectionComponent, FLEX_ROW_STYLES} from '../../components/section';
+import {AppComponentPageComponent} from '../../components/component-page.js';
+import {
+  AppSectionComponent,
+  FLEX_ROW_STYLES,
+} from '../../components/section.js';
 
 @Page({
   name: 'app-page-components-badge',
@@ -34,15 +29,6 @@ import {AppSectionComponent, FLEX_ROW_STYLES} from '../../components/section';
     AppComponentPageComponent,
     AppSectionComponent,
   ],
-  theming: {
-    styling: stylingWithBases([
-      commonBases,
-      headingsBases,
-      linkBases,
-      textBases,
-      codeBases,
-    ]),
-  },
 })
 export class AppPageComponentsBadge extends TiniComponent {
   private readonly PART_LIST = [['root', 'The root part']];

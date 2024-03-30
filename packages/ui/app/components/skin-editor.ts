@@ -2,46 +2,35 @@ import {html, css, render, nothing} from 'lit';
 import {queryAll} from 'lit/decorators.js';
 import {repeat} from 'lit/directives/repeat.js';
 import {ref, Ref, createRef} from 'lit/directives/ref.js';
-import {
-  Component,
-  TiniComponent,
-  Reactive,
-  stylingWithBases,
-} from '@tinijs/core';
-import {IconCodeComponent} from '@tinijs/bootstrap-icons/code';
-import {commonBases, buttonBases, codeBases, formBases} from '@tinijs/ui/bases';
-import {TiniButtonComponent} from '@tinijs/ui/components/button';
+import {Component, TiniComponent, Reactive} from '@tinijs/core';
+import {TiniButtonComponent} from '@ui';
 
-import {AppCodeComponent} from './code';
-import {AppModalComponent} from './modal';
-import {AppGradientPickerComponent} from './gradient-picker';
+import {AppCodeComponent} from './code.js';
+import {AppModalComponent} from './modal.js';
+import {AppGradientPickerComponent} from './gradient-picker.js';
 
-import {Configurable} from '../configurable';
-import {FONTS} from '../consts/theme';
-import {buildGithubRawUrl} from '../helpers/github';
-import {changeTheme} from '../helpers/theme';
-import {debouncer} from '../helpers/debouncer';
-import {extractCSSVariables, VariableDef} from '../helpers/source';
-import {buildColorVariants} from '../helpers/color';
-import {buildGradientVariants} from '../helpers/gradient';
+import {Configurable} from '../configurable.js';
+import {FONTS} from '../consts/theme.js';
+import {buildGithubRawUrl} from '../utils/github.js';
+import {changeTheme} from '../utils/theme.js';
+import {debouncer} from '../utils/debouncer.js';
+import {extractCSSVariables, VariableDef} from '../utils/source.js';
+import {buildColorVariants} from '../utils/color.js';
+import {buildGradientVariants} from '../utils/gradient.js';
 import {
   isGoogleFont,
   buildGoogleFontUrl,
   loadGoogleFont,
-} from '../helpers/font';
-import {mainStore} from '../stores/main';
+} from '../utils/font.js';
+import {mainStore} from '../stores/main.js';
 
 @Component({
   components: [
-    IconCodeComponent,
     TiniButtonComponent,
     AppCodeComponent,
     AppModalComponent,
     AppGradientPickerComponent,
   ],
-  theming: {
-    styling: stylingWithBases([commonBases, buttonBases, codeBases, formBases]),
-  },
 })
 export class AppSkinEditorComponent extends TiniComponent {
   static readonly defaultTagName = 'app-skin-editor';

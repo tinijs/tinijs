@@ -1,28 +1,12 @@
 import {html} from 'lit';
-import {Page, TiniComponent, stylingWithBases} from '@tinijs/core';
-import {
-  commonBases,
-  headingsBases,
-  linkBases,
-  textBases,
-  codeBases,
-} from '@tinijs/ui/bases';
+import {Page, TiniComponent} from '@tinijs/core';
 
-import {AppCodeComponent} from '../components/code';
-import {AppSectionComponent} from '../components/section';
+import {AppCodeComponent} from '../components/code.js';
+import {AppSectionComponent} from '../components/section.js';
 
 @Page({
   name: 'app-page-get-started',
   components: [AppCodeComponent, AppSectionComponent],
-  theming: {
-    styling: stylingWithBases([
-      commonBases,
-      headingsBases,
-      linkBases,
-      textBases,
-      codeBases,
-    ]),
-  },
 })
 export class AppPageGetStarted extends TiniComponent {
   protected render() {
@@ -102,7 +86,7 @@ export class AppPageGetStarted extends TiniComponent {
             >:
           </p>
           <app-code
-            code="import {TiniButtonComponent} from '@tinijs/ui/components/button';
+            code="import {TiniButtonComponent} from '@ui';
 
 @Component({
   components: [TiniButtonComponent], // register the component
@@ -115,7 +99,7 @@ export class MyComponent extends TiniComponent {}"
           </p>
           <app-code
             code="import {registerComponents} from '@tinijs/core';
-import {TiniButtonComponent} from '@tinijs/ui/components/button';
+import {TiniButtonComponent} from '@ui';
 
 registerComponents([TiniButtonComponent]); // register components"
           ></app-code>

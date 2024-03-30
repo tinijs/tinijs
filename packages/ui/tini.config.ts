@@ -8,26 +8,23 @@ export default defineTiniConfig({
     pick: {
       families: {
         bootstrap: {
-          skins: ['light', 'dark', 'xxx'],
-        },
-        material: {
-          skins: ['zzz'],
+          skins: ['light', 'dark'],
         },
       },
       bases: ['*'],
     },
-    icons: ['./test-icons'],
+    // icons: ['./test-icons'],
     outDir: '.tini/ui',
-    outPacks: [
-      {
-        react: true,
-        outDir: '.tini/ui-react',
-      },
-      {
-        extends: false,
-        outDir: '.tini/ui-blank',
-      },
-    ],
+    // outPacks: [
+    //   {
+    //     react: true,
+    //     outDir: '.tini/ui-react',
+    //   },
+    //   {
+    //     extends: false,
+    //     outDir: '.tini/ui-blank',
+    //   },
+    // ],
   },
 
   cli: {

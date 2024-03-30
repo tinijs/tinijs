@@ -1,16 +1,11 @@
 import {html, css} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
 import {ref, Ref, createRef} from 'lit/directives/ref.js';
-import {Component, TiniComponent, Input, stylingWithBases} from '@tinijs/core';
-import {commonBases, codeBases} from '@tinijs/ui/bases';
+import {Component, TiniComponent, Input} from '@tinijs/core';
 
-import hljs from '../helpers/highlight';
+import hljs from '../utils/highlight.js';
 
-@Component({
-  theming: {
-    styling: stylingWithBases([commonBases, codeBases]),
-  },
-})
+@Component()
 export class AppCodeComponent extends TiniComponent {
   static readonly defaultTagName = 'app-code';
 

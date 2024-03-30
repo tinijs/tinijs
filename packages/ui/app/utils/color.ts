@@ -1,4 +1,4 @@
-import * as chroma from 'chroma-js';
+import chroma from 'chroma-js';
 
 type RGB = [number, number, number];
 type RGBA = [number, number, number, number];

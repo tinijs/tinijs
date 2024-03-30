@@ -4,7 +4,7 @@ import {
   ConsumerPlatforms,
   ImportMethods,
   IconsImportMethods,
-} from '../consts/main';
+} from '../consts/main.js';
 
 export const mainStore = createStore({
   activeSoulId: 'unknown',

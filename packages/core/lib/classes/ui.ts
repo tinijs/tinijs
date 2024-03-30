@@ -64,6 +64,7 @@ export interface UIOptions<
 }
 
 export interface UIInit {
+  host?: HTMLElement;
   skins: Record<string, CSSResultOrNative | CSSResultOrNative[]>;
   global?: CSSResultOrNative | CSSResultOrNative[];
   shares?: Record<string, CSSResultOrNative | CSSResultOrNative[]>;
@@ -268,15 +269,19 @@ export class UIManager {
   private applyTheme(familyId: string, skinId: string) {
     const themeId = `${familyId}/${skinId}`;
     const {skins, global, shares} = this._config;
-    return adoptStyles(document as any, [
-      // skin
-      ...listifyStyles(skins[themeId] || []),
-      // global
-      ...listifyStyles(global || []),
-      // shares
-      ...listifyStyles(shares?.['*'] || []),
-      ...listifyStyles(shares?.[familyId] || []),
-      ...listifyStyles(shares?.[themeId] || []),
-    ]);
+    const host = this._config.host || document;
+    return adoptStyles(
+      ((host as HTMLElement).shadowRoot || host) as ShadowRoot,
+      [
+        // skin
+        ...listifyStyles(skins[themeId] || []),
+        // global
+        ...listifyStyles(global || []),
+        // shares
+        ...listifyStyles(shares?.['*'] || []),
+        ...listifyStyles(shares?.[familyId] || []),
+        ...listifyStyles(shares?.[themeId] || []),
+      ]
+    );
   }
 }

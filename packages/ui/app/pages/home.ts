@@ -1,22 +1,8 @@
 import {html} from 'lit';
-import {Page, TiniComponent, stylingWithBases} from '@tinijs/core';
-import {
-  commonBases,
-  headingsBases,
-  linkBases,
-  textBases,
-} from '@tinijs/ui/bases';
+import {Page, TiniComponent} from '@tinijs/core';
 
 @Page({
   name: 'app-page-home',
-  theming: {
-    styling: stylingWithBases([
-      commonBases,
-      headingsBases,
-      linkBases,
-      textBases,
-    ]),
-  },
 })
 export class AppPageHome extends TiniComponent {
   protected render() {

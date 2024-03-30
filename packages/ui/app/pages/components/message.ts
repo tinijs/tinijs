@@ -1,14 +1,6 @@
 import {html} from 'lit';
-import {Page, TiniComponent, stylingWithBases} from '@tinijs/core';
-import {
-  commonBases,
-  headingsBases,
-  linkBases,
-  textBases,
-  codeBases,
-} from '@tinijs/ui/bases';
-import {TiniBoxComponent} from '@tinijs/ui/components/box';
-import {TiniMessageComponent} from '@tinijs/ui/components/message';
+import {Page, TiniComponent} from '@tinijs/core';
+import {TiniBoxComponent, TiniMessageComponent} from '@ui';
 
 import {
   renderDefaultSection,
@@ -17,15 +9,15 @@ import {
   renderFontSizesSection,
   renderStyleDeepSection,
   RenderSectionOptions,
-} from '../../helpers/varies';
-import {ConsumerPlatforms} from '../../consts/main';
-import {CodeBuilder, ReactCommonProps} from '../../helpers/code-builder';
+} from '../../utils/varies.js';
+import {ConsumerPlatforms} from '../../consts/main.js';
+import {CodeBuilder, ReactCommonProps} from '../../utils/code-builder.js';
 
-import {AppComponentPageComponent} from '../../components/component-page';
+import {AppComponentPageComponent} from '../../components/component-page.js';
 import {
   AppSectionComponent,
   FLEX_COLUMN_STYLES,
-} from '../../components/section';
+} from '../../components/section.js';
 
 @Page({
   name: 'app-page-components-message',
@@ -35,15 +27,6 @@ import {
     AppComponentPageComponent,
     AppSectionComponent,
   ],
-  theming: {
-    styling: stylingWithBases([
-      commonBases,
-      headingsBases,
-      linkBases,
-      textBases,
-      codeBases,
-    ]),
-  },
 })
 export class AppPageComponentsMessage extends TiniComponent {
   private readonly PART_LIST = [['root', 'The root part']];

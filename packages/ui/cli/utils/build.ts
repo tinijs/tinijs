@@ -360,7 +360,7 @@ export async function buildComponents(
         const componentNames = parseName(componentId);
         const componentImportName = `Tini${componentNames.className}Component`;
         const componentImportPath = `./${componentId}.js`;
-        componentTS.imports.push([componentImportPath, componentImportName]);
+        componentTS.imports.push([componentImportPath, [componentImportName]]);
         componentTSComponentsValue.push(componentImportName);
       });
     }
