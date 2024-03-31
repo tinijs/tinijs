@@ -24,6 +24,7 @@ export * from './lib/directives/style-deep.js';
 export * from './lib/utils/app.js';
 export * from './lib/utils/classes.js';
 export * from './lib/utils/color.js';
+export * from './lib/utils/common.js';
 export * from './lib/utils/component.js';
 export * from './lib/utils/config.js';
 export * from './lib/utils/di.js';

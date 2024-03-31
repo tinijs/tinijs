@@ -448,23 +448,40 @@ export async function buildSetup() {
     blocks: [],
   };
 
-  file.imports.push(['@tinijs/core', ['initUI', 'listifyStyles']]);
+  file.imports.push(['lit', ['CSSResultOrNative']]);
+  file.imports.push(['defu', ['defu']]);
+  file.imports.push(['@tinijs/core', ['listify', 'initUI']]);
   file.imports.push(['./global.js', ['globalStyles']]);
   file.imports.push(['./skins/index.js', ['availableSkins']]);
   file.imports.push(['./bases/index.js', ['availableBases', 'basesMetadata']]);
 
   file.blocks.push([
-    'export async function setupUI()',
+    `export async function setupUI(
+global?: CSSResultOrNative | CSSResultOrNative[],
+shares?: Record<string, CSSResultOrNative | CSSResultOrNative[]>,
+    )`,
     `{
-    return initUI({
-      global: globalStyles,
-      skins: availableSkins,
-      shares: availableBases,
-      internal: {
-        basesMetadata,
-      }
-    });
-  }`,
+  return initUI({
+    global: [
+      ...listify(globalStyles),
+      ...listify<CSSResultOrNative>(global || [])
+    ],
+    skins: availableSkins,
+    shares: defu(
+      availableBases,
+      Object.entries(shares || {}).reduce(
+        (result, [key, value]) => {
+          result[key] = listify<CSSResultOrNative>(value);
+          return result;
+        },
+        {} as Record<string, CSSResultOrNative[]>
+      )
+    ),
+    internal: {
+      basesMetadata,
+    }
+  });
+}`,
   ]);
 
   return {

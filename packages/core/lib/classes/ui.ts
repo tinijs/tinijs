@@ -1,8 +1,10 @@
 import {CSSResultOrNative, adoptStyles} from 'lit';
+import {Promisable} from 'type-fest';
 
 import {GLOBAL_TINI} from '../consts/global.js';
 import {PACKAGE_PREFIX} from '../consts/common.js';
 
+import {listify} from '../utils/common.js';
 import {Breakpoints} from '../utils/vary.js';
 
 export type Theming = Record<
@@ -65,8 +67,8 @@ export interface UIOptions<
 
 export interface UIInit {
   host?: HTMLElement;
-  skins: Record<string, CSSResultOrNative | CSSResultOrNative[]>;
   global?: CSSResultOrNative | CSSResultOrNative[];
+  skins: Record<string, CSSResultOrNative | CSSResultOrNative[]>;
   shares?: Record<string, CSSResultOrNative | CSSResultOrNative[]>;
   options?: UIOptions;
   internal?: {
@@ -79,15 +81,11 @@ export interface UIInit {
 export const THEME_LOCAL_STORAGE_KEY = `${PACKAGE_PREFIX}:local-theme-id`;
 export const THEME_CHANGE_EVENT = `${PACKAGE_PREFIX}:theme-change`;
 
-export function listifyStyles(styles: CSSResultOrNative | CSSResultOrNative[]) {
-  return styles instanceof Array ? styles : [styles];
-}
-
 export function getStylesFromTheming(
   theming: Theming | undefined,
   {themeId, familyId}: ActiveTheme
 ) {
-  return listifyStyles(
+  return listify<CSSResultOrNative>(
     (
       theming?.[themeId] ||
       theming?.[familyId] ||
@@ -176,7 +174,7 @@ export function getUI() {
 
 export async function initUI(
   config: UIInit,
-  customThemeIdGetter?: () => Promise<string>
+  customThemeIdGetter?: () => Promisable<string>
 ) {
   if (GLOBAL_TINI.ui)
     throw new Error(
@@ -190,7 +188,7 @@ export class UIManager {
 
   constructor(private _config: UIInit) {}
 
-  async init(customThemeIdGetter?: () => Promise<string>) {
+  async init(customThemeIdGetter?: () => Promisable<string>) {
     this.setTheme(
       (!customThemeIdGetter ? null : await customThemeIdGetter()) ||
         localStorage.getItem(THEME_LOCAL_STORAGE_KEY) ||
@@ -235,6 +233,18 @@ export class UIManager {
     return this.activeTheme;
   }
 
+  getStyles(familyId: string, skinId: string) {
+    const themeId = `${familyId}/${skinId}`;
+    const {skins, global, shares} = this._config;
+    const globalStyles = listify<CSSResultOrNative>(global || []);
+    const skinStyles = listify<CSSResultOrNative>(skins[themeId] || []);
+    const sharedStyles = ([] as CSSResultOrNative[])
+      .concat(listify<CSSResultOrNative>(shares?.['*'] || []))
+      .concat(listify<CSSResultOrNative>(shares?.[familyId] || []))
+      .concat(listify<CSSResultOrNative>(shares?.[themeId] || []));
+    return {globalStyles, skinStyles, sharedStyles};
+  }
+
   private rebuildActiveTheme(
     familyId: string,
     skinId: string,
@@ -267,21 +277,14 @@ export class UIManager {
   }
 
   private applyTheme(familyId: string, skinId: string) {
-    const themeId = `${familyId}/${skinId}`;
-    const {skins, global, shares} = this._config;
     const host = this._config.host || document;
+    const {globalStyles, skinStyles, sharedStyles} = this.getStyles(
+      familyId,
+      skinId
+    );
     return adoptStyles(
       ((host as HTMLElement).shadowRoot || host) as ShadowRoot,
-      [
-        // skin
-        ...listifyStyles(skins[themeId] || []),
-        // global
-        ...listifyStyles(global || []),
-        // shares
-        ...listifyStyles(shares?.['*'] || []),
-        ...listifyStyles(shares?.[familyId] || []),
-        ...listifyStyles(shares?.[themeId] || []),
-      ]
+      [...skinStyles, ...globalStyles, ...sharedStyles]
     );
   }
 }
