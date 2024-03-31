@@ -1,7 +1,8 @@
 {
-  "name": "@tinijs/skeleton",
-  "version": "0.16.0",
-  "description": "The base structure of a TiniJS app.",
+  "name": "tinijs.dev",
+  "version": "0.0.0",
+  "description": "The homepage of the TiniJS project.",
+  "private": true,
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",
   "license": "MIT",
