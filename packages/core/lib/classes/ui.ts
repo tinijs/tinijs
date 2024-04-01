@@ -1,5 +1,4 @@
 import {CSSResultOrNative, adoptStyles} from 'lit';
-import {Promisable} from 'type-fest';
 
 import {GLOBAL_TINI} from '../consts/global.js';
 import {PACKAGE_PREFIX} from '../consts/common.js';
@@ -71,11 +70,6 @@ export interface UIInit {
   skins: Record<string, CSSResultOrNative | CSSResultOrNative[]>;
   shares?: Record<string, CSSResultOrNative | CSSResultOrNative[]>;
   options?: UIOptions;
-  internal?: {
-    basesMetadata?: {
-      pickedBases: string[];
-    };
-  };
 }
 
 export const THEME_LOCAL_STORAGE_KEY = `${PACKAGE_PREFIX}:local-theme-id`;
@@ -174,7 +168,7 @@ export function getUI() {
 
 export async function initUI(
   config: UIInit,
-  customThemeIdGetter?: () => Promisable<string>
+  customThemeIdGetter?: (config: UIInit) => string
 ) {
   if (GLOBAL_TINI.ui)
     throw new Error(
@@ -188,17 +182,13 @@ export class UIManager {
 
   constructor(private _config: UIInit) {}
 
-  async init(customThemeIdGetter?: () => Promisable<string>) {
+  async init(customThemeIdGetter?: (config: UIInit) => string) {
     this.setTheme(
-      (!customThemeIdGetter ? null : await customThemeIdGetter()) ||
+      customThemeIdGetter?.(this._config) ||
         localStorage.getItem(THEME_LOCAL_STORAGE_KEY) ||
         Object.keys(this._config.skins)[0]
     );
     return this;
-  }
-
-  get internalConfig() {
-    return this._config.internal || ({} as UIInit['internal']);
   }
 
   get options() {
@@ -218,11 +208,11 @@ export class UIManager {
       // 1. update local storage
       localStorage.setItem(THEME_LOCAL_STORAGE_KEY, themeId);
       // 2. adopt styles
-      this.applyTheme(newFamilyId, newSkinId);
+      this._applyTheme(newFamilyId, newSkinId);
       // 3. dispatch a global event
       dispatchEvent(
         new CustomEvent(THEME_CHANGE_EVENT, {
-          detail: this.rebuildActiveTheme(newFamilyId, newSkinId, {
+          detail: this._rebuildActiveTheme(newFamilyId, newSkinId, {
             prevFamilyId: currentFamilyId || newFamilyId,
             prevSkinId: currentSkinId || newSkinId,
             prevThemeId: `${currentFamilyId}/${currentSkinId}`,
@@ -245,7 +235,7 @@ export class UIManager {
     return {globalStyles, skinStyles, sharedStyles};
   }
 
-  private rebuildActiveTheme(
+  private _rebuildActiveTheme(
     familyId: string,
     skinId: string,
     prevData?: Pick<ActiveTheme, 'prevFamilyId' | 'prevSkinId' | 'prevThemeId'>
@@ -276,7 +266,7 @@ export class UIManager {
     });
   }
 
-  private applyTheme(familyId: string, skinId: string) {
+  private _applyTheme(familyId: string, skinId: string) {
     const host = this._config.host || document;
     const {globalStyles, skinStyles, sharedStyles} = this.getStyles(
       familyId,

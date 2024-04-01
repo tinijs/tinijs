@@ -5,24 +5,24 @@ import uiCLIExpansion from './cli/expand.js';
 export default defineTiniConfig({
   ui: {
     sources: ['./ui'],
-    pick: {
-      families: {
-        bootstrap: {
-          skins: ['light', 'dark'],
-        },
-      },
-      bases: ['*'],
+    families: {
+      bootstrap: ['light', 'dark'],
+      // material: skins: ['xxx'],
+    },
+    outDir: '.ui',
+    packageJSON: {
+      name: '@tinijs/ui-app',
+      version: '0.0.0',
     },
     // icons: ['./test-icons'],
-    outDir: '.tini/ui',
     // outPacks: [
     //   {
     //     react: true,
-    //     outDir: '.tini/ui-react',
+    //     outDir: './mode_modules/ui/react',
     //   },
     //   {
     //     extends: false,
-    //     outDir: '.tini/ui-blank',
+    //     outDir: './mode_modules/ui/blank',
     //   },
     // ],
   },

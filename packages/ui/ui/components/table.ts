@@ -13,7 +13,6 @@ import {
 
 export default class extends TiniElement {
   static readonly componentMetadata = {
-    warnAboutMissingBases: ['common'],
     unstable: UnstableStates.Experimental,
   };
 

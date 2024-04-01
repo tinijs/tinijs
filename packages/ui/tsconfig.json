@@ -4,10 +4,7 @@
     "rootDir": ".",
     "outDir": "./dist",
     "useDefineForClassFields": false,
-    "allowSyntheticDefaultImports": true,
-    "paths": {
-      "@ui": ["./.tini/ui/public-api.ts"]
-    }
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "**/*"

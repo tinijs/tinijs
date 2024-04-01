@@ -9,6 +9,8 @@ import {
 import {createRouter, AppWithRouter} from '@tinijs/router';
 import {initMeta, AppWithMeta} from '@tinijs/meta';
 
+import {AppWithUI, setupUI} from 'ui';
+
 import {AppConfig} from './types/common.js';
 
 import config from './configs/development.js';
@@ -21,7 +23,7 @@ import './layouts/default';
 @App({providers})
 export class AppRoot
   extends TiniComponent
-  implements AppWithConfig<AppConfig>, AppWithRouter, AppWithMeta
+  implements AppWithConfig<AppConfig>, AppWithRouter, AppWithMeta, AppWithUI
 {
   readonly config = registerConfig(config);
   readonly router = createRouter(routes, {linkTrigger: true});
@@ -29,6 +31,7 @@ export class AppRoot
     metadata,
     autoPageMetadata: true,
   });
+  readonly ui = setupUI();
 
   protected render() {
     return html`<router-outlet .router=${this.router}></router-outlet>`;

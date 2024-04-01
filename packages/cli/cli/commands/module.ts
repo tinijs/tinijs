@@ -3,15 +3,15 @@ import {consola} from 'consola';
 
 import {getTiniProject, loadVendorModule} from '@tinijs/project';
 
-import {errorUncleanGit} from '../../lib/utils/message.js';
+import {errorUncleanGit} from '../utils/message.js';
 import {
   installPackage,
   copyAssets,
   updateScripts,
   initRun,
-} from '../../lib/utils/module.js';
-import {isGitClean} from '../../lib/utils/git.js';
-import {createCLICommand} from '../../lib/utils/cli.js';
+} from '../utils/module.js';
+import {isGitClean} from '../utils/git.js';
+import {createCLICommand} from '../utils/cli.js';
 
 export const moduleCommand = createCLICommand(
   {

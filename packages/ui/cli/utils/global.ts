@@ -382,9 +382,25 @@ function generateCommonGradientVars() {
     .join('\n  ');
 }
 
-export function getSkinCommon() {
+export function getCommonColors() {
   const commonColors = generateCommonColorVars();
+  return `
+:root {
+  ${commonColors}
+}
+`;
+}
+
+export function getCommonGradients() {
   const commonGradients = generateCommonGradientVars();
+  return `
+:root {
+  ${commonGradients}
+}
+`;
+}
+
+export function getSkinUtils() {
   const scales = generateFactorVars(SCALES);
   const textSizes = generateFactorVars(['--size-text']);
   const spaceSizes = generateFactorVars(['--size-space']);
@@ -394,8 +410,6 @@ export function getSkinCommon() {
   const shadows = '--shadow-none: none;';
   return `
 :root {
-  ${commonColors}
-  ${commonGradients}
   ${scales}
   ${textSizes}
   ${spaceSizes}

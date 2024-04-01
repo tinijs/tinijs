@@ -4,9 +4,9 @@ import {gray, green, cyan} from 'colorette';
 import {consola} from 'consola';
 import {pathExistsSync} from 'fs-extra/esm';
 
-import {downloadAndUnzip} from '../../lib/utils/download.js';
-import {loadCLIPackageJSON} from '../../lib/utils/project.js';
-import {createCLICommand} from '../../lib/utils/cli.js';
+import {downloadAndUnzip} from '../utils/download.js';
+import {loadCLIPackageJSON} from '../utils/project.js';
+import {createCLICommand} from '../utils/cli.js';
 
 export const newCommand = createCLICommand(
   {

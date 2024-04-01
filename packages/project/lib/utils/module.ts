@@ -28,15 +28,7 @@ export async function setupModules(tiniProject: TiniProject) {
 }
 
 export async function loadVendorModule(packageName: string) {
-  const entryPath = resolve(
-    'node_modules',
-    packageName,
-    'dist',
-    'module',
-    'index.js'
-  );
-  if (!pathExistsSync(entryPath)) return null;
-  const {default: defaulExport} = await import(entryPath);
+  const {default: defaulExport} = await import(`${packageName}/module`);
   if (!defaulExport?.meta || !defaulExport?.setup) return null;
   return defaulExport as ModuleConfig;
 }

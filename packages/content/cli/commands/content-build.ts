@@ -92,9 +92,9 @@ export const contentBuildCommand = createCLICommand(
       return callbacks?.onInvalidProject?.(contentDirName);
     }
     const {
-      config: {tempDir, outDir},
+      config: {compileDir, outDir},
     } = await getTiniProject();
-    const stagingContentDir = `${tempDir}/content`;
+    const stagingContentDir = `${compileDir}/content`;
     const tiniContentDir = `${outDir}/tini-content`;
     const srcPath = resolve(stagingContentDir);
     const destPath = resolve(tiniContentDir);
@@ -113,7 +113,7 @@ export const contentBuildCommand = createCLICommand(
       (result, item) => {
         if (
           ~item.indexOf('/uploads/') ||
-          ~item.indexOf(`/${tempDir}/images/`) ||
+          ~item.indexOf(`/${compileDir}/images/`) ||
           !item.endsWith('.html')
         ) {
           result.copyPaths.push(item);
@@ -131,7 +131,7 @@ export const contentBuildCommand = createCLICommand(
     // copy
     await Promise.all(
       copyPaths.map(async path => {
-        const filePath = path.replace(tempDir, tiniContentDir);
+        const filePath = path.replace(compileDir, tiniContentDir);
         await ensureDir(filePath.replace(/\/[^/]+$/, ''));
         return copyFile(path, filePath);
       })
@@ -147,7 +147,7 @@ export const contentBuildCommand = createCLICommand(
     for (let i = 0; i < buildPaths.length; i++) {
       const path = buildPaths[i];
       const [collection, slug] = path
-        .split(`/${tempDir}/`)
+        .split(`/${compileDir}/`)
         .pop()!
         .replace(/\/[^/]+$/, '')
         .split('/');

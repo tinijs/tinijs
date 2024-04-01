@@ -7,12 +7,8 @@ export interface Compiler {
   compileFile: (path: string) => Promise<void>;
 }
 
-export enum OfficialCompilers {
-  Default = 'default',
-}
-
 export interface CompileConfig {
-  compiler?: OfficialCompilers;
+  compiler?: string;
   options?: Record<string, any>;
 }
 

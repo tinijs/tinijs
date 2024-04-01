@@ -13,7 +13,8 @@
   },
   "type": "module",
   "exports": {
-    ".": "./dist/public-api.js"
+    ".": "./dist/public-api.js",
+    "./module": "./dist/module/index.js"
   },
   "files": [
     "assets",

@@ -27,7 +27,6 @@ export type SelectOptgroup = SelectOption & {
 
 export default class extends TiniElement {
   static readonly componentMetadata = {
-    warnAboutMissingBases: ['common'],
     colorOnlyScheme: true,
     mainNonRootSelector: '.select',
   };

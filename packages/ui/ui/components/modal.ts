@@ -18,10 +18,6 @@ export type ModalResult<Context> = DialogResult<Context>;
 }
 ***/
 export default class extends TiniElement {
-  static readonly componentMetadata = {
-    warnAboutMissingBases: ['common'],
-  };
-
   private readonly BACKDROP_CLOSED = 'backdrop-closed';
 
   /* eslint-disable prettier/prettier */

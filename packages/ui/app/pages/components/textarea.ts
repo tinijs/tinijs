@@ -1,6 +1,7 @@
 import {html} from 'lit';
 import {Page, TiniComponent} from '@tinijs/core';
-import {TiniBoxComponent, TiniTextareaComponent} from '@ui';
+import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
+import {TiniTextareaComponent} from '@tinijs/ui-app/components/textarea.js';
 
 import {
   renderSection,

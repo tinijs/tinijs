@@ -147,15 +147,7 @@ export async function setupCLIExpansion<
 export async function loadVendorCLIExpansion<
   Options extends Record<string, unknown> = {},
 >(packageName: string) {
-  const entryPath = resolve(
-    'node_modules',
-    packageName,
-    'dist',
-    'cli',
-    'expand.js'
-  );
-  if (!pathExistsSync(entryPath)) return null;
-  const {default: defaulExport} = await import(entryPath);
+  const {default: defaulExport} = await import(`${packageName}/cli-expansion`);
   if (!defaulExport?.meta || !defaulExport?.setup) return null;
   return defaulExport as CLIExpansionConfig<Options>;
 }

@@ -3,7 +3,8 @@ import {classMap} from 'lit/directives/class-map.js';
 import {ref, Ref, createRef} from 'lit/directives/ref.js';
 import {Colors} from '@tinijs/core';
 import {Component, TiniComponent, Input} from '@tinijs/core';
-import {TiniButtonComponent} from '@ui';
+
+import {TiniButtonComponent} from '@tinijs/ui-app/components/button.js';
 
 export enum ModalKinds {
   Bare = 'bare',

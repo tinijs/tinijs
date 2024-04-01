@@ -1,6 +1,8 @@
 import {html} from 'lit';
 import {Page, TiniComponent} from '@tinijs/core';
-import {TiniBoxComponent, TiniEmbedComponent} from '@ui';
+
+import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
+import {TiniEmbedComponent} from '@tinijs/ui-app/components/embed.js';
 
 import {
   renderSection,

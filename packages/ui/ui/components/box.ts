@@ -16,10 +16,6 @@ import {
 } from '@tinijs/core';
 
 export default class extends TiniElement {
-  static readonly componentMetadata = {
-    warnAboutMissingBases: ['common'],
-  };
-
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) declare tag?: string;
   @property({type: String, reflect: true}) declare scheme?: Colors | Gradients;

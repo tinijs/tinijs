@@ -1,6 +1,6 @@
 import {App} from '@tinijs/core';
 
-import {TiniCodeComponent} from '@ui';
+import {TiniCodeComponent} from '@tinijs/ui-app/components/code.js';
 
 import {AppRootTemplate} from './root-template.js';
 

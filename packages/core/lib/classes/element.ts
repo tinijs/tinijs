@@ -44,7 +44,6 @@ export interface ComponentMetadata {
   // dev only
   unstable?: UnstableStates;
   unstableMessage?: string;
-  warnAboutMissingBases?: string[];
 }
 
 export class TiniElement extends LitElement {

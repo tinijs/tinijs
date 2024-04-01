@@ -8,8 +8,8 @@ import {remove, pathExistsSync} from 'fs-extra/esm';
 
 import {TiniConfig, getTiniProject} from '@tinijs/project';
 
-import {loadCompiler, loadBuilder, buildPublic} from '../../lib/utils/build.js';
-import {createCLICommand} from '../../lib/utils/cli.js';
+import {loadCompiler, loadBuilder, buildPublic} from '../utils/build.js';
+import {createCLICommand} from '../utils/cli.js';
 
 function checkAndbuildPublic(tiniConfig: TiniConfig) {
   setTimeout(async () => {
@@ -49,7 +49,7 @@ export const devCommand = createCLICommand(
           .on('unlink', path =>
             remove(
               resolve(
-                tiniConfig.tempDir,
+                tiniConfig.compileDir,
                 resolve(path).replace(`${srcDirPath}/`, '')
               )
             )

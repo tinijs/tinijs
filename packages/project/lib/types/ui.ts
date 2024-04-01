@@ -2,15 +2,7 @@ import {PackageJson} from 'type-fest';
 
 export interface UIConfig {
   sources?: string[];
-  pick?: {
-    families: Record<
-      string,
-      {
-        skins: string[];
-      }
-    >;
-    bases?: string[];
-  };
+  families?: Record<string, string[]>;
   icons?: Array<
     | string
     | {
@@ -22,11 +14,10 @@ export interface UIConfig {
   >;
   outDir?: string;
   react?: boolean;
-  distributable?:
-    | true
-    | {
-        packageJSON?: string | PackageJson;
-      };
+  packageJSON?:
+    | string
+    | PackageJson
+    | ((projectPackageJSON: PackageJson) => PackageJson);
   outPacks?: Array<
     Partial<Omit<UIConfig, 'outPacks'>> & {outDir: string; extends?: false}
   >;

@@ -9,7 +9,6 @@ export type RadiosItem = Omit<CheckboxesItem, 'name'>;
 
 export default class extends TiniElement {
   static readonly componentMetadata = {
-    warnAboutMissingBases: ['common'],
     mainNonRootSelector: '.input',
   };
 

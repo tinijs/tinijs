@@ -14,7 +14,9 @@
   "type": "module",
   "exports": {
     ".": "./dist/public-api.js",
-    "./11ty/*": "./dist/11ty/*"
+    "./11ty/*": "./11ty/*",
+    "./module": "./dist/module/index.js",
+    "./cli-expansion": "./dist/cli/expand.js"
   },
   "files": [
     "11ty",

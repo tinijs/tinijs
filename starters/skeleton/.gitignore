@@ -1,9 +1,9 @@
-# general
 .DS_Store
 node_modules
 
-# parceljs
 .parcel-cache
-
-# tinijs
 .tini
+.app
+.output
+.content
+.ui

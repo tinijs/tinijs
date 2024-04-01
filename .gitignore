@@ -1,6 +1,15 @@
 .DS_Store
-.nx/cache
-.tini
 node_modules
+
+.nx/cache
+
+.parcel-cache
+.tini
+.app
+.output
+.content
+.ui
+
+build
 dist
 *.tgz

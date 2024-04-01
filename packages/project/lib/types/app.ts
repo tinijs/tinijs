@@ -22,8 +22,8 @@ export interface AppDirs {
 
 export interface AppConfig {
   srcDir: string;
+  compileDir: string;
   outDir: string;
-  tempDir: string;
   dirs?: AppDirs;
   compile?: false | CompileConfig | CustomCompileConfig;
   build?: BuildConfig | CustomBuildConfig;

@@ -8,7 +8,8 @@ import {
   Reactive,
   partAttrMap,
 } from '@tinijs/core';
-import {TiniIconComponent} from '@ui';
+
+import {TiniIconComponent} from '@tinijs/ui-app/components/icon.js';
 
 export interface TabItem {
   name: string;

@@ -1,6 +1,8 @@
 import {html} from 'lit';
 import {Page, TiniComponent} from '@tinijs/core';
-import {TiniButtonComponent, TiniCardComponent} from '@ui';
+
+import {TiniButtonComponent} from '@tinijs/ui-app/components/button.js';
+import {TiniCardComponent} from '@tinijs/ui-app/components/card.js';
 
 import {
   renderSection,

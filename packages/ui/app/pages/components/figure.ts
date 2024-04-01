@@ -1,11 +1,9 @@
 import {html} from 'lit';
 import {Page, TiniComponent} from '@tinijs/core';
-import {
-  TiniBoxComponent,
-  TiniImageComponent,
-  TiniCodeComponent,
-  TiniFigureComponent,
-} from '@ui';
+import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
+import {TiniImageComponent} from '@tinijs/ui-app/components/image.js';
+import {TiniCodeComponent} from '@tinijs/ui-app/components/code.js';
+import {TiniFigureComponent} from '@tinijs/ui-app/components/figure.js';
 
 import {renderSection, RenderSectionOptions} from '../../utils/varies.js';
 import {ConsumerPlatforms} from '../../consts/main.js';

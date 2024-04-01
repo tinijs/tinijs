@@ -14,7 +14,8 @@ import {
   buildComponents,
   buildSetup,
   buildPublicAPI,
-  buildDistributable,
+  buildPackageJSON,
+  transpileAndRemoveTSFiles,
 } from '../utils/build.js';
 import {buildIcons} from '../utils/icon.js';
 
@@ -47,15 +48,15 @@ export const uiBuildCommand = createCLICommand(
       AsyncReturnType<typeof listAvailableComponentsAndThemeFamilies>
     >;
     for (const {
-      outDir,
       sources,
-      pick,
+      families,
       icons,
+      outDir,
       react,
-      distributable,
+      packageJSON,
     } of packConfigs) {
-      if (!sources?.length || !pick) continue;
-      const ourDir = resolve(outDir || './node_modules/@tinijs/app-ui');
+      if (!sources?.length || !families) continue;
+      const outDirPath = resolve(outDir || '.ui');
       const {
         components: availableComponents,
         themeFamilies: availableThemeFamilies,
@@ -63,62 +64,61 @@ export const uiBuildCommand = createCLICommand(
         await listAvailableComponentsAndThemeFamilies(sources));
 
       // build global styles
-      const globalResult = await buildGlobal();
-      await outputBuildResults(ourDir, globalResult);
+      const globalResults = await buildGlobal();
+      await outputBuildResults(outDirPath, globalResults);
 
       // build skins
       const skinResults = await buildSkins(
-        ourDir,
+        outDirPath,
         availableThemeFamilies,
-        pick
+        families
       );
-      await outputBuildResults(ourDir, skinResults);
+      await outputBuildResults(outDirPath, skinResults);
 
       // build bases
       const baseResults = await buildBases(
-        ourDir,
+        outDirPath,
         availableThemeFamilies,
-        pick
+        families
       );
-      await outputBuildResults(ourDir, baseResults);
+      await outputBuildResults(outDirPath, baseResults);
 
       // build components
       const componentResults = await buildComponents(
-        ourDir,
+        outDirPath,
         availableComponents,
         availableThemeFamilies,
-        pick,
+        families,
         react
       );
-      await outputBuildResults(ourDir, componentResults);
+      await outputBuildResults(outDirPath, componentResults);
 
       // build icons
       let iconResults: BuildResult[] = [];
       if (icons) {
         iconResults = await buildIcons(icons, react);
-        await outputBuildResults(ourDir, iconResults);
+        await outputBuildResults(outDirPath, iconResults);
       }
 
       // build setup
       const setupResult = await buildSetup();
-      await outputBuildResults(ourDir, setupResult);
+      await outputBuildResults(outDirPath, setupResult);
 
-      // build public-api
+      // build public api
       const publicAPIResult = await buildPublicAPI([
         setupResult,
-        globalResult,
+        ...globalResults,
         ...skinResults,
         ...baseResults,
-        ...componentResults,
-        ...iconResults,
       ]);
-      await outputBuildResults(ourDir, publicAPIResult);
+      await outputBuildResults(outDirPath, publicAPIResult);
 
-      // build distributable package
-      if (distributable) {
-        const distributableResults = await buildDistributable(distributable);
-        await outputBuildResults(ourDir, distributableResults);
-      }
+      // build package.json
+      const packageJSONResults = await buildPackageJSON(packageJSON);
+      await outputBuildResults(outDirPath, packageJSONResults);
+
+      // transpile & remove .ts files
+      await transpileAndRemoveTSFiles(outDirPath);
     }
   }
 );

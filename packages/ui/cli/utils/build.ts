@@ -10,10 +10,22 @@ import {
   genArrayFromRaw,
 } from 'knitwork';
 import {safeDestr} from 'destr';
-import {parseName, loadProjectPackageJSON} from '@tinijs/cli';
+import {PackageJson} from 'type-fest';
+import {
+  parseName,
+  loadProjectPackageJSON,
+  listDir,
+  transpileAndOutputFiles,
+  removeFiles,
+} from '@tinijs/cli';
 import {UIConfig} from '@tinijs/project';
 
-import {getSkinCommon, getDefaultGlobal} from './global.js';
+import {
+  getCommonColors,
+  getCommonGradients,
+  getSkinUtils,
+  getDefaultGlobal,
+} from './global.js';
 
 const {ModuleKind, ScriptTarget} = typescript;
 
@@ -62,7 +74,9 @@ export const TS_CONFIG = {
 };
 
 function jtsOnlyFilter(file: string) {
-  return file.endsWith('.ts') || file.endsWith('.js');
+  return (
+    (file.endsWith('.ts') && !file.endsWith('.d.ts')) || file.endsWith('.js')
+  );
 }
 
 function renameTSToJS(path: string) {
@@ -181,28 +195,34 @@ export async function listAvailableThemeFamilies(sourceDirs: string[]) {
 }
 
 export async function buildGlobal() {
-  const file: BuildDef = {
+  const files: BuildResult[] = [];
+
+  const globalTS: BuildDef = {
     imports: [],
     blocks: [],
   };
-
-  file.imports.push(['lit', ['css']]);
-
-  file.blocks.push([
+  globalTS.imports.push(['lit', ['css']]);
+  globalTS.blocks.push([
     'export const globalStyles =',
-    `css\`${getSkinCommon()}${getDefaultGlobal()}\``,
+    `[
+      css\`${getCommonColors()}\`,
+      css\`${getCommonGradients()}\`,
+      css\`${getSkinUtils()}\`,
+      css\`${getDefaultGlobal()}\`,
+    ]`,
   ]);
+  files.push({
+    path: 'styles/global.ts',
+    content: constructFileContent(globalTS),
+  } as BuildResult);
 
-  return {
-    path: 'global.ts',
-    content: constructFileContent(file),
-  } as BuildResult;
+  return files;
 }
 
 export async function buildSkins(
   ourDir: string,
   themeFamilies: Record<string, AvailableThemeFamily>,
-  pick: NonNullable<UIConfig['pick']>
+  pickedFamilies: NonNullable<UIConfig['families']>
 ) {
   const results: BuildResult[] = [];
 
@@ -212,9 +232,7 @@ export async function buildSkins(
   };
   const indexTSExportNames: string[] = [];
   const indexTSExportDefaultValue: Record<string, string> = {};
-  for (const [familyId, {skins: pickedSkins}] of Object.entries(
-    pick.families
-  )) {
+  for (const [familyId, pickedSkins] of Object.entries(pickedFamilies)) {
     const family = themeFamilies[familyId];
     if (family) {
       const familyNames = parseName(familyId);
@@ -222,7 +240,7 @@ export async function buildSkins(
         const availableSkin = family.skins[skinId];
         if (availableSkin) {
           const skinNames = parseName(skinId);
-          const importName = `${familyNames.varName}${skinNames.className}SkinStyles`;
+          const importName = `${familyNames.varName}${skinNames.className}Skin`;
           const importPath = relative(
             resolve(ourDir, 'skins'),
             renameTSToJS(availableSkin.path)
@@ -240,7 +258,7 @@ export async function buildSkins(
     [indexTSExportDefaultValue],
   ]);
   results.push({
-    path: 'skins/index.ts',
+    path: 'styles/skin.ts',
     content: constructFileContent(indexTS),
   });
 
@@ -251,78 +269,54 @@ export async function buildSkins(
 export async function buildBases(
   ourDir: string,
   themeFamilies: Record<string, AvailableThemeFamily>,
-  pick: NonNullable<UIConfig['pick']>
+  pickedFamilies: NonNullable<UIConfig['families']>
 ) {
   const results: BuildResult[] = [];
 
-  const pickedBases = !pick.bases
-    ? []
-    : !~pick.bases.indexOf('*')
-      ? pick.bases
-      : Object.values(themeFamilies).reduce(
-          (result, {bases}) => [...result, ...Object.keys(bases)],
-          [] as string[]
-        );
+  const allBases = Object.values(themeFamilies).reduce(
+    (result, {bases}) => [...result, ...Object.keys(bases)],
+    [] as string[]
+  );
 
   const indexTS: BuildDef = {
     imports: [],
     blocks: [],
   };
   const indexTSExportDefaultValue: Record<string, string> = {};
-  for (const [familyId] of Object.entries(pick.families)) {
+  for (const [familyId] of Object.entries(pickedFamilies)) {
     const familyNames = parseName(familyId);
-    const familyTS: BuildDef = {
-      imports: [],
-      blocks: [],
-    };
     const familyTSExportNames: string[] = [];
     const familyTSExportDefaultValue: string[] = [];
-    for (const baseId of pickedBases) {
+    for (const baseId of allBases) {
       const availableBase = themeFamilies[familyId]?.bases[baseId];
       if (availableBase) {
         const baseNames = parseName(baseId);
-        const importName = `${familyNames.varName}${baseNames.className}BaseStyles`;
+        const importName = `${familyNames.varName}${baseNames.className}Base`;
         const importPath = relative(
           resolve(ourDir, 'bases'),
           renameTSToJS(availableBase.path)
         );
-        familyTSExportNames.push(importName);
-        familyTS.imports.push([importPath, importName]);
+        indexTS.imports.push([importPath, importName]);
         familyTSExportDefaultValue.push(importName);
       }
     }
     if (familyTSExportNames.length) {
-      familyTS.blocks.push(['export', `{ ${familyTSExportNames.join(', ')} }`]);
+      indexTS.blocks.push(['export', `{ ${familyTSExportNames.join(', ')} }`]);
     }
-    familyTS.blocks.push([
-      `export const ${familyNames.varName}BaseStyles =`,
+    indexTS.blocks.push([
+      `export const ${familyNames.varName}Base =`,
       [familyTSExportDefaultValue],
     ]);
-    results.push({
-      path: `bases/${familyId}.ts`,
-      content: constructFileContent(familyTS),
-    });
 
-    const importName = `${familyNames.varName}BaseStyles`;
-    const importPath = `./${familyId}.js`;
-    indexTS.imports.push([importPath, [importName]]);
-    indexTSExportDefaultValue[familyId] = importName;
+    indexTSExportDefaultValue[familyId] = `${familyNames.varName}Base`;
   }
 
-  indexTS.blocks.push([
-    'export const basesMetadata =',
-    [
-      {
-        pickedBases: JSON.stringify(pickedBases),
-      },
-    ],
-  ]);
   indexTS.blocks.push([
     'export const availableBases =',
     [indexTSExportDefaultValue],
   ]);
   results.push({
-    path: 'bases/index.ts',
+    path: 'styles/base.ts',
     content: constructFileContent(indexTS),
   });
 
@@ -334,7 +328,7 @@ export async function buildComponents(
   ourDir: string,
   components: Record<string, AvailableComponent>,
   themeFamilies: Record<string, AvailableThemeFamily>,
-  pick: NonNullable<UIConfig['pick']>,
+  pickedFamilies: NonNullable<UIConfig['families']>,
   react?: boolean
 ) {
   const results: BuildResult[] = [];
@@ -375,7 +369,7 @@ export async function buildComponents(
     componentTS.exports!.push([componentImportPath, '*']);
 
     const componentTSThemingValue = {} as Record<string, string>;
-    for (const [familyId] of Object.entries(pick.families)) {
+    for (const [familyId] of Object.entries(pickedFamilies)) {
       const availableSoul = themeFamilies[familyId]?.souls[componentId];
       if (availableSoul) {
         const familyNames = parseName(familyId);
@@ -450,26 +444,33 @@ export async function buildSetup() {
 
   file.imports.push(['lit', ['CSSResultOrNative']]);
   file.imports.push(['defu', ['defu']]);
-  file.imports.push(['@tinijs/core', ['listify', 'initUI']]);
-  file.imports.push(['./global.js', ['globalStyles']]);
-  file.imports.push(['./skins/index.js', ['availableSkins']]);
-  file.imports.push(['./bases/index.js', ['availableBases', 'basesMetadata']]);
+  file.imports.push([
+    '@tinijs/core',
+    ['UIInit', 'UIManager', 'listify', 'initUI'],
+  ]);
+  file.imports.push(['./styles/global.js', ['globalStyles']]);
+  file.imports.push(['./styles/skin.js', ['availableSkins']]);
+  file.imports.push(['./styles/base.js', ['availableBases']]);
+
+  file.blocks.push(['export interface AppWithUI', '{ui: UIManager}']);
 
   file.blocks.push([
     `export async function setupUI(
-global?: CSSResultOrNative | CSSResultOrNative[],
-shares?: Record<string, CSSResultOrNative | CSSResultOrNative[]>,
+      customConfig: Pick<
+        UIInit,
+        'host' | 'global' | 'shares' | 'options'
+      > = {}
     )`,
     `{
   return initUI({
-    global: [
-      ...listify(globalStyles),
-      ...listify<CSSResultOrNative>(global || [])
-    ],
+    host: customConfig.host,
+    global: globalStyles.concat(
+      listify<CSSResultOrNative>(customConfig.global || [])
+    ),
     skins: availableSkins,
     shares: defu(
       availableBases,
-      Object.entries(shares || {}).reduce(
+      Object.entries(customConfig.shares || {}).reduce(
         (result, [key, value]) => {
           result[key] = listify<CSSResultOrNative>(value);
           return result;
@@ -477,9 +478,7 @@ shares?: Record<string, CSSResultOrNative | CSSResultOrNative[]>,
         {} as Record<string, CSSResultOrNative[]>
       )
     ),
-    internal: {
-      basesMetadata,
-    }
+    options: customConfig.options,
   });
 }`,
   ]);
@@ -500,42 +499,46 @@ export async function buildPublicAPI(results: BuildResult[]) {
   } as BuildResult;
 }
 
-export async function buildDistributable(
-  distributable: NonNullable<UIConfig['distributable']>
-) {
+export async function buildPackageJSON(packageJSON: UIConfig['packageJSON']) {
   const result: BuildResult[] = [];
 
-  const {packageJSON} = (
-    distributable === true ? {} : distributable
-  ) as Exclude<typeof distributable, true>;
-
-  // package.json
   const projectPackageJSON = await loadProjectPackageJSON();
+  const jsonContent: PackageJson = {
+    ...(!packageJSON
+      ? projectPackageJSON
+      : packageJSON instanceof Function
+        ? packageJSON(projectPackageJSON)
+        : typeof packageJSON === 'string'
+          ? await readJSON(resolve(packageJSON))
+          : packageJSON),
+    type: 'module',
+    exports: {
+      '.': './public-api.js',
+      './components/*': './components/*',
+      './icons/*': './icons/*',
+    },
+    files: ['*'],
+  };
   result.push({
     path: 'package.json',
-    content: JSON.stringify(
-      {
-        ...projectPackageJSON,
-        ...(!packageJSON
-          ? {}
-          : typeof packageJSON !== 'string'
-            ? packageJSON
-            : await readJSON(resolve(packageJSON))),
-        scripts: {},
-        dependencies: {},
-        devDependencies: {},
-        peerDependencies: {},
-        type: 'module',
-        exports: {
-          '.': './public-api.js',
-          './icons/*': './icons/*',
-        },
-        files: ['*'],
-      },
-      null,
-      2
-    ),
+    content: JSON.stringify(jsonContent, null, 2),
   });
 
   return result;
+}
+
+export async function transpileAndRemoveTSFiles(outDir: string) {
+  const ourDirPath = resolve(outDir);
+  const outComponentsPaths = (await listDir(ourDirPath)).filter(
+    path => path.endsWith('.ts') && !path.endsWith('.d.ts')
+  );
+  // transpile
+  await transpileAndOutputFiles(
+    outComponentsPaths,
+    TS_CONFIG as any,
+    outDir,
+    path => path.replace(`${ourDirPath}/`, '')
+  );
+  // remove .ts files
+  await removeFiles(outComponentsPaths);
 }

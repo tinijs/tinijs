@@ -16,14 +16,8 @@ export interface Builder {
       };
 }
 
-export enum OfficialBuilders {
-  Parcel = 'parcel',
-  Vite = 'vite',
-  Webpack = 'webpack',
-}
-
 export interface BuildConfig {
-  builder?: OfficialBuilders;
+  builder?: string;
   options?: Record<string, any>;
 }
 

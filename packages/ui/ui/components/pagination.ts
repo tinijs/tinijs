@@ -16,10 +16,6 @@ export interface PaginationItem {
 }
 
 export default class extends TiniElement {
-  static readonly componentMetadata = {
-    warnAboutMissingBases: ['common'],
-  };
-
   /* eslint-disable prettier/prettier */
   @property({type: Number, reflect: true}) declare totalPage: number;
   @property({type: Number, reflect: true}) declare currentPage: number;

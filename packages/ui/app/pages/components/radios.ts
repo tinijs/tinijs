@@ -1,7 +1,11 @@
 import {html} from 'lit';
 import {Colors} from '@tinijs/core';
 import {Page, TiniComponent} from '@tinijs/core';
-import {TiniBoxComponent, TiniRadiosComponent, RadiosItem} from '@ui';
+import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
+import {
+  TiniRadiosComponent,
+  RadiosItem,
+} from '@tinijs/ui-app/components/radios.js';
 
 import {
   renderSection,

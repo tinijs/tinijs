@@ -1,5 +1,4 @@
 import {TiniProject, Builder} from '@tinijs/project';
-import {getIndexHTMLPath} from '@tinijs/cli';
 
 export interface BuildOptions {
   buildCommand?: string;
@@ -7,10 +6,8 @@ export interface BuildOptions {
   onDevServerStart?: () => void;
 }
 
-export default function (options: BuildOptions = {}) {
-  return function (tiniProject: TiniProject) {
-    return new ParcelBuilder(options, tiniProject);
-  };
+export default function (options: BuildOptions, tiniProject: TiniProject) {
+  return new ParcelBuilder(options, tiniProject);
 }
 
 export class ParcelBuilder implements Builder {
@@ -33,15 +30,16 @@ export class ParcelBuilder implements Builder {
   }
 
   private get commands() {
-    const {outDir} = this.tiniProject.config;
-    const indexHTMLPath = getIndexHTMLPath(this.tiniProject.config);
+    const {srcDir, compileDir, outDir, compile} = this.tiniProject.config;
+    const indexFilePath =
+      compile === false ? `${srcDir}/index.html` : `${compileDir}/index.html`;
     return {
       buildCommand:
         this.options.buildCommand ||
-        `parcel build "${indexHTMLPath}" --dist-dir ${outDir} --no-cache`,
+        `parcel build ${indexFilePath} --dist-dir ${outDir} --no-cache`,
       devCommand:
         this.options.devCommand ||
-        `parcel "${indexHTMLPath}" --dist-dir ${outDir} --port 3000 --no-cache --log-level none`,
+        `parcel ${indexFilePath} --dist-dir ${outDir} --port 3000 --no-cache --log-level none`,
     };
   }
 }

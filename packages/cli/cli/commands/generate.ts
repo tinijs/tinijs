@@ -8,8 +8,8 @@ import {
   BUILTIN_GENERATORS,
   GeneratedTemplate,
   TemplateGenerator,
-} from '../../lib/utils/generate.js';
-import {createCLICommand} from '../../lib/utils/cli.js';
+} from '../utils/generate.js';
+import {createCLICommand} from '../utils/cli.js';
 
 export const generateCommand = createCLICommand(
   {
