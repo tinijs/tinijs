@@ -28,7 +28,8 @@
     "SvelteKit"
   ],
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/ui/build/*"
   ],
   "scripts": {
     "build": "lerna run build",

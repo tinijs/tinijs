@@ -15,6 +15,7 @@
   "type": "module",
   "exports": {
     ".": "./dist/public-api.js",
+    "./dist/*": "./dist/*",
     "./cli-expansion": "./dist/cli/expand.js"
   },
   "files": [
@@ -26,7 +27,7 @@
   "scripts": {
     "dev": "tini ui build && tini dev",
     "preview": "tini preview",
-    "build": "rimraf ./dist && tsc",
+    "build": "rimraf ./dist && tsc && tini ui build",
     "lint": "gts lint",
     "fix": "gts fix"
   },
@@ -59,7 +60,7 @@
     "grapick": "^0.1.13",
     "highlight.js": "^11.9.0",
     "isomorphic-dompurify": "^2.6.0",
-    "knitwork": "^1.0.0",
+    "knitwork": "^1.1.0",
     "lit": "^3.1.2",
     "magicast": "^0.3.3",
     "nanoid": "^5.0.4",

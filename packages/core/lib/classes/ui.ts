@@ -166,7 +166,7 @@ export function getUI() {
   return GLOBAL_TINI.ui;
 }
 
-export async function initUI(
+export function initUI(
   config: UIInit,
   customThemeIdGetter?: (config: UIInit) => string
 ) {
@@ -182,7 +182,7 @@ export class UIManager {
 
   constructor(private _config: UIInit) {}
 
-  async init(customThemeIdGetter?: (config: UIInit) => string) {
+  init(customThemeIdGetter?: (config: UIInit) => string) {
     this.setTheme(
       customThemeIdGetter?.(this._config) ||
         localStorage.getItem(THEME_LOCAL_STORAGE_KEY) ||

@@ -9,7 +9,7 @@ import {
 import {createRouter, AppWithRouter} from '@tinijs/router';
 import {initMeta, AppWithMeta} from '@tinijs/meta';
 
-import {AppWithUI, setupUI} from 'ui';
+import {AppWithUI, setupUI, bootstrapLightSkin, bootstrapDarkSkin} from '@tinijs/ui-bootstrap';
 
 import {AppConfig} from './types/common.js';
 
@@ -31,7 +31,12 @@ export class AppRoot
     metadata,
     autoPageMetadata: true,
   });
-  readonly ui = setupUI();
+  readonly ui = setupUI({
+    skins: {
+      'bootstrap/light': bootstrapLightSkin,
+      'bootstrap/dark': bootstrapDarkSkin,
+    }
+  });
 
   protected render() {
     return html`<router-outlet .router=${this.router}></router-outlet>`;

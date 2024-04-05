@@ -1,13 +1,16 @@
 import {resolve} from 'pathe';
 import {defu} from 'defu';
-import {createCLICommand} from '@tinijs/cli';
+import {
+  createCLICommand,
+  GenFileResult,
+  outputGenFileResults,
+} from '@tinijs/cli';
 import {consola} from 'consola';
 import {AsyncReturnType} from 'type-fest';
 
 import {
-  BuildResult,
-  listAvailableComponentsAndThemeFamilies,
-  outputBuildResults,
+  listAvailableComponents,
+  listAvailableThemeFamilies,
   buildGlobal,
   buildSkins,
   buildBases,
@@ -34,7 +37,13 @@ export const uiBuildCommand = createCLICommand(
     } = cliExpansion;
     const uiConfig = tiniProject.config.ui;
     if (!uiConfig) return consola.error('No UI configuration found.');
-
+    const cachedAvailable = {} as Record<
+      string,
+      {
+        components: AsyncReturnType<typeof listAvailableComponents>;
+        themeFamilies: AsyncReturnType<typeof listAvailableThemeFamilies>;
+      }
+    >;
     const packConfigs = [uiConfig].concat(
       !uiConfig.outPacks
         ? []
@@ -42,83 +51,84 @@ export const uiBuildCommand = createCLICommand(
             pack.extends === false ? pack : defu(pack, uiConfig)
           )
     );
+    for (const config of packConfigs) {
+      if (!config.sources?.length || !config.families) continue;
 
-    const cachedAvailable = {} as Record<
-      string,
-      AsyncReturnType<typeof listAvailableComponentsAndThemeFamilies>
-    >;
-    for (const {
-      sources,
-      families,
-      icons,
-      outDir,
-      react,
-      packageJSON,
-    } of packConfigs) {
-      if (!sources?.length || !families) continue;
-      const outDirPath = resolve(outDir || '.ui');
+      // load available components and theme families
+      const outDirPath = resolve(config.outDir || '.ui');
       const {
         components: availableComponents,
         themeFamilies: availableThemeFamilies,
-      } = (cachedAvailable[sources.join(',')] ||=
-        await listAvailableComponentsAndThemeFamilies(sources));
+      } = (cachedAvailable[config.sources.join(',')] ||= {
+        components: await listAvailableComponents(config.sources),
+        themeFamilies: await listAvailableThemeFamilies(config.sources),
+      });
+
+      const results: GenFileResult[] = [];
 
       // build global styles
       const globalResults = await buildGlobal();
-      await outputBuildResults(outDirPath, globalResults);
+      results.push(...globalResults);
 
       // build skins
       const skinResults = await buildSkins(
         outDirPath,
         availableThemeFamilies,
-        families
+        config
       );
-      await outputBuildResults(outDirPath, skinResults);
+      results.push(...skinResults);
 
       // build bases
       const baseResults = await buildBases(
         outDirPath,
         availableThemeFamilies,
-        families
+        config
       );
-      await outputBuildResults(outDirPath, baseResults);
+      results.push(...baseResults);
 
       // build components
       const componentResults = await buildComponents(
         outDirPath,
         availableComponents,
         availableThemeFamilies,
-        families,
-        react
+        config
       );
-      await outputBuildResults(outDirPath, componentResults);
+      results.push(...componentResults);
 
       // build icons
-      let iconResults: BuildResult[] = [];
-      if (icons) {
-        iconResults = await buildIcons(icons, react);
-        await outputBuildResults(outDirPath, iconResults);
-      }
+      const iconResults = await buildIcons(config);
+      results.push(...iconResults);
 
       // build setup
-      const setupResult = await buildSetup();
-      await outputBuildResults(outDirPath, setupResult);
+      const setupResult = await buildSetup(config);
+      results.push(setupResult);
 
-      // build public api
-      const publicAPIResult = await buildPublicAPI([
-        setupResult,
-        ...globalResults,
-        ...skinResults,
-        ...baseResults,
-      ]);
-      await outputBuildResults(outDirPath, publicAPIResult);
+      // build public api & package.json
+      if (config.packageJSON) {
+        const publicAPIResult = await buildPublicAPI([
+          setupResult,
+          ...globalResults,
+          ...skinResults,
+          ...baseResults,
+        ]);
+        results.push(publicAPIResult);
 
-      // build package.json
-      const packageJSONResults = await buildPackageJSON(packageJSON);
-      await outputBuildResults(outDirPath, packageJSONResults);
+        const packageJSONResult = await buildPackageJSON(config.packageJSON);
+        results.push(packageJSONResult);
+      }
+
+      // output build results
+      await outputGenFileResults(outDirPath, results);
 
       // transpile & remove .ts files
-      await transpileAndRemoveTSFiles(outDirPath);
+      if (config.transpile) {
+        await transpileAndRemoveTSFiles(
+          outDirPath,
+          results
+            .map(result => resolve(outDirPath, result.path))
+            .filter(path => path.endsWith('.ts'))
+        );
+      }
     }
   }
 );

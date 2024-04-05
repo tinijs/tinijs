@@ -23,9 +23,8 @@
     "@tinijs/meta": "file:../../packages/meta",
     "@tinijs/router": "file:../../packages/router",
     "@tinijs/store": "file:../../packages/store",
-    "@tinijs/ui": "file:../../packages/ui",
-    "lit": "^3.1.2",
-    "ui": "file:.ui"
+    "@tinijs/ui-bootstrap": "file:../../packages/ui/build/bootstrap",
+    "lit": "^3.1.2"
   },
   "devDependencies": {
     "@tinijs/cli": "file:../../packages/cli",

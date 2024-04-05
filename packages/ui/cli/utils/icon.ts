@@ -3,56 +3,45 @@ import {readFile} from 'node:fs/promises';
 import isomorphicDompurify from 'isomorphic-dompurify';
 import {optimize} from 'svgo';
 import slugify from '@sindresorhus/slugify';
-import {listDir, parseName} from '@tinijs/cli';
+import {GenFileResult, listDir, parseName, createGenFile} from '@tinijs/cli';
 import {UIConfig} from '@tinijs/project';
-
-import {BuildDef, BuildResult, constructFileContent} from './build.js';
 
 const {sanitize} = isomorphicDompurify;
 
-export async function buildIcons(
-  config: NonNullable<UIConfig['icons']>,
-  react?: boolean
-) {
-  const result: BuildResult[] = [];
+export async function buildIcons(config: UIConfig) {
+  const results: GenFileResult[] = [];
 
-  const availableIcons = await loadAndProcessAvailableIcons(config);
+  const availableIcons = await loadAndProcessAvailableIcons(config.icons || []);
   for (const {path, name} of availableIcons) {
-    const iconTS: BuildDef = {
-      imports: [],
-      blocks: [],
-    };
+    const iconTS = createGenFile();
     const {tagName, className} = parseName(name);
     const dataURI = await fileToDataURI(path);
-    iconTS.imports.push(['../components/icon.js', ['TiniIconComponent']]);
-    iconTS.blocks.push([
+    iconTS.addImport('../components/icon.js', ['TiniIconComponent']);
+    iconTS.addBlock(
       `export class Icon${className}Component extends TiniIconComponent`,
       `{
 static readonly defaultTagName = '${tagName}';
 static readonly prebuiltSrc = \`${dataURI}\`;   
-}`,
-    ]);
+}`
+    );
 
-    if (react) {
-      iconTS.imports.push(['react', 'React']);
-      iconTS.imports.push(['@lit/react', ['createComponent']]);
-      iconTS.blocks.push([
+    if (config.framework === 'react') {
+      iconTS.addImport('react', 'React');
+      iconTS.addImport('@lit/react', ['createComponent']);
+      iconTS.addBlock(
         `export const Icon${className} =`,
         `createComponent({
 react: React,
 elementClass: Icon${className}Component,
 tagName: Icon${className}Component.defaultTagName,
-})`,
-      ]);
+})`
+      );
     }
 
-    result.push({
-      path: `icons/${name}.ts`,
-      content: constructFileContent(iconTS),
-    });
+    results.push(iconTS.toResult(`icons/${name}.ts`));
   }
 
-  return result;
+  return results;
 }
 
 async function loadAndProcessAvailableIcons(

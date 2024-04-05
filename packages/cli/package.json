@@ -23,7 +23,7 @@
     "!**/*.spec.*"
   ],
   "scripts": {
-    "build": "rimraf ./dist && tsc",
+    "build": "rimraf ./dist && tsc && chmod +x ../../node_modules/.bin/tini",
     "deploy": "npm run build && npm publish",
     "test": "vitest run",
     "lint": "gts lint",
@@ -55,6 +55,7 @@
     "execa": "^8.0.1",
     "fs-extra": "^11.2.0",
     "jiti": "^1.21.0",
+    "knitwork": "^1.1.0",
     "open": "^10.0.4",
     "pathe": "^1.1.2",
     "picomatch": "^4.0.1",

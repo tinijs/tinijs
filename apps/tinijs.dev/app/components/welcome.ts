@@ -1,6 +1,6 @@
 import {html} from 'lit';
 
-import {TiniButtonComponent} from 'ui/components/button.js';
+import {TiniButtonComponent} from '@tinijs/ui-bootstrap/components/button.js';
 
 import {Component, TiniComponent} from '@tinijs/core';
 
