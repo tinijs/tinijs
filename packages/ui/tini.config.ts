@@ -17,8 +17,8 @@ const bootstrapUIPack: NonNullable<UIConfig['outPacks']>[0] = {
     version: `${version}`,
     dependencies: {
       [`${name}`]: `${version}`,
-    }
-  })
+    },
+  }),
 };
 
 export default defineTiniConfig({
@@ -33,9 +33,7 @@ export default defineTiniConfig({
     //   version: '0.0.0',
     // },
     // icons: ['./test-icons'],
-    outPacks: [
-      bootstrapUIPack,
-    ],
+    outPacks: [bootstrapUIPack],
   },
 
   cli: {

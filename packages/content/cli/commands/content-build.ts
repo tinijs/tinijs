@@ -10,7 +10,7 @@ import matter from 'gray-matter';
 import toml from 'toml';
 import transliterate from '@sindresorhus/transliterate';
 import slugify from '@sindresorhus/slugify';
-import {execaCommand} from 'execa';
+import {execa} from 'execa';
 import {consola} from 'consola';
 import {getTiniProject} from '@tinijs/project';
 import {cleanDir, listDir, createCLICommand} from '@tinijs/cli';
@@ -87,14 +87,14 @@ export const contentBuildCommand = createCLICommand(
   },
   async (args, callbacks) => {
     const contentDirName = args.dir || 'content';
-    const eleventyConfigPath = resolve(contentDirName, 'eleventy.config.js');
+    const eleventyConfigPath = resolve(contentDirName, 'eleventy.config.cjs');
     if (!pathExistsSync(eleventyConfigPath)) {
       return callbacks?.onInvalidProject?.(contentDirName);
     }
     const {
-      config: {compileDir, outDir},
+      config: {outDir},
     } = await getTiniProject();
-    const stagingContentDir = `${compileDir}/content`;
+    const stagingContentDir = '.content';
     const tiniContentDir = `${outDir}/tini-content`;
     const srcPath = resolve(stagingContentDir);
     const destPath = resolve(tiniContentDir);
@@ -104,7 +104,7 @@ export const contentBuildCommand = createCLICommand(
 
     // 11ty render
     callbacks?.onStart?.();
-    execaCommand(`npx @11ty/eleventy --config="${eleventyConfigPath}"`, {
+    await execa('npx', ['@11ty/eleventy', `--config=${eleventyConfigPath}`], {
       stdio: 'ignore',
     });
 
@@ -113,7 +113,7 @@ export const contentBuildCommand = createCLICommand(
       (result, item) => {
         if (
           ~item.indexOf('/uploads/') ||
-          ~item.indexOf(`/${compileDir}/images/`) ||
+          ~item.indexOf(`/${stagingContentDir}/images/`) ||
           !item.endsWith('.html')
         ) {
           result.copyPaths.push(item);
@@ -131,7 +131,7 @@ export const contentBuildCommand = createCLICommand(
     // copy
     await Promise.all(
       copyPaths.map(async path => {
-        const filePath = path.replace(compileDir, tiniContentDir);
+        const filePath = path.replace(stagingContentDir, tiniContentDir);
         await ensureDir(filePath.replace(/\/[^/]+$/, ''));
         return copyFile(path, filePath);
       })
@@ -147,7 +147,7 @@ export const contentBuildCommand = createCLICommand(
     for (let i = 0; i < buildPaths.length; i++) {
       const path = buildPaths[i];
       const [collection, slug] = path
-        .split(`/${compileDir}/`)
+        .split(`/${stagingContentDir}/`)
         .pop()!
         .replace(/\/[^/]+$/, '')
         .split('/');
@@ -294,7 +294,7 @@ export const contentBuildCommand = createCLICommand(
   {
     onInvalidProject: (contentDirName: string) =>
       consola.error(
-        `Invalid content project (no ${contentDirName}/eleventy.config.js found).`
+        `Invalid content project (no ${contentDirName}/eleventy.config.cjs found).`
       ),
     onStart: () => SPINNER.start(),
     onBuildItem: (collection: string, slug: string) =>

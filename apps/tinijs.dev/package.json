@@ -19,6 +19,7 @@
     "fix": "gts fix"
   },
   "dependencies": {
+    "@tinijs/content": "file:../../packages/content",
     "@tinijs/core": "file:../../packages/core",
     "@tinijs/meta": "file:../../packages/meta",
     "@tinijs/router": "file:../../packages/router",
