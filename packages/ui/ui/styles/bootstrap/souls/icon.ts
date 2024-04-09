@@ -15,6 +15,7 @@ export const styles = css`
 
   :host {
     display: inline;
+    line-height: 0;
   }
 
   /*

@@ -13,8 +13,9 @@ import {
 } from '@tinijs/core';
 
 export default class extends TiniElement {
+  static readonly prebuiltSRC?: string;
+
   /* eslint-disable prettier/prettier */
-  static readonly prebuiltSrc?: string;
   @property({type: String, reflect: true}) declare src?: string;
   @property({type: String, reflect: true}) declare icon?: string;
   @property({type: String, reflect: true}) declare provider?: string;
@@ -36,18 +37,20 @@ export default class extends TiniElement {
       },
     });
     // root styles
-    if (changedProperties.has('src') || changedProperties.has('icon')) {
-      const src =
-        (this.constructor as any).prebuiltSrc ||
-        this.src ||
-        this.buildCustomSrc();
+    const prebuiltSRC = (this.constructor as any).prebuiltSRC;
+    if (prebuiltSRC) {
       this.rootStyles = {
-        '--icon-image': `url(${src})`,
+        '--icon-image': `url("${prebuiltSRC}")`,
+      };
+    } else if (changedProperties.has('src') || changedProperties.has('icon')) {
+      const src = this.src || this.buildCustomSRC();
+      this.rootStyles = {
+        '--icon-image': `url("${src}")`,
       };
     }
   }
 
-  private buildCustomSrc() {
+  private buildCustomSRC() {
     if (!this.icon)
       throw new Error(
         'The "icon" attribute is required when "src" is not provided.'

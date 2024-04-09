@@ -2,14 +2,11 @@
 import Index from 'flexsearch/dist/module/index';
 import {IndexSearchResult} from 'flexsearch';
 
-import {transliterate} from '../common/utils/transliterate.js';
-import {slugify} from './utils/slugify.js';
-import {parseDenorm} from './utils/parse-denorm.js';
-import {parseDenormList} from './utils/parse-denorm-list.js';
-import {ContentInstance} from './utils/create-content-instance.js';
+import {transliterate} from './utils/transliterate.js';
+import {parseDenorm, parseDenormList} from './utils/denorm.js';
+import {ContentInstance} from './utils/instance.js';
 
 export class ContentService<Lite, Full> {
-  slugify = slugify;
   parseDenorm = parseDenorm;
   parseDenormList = parseDenormList;
 

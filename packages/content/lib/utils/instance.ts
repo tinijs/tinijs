@@ -1,6 +1,4 @@
-import {get} from '../../fetch/utils/get.js';
-
-export type CreateContentInstance = typeof createContentInstance;
+import {ofetch} from 'ofetch';
 
 export type RootIndex = Record<string, string>;
 
@@ -57,19 +55,19 @@ export class ContentInstance<Lite, Full> {
   }
 
   async fetchList() {
-    return get<Lite[]>(await this.getListUrl());
+    return ofetch<Lite[]>(await this.getListUrl(), {method: 'GET'});
   }
 
   async fetchSearch() {
-    return get<Record<string, string>>(await this.getSearchUrl());
+    return ofetch<Record<string, string>>(await this.getSearchUrl(), {method: 'GET'});
   }
 
   async fetchItemBySlug(slug: string) {
-    return get<Full>(await this.getItemUrl(slug));
+    return ofetch<Full>(await this.getItemUrl(slug), {method: 'GET'});
   }
 
   async fetchItemById(id: string) {
-    return get<Full>(await this.getUrl(id));
+    return ofetch<Full>(await this.getUrl(id), {method: 'GET'});
   }
 
   async retrieveRootIndex() {
@@ -77,7 +75,7 @@ export class ContentInstance<Lite, Full> {
       this.options.manualRootIndex ||
       ContentInstance.indexRegistry.get(this.baseUrl) ||
       ContentInstance.indexRegistry
-        .set(this.baseUrl, await get<RootIndex>(await this.getRootIndexUrl()))
+        .set(this.baseUrl, await ofetch<RootIndex>(await this.getRootIndexUrl(), {method: 'GET'}))
         .get(this.baseUrl);
     if (!rootIndex)
       throw new Error(`Error loading root index for ${this.baseUrl}`);
@@ -93,5 +91,3 @@ export function createContentInstance<Lite, Full>(
   delete options.baseUrl;
   return new ContentInstance<Lite, Full>(collectionName, baseUrl, options);
 }
-
-export default createContentInstance;
