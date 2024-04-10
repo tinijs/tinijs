@@ -1,5 +1,6 @@
 import {resolve} from 'pathe';
 import {Promisable} from 'type-fest';
+import {pascalCase} from 'change-case';
 
 import {parseName, Names} from './name.js';
 
@@ -81,21 +82,36 @@ async function generateBuiltinMainTemplate({
   nested,
   componentPrefix,
 }: TemplateContext) {
-  const destSplits = dest.replace(/\\/g, '/').split('/') as string[];
+  const destArr = dest.replace(/\\/g, '/').split('/') as string[];
   const names = parseName(
-    destSplits[destSplits.length - 1].split('.')[0],
-    ({tagName}) => ({
-      tagName:
-        type === BuiltinTypes.Component
+    destArr[destArr.length - 1].split('.')[0],
+    ({className, tagName}) => {
+      const typePascalCase = pascalCase(type);
+      const prefixPascalCase = pascalCase(componentPrefix);
+      const isComponent = type === BuiltinTypes.Component;
+      const isLayoutOrPage =
+        type === BuiltinTypes.Layout || type === BuiltinTypes.Page;
+      return {
+        tagName: isComponent
           ? `${componentPrefix}-${tagName}`
-          : `${componentPrefix}-${type}-${tagName}`,
-    })
+          : isLayoutOrPage
+            ? `${componentPrefix}-${type}-${tagName}`
+            : tagName,
+        className:
+          type === BuiltinTypes.Service
+            ? `${className}Service`
+            : isComponent
+              ? `${prefixPascalCase}${className}Component`
+              : isLayoutOrPage
+                ? `${prefixPascalCase}${typePascalCase}${className}`
+                : className,
+      };
+    }
   );
   // paths
   const name = names.cleanName;
-  const ext = 'ts';
-  const filePaths = dest.replace(/\\/g, '/').split('/') as string[];
-  if (nested) filePaths.push(name);
+  const filePathArr = destArr.slice(0, destArr.length - 1);
+  if (nested) filePathArr.push(name);
   const defaultFolder = (
     {
       [BuiltinTypes.Service]: 'services',
@@ -112,8 +128,8 @@ async function generateBuiltinMainTemplate({
   const shortPath = [
     srcDir,
     defaultFolder,
-    ...filePaths,
-    `${name}.${!typePrefixed ? '' : type + '.'}${ext}`,
+    ...filePathArr,
+    `${name}${!typePrefixed ? '' : `.${type}`}.ts`,
   ]
     .join('/')
     .replace(`${defaultFolder}/${defaultFolder}`, defaultFolder);
@@ -161,78 +177,74 @@ async function generateBuiltinMainTemplate({
 }
 
 function getServiceMainContent({className}: Names) {
-  const serviceName = `${className}Service`;
-  return `export class ${serviceName} {
-name = '${serviceName}';
+  return `export class ${className} {
+  name = '${className}';
 }
 
-export default ${serviceName};\n`;
+export default ${className};\n`;
 }
 
 function getLayoutMainContent({className, tagName}: Names) {
-  const layoutName = `${className}Layout`;
   return `import {html, css} from 'lit';
 
 import {Layout, TiniComponent} from '@tinijs/core';
 
 @Layout({
-name: '${tagName}',
+  name: '${tagName}',
 })
-export class ${layoutName} extends TiniComponent {
+export class ${className} extends TiniComponent {
 
-protected render() {
-  return html\`<div class="page"><slot></slot></div>\`;
-}
+  protected render() {
+    return html\`<div class="page"><slot></slot></div>\`;
+  }
 
-static styles = css\`\`;
+  static styles = css\`\`;
 }\n`;
 }
 
 function getPageMainContent({className, tagName}: Names) {
-  const pageName = `${className}Page`;
   return `import {html, css} from 'lit';
 
 import {Page, TiniComponent} from '@tinijs/core';
 
 @Page({
-name: '${tagName}',
+  name: '${tagName}',
 })
-export class ${pageName} extends TiniComponent {
+export class ${className} extends TiniComponent {
 
-protected render() {
-  return html\`<p>${pageName}</p>\`;
-}
+  protected render() {
+    return html\`<p>${className}</p>\`;
+  }
 
-static styles = css\`\`;
+  static styles = css\`\`;
 }\n`;
 }
 
 function getComponentMainContent({className, tagName}: Names) {
-  const componentName = `${className}Component`;
   return `import {html, css} from 'lit';
 
 import {Component, TiniComponent, OnCreate, Input, Output, EventEmitter} from '@tinijs/core';
 
 @Component()
-export class ${componentName} extends TiniComponent implements OnCreate {
-static readonly defaultTagName = '${tagName}';
+export class ${className} extends TiniComponent implements OnCreate {
+  static readonly defaultTagName = '${tagName}';
 
-@Input() property?: string;
-@Output() customEvent!: EventEmitter<{payload: any}>;
+  @Input() property?: string;
+  @Output() customEvent!: EventEmitter<{payload: any}>;
 
-onCreate() {
-  // element connected
-}
+  onCreate() {
+    // element connected
+  }
 
-emitCustomEvent() {
-  customEvent.emit({payload: '...'});
-}
+  emitCustomEvent() {
+    this.customEvent.emit({payload: '...'});
+  }
 
-protected render() {
-  return html\`<p @click=\${emitCustomEvent}>${componentName}</p>\`;
-}
+  protected render() {
+    return html\`<p @click=\${this.emitCustomEvent}>${className}</p>\`;
+  }
 
-static styles = css\`\`;
+  static styles = css\`\`;
 }\n`;
 }
 
@@ -243,19 +255,19 @@ function getPartialMainContent({varName}: Names) {
 // if you use other components in this partial
 
 export function ${varName}Partial({
-custom = 'foo'
+  custom = 'foo'
 }: {
-custom?: string
+  custom?: string
 } = {}) {
-return html\`
-  <p>Partial content: $\{custom}</p>
-\`;
+  return html\`
+    <p>Partial content: $\{custom}</p>
+  \`;
 }\n`;
 }
 
 function getUtilMainContent({varName}: Names) {
-  return `export function ${varName}(param: string) {
-return param.toUpperCase();
+  return `export function ${varName}(arg: string) {
+  return arg.toUpperCase();
 }\n`;
 }
 
@@ -267,7 +279,7 @@ function getStoreMainContent({varName}: Names) {
   return `import {createStore} from '@tinijs/store';
 
 export const ${varName}Store = createStore({
-name: '${varName}',
+  name: '${varName}',
 });\n`;
 }
 
