@@ -3,8 +3,8 @@ import {SubCommandsDef, defineCommand, runMain} from 'citty';
 
 import {TiniProject, getTiniProject} from '@tinijs/project';
 
-import {loadCLIPackageJSON} from '../lib/utils/project.js';
-import {resolveCommand, setupCLIExpansion} from '../lib/utils/cli.js';
+import {loadCLIPackageJSON} from './utils/project.js';
+import {resolveCommand, setupCLIExpansion} from './utils/cli.js';
 
 async function getCommands(tiniProject: TiniProject) {
   const cliConfig = tiniProject.config.cli;

@@ -3,39 +3,24 @@ import {classMap} from 'lit/directives/class-map.js';
 import {cache} from 'lit/directives/cache.js';
 import {repeat} from 'lit/directives/repeat.js';
 import {UnstableStates} from '@tinijs/core';
-import {
-  Component,
-  TiniComponent,
-  Input,
-  Reactive,
-  stylingWithBases,
-} from '@tinijs/core';
+import {Component, TiniComponent, Input, Reactive} from '@tinijs/core';
 import {Subscribe} from '@tinijs/store';
-import {
-  commonBases,
-  headingsBases,
-  linkBases,
-  textBases,
-  buttonBases,
-  codeBases,
-} from '@tinijs/ui/bases';
-import {IconGithubComponent} from '@tinijs/bootstrap-icons/github';
 
-import {Configurable} from '../configurable';
-import {OFFICIAL_REPO_URL, ImportMethods} from '../consts/main';
-import {ICON_EXPERIMENTAL, ICON_DEPRECATED} from '../consts/icons';
-import {buildGithubRawUrl} from '../helpers/github';
+import {Configurable} from '../configurable.js';
+import {OFFICIAL_REPO_URL, ImportMethods} from '../consts/main.js';
+import {ICON_EXPERIMENTAL, ICON_DEPRECATED} from '../consts/icons.js';
+import {buildGithubRawUrl} from '../utils/github.js';
 import {
   extractCSSVariables,
   VariableDef,
   extractComponentProperties,
-} from '../helpers/source';
-import {getText} from '../helpers/http';
-import {mainStore} from '../stores/main';
+} from '../utils/source.js';
+import {getText} from '../utils/http.js';
+import {mainStore} from '../stores/main.js';
 
-import {AppSectionComponent} from './section';
-import {AppTabsComponent, TabItem} from './tabs';
-import {AppCodeComponent} from './code';
+import {AppSectionComponent} from './section.js';
+import {AppTabsComponent, TabItem} from './tabs.js';
+import {AppCodeComponent} from './code.js';
 
 interface Quicklink {
   href: string;
@@ -49,22 +34,7 @@ enum Modes {
 }
 
 @Component({
-  components: [
-    IconGithubComponent,
-    AppSectionComponent,
-    AppTabsComponent,
-    AppCodeComponent,
-  ],
-  theming: {
-    styling: stylingWithBases([
-      codeBases,
-      headingsBases,
-      linkBases,
-      textBases,
-      buttonBases,
-      commonBases,
-    ]),
-  },
+  components: [AppSectionComponent, AppTabsComponent, AppCodeComponent],
 })
 export class AppComponentPageComponent extends TiniComponent {
   static readonly defaultTagName = 'app-component-page';

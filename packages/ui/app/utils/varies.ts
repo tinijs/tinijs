@@ -26,7 +26,7 @@ import {
   AppSectionComponent,
   SectionCodeGroup,
   WRAPPER_CLASS_NAME,
-} from '../components/section';
+} from '../components/section.js';
 
 export interface RenderSectionOptions {
   className?: string;

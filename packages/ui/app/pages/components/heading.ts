@@ -1,14 +1,7 @@
 import {html} from 'lit';
-import {Page, TiniComponent, stylingWithBases} from '@tinijs/core';
-import {
-  commonBases,
-  headingsBases,
-  linkBases,
-  textBases,
-  codeBases,
-} from '@tinijs/ui/bases';
-import {TiniHeadingComponent} from '@tinijs/ui/components/heading';
-import {TiniBoxComponent} from '@tinijs/ui/components/box';
+import {Page, TiniComponent} from '@tinijs/core';
+import {TiniHeadingComponent} from '@tinijs/ui-app/components/heading.js';
+import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
 
 import {
   renderSection,
@@ -24,17 +17,17 @@ import {
   renderFiltersSection,
   renderStyleDeepSection,
   RenderSectionOptions,
-} from '../../helpers/varies';
-import {ConsumerPlatforms} from '../../consts/main';
-import {CodeBuilder, ReactCommonProps} from '../../helpers/code-builder';
+} from '../../utils/varies.js';
+import {ConsumerPlatforms} from '../../consts/main.js';
+import {CodeBuilder, ReactCommonProps} from '../../utils/code-builder.js';
 
-import {AppComponentPageComponent} from '../../components/component-page';
+import {AppComponentPageComponent} from '../../components/component-page.js';
 import {
   AppSectionComponent,
   FLEX_COLUMN_STYLES,
   FLEX_ROW_STYLES,
   WIDE_SM_STYLES,
-} from '../../components/section';
+} from '../../components/section.js';
 
 @Page({
   name: 'app-page-components-heading',
@@ -44,15 +37,6 @@ import {
     AppComponentPageComponent,
     AppSectionComponent,
   ],
-  theming: {
-    styling: stylingWithBases([
-      commonBases,
-      headingsBases,
-      linkBases,
-      textBases,
-      codeBases,
-    ]),
-  },
 })
 export class AppPageComponentsHeading extends TiniComponent {
   private readonly PART_LIST = [['root', 'The root part']];

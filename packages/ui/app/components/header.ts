@@ -1,34 +1,19 @@
 import {html, css} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
-import {
-  Component,
-  TiniComponent,
-  Reactive,
-  stylingWithBases,
-} from '@tinijs/core';
+import {Component, TiniComponent, Reactive} from '@tinijs/core';
 import {Subscribe} from '@tinijs/store';
-import {commonBases, linkBases, buttonBases, formBases} from '@tinijs/ui/bases';
-import {TiniIconComponent} from '@tinijs/ui/components/icon';
-import {IconGithubComponent} from '@tinijs/bootstrap-icons/github';
-import {IconPaletteComponent} from '@tinijs/bootstrap-icons/palette';
 
-import {Configurable} from '../configurable';
-import {changeTheme} from '../helpers/theme';
-import {mainStore} from '../stores/main';
-import {ICON_EXPERIMENTAL} from '../consts/icons';
+import {TiniIconComponent} from '@tinijs/ui-app/components/icon.js';
 
-import {AppSkinEditorComponent} from './skin-editor';
+import {Configurable} from '../configurable.js';
+import {changeTheme} from '../utils/theme.js';
+import {mainStore} from '../stores/main.js';
+import {ICON_EXPERIMENTAL} from '../consts/icons.js';
+
+import {AppSkinEditorComponent} from './skin-editor.js';
 
 @Component({
-  components: [
-    TiniIconComponent,
-    IconGithubComponent,
-    IconPaletteComponent,
-    AppSkinEditorComponent,
-  ],
-  theming: {
-    styling: stylingWithBases([commonBases, linkBases, buttonBases, formBases]),
-  },
+  components: [TiniIconComponent, AppSkinEditorComponent],
 })
 export class AppHeaderComponent extends TiniComponent {
   static readonly defaultTagName = 'app-header';

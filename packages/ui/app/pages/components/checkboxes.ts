@@ -1,18 +1,12 @@
 import {html} from 'lit';
 import {Colors} from '@tinijs/core';
-import {Page, TiniComponent, stylingWithBases} from '@tinijs/core';
-import {
-  commonBases,
-  headingsBases,
-  linkBases,
-  textBases,
-  codeBases,
-} from '@tinijs/ui/bases';
-import {TiniBoxComponent} from '@tinijs/ui/components/box';
+import {Page, TiniComponent} from '@tinijs/core';
+
+import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
 import {
   TiniCheckboxesComponent,
   CheckboxesItem,
-} from '@tinijs/ui/components/checkboxes';
+} from '@tinijs/ui-app/components/checkboxes.js';
 
 import {
   renderSection,
@@ -21,15 +15,15 @@ import {
   renderScalesSection,
   renderStyleDeepSection,
   RenderSectionOptions,
-} from '../../helpers/varies';
-import {ConsumerPlatforms} from '../../consts/main';
-import {CodeBuilder} from '../../helpers/code-builder';
+} from '../../utils/varies.js';
+import {ConsumerPlatforms} from '../../consts/main.js';
+import {CodeBuilder} from '../../utils/code-builder.js';
 
-import {AppComponentPageComponent} from '../../components/component-page';
+import {AppComponentPageComponent} from '../../components/component-page.js';
 import {
   AppSectionComponent,
   FLEX_COLUMN_STYLES,
-} from '../../components/section';
+} from '../../components/section.js';
 
 @Page({
   name: 'app-page-components-checkboxes',
@@ -39,15 +33,6 @@ import {
     AppComponentPageComponent,
     AppSectionComponent,
   ],
-  theming: {
-    styling: stylingWithBases([
-      commonBases,
-      headingsBases,
-      linkBases,
-      textBases,
-      codeBases,
-    ]),
-  },
 })
 export class AppPageComponentsCheckboxes extends TiniComponent {
   private readonly PART_LIST = [

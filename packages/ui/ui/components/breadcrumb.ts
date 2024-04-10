@@ -21,10 +21,6 @@ export interface BreadcrumbItem {
 }
 ***/
 export default class extends TiniElement {
-  static readonly componentMetadata = {
-    warnAboutMissingBases: ['common'],
-  };
-
   /* eslint-disable prettier/prettier */
   @property({type: String}) declare items?: BreadcrumbItem[];
   @property({type: String, reflect: true}) declare linkColor?: Colors | Gradients;

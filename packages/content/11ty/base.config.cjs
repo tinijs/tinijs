@@ -103,7 +103,7 @@ module.exports = function (eleventyConfig, options) {
     htmlTemplateEngine: 'njk',
     dir: {
       input: 'content',
-      output: '.tini-content',
+      output: '.content',
     },
     pathPrefix: '/tini-content/',
     ...(eleventyOptions || {}),

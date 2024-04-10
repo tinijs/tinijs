@@ -4,10 +4,6 @@ import {classMap, ClassInfo} from 'lit/directives/class-map.js';
 import {TiniElement, partAttrMap, VaryGroups, BoxShadows} from '@tinijs/core';
 
 export default class extends TiniElement {
-  static readonly componentMetadata = {
-    warnAboutMissingBases: ['common'],
-  };
-
   /* eslint-disable prettier/prettier */
   @property({type: Boolean, reflect: true}) declare fluid?: boolean;
   @property({type: String, reflect: true}) declare shadow?: BoxShadows;

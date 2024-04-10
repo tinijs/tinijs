@@ -4,7 +4,7 @@ import superstatic from 'superstatic';
 
 import {getTiniProject} from '@tinijs/project';
 
-import {createCLICommand} from '../../lib/utils/cli.js';
+import {createCLICommand} from '../utils/cli.js';
 
 export const previewCommand = createCLICommand(
   {

@@ -1,25 +1,18 @@
 import {html} from 'lit';
-import {Page, TiniComponent, stylingWithBases} from '@tinijs/core';
-import {
-  commonBases,
-  headingsBases,
-  linkBases,
-  textBases,
-  codeBases,
-} from '@tinijs/ui/bases';
-import {TiniBoxComponent} from '@tinijs/ui/components/box';
-import {TiniTableComponent} from '@tinijs/ui/components/table';
+import {Page, TiniComponent} from '@tinijs/core';
+import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
+import {TiniTableComponent} from '@tinijs/ui-app/components/table.js';
 
 import {
   renderSection,
   renderDefaultSection,
   RenderSectionOptions,
-} from '../../helpers/varies';
-import {ConsumerPlatforms} from '../../consts/main';
-import {CodeBuilder, ReactCommonProps} from '../../helpers/code-builder';
+} from '../../utils/varies.js';
+import {ConsumerPlatforms} from '../../consts/main.js';
+import {CodeBuilder, ReactCommonProps} from '../../utils/code-builder.js';
 
-import {AppComponentPageComponent} from '../../components/component-page';
-import {AppSectionComponent} from '../../components/section';
+import {AppComponentPageComponent} from '../../components/component-page.js';
+import {AppSectionComponent} from '../../components/section.js';
 
 @Page({
   name: 'app-page-components-table',
@@ -29,15 +22,6 @@ import {AppSectionComponent} from '../../components/section';
     AppComponentPageComponent,
     AppSectionComponent,
   ],
-  theming: {
-    styling: stylingWithBases([
-      commonBases,
-      headingsBases,
-      linkBases,
-      textBases,
-      codeBases,
-    ]),
-  },
 })
 export class AppPageComponentsTable extends TiniComponent {
   private readonly PART_LIST = [['root', 'The root part']];

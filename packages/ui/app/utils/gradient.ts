@@ -1,5 +1,5 @@
 import {parse} from 'gradient-parser';
-import * as chroma from 'chroma-js';
+import chroma from 'chroma-js';
 
 export function parseGradient(value: string) {
   // parse

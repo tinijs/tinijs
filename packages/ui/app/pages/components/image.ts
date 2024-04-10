@@ -1,30 +1,23 @@
 import {html} from 'lit';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {Page, TiniComponent, stylingWithBases} from '@tinijs/core';
-import {
-  commonBases,
-  headingsBases,
-  linkBases,
-  textBases,
-  codeBases,
-} from '@tinijs/ui/bases';
-import {TiniBoxComponent} from '@tinijs/ui/components/box';
-import {TiniImageComponent} from '@tinijs/ui/components/image';
+import {Page, TiniComponent} from '@tinijs/core';
+import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
+import {TiniImageComponent} from '@tinijs/ui-app/components/image.js';
 
 import {
   renderSection,
   renderDefaultSection,
   renderBoxShadowsSection,
   RenderSectionOptions,
-} from '../../helpers/varies';
-import {ConsumerPlatforms} from '../../consts/main';
-import {CodeBuilder, ReactCommonProps} from '../../helpers/code-builder';
+} from '../../utils/varies.js';
+import {ConsumerPlatforms} from '../../consts/main.js';
+import {CodeBuilder} from '../../utils/code-builder.js';
 
-import {AppComponentPageComponent} from '../../components/component-page';
+import {AppComponentPageComponent} from '../../components/component-page.js';
 import {
   AppSectionComponent,
   FLEX_ROW_GAP2X_STYLES,
-} from '../../components/section';
+} from '../../components/section.js';
 
 @Page({
   name: 'app-page-components-image',
@@ -34,15 +27,6 @@ import {
     AppComponentPageComponent,
     AppSectionComponent,
   ],
-  theming: {
-    styling: stylingWithBases([
-      commonBases,
-      headingsBases,
-      linkBases,
-      textBases,
-      codeBases,
-    ]),
-  },
 })
 export class AppPageComponentsImage extends TiniComponent {
   private readonly PART_LIST = [['root', 'The root part']];

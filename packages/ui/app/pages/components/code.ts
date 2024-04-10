@@ -1,20 +1,14 @@
 import {html} from 'lit';
-import {Page, TiniComponent, stylingWithBases} from '@tinijs/core';
-import {
-  commonBases,
-  headingsBases,
-  linkBases,
-  textBases,
-  codeBases,
-} from '@tinijs/ui/bases';
-import {TiniCodeComponent} from '@tinijs/ui/components/code';
+import {Page, TiniComponent} from '@tinijs/core';
 
-import {renderSection, RenderSectionOptions} from '../../helpers/varies';
-import {ConsumerPlatforms} from '../../consts/main';
-import {CodeBuilder, ReactCommonProps} from '../../helpers/code-builder';
+import {TiniCodeComponent} from '@tinijs/ui-app/components/code.js';
 
-import {AppComponentPageComponent} from '../../components/component-page';
-import {AppSectionComponent} from '../../components/section';
+import {renderSection, RenderSectionOptions} from '../../utils/varies.js';
+import {ConsumerPlatforms} from '../../consts/main.js';
+import {CodeBuilder, ReactCommonProps} from '../../utils/code-builder.js';
+
+import {AppComponentPageComponent} from '../../components/component-page.js';
+import {AppSectionComponent} from '../../components/section.js';
 
 @Page({
   name: 'app-page-components-code',
@@ -23,15 +17,6 @@ import {AppSectionComponent} from '../../components/section';
     AppComponentPageComponent,
     AppSectionComponent,
   ],
-  theming: {
-    styling: stylingWithBases([
-      commonBases,
-      headingsBases,
-      linkBases,
-      textBases,
-      codeBases,
-    ]),
-  },
 })
 export class AppPageComponentsCode extends TiniComponent {
   private readonly PART_LIST = [['root', 'The root part']];

@@ -16,10 +16,6 @@ import {
 } from '@tinijs/core';
 
 export default class extends TiniElement {
-  static readonly componentMetadata = {
-    warnAboutMissingBases: ['common', 'headings'],
-  };
-
   /* eslint-disable prettier/prettier */
   @property({type: Number, reflect: true}) declare level?: number;
   @property({type: Boolean, reflect: true}) declare italic?: boolean;

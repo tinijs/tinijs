@@ -10,10 +10,8 @@ export interface CompileOptions {
   precompileGeneric?: 'none' | 'lite' | 'full';
 }
 
-export default function (options: CompileOptions = {}) {
-  return function (tiniProject: TiniProject) {
-    return new DefaultCompiler(options, tiniProject);
-  };
+export default function (options: CompileOptions, tiniProject: TiniProject) {
+  return new DefaultCompiler(options, tiniProject);
 }
 
 export class DefaultCompiler implements Compiler {
@@ -24,7 +22,7 @@ export class DefaultCompiler implements Compiler {
 
   async compile() {
     const srcPath = resolve(this.tiniProject.config.srcDir);
-    await cleanDir(this.tiniProject.config.tempDir);
+    await cleanDir(this.tiniProject.config.compileDir);
     const paths = await listDir(srcPath);
     await this.tiniProject.hooks.callHook('compile:before');
     for (let i = 0; i < paths.length; i++) {
@@ -36,7 +34,7 @@ export class DefaultCompiler implements Compiler {
   async compileFile(inPath: string) {
     const {base, ext} = parse(inPath);
     const outPath = resolve(
-      this.tiniProject.config.tempDir,
+      this.tiniProject.config.compileDir,
       inPath.replace(`${resolve(this.tiniProject.config.srcDir)}/`, '')
     );
     const context: CompileFileHookContext | null =

@@ -1,16 +1,16 @@
 export * from './lib/consts/common.js';
 
-export * from './lib/utils/build.js';
-export * from './lib/utils/cli.js';
-export * from './lib/utils/download.js';
-export * from './lib/utils/file.js';
-export * from './lib/utils/generate.js';
-export * from './lib/utils/git.js';
-export * from './lib/utils/message.js';
-export * from './lib/utils/module.js';
-export * from './lib/utils/name.js';
-export * from './lib/utils/project.js';
-export * from './lib/utils/typescript.js';
+export * from './cli/utils/build.js';
+export * from './cli/utils/cli.js';
+export * from './cli/utils/download.js';
+export * from './cli/utils/file.js';
+export * from './cli/utils/generate.js';
+export * from './cli/utils/git.js';
+export * from './cli/utils/message.js';
+export * from './cli/utils/module.js';
+export * from './cli/utils/name.js';
+export * from './cli/utils/project.js';
+export * from './cli/utils/typescript.js';
 
 export * from './cli/commands/build.js';
 export * from './cli/commands/dev.js';

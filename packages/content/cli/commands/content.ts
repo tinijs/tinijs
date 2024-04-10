@@ -6,7 +6,7 @@ export const contentCommand = createCLICommand({
     description: 'Tools for the content module.',
   },
   subCommands: {
-    build: import('./content-build.js').then(resolveCommand),
+    build: () => import('./content-build.js').then(resolveCommand),
   },
 });
 

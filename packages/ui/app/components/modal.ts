@@ -2,15 +2,9 @@ import {html, css, nothing} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
 import {ref, Ref, createRef} from 'lit/directives/ref.js';
 import {Colors} from '@tinijs/core';
-import {Component, TiniComponent, Input, stylingWithBases} from '@tinijs/core';
-import {
-  commonBases,
-  headingsBases,
-  linkBases,
-  textBases,
-  codeBases,
-} from '@tinijs/ui/bases';
-import {TiniButtonComponent} from '@tinijs/ui/components/button';
+import {Component, TiniComponent, Input} from '@tinijs/core';
+
+import {TiniButtonComponent} from '@tinijs/ui-app/components/button.js';
 
 export enum ModalKinds {
   Bare = 'bare',
@@ -32,15 +26,6 @@ export interface ModalResult<Context> {
 
 @Component({
   components: [TiniButtonComponent],
-  theming: {
-    styling: stylingWithBases([
-      commonBases,
-      headingsBases,
-      linkBases,
-      textBases,
-      codeBases,
-    ]),
-  },
 })
 export class AppModalComponent extends TiniComponent {
   static readonly defaultTagName = 'app-modal';

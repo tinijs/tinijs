@@ -23,18 +23,15 @@ Config `tini.config.ts` to use:
 export default defineTiniConfig({
   ui: {
     sources: ['@tinijs/ui'],
-    pick: {
-      families: {
-        bootstrap: {
-          skins: ['light', 'dark'],
-        },
-        material: {
-          skins: ['abc'],
-        }
+    families: {
+      bootstrap: {
+        skins: ['light', 'dark']
       },
-      bases: ['*']
+      material: {
+        skins: ['light']
+      }
     }
-  },
+  }
 })
 ```
 

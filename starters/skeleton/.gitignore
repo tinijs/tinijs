@@ -1,9 +1,0 @@
-# general
-.DS_Store
-node_modules
-
-# parceljs
-.parcel-cache
-
-# tinijs
-.tini

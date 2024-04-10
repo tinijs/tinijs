@@ -6,6 +6,7 @@
     }]
   },
   "ignorePatterns": [
-    "**/dist"
+    "**/dist",
+    "**/build"
   ]
 }

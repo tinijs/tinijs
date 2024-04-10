@@ -1,16 +1,12 @@
 import {html, css} from 'lit';
-import {Layout, TiniComponent, stylingWithBases} from '@tinijs/core';
-import {commonBases} from '@tinijs/ui/bases';
+import {Layout, TiniComponent} from '@tinijs/core';
 
-import {AppHeaderComponent} from '../components/header';
-import {AppMenuComponent} from '../components/menu';
+import {AppHeaderComponent} from '../components/header.js';
+import {AppMenuComponent} from '../components/menu.js';
 
 @Layout({
   name: 'app-layout-default',
   components: [AppHeaderComponent, AppMenuComponent],
-  theming: {
-    styling: stylingWithBases([commonBases]),
-  },
 })
 export class AppLayoutDefault extends TiniComponent {
   protected render() {

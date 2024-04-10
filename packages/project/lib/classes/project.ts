@@ -82,8 +82,8 @@ function getConfigFilePath() {
 export async function loadTiniConfig() {
   const defaultConfig: TiniConfig = {
     srcDir: 'app',
-    outDir: '.tini/outputs/app',
-    tempDir: '.tini/compiles/app',
+    compileDir: '.app',
+    outDir: '.output',
   };
   const configFilePath = getConfigFilePath();
   if (!configFilePath) {

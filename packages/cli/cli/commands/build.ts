@@ -4,8 +4,8 @@ import {remove} from 'fs-extra/esm';
 
 import {getTiniProject} from '@tinijs/project';
 
-import {loadCompiler, loadBuilder, buildPublic} from '../../lib/utils/build.js';
-import {createCLICommand} from '../../lib/utils/cli.js';
+import {loadCompiler, loadBuilder, buildPublic} from '../utils/build.js';
+import {createCLICommand} from '../utils/cli.js';
 
 export const buildCommand = createCLICommand(
   {

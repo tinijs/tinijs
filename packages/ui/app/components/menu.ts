@@ -1,19 +1,14 @@
 import {html, css, nothing} from 'lit';
 import {UnstableStates} from '@tinijs/core';
-import {Component, TiniComponent, stylingWithBases} from '@tinijs/core';
+import {Component, TiniComponent} from '@tinijs/core';
 import {Route} from '@tinijs/router';
-import {
-  commonBases,
-  headingsBases,
-  linkBases,
-  textBases,
-} from '@tinijs/ui/bases';
-import {TiniIconComponent} from '@tinijs/ui/components/icon';
-import {TiniLinkComponent} from '@tinijs/ui/components/link';
 
-import {Configurable} from '../configurable';
+import {TiniIconComponent} from '@tinijs/ui-app/components/icon.js';
+import {TiniLinkComponent} from '@tinijs/ui-app/components/link.js';
 
-import {ICON_EXPERIMENTAL} from '../consts/icons';
+import {Configurable} from '../configurable.js';
+
+import {ICON_EXPERIMENTAL} from '../consts/icons.js';
 
 interface NavItem {
   title: string;
@@ -23,14 +18,6 @@ interface NavItem {
 
 @Component({
   components: [TiniIconComponent, TiniLinkComponent],
-  theming: {
-    styling: stylingWithBases([
-      commonBases,
-      headingsBases,
-      linkBases,
-      textBases,
-    ]),
-  },
 })
 export class AppMenuComponent extends TiniComponent {
   static readonly defaultTagName = 'app-menu';

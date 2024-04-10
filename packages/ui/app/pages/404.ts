@@ -1,14 +1,11 @@
 import {html, css} from 'lit';
-import {Page, TiniComponent, stylingWithBases} from '@tinijs/core';
-import {codeBases, headingsBases, linkBases, textBases} from '@tinijs/ui/bases';
-import {TiniLinkComponent} from '@tinijs/ui/components/link';
+import {Page, TiniComponent} from '@tinijs/core';
+
+import {TiniLinkComponent} from '@tinijs/ui-app/components/link.js';
 
 @Page({
   name: 'app-page-404',
   components: [TiniLinkComponent],
-  theming: {
-    styling: stylingWithBases([codeBases, headingsBases, linkBases, textBases]),
-  },
 })
 export class AppPage404 extends TiniComponent {
   protected render() {

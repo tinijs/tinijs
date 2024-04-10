@@ -2,7 +2,7 @@ import {consola} from 'consola';
 import {bold, blueBright} from 'colorette';
 import open from 'open';
 
-import {createCLICommand} from '../../lib/utils/cli.js';
+import {createCLICommand} from '../utils/cli.js';
 
 export const docsCommand = createCLICommand(
   {

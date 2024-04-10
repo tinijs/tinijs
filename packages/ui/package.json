@@ -15,24 +15,19 @@
   "type": "module",
   "exports": {
     ".": "./dist/public-api.js",
-    "./app/*": "./dist/app/*"
+    "./dist/*": "./dist/*",
+    "./cli-expansion": "./dist/cli/expand.js"
   },
   "files": [
+    "app",
     "dist",
+    "!dist/app",
     "!**/*.spec.*"
   ],
   "scripts": {
-    "dev": "tini ui dev && tini dev",
+    "dev": "tini ui build && tini dev",
     "preview": "tini preview",
-    "build": "rimraf ./dist && tsc",
-    "publish": "npm run publish:1:bare && npm run publish:2:common && npm run publish:3:bootstrap",
-    "build:0:app": "tini ui dev && tini build",
-    "build:1:bare": "tini ui build",
-    "publish:1:bare": "cd build/@tinijs/ui && npm publish --access public",
-    "build:2:common": "tini ui build @tinijs/ui",
-    "publish:2:common": "cd build/@tinijs/ui-common && npm publish --access public",
-    "build:3:bootstrap": "tini ui build @tinijs/ui bootstrap && parcel build build/@tinijs/ui-bootstrap/components/*.bundle.ts --dist-dir build/@tinijs/ui-bootstrap/components --no-cache --log-level warn",
-    "publish:3:bootstrap": "cd build/@tinijs/ui-bootstrap && npm publish --access public",
+    "build": "rimraf ./dist && tsc && tini ui build",
     "lint": "gts lint",
     "fix": "gts fix"
   },
@@ -49,11 +44,13 @@
     "url": "https://github.com/tinijs/tinijs/issues"
   },
   "dependencies": {
+    "@sindresorhus/slugify": "^2.2.1",
     "@tinijs/cli": "*",
     "@tinijs/core": "*",
     "@tinijs/project": "*",
     "@tinijs/router": "*",
     "@tinijs/store": "*",
+    "@tinijs/ui-app": "file:.ui",
     "chroma-js": "^2.4.2",
     "consola": "^3.2.3",
     "defu": "^6.1.4",
@@ -62,13 +59,15 @@
     "gradient-parser": "^1.0.2",
     "grapick": "^0.1.13",
     "highlight.js": "^11.9.0",
-    "knitwork": "^1.0.0",
+    "isomorphic-dompurify": "^2.6.0",
+    "knitwork": "^1.1.0",
     "lit": "^3.1.2",
     "magicast": "^0.3.3",
     "nanoid": "^5.0.4",
     "pathe": "^1.1.2",
     "prettier": "^3.1.0",
     "prismjs": "^1.29.0",
+    "svgo": "^3.2.0",
     "typescript": "^5.4.3"
   },
   "devDependencies": {

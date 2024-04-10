@@ -5,6 +5,7 @@ import {textToBinary} from './utils/text-to-binary.js';
 import {binaryToBase64} from './utils/binary-to-base64.js';
 import {base64ToBinary} from './utils/base64-to-binary.js';
 import {retry} from './utils/retry.js';
+import {slugify} from './utils/slugify.js';
 import {debounce} from './utils/debounce.js';
 import {once} from './utils/once.js';
 import {deduplicateCallback} from './utils/deduplicate-callback.js';
@@ -18,6 +19,7 @@ export class CommonService {
   binaryToBase64 = binaryToBase64;
   base64ToBinary = base64ToBinary;
   retry = retry;
+  slugify = slugify;
   debounce = debounce;
   once = once;
   deduplicateCallback = deduplicateCallback;
