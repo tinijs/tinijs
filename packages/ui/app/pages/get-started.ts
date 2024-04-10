@@ -60,7 +60,7 @@ export class AppPageGetStarted extends TiniComponent {
             code="npx @tinijs/cli new my-app --latest"
           ></app-code>
           <p>
-            The skeleton app comes with a default theme
+            The Starter app comes with a default theme
             (<code>bootstrap/light</code>).
           </p>
           <p>To change themes of the app:</p>

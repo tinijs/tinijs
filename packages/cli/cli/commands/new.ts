@@ -34,21 +34,24 @@ export const newCommand = createCLICommand(
         type: 'string',
         description: 'Use a custom version of the tempalte.',
       },
+      skipInstall: {
+        alias: 'i',
+        type: 'boolean',
+        description: 'Do not run npm install.',
+      },
       skipGit: {
         alias: 'g',
         type: 'boolean',
         description: 'Do not initialize a git repository.',
       },
-      skipUI: {
-        alias: 'u',
-        type: 'boolean',
-        description: 'Do not run: "tini ui use".',
-      },
     },
   },
   async (args, callbacks) => {
     const {version: tiniVersion} = await loadCLIPackageJSON();
-    const source = args.source || 'tinijs/skeleton';
+    const sourceRepo = args.source || 'blank';
+    const source = sourceRepo.includes('/')
+      ? sourceRepo
+      : `tinijs/${sourceRepo}-starter`;
     const tag = args.latest ? 'latest' : args.tag || `v${tiniVersion}`;
     const resourceUrl = `https://github.com/${source}/archive/refs/tags/${tag}.zip`;
     const projectName = args.projectName
@@ -68,10 +71,8 @@ export const newCommand = createCLICommand(
       cwd: projectPath,
     } as const;
     // install dependencies
-    await execaCommand('npm i --loglevel=error', execaOptions);
-    // tini ui use
-    if (!args.skipUI) {
-      await execaCommand('tini ui use --build-only --skip-help', execaOptions);
+    if (!args.skipInstall) {
+      await execaCommand('npm i --loglevel=error', execaOptions);
     }
     // init git
     if (!args.skipGit) {
@@ -86,11 +87,8 @@ export const newCommand = createCLICommand(
         `A project with the name "${green(projectName)}" is already exist!`
       ),
     onBeforeCreate: (projectName: string, resourceUrl: string) => {
-      consola.info(
-        `\nCreate a new TiniJS project: ${green(projectName)}`,
-        true
-      );
-      consola.info(`From: ${gray(resourceUrl)}\n`, true);
+      consola.info(`Create a new TiniJS project: ${green(projectName)}`);
+      consola.info(`From: ${gray(resourceUrl)}`);
     },
     onEnd: (projectName: string, tiniVersion: string) =>
       consola.log(`

@@ -8,13 +8,13 @@ It uses the [Lit](https://lit.dev/) library under the hood.
 
 To manually install the module: `npm i @tinijs/core`
 
-It is recommended to download the [Skeleton](https://github.com/tinijs/skeleton) for a ready-to-use structured project.
+It is recommended to download the [Starter](https://github.com/tinijs/blank-starter) for a ready-to-use structured project.
 
 For more, please visit: <https://tinijs.dev> (TODO)
 
 ## Usage
 
-- Create an `app` (ex. [app.ts](https://github.com/tinijs/skeleton/blob/main/app/app.ts)):
+- Create an `app` (ex. [app.ts](https://github.com/tinijs/blank-starter/blob/main/app/app.ts)):
 
 ```ts
 import {html} from 'lit';
