@@ -1,12 +1,24 @@
 import {html, css} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
 
-import {Component, TiniComponent, Reactive, Colors, getUI} from '@tinijs/core';
+import {
+  OnCreate,
+  OnDestroy,
+  Component,
+  TiniComponent,
+  Reactive,
+  Colors,
+  getUI,
+} from '@tinijs/core';
+import {ROUTE_CHANGE_EVENT} from '@tinijs/router';
+import {TiniLinkComponent} from '@tinijs/ui-bootstrap/components/link.js';
 import {
   TiniSwitchComponent,
   SwitchEventDetail,
 } from '@tinijs/ui-bootstrap/components/switch.js';
 import {TiniIconComponent} from '@tinijs/ui-bootstrap/components/icon.js';
+
+import {LOGO_URL} from '../consts/common.js';
 
 import {IconMenuComponent} from '../icons/menu.js';
 import {IconCloseComponent} from '../icons/close.js';
@@ -21,6 +33,7 @@ enum Themes {
 
 @Component({
   components: [
+    TiniLinkComponent,
     TiniSwitchComponent,
     TiniIconComponent,
     IconGithubComponent,
@@ -28,13 +41,25 @@ enum Themes {
     IconDiscordComponent,
   ],
 })
-export class HeaderComponent extends TiniComponent {
+export class HeaderComponent
+  extends TiniComponent
+  implements OnCreate, OnDestroy
+{
   static readonly defaultTagName = 'app-header';
 
-  private logoURL = new URL('../assets/logo.svg', import.meta.url).toString();
   private ui = getUI();
 
   @Reactive() mobileMenuOpen = false;
+
+  private onRouteChange = () => (this.mobileMenuOpen = false);
+
+  onCreate() {
+    addEventListener(ROUTE_CHANGE_EVENT, this.onRouteChange);
+  }
+
+  onDestroy() {
+    removeEventListener(ROUTE_CHANGE_EVENT, this.onRouteChange);
+  }
 
   protected render() {
     return html`
@@ -61,7 +86,7 @@ export class HeaderComponent extends TiniComponent {
               gap: var(--size-space-0_75x);
             "
           >
-            <img src=${this.logoURL} alt="TiniJS" style="height: 28px;" />
+            <img src=${LOGO_URL} alt="TiniJS" style="height: 28px;" />
             <h1
               style="
                 margin: 0;
@@ -77,11 +102,11 @@ export class HeaderComponent extends TiniComponent {
         <div style="position: relative">
           <div class=${classMap({navbar: true, open: this.mobileMenuOpen})}>
             <nav class="menu">
-              <a href="/framework">Core</a>
-              <a href="/ui">UI</a>
-              <a href="/content">Content</a>
-              <a href="/server">Server</a>
-              <a href="/cli">CLI</a>
+              <tini-link active="active" href="/framework">Framework</tini-link>
+              <tini-link active="active" href="/ui">UI</tini-link>
+              <tini-link active="active" href="/content">Content</tini-link>
+              <tini-link active="active" href="/server">Server</tini-link>
+              <tini-link active="active" href="/cli">CLI</tini-link>
             </nav>
 
             <div class="theme">
@@ -100,13 +125,13 @@ export class HeaderComponent extends TiniComponent {
             </div>
 
             <div class="social">
-              <a href="/" target="_blank"
+              <a href="https://github.com/tinijs/tinijs" target="_blank"
                 ><icon-github scheme=${Colors.Foreground}></icon-github
               ></a>
-              <a href="/" target="_blank"
+              <a href="https://twitter.com/tini_js" target="_blank"
                 ><icon-x scheme=${Colors.Foreground}></icon-x
               ></a>
-              <a href="/" target="_blank"
+              <a href="https://discord.gg/EABbZVbPAb" target="_blank"
                 ><icon-discord
                   scheme=${Colors.Foreground}
                   scale="ml"
@@ -154,11 +179,14 @@ export class HeaderComponent extends TiniComponent {
       display: flex;
       flex-direction: column;
     }
-    .menu a {
+    .menu tini-link {
+      border-bottom: 1px solid var(--color-background-shade);
+    }
+    .menu tini-link::part(root) {
+      display: block;
+      padding: var(--size-space-0_75x) 0;
       color: var(--color-foreground);
       text-decoration: none;
-      border-bottom: 1px solid var(--color-background-shade);
-      padding: var(--size-space-0_75x) 0;
     }
 
     .theme {
@@ -197,7 +225,7 @@ export class HeaderComponent extends TiniComponent {
         display: flex;
         position: initial;
         flex-direction: row;
-        gap: var(--size-space-1_5x);
+        gap: var(--size-space);
         top: initial;
         right: initial;
         width: initial;
@@ -208,15 +236,20 @@ export class HeaderComponent extends TiniComponent {
       .menu {
         flex-direction: row;
         align-items: center;
-        gap: var(--size-space-0_5x);
+        gap: var(--size-space-0_25x);
       }
-      .menu a {
+      .menu tini-link {
         border-bottom: none;
+      }
+      .menu tini-link::part(root) {
         padding: var(--size-space-0_25x) var(--size-space);
         border-radius: var(--size-radius);
       }
-      .menu a:hover {
+      .menu tini-link:hover::part(root) {
         background: var(--color-background);
+      }
+      .menu tini-link.active::part(root) {
+        background: var(--color-background-shade);
       }
 
       .theme {

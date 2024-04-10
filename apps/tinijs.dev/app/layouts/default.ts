@@ -30,14 +30,17 @@ export class AppLayoutDefault extends TiniComponent {
         <app-header
           style="
             grid-area: header;
-            position: sticky;
+            position: fixed;
             z-index: 900;
+            top: 0;
+            width: 100%;
           "
         ></app-header>
         <main
           style="
             grid-area: main;
             background: var(--color-background-tint);
+            margin-top: var(--header-height);
           "
         >
           <slot></slot>

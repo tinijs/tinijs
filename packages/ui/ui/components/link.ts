@@ -18,7 +18,7 @@ import {
 export type LinkTargets = '_blank' | '_self' | '_parent' | '_top';
 
 export default class extends TiniElement {
-  private readonly ROUTER_CHANGE_EVENT = 'tini:router:change';
+  private readonly ROUTER_CHANGE_EVENT = 'tini:route-change';
   private anchorRef: Ref<HTMLAnchorElement> = createRef();
 
   /* eslint-disable prettier/prettier */

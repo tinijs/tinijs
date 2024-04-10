@@ -20,7 +20,7 @@ I wrapped up the experiment in March 2024 and headed for the 1.0 version in 2024
 
 I have many ideas for the project, but as a solo developer, there are limitations. So besides working on my own, **I am** also looking for sponsors, **adopters or **part-time** employers who** allow me to continue work on the project**.
 
-If you are interested in the project, please consider contributing. Get in touch with me on [Discord](https://discord.gg/XjQmrnTf) or [Email](hello@lamnhan.com), I am happy to discuss the project with you.
+If you are interested in the project, please consider contributing. Get in touch with me on [Discord](https://discord.gg/EABbZVbPAb) or [Email](hello@lamnhan.com), I am happy to discuss the project with you.
 
 ### Version 1.0
 
