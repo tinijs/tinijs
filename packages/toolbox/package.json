@@ -58,7 +58,6 @@
   "dependencies": {
     "@sindresorhus/slugify": "^2.2.1",
     "@sindresorhus/transliterate": "^1.6.0",
-    "flexsearch": "^0.7.43",
     "gun": "^0.2020.1239",
     "localforage": "^1.10.0",
     "share-api-polyfill": "^1.1.1"

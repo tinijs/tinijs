@@ -59,7 +59,9 @@ export class ContentInstance<Lite, Full> {
   }
 
   async fetchSearch() {
-    return ofetch<Record<string, string>>(await this.getSearchUrl(), {method: 'GET'});
+    return ofetch<Record<string, string>>(await this.getSearchUrl(), {
+      method: 'GET',
+    });
   }
 
   async fetchItemBySlug(slug: string) {
@@ -75,7 +77,10 @@ export class ContentInstance<Lite, Full> {
       this.options.manualRootIndex ||
       ContentInstance.indexRegistry.get(this.baseUrl) ||
       ContentInstance.indexRegistry
-        .set(this.baseUrl, await ofetch<RootIndex>(await this.getRootIndexUrl(), {method: 'GET'}))
+        .set(
+          this.baseUrl,
+          await ofetch<RootIndex>(await this.getRootIndexUrl(), {method: 'GET'})
+        )
         .get(this.baseUrl);
     if (!rootIndex)
       throw new Error(`Error loading root index for ${this.baseUrl}`);
