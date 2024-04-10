@@ -228,7 +228,6 @@ export class AppPageHome extends TiniComponent {
       margin: 0;
       padding: 0;
       display: grid;
-      grid-template-columns: repeat(3, minmax(200px, 1fr));
       gap: var(--size-space-0_5x);
     }
     .special-sponsors li {
@@ -276,6 +275,10 @@ export class AppPageHome extends TiniComponent {
 
       .actions {
         justify-content: flex-start;
+      }
+
+      .special-sponsors ul {
+        grid-template-columns: repeat(3, 1fr);
       }
     }
   `;
