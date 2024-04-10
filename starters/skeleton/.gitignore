@@ -1,9 +1,0 @@
-.DS_Store
-node_modules
-
-.parcel-cache
-.tini
-.app
-.output
-.content
-.ui
