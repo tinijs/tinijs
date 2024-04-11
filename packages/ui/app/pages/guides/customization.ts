@@ -66,25 +66,6 @@ export class AppPageGuidesCustomization extends TiniComponent {
               >Tini UI repo</a
             >.
           </p>
-          <p>
-            Or, create a private soul by cloning the
-            <a
-              href="https://github.com/tinijs/tinijs/tree/main/starters/ui-skeleton"
-              target="_blank"
-              rel="noopener"
-              >UI skeleton</a
-            >.
-          </p>
-          <p>
-            Please see
-            <a
-              href="https://github.com/tinijs/tinijs/tree/main/styles/bootstrap"
-              target="_blank"
-              rel="noopener"
-              >the structure</a
-            >
-            of an official for more detail.
-          </p>
         </div>
       </app-section>
 

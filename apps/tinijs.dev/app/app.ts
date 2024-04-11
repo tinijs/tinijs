@@ -1,22 +1,26 @@
 import {html} from 'lit';
 
-import {App, TiniComponent, AppWithConfig, registerConfig} from '@tinijs/core';
-import {createRouter, AppWithRouter} from '@tinijs/router';
-import {initMeta, AppWithMeta} from '@tinijs/meta';
-
 import {
-  AppWithUI,
+  App,
+  TiniComponent,
+  registerConfig,
+  type AppWithConfig,
+} from '@tinijs/core';
+import {createRouter, type AppWithRouter} from '@tinijs/router';
+import {initMeta, type AppWithMeta} from '@tinijs/meta';
+import {
   setupUI,
   bootstrapLightSkin,
   bootstrapDarkSkin,
+  type AppWithUI,
 } from '@tinijs/ui-bootstrap';
 
-import {AppConfig} from './types/common.js';
+import type {AppConfig} from './types/common.js';
 
-import config from './configs/development.js';
-import metadata from './metadata.js';
-import providers from './providers.js';
-import routes from './routes.js';
+import {config} from './configs/development.js';
+import {metadata} from './metadata.js';
+import {providers} from './providers.js';
+import {routes} from './routes.js';
 
 import './layouts/default';
 

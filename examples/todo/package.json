@@ -1,0 +1,36 @@
+{
+  "name": "todo-demo.tinijs.dev",
+  "version": "0.0.0",
+  "description": "A To Do powered by the TiniJS framework.",
+  "private": true,
+  "author": "Nhan Lam",
+  "homepage": "https://tinijs.dev",
+  "license": "MIT",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dev": "tini dev",
+    "build": "tini build",
+    "preview": "tini preview",
+    "lint": "gts lint",
+    "fix": "gts fix"
+  },
+  "dependencies": {
+    "@formkit/auto-animate": "^0.8.1",
+    "@tinijs/core": "*",
+    "@tinijs/router": "*",
+    "@tinijs/store": "*",
+    "@tinijs/ui-bootstrap": "*",
+    "lit": "^3.1.2"
+  },
+  "devDependencies": {
+    "@tinijs/cli": "*",
+    "@tinijs/default-compiler": "*",
+    "@tinijs/vite-builder": "*",
+    "gts": "^5.3.0",
+    "typescript": "~5.4.3"
+  }
+}

@@ -1,6 +1,6 @@
-import {LitElement, CSSResultOrNative} from 'lit';
+import {LitElement, type CSSResultOrNative} from 'lit';
 
-import {ActiveTheme, Theming} from '../classes/ui.js';
+import type {ActiveTheme, Theming} from '../classes/ui.js';
 
 export type GenericTheming = Record<
   string,

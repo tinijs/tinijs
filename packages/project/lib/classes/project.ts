@@ -1,17 +1,17 @@
 import {createHooks} from 'hookable';
-import {ProxifiedModule, loadFile, writeFile} from 'magicast';
+import {loadFile, writeFile, type ProxifiedModule} from 'magicast';
 import {defu} from 'defu';
-import initJiti, {JITI} from 'jiti';
+import initJiti, {type JITI} from 'jiti';
 import {resolve} from 'pathe';
 import {pathExistsSync} from 'fs-extra/esm';
 
-import {AppConfig, AppHooks} from '../types/app.js';
-import {BuildHooks} from '../types/build.js';
-import {CLIConfig, CLIHooks} from '../types/cli.js';
-import {ModuleConfig} from '../types/module.js';
-import {CompileHooks} from '../types/compile.js';
-import {ServerConfig, ServerHooks} from '../types/server.js';
-import {UIConfig} from '../types/ui.js';
+import type {AppConfig, AppHooks} from '../types/app.js';
+import type {BuildHooks} from '../types/build.js';
+import type {CLIConfig, CLIHooks} from '../types/cli.js';
+import type {ModuleConfig} from '../types/module.js';
+import type {CompileHooks} from '../types/compile.js';
+import type {ServerConfig, ServerHooks} from '../types/server.js';
+import type {UIConfig} from '../types/ui.js';
 
 import {setupModules} from '../utils/module.js';
 

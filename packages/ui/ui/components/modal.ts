@@ -1,10 +1,10 @@
-import {html, PropertyValues} from 'lit';
+import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
-import {ref, Ref, createRef} from 'lit/directives/ref.js';
+import {ref, createRef, type Ref} from 'lit/directives/ref.js';
 import {TiniElement, partAttrMap, VaryGroups, BoxShadows} from '@tinijs/core';
 
-import {DialogButton, DialogResult} from './dialog.js';
+import type {DialogButton, DialogResult} from './dialog.js';
 
 export type ModalButton = DialogButton;
 export type ModalResult<Context> = DialogResult<Context>;
@@ -21,11 +21,11 @@ export default class extends TiniElement {
   private readonly BACKDROP_CLOSED = 'backdrop-closed';
 
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) declare titleText?: string;
-  @property({type: Boolean, reflect: true}) declare backdropClosed?: boolean;
-  @property({type: String, reflect: true}) declare shadow?: BoxShadows;
-  @property({type: Object}) declare noButton?: ModalButton;
-  @property({type: Object}) declare yesButton?: ModalButton;
+  @property({type: String, reflect: true}) titleText?: string;
+  @property({type: Boolean, reflect: true}) backdropClosed?: boolean;
+  @property({type: String, reflect: true}) shadow?: BoxShadows;
+  @property({type: Object}) noButton?: ModalButton;
+  @property({type: Object}) yesButton?: ModalButton;
   /* eslint-enable prettier/prettier */
 
   private dialogRef: Ref<HTMLDialogElement> = createRef();

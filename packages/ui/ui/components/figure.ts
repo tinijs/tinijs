@@ -1,6 +1,6 @@
-import {html, PropertyValues} from 'lit';
+import {html, type PropertyValues} from 'lit';
 import {property, state, queryAssignedElements} from 'lit/decorators.js';
-import {classMap, ClassInfo} from 'lit/directives/class-map.js';
+import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
 
 import {
   VaryGroups,
@@ -16,12 +16,12 @@ import {
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) declare scheme?: Colors | Gradients;
-  @property({type: String, reflect: true}) declare border?: string;
-  @property({type: String, reflect: true}) declare borderRadius?: BorderRadiuses;
-  @property({type: String, reflect: true}) declare padding?: string;
-  @property({type: String, reflect: true}) declare margin?: string;
-  @property({type: String, reflect: true}) declare shadow?: BoxShadows;
+  @property({type: String, reflect: true}) scheme?: Colors | Gradients;
+  @property({type: String, reflect: true}) border?: string;
+  @property({type: String, reflect: true}) borderRadius?: BorderRadiuses;
+  @property({type: String, reflect: true}) padding?: string;
+  @property({type: String, reflect: true}) margin?: string;
+  @property({type: String, reflect: true}) shadow?: BoxShadows;
   /* eslint-enable prettier/prettier */
 
   /* eslint-disable prettier/prettier */

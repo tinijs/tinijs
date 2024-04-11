@@ -5,12 +5,13 @@ export interface SplashscreenComponent extends HTMLElement {
 }
 
 export function getSplashscreen() {
-  return document.getElementById(SPLASHSCREEN_ID) || undefined;
+  const node = document.getElementById(SPLASHSCREEN_ID);
+  if (!node) throw new Error('Splashscreen not found');
+  return node as SplashscreenComponent;
 }
 
 export function hideSplashscreen() {
-  const node = getSplashscreen() as SplashscreenComponent;
-  if (!node) return;
+  const node = getSplashscreen();
   if (node.hide instanceof Function) {
     node.hide();
   } else {

@@ -1,12 +1,12 @@
-import {html, PropertyValues} from 'lit';
+import {html, type PropertyValues} from 'lit';
 import {property, state, queryAssignedElements} from 'lit/decorators.js';
-import {classMap, ClassInfo} from 'lit/directives/class-map.js';
+import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
 import {TiniElement, partAttrMap, VaryGroups, BoxShadows} from '@tinijs/core';
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: Boolean, reflect: true}) declare fluid?: boolean;
-  @property({type: String, reflect: true}) declare shadow?: BoxShadows;
+  @property({type: Boolean, reflect: true}) fluid?: boolean;
+  @property({type: String, reflect: true}) shadow?: BoxShadows;
   /* eslint-enable prettier/prettier */
 
   /* eslint-disable prettier/prettier */

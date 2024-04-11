@@ -1,4 +1,4 @@
-import {html, PropertyValues} from 'lit';
+import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
@@ -23,24 +23,24 @@ export interface Source {
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) declare src: string;
-  @property({type: String, reflect: true}) declare alt?: string;
-  @property({type: Number, reflect: true}) declare width?: number;
-  @property({type: Number, reflect: true}) declare height?: number;
-  @property({type: String, reflect: true}) declare srcset?: string;
-  @property({type: String, reflect: true}) declare sizes?: string;
-  @property({type: String, reflect: true}) declare loading?: string;
-  @property({type: String, reflect: true}) declare decoding?: string;
-  @property({type: String, reflect: true}) declare fetchpriority?: string;
-  @property({type: String, reflect: true}) declare crossorigin?: string;
-  @property({type: String, reflect: true}) declare referrerpolicy?: string;
+  @property({type: String, reflect: true}) src!: string;
+  @property({type: String, reflect: true}) alt?: string;
+  @property({type: Number, reflect: true}) width?: number;
+  @property({type: Number, reflect: true}) height?: number;
+  @property({type: String, reflect: true}) srcset?: string;
+  @property({type: String, reflect: true}) sizes?: string;
+  @property({type: String, reflect: true}) loading?: string;
+  @property({type: String, reflect: true}) decoding?: string;
+  @property({type: String, reflect: true}) fetchpriority?: string;
+  @property({type: String, reflect: true}) crossorigin?: string;
+  @property({type: String, reflect: true}) referrerpolicy?: string;
 
-  @property({type: Array}) declare sources?: Source[];
+  @property({type: Array}) sources?: Source[];
 
-  @property({type: Boolean, reflect: true}) declare fluid?: boolean;
-  @property({type: String, reflect: true}) declare border?: string;
-  @property({type: String, reflect: true}) declare borderRadius?: BorderRadiuses;
-  @property({type: String, reflect: true}) declare shadow?: BoxShadows;
+  @property({type: Boolean, reflect: true}) fluid?: boolean;
+  @property({type: String, reflect: true}) border?: string;
+  @property({type: String, reflect: true}) borderRadius?: BorderRadiuses;
+  @property({type: String, reflect: true}) shadow?: BoxShadows;
   /* eslint-enable prettier/prettier */
 
   private validateProperties() {

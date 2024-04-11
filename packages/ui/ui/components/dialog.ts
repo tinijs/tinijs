@@ -1,7 +1,7 @@
-import {html, nothing, PropertyValues} from 'lit';
+import {html, nothing, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
-import {ref, Ref, createRef} from 'lit/directives/ref.js';
+import {ref, createRef, type Ref} from 'lit/directives/ref.js';
 import {
   TiniElement,
   partAttrMap,
@@ -40,21 +40,16 @@ export default class extends TiniElement {
   private readonly BACKDROP_CLOSED = 'backdrop-closed';
 
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) declare type: DialogTypes;
-  @property({type: String, reflect: true}) declare titleText?: string;
-  @property({type: Boolean, reflect: true}) declare backdropClosed?: boolean;
-  @property({type: String, reflect: true}) declare shadow?: BoxShadows;
-  @property({type: Object}) declare noButton?: DialogButton;
-  @property({type: Object}) declare yesButton?: DialogButton;
+  @property({type: String, reflect: true}) type = DialogTypes.Alert;
+  @property({type: String, reflect: true}) titleText?: string;
+  @property({type: Boolean, reflect: true}) backdropClosed?: boolean;
+  @property({type: String, reflect: true}) shadow?: BoxShadows;
+  @property({type: Object}) noButton?: DialogButton;
+  @property({type: Object}) yesButton?: DialogButton;
   /* eslint-enable prettier/prettier */
 
   private dialogRef: Ref<HTMLDialogElement> = createRef();
   private context?: unknown;
-
-  constructor() {
-    super();
-    this.type = DialogTypes.Alert;
-  }
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);

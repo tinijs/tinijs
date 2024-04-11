@@ -1,6 +1,6 @@
-import {Promisable} from 'type-fest';
+import type {Promisable} from 'type-fest';
 
-import {
+import type {
   TiniIntegrationMeta,
   TiniConfig,
   TiniProject,

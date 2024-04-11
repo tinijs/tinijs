@@ -2,9 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": ".",
-    "outDir": "./dist",
-    "useDefineForClassFields": false,
-    "allowSyntheticDefaultImports": true
+    "outDir": "./dist"
   },
   "include": [
     "**/*"

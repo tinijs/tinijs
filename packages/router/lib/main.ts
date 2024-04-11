@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {ComponentTypes, LifecycleHooks, registerGlobalHook} from '@tinijs/core';
 
+import type {Route, RouterOptions} from './types.js';
 import {ROUTE_CHANGE_EVENT} from './consts.js';
-import {Route, RouterOptions} from './types.js';
 import {hideNavIndicator, showNavIndicator} from './methods.js';
 import {Router} from './router.js';
 

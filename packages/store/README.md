@@ -8,7 +8,7 @@ It is very small, under ~1KB at around 50 lines of code.
 
 To manually install the module: `npm i @tinijs/store`
 
-It is recommended to download the [Skeleton](https://github.com/tinijs/skeleton) for a ready-to-use structured project.
+It is recommended to download the [Starter](https://github.com/tinijs/blank-starter) for a ready-to-use structured project.
 
 For more, please visit: <https://tinijs.dev> (TODO)
 

@@ -1,6 +1,6 @@
-import {AuthorLite} from './author.js';
-import {CategoryLite} from './category.js';
-import {TagLite} from './tag.js';
+import type {AuthorLite} from './author.js';
+import type {CategoryLite} from './category.js';
+import type {TagLite} from './tag.js';
 
 export enum Statuses {
   Draft = 'draft',

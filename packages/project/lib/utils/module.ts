@@ -1,10 +1,8 @@
 import {defu} from 'defu';
-import {resolve} from 'pathe';
-import {pathExistsSync} from 'fs-extra/esm';
 
 import {TiniProject} from '../classes/project.js';
 
-import {ModuleConfig} from '../types/module.js';
+import type {ModuleConfig} from '../types/module.js';
 
 export function defineTiniModule<Options extends Record<string, unknown>>(
   config: ModuleConfig<Options>

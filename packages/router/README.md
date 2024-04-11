@@ -8,7 +8,7 @@ Another option for adding routes to a TiniJS app is using [@vaadin/router](https
 
 To manually install the module: `npm i @tinijs/router`
 
-It is recommended to download the [Skeleton](https://github.com/tinijs/skeleton) for a ready-to-use structured project.
+It is recommended to download the [Starter](https://github.com/tinijs/blank-starter) for a ready-to-use structured project.
 
 For more, please visit: <https://tinijs.dev> (TODO)
 

@@ -1,8 +1,8 @@
-import {HookCallback} from 'hookable';
-import {SubCommandsDef} from 'citty';
-import {Promisable} from 'type-fest';
+import type {HookCallback} from 'hookable';
+import type {SubCommandsDef} from 'citty';
+import type {Promisable} from 'type-fest';
 
-import {
+import type {
   TiniProject,
   TiniIntegration,
   TiniIntegrationMeta,

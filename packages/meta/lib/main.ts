@@ -8,7 +8,7 @@ import {
   changePageLang,
   changeMetaTags,
 } from './methods.js';
-import {
+import type {
   PageWithMetadata,
   CustomizableMetadata,
   AppMetadata,

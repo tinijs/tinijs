@@ -1,4 +1,4 @@
-import {AppMetadata} from '@tinijs/meta';
+import type {AppMetadata} from '@tinijs/meta';
 
-// "null" means use the extracted values from app.html
-export default null as unknown as AppMetadata;
+// "undefined" means use the extracted values from app.html
+export const metadata: AppMetadata | undefined = undefined;

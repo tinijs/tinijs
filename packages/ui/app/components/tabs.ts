@@ -27,8 +27,8 @@ export class AppTabsComponent extends TiniComponent {
   private readonly titleSlotElems?: HTMLElement[];
   @Reactive() private titleSlotPopulated = false;
 
-  @Input({type: Array}) declare tabItems?: TabItem[];
-  @Input({type: String}) declare activeName?: string;
+  @Input({type: Array}) tabItems?: TabItem[];
+  @Input({type: String}) activeName?: string;
 
   private containerRegistry: Record<string, HTMLElement> = {};
 

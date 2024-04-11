@@ -1,4 +1,4 @@
-import {Slug, Title} from './common.js';
+import type {Slug, Title} from './common.js';
 
 export type TagLite = Tag;
 

@@ -1,7 +1,12 @@
 import {copy, pathExistsSync} from 'fs-extra/esm';
 import {resolve} from 'pathe';
 
-import {TiniProject, TiniConfig, Compiler, Builder} from '@tinijs/project';
+import {
+  TiniProject,
+  type TiniConfig,
+  type Compiler,
+  type Builder,
+} from '@tinijs/project';
 
 export async function loadCompiler(tiniProject: TiniProject) {
   const {compile} = tiniProject.config;

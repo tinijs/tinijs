@@ -1,10 +1,10 @@
-import {PropertyValues} from 'lit';
+import type {PropertyValues} from 'lit';
 
 import {GLOBAL_TINI} from '../consts/global.js';
 
 import {TiniComponent, ComponentTypes} from '../classes/component.js';
 
-import {ClientApp, getApp} from './app.js';
+import {getApp, type ClientApp} from './app.js';
 
 export enum LifecycleHooks {
   OnCreate = 'onCreate',

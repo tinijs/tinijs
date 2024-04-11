@@ -1,4 +1,4 @@
-import {StreamCallback, StreamContextEntry} from './create-stream.js';
+import type {StreamCallback, StreamContextEntry} from './create-stream.js';
 
 export type EmitStaticValue = typeof emitStaticValue;
 

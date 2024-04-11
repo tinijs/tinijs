@@ -1,7 +1,7 @@
-import {PropertyValues} from 'lit';
+import type {PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
-import {html, unsafeStatic, StaticValue} from 'lit/static-html.js';
+import {html, unsafeStatic, type StaticValue} from 'lit/static-html.js';
 import {
   TiniElement,
   partAttrMap,
@@ -17,15 +17,15 @@ import {
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) declare tag?: string;
-  @property({type: String, reflect: true}) declare scheme?: Colors | Gradients;
-  @property({type: String, reflect: true}) declare fontSize?: Factors;
-  @property({type: String, reflect: true}) declare color?: Colors;
-  @property({type: String, reflect: true}) declare border?: string;
-  @property({type: String, reflect: true}) declare borderRadius?: BorderRadiuses;
-  @property({type: String, reflect: true}) declare padding?: string;
-  @property({type: String, reflect: true}) declare margin?: string;
-  @property({type: String, reflect: true}) declare shadow?: BoxShadows;
+  @property({type: String, reflect: true}) tag?: string;
+  @property({type: String, reflect: true}) scheme?: Colors | Gradients;
+  @property({type: String, reflect: true}) fontSize?: Factors;
+  @property({type: String, reflect: true}) color?: Colors;
+  @property({type: String, reflect: true}) border?: string;
+  @property({type: String, reflect: true}) borderRadius?: BorderRadiuses;
+  @property({type: String, reflect: true}) padding?: string;
+  @property({type: String, reflect: true}) margin?: string;
+  @property({type: String, reflect: true}) shadow?: BoxShadows;
   /* eslint-enable prettier/prettier */
 
   private rootTag!: StaticValue;

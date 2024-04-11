@@ -2,11 +2,11 @@ import {LitElement} from 'lit';
 import {property} from 'lit/decorators.js';
 
 import {NO_OUTLET_ROUTER_ERROR} from './consts.js';
-import {ActivatedRoute, RouteHook, ElemHook} from './types.js';
+import type {ActivatedRoute, RouteHook, ElemHook} from './types.js';
 import {Router} from './router.js';
 
 export class RouterOutletComponent extends LitElement {
-  @property({type: Object}) declare readonly router: Router;
+  @property({type: Object}) router!: Router;
   private currentLayout?: string;
   private currentPage?: string;
 

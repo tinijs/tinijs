@@ -1,4 +1,4 @@
-import {html, PropertyValues} from 'lit';
+import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
@@ -17,8 +17,8 @@ export default class extends TiniElement {
   };
 
   /* eslint-disable prettier/prettier */
-  @property({type: Object}) declare head: any[];
-  @property({type: Object}) declare body: any[][];
+  @property({type: Object}) head!: any[];
+  @property({type: Object}) body!: any[][];
   /* eslint-enable prettier/prettier */
 
   private validateProperties() {

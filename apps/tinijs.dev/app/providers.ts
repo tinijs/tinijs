@@ -1,5 +1,5 @@
-import {DependencyProviders} from '@tinijs/core';
+import type {DependencyProviders} from '@tinijs/core';
 
-export default {
+export const providers: DependencyProviders = {
   // add dependencies here
-} as DependencyProviders;
+};

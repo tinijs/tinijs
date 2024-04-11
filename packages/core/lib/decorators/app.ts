@@ -6,8 +6,12 @@ import {GLOBAL_TINI} from '../consts/global.js';
 import {APP_ROOT} from '../consts/common.js';
 import {DUPLICATED_APP_ERROR, NO_REGISTER_ERROR} from '../consts/error.js';
 
-import {AppOptions} from '../utils/app.js';
-import {DependencyProvider, DependencyDef, getDIRegistry} from '../utils/di.js';
+import type {AppOptions} from '../utils/app.js';
+import {
+  getDIRegistry,
+  type DependencyProvider,
+  type DependencyDef,
+} from '../utils/di.js';
 import {LifecycleHooks, registerGlobalHook} from '../utils/hook.js';
 import {hideSplashscreen} from '../utils/splashscreen.js';
 

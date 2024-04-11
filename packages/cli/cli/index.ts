@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import {SubCommandsDef, defineCommand, runMain} from 'citty';
+import {defineCommand, runMain, type SubCommandsDef} from 'citty';
 
 import {TiniProject, getTiniProject} from '@tinijs/project';
 

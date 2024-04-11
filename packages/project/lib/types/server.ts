@@ -1,4 +1,4 @@
-import {HookCallback} from 'hookable';
+import type {HookCallback} from 'hookable';
 
 export interface ServerConfig {
   foo?: string;

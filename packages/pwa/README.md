@@ -8,7 +8,7 @@ It uses [workbox-window](https://developer.chrome.com/docs/workbox/using-workbox
 
 To manually install the module: `npm i @tinijs/pwa`
 
-It is recommended to download the [Skeleton](https://github.com/tinijs/skeleton) for a ready-to-use structured project.
+It is recommended to download the [Starter](https://github.com/tinijs/blank-starter) for a ready-to-use structured project.
 
 Or, install and setup a complete PWA app via the [@tinijs/cli](https://github.com/tinijs/tinijs/tree/main/packages/cli) CLI tool:
 

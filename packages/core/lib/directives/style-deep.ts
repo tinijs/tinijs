@@ -1,17 +1,17 @@
 import {noChange} from 'lit';
 import {
   AsyncDirective,
-  PartInfo,
-  ElementPart,
   directive,
+  type PartInfo,
+  type ElementPart,
 } from 'lit/async-directive.js';
 import {nanoid} from 'nanoid';
 
 import {
-  ActiveTheme,
-  getUI,
+  getOptionalUI,
   THEME_CHANGE_EVENT,
   processComponentStyles,
+  type ActiveTheme,
 } from '../classes/ui.js';
 
 class StyleDeepDirective extends AsyncDirective {
@@ -22,9 +22,9 @@ class StyleDeepDirective extends AsyncDirective {
   private removeThemeListener: (() => void) | undefined;
 
   private onThemeChange = (e: Event) => {
-    const ui = getUI();
+    const optionalUI = getOptionalUI();
     const newTheme = (e as CustomEvent<ActiveTheme>).detail;
-    if (ui?.activeTheme.themeId !== newTheme.themeId) {
+    if (optionalUI?.activeTheme.themeId !== newTheme.themeId) {
       this.injectStyle();
     }
   };
@@ -76,13 +76,13 @@ class StyleDeepDirective extends AsyncDirective {
   }
 
   private injectStyle() {
-    const ui = getUI();
+    const optionalUI = getOptionalUI();
     const {host} = this.part?.options || {};
     const element = this.part?.element;
-    if (!host || !element || !ui) return;
+    if (!host || !element || !optionalUI) return;
     const renderRoot =
       (((host as HTMLElement).shadowRoot || host) as ShadowRoot) || HTMLElement;
-    const {familyId, themeId} = ui.activeTheme;
+    const {familyId, themeId} = optionalUI.activeTheme;
     const rawStyleText = !this.textOrStyling
       ? ''
       : typeof this.textOrStyling === 'string'
@@ -92,7 +92,7 @@ class StyleDeepDirective extends AsyncDirective {
           Object.values(this.textOrStyling)[0];
     const styleText = processComponentStyles(
       [rawStyleText],
-      ui.activeTheme,
+      optionalUI.activeTheme,
       content => content.replace(/\.root/g, `.${this.INTERNAL_ID}`)
     );
     // apply styles

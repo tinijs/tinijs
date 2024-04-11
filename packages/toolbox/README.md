@@ -6,7 +6,7 @@ Useful services, helpers, ... for using in TiniJS apps.
 
 To install the module: `npm i @tinijs/toolbox`
 
-It is recommended to download the [Skeleton](https://github.com/tinijs/skeleton) for a ready-to-use structured project.
+It is recommended to download the [Starter](https://github.com/tinijs/blank-starter) for a ready-to-use structured project.
 
 For more, please visit: <https://tinijs.dev> (TODO)
 

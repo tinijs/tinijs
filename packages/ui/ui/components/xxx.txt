@@ -1,4 +1,4 @@
-import {html, PropertyValues} from 'lit';
+import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {TiniElement, partAttrMap, Colors, Scales} from '@tinijs/core';
@@ -6,7 +6,7 @@ import {TiniElement, partAttrMap, Colors, Scales} from '@tinijs/core';
 export default class extends TiniElement {
 
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) declare prop?: string;
+  @property({type: String, reflect: true}) prop?: string;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {

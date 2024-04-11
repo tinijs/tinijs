@@ -1,8 +1,8 @@
-import {html, PropertyValues} from 'lit';
+import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {ref, Ref, createRef} from 'lit/directives/ref.js';
+import {ref, createRef, type Ref} from 'lit/directives/ref.js';
 import {
   TiniElement,
   partAttrMap,
@@ -22,17 +22,17 @@ export default class extends TiniElement {
   private anchorRef: Ref<HTMLAnchorElement> = createRef();
 
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) declare href?: string;
-  @property({type: String, reflect: true}) declare rel?: string;
-  @property({type: String, reflect: true}) declare target?: LinkTargets;
-  @property({type: String, reflect: true}) declare active?: string;
-  @property({type: Boolean, reflect: true}) declare italic?: boolean;
-  @property({type: Boolean, reflect: true}) declare underline?: boolean;
-  @property({type: String, reflect: true}) declare color?: Colors | Gradients;
-  @property({type: String, reflect: true}) declare fontType?: FontTypes;
-  @property({type: String, reflect: true}) declare fontSize?: Factors;
-  @property({type: String, reflect: true}) declare fontWeight?: FontWeights;
-  @property({type: String, reflect: true}) declare textTransform?: TextTransforms;
+  @property({type: String, reflect: true}) href?: string;
+  @property({type: String, reflect: true}) rel?: string;
+  @property({type: String, reflect: true}) target?: LinkTargets;
+  @property({type: String, reflect: true}) active?: string;
+  @property({type: Boolean, reflect: true}) italic?: boolean;
+  @property({type: Boolean, reflect: true}) underline?: boolean;
+  @property({type: String, reflect: true}) color?: Colors | Gradients;
+  @property({type: String, reflect: true}) fontType?: FontTypes;
+  @property({type: String, reflect: true}) fontSize?: Factors;
+  @property({type: String, reflect: true}) fontWeight?: FontWeights;
+  @property({type: String, reflect: true}) textTransform?: TextTransforms;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {

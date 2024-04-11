@@ -1,4 +1,4 @@
-import {Route} from '@tinijs/router';
+import type {Route} from '@tinijs/router';
 
 import {TiniTableComponent} from '@tinijs/ui-app/components/table.js';
 import {TiniCodeComponent} from '@tinijs/ui-app/components/code.js';

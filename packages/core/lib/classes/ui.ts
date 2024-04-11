@@ -1,7 +1,8 @@
-import {CSSResultOrNative, adoptStyles} from 'lit';
+import {adoptStyles, type CSSResultOrNative} from 'lit';
 
 import {GLOBAL_TINI} from '../consts/global.js';
 import {PACKAGE_PREFIX} from '../consts/common.js';
+import {NO_UI_ERROR, DUPLICATED_UI_ERROR} from '../consts/error.js';
 
 import {listify} from '../utils/common.js';
 import {Breakpoints} from '../utils/vary.js';
@@ -157,12 +158,15 @@ export function processComponentStyles(
   return styleText;
 }
 
-export function getUI() {
+export function getOptionalUI() {
   if (!GLOBAL_TINI.ui && process.env.NODE_ENV === 'development') {
-    console.warn(
-      'Use are trying to getUI(), but no UI instance available, please setupUI() or initUI() first!'
-    );
+    console.warn(NO_UI_ERROR.message);
   }
+  return GLOBAL_TINI.ui;
+}
+
+export function getUI() {
+  if (!GLOBAL_TINI.ui) throw NO_UI_ERROR;
   return GLOBAL_TINI.ui;
 }
 
@@ -170,14 +174,11 @@ export function initUI(
   config: UIInit,
   customThemeIdGetter?: (config: UIInit) => string
 ) {
-  if (GLOBAL_TINI.ui)
-    throw new Error(
-      'An UI instance already exists, you must trigger setupUI() or initUI() only once!'
-    );
-  return (GLOBAL_TINI.ui = new UIManager(config)).init(customThemeIdGetter);
+  if (GLOBAL_TINI.ui) throw DUPLICATED_UI_ERROR;
+  return (GLOBAL_TINI.ui = new UI(config)).init(customThemeIdGetter);
 }
 
-export class UIManager {
+export class UI {
   private _activeTheme?: ActiveTheme;
 
   constructor(private _config: UIInit) {}

@@ -1,4 +1,4 @@
-import {defineTiniConfig, UIConfig} from '@tinijs/project';
+import {defineTiniConfig, type UIConfig} from '@tinijs/project';
 
 import uiCLIExpansion from './cli/expand.js';
 

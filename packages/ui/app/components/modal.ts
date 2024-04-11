@@ -1,6 +1,6 @@
 import {html, css, nothing} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
-import {ref, Ref, createRef} from 'lit/directives/ref.js';
+import {ref, type Ref, createRef} from 'lit/directives/ref.js';
 import {Colors} from '@tinijs/core';
 import {Component, TiniComponent, Input} from '@tinijs/core';
 
@@ -30,19 +30,14 @@ export interface ModalResult<Context> {
 export class AppModalComponent extends TiniComponent {
   static readonly defaultTagName = 'app-modal';
 
-  @Input({type: String}) declare kind: ModalKinds;
-  @Input({type: String}) declare titleText?: string;
-  @Input({type: Boolean}) declare backdropClosed?: boolean;
-  @Input({type: Object}) declare noButton?: ModalButton;
-  @Input({type: Object}) declare yesButton?: ModalButton;
+  @Input({type: String}) kind = ModalKinds.Modal;
+  @Input({type: String}) titleText?: string;
+  @Input({type: Boolean}) backdropClosed?: boolean;
+  @Input({type: Object}) noButton?: ModalButton;
+  @Input({type: Object}) yesButton?: ModalButton;
 
   private dialogRef: Ref<HTMLDialogElement> = createRef();
   private context?: unknown;
-
-  constructor() {
-    super();
-    this.kind = ModalKinds.Modal;
-  }
 
   get result(): ModalResult<unknown> {
     return {

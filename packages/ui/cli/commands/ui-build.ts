@@ -2,11 +2,11 @@ import {resolve} from 'pathe';
 import {defu} from 'defu';
 import {
   createCLICommand,
-  GenFileResult,
   outputGenFileResults,
+  type GenFileResult,
 } from '@tinijs/cli';
 import {consola} from 'consola';
-import {AsyncReturnType} from 'type-fest';
+import type {AsyncReturnType} from 'type-fest';
 
 import {
   listAvailableComponents,

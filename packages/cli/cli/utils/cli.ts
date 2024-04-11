@@ -1,10 +1,13 @@
-import {resolve} from 'pathe';
-import {CommandDef, ArgsDef, defineCommand, SubCommandsDef} from 'citty';
-import {Promisable} from 'type-fest';
-import {pathExistsSync} from 'fs-extra/esm';
+import {
+  defineCommand,
+  type CommandDef,
+  type ArgsDef,
+  type SubCommandsDef,
+} from 'citty';
+import type {Promisable} from 'type-fest';
 import {defu} from 'defu';
 
-import {TiniProject, CLIExpansionConfig} from '@tinijs/project';
+import {TiniProject, type CLIExpansionConfig} from '@tinijs/project';
 
 export function resolveCommand(m: any) {
   return m.default.def as Promise<CommandDef>;

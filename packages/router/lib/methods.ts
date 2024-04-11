@@ -1,4 +1,4 @@
-import {NavIndicatorComponent, ActivatedRoute} from './types.js';
+import type {NavIndicatorComponent, ActivatedRoute} from './types.js';
 import {
   GLOBAL_TINI,
   NAV_INDICATOR_ID,

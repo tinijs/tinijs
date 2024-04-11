@@ -1,7 +1,7 @@
-import {HookCallback} from 'hookable';
+import type {HookCallback} from 'hookable';
 
-import {CompileConfig, CustomCompileConfig} from './compile.js';
-import {BuildConfig, CustomBuildConfig} from './build.js';
+import type {CompileConfig, CustomCompileConfig} from './compile.js';
+import type {BuildConfig, CustomBuildConfig} from './build.js';
 
 export interface AppDirs {
   assets?: string;

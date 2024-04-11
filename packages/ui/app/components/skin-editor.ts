@@ -1,7 +1,7 @@
 import {html, css, render, nothing} from 'lit';
 import {queryAll} from 'lit/decorators.js';
 import {repeat} from 'lit/directives/repeat.js';
-import {ref, Ref, createRef} from 'lit/directives/ref.js';
+import {ref, type Ref, createRef} from 'lit/directives/ref.js';
 import {Component, TiniComponent, Reactive} from '@tinijs/core';
 
 import {TiniButtonComponent} from '@tinijs/ui-app/components/button.js';
@@ -15,7 +15,7 @@ import {FONTS} from '../consts/theme.js';
 import {buildGithubRawUrl} from '../utils/github.js';
 import {changeTheme} from '../utils/theme.js';
 import {debouncer} from '../utils/debouncer.js';
-import {extractCSSVariables, VariableDef} from '../utils/source.js';
+import {extractCSSVariables, type VariableDef} from '../utils/source.js';
 import {buildColorVariants} from '../utils/color.js';
 import {buildGradientVariants} from '../utils/gradient.js';
 import {

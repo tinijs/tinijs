@@ -1,9 +1,9 @@
-import {html, nothing, PropertyValues} from 'lit';
+import {html, nothing, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap, ClassInfo} from 'lit/directives/class-map.js';
+import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
 import {TiniElement, partAttrMap, VaryGroups} from '@tinijs/core';
 
-import {CheckboxesItem} from './checkboxes.js';
+import type {CheckboxesItem} from './checkboxes.js';
 
 export type RadiosItem = Omit<CheckboxesItem, 'name'>;
 
@@ -13,9 +13,9 @@ export default class extends TiniElement {
   };
 
   /* eslint-disable prettier/prettier */
-  @property({type: Array}) declare items?: RadiosItem[];
-  @property({type: String, reflect: true}) declare name: string;
-  @property({type: Boolean, reflect: true}) declare wrap?: boolean;
+  @property({type: String, reflect: true}) name!: string;
+  @property({type: Array}) items?: RadiosItem[];
+  @property({type: Boolean, reflect: true}) wrap?: boolean;
   /* eslint-enable prettier/prettier */
 
   private validateProperties() {

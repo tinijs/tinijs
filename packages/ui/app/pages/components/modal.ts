@@ -1,15 +1,15 @@
 import {html} from 'lit';
-import {ref, Ref, createRef} from 'lit/directives/ref.js';
+import {ref, type Ref, createRef} from 'lit/directives/ref.js';
 import {Page, TiniComponent} from '@tinijs/core';
 import {TiniModalComponent} from '@tinijs/ui-app/components/modal.js';
 
 import {
   renderDefaultSection,
   renderStyleDeepSection,
-  RenderSectionOptions,
+  type RenderSectionOptions,
 } from '../../utils/varies.js';
 import {ConsumerPlatforms} from '../../consts/main.js';
-import {CodeBuilder} from '../../utils/code-builder.js';
+import type {CodeBuilder} from '../../utils/code-builder.js';
 
 import {AppComponentPageComponent} from '../../components/component-page.js';
 import {AppSectionComponent} from '../../components/section.js';

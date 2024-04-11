@@ -1,7 +1,7 @@
-import {PropertyValues} from 'lit';
+import type {PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
-import {html, unsafeStatic, StaticValue} from 'lit/static-html.js';
+import {html, unsafeStatic, type StaticValue} from 'lit/static-html.js';
 import {
   TiniElement,
   partAttrMap,
@@ -23,14 +23,14 @@ export enum TextTags {
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) declare tag?: TextTags;
-  @property({type: Boolean, reflect: true}) declare italic?: boolean;
-  @property({type: Boolean, reflect: true}) declare underline?: boolean;
-  @property({type: String, reflect: true}) declare color?: Colors | Gradients;
-  @property({type: String, reflect: true}) declare fontType?: FontTypes;
-  @property({type: String, reflect: true}) declare fontSize?: Factors;
-  @property({type: String, reflect: true}) declare fontWeight?: FontWeights;
-  @property({type: String, reflect: true}) declare textTransform?: TextTransforms;
+  @property({type: String, reflect: true}) tag?: TextTags;
+  @property({type: Boolean, reflect: true}) italic?: boolean;
+  @property({type: Boolean, reflect: true}) underline?: boolean;
+  @property({type: String, reflect: true}) color?: Colors | Gradients;
+  @property({type: String, reflect: true}) fontType?: FontTypes;
+  @property({type: String, reflect: true}) fontSize?: Factors;
+  @property({type: String, reflect: true}) fontWeight?: FontWeights;
+  @property({type: String, reflect: true}) textTransform?: TextTransforms;
   /* eslint-enable prettier/prettier */
 
   private rootTag!: StaticValue;

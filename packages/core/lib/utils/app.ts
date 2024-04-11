@@ -3,8 +3,8 @@ import {NO_APP_ERROR} from '../consts/error.js';
 
 import {TiniComponent} from '../classes/component.js';
 
-import {RegisterComponentsList} from './component.js';
-import {DependencyProviders} from './di.js';
+import type {RegisterComponentsList} from './component.js';
+import type {DependencyProviders} from './di.js';
 
 export type ClientApp<AppRoot extends TiniComponent = TiniComponent> =
   AppRoot & {

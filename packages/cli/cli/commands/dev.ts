@@ -6,7 +6,7 @@ import {execaCommand} from 'execa';
 import {blueBright} from 'colorette';
 import {remove, pathExistsSync} from 'fs-extra/esm';
 
-import {TiniConfig, getTiniProject} from '@tinijs/project';
+import {getTiniProject, type TiniConfig} from '@tinijs/project';
 
 import {loadCompiler, loadBuilder, buildPublic} from '../utils/build.js';
 import {createCLICommand} from '../utils/cli.js';

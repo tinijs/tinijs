@@ -1,6 +1,6 @@
-import {Route} from '@tinijs/router';
+import type {Route} from '@tinijs/router';
 
-export default [
+export const routes: Route[] = [
   {
     path: '',
     component: 'app-layout-default',
@@ -43,4 +43,4 @@ export default [
       },
     ],
   },
-] as Route[];
+];

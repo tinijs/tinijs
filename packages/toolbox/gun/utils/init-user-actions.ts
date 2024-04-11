@@ -1,9 +1,9 @@
-import {IGunInstance, ISEA} from 'gun';
+import type {IGunInstance, ISEA} from 'gun';
 
 import {retry} from '../../common/utils/retry.js';
 import {importRSAPublicKey} from '../../crypto/utils/import-rsa-public-key.js';
 import {importRSAPrivateKey} from '../../crypto/utils/import-rsa-private-key.js';
-import {GunResult} from './create-gun-instance.js';
+import type {GunResult} from './create-gun-instance.js';
 
 export type InitUserActions = typeof initUserActions;
 

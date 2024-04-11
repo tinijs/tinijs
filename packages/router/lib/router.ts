@@ -1,7 +1,7 @@
-import {pathToRegexp, Key} from 'path-to-regexp';
+import {pathToRegexp, type Key} from 'path-to-regexp';
 import {PACKAGE_PREFIX} from '@tinijs/core';
 
-import {
+import type {
   Route,
   RouterOptions,
   FragmentManager,

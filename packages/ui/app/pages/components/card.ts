@@ -9,10 +9,10 @@ import {
   renderDefaultSection,
   renderBoxShadowsSection,
   renderStyleDeepSection,
-  RenderSectionOptions,
+  type RenderSectionOptions,
 } from '../../utils/varies.js';
 import {ConsumerPlatforms} from '../../consts/main.js';
-import {CodeBuilder} from '../../utils/code-builder.js';
+import type {CodeBuilder} from '../../utils/code-builder.js';
 
 import {AppComponentPageComponent} from '../../components/component-page.js';
 import {

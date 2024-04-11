@@ -1,4 +1,4 @@
-import {html, nothing, PropertyValues} from 'lit';
+import {html, nothing, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
@@ -32,15 +32,15 @@ export default class extends TiniElement {
   };
 
   /* eslint-disable prettier/prettier */
-  @property({type: String}) declare items?: SelectItem[];
-  @property({type: String, reflect: true}) declare label?: string;
-  @property({type: String, reflect: true}) declare name?: string;
-  @property({type: String, reflect: true}) declare autocomplete?: string;
-  @property({type: Boolean, reflect: true}) declare disabled?: boolean;
-  @property({type: Boolean, reflect: true}) declare wrap?: boolean;
-  @property({type: String, reflect: true}) declare scheme?: Colors;
-  @property({type: String, reflect: true}) declare scale?: Scales;
-  @property({type: String, reflect: true, attribute: 'focus:scheme'}) declare focusScheme?: this['scheme'];
+  @property({type: String}) items?: SelectItem[];
+  @property({type: String, reflect: true}) label?: string;
+  @property({type: String, reflect: true}) name?: string;
+  @property({type: String, reflect: true}) autocomplete?: string;
+  @property({type: Boolean, reflect: true}) disabled?: boolean;
+  @property({type: Boolean, reflect: true}) wrap?: boolean;
+  @property({type: String, reflect: true}) scheme?: Colors;
+  @property({type: String, reflect: true}) scale?: Scales;
+  @property({type: String, reflect: true, attribute: 'focus:scheme'}) focusScheme?: this['scheme'];
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {

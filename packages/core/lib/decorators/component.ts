@@ -1,6 +1,6 @@
 import {customElement} from 'lit/decorators/custom-element.js';
 
-import {ComponentTypes, ComponentOptions} from '../classes/component.js';
+import {ComponentTypes, type ComponentOptions} from '../classes/component.js';
 
 export function Component(options: ComponentOptions = {}) {
   return function (target: any) {

@@ -1,4 +1,4 @@
-import {IGun, GunOptions} from 'gun';
+import type {IGun, GunOptions} from 'gun';
 import Gun from 'gun/gun.js';
 import 'gun/lib/radix';
 import 'gun/lib/radisk';
