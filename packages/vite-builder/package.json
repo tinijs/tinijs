@@ -1,6 +1,6 @@
 {
   "name": "@tinijs/vite-builder",
-  "version": "0.0.1",
+  "version": "0.17.0-alpha.0",
   "description": "Build TiniJS apps using Vite.",
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",
@@ -34,8 +34,8 @@
     "url": "https://github.com/tinijs/tinijs/issues"
   },
   "dependencies": {
-    "@tinijs/cli": "*",
-    "@tinijs/project": "*",
+    "@tinijs/cli": "^0.17.0-alpha.0",
+    "@tinijs/project": "^0.17.0-alpha.0",
     "pathe": "^1.1.2",
     "vite": "^5.2.7"
   }

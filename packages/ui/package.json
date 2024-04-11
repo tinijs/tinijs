@@ -1,6 +1,6 @@
 {
   "name": "@tinijs/ui",
-  "version": "0.16.0",
+  "version": "0.17.0-alpha.0",
   "description": "The UI system of the TiniJS Framework.",
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",
@@ -46,11 +46,11 @@
   },
   "dependencies": {
     "@sindresorhus/slugify": "^2.2.1",
-    "@tinijs/cli": "*",
-    "@tinijs/core": "*",
-    "@tinijs/project": "*",
-    "@tinijs/router": "*",
-    "@tinijs/store": "*",
+    "@tinijs/cli": "^0.17.0-alpha.0",
+    "@tinijs/core": "^0.17.0-alpha.0",
+    "@tinijs/project": "^0.17.0-alpha.0",
+    "@tinijs/router": "^0.17.0-alpha.0",
+    "@tinijs/store": "^0.17.0-alpha.0",
     "chroma-js": "^2.4.2",
     "consola": "^3.2.3",
     "defu": "^6.1.4",
@@ -73,7 +73,7 @@
   "devDependencies": {
     "@lit/react": "^1.0.2",
     "@tinijs/default-compiler": "*",
-    "@tinijs/parcel-builder": "*",
+    "@tinijs/parcel-builder": "^0.17.0-alpha.0",
     "@types/chroma-js": "^2.4.3",
     "@types/fs-extra": "^11.0.4",
     "@types/gradient-parser": "^0.1.5",
