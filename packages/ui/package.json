@@ -25,9 +25,10 @@
     "!**/*.spec.*"
   ],
   "scripts": {
-    "dev": "tini ui build && tini dev",
-    "preview": "tini preview",
-    "build": "rimraf ./dist && tsc && tini ui build",
+    "tini": "../cli/dist/cli/index.js",
+    "dev": "npm run tini -- ui build && npm run tini -- dev",
+    "preview": "npm run tini -- preview",
+    "build": "npm run tini -- ui build && rimraf ./dist && tsc",
     "lint": "gts lint",
     "fix": "gts fix"
   },

@@ -28,10 +28,6 @@ export default defineTiniConfig({
       bootstrap: ['light', 'dark'],
     },
     outDir: '.ui',
-    // packageJSON: {
-    //   name: '@tinijs/ui-app',
-    //   version: '0.0.0',
-    // },
     // icons: ['./test-icons'],
     outPacks: [bootstrapUIPack],
   },

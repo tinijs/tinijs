@@ -23,7 +23,7 @@
     "!**/*.spec.*"
   ],
   "scripts": {
-    "build": "rimraf ./dist && tsc && chmod +x ../../node_modules/.bin/tini",
+    "build": "rimraf ./dist && tsc && chmod +x ./dist/cli/index.js",
     "deploy": "npm run build && npm publish",
     "test": "vitest run",
     "lint": "gts lint",
@@ -61,7 +61,6 @@
     "picomatch": "^4.0.1",
     "recursive-readdir": "^2.2.3",
     "superstatic": "^9.0.3",
-    "type-fest": "^4.14.0",
     "typescript": "~5.3.3"
   },
   "devDependencies": {
