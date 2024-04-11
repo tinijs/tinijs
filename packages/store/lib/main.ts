@@ -1,4 +1,4 @@
-import {Store, StoreOptions, StoreCallback} from './types.js';
+import type {Store, StoreOptions, StoreCallback} from './types.js';
 
 export function createStore<States>(
   states: States,

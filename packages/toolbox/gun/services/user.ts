@@ -1,21 +1,21 @@
-import {IGunChain, IGunOnEvent} from 'gun';
+import type {IGunChain, IGunOnEvent} from 'gun';
 
 import {retry} from '../../common/utils/retry.js';
 import {deduplicateCallback} from '../../common/utils/deduplicate-callback.js';
 import {importRSAPublicKey} from '../../crypto/utils/import-rsa-public-key.js';
 import {
-  GunResult,
-  GunLink,
   createGunInstance,
+  type GunResult,
+  type GunLink,
 } from '../utils/create-gun-instance.js';
 import {extractKeys} from '../utils/extract-keys.js';
 import {
-  StreamContextEntry,
-  StreamContext,
-  StreamCallback,
-  StreamOptions,
   createStream,
   Stream,
+  type StreamContextEntry,
+  type StreamContext,
+  type StreamCallback,
+  type StreamOptions,
 } from '../utils/create-stream.js';
 
 export interface UserNode {

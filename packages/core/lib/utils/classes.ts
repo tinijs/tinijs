@@ -1,4 +1,4 @@
-import {ClassInfo} from 'lit/directives/class-map.js';
+import type {ClassInfo} from 'lit/directives/class-map.js';
 
 import {
   VaryGroups,

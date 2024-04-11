@@ -4,7 +4,7 @@ import {TiniIconComponent} from '@tinijs/ui-app/components/icon.js';
 import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
 
 import {ConsumerPlatforms} from '../../consts/main.js';
-import {CodeBuilder, ReactCommonProps} from '../../utils/code-builder.js';
+import {type CodeBuilder, ReactCommonProps} from '../../utils/code-builder.js';
 import {
   renderDefaultSection,
   renderColorsSection,
@@ -13,7 +13,7 @@ import {
   renderTransformsSection,
   renderFiltersSection,
   renderStyleDeepSection,
-  RenderSectionOptions,
+  type RenderSectionOptions,
 } from '../../utils/varies.js';
 
 import {AppComponentPageComponent} from '../../components/component-page.js';

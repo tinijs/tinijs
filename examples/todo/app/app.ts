@@ -1,17 +1,17 @@
 import {html} from 'lit';
 
 import {App, TiniComponent} from '@tinijs/core';
-import {createRouter, AppWithRouter} from '@tinijs/router';
+import {createRouter, type AppWithRouter} from '@tinijs/router';
 import {
-  AppWithUI,
   setupUI,
   bootstrapLightSkin,
   bootstrapDarkSkin,
+  type AppWithUI,
 } from '@tinijs/ui-bootstrap';
 
 import {TiniLinkComponent} from '@tinijs/ui-bootstrap/components/link.js';
 
-import routes from './routes.js';
+import {routes} from './routes.js';
 
 import './layouts/default.js';
 

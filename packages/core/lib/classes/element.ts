@@ -1,34 +1,34 @@
 import {
   LitElement,
-  PropertyValues,
-  CSSResultOrNative,
-  TemplateResult,
   unsafeCSS,
   getCompatibleStyle,
   adoptStyles,
+  type PropertyValues,
+  type CSSResultOrNative,
+  type TemplateResult,
 } from 'lit';
 import {property} from 'lit/decorators/property.js';
-import {ClassInfo} from 'lit/directives/class-map.js';
+import type {ClassInfo} from 'lit/directives/class-map.js';
 import {defu} from 'defu';
 
 import {
   THEME_CHANGE_EVENT,
-  UIOptions,
-  UIButtonOptions,
-  Theming,
   getOptionalUI,
   getStylesFromTheming,
   getScriptsFromTheming,
   processComponentStyles,
+  type UIOptions,
+  type UIButtonOptions,
+  type Theming,
 } from './ui.js';
 
 import {COMMON_COLORS_TO_COMMON_GRADIENTS, VaryGroups} from '../utils/vary.js';
 import {
   UnstableStates,
-  RegisterComponentsList,
   registerComponents,
+  type RegisterComponentsList,
 } from '../utils/component.js';
-import {EventForwarding, forwardEvents} from '../utils/event.js';
+import {forwardEvents, type EventForwarding} from '../utils/event.js';
 
 export interface ExtendRootClassesInput {
   raw?: ClassInfo;
@@ -53,9 +53,9 @@ export class TiniElement extends LitElement {
   static readonly components?: RegisterComponentsList;
 
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) declare styleDeep?: string;
-  @property({type: Object}) declare refers?: Record<string, Record<string, any>>;
-  @property() declare events?: string | Array<string | EventForwarding>;
+  @property({type: String, reflect: true}) styleDeep?: string;
+  @property({type: Object}) refers?: Record<string, Record<string, any>>;
+  @property() events?: string | Array<string | EventForwarding>;
   /* eslint-enable prettier/prettier */
 
   protected rootClasses: ClassInfo = {root: true};

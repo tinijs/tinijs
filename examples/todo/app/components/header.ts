@@ -6,7 +6,7 @@ import {Component, TiniComponent, UseUI, UI} from '@tinijs/core';
 import {TiniIconComponent} from '@tinijs/ui-bootstrap/components/icon.js';
 import {
   TiniSwitchComponent,
-  SwitchEventDetail,
+  type SwitchEventDetail,
 } from '@tinijs/ui-bootstrap/components/switch.js';
 
 enum Themes {

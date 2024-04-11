@@ -1,4 +1,4 @@
-import {html, PropertyValues} from 'lit';
+import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {styleMap} from 'lit/directives/style-map.js';
@@ -16,11 +16,11 @@ export default class extends TiniElement {
   };
 
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) declare width?: string;
-  @property({type: String, reflect: true}) declare height?: string;
-  @property({type: String, reflect: true}) declare speed?: string;
-  @property({type: String, reflect: true}) declare scheme?: Colors;
-  @property({type: String, reflect: true}) declare borderRadius?: BorderRadiuses;
+  @property({type: String, reflect: true}) width?: string;
+  @property({type: String, reflect: true}) height?: string;
+  @property({type: String, reflect: true}) speed?: string;
+  @property({type: String, reflect: true}) scheme?: Colors;
+  @property({type: String, reflect: true}) borderRadius?: BorderRadiuses;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {

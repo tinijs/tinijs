@@ -5,7 +5,10 @@
     "module": "NodeNext",
     "lib": ["ESNext", "DOM"],
     "experimentalDecorators": true,
-    "skipLibCheck": true,
+    "useDefineForClassFields": false,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true
   },
   "exclude": [
     "node_modules",

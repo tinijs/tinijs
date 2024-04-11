@@ -1,4 +1,4 @@
-import {DenormList} from '../types/common.js';
+import type {DenormList} from '../types/common.js';
 import {slugify} from './slugify.js';
 
 export function parseDenorm<Type = Record<string, unknown>>(

@@ -6,10 +6,10 @@ import {TiniTableComponent} from '@tinijs/ui-app/components/table.js';
 import {
   renderSection,
   renderDefaultSection,
-  RenderSectionOptions,
+  type RenderSectionOptions,
 } from '../../utils/varies.js';
 import {ConsumerPlatforms} from '../../consts/main.js';
-import {CodeBuilder, ReactCommonProps} from '../../utils/code-builder.js';
+import {type CodeBuilder, ReactCommonProps} from '../../utils/code-builder.js';
 
 import {AppComponentPageComponent} from '../../components/component-page.js';
 import {AppSectionComponent} from '../../components/section.js';

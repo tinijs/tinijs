@@ -6,8 +6,8 @@ import {getTiniProject} from '@tinijs/project';
 
 import {
   BUILTIN_GENERATORS,
-  GeneratedTemplate,
-  TemplateGenerator,
+  type GeneratedTemplate,
+  type TemplateGenerator,
 } from '../utils/generate.js';
 import {createCLICommand} from '../utils/cli.js';
 

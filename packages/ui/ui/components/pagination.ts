@@ -1,6 +1,6 @@
-import {html, PropertyValues} from 'lit';
+import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap, ClassInfo} from 'lit/directives/class-map.js';
+import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
 import {
   TiniElement,
   partAttrMap,
@@ -17,11 +17,11 @@ export interface PaginationItem {
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: Number, reflect: true}) declare totalPage: number;
-  @property({type: Number, reflect: true}) declare currentPage: number;
-  @property({type: String, reflect: true}) declare scheme?: Colors | Gradients;
-  @property({type: String, reflect: true}) declare scale?: Scales;
-  @property({type: Object}) declare hrefBuilder?: (pageNum: number) => string;
+  @property({type: Number, reflect: true}) totalPage!: number;
+  @property({type: Number, reflect: true}) currentPage!: number;
+  @property({type: String, reflect: true}) scheme?: Colors | Gradients;
+  @property({type: String, reflect: true}) scale?: Scales;
+  @property({type: Object}) hrefBuilder?: (pageNum: number) => string;
   /* eslint-enable prettier/prettier */
 
   private validateProperties() {

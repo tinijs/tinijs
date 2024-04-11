@@ -1,4 +1,4 @@
-import {IGunChain} from 'gun';
+import type {IGunChain} from 'gun';
 
 export type PutValue = typeof putValue;
 

@@ -1,4 +1,4 @@
-import {CSSResultOrNative, adoptStyles} from 'lit';
+import {adoptStyles, type CSSResultOrNative} from 'lit';
 
 import {GLOBAL_TINI} from '../consts/global.js';
 import {PACKAGE_PREFIX} from '../consts/common.js';

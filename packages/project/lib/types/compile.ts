@@ -1,6 +1,6 @@
-import {HookCallback} from 'hookable';
+import type {HookCallback} from 'hookable';
 
-import {TiniProject} from '../classes/project.js';
+import type {TiniProject} from '../classes/project.js';
 
 export interface Compiler {
   compile: () => Promise<void>;

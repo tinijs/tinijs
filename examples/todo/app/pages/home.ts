@@ -3,11 +3,11 @@ import {html} from 'lit';
 import {
   Page,
   TiniComponent,
-  OnCreate,
   render,
   CommonColors,
   CommonGradients,
   Scales,
+  type OnCreate,
 } from '@tinijs/core';
 import {Subscribe} from '@tinijs/store';
 
@@ -15,16 +15,16 @@ import {TiniIconComponent} from '@tinijs/ui-bootstrap/components/icon.js';
 import {TiniSpinnerComponent} from '@tinijs/ui-bootstrap/components/spinner.js';
 
 import {
-  Task,
   mainStore,
   loadTasks,
   addTask,
   updateTask,
   deleteTask,
+  type Task,
 } from '../stores/main.js';
 
 import {AppComposeComponent} from '../components/compose.js';
-import {AppTasksComponent, ToggleEventDetail} from '../components/tasks.js';
+import {AppTasksComponent, type ToggleEventDetail} from '../components/tasks.js';
 
 @Page({
   name: 'app-page-home',

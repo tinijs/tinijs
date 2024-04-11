@@ -1,22 +1,22 @@
-import {PropertyValues} from 'lit';
+import type {PropertyValues} from 'lit';
 
-import {Theming} from './ui.js';
+import type {Theming} from './ui.js';
 import {TiniElement} from './element.js';
 
-import {RegisterComponentsList} from '../utils/component.js';
+import type {RegisterComponentsList} from '../utils/component.js';
 
 import {
   LifecycleHooks,
-  OnCreate,
-  OnDestroy,
-  OnChanges,
-  OnFirstRender,
-  OnRenders,
-  OnChildrenRender,
-  OnChildrenReady,
-  OnInit,
-  OnReady,
   runGlobalHooks,
+  type OnCreate,
+  type OnDestroy,
+  type OnChanges,
+  type OnFirstRender,
+  type OnRenders,
+  type OnChildrenRender,
+  type OnChildrenReady,
+  type OnInit,
+  type OnReady,
 } from '../utils/hook.js';
 
 export enum ComponentTypes {
@@ -36,8 +36,8 @@ export interface ComponentOptions {
 export class TiniComponent extends TiniElement {
   static readonly componentType: ComponentTypes = ComponentTypes.Component;
 
-  declare private pendingDependencies?: Array<() => Promise<unknown>>;
-  declare private storeManager?: {
+  private pendingDependencies?: Array<() => Promise<unknown>>;
+  private storeManager?: {
     pending: Array<[any, string, string, boolean]>;
     unsubscribes: Array<() => void>;
   };

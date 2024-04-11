@@ -1,4 +1,4 @@
-import {RenderData} from '@tinijs/core';
+import type {RenderData} from '@tinijs/core';
 import {createStore} from '@tinijs/store';
 
 export interface Task {

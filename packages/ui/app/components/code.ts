@@ -1,6 +1,6 @@
 import {html, css} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
-import {ref, Ref, createRef} from 'lit/directives/ref.js';
+import {ref, createRef, type Ref} from 'lit/directives/ref.js';
 import {Component, TiniComponent, Input} from '@tinijs/core';
 
 import hljs from '../utils/highlight.js';
@@ -10,8 +10,8 @@ export class AppCodeComponent extends TiniComponent {
   static readonly defaultTagName = 'app-code';
 
   private readonly codeRef: Ref<HTMLElement> = createRef();
-  @Input({type: String}) declare code?: string;
-  @Input({type: String}) declare language?: string;
+  @Input({type: String}) code?: string;
+  @Input({type: String}) language?: string;
 
   onRenders() {
     this.codeRef.value!.textContent = this.code!;

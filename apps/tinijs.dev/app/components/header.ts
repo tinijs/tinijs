@@ -2,19 +2,19 @@ import {html, css} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
 
 import {
-  OnCreate,
-  OnDestroy,
   Component,
   TiniComponent,
   Reactive,
   Colors,
   getUI,
+  type OnCreate,
+  type OnDestroy,
 } from '@tinijs/core';
 import {ROUTE_CHANGE_EVENT} from '@tinijs/router';
 import {TiniLinkComponent} from '@tinijs/ui-bootstrap/components/link.js';
 import {
   TiniSwitchComponent,
-  SwitchEventDetail,
+  type SwitchEventDetail,
 } from '@tinijs/ui-bootstrap/components/switch.js';
 import {TiniIconComponent} from '@tinijs/ui-bootstrap/components/icon.js';
 

@@ -2,7 +2,7 @@ import {resolve} from 'pathe';
 import {copy as copyFileOrDir, pathExistsSync} from 'fs-extra/esm';
 import {execaCommand} from 'execa';
 
-import {ModuleInit} from '@tinijs/project';
+import type {ModuleInit} from '@tinijs/project';
 
 import {modifyProjectPackageJSON} from './project.js';
 

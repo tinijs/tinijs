@@ -1,7 +1,7 @@
 import {html} from 'lit';
 
 import {Page, TiniComponent} from '@tinijs/core';
-import {PageWithMetadata, PageMetadata} from '@tinijs/meta';
+import type {PageWithMetadata, PageMetadata} from '@tinijs/meta';
 import {TiniLinkComponent} from '@tinijs/ui-bootstrap/components/link.js';
 
 @Page({

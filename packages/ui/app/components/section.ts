@@ -1,6 +1,6 @@
-import {html, css, nothing, HTMLTemplateResult} from 'lit';
+import {html, css, nothing, type HTMLTemplateResult} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
-import {StyleInfo} from 'lit/directives/style-map.js';
+import type {StyleInfo} from 'lit/directives/style-map.js';
 import {repeat} from 'lit/directives/repeat.js';
 import {cache} from 'lit/directives/cache.js';
 import {until} from 'lit/directives/until.js';
@@ -17,9 +17,9 @@ import {
 } from '../consts/icons.js';
 import {mainStore} from '../stores/main.js';
 import {formatHTML} from '../utils/format.js';
-import {CodeBuilder, CodeBuilderHelper} from '../utils/code-builder.js';
+import {type CodeBuilder, CodeBuilderHelper} from '../utils/code-builder.js';
 
-import {AppTabsComponent, TabItem} from '../components/tabs.js';
+import {AppTabsComponent, type TabItem} from '../components/tabs.js';
 import {AppCodeComponent} from '../components/code.js';
 
 export const WRAPPER_CLASS_NAME = 'wrapper';

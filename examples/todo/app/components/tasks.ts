@@ -1,7 +1,7 @@
 import {html} from 'lit';
 import {repeat} from 'lit/directives/repeat.js';
 import {styleMap} from 'lit/directives/style-map.js';
-import {ref, Ref, createRef} from 'lit/directives/ref.js';
+import {ref, createRef, type Ref} from 'lit/directives/ref.js';
 import autoAnimate from '@formkit/auto-animate';
 
 import {CommonColors, CommonGradients, Scales} from '@tinijs/core';
@@ -10,14 +10,14 @@ import {
   TiniComponent,
   Input,
   Output,
-  OnReady,
   EventEmitter,
+  type OnReady,
 } from '@tinijs/core';
 
 import {TiniIconComponent} from '@tinijs/ui-bootstrap/components/icon.js';
 import {TiniCheckboxesComponent} from '@tinijs/ui-bootstrap/components/checkboxes.js';
 
-import {Task} from '../stores/main.js';
+import type {Task} from '../stores/main.js';
 
 export interface ToggleEventDetail {
   task: Task;

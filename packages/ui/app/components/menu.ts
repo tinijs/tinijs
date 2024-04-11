@@ -1,7 +1,7 @@
 import {html, css, nothing} from 'lit';
 import {UnstableStates} from '@tinijs/core';
 import {Component, TiniComponent} from '@tinijs/core';
-import {Route} from '@tinijs/router';
+import type {Route} from '@tinijs/router';
 
 import {TiniIconComponent} from '@tinijs/ui-app/components/icon.js';
 import {TiniLinkComponent} from '@tinijs/ui-app/components/link.js';

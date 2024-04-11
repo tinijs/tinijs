@@ -1,6 +1,6 @@
 // @ts-ignore
 import Index from 'flexsearch/dist/module/index';
-import {IndexSearchResult} from 'flexsearch';
+import type {IndexSearchResult} from 'flexsearch';
 
 import {transliterate} from './utils/transliterate.js';
 import {parseDenorm, parseDenormList} from './utils/denorm.js';

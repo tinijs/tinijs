@@ -3,9 +3,9 @@ import {Page, TiniComponent} from '@tinijs/core';
 // import {TiniGenericComponent} from '@tinijs/ui-app/components/generic.js';
 // import {TiniGenericUnscopedComponent} from '@tinijs/ui-app/components/generic-unscoped.js';
 
-import {renderSection, RenderSectionOptions} from '../../utils/varies.js';
+import {renderSection, type RenderSectionOptions} from '../../utils/varies.js';
 import {ConsumerPlatforms} from '../../consts/main.js';
-import {CodeBuilder} from '../../utils/code-builder.js';
+import type {CodeBuilder} from '../../utils/code-builder.js';
 
 import {AppComponentPageComponent} from '../../components/component-page.js';
 import {AppSectionComponent} from '../../components/section.js';

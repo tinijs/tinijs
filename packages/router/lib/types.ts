@@ -1,6 +1,6 @@
-import {Key} from 'path-to-regexp';
+import type {Key} from 'path-to-regexp';
 
-import {Router} from './router.js';
+import type {Router} from './router.js';
 
 export interface Route {
   title?: string;

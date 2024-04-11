@@ -1,5 +1,5 @@
 import {resolve} from 'pathe';
-import {PackageJson} from 'type-fest';
+import type {PackageJson} from 'type-fest';
 import {readJSON} from 'fs-extra/esm';
 
 import {modifyJSONFile} from './file.js';

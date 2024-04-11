@@ -1,12 +1,12 @@
-import {html, PropertyValues} from 'lit';
+import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
-import {styleMap, StyleInfo} from 'lit/directives/style-map.js';
+import {styleMap, type StyleInfo} from 'lit/directives/style-map.js';
 import {TiniElement, partAttrMap} from '@tinijs/core';
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) declare ratio?: string;
+  @property({type: String, reflect: true}) ratio?: string;
   /* eslint-enable prettier/prettier */
 
   private rootStyles: StyleInfo = {};

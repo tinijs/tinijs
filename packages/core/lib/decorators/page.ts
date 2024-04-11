@@ -1,4 +1,4 @@
-import {ComponentTypes, ComponentOptions} from '../classes/component.js';
+import {ComponentTypes, type ComponentOptions} from '../classes/component.js';
 
 import {Component} from './component.js';
 

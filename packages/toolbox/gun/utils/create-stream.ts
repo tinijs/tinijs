@@ -1,6 +1,6 @@
-import {IGunOnEvent} from 'gun';
+import type {IGunOnEvent} from 'gun';
 
-import {GunResult} from './create-gun-instance.js';
+import type {GunResult} from './create-gun-instance.js';
 import {emitStaticValue} from './emit-static-value.js';
 import {emitStreamValue} from './emit-stream-value.js';
 

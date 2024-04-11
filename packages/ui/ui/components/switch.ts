@@ -1,4 +1,4 @@
-import {html, nothing, PropertyValues} from 'lit';
+import {html, nothing, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
@@ -19,12 +19,12 @@ export interface SwitchEventDetail {
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) declare label?: string;
-  @property({type: String, reflect: true}) declare name?: string;
-  @property({type: Boolean, reflect: true}) declare checked?: boolean;
-  @property({type: Boolean, reflect: true}) declare disabled?: boolean;
-  @property({type: String, reflect: true}) declare scheme?: Colors | Gradients;
-  @property({type: String, reflect: true}) declare scale?: Scales;
+  @property({type: String, reflect: true}) label?: string;
+  @property({type: String, reflect: true}) name?: string;
+  @property({type: Boolean, reflect: true}) checked?: boolean;
+  @property({type: Boolean, reflect: true}) disabled?: boolean;
+  @property({type: String, reflect: true}) scheme?: Colors | Gradients;
+  @property({type: String, reflect: true}) scale?: Scales;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {

@@ -2,7 +2,11 @@ import {resolve, parse} from 'pathe';
 import {readFile} from 'node:fs/promises';
 import {outputFile, copy} from 'fs-extra/esm';
 import {load} from 'cheerio';
-import {TiniProject, Compiler, CompileFileHookContext} from '@tinijs/project';
+import {
+  TiniProject,
+  type Compiler,
+  type CompileFileHookContext,
+} from '@tinijs/project';
 import {listDir, cleanDir} from '@tinijs/cli';
 
 export interface CompileOptions {

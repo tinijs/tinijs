@@ -1,4 +1,4 @@
-import {ReactiveController, ReactiveControllerHost} from 'lit';
+import type {ReactiveController, ReactiveControllerHost} from 'lit';
 
 export type Watcher = Watching['watch'];
 export type WatchableHandler<Value> = (

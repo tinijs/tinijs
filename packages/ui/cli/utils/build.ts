@@ -3,11 +3,9 @@ import {pathExistsSync, readJSON} from 'fs-extra/esm';
 import typescript from 'typescript';
 import {resolve, parse, relative} from 'pathe';
 import {safeDestr} from 'destr';
-import {PackageJson} from 'type-fest';
+import type {PackageJson} from 'type-fest';
 import {genObjectFromRaw, genArrayFromRaw} from 'knitwork';
 import {
-  AvailableFile,
-  GenFileResult,
   parseName,
   tsToJS,
   jtsFilter,
@@ -15,8 +13,10 @@ import {
   loadProjectPackageJSON,
   transpileAndOutputFiles,
   removeFiles,
+  type AvailableFile,
+  type GenFileResult,
 } from '@tinijs/cli';
-import {UIConfig} from '@tinijs/project';
+import type {UIConfig} from '@tinijs/project';
 
 import {
   getCommonColors,
@@ -50,6 +50,9 @@ export const TS_CONFIG = {
   lib: ['ESNext', 'DOM'],
   experimentalDecorators: true,
   useDefineForClassFields: false,
+  isolatedModules: true,
+  verbatimModuleSyntax: true,
+  skipLibCheck: true,
 };
 
 function resolveSourceDir(sourceDir: string) {
@@ -377,9 +380,9 @@ export async function buildSetup(config: UIConfig) {
 
   // imports
   setupTS
-    .addImport('lit', ['CSSResultOrNative'])
+    .addTypeImport('lit', ['CSSResultOrNative'])
     .addImport('defu', ['defu'])
-    .addImport('@tinijs/core', ['UI', 'UIInit', 'listify', 'initUI'])
+    .addImport('@tinijs/core', ['listify', 'initUI', 'type UI', 'type UIInit'])
     .addImport('./styles/global.js', ['globalStyles'])
     .addImport('./styles/base.js', ['availableBases']);
   if (!config.manualSkinSelection) {

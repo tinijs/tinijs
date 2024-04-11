@@ -4,7 +4,7 @@ import {Page, TiniComponent} from '@tinijs/core';
 import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
 import {
   TiniRadiosComponent,
-  RadiosItem,
+  type RadiosItem,
 } from '@tinijs/ui-app/components/radios.js';
 
 import {
@@ -13,10 +13,10 @@ import {
   renderColorsSection,
   renderScalesSection,
   renderStyleDeepSection,
-  RenderSectionOptions,
+  type RenderSectionOptions,
 } from '../../utils/varies.js';
 import {ConsumerPlatforms} from '../../consts/main.js';
-import {CodeBuilder} from '../../utils/code-builder.js';
+import type {CodeBuilder} from '../../utils/code-builder.js';
 
 import {AppComponentPageComponent} from '../../components/component-page.js';
 import {

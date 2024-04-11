@@ -1,6 +1,6 @@
-import {html, PropertyValues} from 'lit';
+import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap, ClassInfo} from 'lit/directives/class-map.js';
+import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
@@ -22,8 +22,8 @@ export interface BreadcrumbItem {
 ***/
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: String}) declare items?: BreadcrumbItem[];
-  @property({type: String, reflect: true}) declare linkColor?: Colors | Gradients;
+  @property({type: String}) items?: BreadcrumbItem[];
+  @property({type: String, reflect: true}) linkColor?: Colors | Gradients;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {

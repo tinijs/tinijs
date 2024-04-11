@@ -1,4 +1,4 @@
-import {LocalForage} from './create-local-forage.js';
+import type {LocalForage} from './create-local-forage.js';
 
 export type Iterate = typeof iterate;
 

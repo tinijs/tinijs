@@ -3,8 +3,8 @@ import {Page, TiniComponent} from '@tinijs/core';
 import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
 import {
   TiniSelectComponent,
-  SelectOption,
-  SelectOptgroup,
+  type SelectOption,
+  type SelectOptgroup,
 } from '@tinijs/ui-app/components/select.js';
 
 import {
@@ -13,10 +13,10 @@ import {
   renderColorsSection,
   renderScalesSection,
   renderStyleDeepSection,
-  RenderSectionOptions,
+  type RenderSectionOptions,
 } from '../../utils/varies.js';
 import {ConsumerPlatforms} from '../../consts/main.js';
-import {CodeBuilder, ReactCommonProps} from '../../utils/code-builder.js';
+import {type CodeBuilder, ReactCommonProps} from '../../utils/code-builder.js';
 
 import {AppComponentPageComponent} from '../../components/component-page.js';
 import {

@@ -1,4 +1,4 @@
-import {StreamResult, StreamCallback} from './create-stream.js';
+import type {StreamResult, StreamCallback} from './create-stream.js';
 
 export type PromisifyStream = typeof promisifyStream;
 

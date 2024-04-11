@@ -1,4 +1,10 @@
-import {fetchx, Method, Input, Body, Options} from './utils/fetch.js';
+import {
+  fetchx,
+  type Method,
+  type Input,
+  type Body,
+  type Options,
+} from './utils/fetch.js';
 
 export class FetchService {
   private globalHeaders: Record<string, string> = {};

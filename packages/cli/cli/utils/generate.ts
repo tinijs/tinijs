@@ -1,8 +1,8 @@
 import {resolve} from 'pathe';
-import {Promisable} from 'type-fest';
+import type {Promisable} from 'type-fest';
 import {pascalCase} from 'change-case';
 
-import {parseName, Names} from './name.js';
+import {parseName, type Names} from './name.js';
 
 export interface TemplateContext {
   type: string;

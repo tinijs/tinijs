@@ -1,4 +1,4 @@
-import {nothing, TemplateResult} from 'lit';
+import {nothing, type TemplateResult} from 'lit';
 import {cache} from 'lit/directives/cache.js';
 
 export enum RenderStatuses {

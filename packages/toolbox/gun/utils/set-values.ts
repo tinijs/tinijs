@@ -1,4 +1,4 @@
-import {IGunChain} from 'gun';
+import type {IGunChain} from 'gun';
 
 import {retry} from '../../common/utils/retry.js';
 import {setValue} from './set-value.js';

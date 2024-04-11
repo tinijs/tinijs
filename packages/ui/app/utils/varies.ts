@@ -1,5 +1,5 @@
-import {html, nothing, HTMLTemplateResult} from 'lit';
-import {styleMap, StyleInfo} from 'lit/directives/style-map.js';
+import {html, nothing, type HTMLTemplateResult} from 'lit';
+import {styleMap, type StyleInfo} from 'lit/directives/style-map.js';
 import {
   BASE_COLORS,
   BASE_COMMON_COLORS,
@@ -24,7 +24,7 @@ import {
 } from '@tinijs/core';
 import {
   AppSectionComponent,
-  SectionCodeGroup,
+  type SectionCodeGroup,
   WRAPPER_CLASS_NAME,
 } from '../components/section.js';
 

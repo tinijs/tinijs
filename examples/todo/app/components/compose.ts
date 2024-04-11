@@ -1,5 +1,5 @@
 import {html} from 'lit';
-import {ref, Ref, createRef} from 'lit/directives/ref.js';
+import {ref, createRef, type Ref} from 'lit/directives/ref.js';
 
 import {CommonColors, Scales} from '@tinijs/core';
 import {

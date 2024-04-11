@@ -1,5 +1,5 @@
 import {resolve} from 'pathe';
-import typescript, {CompilerOptions} from 'typescript';
+import typescript, {type CompilerOptions} from 'typescript';
 import {outputFile} from 'fs-extra/esm';
 
 const {createCompilerHost, createProgram} = typescript;

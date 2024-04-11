@@ -1,4 +1,4 @@
-import {MetaTagDefinition, AppMetadata} from './types.js';
+import type {MetaTagDefinition, AppMetadata} from './types.js';
 import {GLOBAL_TINI, NO_META_ERROR} from './consts.js';
 
 export function getMeta() {

@@ -1,15 +1,16 @@
 import {resolve} from 'pathe';
-import {ParsedPath} from 'node:path';
+import type {ParsedPath} from 'node:path';
 import {readFile} from 'node:fs/promises';
 import recursiveReaddir from 'recursive-readdir';
 import {ensureDir, remove, outputFile, readJSON, writeJSON} from 'fs-extra/esm';
 import {
   genImport,
+  genTypeImport,
   genExport,
   genObjectFromRaw,
   genArrayFromRaw,
 } from 'knitwork';
-import {Promisable} from 'type-fest';
+import type {Promisable} from 'type-fest';
 
 export interface AvailableFile {
   path: string;
@@ -17,12 +18,14 @@ export interface AvailableFile {
 }
 
 export type GenImportParams = Parameters<typeof genImport>;
+export type GenTypeImportParams = Parameters<typeof genTypeImport>;
 export type GenExportParams = Parameters<typeof genExport>;
 export type GenObjectParams = Parameters<typeof genObjectFromRaw>;
 export type GenArrayParams = Parameters<typeof genArrayFromRaw>;
 
 export interface GenFileContent {
   imports: Array<GenImportParams>;
+  typeImports: Array<GenTypeImportParams>;
   exports: Array<GenExportParams>;
   blocks: Array<[string, string | GenObjectParams | GenArrayParams]>;
 }
@@ -82,6 +85,7 @@ export function jtsFilter(filePath: string) {
 
 export function constructGenFileContent(def: GenFileContent) {
   const imports = def.imports.map(args => genImport(...args));
+  const typeImports = def.typeImports.map(args => genTypeImport(...args));
   const exports_ = !def.exports
     ? []
     : def.exports.map(args => genExport(...args));
@@ -96,9 +100,11 @@ export function constructGenFileContent(def: GenFileContent) {
       return `${key} ${value};`;
     }
   });
-  return [imports.join('\n'), exports_.join('\n'), blocks.join('\n\n')].join(
-    '\n\n'
-  );
+  return [
+    [...imports, ...typeImports].join('\n'),
+    exports_.join('\n'),
+    blocks.join('\n\n'),
+  ].join('\n\n');
 }
 
 export async function outputGenFileResults(
@@ -119,6 +125,7 @@ export function createGenFile<Data>(data: Data = {} as Data) {
 export class GenFile<Data> {
   private _file: GenFileContent = {
     imports: [],
+    typeImports: [],
     exports: [],
     blocks: [],
   };
@@ -127,6 +134,11 @@ export class GenFile<Data> {
 
   addImport(...args: GenImportParams) {
     this._file.imports.push(args);
+    return this as GenFile<Data>;
+  }
+
+  addTypeImport(...args: GenTypeImportParams) {
+    this._file.typeImports.push(args);
     return this as GenFile<Data>;
   }
 

@@ -1,6 +1,6 @@
-import {html, nothing, PropertyValues} from 'lit';
+import {html, nothing, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap, ClassInfo} from 'lit/directives/class-map.js';
+import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
@@ -26,8 +26,8 @@ export default class extends TiniElement {
   };
 
   /* eslint-disable prettier/prettier */
-  @property({type: Array}) declare items?: CheckboxesItem[];
-  @property({type: Boolean, reflect: true}) declare wrap?: boolean;
+  @property({type: Array}) items?: CheckboxesItem[];
+  @property({type: Boolean, reflect: true}) wrap?: boolean;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {

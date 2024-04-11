@@ -12,14 +12,14 @@ import {ICON_EXPERIMENTAL, ICON_DEPRECATED} from '../consts/icons.js';
 import {buildGithubRawUrl} from '../utils/github.js';
 import {
   extractCSSVariables,
-  VariableDef,
+  type VariableDef,
   extractComponentProperties,
 } from '../utils/source.js';
 import {getText} from '../utils/http.js';
 import {mainStore} from '../stores/main.js';
 
 import {AppSectionComponent} from './section.js';
-import {AppTabsComponent, TabItem} from './tabs.js';
+import {AppTabsComponent, type TabItem} from './tabs.js';
 import {AppCodeComponent} from './code.js';
 
 interface Quicklink {

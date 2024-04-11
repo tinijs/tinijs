@@ -1,13 +1,13 @@
-import {html, PropertyValues} from 'lit';
+import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap, ClassInfo} from 'lit/directives/class-map.js';
-import {ref, Ref, createRef} from 'lit/directives/ref.js';
+import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
+import {ref, createRef, type Ref} from 'lit/directives/ref.js';
 
 import {
   TiniElement,
   partAttrMap,
-  UICodeOptions,
   UnstableStates,
+  type UICodeOptions,
 } from '@tinijs/core';
 
 export default class extends TiniElement {
@@ -16,8 +16,8 @@ export default class extends TiniElement {
   };
 
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) declare language: string;
-  @property({type: String, reflect: true}) declare content: string;
+  @property({type: String, reflect: true}) language!: string;
+  @property({type: String, reflect: true}) content!: string;
   /* eslint-enable prettier/prettier */
 
   private readonly styleRef: Ref<HTMLStyleElement> = createRef();

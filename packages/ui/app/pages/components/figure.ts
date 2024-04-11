@@ -5,9 +5,9 @@ import {TiniImageComponent} from '@tinijs/ui-app/components/image.js';
 import {TiniCodeComponent} from '@tinijs/ui-app/components/code.js';
 import {TiniFigureComponent} from '@tinijs/ui-app/components/figure.js';
 
-import {renderSection, RenderSectionOptions} from '../../utils/varies.js';
+import {renderSection, type RenderSectionOptions} from '../../utils/varies.js';
 import {ConsumerPlatforms} from '../../consts/main.js';
-import {CodeBuilder} from '../../utils/code-builder.js';
+import type {CodeBuilder} from '../../utils/code-builder.js';
 
 import {AppComponentPageComponent} from '../../components/component-page.js';
 import {AppSectionComponent} from '../../components/section.js';

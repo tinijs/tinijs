@@ -3,8 +3,13 @@ import {readFile} from 'node:fs/promises';
 import isomorphicDompurify from 'isomorphic-dompurify';
 import {optimize} from 'svgo';
 import slugify from '@sindresorhus/slugify';
-import {GenFileResult, listDir, parseName, createGenFile} from '@tinijs/cli';
-import {UIConfig} from '@tinijs/project';
+import {
+  listDir,
+  parseName,
+  createGenFile,
+  type GenFileResult,
+} from '@tinijs/cli';
+import type {UIConfig} from '@tinijs/project';
 
 const {sanitize} = isomorphicDompurify;
 

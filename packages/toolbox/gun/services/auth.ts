@@ -4,12 +4,12 @@ import {generateRSAKeys} from '../../crypto/utils/generate-rsa-keys.js';
 import {encryptRSA} from '../../crypto/utils/encrypt-rsa.js';
 import {decryptRSA} from '../../crypto/utils/decrypt-rsa.js';
 import {createGunInstance} from '../utils/create-gun-instance.js';
-import {StreamCallback} from '../utils/create-stream.js';
+import type {StreamCallback} from '../utils/create-stream.js';
 import {emitStaticValue} from '../utils/emit-static-value.js';
 import {setValue} from '../utils/set-value.js';
 import {setValues} from '../utils/set-values.js';
 
-import {UserService, User, EditableProfile} from './user.js';
+import {UserService, type User, type EditableProfile} from './user.js';
 
 export class AuthService {
   private readonly ERRORS = {

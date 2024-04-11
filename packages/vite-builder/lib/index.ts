@@ -1,5 +1,5 @@
 import {relative} from 'pathe';
-import {TiniProject, Builder} from '@tinijs/project';
+import {TiniProject, type Builder} from '@tinijs/project';
 
 export interface BuildOptions {
   buildCommand?: string;

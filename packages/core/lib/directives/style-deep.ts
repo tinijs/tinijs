@@ -1,17 +1,17 @@
 import {noChange} from 'lit';
 import {
   AsyncDirective,
-  PartInfo,
-  ElementPart,
   directive,
+  type PartInfo,
+  type ElementPart,
 } from 'lit/async-directive.js';
 import {nanoid} from 'nanoid';
 
 import {
-  ActiveTheme,
   getOptionalUI,
   THEME_CHANGE_EVENT,
   processComponentStyles,
+  type ActiveTheme,
 } from '../classes/ui.js';
 
 class StyleDeepDirective extends AsyncDirective {
