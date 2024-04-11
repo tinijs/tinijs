@@ -114,12 +114,12 @@ export class HeaderComponent
               <tini-switch
                 scale="ml"
                 @change=${({detail}: CustomEvent<SwitchEventDetail>) =>
-                  this.ui?.setTheme(
+                  this.ui.setTheme(
                     detail.checked
                       ? Themes.BootstrapDark
                       : Themes.BootstrapLight
                   )}
-                .checked=${this.ui?.activeTheme.themeId ===
+                .checked=${this.ui.activeTheme.themeId ===
                 Themes.BootstrapDark}
               ></tini-switch>
             </div>

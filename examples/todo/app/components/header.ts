@@ -66,10 +66,10 @@ export class AppHeaderComponent extends TiniComponent {
             scheme=${CommonGradients.KaleSalad}
             scale="ml"
             @change=${({detail}: CustomEvent<SwitchEventDetail>) =>
-              this.ui?.setTheme(
+              this.ui.setTheme(
                 detail.checked ? Themes.BootstrapDark : Themes.BootstrapLight
               )}
-            .checked=${this.ui?.activeTheme.themeId === Themes.BootstrapDark}
+            .checked=${this.ui.activeTheme.themeId === Themes.BootstrapDark}
           ></tini-switch>
           <a
             href="https://github.com/tinijs/examples/tree/main/todo"

@@ -16,13 +16,11 @@ import {
   UIOptions,
   UIButtonOptions,
   Theming,
-  getUI,
+  getOptionalUI,
   getStylesFromTheming,
   getScriptsFromTheming,
   processComponentStyles,
 } from './ui.js';
-
-import {GLOBAL_TINI} from '../consts/global.js';
 
 import {COMMON_COLORS_TO_COMMON_GRADIENTS, VaryGroups} from '../utils/vary.js';
 import {
@@ -54,14 +52,14 @@ export class TiniElement extends LitElement {
   static readonly theming?: Theming;
   static readonly components?: RegisterComponentsList;
 
-  protected rootClasses: ClassInfo = {root: true};
-  protected additionalParts: Record<string, TemplateResult> = {};
-
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) declare styleDeep?: string;
   @property({type: Object}) declare refers?: Record<string, Record<string, any>>;
   @property() declare events?: string | Array<string | EventForwarding>;
   /* eslint-enable prettier/prettier */
+
+  protected rootClasses: ClassInfo = {root: true};
+  protected additionalParts: Record<string, TemplateResult> = {};
 
   private _uiTracker = {
     extraStylesAdopted: false,
@@ -126,19 +124,19 @@ export class TiniElement extends LitElement {
     ComponentSpecificOptions extends Record<string, unknown> = {},
     ExtendedOptions extends Record<string, unknown> = {},
   >() {
-    const ui = getUI();
-    const themeOptions = !ui
+    const optionalUI = getOptionalUI();
+    const themeOptions = !optionalUI
       ? {}
       : (defu(
-          ui.options?.[ui.activeTheme.themeId],
-          ui.options?.[ui.activeTheme.familyId],
-          ui.options?.['*'],
+          optionalUI.options?.[optionalUI.activeTheme.themeId],
+          optionalUI.options?.[optionalUI.activeTheme.familyId],
+          optionalUI.options?.['*'],
           {}
         ) as UIOptions<ExtendedOptions>);
     const componentOptions = ((themeOptions as any)?.[
       (this.constructor as typeof TiniElement).componentName
     ] || {}) as ComponentSpecificOptions;
-    return {ui, themeOptions, componentOptions};
+    return {optionalUI, themeOptions, componentOptions};
   }
 
   extendRootClasses(input: ExtendRootClassesInput) {
@@ -206,18 +204,18 @@ export class TiniElement extends LitElement {
   }
 
   private calculatePropertyValue(name: string, originalValue: string) {
-    const {ui, themeOptions} = this.getUIContext();
+    const {optionalUI, themeOptions} = this.getUIContext();
     // no theme
-    if (!ui?.activeTheme) return originalValue;
+    if (!optionalUI?.activeTheme) return originalValue;
     // refers
     const camelName = name.replace(/-(\w)/g, (_, letter) =>
       letter.toUpperCase()
     );
     const referValue =
-      this.refers?.[ui.activeTheme.themeId]?.[camelName] ||
-      this.refers?.[ui.activeTheme.themeId]?.[name] ||
-      this.refers?.[ui.activeTheme.familyId]?.[camelName] ||
-      this.refers?.[ui.activeTheme.familyId]?.[name];
+      this.refers?.[optionalUI.activeTheme.themeId]?.[camelName] ||
+      this.refers?.[optionalUI.activeTheme.themeId]?.[name] ||
+      this.refers?.[optionalUI.activeTheme.familyId]?.[camelName] ||
+      this.refers?.[optionalUI.activeTheme.familyId]?.[name];
     if (referValue) return referValue;
     // refer gradient scheme
     if (
@@ -237,17 +235,17 @@ export class TiniElement extends LitElement {
   }
 
   private customAdoptStyles(renderRoot: HTMLElement | DocumentFragment) {
-    const ui = getUI();
+    const optionalUI = getOptionalUI();
     const allStyles = [] as Array<string | CSSResultOrNative>;
     // theme styles
-    if (ui) {
-      const {familyId, skinId} = ui.activeTheme;
-      const {sharedStyles} = ui.getStyles(familyId, skinId);
+    if (optionalUI) {
+      const {familyId, skinId} = optionalUI.activeTheme;
+      const {sharedStyles} = optionalUI.getStyles(familyId, skinId);
       allStyles.push(
         ...sharedStyles,
         ...getStylesFromTheming(
           (this.constructor as typeof TiniElement).theming,
-          ui.activeTheme
+          optionalUI.activeTheme
         )
       );
     }
@@ -256,15 +254,18 @@ export class TiniElement extends LitElement {
     // from styleDeep
     if (this.styleDeep) allStyles.push(this.styleDeep);
     // adopt all the styles
-    const styleText = processComponentStyles(allStyles, ui?.activeTheme);
+    const styleText = processComponentStyles(
+      allStyles,
+      optionalUI?.activeTheme
+    );
     adoptStyles(renderRoot as unknown as ShadowRoot, [
       getCompatibleStyle(unsafeCSS(styleText)),
     ]);
   }
 
   private getScripts() {
-    const ui = getUI();
-    return !ui
+    const optionalUI = getOptionalUI();
+    return !optionalUI
       ? {
           prevScripts: undefined,
           currentScripts: undefined,
@@ -272,7 +273,7 @@ export class TiniElement extends LitElement {
       : getScriptsFromTheming(
           this,
           (this.constructor as typeof TiniElement).theming,
-          ui.activeTheme
+          optionalUI.activeTheme
         );
   }
 }

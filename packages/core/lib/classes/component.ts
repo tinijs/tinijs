@@ -36,12 +36,13 @@ export interface ComponentOptions {
 export class TiniComponent extends TiniElement {
   static readonly componentType: ComponentTypes = ComponentTypes.Component;
 
-  private initialized = false;
-  private pendingDependencies?: Array<() => Promise<unknown>>;
-  private storeManager?: {
+  declare private pendingDependencies?: Array<() => Promise<unknown>>;
+  declare private storeManager?: {
     pending: Array<[any, string, string, boolean]>;
     unsubscribes: Array<() => void>;
   };
+
+  private initialized = false;
 
   connectedCallback() {
     super.connectedCallback();

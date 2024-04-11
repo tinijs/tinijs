@@ -379,7 +379,7 @@ export async function buildSetup(config: UIConfig) {
   setupTS
     .addImport('lit', ['CSSResultOrNative'])
     .addImport('defu', ['defu'])
-    .addImport('@tinijs/core', ['UIInit', 'UIManager', 'listify', 'initUI'])
+    .addImport('@tinijs/core', ['UI', 'UIInit', 'listify', 'initUI'])
     .addImport('./styles/global.js', ['globalStyles'])
     .addImport('./styles/base.js', ['availableBases']);
   if (!config.manualSkinSelection) {
@@ -387,7 +387,7 @@ export async function buildSetup(config: UIConfig) {
   }
 
   // blocks
-  setupTS.addBlock('export interface AppWithUI', '{ui: UIManager}').addBlock(
+  setupTS.addBlock('export interface AppWithUI', '{ui: UI}').addBlock(
     `export function setupUI(
     customConfig: Pick<
       UIInit,

@@ -1,6 +1,6 @@
 import {CSSResultOrNative} from 'lit';
 
-import {UIManager} from '../classes/ui.js';
+import {UI} from '../classes/ui.js';
 
 import {ClientApp} from '../utils/app.js';
 import {DIRegistry} from '../utils/di.js';
@@ -11,7 +11,7 @@ export const GLOBAL_TINI = ((globalThis as Record<string, unknown>).TiniJS ||=
   // ui
   cachedGenericStyles?: Record<string, undefined | CSSResultOrNative[]>;
   cachedGenericUnscopedStyles?: Record<string, undefined | string[]>;
-  ui?: UIManager;
+  ui?: UI;
   // app
   DIRegistry?: DIRegistry;
   LHRegistry?: LHRegistry;
