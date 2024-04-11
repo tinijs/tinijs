@@ -1,7 +1,7 @@
 import {html} from 'lit';
 
 import {CommonGradients, Scales} from '@tinijs/core';
-import {Component, TiniComponent, getUI} from '@tinijs/core';
+import {Component, TiniComponent, UseUI, UI} from '@tinijs/core';
 
 import {TiniIconComponent} from '@tinijs/ui-bootstrap/components/icon.js';
 import {
@@ -20,7 +20,7 @@ enum Themes {
 export class AppHeaderComponent extends TiniComponent {
   static readonly defaultTagName = 'app-header';
 
-  private ui = getUI();
+  @UseUI() private ui!: UI;
 
   protected render() {
     return html`
@@ -44,7 +44,7 @@ export class AppHeaderComponent extends TiniComponent {
         >
           <tini-link href="/" style="transform: translateY(5px)">
             <tini-icon
-              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 512 512'%3E%3Cpath fill='%23000' d='M400 48H112a64.07 64.07 0 0 0-64 64v288a64.07 64.07 0 0 0 64 64h288a64.07 64.07 0 0 0 64-64V112a64.07 64.07 0 0 0-64-64m-35.75 138.29l-134.4 160a16 16 0 0 1-12 5.71h-.27a16 16 0 0 1-11.89-5.3l-57.6-64a16 16 0 1 1 23.78-21.4l45.29 50.32l122.59-145.91a16 16 0 0 1 24.5 20.58'/%3E%3C/svg%3E"
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' fill-rule='evenodd' d='M9.592 3.2a5.574 5.574 0 0 1-.495.399c-.298.2-.633.338-.985.408c-.153.03-.313.043-.632.068c-.801.064-1.202.096-1.536.214a2.713 2.713 0 0 0-1.655 1.655c-.118.334-.15.735-.214 1.536a5.707 5.707 0 0 1-.068.632c-.07.352-.208.687-.408.985c-.087.13-.191.252-.399.495c-.521.612-.782.918-.935 1.238c-.353.74-.353 1.6 0 2.34c.153.32.414.626.935 1.238c.208.243.312.365.399.495c.2.298.338.633.408.985c.03.153.043.313.068.632c.064.801.096 1.202.214 1.536a2.713 2.713 0 0 0 1.655 1.655c.334.118.735.15 1.536.214c.319.025.479.038.632.068c.352.07.687.209.985.408c.13.087.252.191.495.399c.612.521.918.782 1.238.935c.74.353 1.6.353 2.34 0c.32-.153.626-.414 1.238-.935c.243-.208.365-.312.495-.399c.298-.2.633-.338.985-.408c.153-.03.313-.043.632-.068c.801-.064 1.202-.096 1.536-.214a2.713 2.713 0 0 0 1.655-1.655c.118-.334.15-.735.214-1.536c.025-.319.038-.479.068-.632c.07-.352.209-.687.408-.985c.087-.13.191-.252.399-.495c.521-.612.782-.918.935-1.238c.353-.74.353-1.6 0-2.34c-.153-.32-.414-.626-.935-1.238a5.574 5.574 0 0 1-.399-.495a2.713 2.713 0 0 1-.408-.985a5.72 5.72 0 0 1-.068-.632c-.064-.801-.096-1.202-.214-1.536a2.713 2.713 0 0 0-1.655-1.655c-.334-.118-.735-.15-1.536-.214a5.707 5.707 0 0 1-.632-.068a2.713 2.713 0 0 1-.985-.408a5.73 5.73 0 0 1-.495-.399c-.612-.521-.918-.782-1.238-.935a2.713 2.713 0 0 0-2.34 0c-.32.153-.626.414-1.238.935m6.781 6.663a.814.814 0 0 0-1.15-1.15l-4.85 4.85l-1.596-1.595a.814.814 0 0 0-1.15 1.15l2.17 2.17a.814.814 0 0 0 1.15 0z' clip-rule='evenodd'/%3E%3C/svg%3E"
               scheme=${CommonGradients.KaleSalad}
               scale=${Scales.ML}
             ></tini-icon>
@@ -72,7 +72,7 @@ export class AppHeaderComponent extends TiniComponent {
             .checked=${this.ui.activeTheme.themeId === Themes.BootstrapDark}
           ></tini-switch>
           <a
-            href="https://github.com/tinijs/examples/tree/main/todo"
+            href="https://github.com/tinijs/tinijs/tree/main/examples/todo"
             target="_blank"
             style="
               display: flex;

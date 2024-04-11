@@ -100,7 +100,7 @@ export class AppTasksComponent extends TiniComponent implements OnReady {
                   @change=${(e: CustomEvent<InputEvent>) =>
                     this.toggle.emit({
                       task,
-                      done: (e.detail.target as any).checked,
+                      done: (e.detail.target as HTMLInputElement).checked,
                     })}
                 ></tini-checkboxes>
               </div>
