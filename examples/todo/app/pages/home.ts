@@ -24,7 +24,10 @@ import {
 } from '../stores/main.js';
 
 import {AppComposeComponent} from '../components/compose.js';
-import {AppTasksComponent, type ToggleEventDetail} from '../components/tasks.js';
+import {
+  AppTasksComponent,
+  type ToggleEventDetail,
+} from '../components/tasks.js';
 
 @Page({
   name: 'app-page-home',

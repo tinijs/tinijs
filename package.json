@@ -28,6 +28,8 @@
     "SvelteKit"
   ],
   "workspaces": [
+    "apps/*",
+    "examples/*",
     "packages/*",
     "packages/ui/build/*"
   ],

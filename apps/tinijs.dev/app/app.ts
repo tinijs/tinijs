@@ -1,6 +1,11 @@
 import {html} from 'lit';
 
-import {App, TiniComponent, registerConfig, type AppWithConfig} from '@tinijs/core';
+import {
+  App,
+  TiniComponent,
+  registerConfig,
+  type AppWithConfig,
+} from '@tinijs/core';
 import {createRouter, type AppWithRouter} from '@tinijs/router';
 import {initMeta, type AppWithMeta} from '@tinijs/meta';
 import {

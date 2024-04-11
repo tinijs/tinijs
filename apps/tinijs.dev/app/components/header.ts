@@ -119,8 +119,7 @@ export class HeaderComponent
                       ? Themes.BootstrapDark
                       : Themes.BootstrapLight
                   )}
-                .checked=${this.ui.activeTheme.themeId ===
-                Themes.BootstrapDark}
+                .checked=${this.ui.activeTheme.themeId === Themes.BootstrapDark}
               ></tini-switch>
             </div>
 

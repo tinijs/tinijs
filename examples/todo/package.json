@@ -20,16 +20,16 @@
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.1",
-    "@tinijs/core": "file:../../packages/core",
-    "@tinijs/router": "file:../../packages/router",
-    "@tinijs/store": "file:../../packages/store",
-    "@tinijs/ui-bootstrap": "file:../../packages/ui/build/bootstrap",
+    "@tinijs/core": "*",
+    "@tinijs/router": "*",
+    "@tinijs/store": "*",
+    "@tinijs/ui-bootstrap": "*",
     "lit": "^3.1.2"
   },
   "devDependencies": {
-    "@tinijs/cli": "file:../../packages/cli",
-    "@tinijs/default-compiler": "file:../../packages/default-compiler",
-    "@tinijs/vite-builder": "file:../../packages/vite-builder",
+    "@tinijs/cli": "*",
+    "@tinijs/default-compiler": "*",
+    "@tinijs/vite-builder": "*",
     "gts": "^5.3.0",
     "typescript": "~5.4.3"
   }
