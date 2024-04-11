@@ -1,7 +1,8 @@
 import {html} from 'lit';
 import {ref, type Ref, createRef} from 'lit/directives/ref.js';
 import {Page, TiniComponent} from '@tinijs/core';
-import {TiniModalComponent} from '@tinijs/ui-app/components/modal.js';
+
+// import {TiniModalComponent} from '../../../.ui/components/modal.js';
 
 import {
   renderDefaultSection,

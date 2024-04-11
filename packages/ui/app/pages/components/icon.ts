@@ -1,7 +1,8 @@
 import {html, nothing} from 'lit';
 import {Page, TiniComponent} from '@tinijs/core';
-import {TiniIconComponent} from '@tinijs/ui-app/components/icon.js';
-import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
+
+// import {TiniIconComponent} from '../../../.ui/components/icon.js';
+// import {TiniBoxComponent} from '../../../.ui/components/box.js';
 
 import {ConsumerPlatforms} from '../../consts/main.js';
 import {type CodeBuilder, ReactCommonProps} from '../../utils/code-builder.js';

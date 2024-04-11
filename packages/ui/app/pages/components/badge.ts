@@ -1,8 +1,8 @@
 import {html} from 'lit';
 import {Page, TiniComponent} from '@tinijs/core';
 
-import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
-import {TiniBadgeComponent} from '@tinijs/ui-app/components/badge.js';
+// import {TiniBoxComponent} from '../../../.ui/components/box.js';
+// import {TiniBadgeComponent} from '../../../.ui/components/badge.js';
 
 import {
   renderSection,

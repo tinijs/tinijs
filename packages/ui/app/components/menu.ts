@@ -3,8 +3,8 @@ import {UnstableStates} from '@tinijs/core';
 import {Component, TiniComponent} from '@tinijs/core';
 import type {Route} from '@tinijs/router';
 
-import {TiniIconComponent} from '@tinijs/ui-app/components/icon.js';
-import {TiniLinkComponent} from '@tinijs/ui-app/components/link.js';
+// import {TiniIconComponent} from '../../.ui/components/icon.js';
+// import {TiniLinkComponent} from '../../.ui/components/link.js';
 
 import {Configurable} from '../configurable.js';
 

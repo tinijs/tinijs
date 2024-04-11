@@ -1,11 +1,12 @@
 import {html} from 'lit';
 import {Page, TiniComponent} from '@tinijs/core';
-import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
-import {
-  TiniSelectComponent,
-  type SelectOption,
-  type SelectOptgroup,
-} from '@tinijs/ui-app/components/select.js';
+
+// import {TiniBoxComponent} from '../../../.ui/components/box.js';
+// import {
+//   TiniSelectComponent,
+//   type SelectOption,
+//   type SelectOptgroup,
+// } from '../../../.ui/components/select.js';
 
 import {
   renderSection,

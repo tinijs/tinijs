@@ -86,7 +86,7 @@ export class AppPageGetStarted extends TiniComponent {
             >:
           </p>
           <app-code
-            code="import {TiniButtonComponent} from '@tinijs/ui-app/components/button.js';
+            code="import {TiniButtonComponent} from '@tinijs/ui-bootstrap/components/button.js';
 
 @Component({
   components: [TiniButtonComponent], // register the component
@@ -99,7 +99,7 @@ export class MyComponent extends TiniComponent {}"
           </p>
           <app-code
             code="import {registerComponents} from '@tinijs/core';
-import {TiniButtonComponent} from '@tinijs/ui-app/components/button.js';
+import {TiniButtonComponent} from '@tinijs/ui-bootstrap/components/button.js';
 
 registerComponents([TiniButtonComponent]); // register components"
           ></app-code>

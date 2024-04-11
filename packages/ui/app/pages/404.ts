@@ -1,7 +1,7 @@
 import {html, css} from 'lit';
 import {Page, TiniComponent} from '@tinijs/core';
 
-import {TiniLinkComponent} from '@tinijs/ui-app/components/link.js';
+// import {TiniLinkComponent} from '../../.ui/components/link.js';
 
 @Page({
   name: 'app-page-404',

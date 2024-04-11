@@ -51,7 +51,6 @@
     "@tinijs/project": "*",
     "@tinijs/router": "*",
     "@tinijs/store": "*",
-    "@tinijs/ui-app": "file:.ui",
     "chroma-js": "^2.4.2",
     "consola": "^3.2.3",
     "defu": "^6.1.4",

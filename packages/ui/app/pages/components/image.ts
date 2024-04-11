@@ -1,8 +1,9 @@
 import {html} from 'lit';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {Page, TiniComponent} from '@tinijs/core';
-import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
-import {TiniImageComponent} from '@tinijs/ui-app/components/image.js';
+
+// import {TiniBoxComponent} from '../../../.ui/components/box.js';
+// import {TiniImageComponent} from '../../../.ui/components/image.js';
 
 import {
   renderSection,

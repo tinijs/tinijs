@@ -1,9 +1,10 @@
 import {html} from 'lit';
 import {Page, TiniComponent} from '@tinijs/core';
-import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
-import {TiniImageComponent} from '@tinijs/ui-app/components/image.js';
-import {TiniCodeComponent} from '@tinijs/ui-app/components/code.js';
-import {TiniFigureComponent} from '@tinijs/ui-app/components/figure.js';
+
+// import {TiniBoxComponent} from '../../../.ui/components/box.js';
+// import {TiniImageComponent} from '../../../.ui/components/image.js';
+// import {TiniCodeComponent} from '../../../.ui/components/code.js';
+// import {TiniFigureComponent} from '../../../.ui/components/figure.js';
 
 import {renderSection, type RenderSectionOptions} from '../../utils/varies.js';
 import {ConsumerPlatforms} from '../../consts/main.js';
