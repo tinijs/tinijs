@@ -2,7 +2,7 @@
 
 The TiniJS Framework is a family of tools for building modern web applications based on the [Lit library](https://lit.dev).
 
-Homepage: <https://tinijs.dev>
+For more detail and usage, please visit <https://tinijs.dev>
 
 > The experimetal packages (0.16.0 and below) were archived. Moving forward, this repo will be the new home of the TiniJS Framework.
 
@@ -20,7 +20,7 @@ I wrapped up the experiment in March 2024 and headed for the 1.0 version in 2024
 
 I have many ideas for the project, but as a solo developer, there are limitations. So besides working on my own, **I am** also looking for sponsors, **adopters or **part-time** employers who** allow me to continue work on the project**.
 
-If you are interested in the project, please consider contributing. Get in touch with me on [Discord](https://discord.gg/EABbZVbPAb) or [Email](hello@lamnhan.com), I am happy to discuss the project with you.
+If you are interested in the project, please consider contributing. Get in touch with me on [Discord](https://discord.gg/EABbZVbPAb) or [Email](hello@tinijs.dev), I am happy to discuss the project with you.
 
 ### Version 1.0
 
@@ -78,6 +78,7 @@ Something may be considered:
 - Fork the repository
 - Install the dependencies: `npm i`
 - Format: `npm run fix`
+- Lint: `npm run lint`
 - Test: `npm run test`
 - Build:
   - All: `npm run build`

@@ -1,6 +1,7 @@
 {
+  "private": true,
   "name": "@tinijs/content",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "A basic file-based content system.",
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",

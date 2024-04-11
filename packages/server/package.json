@@ -1,6 +1,7 @@
 {
+  "private": true,
   "name": "@tinijs/server",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "TiniJS server.",
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",

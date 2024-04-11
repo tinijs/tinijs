@@ -48,7 +48,7 @@ export const newCommand = createCLICommand(
   },
   async (args, callbacks) => {
     const {version: tiniVersion} = await loadCLIPackageJSON();
-    const sourceRepo = args.source || 'blank';
+    const sourceRepo = args.source || 'bare';
     const source = sourceRepo.includes('/')
       ? sourceRepo
       : `tinijs/${sourceRepo}-starter`;

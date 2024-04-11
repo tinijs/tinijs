@@ -1,12 +1,11 @@
 {
   "name": "todo-demo.tinijs.dev",
   "version": "0.0.0",
-  "description": "A To Do powered by the TiniJS framework.",
   "private": true,
+  "description": "A To Do powered by the TiniJS framework.",
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",
   "license": "MIT",
-  "browserslist": "> 0.5%, last 2 versions, not dead",
   "type": "module",
   "engines": {
     "node": ">=18.0.0"
