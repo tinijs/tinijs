@@ -14,7 +14,7 @@ export default defineTiniModule({
         'assets/sw.ts': `${srcDir}/sw.ts`,
       },
       run() {
-        modifyTextFile(resolve(srcDir, 'app.html'), content => {
+        modifyTextFile(resolve(srcDir, 'index.html'), content => {
           const manifestUrl = './manifest.webmanifest';
           if (content.indexOf(manifestUrl) !== -1) return content;
           const template = `

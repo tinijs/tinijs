@@ -11,6 +11,7 @@ export class AppPageServer extends TiniComponent {
       <div
         style="
           margin: auto;
+          width: 100vw;
           max-width: var(--wide-md);
           padding: var(--size-space-2x);
         "

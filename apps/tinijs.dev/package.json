@@ -1,12 +1,11 @@
 {
   "name": "tinijs.dev",
   "version": "0.0.0",
-  "description": "The homepage of the TiniJS project.",
   "private": true,
+  "description": "The homepage of the TiniJS project.",
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",
   "license": "MIT",
-  "browserslist": "> 0.5%, last 2 versions, not dead",
   "type": "module",
   "engines": {
     "node": ">=18.0.0"
@@ -26,6 +25,7 @@
     "@tinijs/router": "*",
     "@tinijs/store": "*",
     "@tinijs/ui-bootstrap": "*",
+    "highlight.js": "^11.9.0",
     "lit": "^3.1.2"
   },
   "devDependencies": {

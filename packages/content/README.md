@@ -1,4 +1,3 @@
-# Tini content
+# @tinijs/content
 
-A basic file-based content management system.
-
+For more detail and usage, please visit <https://tinijs.dev>

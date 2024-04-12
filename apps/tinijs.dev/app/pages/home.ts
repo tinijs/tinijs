@@ -125,7 +125,11 @@ export class AppPageHome extends TiniComponent {
         <div class="actions">
           <tini-button
             scheme=${CommonGradients.DiscoClub}
-            @click=${() => open('mailto:tinijs@lamnhan.com', '_blank')?.focus()}
+            @click=${() =>
+              open(
+                'mailto:hello@tinijs.dev?subject=Sponsor Tini&body=I want to sponsor the TiniJS project.',
+                '_blank'
+              )?.focus()}
             >Sponsor Tini</tini-button
           >
         </div>

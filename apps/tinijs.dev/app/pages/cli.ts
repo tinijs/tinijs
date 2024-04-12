@@ -11,6 +11,7 @@ export class AppPageCLI extends TiniComponent {
       <div
         style="
           margin: auto;
+          width: 100vw;
           max-width: var(--wide-md);
           padding: var(--size-space-2x);
         "
@@ -18,7 +19,8 @@ export class AppPageCLI extends TiniComponent {
         <h2 style="margin-top: 0">CLI</h2>
 
         <p>
-          A new version is <strong>under development</strong> at
+          <strong>Status note</strong>: I'm migrating the package to the new
+          architect at
           <a
             href="https://github.com/tinijs/tinijs/tree/main/packages/cli"
             target="_blank"
@@ -27,8 +29,8 @@ export class AppPageCLI extends TiniComponent {
         </p>
 
         <p>
-          While waiting for the next version, you can check out the experimental
-          version (v0.16.0) at
+          If you want to use the experimental version still, please use the
+          version <code>0.16.0</code> at
           <a href="https://github.com/tinijs/cli" target="_blank"
             >https://github.com/tinijs/cli</a
           >.

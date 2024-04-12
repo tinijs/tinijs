@@ -4,7 +4,7 @@ import {repeat} from 'lit/directives/repeat.js';
 import {ref, type Ref, createRef} from 'lit/directives/ref.js';
 import {Component, TiniComponent, Reactive} from '@tinijs/core';
 
-import {TiniButtonComponent} from '@tinijs/ui-app/components/button.js';
+// import {TiniButtonComponent} from '../../.ui/components/button.js';
 
 import {AppCodeComponent} from './code.js';
 import {AppModalComponent} from './modal.js';

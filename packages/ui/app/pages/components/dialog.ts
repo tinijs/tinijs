@@ -2,9 +2,9 @@ import {html} from 'lit';
 import {ref, type Ref, createRef} from 'lit/directives/ref.js';
 import {Page, TiniComponent} from '@tinijs/core';
 
-import {TiniButtonComponent} from '@tinijs/ui-app/components/button.js';
-import {TiniInputComponent} from '@tinijs/ui-app/components/input.js';
-import {TiniDialogComponent} from '@tinijs/ui-app/components/dialog.js';
+// import {TiniButtonComponent} from '../../../.ui/components/button.js';
+// import {TiniInputComponent} from '../../../.ui/components/input.js';
+// import {TiniDialogComponent} from '../../../.ui/components/dialog.js';
 
 import {
   renderSection,

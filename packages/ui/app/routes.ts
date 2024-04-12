@@ -1,7 +1,7 @@
 import type {Route} from '@tinijs/router';
 
-import {TiniTableComponent} from '@tinijs/ui-app/components/table.js';
-import {TiniCodeComponent} from '@tinijs/ui-app/components/code.js';
+// import {TiniTableComponent} from '../.ui/components/table.js';
+// import {TiniCodeComponent} from '../.ui/components/code.js';
 
 /*
  * Layouts

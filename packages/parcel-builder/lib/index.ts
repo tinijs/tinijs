@@ -36,10 +36,10 @@ export class ParcelBuilder implements Builder {
     return {
       buildCommand:
         this.options.buildCommand ||
-        `parcel build ${indexFilePath} --dist-dir ${outDir} --no-cache`,
+        `parcel build ${indexFilePath} --dist-dir ${outDir}`,
       devCommand:
         this.options.devCommand ||
-        `parcel ${indexFilePath} --dist-dir ${outDir} --port 3000 --no-cache --log-level none`,
+        `parcel ${indexFilePath} --dist-dir ${outDir} --port 3000`,
     };
   }
 }

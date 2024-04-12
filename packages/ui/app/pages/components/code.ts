@@ -1,7 +1,7 @@
 import {html} from 'lit';
 import {Page, TiniComponent} from '@tinijs/core';
 
-import {TiniCodeComponent} from '@tinijs/ui-app/components/code.js';
+// import {TiniCodeComponent} from '../../../.ui/components/code.js';
 
 import {renderSection, type RenderSectionOptions} from '../../utils/varies.js';
 import {ConsumerPlatforms} from '../../consts/main.js';

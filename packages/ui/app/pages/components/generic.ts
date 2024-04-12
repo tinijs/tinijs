@@ -1,7 +1,7 @@
 import {html} from 'lit';
 import {Page, TiniComponent} from '@tinijs/core';
-// import {TiniGenericComponent} from '@tinijs/ui-app/components/generic.js';
-// import {TiniGenericUnscopedComponent} from '@tinijs/ui-app/components/generic-unscoped.js';
+// import {TiniGenericComponent} from '../../../.ui/components/generic.js';
+// import {TiniGenericUnscopedComponent} from '../../../.ui/components/generic-unscoped.js';
 
 import {renderSection, type RenderSectionOptions} from '../../utils/varies.js';
 import {ConsumerPlatforms} from '../../consts/main.js';

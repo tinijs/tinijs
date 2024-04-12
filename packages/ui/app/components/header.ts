@@ -3,7 +3,7 @@ import {classMap} from 'lit/directives/class-map.js';
 import {Component, TiniComponent, Reactive} from '@tinijs/core';
 import {Subscribe} from '@tinijs/store';
 
-import {TiniIconComponent} from '@tinijs/ui-app/components/icon.js';
+// import {TiniIconComponent} from '../../.ui/components/icon.js';
 
 import {Configurable} from '../configurable.js';
 import {changeTheme} from '../utils/theme.js';

@@ -9,7 +9,7 @@ import {
   partAttrMap,
 } from '@tinijs/core';
 
-import {TiniIconComponent} from '@tinijs/ui-app/components/icon.js';
+// import {TiniIconComponent} from '../../.ui/components/icon.js';
 
 export interface TabItem {
   name: string;

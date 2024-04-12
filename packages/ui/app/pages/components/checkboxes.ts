@@ -2,11 +2,11 @@ import {html} from 'lit';
 import {Colors} from '@tinijs/core';
 import {Page, TiniComponent} from '@tinijs/core';
 
-import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
-import {
-  TiniCheckboxesComponent,
-  type CheckboxesItem,
-} from '@tinijs/ui-app/components/checkboxes.js';
+// import {TiniBoxComponent} from '../../../.ui/components/box.js';
+// import {
+//   TiniCheckboxesComponent,
+//   type CheckboxesItem,
+// } from '../../../.ui/components/checkboxes.js';
 
 import {
   renderSection,

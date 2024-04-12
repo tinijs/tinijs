@@ -1,7 +1,8 @@
 import {html} from 'lit';
 import {Page, TiniComponent} from '@tinijs/core';
-import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
-import {TiniSpinnerComponent} from '@tinijs/ui-app/components/spinner.js';
+
+// import {TiniBoxComponent} from '../../../.ui/components/box.js';
+// import {TiniSpinnerComponent} from '../../../.ui/components/spinner.js';
 
 import {
   renderDefaultSection,

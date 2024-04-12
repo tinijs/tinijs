@@ -1,4 +1,4 @@
-import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
+// import {TiniBoxComponent} from '../../.ui/components/box.js';
 
 export type CodeBuilder = (
   builder: CodeBuilderHelper

@@ -1,11 +1,11 @@
 import {html} from 'lit';
 import {Page, TiniComponent} from '@tinijs/core';
 
-import {TiniBoxComponent} from '@tinijs/ui-app/components/box.js';
-import {
-  type BreadcrumbItem,
-  TiniBreadcrumbComponent,
-} from '@tinijs/ui-app/components/breadcrumb.js';
+// import {TiniBoxComponent} from '../../../.ui/components/box.js';
+// import {
+//   type BreadcrumbItem,
+//   TiniBreadcrumbComponent,
+// } from '../../../.ui/components/breadcrumb.js';
 
 import {
   renderDefaultSection,

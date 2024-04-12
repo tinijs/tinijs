@@ -4,7 +4,7 @@ import {ref, type Ref, createRef} from 'lit/directives/ref.js';
 import {Colors} from '@tinijs/core';
 import {Component, TiniComponent, Input} from '@tinijs/core';
 
-import {TiniButtonComponent} from '@tinijs/ui-app/components/button.js';
+// import {TiniButtonComponent} from '../../.ui/components/button.js';
 
 export enum ModalKinds {
   Bare = 'bare',

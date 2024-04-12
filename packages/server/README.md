@@ -1,9 +1,3 @@
-# TiniJS Server 
+# @tinijs/server
 
-TODO: TiniJS server apps.
-
-Define server routes, semi-SSR the frontend app.
-
-## License
-
-**@tinijs/server** is released under the [MIT](./LICENSE) license.
+For more detail and usage, please visit <https://tinijs.dev>

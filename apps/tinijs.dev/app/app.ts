@@ -15,7 +15,15 @@ import {
   type AppWithUI,
 } from '@tinijs/ui-bootstrap';
 
+import {TiniCodeComponent} from '@tinijs/ui-bootstrap/components/code.js';
+
 import type {AppConfig} from './types/common.js';
+
+import {
+  hljsHighlight,
+  hljsThemeLight,
+  hljsThemeDark,
+} from './utils/highlight.js';
 
 import {config} from './configs/development.js';
 import {metadata} from './metadata.js';
@@ -39,6 +47,22 @@ export class AppRoot
     skins: {
       'bootstrap/light': bootstrapLightSkin,
       'bootstrap/dark': bootstrapDarkSkin,
+    },
+    options: {
+      'bootstrap/light': {
+        [TiniCodeComponent.componentName]: {
+          engine: 'hljs',
+          highlight: hljsHighlight,
+          theme: hljsThemeLight,
+        },
+      },
+      'bootstrap/dark': {
+        [TiniCodeComponent.componentName]: {
+          engine: 'hljs',
+          highlight: hljsHighlight,
+          theme: hljsThemeDark,
+        },
+      },
     },
   });
 
