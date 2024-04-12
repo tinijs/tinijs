@@ -1,6 +1,6 @@
 {
   "name": "@tinijs/default-compiler",
-  "version": "0.17.0-alpha.1",
+  "version": "0.17.0",
   "description": "Compile TiniJS apps using the default strategy.",
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",
@@ -34,8 +34,8 @@
     "url": "https://github.com/tinijs/tinijs/issues"
   },
   "dependencies": {
-    "@tinijs/cli": "^0.17.0-alpha.1",
-    "@tinijs/project": "^0.17.0-alpha.1",
+    "@tinijs/cli": "^0.17.0",
+    "@tinijs/project": "^0.17.0",
     "cheerio": "^1.0.0-rc.12",
     "fs-extra": "^11.2.0",
     "magicast": "^0.3.3",

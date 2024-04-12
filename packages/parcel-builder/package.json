@@ -1,6 +1,6 @@
 {
   "name": "@tinijs/parcel-builder",
-  "version": "0.17.0-alpha.1",
+  "version": "0.17.0",
   "description": "Build TiniJS app using Parcel.",
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",
@@ -38,8 +38,8 @@
     "@parcel/reporter-bundle-analyzer": "^2.12.0",
     "@parcel/transformer-sass": "^2.12.0",
     "@parcel/transformer-webmanifest": "^2.12.0",
-    "@tinijs/cli": "^0.17.0-alpha.1",
-    "@tinijs/project": "^0.17.0-alpha.1",
+    "@tinijs/cli": "^0.17.0",
+    "@tinijs/project": "^0.17.0",
     "parcel": "^2.12.0",
     "sharp": "^0.33.2"
   }
