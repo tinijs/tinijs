@@ -1,5 +1,5 @@
 import {resolve} from 'pathe';
-import {execaCommand} from 'execa';
+import {execa} from 'execa';
 import {remove} from 'fs-extra/esm';
 
 import {getTiniProject} from '@tinijs/project';
@@ -38,7 +38,8 @@ export const buildCommand = createCLICommand(
     if (builder.build instanceof Function) {
       await builder.build();
     } else {
-      await execaCommand(builder.build.command, {stdio: 'inherit'});
+      const [cmd, ...args] = builder.build.command.split(' ');
+      await execa(cmd, args, {stdio: 'inherit'});
     }
     await buildPublic(tiniConfig);
     await hooks.callHook('build:after');

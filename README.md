@@ -16,13 +16,13 @@ I resumed the experiment in July 2023, and I have worked on the project in my fr
 
 I wrapped up the experiment in March 2024 and headed for the 1.0 version in 2024.
 
-## Plan & Roadmap
+## Roadmap & Plan
 
-I have many ideas for the project, but as a solo developer, there are limitations. So besides working on my own, **I am** also looking for sponsors, **adopters or **part-time** employers who** allow me to continue work on the project**.
+I have many ideas for the project, but as a solo developer, there are limitations. So besides working on my own, I am also looking for sponsors, **adopters** or **part-time employers** who allow me to continue work on the project.
 
 If you are interested in the project, please consider contributing. Get in touch with me on [Discord](https://discord.gg/EABbZVbPAb) or [Email](hello@tinijs.dev), I am happy to discuss the project with you.
 
-### Version 1.0
+### V1.0
 
 I hope that I can reach some candidate versions in 2024 and release the 1.0 version by 2025. The following is the plan for the first version:
 
@@ -39,7 +39,7 @@ I hope that I can reach some candidate versions in 2024 and release the 1.0 vers
   - Add Material V3 theme family
   - Add Fluent theme family (hopefully)
 
-- Server & module:
+- Server & modules:
   - Implement [@tinijs/server](https://github.com/tinijs/tinijs/tree/main/packages/server)
   - Implement [@tinijs/content](https://github.com/tinijs/tinijs/tree/main/packages/content) module
   - Recipes for adding different server solutions: Firebase, Strapi, tRPC, Nest, Tauri, Axum, ...

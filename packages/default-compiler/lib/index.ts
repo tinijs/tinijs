@@ -41,27 +41,22 @@ export class DefaultCompiler implements Compiler {
       this.tiniProject.config.compileDir,
       inPath.replace(`${resolve(this.tiniProject.config.srcDir)}/`, '')
     );
-    const context: CompileFileHookContext | null =
-      ext === '.html'
-        ? {
-            base,
-            inPath,
-            outPath:
-              base !== 'app.html'
-                ? outPath
-                : outPath.replace('/app.html', '/index.html'),
-            content: await readFile(inPath, 'utf8'),
-          }
-        : ext === '.ts' || ext === '.js'
-          ? {
-              base,
-              inPath,
-              outPath,
-              content: await readFile(inPath, 'utf8'),
-            }
-          : !this.isUnderTopDir(inPath, 'public')
-            ? {base, inPath, outPath, content: ''}
-            : null;
+    const context: CompileFileHookContext | null = [
+      '.html',
+      '.css',
+      '.scss',
+      '.ts',
+      '.js',
+    ].includes(ext)
+      ? {
+          base,
+          inPath,
+          outPath,
+          content: await readFile(inPath, 'utf8'),
+        }
+      : !this.isUnderTopDir(inPath, 'public')
+        ? {base, inPath, outPath, content: ''}
+        : null;
 
     if (context) {
       // build file

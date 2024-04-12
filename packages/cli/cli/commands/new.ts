@@ -1,4 +1,4 @@
-import {execaCommand} from 'execa';
+import {execa} from 'execa';
 import {resolve} from 'pathe';
 import {gray, green, cyan} from 'colorette';
 import {consola} from 'consola';
@@ -19,18 +19,18 @@ export const newCommand = createCLICommand(
         type: 'positional',
         description: 'Project name.',
       },
+      template: {
+        alias: 't',
+        type: 'string',
+        description: 'Use a custom template instead the official.',
+      },
       latest: {
         alias: 'l',
         type: 'boolean',
         description: 'Install the latest template.',
       },
-      source: {
-        alias: 's',
-        type: 'string',
-        description: 'Use a custom template instead the official.',
-      },
-      tag: {
-        alias: 't',
+      version: {
+        alias: 'v',
         type: 'string',
         description: 'Use a custom version of the tempalte.',
       },
@@ -48,11 +48,11 @@ export const newCommand = createCLICommand(
   },
   async (args, callbacks) => {
     const {version: tiniVersion} = await loadCLIPackageJSON();
-    const sourceRepo = args.source || 'bare';
+    const sourceRepo = args.template || 'bare';
     const source = sourceRepo.includes('/')
       ? sourceRepo
       : `tinijs/${sourceRepo}-starter`;
-    const tag = args.latest ? 'latest' : args.tag || `v${tiniVersion}`;
+    const tag = args.latest ? 'latest' : args.version || `v${tiniVersion}`;
     const resourceUrl = `https://github.com/${source}/archive/refs/tags/${tag}.zip`;
     const projectName = args.projectName
       .toLowerCase()
@@ -72,11 +72,11 @@ export const newCommand = createCLICommand(
     } as const;
     // install dependencies
     if (!args.skipInstall) {
-      await execaCommand('npm i --loglevel=error', execaOptions);
+      await execa('npm', ['i', '--loglevel=error'], execaOptions);
     }
     // init git
     if (!args.skipGit) {
-      await execaCommand('git init', execaOptions);
+      await execa('git', ['init'], execaOptions);
     }
     // instruction
     callbacks?.onEnd(projectName, tiniVersion as string);

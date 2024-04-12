@@ -2,7 +2,7 @@ import {concurrently} from 'concurrently';
 import {watch} from 'chokidar';
 import {resolve} from 'pathe';
 import {consola} from 'consola';
-import {execaCommand} from 'execa';
+import {execa} from 'execa';
 import {blueBright} from 'colorette';
 import {remove, pathExistsSync} from 'fs-extra/esm';
 
@@ -70,11 +70,12 @@ export const devCommand = createCLICommand(
             {command: builder.dev.command},
             {command: 'tini dev --watch'},
           ]);
+          const customOnServerStart = builder.dev.onServerStart;
+          setTimeout(() => callbacks?.onServerStart(customOnServerStart), 2000);
         } else {
-          await execaCommand(builder.dev.command, {stdio: 'inherit'});
+          const [cmd, ...args] = builder.dev.command.split(' ');
+          await execa(cmd, args, {stdio: 'inherit'});
         }
-        const customOnServerStart = builder.dev.onServerStart;
-        setTimeout(() => callbacks?.onServerStart(customOnServerStart), 2000);
       }
       // public
       checkAndbuildPublic(tiniConfig);

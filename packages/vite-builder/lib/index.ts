@@ -37,9 +37,7 @@ export class ViteBuilder implements Builder {
       buildCommand:
         this.options.buildCommand ||
         `vite build ${inputDir} --outDir ${relative(inputDir, outDir)}`,
-      devCommand:
-        this.options.devCommand ||
-        `vite ${inputDir} --port 3000 --logLevel silent`,
+      devCommand: this.options.devCommand || `vite ${inputDir} --port 3000`,
     };
   }
 }

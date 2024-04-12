@@ -184,10 +184,13 @@ export class UI {
   constructor(private _config: UIInit) {}
 
   init(customThemeIdGetter?: (config: UIInit) => string) {
-    this.setTheme(
+    const initialThemeId =
       customThemeIdGetter?.(this._config) ||
-        localStorage.getItem(THEME_LOCAL_STORAGE_KEY) ||
-        Object.keys(this._config.skins)[0]
+      localStorage.getItem(THEME_LOCAL_STORAGE_KEY);
+    this.setTheme(
+      initialThemeId && this._config.skins[initialThemeId]
+        ? initialThemeId
+        : Object.keys(this._config.skins)[0]
     );
     return this;
   }

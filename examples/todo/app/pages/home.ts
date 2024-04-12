@@ -99,7 +99,7 @@ export class AppPageHome extends TiniComponent implements OnCreate {
           scheme=${CommonGradients.KaleSalad}
           scale=${Scales.XXXL}
         ></tini-icon>
-        <p style="color: var(--color-medium)">No tasks yet!</p>
+        <p style="color: var(--color-medium)">No task yet!</p>
       </div>
     `;
   }
