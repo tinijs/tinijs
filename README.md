@@ -76,13 +76,13 @@ Something may be considered:
 ## Development
 
 - Fork the repository
-- Install the dependencies: `npm i`
+- Install the dependencies: `npm i`. Install new dependencies for a specific package: `npm i <name> -w @tinijs/<package-name>`
 - Format: `npm run fix`
 - Lint: `npm run lint`
 - Test: `npm run test`
 - Build:
   - All: `npm run build`
-  - Specific: `npm run build -- --scope=@tinijs/<package-name>`
+  - Specific: `npm run build -- --scope @tinijs/<package-name>`
 - Release: `npm run release`
 
 ## License

@@ -16,7 +16,7 @@ const bootstrapUIPack: NonNullable<UIConfig['outPacks']>[0] = {
     name: `${name}-bootstrap`,
     version: `${version}`,
     dependencies: {
-      [`${name}`]: `${version}`,
+      [`${name}`]: `^${version}`,
     },
   }),
 };

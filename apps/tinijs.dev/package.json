@@ -25,6 +25,7 @@
     "@tinijs/router": "*",
     "@tinijs/store": "*",
     "@tinijs/ui-bootstrap": "*",
+    "highlight.js": "^11.9.0",
     "lit": "^3.1.2"
   },
   "devDependencies": {
