@@ -1,6 +1,6 @@
 {
   "name": "@tinijs/router",
-  "version": "0.17.0-alpha.0",
+  "version": "0.17.0-alpha.1",
   "description": "The router module for the TiniJS framework.",
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",
@@ -45,7 +45,7 @@
     "lit": "^3.1.2"
   },
   "dependencies": {
-    "@tinijs/core": "^0.17.0-alpha.0",
+    "@tinijs/core": "^0.17.0-alpha.1",
     "path-to-regexp": "^6.2.1"
   }
 }
