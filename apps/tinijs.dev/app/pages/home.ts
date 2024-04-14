@@ -4,6 +4,7 @@ import {Page, TiniComponent, Colors, CommonGradients} from '@tinijs/core';
 import {UseRouter, Router} from '@tinijs/router';
 import {TiniTextComponent} from '@tinijs/ui-bootstrap/components/text.js';
 import {TiniButtonComponent} from '@tinijs/ui-bootstrap/components/button.js';
+import {TiniEmbedComponent} from '@tinijs/ui-bootstrap/components/embed.js';
 
 import {IconHeartComponent} from '../icons/heart.js';
 
@@ -11,7 +12,12 @@ import {LOGO_URL} from '../consts/common.js';
 
 @Page({
   name: 'app-page-home',
-  components: [TiniTextComponent, TiniButtonComponent, IconHeartComponent],
+  components: [
+    TiniTextComponent,
+    TiniButtonComponent,
+    TiniEmbedComponent,
+    IconHeartComponent,
+  ],
 })
 export class AppPageHome extends TiniComponent {
   @UseRouter() router!: Router;
@@ -101,6 +107,30 @@ export class AppPageHome extends TiniComponent {
             </p>
           </li>
         </ul>
+      </section>
+
+      <section class="try">
+        <div class="title">
+          <h2>Try it out!</h2>
+          <p>
+            Here is <strong>An Example Photo Gallery App</strong> to demonstrate
+            some aspects of an TiniJS app, such as:
+            <strong>The structure, Router, State Management</strong> and
+            <strong>the UI system</strong>.
+          </p>
+        </div>
+
+        <tini-embed ratio="4:3">
+          <iframe
+            src="https://stackblitz.com/edit/try-tinijs?ctl=1&embed=1&file=app%2Fapp.ts"
+            title="Try TiniJS"
+            frameborder="0"
+          ></iframe>
+        </tini-embed>
+
+        <p>
+          For more detail, please see the <a href="/framework">Get Started</a>.
+        </p>
       </section>
 
       <section class="sponsors">
@@ -202,6 +232,18 @@ export class AppPageHome extends TiniComponent {
     .members li p {
       margin: 0;
       color: var(--color-medium);
+    }
+
+    .try {
+      padding: var(--size-space-2x);
+    }
+
+    .try .title h1 {
+      margin-bottom: 0;
+    }
+
+    .try .title p {
+      margin-bottom: var(--size-space-2x);
     }
 
     .sponsors {
