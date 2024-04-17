@@ -4,22 +4,12 @@ import {resolve} from 'pathe';
 import {consola} from 'consola';
 import {execa} from 'execa';
 import {blueBright} from 'colorette';
-import {remove, pathExistsSync} from 'fs-extra/esm';
+import {remove} from 'fs-extra/esm';
 
-import {getTiniProject, type TiniConfig} from '@tinijs/project';
+import {getTiniProject} from '@tinijs/project';
 
-import {loadCompiler, loadBuilder, buildPublic} from '../utils/build.js';
+import {loadCompiler, loadBuilder} from '../utils/build.js';
 import {createCLICommand} from '../utils/cli.js';
-
-function checkAndbuildPublic(tiniConfig: TiniConfig) {
-  setTimeout(async () => {
-    if (pathExistsSync(resolve(tiniConfig.outDir))) {
-      await buildPublic(tiniConfig);
-    } else {
-      checkAndbuildPublic(tiniConfig);
-    }
-  }, 2000);
-}
 
 export const devCommand = createCLICommand(
   {
@@ -65,20 +55,25 @@ export const devCommand = createCLICommand(
       if (builder.dev instanceof Function) {
         await builder.dev();
       } else {
+        const devCommand = builder.dev.command;
         if (compiler) {
           concurrently([
-            {command: builder.dev.command},
+            {
+              command:
+                typeof devCommand === 'string'
+                  ? devCommand
+                  : devCommand.join(' '),
+            },
             {command: 'tini dev --watch'},
           ]);
           const customOnServerStart = builder.dev.onServerStart;
           setTimeout(() => callbacks?.onServerStart(customOnServerStart), 2000);
         } else {
-          const [cmd, ...args] = builder.dev.command.split(' ');
+          const [cmd, ...args] =
+            typeof devCommand !== 'string' ? devCommand : devCommand.split(' ');
           await execa(cmd, args, {stdio: 'inherit'});
         }
       }
-      // public
-      checkAndbuildPublic(tiniConfig);
     }
   },
   {

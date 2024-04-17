@@ -1,12 +1,4 @@
-import {copy, pathExistsSync} from 'fs-extra/esm';
-import {resolve} from 'pathe';
-
-import {
-  TiniProject,
-  type TiniConfig,
-  type Compiler,
-  type Builder,
-} from '@tinijs/project';
+import {TiniProject, type Compiler, type Builder} from '@tinijs/project';
 
 export async function loadCompiler(tiniProject: TiniProject) {
   const {compile} = tiniProject.config;
@@ -28,12 +20,4 @@ export async function loadBuilder(tiniProject: TiniProject) {
   const {builder = '@tinijs/vite-builder', options = {}} = build || {};
   const {default: defaulExport} = await import(`${builder}/builder`);
   return defaulExport(options, tiniProject) as Builder;
-}
-
-export async function buildPublic({srcDir, outDir, dirs}: TiniConfig) {
-  const dirName = dirs?.public || 'public';
-  const inPath = resolve(srcDir, dirName);
-  const outPath = resolve(outDir);
-  if (!pathExistsSync(inPath)) return;
-  return copy(inPath, outPath);
 }

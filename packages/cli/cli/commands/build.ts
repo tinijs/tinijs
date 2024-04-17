@@ -4,7 +4,7 @@ import {remove} from 'fs-extra/esm';
 
 import {getTiniProject} from '@tinijs/project';
 
-import {loadCompiler, loadBuilder, buildPublic} from '../utils/build.js';
+import {loadCompiler, loadBuilder} from '../utils/build.js';
 import {createCLICommand} from '../utils/cli.js';
 
 export const buildCommand = createCLICommand(
@@ -38,10 +38,13 @@ export const buildCommand = createCLICommand(
     if (builder.build instanceof Function) {
       await builder.build();
     } else {
-      const [cmd, ...args] = builder.build.command.split(' ');
+      const buildCommand = builder.build.command;
+      const [cmd, ...args] =
+        typeof buildCommand !== 'string'
+          ? buildCommand
+          : buildCommand.split(' ');
       await execa(cmd, args, {stdio: 'inherit'});
     }
-    await buildPublic(tiniConfig);
     await hooks.callHook('build:after');
   }
 );
