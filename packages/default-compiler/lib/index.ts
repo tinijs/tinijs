@@ -41,22 +41,16 @@ export class DefaultCompiler implements Compiler {
       this.tiniProject.config.compileDir,
       inPath.replace(`${resolve(this.tiniProject.config.srcDir)}/`, '')
     );
-    const context: CompileFileHookContext | null = [
-      '.html',
-      '.css',
-      '.scss',
-      '.ts',
-      '.js',
-    ].includes(ext)
-      ? {
-          base,
-          inPath,
-          outPath,
-          content: await readFile(inPath, 'utf8'),
-        }
-      : !this.isUnderTopDir(inPath, 'public')
+    const context: CompileFileHookContext | null =
+      this.isUnderTopDir(inPath, 'public') ||
+      !['.html', '.css', '.scss', '.ts', '.js'].includes(ext)
         ? {base, inPath, outPath, content: ''}
-        : null;
+        : {
+            base,
+            inPath,
+            outPath,
+            content: await readFile(inPath, 'utf8'),
+          };
 
     if (context) {
       // build file
@@ -65,10 +59,10 @@ export class DefaultCompiler implements Compiler {
       await this.tiniProject.hooks.callHook('compile:afterFile', context);
 
       // save file
-      if (context.content) {
-        outputFile(context.outPath, context.content);
-      } else {
+      if (!context.content) {
         copy(context.inPath, context.outPath);
+      } else {
+        outputFile(context.outPath, context.content);
       }
     }
   }
