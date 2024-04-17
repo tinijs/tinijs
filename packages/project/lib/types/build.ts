@@ -6,13 +6,13 @@ export interface Builder {
   dev:
     | (() => Promise<void>)
     | {
-        command: string;
+        command: string | string[];
         onServerStart?: () => void;
       };
   build:
     | (() => Promise<void>)
     | {
-        command: string;
+        command: string | string[];
       };
 }
 

@@ -2,8 +2,11 @@ import {relative} from 'pathe';
 import {TiniProject, type Builder} from '@tinijs/project';
 
 export interface BuildOptions {
-  buildCommand?: string;
-  devCommand?: string;
+  configPath?: string;
+  buildCommand?: string | string[];
+  devCommand?: string | string[];
+  devPort?: number;
+  devHost?: string;
   onDevServerStart?: () => void;
 }
 
@@ -19,25 +22,33 @@ export class ViteBuilder implements Builder {
 
   get build() {
     return {
-      command: this.options.buildCommand || this.commands.buildCommand,
+      command: this.commands.buildCommand,
     };
   }
 
   get dev() {
     return {
-      command: this.options.devCommand || this.commands.devCommand,
+      command: this.commands.devCommand,
       onServerStart: this.options.onDevServerStart,
     };
   }
 
   private get commands() {
     const {srcDir, compileDir, outDir, compile} = this.tiniProject.config;
+    const {configPath, buildCommand, devCommand, devHost, devPort} =
+      this.options;
     const inputDir = compile === false ? srcDir : compileDir;
+    const configArg = !configPath ? '' : `--config ${configPath}`;
+    const outDirArg = `--outDir ${relative(inputDir, outDir)}`;
+    const hostArg = !devHost ? '' : `--host ${devHost}`;
+    const portArg = `--port ${devPort || '3000'}`;
     return {
       buildCommand:
-        this.options.buildCommand ||
-        `vite build ${inputDir} --outDir ${relative(inputDir, outDir)}`,
-      devCommand: this.options.devCommand || `vite ${inputDir} --port 3000`,
+        buildCommand ||
+        ['vite', 'build', inputDir, configArg, outDirArg].filter(Boolean),
+      devCommand:
+        devCommand ||
+        ['vite', inputDir, configArg, hostArg, portArg].filter(Boolean),
     };
   }
 }
