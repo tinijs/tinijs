@@ -10,4 +10,5 @@ export * from './lib/types/ui.js';
 
 export * from './lib/classes/project.js';
 
+export * from './lib/utils/dir.js';
 export * from './lib/utils/module.js';

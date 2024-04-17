@@ -20,7 +20,7 @@ export default function (options: CompileOptions, tiniProject: TiniProject) {
 
 export class DefaultCompiler implements Compiler {
   constructor(
-    private options: CompileOptions,
+    public options: CompileOptions,
     private tiniProject: TiniProject
   ) {}
 

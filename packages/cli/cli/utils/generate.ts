@@ -1,6 +1,7 @@
 import {resolve} from 'pathe';
 import type {Promisable} from 'type-fest';
 import {pascalCase} from 'change-case';
+import {getProjectDirs, type TiniConfig} from '@tinijs/project';
 
 import {parseName, type Names} from './name.js';
 
@@ -14,7 +15,8 @@ export interface TemplateContext {
 }
 
 export type TemplateGenerator = (
-  context: TemplateContext
+  context: TemplateContext,
+  tiniConfig: TiniConfig
 ) => Promisable<GeneratedTemplate[]>;
 
 export interface GeneratedTemplate {
@@ -24,64 +26,62 @@ export interface GeneratedTemplate {
 }
 
 enum BuiltinTypes {
+  Const = 'const',
+  Class = 'class',
   Service = 'service',
   Layout = 'layout',
   Page = 'page',
   Component = 'component',
+  Icon = 'icon',
   Partial = 'partial',
   Util = 'util',
-  Const = 'const',
   Store = 'store',
   Type = 'type',
 }
 
 export const BUILTIN_GENERATORS: Record<string, TemplateGenerator> = {
-  [BuiltinTypes.Component]: async context => {
-    const mainTemplate = await generateBuiltinMainTemplate(context);
+  [BuiltinTypes.Component]: async (context, tiniConfig) => {
+    const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
     return [mainTemplate];
   },
-  [BuiltinTypes.Service]: async context => {
-    const mainTemplate = await generateBuiltinMainTemplate(context);
+  [BuiltinTypes.Service]: async (context, tiniConfig) => {
+    const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
     return [mainTemplate];
   },
-  [BuiltinTypes.Layout]: async context => {
-    const mainTemplate = await generateBuiltinMainTemplate(context);
+  [BuiltinTypes.Layout]: async (context, tiniConfig) => {
+    const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
     return [mainTemplate];
   },
-  [BuiltinTypes.Page]: async context => {
-    const mainTemplate = await generateBuiltinMainTemplate(context);
+  [BuiltinTypes.Page]: async (context, tiniConfig) => {
+    const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
     return [mainTemplate];
   },
-  [BuiltinTypes.Partial]: async context => {
-    const mainTemplate = await generateBuiltinMainTemplate(context);
+  [BuiltinTypes.Partial]: async (context, tiniConfig) => {
+    const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
     return [mainTemplate];
   },
-  [BuiltinTypes.Util]: async context => {
-    const mainTemplate = await generateBuiltinMainTemplate(context);
+  [BuiltinTypes.Util]: async (context, tiniConfig) => {
+    const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
     return [mainTemplate];
   },
-  [BuiltinTypes.Const]: async context => {
-    const mainTemplate = await generateBuiltinMainTemplate(context);
+  [BuiltinTypes.Const]: async (context, tiniConfig) => {
+    const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
     return [mainTemplate];
   },
-  [BuiltinTypes.Store]: async context => {
-    const mainTemplate = await generateBuiltinMainTemplate(context);
+  [BuiltinTypes.Store]: async (context, tiniConfig) => {
+    const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
     return [mainTemplate];
   },
-  [BuiltinTypes.Type]: async context => {
-    const mainTemplate = await generateBuiltinMainTemplate(context);
+  [BuiltinTypes.Type]: async (context, tiniConfig) => {
+    const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
     return [mainTemplate];
   },
 };
 
-async function generateBuiltinMainTemplate({
-  type,
-  dest,
-  srcDir,
-  typePrefixed,
-  nested,
-  componentPrefix,
-}: TemplateContext) {
+async function generateBuiltinMainTemplate(
+  {type, dest, srcDir, typePrefixed, nested, componentPrefix}: TemplateContext,
+  tiniConfig: TiniConfig
+) {
   const destArr = dest.replace(/\\/g, '/').split('/') as string[];
   const names = parseName(
     destArr[destArr.length - 1].split('.')[0],
@@ -112,17 +112,20 @@ async function generateBuiltinMainTemplate({
   const name = names.cleanName;
   const filePathArr = destArr.slice(0, destArr.length - 1);
   if (nested) filePathArr.push(name);
+  const {dirs} = getProjectDirs(tiniConfig);
   const defaultFolder = (
     {
-      [BuiltinTypes.Service]: 'services',
-      [BuiltinTypes.Layout]: 'layouts',
-      [BuiltinTypes.Page]: 'pages',
-      [BuiltinTypes.Component]: 'components',
-      [BuiltinTypes.Partial]: 'partials',
-      [BuiltinTypes.Util]: 'utils',
-      [BuiltinTypes.Const]: 'consts',
-      [BuiltinTypes.Store]: 'stores',
-      [BuiltinTypes.Type]: 'types',
+      [BuiltinTypes.Class]: dirs.classes,
+      [BuiltinTypes.Service]: dirs.services,
+      [BuiltinTypes.Layout]: dirs.layouts,
+      [BuiltinTypes.Page]: dirs.pages,
+      [BuiltinTypes.Component]: dirs.components,
+      [BuiltinTypes.Icon]: dirs.icons,
+      [BuiltinTypes.Partial]: dirs.partials,
+      [BuiltinTypes.Util]: dirs.utils,
+      [BuiltinTypes.Const]: dirs.consts,
+      [BuiltinTypes.Store]: dirs.stores,
+      [BuiltinTypes.Type]: dirs.types,
     } as Record<string, string>
   )[type];
   const shortPath = [
@@ -137,6 +140,9 @@ async function generateBuiltinMainTemplate({
   // content
   let content = '';
   switch (type) {
+    case BuiltinTypes.Class:
+      content = getClassMainContent(names);
+      break;
     case BuiltinTypes.Service:
       content = getServiceMainContent(names);
       break;
@@ -148,6 +154,9 @@ async function generateBuiltinMainTemplate({
       break;
     case BuiltinTypes.Component:
       content = getComponentMainContent(names);
+      break;
+    case BuiltinTypes.Icon:
+      content = getIconMainContent(names);
       break;
     case BuiltinTypes.Partial:
       content = getPartialMainContent(names);
@@ -174,6 +183,10 @@ async function generateBuiltinMainTemplate({
     fullPath,
     content,
   } as GeneratedTemplate;
+}
+
+function getClassMainContent({className}: Names) {
+  return `export class ${className} {}\n`;
 }
 
 function getServiceMainContent({className}: Names) {
@@ -245,6 +258,15 @@ export class ${className} extends TiniComponent implements OnCreate {
   }
 
   static styles = css\`\`;
+}\n`;
+}
+
+function getIconMainContent({className, tagName}: Names) {
+  return `import {TiniIconComponent} from 'PACKAGE/components/icon.js';
+
+export class Icon${className}Component extends TiniIconComponent {
+  static readonly defaultTagName = 'icon-${tagName}';
+  static readonly prebuiltSRC = "URL/URI";
 }\n`;
 }
 

@@ -8,7 +8,7 @@ import {remove} from 'fs-extra/esm';
 
 import {getTiniProject} from '@tinijs/project';
 
-import {loadCompiler, loadBuilder} from '../utils/build.js';
+import {exposeEnvs, loadCompiler, loadBuilder} from '../utils/build.js';
 import {createCLICommand} from '../utils/cli.js';
 
 export const devCommand = createCLICommand(
@@ -26,8 +26,11 @@ export const devCommand = createCLICommand(
     },
   },
   async (args, callbacks) => {
+    const targetEnv = 'development';
     const tiniProject = await getTiniProject();
     const {config: tiniConfig} = tiniProject;
+    // preparation
+    exposeEnvs(tiniConfig, targetEnv);
     const compiler = await loadCompiler(tiniProject);
     // watch mode
     if (args.watch) {
@@ -67,7 +70,11 @@ export const devCommand = createCLICommand(
             {command: 'tini dev --watch'},
           ]);
           const customOnServerStart = builder.dev.onServerStart;
-          setTimeout(() => callbacks?.onServerStart(customOnServerStart), 2000);
+          setTimeout(
+            () =>
+              callbacks?.onServerStart(builder.options, customOnServerStart),
+            2000
+          );
         } else {
           const [cmd, ...args] =
             typeof devCommand !== 'string' ? devCommand : devCommand.split(' ');
@@ -79,11 +86,16 @@ export const devCommand = createCLICommand(
   {
     onUselessWatch: () =>
       consola.warn('The --watch option is useless while compile is disabled.'),
-    onServerStart: (customCallback?: () => void) =>
+    onServerStart: (
+      {devHost, devPort}: Record<string, any>,
+      customCallback?: () => void
+    ) =>
       customCallback
         ? customCallback()
         : consola.info(
-            `Server running at: ${blueBright('http://localhost:3000')}`
+            `Server running at: ${blueBright(
+              `http://${devHost || 'localhost'}:${devPort || '3000'}`
+            )}`
           ),
   }
 );

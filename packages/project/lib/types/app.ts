@@ -9,6 +9,7 @@ export interface AppDirs {
   consts?: string;
   classes?: string;
   components?: string;
+  icons?: string;
   layouts?: string;
   pages?: string;
   partials?: string;

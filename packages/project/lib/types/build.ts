@@ -2,7 +2,17 @@ import type {HookCallback} from 'hookable';
 
 import type {TiniProject} from '../classes/project.js';
 
+export interface CommonBuildOptions {
+  configPath?: string;
+  buildCommand?: string | string[];
+  devCommand?: string | string[];
+  devPort?: number;
+  devHost?: string;
+  onDevServerStart?: () => void;
+}
+
 export interface Builder {
+  options: Record<string, any>;
   dev:
     | (() => Promise<void>)
     | {

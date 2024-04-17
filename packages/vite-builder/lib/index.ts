@@ -1,14 +1,11 @@
 import {relative} from 'pathe';
-import {TiniProject, type Builder} from '@tinijs/project';
+import {
+  TiniProject,
+  type Builder,
+  type CommonBuildOptions,
+} from '@tinijs/project';
 
-export interface BuildOptions {
-  configPath?: string;
-  buildCommand?: string | string[];
-  devCommand?: string | string[];
-  devPort?: number;
-  devHost?: string;
-  onDevServerStart?: () => void;
-}
+export type BuildOptions = CommonBuildOptions;
 
 export default function (options: BuildOptions, tiniProject: TiniProject) {
   return new ViteBuilder(options, tiniProject);
@@ -16,7 +13,7 @@ export default function (options: BuildOptions, tiniProject: TiniProject) {
 
 export class ViteBuilder implements Builder {
   constructor(
-    private options: BuildOptions,
+    public options: BuildOptions,
     private tiniProject: TiniProject
   ) {}
 
@@ -38,17 +35,21 @@ export class ViteBuilder implements Builder {
     const {configPath, buildCommand, devCommand, devHost, devPort} =
       this.options;
     const inputDir = compile === false ? srcDir : compileDir;
-    const configArg = !configPath ? '' : `--config ${configPath}`;
-    const outDirArg = `--outDir ${relative(inputDir, outDir)}`;
-    const hostArg = !devHost ? '' : `--host ${devHost}`;
-    const portArg = `--port ${devPort || '3000'}`;
+    const configArgs = !configPath ? [] : ['--config', configPath];
+    const outDirArgs = ['--outDir', relative(inputDir, outDir)];
+    const hostArgs = !devHost ? [] : ['--host', devHost];
+    const portArgs = ['--port', `${devPort || '3000'}`];
     return {
       buildCommand:
         buildCommand ||
-        ['vite', 'build', inputDir, configArg, outDirArg].filter(Boolean),
+        ['vite', 'build', inputDir, ...configArgs, ...outDirArgs].filter(
+          Boolean
+        ),
       devCommand:
         devCommand ||
-        ['vite', inputDir, configArg, hostArg, portArg].filter(Boolean),
+        ['vite', inputDir, ...configArgs, ...hostArgs, ...portArgs].filter(
+          Boolean
+        ),
     };
   }
 }

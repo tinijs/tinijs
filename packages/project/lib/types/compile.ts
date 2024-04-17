@@ -3,6 +3,7 @@ import type {HookCallback} from 'hookable';
 import type {TiniProject} from '../classes/project.js';
 
 export interface Compiler {
+  options: Record<string, any>;
   compile: () => Promise<void>;
   compileFile: (path: string) => Promise<void>;
 }

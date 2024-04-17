@@ -1,13 +1,10 @@
-import {TiniProject, type Builder} from '@tinijs/project';
+import {
+  TiniProject,
+  type Builder,
+  type CommonBuildOptions,
+} from '@tinijs/project';
 
-export interface BuildOptions {
-  configPath?: string;
-  buildCommand?: string | string[];
-  devCommand?: string | string[];
-  devPort?: number;
-  devHost?: string;
-  onDevServerStart?: () => void;
-}
+export type BuildOptions = CommonBuildOptions;
 
 export default function (options: BuildOptions, tiniProject: TiniProject) {
   return new ParcelBuilder(options, tiniProject);
@@ -15,7 +12,7 @@ export default function (options: BuildOptions, tiniProject: TiniProject) {
 
 export class ParcelBuilder implements Builder {
   constructor(
-    private options: BuildOptions,
+    public options: BuildOptions,
     private tiniProject: TiniProject
   ) {}
 
@@ -38,19 +35,25 @@ export class ParcelBuilder implements Builder {
       this.options;
     const indexFilePath =
       compile === false ? `${srcDir}/index.html` : `${compileDir}/index.html`;
-    const configArg = !configPath ? '' : `--config ${configPath}`;
-    const outDirArg = `--dist-dir ${outDir}`;
-    const hostArg = !devHost ? '' : `--host ${devHost}`;
-    const portArg = `--port ${devPort || '3000'}`;
+    const configArgs = !configPath ? [] : ['--config', configPath];
+    const outDirArgs = ['--dist-dir', outDir];
+    const hostArgs = !devHost ? [] : ['--host', devHost];
+    const portArgs = ['--port', `${devPort || '3000'}`];
     return {
       buildCommand:
         buildCommand ||
-        ['parcel', 'build', indexFilePath, configArg, outDirArg].filter(
+        ['parcel', 'build', indexFilePath, ...configArgs, ...outDirArgs].filter(
           Boolean
         ),
       devCommand:
         devCommand ||
-        ['parcel', indexFilePath, configArg, hostArg, portArg].filter(Boolean),
+        [
+          'parcel',
+          indexFilePath,
+          ...configArgs,
+          ...hostArgs,
+          ...portArgs,
+        ].filter(Boolean),
     };
   }
 }
