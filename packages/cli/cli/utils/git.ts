@@ -1,8 +1,8 @@
-import {execaCommandSync} from 'execa';
+import {execaSync} from 'execa';
 
 export function isGitRepo(dir = '.') {
   try {
-    execaCommandSync('git rev-parse --is-inside-work-tree', {cwd: dir});
+    execaSync('git', ['rev-parse', '--is-inside-work-tree'], {cwd: dir});
     return true;
   } catch {
     return false;
@@ -12,7 +12,7 @@ export function isGitRepo(dir = '.') {
 export function isGitClean(dir = '.') {
   if (!isGitRepo(dir)) return false;
   try {
-    const {stdout} = execaCommandSync('git status --short', {cwd: dir});
+    const {stdout} = execaSync('git', ['status', '--short'], {cwd: dir});
     return stdout.length <= 0;
   } catch (error) {
     return false;

@@ -1,15 +1,18 @@
 import {resolve} from 'pathe';
 import {copy as copyFileOrDir, pathExistsSync} from 'fs-extra/esm';
-import {execaCommand} from 'execa';
+import {execa} from 'execa';
 
 import type {ModuleInit} from '@tinijs/project';
 
 import {modifyProjectPackageJSON} from './project.js';
 
 export async function installPackage(packageName: string, tag?: string) {
-  return execaCommand(
-    `npm i ${packageName}${!tag ? '' : `@${tag}`}  --loglevel error`
-  );
+  return execa('npm', [
+    'i',
+    `${packageName}${!tag ? '' : `@${tag}`}`,
+    '--loglevel',
+    'error',
+  ]);
 }
 
 export async function copyAssets(
@@ -46,7 +49,8 @@ export async function updateScripts(
 }
 
 export async function initRun(run: NonNullable<ModuleInit['run']>) {
-  return run instanceof Function
-    ? run()
-    : execaCommand(run.startsWith('npx ') ? run : `npm run ${run}`);
+  if (run instanceof Function) return run();
+  if (!run.startsWith('npx ')) return execa('npm', ['run', run]);
+  const [command, ...args] = run.slice(4).split(' ');
+  return execa(command, args);
 }

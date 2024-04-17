@@ -72,7 +72,7 @@ export const newCommand = createCLICommand(
     } as const;
     // install dependencies
     if (!args.skipInstall) {
-      await execa('npm', ['i', '--loglevel=error'], execaOptions);
+      await execa('npm', ['i', '--loglevel', 'error'], execaOptions);
     }
     // init git
     if (!args.skipGit) {
