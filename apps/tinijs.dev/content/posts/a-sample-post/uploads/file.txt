@@ -1,6 +1,0 @@
-Put any public file releated to this post in this folder.
-
-Files can be accessed using the path format: /tini-content/posts/a-sample-post/uploads/file.txt
-Inside the template, use: {{scopedUploads}}/file.txt (remember to set the variable first)
-
-Note: remove this folder if not needed. In case you host the files somewhere else: Drive, S3, IPFS, ...
