@@ -19,8 +19,6 @@
     "./app/*": "./app/*",
     "./common": "./common/public-api.js",
     "./common/*": "./common/*",
-    "./content": "./content/public-api.js",
-    "./content/*": "./content/*",
     "./crypto": "./crypto/public-api.js",
     "./crypto/*": "./crypto/*",
     "./fetch": "./fetch/public-api.js",
@@ -28,9 +26,7 @@
     "./gun": "./gun/public-api.js",
     "./gun/*": "./gun/*",
     "./localstorage": "./localstorage/public-api.js",
-    "./localstorage/*": "./localstorage/*",
-    "./schema": "./schema/public-api.js",
-    "./schema/*": "./schema/*"
+    "./localstorage/*": "./localstorage/*"
   },
   "files": [
     "dist",
