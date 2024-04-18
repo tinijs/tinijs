@@ -23,6 +23,7 @@ export interface CLIExpansionConfig<
 
 export interface CLIConfig {
   docs?: false;
+  info?: false;
   new?: false;
   generate?: false | CLIGenerateCommandConfig;
   compile?: false;

@@ -12,6 +12,8 @@ async function getCommands(tiniProject: TiniProject) {
   // built-in commands
   if (cliConfig?.docs !== false)
     commands.docs = () => import('./commands/docs.js').then(resolveCommand);
+  if (cliConfig?.info !== false)
+    commands.info = () => import('./commands/info.js').then(resolveCommand);
   if (cliConfig?.new !== false)
     commands.new = () => import('./commands/new.js').then(resolveCommand);
   if (cliConfig?.generate !== false)
