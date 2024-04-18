@@ -1,3 +1,4 @@
+import {pathExistsSync} from 'fs-extra/esm';
 import {
   TiniProject,
   type Builder,
@@ -11,6 +12,10 @@ export default function (options: BuildOptions, tiniProject: TiniProject) {
 }
 
 export class ParcelBuilder implements Builder {
+  private readonly DEFAULT_PARCEL_CONFIG_FILE =
+    './node_modules/@tinijs/parcel-builder/.parcelrc';
+  private readonly LOCAL_PARCEL_CONFIG_FILE = this.getLocalParcelConfigFile();
+
   constructor(
     public options: BuildOptions,
     private tiniProject: TiniProject
@@ -35,7 +40,12 @@ export class ParcelBuilder implements Builder {
       this.options;
     const indexFilePath =
       compile === false ? `${srcDir}/index.html` : `${compileDir}/index.html`;
-    const configArgs = !configPath ? [] : ['--config', configPath];
+    const configArgs = [
+      '--config',
+      configPath ||
+        this.LOCAL_PARCEL_CONFIG_FILE ||
+        this.DEFAULT_PARCEL_CONFIG_FILE,
+    ];
     const outDirArgs = ['--dist-dir', outDir];
     const hostArgs = !devHost ? [] : ['--host', devHost];
     const portArgs = ['--port', `${devPort || '3000'}`];
@@ -55,5 +65,10 @@ export class ParcelBuilder implements Builder {
           ...portArgs,
         ].filter(Boolean),
     };
+  }
+
+  private getLocalParcelConfigFile() {
+    const rcPath = './.parcelrc';
+    return !pathExistsSync(rcPath) ? null : rcPath;
   }
 }
