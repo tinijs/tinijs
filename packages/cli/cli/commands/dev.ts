@@ -1,14 +1,11 @@
 import {concurrently} from 'concurrently';
-import {watch} from 'chokidar';
-import {resolve} from 'pathe';
 import {consola} from 'consola';
 import {execa} from 'execa';
-import {blueBright} from 'colorette';
-import {remove} from 'fs-extra/esm';
+import {blueBright, gray} from 'colorette';
 
 import {getTiniProject} from '@tinijs/project';
 
-import {exposeEnvs, loadCompiler, loadBuilder} from '../utils/build.js';
+import {exposeEnvs, loadBuilder} from '../utils/build.js';
 import {createCLICommand} from '../utils/cli.js';
 
 export const devCommand = createCLICommand(
@@ -17,13 +14,6 @@ export const devCommand = createCLICommand(
       name: 'dev',
       description: 'Start the dev server.',
     },
-    args: {
-      watch: {
-        alias: 'w',
-        type: 'boolean',
-        description: 'Watch mode only.',
-      },
-    },
   },
   async (args, callbacks) => {
     const targetEnv = 'development';
@@ -31,61 +21,37 @@ export const devCommand = createCLICommand(
     const {config: tiniConfig} = tiniProject;
     // preparation
     exposeEnvs(tiniConfig, targetEnv);
-    const compiler = await loadCompiler(tiniProject);
-    // watch mode
-    if (args.watch) {
-      if (compiler) {
-        const srcDirPath = resolve(tiniConfig.srcDir);
-        watch(srcDirPath, {ignoreInitial: true})
-          .on('add', path => compiler.compileFile(resolve(path)))
-          .on('change', path => compiler.compileFile(resolve(path)))
-          .on('unlink', path =>
-            remove(
-              resolve(
-                tiniConfig.compileDir,
-                resolve(path).replace(`${srcDirPath}/`, '')
-              )
-            )
-          );
-      } else {
-        callbacks?.onUselessWatch?.();
-      }
+    const builder = await loadBuilder(tiniProject);
+    // start dev
+    if (builder.dev instanceof Function) {
+      await builder.dev();
     } else {
-      const builder = await loadBuilder(tiniProject);
-      // compile
-      await compiler?.compile();
-      // start dev server
-      if (builder.dev instanceof Function) {
-        await builder.dev();
+      const devCommand = builder.dev.command;
+      if (tiniConfig.compile !== false) {
+        const compileCmd = 'tini compile --watch';
+        const devCmd =
+          typeof devCommand === 'string' ? devCommand : devCommand.join(' ');
+        concurrently([{command: compileCmd}, {command: devCmd}]);
+        callbacks?.onShowDebug([compileCmd, devCmd]);
+        const customOnServerStart = builder.dev.onServerStart;
+        setTimeout(
+          () => callbacks?.onServerStart(builder.options, customOnServerStart),
+          2000
+        );
       } else {
-        const devCommand = builder.dev.command;
-        if (compiler) {
-          concurrently([
-            {
-              command:
-                typeof devCommand === 'string'
-                  ? devCommand
-                  : devCommand.join(' '),
-            },
-            {command: 'tini dev --watch'},
-          ]);
-          const customOnServerStart = builder.dev.onServerStart;
-          setTimeout(
-            () =>
-              callbacks?.onServerStart(builder.options, customOnServerStart),
-            2000
-          );
-        } else {
-          const [cmd, ...args] =
-            typeof devCommand !== 'string' ? devCommand : devCommand.split(' ');
-          await execa(cmd, args, {stdio: 'inherit'});
-        }
+        const [cmd, ...args] =
+          typeof devCommand !== 'string' ? devCommand : devCommand.split(' ');
+        await execa(cmd, args, {stdio: 'inherit'});
       }
     }
   },
   {
-    onUselessWatch: () =>
-      consola.warn('The --watch option is useless while compile is disabled.'),
+    onShowDebug: (commands: string[]) =>
+      consola.info(
+        `Concurrently running ${commands
+          .map(command => gray(command))
+          .join(' & ')}`
+      ),
     onServerStart: (
       {devHost, devPort}: Record<string, any>,
       customCallback?: () => void

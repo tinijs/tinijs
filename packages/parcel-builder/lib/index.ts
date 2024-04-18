@@ -61,6 +61,7 @@ export class ParcelBuilder implements Builder {
           'parcel',
           indexFilePath,
           ...configArgs,
+          ...outDirArgs,
           ...hostArgs,
           ...portArgs,
         ].filter(Boolean),

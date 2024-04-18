@@ -6,10 +6,13 @@ import {
   type Builder,
 } from '@tinijs/project';
 
-export async function loadCompiler(tiniProject: TiniProject) {
+export async function loadCompiler(
+  tiniProject: TiniProject,
+  ignoreDisabled = false
+) {
   const {compile} = tiniProject.config;
   // disable compile
-  if (compile === false) return null;
+  if (!ignoreDisabled && compile === false) return null;
   // custom compile
   if (compile instanceof Function) return compile(tiniProject);
   // official compile
@@ -29,10 +32,12 @@ export async function loadBuilder(tiniProject: TiniProject) {
 }
 
 export function exposeEnvs(tiniConfig: TiniConfig, targetEnv: string) {
-  const {srcDir, outDir, entryDir, dirs} = getProjectDirs(tiniConfig);
+  const {srcDir, outDir, compileDir, entryDir, dirs} =
+    getProjectDirs(tiniConfig);
   process.env.NODE_ENV = targetEnv;
   process.env.TARGET_ENV = targetEnv;
   process.env.TINI_SRC_DIR = srcDir;
+  process.env.TINI_COMPILE_DIR = compileDir;
   process.env.TINI_OUT_DIR = outDir;
   process.env.TINI_ENTRY_DIR = entryDir;
   process.env.TINI_DIRS_PUBLIC = dirs.public;

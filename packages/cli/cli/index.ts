@@ -14,6 +14,12 @@ async function getCommands(tiniProject: TiniProject) {
     commands.docs = () => import('./commands/docs.js').then(resolveCommand);
   if (cliConfig?.new !== false)
     commands.new = () => import('./commands/new.js').then(resolveCommand);
+  if (cliConfig?.generate !== false)
+    commands.generate = () =>
+      import('./commands/generate.js').then(resolveCommand);
+  if (cliConfig?.compile !== false)
+    commands.compile = () =>
+      import('./commands/compile.js').then(resolveCommand);
   if (cliConfig?.dev !== false)
     commands.dev = () => import('./commands/dev.js').then(resolveCommand);
   if (cliConfig?.build !== false)
@@ -23,9 +29,6 @@ async function getCommands(tiniProject: TiniProject) {
       import('./commands/preview.js').then(resolveCommand);
   if (cliConfig?.module !== false)
     commands.module = () => import('./commands/module.js').then(resolveCommand);
-  if (cliConfig?.generate !== false)
-    commands.generate = () =>
-      import('./commands/generate.js').then(resolveCommand);
   // expanded commands
   const expandedCommands = await setupCLIExpansion(tiniProject);
   for (const [key, value] of Object.entries(expandedCommands)) {
