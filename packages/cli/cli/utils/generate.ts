@@ -27,6 +27,7 @@ export interface GeneratedTemplate {
 
 enum BuiltinTypes {
   Const = 'const',
+  Store = 'store',
   Class = 'class',
   Service = 'service',
   Layout = 'layout',
@@ -35,12 +36,19 @@ enum BuiltinTypes {
   Icon = 'icon',
   Partial = 'partial',
   Util = 'util',
-  Store = 'store',
   Type = 'type',
 }
 
 export const BUILTIN_GENERATORS: Record<string, TemplateGenerator> = {
-  [BuiltinTypes.Component]: async (context, tiniConfig) => {
+  [BuiltinTypes.Const]: async (context, tiniConfig) => {
+    const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
+    return [mainTemplate];
+  },
+  [BuiltinTypes.Store]: async (context, tiniConfig) => {
+    const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
+    return [mainTemplate];
+  },
+  [BuiltinTypes.Class]: async (context, tiniConfig) => {
     const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
     return [mainTemplate];
   },
@@ -56,19 +64,19 @@ export const BUILTIN_GENERATORS: Record<string, TemplateGenerator> = {
     const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
     return [mainTemplate];
   },
+  [BuiltinTypes.Component]: async (context, tiniConfig) => {
+    const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
+    return [mainTemplate];
+  },
+  [BuiltinTypes.Icon]: async (context, tiniConfig) => {
+    const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
+    return [mainTemplate];
+  },
   [BuiltinTypes.Partial]: async (context, tiniConfig) => {
     const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
     return [mainTemplate];
   },
   [BuiltinTypes.Util]: async (context, tiniConfig) => {
-    const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
-    return [mainTemplate];
-  },
-  [BuiltinTypes.Const]: async (context, tiniConfig) => {
-    const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
-    return [mainTemplate];
-  },
-  [BuiltinTypes.Store]: async (context, tiniConfig) => {
     const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
     return [mainTemplate];
   },
@@ -115,6 +123,8 @@ async function generateBuiltinMainTemplate(
   const {dirs} = getProjectDirs(tiniConfig);
   const defaultFolder = (
     {
+      [BuiltinTypes.Const]: dirs.consts,
+      [BuiltinTypes.Store]: dirs.stores,
       [BuiltinTypes.Class]: dirs.classes,
       [BuiltinTypes.Service]: dirs.services,
       [BuiltinTypes.Layout]: dirs.layouts,
@@ -123,8 +133,6 @@ async function generateBuiltinMainTemplate(
       [BuiltinTypes.Icon]: dirs.icons,
       [BuiltinTypes.Partial]: dirs.partials,
       [BuiltinTypes.Util]: dirs.utils,
-      [BuiltinTypes.Const]: dirs.consts,
-      [BuiltinTypes.Store]: dirs.stores,
       [BuiltinTypes.Type]: dirs.types,
     } as Record<string, string>
   )[type];
@@ -140,6 +148,12 @@ async function generateBuiltinMainTemplate(
   // content
   let content = '';
   switch (type) {
+    case BuiltinTypes.Const:
+      content = getConstMainContent(names);
+      break;
+    case BuiltinTypes.Store:
+      content = getStoreMainContent(names);
+      break;
     case BuiltinTypes.Class:
       content = getClassMainContent(names);
       break;
@@ -164,12 +178,6 @@ async function generateBuiltinMainTemplate(
     case BuiltinTypes.Util:
       content = getUtilMainContent(names);
       break;
-    case BuiltinTypes.Const:
-      content = getConstMainContent(names);
-      break;
-    case BuiltinTypes.Store:
-      content = getStoreMainContent(names);
-      break;
     case BuiltinTypes.Type:
       content = getTypeMainContent(names);
       break;
@@ -183,6 +191,18 @@ async function generateBuiltinMainTemplate(
     fullPath,
     content,
   } as GeneratedTemplate;
+}
+
+function getConstMainContent({constName}: Names) {
+  return `export const ${constName} = 'value';\n`;
+}
+
+function getStoreMainContent({varName}: Names) {
+  return `import {createStore} from '@tinijs/store';
+
+export const ${varName}Store = createStore({
+  name: '${varName}',
+});\n`;
 }
 
 function getClassMainContent({className}: Names) {
@@ -291,18 +311,6 @@ function getUtilMainContent({varName}: Names) {
   return `export function ${varName}(arg: string) {
   return arg.toUpperCase();
 }\n`;
-}
-
-function getConstMainContent({constName}: Names) {
-  return `export const ${constName} = 'value';\n`;
-}
-
-function getStoreMainContent({varName}: Names) {
-  return `import {createStore} from '@tinijs/store';
-
-export const ${varName}Store = createStore({
-  name: '${varName}',
-});\n`;
 }
 
 function getTypeMainContent({className}: Names) {
