@@ -2,24 +2,35 @@
 import Index from 'flexsearch/dist/module/index';
 import type {IndexSearchResult} from 'flexsearch';
 
-import {transliterate} from './utils/transliterate.js';
-import {parseDenorm, parseDenormList} from './utils/denorm.js';
-import {ContentInstance} from './utils/instance.js';
+import {transliterate} from '../utils/transliterate.js';
+import {parseDenormList} from '../utils/denorm.js';
+import {
+  createContentInstance,
+  type ContentInstance,
+  type ContentOptions,
+} from '../utils/instance.js';
 
-export class ContentService<Lite, Full> {
-  parseDenorm = parseDenorm;
-  parseDenormList = parseDenormList;
+export class ContentService<Item, Detail> {
+  readonly contentInstance: ContentInstance<Item, Detail>;
 
-  private items?: Lite[];
-  private recordItems?: Record<string, Lite>;
-  private fullItems = new Map<string, Full>();
+  private items?: Item[];
+  private recordItems?: Record<string, Item>;
+  private fullItems = new Map<string, Detail>();
 
   private liteSearchItems?: Record<string, string>;
   private liteSearchIndex?: Index;
   private searchItems?: Record<string, string>;
   private searchIndex?: Index;
 
-  constructor(readonly contentInstance: ContentInstance<Lite, Full>) {}
+  constructor(
+    public collectionName: string,
+    public options: ContentOptions = {}
+  ) {
+    this.contentInstance = createContentInstance<Item, Detail>(
+      collectionName,
+      options
+    );
+  }
 
   private async getListAndRecord() {
     this.items ||= (await this.contentInstance.fetchList()) || [];
@@ -33,7 +44,7 @@ export class ContentService<Lite, Full> {
 
   private async getSearchItems(results: IndexSearchResult) {
     const {recordItems} = await this.getListAndRecord();
-    const itemsBySlug = new Map<string, Lite>();
+    const itemsBySlug = new Map<string, Item>();
     results.forEach(slug => {
       const item = recordItems![slug];
       if (item) itemsBySlug.set(slug as string, item);
@@ -42,10 +53,10 @@ export class ContentService<Lite, Full> {
       ? []
       : (JSON.parse(
           JSON.stringify(Array.from(itemsBySlug.values()))
-        ) as Lite[]);
+        ) as Item[]);
   }
 
-  async liteSearch(keyword: string) {
+  async searchLite(keyword: string) {
     keyword = transliterate(keyword);
     // get index
     let index: undefined | Index;
@@ -62,7 +73,7 @@ export class ContentService<Lite, Full> {
         if (tags) {
           text +=
             ' ' +
-            this.parseDenormList(tags)
+            parseDenormList(tags)
               .map(item => item.title)
               .join(' ');
         }
@@ -104,8 +115,8 @@ export class ContentService<Lite, Full> {
   }
 
   async list(
-    filter?: (item: Lite) => boolean,
-    sort?: (a: Lite, b: Lite) => number,
+    filter?: (item: Item) => boolean,
+    sort?: (a: Item, b: Item) => number,
     limit?: number,
     offset = 0
   ) {
@@ -113,31 +124,31 @@ export class ContentService<Lite, Full> {
     if (filter) items = items.filter(filter);
     if (sort) items = items.sort(sort);
     if (limit) items = items.slice(offset, offset + limit);
-    return !items.length ? [] : (JSON.parse(JSON.stringify(items)) as Lite[]);
+    return !items.length ? [] : (JSON.parse(JSON.stringify(items)) as Item[]);
   }
 
-  async getBySlug(slug: string) {
+  async get(slug: string) {
+    const {recordItems} = await this.getListAndRecord();
+    const item = recordItems![slug];
+    return !item ? null : (JSON.parse(JSON.stringify(item)) as Item);
+  }
+
+  async getDetailBySlug(slug: string) {
     const item =
       this.fullItems.get(slug) ||
       this.fullItems
         .set(slug, await this.contentInstance.fetchItemBySlug(slug))
         .get(slug);
-    return !item ? null : (JSON.parse(JSON.stringify(item)) as Full);
+    return !item ? null : (JSON.parse(JSON.stringify(item)) as Detail);
   }
 
-  async getById(id: string) {
+  async getDetailById(id: string) {
     const item =
       this.fullItems.get(id) ||
       this.fullItems
         .set(id, await this.contentInstance.fetchItemById(id))
         .get(id);
-    return !item ? null : (JSON.parse(JSON.stringify(item)) as Full);
-  }
-
-  async getLite(slug: string) {
-    const {recordItems} = await this.getListAndRecord();
-    const item = recordItems![slug];
-    return !item ? null : (JSON.parse(JSON.stringify(item)) as Lite);
+    return !item ? null : (JSON.parse(JSON.stringify(item)) as Detail);
   }
 }
 

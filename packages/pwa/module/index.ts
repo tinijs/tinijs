@@ -1,15 +1,16 @@
 import {resolve} from 'pathe';
 import {modifyTextFile} from '@tinijs/cli';
-import {defineTiniModule} from '@tinijs/project';
+import {defineTiniModule, getProjectDirs} from '@tinijs/project';
 
 export default defineTiniModule({
   meta: {
     name: '@tinijs/pwa',
   },
-  init({srcDir, dirs}) {
+  init(tiniConfig) {
+    const {srcDir, dirs} = getProjectDirs(tiniConfig);
     return {
       copy: {
-        'assets/icons': `${srcDir}/${dirs?.assets || 'assets'}/icons`,
+        'assets/icons': `${srcDir}/${dirs.assets}/icons`,
         'assets/manifest.webmanifest': `${srcDir}/manifest.webmanifest`,
         'assets/sw.ts': `${srcDir}/sw.ts`,
       },

@@ -256,7 +256,7 @@ export class ${className} extends TiniComponent {
 function getComponentMainContent({className, tagName}: Names) {
   return `import {html, css} from 'lit';
 
-import {Component, TiniComponent, OnCreate, Input, Output, EventEmitter} from '@tinijs/core';
+import {Component, TiniComponent, Input, Output, EventEmitter, type OnCreate} from '@tinijs/core';
 
 @Component()
 export class ${className} extends TiniComponent implements OnCreate {

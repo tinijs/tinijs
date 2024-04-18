@@ -11,9 +11,9 @@ import type {
   Content,
 } from './common.js';
 
-export type PageLite = Omit<Page, 'content'>;
+export type Page = Omit<PageDetail, 'content'>;
 
-export interface Page
+export interface PageDetail
   extends Id,
     Slug,
     Status,

@@ -7,8 +7,9 @@ node_modules
 .tini
 .app
 .output
-.content
 .ui
+.content
+tini-content
 
 dist
 build

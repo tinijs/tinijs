@@ -9,9 +9,9 @@ import type {
   Content,
 } from './common.js';
 
-export type AuthorLite = Omit<Author, 'content'>;
+export type Author = Omit<AuthorDetail, 'content'>;
 
-export interface Author
+export interface AuthorDetail
   extends Id,
     Slug,
     Status,

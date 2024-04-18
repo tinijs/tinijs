@@ -1,6 +1,6 @@
-import type {AuthorLite} from './author.js';
-import type {CategoryLite} from './category.js';
-import type {TagLite} from './tag.js';
+import type {Author} from './author.js';
+import type {Category} from './category.js';
+import type {Tag} from './tag.js';
 
 export enum Statuses {
   Draft = 'draft',
@@ -23,6 +23,10 @@ export interface Slug {
 
 export interface Status {
   status: Statuses;
+}
+
+export interface Order {
+  order: number;
 }
 
 export interface Title {
@@ -86,15 +90,15 @@ export interface I18n {
   origin: string;
 }
 
-export interface Authors<Type = Partial<AuthorLite>> {
+export interface Authors<Type = Partial<Author>> {
   authors: DenormList<Type>;
 }
 
-export interface Categories<Type = Partial<CategoryLite>> {
+export interface Categories<Type = Partial<Category>> {
   categories: DenormList<Type>;
 }
 
-export interface Tags<Type = Partial<TagLite>> {
+export interface Tags<Type = Partial<Tag>> {
   tags: DenormList<Type>;
 }
 
