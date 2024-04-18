@@ -1,17 +1,18 @@
-import {copy, pathExistsSync} from 'fs-extra/esm';
-import {resolve} from 'pathe';
-
 import {
   TiniProject,
+  getProjectDirs,
   type TiniConfig,
   type Compiler,
   type Builder,
 } from '@tinijs/project';
 
-export async function loadCompiler(tiniProject: TiniProject) {
+export async function loadCompiler(
+  tiniProject: TiniProject,
+  ignoreDisabled = false
+) {
   const {compile} = tiniProject.config;
   // disable compile
-  if (compile === false) return null;
+  if (!ignoreDisabled && compile === false) return null;
   // custom compile
   if (compile instanceof Function) return compile(tiniProject);
   // official compile
@@ -30,10 +31,14 @@ export async function loadBuilder(tiniProject: TiniProject) {
   return defaulExport(options, tiniProject) as Builder;
 }
 
-export async function buildPublic({srcDir, outDir, dirs}: TiniConfig) {
-  const dirName = dirs?.public || 'public';
-  const inPath = resolve(srcDir, dirName);
-  const outPath = resolve(outDir);
-  if (!pathExistsSync(inPath)) return;
-  return copy(inPath, outPath);
+export function exposeEnvs(tiniConfig: TiniConfig, targetEnv: string) {
+  const {srcDir, outDir, compileDir, entryDir, dirs} =
+    getProjectDirs(tiniConfig);
+  process.env.NODE_ENV = targetEnv;
+  process.env.TARGET_ENV = targetEnv;
+  process.env.TINI_SRC_DIR = srcDir;
+  process.env.TINI_COMPILE_DIR = compileDir;
+  process.env.TINI_OUT_DIR = outDir;
+  process.env.TINI_ENTRY_DIR = entryDir;
+  process.env.TINI_DIRS_PUBLIC = dirs.public;
 }

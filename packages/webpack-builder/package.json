@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@tinijs/webpack-builder",
-  "version": "0.0.0",
+  "version": "0.17.0",
   "description": "Build TiniJS app using Webpack.",
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",
@@ -19,6 +19,7 @@
   },
   "files": [
     "dist",
+    "webpack.config.cjs",
     "!**/*.spec.*"
   ],
   "scripts": {
@@ -36,6 +37,15 @@
   },
   "dependencies": {
     "@tinijs/cli": "*",
-    "@tinijs/project": "*"
+    "@tinijs/project": "*",
+    "copy-webpack-plugin": "^12.0.2",
+    "html-bundler-webpack-plugin": "^3.9.1",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.7.1",
+    "css-loader": "^7.1.1",
+    "sass-loader": "^14.2.1",
+    "sass": "^1.75.0",
+    "ts-loader": "^9.5.1"
   }
 }

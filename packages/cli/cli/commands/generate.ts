@@ -44,9 +44,8 @@ export const generateCommand = createCLICommand(
     },
   },
   async (args, callbacks) => {
-    const {
-      config: {srcDir, cli},
-    } = await getTiniProject();
+    const {config: tiniConfig} = await getTiniProject();
+    const {srcDir, cli} = tiniConfig;
     const availableGenerators: Record<string, TemplateGenerator> = {
       ...BUILTIN_GENERATORS,
       ...(cli?.generate || {}).generators,
@@ -55,14 +54,17 @@ export const generateCommand = createCLICommand(
     if (!generator) {
       return callbacks?.onInvalid(args.type, availableGenerators);
     }
-    const templates = await generator({
-      type: args.type,
-      dest: args.dest,
-      srcDir: args.dir || srcDir,
-      typePrefixed: args.typePrefixed || false,
-      nested: args.nested || false,
-      componentPrefix: (cli?.generate || {}).componentPrefix || 'app',
-    });
+    const templates = await generator(
+      {
+        type: args.type,
+        dest: args.dest,
+        srcDir: args.dir || srcDir,
+        typePrefixed: args.typePrefixed || false,
+        nested: args.nested || false,
+        componentPrefix: (cli?.generate || {}).componentPrefix || 'app',
+      },
+      tiniConfig
+    );
     const {fullPath: mainFullPath} = templates[0];
     if (pathExistsSync(mainFullPath)) {
       return callbacks?.onExists(args.type, templates[0]);

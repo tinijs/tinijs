@@ -1,45 +1,75 @@
-import {TiniProject, type Builder} from '@tinijs/project';
+import {pathExistsSync} from 'fs-extra/esm';
+import {
+  TiniProject,
+  type Builder,
+  type CommonBuildOptions,
+} from '@tinijs/project';
 
-export interface BuildOptions {
-  buildCommand?: string;
-  devCommand?: string;
-  onDevServerStart?: () => void;
-}
+export type BuildOptions = CommonBuildOptions;
 
 export default function (options: BuildOptions, tiniProject: TiniProject) {
   return new ParcelBuilder(options, tiniProject);
 }
 
 export class ParcelBuilder implements Builder {
+  private readonly DEFAULT_PARCEL_CONFIG_FILE =
+    './node_modules/@tinijs/parcel-builder/.parcelrc';
+  private readonly LOCAL_PARCEL_CONFIG_FILE = this.getLocalParcelConfigFile();
+
   constructor(
-    private options: BuildOptions,
+    public options: BuildOptions,
     private tiniProject: TiniProject
   ) {}
 
   get build() {
     return {
-      command: this.options.buildCommand || this.commands.buildCommand,
+      command: this.commands.buildCommand,
     };
   }
 
   get dev() {
     return {
-      command: this.options.devCommand || this.commands.devCommand,
+      command: this.commands.devCommand,
       onServerStart: this.options.onDevServerStart,
     };
   }
 
   private get commands() {
     const {srcDir, compileDir, outDir, compile} = this.tiniProject.config;
+    const {configPath, buildCommand, devCommand, devHost, devPort} =
+      this.options;
     const indexFilePath =
       compile === false ? `${srcDir}/index.html` : `${compileDir}/index.html`;
+    const configArgs = [
+      '--config',
+      configPath ||
+        this.LOCAL_PARCEL_CONFIG_FILE ||
+        this.DEFAULT_PARCEL_CONFIG_FILE,
+    ];
+    const outDirArgs = ['--dist-dir', outDir];
+    const hostArgs = !devHost ? [] : ['--host', devHost];
+    const portArgs = ['--port', `${devPort || '3000'}`];
     return {
       buildCommand:
-        this.options.buildCommand ||
-        `parcel build ${indexFilePath} --dist-dir ${outDir}`,
+        buildCommand ||
+        ['parcel', 'build', indexFilePath, ...configArgs, ...outDirArgs].filter(
+          Boolean
+        ),
       devCommand:
-        this.options.devCommand ||
-        `parcel ${indexFilePath} --dist-dir ${outDir} --port 3000`,
+        devCommand ||
+        [
+          'parcel',
+          indexFilePath,
+          ...configArgs,
+          ...outDirArgs,
+          ...hostArgs,
+          ...portArgs,
+        ].filter(Boolean),
     };
+  }
+
+  private getLocalParcelConfigFile() {
+    const rcPath = './.parcelrc';
+    return !pathExistsSync(rcPath) ? null : rcPath;
   }
 }

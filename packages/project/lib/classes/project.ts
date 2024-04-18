@@ -13,6 +13,11 @@ import type {CompileHooks} from '../types/compile.js';
 import type {ServerConfig, ServerHooks} from '../types/server.js';
 import type {UIConfig} from '../types/ui.js';
 
+import {
+  DEFAULT_SRC_DIR,
+  DEFAULT_COMPILE_DIR,
+  DEFAULT_OUT_DIR,
+} from '../utils/dir.js';
 import {setupModules} from '../utils/module.js';
 
 // @ts-ignore
@@ -81,9 +86,9 @@ function getConfigFilePath() {
 
 export async function loadTiniConfig() {
   const defaultConfig: TiniConfig = {
-    srcDir: 'app',
-    compileDir: '.app',
-    outDir: '.output',
+    srcDir: DEFAULT_SRC_DIR,
+    compileDir: DEFAULT_COMPILE_DIR,
+    outDir: DEFAULT_OUT_DIR,
   };
   const configFilePath = getConfigFilePath();
   if (!configFilePath) {

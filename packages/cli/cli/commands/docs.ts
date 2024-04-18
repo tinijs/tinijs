@@ -1,8 +1,10 @@
 import {consola} from 'consola';
-import {bold, blueBright} from 'colorette';
+import {blueBright} from 'colorette';
 import open from 'open';
 
 import {createCLICommand} from '../utils/cli.js';
+
+import {HOME_URL} from './info.js';
 
 export const docsCommand = createCLICommand(
   {
@@ -12,13 +14,12 @@ export const docsCommand = createCLICommand(
     },
   },
   (args, callbacks) => {
-    const HOME_URL = 'https://tinijs.dev';
     callbacks?.onOpen(HOME_URL);
     open(HOME_URL);
   },
   {
     onOpen: (url: string) =>
-      consola.info(`Documetation link: ${bold(blueBright(url))}`),
+      consola.info(`Documetation link: ${blueBright(url)}`),
   }
 );
 

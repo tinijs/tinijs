@@ -1,10 +1,12 @@
 import {resolve} from 'pathe';
 import {execa} from 'execa';
+import {consola} from 'consola';
+import {gray} from 'colorette';
 import {remove} from 'fs-extra/esm';
 
 import {getTiniProject} from '@tinijs/project';
 
-import {loadCompiler, loadBuilder, buildPublic} from '../utils/build.js';
+import {exposeEnvs, loadCompiler, loadBuilder} from '../utils/build.js';
 import {createCLICommand} from '../utils/cli.js';
 
 export const buildCommand = createCLICommand(
@@ -21,28 +23,37 @@ export const buildCommand = createCLICommand(
       },
     },
   },
-  async args => {
+  async (args, callbacks) => {
     const targetEnv = args.target || 'production';
-    process.env.NODE_ENV = targetEnv;
-    process.env.TARGET_ENV = targetEnv;
     const tiniProject = await getTiniProject();
     const {config: tiniConfig, hooks} = tiniProject;
+    //  preparation
+    exposeEnvs(tiniConfig, targetEnv);
     const compiler = await loadCompiler(tiniProject);
     const builder = await loadBuilder(tiniProject);
     // clean
     await remove(resolve(tiniConfig.outDir));
-    // compile
-    await compiler?.compile();
-    // build
+    // start build
     await hooks.callHook('build:before');
     if (builder.build instanceof Function) {
       await builder.build();
     } else {
-      const [cmd, ...args] = builder.build.command.split(' ');
+      // compile
+      await compiler?.compile();
+      // build
+      const buildCommand = builder.build.command;
+      const [cmd, ...args] =
+        typeof buildCommand !== 'string'
+          ? buildCommand
+          : buildCommand.split(' ');
+      callbacks?.onShowDebug(`${cmd} ${args.join(' ')}`);
       await execa(cmd, args, {stdio: 'inherit'});
     }
-    await buildPublic(tiniConfig);
     await hooks.callHook('build:after');
+  },
+  {
+    onShowDebug: (command: string) =>
+      consola.info(`Compiled and run ${gray(command)}`),
   }
 );
 

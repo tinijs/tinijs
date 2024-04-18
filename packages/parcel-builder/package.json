@@ -18,6 +18,7 @@
   },
   "files": [
     "dist",
+    ".parcelrc",
     "!**/*.spec.*"
   ],
   "scripts": {
@@ -34,6 +35,7 @@
     "url": "https://github.com/tinijs/tinijs/issues"
   },
   "dependencies": {
+    "@parcel/config-default": "^2.12.0",
     "@parcel/packager-raw-url": "^2.12.0",
     "@parcel/reporter-bundle-analyzer": "^2.12.0",
     "@parcel/transformer-sass": "^2.12.0",
@@ -41,6 +43,7 @@
     "@tinijs/cli": "^0.17.0",
     "@tinijs/project": "^0.17.0",
     "parcel": "^2.12.0",
+    "parcel-reporter-static-files-copy": "^1.5.3",
     "sharp": "^0.33.2"
   }
 }

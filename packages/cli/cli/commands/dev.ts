@@ -1,25 +1,12 @@
 import {concurrently} from 'concurrently';
-import {watch} from 'chokidar';
-import {resolve} from 'pathe';
 import {consola} from 'consola';
 import {execa} from 'execa';
-import {blueBright} from 'colorette';
-import {remove, pathExistsSync} from 'fs-extra/esm';
+import {blueBright, gray} from 'colorette';
 
-import {getTiniProject, type TiniConfig} from '@tinijs/project';
+import {getTiniProject} from '@tinijs/project';
 
-import {loadCompiler, loadBuilder, buildPublic} from '../utils/build.js';
+import {exposeEnvs, loadBuilder} from '../utils/build.js';
 import {createCLICommand} from '../utils/cli.js';
-
-function checkAndbuildPublic(tiniConfig: TiniConfig) {
-  setTimeout(async () => {
-    if (pathExistsSync(resolve(tiniConfig.outDir))) {
-      await buildPublic(tiniConfig);
-    } else {
-      checkAndbuildPublic(tiniConfig);
-    }
-  }, 2000);
-}
 
 export const devCommand = createCLICommand(
   {
@@ -27,68 +14,54 @@ export const devCommand = createCLICommand(
       name: 'dev',
       description: 'Start the dev server.',
     },
-    args: {
-      watch: {
-        alias: 'w',
-        type: 'boolean',
-        description: 'Watch mode only.',
-      },
-    },
   },
   async (args, callbacks) => {
+    const targetEnv = 'development';
     const tiniProject = await getTiniProject();
     const {config: tiniConfig} = tiniProject;
-    const compiler = await loadCompiler(tiniProject);
-    // watch mode
-    if (args.watch) {
-      if (compiler) {
-        const srcDirPath = resolve(tiniConfig.srcDir);
-        watch(srcDirPath, {ignoreInitial: true})
-          .on('add', path => compiler.compileFile(resolve(path)))
-          .on('change', path => compiler.compileFile(resolve(path)))
-          .on('unlink', path =>
-            remove(
-              resolve(
-                tiniConfig.compileDir,
-                resolve(path).replace(`${srcDirPath}/`, '')
-              )
-            )
-          );
-      } else {
-        callbacks?.onUselessWatch?.();
-      }
+    // preparation
+    exposeEnvs(tiniConfig, targetEnv);
+    const builder = await loadBuilder(tiniProject);
+    // start dev
+    if (builder.dev instanceof Function) {
+      await builder.dev();
     } else {
-      const builder = await loadBuilder(tiniProject);
-      // compile
-      await compiler?.compile();
-      // start dev server
-      if (builder.dev instanceof Function) {
-        await builder.dev();
+      const devCommand = builder.dev.command;
+      if (tiniConfig.compile !== false) {
+        const compileCmd = 'tini compile --watch';
+        const devCmd =
+          typeof devCommand === 'string' ? devCommand : devCommand.join(' ');
+        concurrently([{command: compileCmd}, {command: devCmd}]);
+        callbacks?.onShowDebug([compileCmd, devCmd]);
+        const customOnServerStart = builder.dev.onServerStart;
+        setTimeout(
+          () => callbacks?.onServerStart(builder.options, customOnServerStart),
+          2000
+        );
       } else {
-        if (compiler) {
-          concurrently([
-            {command: builder.dev.command},
-            {command: 'tini dev --watch'},
-          ]);
-          const customOnServerStart = builder.dev.onServerStart;
-          setTimeout(() => callbacks?.onServerStart(customOnServerStart), 2000);
-        } else {
-          const [cmd, ...args] = builder.dev.command.split(' ');
-          await execa(cmd, args, {stdio: 'inherit'});
-        }
+        const [cmd, ...args] =
+          typeof devCommand !== 'string' ? devCommand : devCommand.split(' ');
+        await execa(cmd, args, {stdio: 'inherit'});
       }
-      // public
-      checkAndbuildPublic(tiniConfig);
     }
   },
   {
-    onUselessWatch: () =>
-      consola.warn('The --watch option is useless while compile is disabled.'),
-    onServerStart: (customCallback?: () => void) =>
+    onShowDebug: (commands: string[]) =>
+      consola.info(
+        `Concurrently running ${commands
+          .map(command => gray(command))
+          .join(' & ')}`
+      ),
+    onServerStart: (
+      {devHost, devPort}: Record<string, any>,
+      customCallback?: () => void
+    ) =>
       customCallback
         ? customCallback()
         : consola.info(
-            `Server running at: ${blueBright('http://localhost:3000')}`
+            `Server running at: ${blueBright(
+              `http://${devHost || 'localhost'}:${devPort || '3000'}`
+            )}`
           ),
   }
 );

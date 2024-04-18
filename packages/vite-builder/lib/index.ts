@@ -1,11 +1,11 @@
 import {relative} from 'pathe';
-import {TiniProject, type Builder} from '@tinijs/project';
+import {
+  TiniProject,
+  type Builder,
+  type CommonBuildOptions,
+} from '@tinijs/project';
 
-export interface BuildOptions {
-  buildCommand?: string;
-  devCommand?: string;
-  onDevServerStart?: () => void;
-}
+export type BuildOptions = CommonBuildOptions;
 
 export default function (options: BuildOptions, tiniProject: TiniProject) {
   return new ViteBuilder(options, tiniProject);
@@ -13,31 +13,43 @@ export default function (options: BuildOptions, tiniProject: TiniProject) {
 
 export class ViteBuilder implements Builder {
   constructor(
-    private options: BuildOptions,
+    public options: BuildOptions,
     private tiniProject: TiniProject
   ) {}
 
   get build() {
     return {
-      command: this.options.buildCommand || this.commands.buildCommand,
+      command: this.commands.buildCommand,
     };
   }
 
   get dev() {
     return {
-      command: this.options.devCommand || this.commands.devCommand,
+      command: this.commands.devCommand,
       onServerStart: this.options.onDevServerStart,
     };
   }
 
   private get commands() {
     const {srcDir, compileDir, outDir, compile} = this.tiniProject.config;
+    const {configPath, buildCommand, devCommand, devHost, devPort} =
+      this.options;
     const inputDir = compile === false ? srcDir : compileDir;
+    const configArgs = !configPath ? [] : ['--config', configPath];
+    const outDirArgs = ['--outDir', relative(inputDir, outDir)];
+    const hostArgs = !devHost ? [] : ['--host', devHost];
+    const portArgs = ['--port', `${devPort || '3000'}`];
     return {
       buildCommand:
-        this.options.buildCommand ||
-        `vite build ${inputDir} --outDir ${relative(inputDir, outDir)}`,
-      devCommand: this.options.devCommand || `vite ${inputDir} --port 3000`,
+        buildCommand ||
+        ['vite', 'build', inputDir, ...configArgs, ...outDirArgs].filter(
+          Boolean
+        ),
+      devCommand:
+        devCommand ||
+        ['vite', inputDir, ...configArgs, ...hostArgs, ...portArgs].filter(
+          Boolean
+        ),
     };
   }
 }

@@ -104,7 +104,7 @@ export const contentBuildCommand = createCLICommand(
 
     // 11ty render
     callbacks?.onStart?.();
-    await execa('npx', ['@11ty/eleventy', `--config=${eleventyConfigPath}`], {
+    await execa('npx', ['@11ty/eleventy', '--config', eleventyConfigPath], {
       stdio: 'ignore',
     });
 

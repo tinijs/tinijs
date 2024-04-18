@@ -16,6 +16,6 @@ export * from './cli/commands/build.js';
 export * from './cli/commands/dev.js';
 export * from './cli/commands/docs.js';
 export * from './cli/commands/generate.js';
-export * from './cli/commands/module.js';
+export * from './cli/commands/module-add.js';
 export * from './cli/commands/new.js';
 export * from './cli/commands/preview.js';
