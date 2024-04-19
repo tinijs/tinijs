@@ -1,4 +1,4 @@
-import type {RenderData} from '@tinijs/core';
+import type {SectionRenderData} from '@tinijs/core';
 import {createStore} from '@tinijs/store';
 
 export interface Task {
@@ -8,7 +8,7 @@ export interface Task {
 }
 
 export const mainStore = createStore({
-  tasks: undefined as RenderData<Task[]>,
+  tasks: undefined as SectionRenderData<Task[]>,
 });
 
 const TASKS_KEY = 'tasks';

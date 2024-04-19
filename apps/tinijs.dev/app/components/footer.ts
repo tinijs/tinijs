@@ -10,6 +10,8 @@ export class FooterComponent extends TiniComponent {
     return html`
       <footer
         style="
+          box-sizing: border-box;
+          height: var(--footer-height);
           background: var(--color-background-tint);
           padding: var(--size-space);
           border-top: 1px solid var(--color-background-shade);
@@ -17,8 +19,8 @@ export class FooterComponent extends TiniComponent {
         "
       >
         <p>
-          Released under the MIT License.<br />Copyright © 2024-present by Nhan
-          Lam
+          Built with 💖 and released under the MIT License.<br />Copyright ©
+          2024-present by Nhan Lam
         </p>
       </footer>
     `;

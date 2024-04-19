@@ -18,7 +18,7 @@ export class ContentInstance<Item, Detail> {
     readonly options: Omit<ContentOptions, 'baseUrl'> = {}
   ) {}
 
-  async getUrl(id: string) {
+  private async getUrl(id: string) {
     return `${this.baseUrl}/${id}.json`;
   }
 
@@ -40,10 +40,10 @@ export class ContentInstance<Item, Detail> {
     return this.getUrl(id);
   }
 
-  async getItemUrl(slug: string) {
+  async getDetailUrl(slug: string) {
     const rootIndex = await this.retrieveRootIndex();
     const id = rootIndex[`${this.collectionName}/${slug}`];
-    if (!id) throw new Error(`No item for ${this.collectionName}/${slug}`);
+    if (!id) throw new Error(`No detail for ${this.collectionName}/${slug}`);
     return this.getUrl(id);
   }
 
@@ -64,11 +64,11 @@ export class ContentInstance<Item, Detail> {
     });
   }
 
-  async fetchItemBySlug(slug: string) {
-    return ofetch<Detail>(await this.getItemUrl(slug), {method: 'GET'});
+  async fetchDetailBySlug(slug: string) {
+    return ofetch<Detail>(await this.getDetailUrl(slug), {method: 'GET'});
   }
 
-  async fetchItemById(id: string) {
+  async fetchDetailById(id: string) {
     return ofetch<Detail>(await this.getUrl(id), {method: 'GET'});
   }
 

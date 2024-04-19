@@ -4,33 +4,33 @@ import {Page, TiniComponent} from '@tinijs/core';
 
 import {GITHUB_CONTENT_PATH} from '../consts/common.js';
 
-import {serverCategoryService, serverPostService} from '../services/content.js';
+import {moduleCategoryService, modulePostService} from '../services/content.js';
 
 import {AppDocPageComponent} from '../components/doc-page/index.js';
 
 @Page({
-  name: 'app-page-server',
+  name: 'app-page-module',
   components: [AppDocPageComponent],
 })
-export class AppPageServer extends TiniComponent {
+export class AppPageModule extends TiniComponent {
   protected render() {
     return html`
       <app-doc-page
         .context=${{
-          name: 'Server',
-          path: '/server',
-          githubPath: `${GITHUB_CONTENT_PATH}/server-posts`,
+          name: 'Module',
+          path: '/module',
+          githubPath: `${GITHUB_CONTENT_PATH}/module-posts`,
           homeTemplate: this._getHomeTemplate(),
         }}
-        .categoryService=${serverCategoryService}
-        .postService=${serverPostService}
+        .categoryService=${moduleCategoryService}
+        .postService=${modulePostService}
       ></app-doc-page>
     `;
   }
 
   private _getHomeTemplate() {
     return html`
-      <h1>TiniJS Server</h1>
+      <h1>TiniJS Module</h1>
       <p>Page content.</p>
     `;
   }

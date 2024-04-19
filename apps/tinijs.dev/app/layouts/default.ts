@@ -1,4 +1,4 @@
-import {html} from 'lit';
+import {html, css} from 'lit';
 
 import {Layout, TiniComponent} from '@tinijs/core';
 
@@ -14,7 +14,6 @@ export class AppLayoutDefault extends TiniComponent {
     return html`
       <div
         style='
-          --header-height: 64px;
           display: grid;
           width: 100vw;
           width: 100dvw;
@@ -49,4 +48,26 @@ export class AppLayoutDefault extends TiniComponent {
       </div>
     `;
   }
+
+  static styles = css`
+    :host {
+      --header-height: 64px;
+      --footer-height: 112px;
+      --page-height: calc(100vh - var(--header-height) - var(--footer-height));
+    }
+
+    @supports (height: 100dvh) {
+      :host {
+        --page-height: calc(
+          100dvh - var(--header-height) - var(--footer-height)
+        );
+      }
+    }
+
+    @media (min-width: 992px) {
+      app-footer {
+        z-index: 900;
+      }
+    }
+  `;
 }

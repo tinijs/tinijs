@@ -75,8 +75,8 @@ export class AppPageHome extends TiniComponent {
             <div class="icon">🎨</div>
             <h3>UI</h3>
             <p>
-              A huge collection of reusable components, blocks, layouts, pages,
-              ... with many design flavors.
+              A collection of reusable components, blocks, layouts, pages, ...
+              with many design flavors.
             </p>
           </li>
 
@@ -84,7 +84,7 @@ export class AppPageHome extends TiniComponent {
             <div class="icon">📝</div>
             <h3>Content</h3>
             <p>
-              A file-based content management system for all kind of content
+              A file-based content management system for many kind of content
               without a server or database.
             </p>
           </li>
@@ -93,8 +93,8 @@ export class AppPageHome extends TiniComponent {
             <div class="icon">🎛️</div>
             <h3>Server</h3>
             <p>
-              An optional web server for semi-SSR, server routes, API routes and
-              other server side stuffs.
+              An optional web server for server/API routes and other server side
+              stuffs.
             </p>
           </li>
 
@@ -102,7 +102,7 @@ export class AppPageHome extends TiniComponent {
             <div class="icon">⌨️</div>
             <h3>CLI</h3>
             <p>
-              An unified CLI tool for working with Tini apps and expandable to
+              An unified CLI tool for working with TiniJS apps and expandable to
               support other automation tasks.
             </p>
           </li>

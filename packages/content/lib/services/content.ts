@@ -137,7 +137,7 @@ export class ContentService<Item, Detail> {
     const item =
       this.fullItems.get(slug) ||
       this.fullItems
-        .set(slug, await this.contentInstance.fetchItemBySlug(slug))
+        .set(slug, await this.contentInstance.fetchDetailBySlug(slug))
         .get(slug);
     return !item ? null : (JSON.parse(JSON.stringify(item)) as Detail);
   }
@@ -146,7 +146,7 @@ export class ContentService<Item, Detail> {
     const item =
       this.fullItems.get(id) ||
       this.fullItems
-        .set(id, await this.contentInstance.fetchItemById(id))
+        .set(id, await this.contentInstance.fetchDetailById(id))
         .get(id);
     return !item ? null : (JSON.parse(JSON.stringify(item)) as Detail);
   }

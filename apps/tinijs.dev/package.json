@@ -1,8 +1,8 @@
 {
+  "private": true,
   "name": "tinijs.dev",
   "version": "0.0.0",
-  "private": true,
-  "description": "The homepage of the TiniJS project.",
+  "description": "The homepage of the TiniJS framework.",
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",
   "license": "MIT",
@@ -12,13 +12,16 @@
   },
   "scripts": {
     "tini": "../../packages/cli/dist/cli/index.js",
-    "dev": "npm run tini -- dev",
-    "build": "npm run tini -- build",
+    "content": "npm run tini -- content build",
+    "dev": "npm run content && npm run tini -- dev",
+    "build": "npm run content && npm run tini -- build",
     "preview": "npm run tini -- preview",
     "lint": "gts lint",
     "fix": "gts fix"
   },
   "dependencies": {
+    "@lit/context": "^1.1.1",
+    "@lit/task": "^1.0.0",
     "@tinijs/content": "*",
     "@tinijs/core": "*",
     "@tinijs/meta": "*",

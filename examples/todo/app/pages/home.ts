@@ -3,7 +3,7 @@ import {html} from 'lit';
 import {
   Page,
   TiniComponent,
-  render,
+  sectionRender,
   CommonColors,
   CommonGradients,
   Scales,
@@ -62,7 +62,7 @@ export class AppPageHome extends TiniComponent implements OnCreate {
         ></app-compose>
 
         <div style="margin-top: 2rem">
-          ${render([this.tasks], {
+          ${sectionRender([this.tasks], {
             loading: () => this.loadingTemplate,
             empty: () => this.emptyTemplate,
             main: () => this.tasksTemplate,

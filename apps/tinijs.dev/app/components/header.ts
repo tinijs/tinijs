@@ -49,9 +49,9 @@ export class HeaderComponent
 
   private ui = getUI();
 
-  @Reactive() mobileMenuOpen = false;
+  @Reactive() mobileMenuOpened = false;
 
-  private onRouteChange = () => (this.mobileMenuOpen = false);
+  private onRouteChange = () => (this.mobileMenuOpened = false);
 
   onCreate() {
     addEventListener(ROUTE_CHANGE_EVENT, this.onRouteChange);
@@ -59,6 +59,10 @@ export class HeaderComponent
 
   onDestroy() {
     removeEventListener(ROUTE_CHANGE_EVENT, this.onRouteChange);
+  }
+
+  private _closeMobileMenu() {
+    this.mobileMenuOpened = false;
   }
 
   protected render() {
@@ -72,6 +76,7 @@ export class HeaderComponent
           height: var(--header-height);
           background: var(--color-background-tint);
           padding: var(--size-space);
+          padding-left: var(--size-space-1_5x);
           border-bottom: 1px solid var(--color-background-shade);
         "
       >
@@ -100,13 +105,38 @@ export class HeaderComponent
         </div>
 
         <div style="position: relative">
-          <div class=${classMap({navbar: true, open: this.mobileMenuOpen})}>
+          <div class=${classMap({navbar: true, opened: this.mobileMenuOpened})}>
             <nav class="menu">
-              <tini-link active="active" href="/framework">Framework</tini-link>
-              <tini-link active="active" href="/ui">UI</tini-link>
-              <tini-link active="active" href="/content">Content</tini-link>
-              <tini-link active="active" href="/server">Server</tini-link>
-              <tini-link active="active" href="/cli">CLI</tini-link>
+              <tini-link
+                active="active"
+                href="/framework"
+                @click=${this._closeMobileMenu}
+                >Framework</tini-link
+              >
+              <tini-link
+                active="active"
+                href="/ui"
+                @click=${this._closeMobileMenu}
+                >UI</tini-link
+              >
+              <tini-link
+                active="active"
+                href="/module"
+                @click=${this._closeMobileMenu}
+                >Module</tini-link
+              >
+              <tini-link
+                active="active"
+                href="/server"
+                @click=${this._closeMobileMenu}
+                >Server</tini-link
+              >
+              <tini-link
+                active="active"
+                href="/cli"
+                @click=${this._closeMobileMenu}
+                >CLI</tini-link
+              >
             </nav>
 
             <div class="theme">
@@ -141,11 +171,11 @@ export class HeaderComponent
 
           <button
             class="mobile-toggler"
-            @click=${() => (this.mobileMenuOpen = !this.mobileMenuOpen)}
+            @click=${() => (this.mobileMenuOpened = !this.mobileMenuOpened)}
           >
             <tini-icon
               scheme=${Colors.Foreground}
-              .src=${!this.mobileMenuOpen
+              .src=${!this.mobileMenuOpened
                 ? IconMenuComponent.prebuiltSRC
                 : IconCloseComponent.prebuiltSRC}
             ></tini-icon>
@@ -170,7 +200,7 @@ export class HeaderComponent
       background: var(--color-background-tint);
       padding: var(--size-space-1_5x);
     }
-    .navbar.open {
+    .navbar.opened {
       display: flex;
     }
 
