@@ -7,9 +7,12 @@ node_modules
 .tini
 .app
 .output
-.content
 .ui
+.content
+tini-content
 
-dist
-build
+packages/*/dist/
+apps/*/dist/
+packages/*/build/
+apps/*/build/
 *.tgz

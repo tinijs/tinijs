@@ -81,7 +81,9 @@ export class Router {
         } else {
           title = element?.textContent || '';
           const symbol = symbolOrExtractor || '#';
-          if (title.slice(-symbol.length) === symbol) {
+          if (title.slice(0, symbol.length) === symbol) {
+            title = title.slice(symbol.length).trim();
+          } else if (title.slice(-symbol.length) === symbol) {
             title = title.slice(0, -symbol.length).trim();
           }
         }

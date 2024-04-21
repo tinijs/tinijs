@@ -4,6 +4,7 @@ import {outputFile, copy} from 'fs-extra/esm';
 import {load} from 'cheerio';
 import {
   TiniProject,
+  getProjectDirs,
   type Compiler,
   type CompileFileHookContext,
 } from '@tinijs/project';
@@ -36,13 +37,14 @@ export class DefaultCompiler implements Compiler {
   }
 
   async compileFile(inPath: string) {
+    const {srcDir, dirs} = getProjectDirs(this.tiniProject.config);
     const {base, ext} = parse(inPath);
     const outPath = resolve(
       this.tiniProject.config.compileDir,
       inPath.replace(`${resolve(this.tiniProject.config.srcDir)}/`, '')
     );
     const context: CompileFileHookContext | null =
-      this.isUnderTopDir(inPath, 'public') ||
+      this.isUnderTopDir(inPath, srcDir, dirs.public) ||
       !['.html', '.css', '.scss', '.ts', '.js'].includes(ext)
         ? {base, inPath, outPath, content: ''}
         : {
@@ -71,12 +73,7 @@ export class DefaultCompiler implements Compiler {
     // eslint-disable-next-line no-empty
   }
 
-  private isUnderTopDir(path: string, topDir: string) {
-    return ~path.indexOf(
-      `/${this.tiniProject.config.srcDir}/${
-        (this.tiniProject.config.dirs as Record<string, string>)?.[topDir] ||
-        topDir
-      }/`
-    );
+  private isUnderTopDir(path: string, srcDir: string, topDir: string) {
+    return ~path.indexOf(`/${srcDir}/${topDir}/`);
   }
 }

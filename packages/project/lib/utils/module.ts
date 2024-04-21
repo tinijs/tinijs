@@ -26,7 +26,7 @@ export async function setupModules(tiniProject: TiniProject) {
 }
 
 export async function loadVendorModule(packageName: string) {
-  const {default: defaulExport} = await import(`${packageName}/module`);
+  const {default: defaulExport} = await import(`${packageName}/module-loader`);
   if (!defaulExport?.meta || !defaulExport?.setup) return null;
   return defaulExport as ModuleConfig;
 }

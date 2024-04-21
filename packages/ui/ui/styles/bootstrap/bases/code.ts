@@ -33,8 +33,7 @@ export default css`
 
   code {
     padding: 0.15rem 0.35rem;
-    color: var(--color-tertiary);
-    background: color-mix(in oklab, var(--color-tertiary), transparent 90%);
+    background: color-mix(in oklab, var(--color-medium), transparent 80%);
     word-wrap: break-word;
     border-radius: 0.2rem;
   }

@@ -9,9 +9,9 @@ import type {
   Content,
 } from './common.js';
 
-export type CategoryLite = Omit<Category, 'content'>;
+export type Category = Omit<CategoryDetail, 'content'>;
 
-export interface Category
+export interface CategoryDetail
   extends Id,
     Slug,
     Status,

@@ -12,7 +12,7 @@ import transliterate from '@sindresorhus/transliterate';
 import slugify from '@sindresorhus/slugify';
 import {execa} from 'execa';
 import {consola} from 'consola';
-import {getTiniProject} from '@tinijs/project';
+import {getTiniProject, getProjectDirs} from '@tinijs/project';
 import {cleanDir, listDir, createCLICommand} from '@tinijs/cli';
 
 interface BuildOptions {
@@ -69,7 +69,7 @@ function buildSearchContent(
   return Array.from(new Set(words)).join(' ');
 }
 
-const SPINNER = ora('Compile content using 11ty ...');
+const SPINNER = ora(`Compile content using ${green('11ty')}`);
 
 export const contentBuildCommand = createCLICommand(
   {
@@ -91,11 +91,10 @@ export const contentBuildCommand = createCLICommand(
     if (!pathExistsSync(eleventyConfigPath)) {
       return callbacks?.onInvalidProject?.(contentDirName);
     }
-    const {
-      config: {outDir},
-    } = await getTiniProject();
+    const {config: tiniConfig} = await getTiniProject();
+    const {srcDir, dirs} = getProjectDirs(tiniConfig);
     const stagingContentDir = '.content';
-    const tiniContentDir = `${outDir}/tini-content`;
+    const tiniContentDir = `${srcDir}/${dirs.public}/tini-content`;
     const srcPath = resolve(stagingContentDir);
     const destPath = resolve(tiniContentDir);
     // clear the staging and tini-content dir

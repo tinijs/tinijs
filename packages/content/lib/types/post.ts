@@ -14,9 +14,9 @@ import type {
   Tags,
 } from './common.js';
 
-export type PostLite = Omit<Post, 'content'>;
+export type Post = Omit<PostDetail, 'content'>;
 
-export interface Post
+export interface PostDetail
   extends Id,
     Slug,
     Status,
