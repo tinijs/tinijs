@@ -11,6 +11,8 @@ node_modules
 .content
 tini-content
 
-dist
-build
+packages/*/dist/
+apps/*/dist/
+packages/*/build/
+apps/*/build/
 *.tgz

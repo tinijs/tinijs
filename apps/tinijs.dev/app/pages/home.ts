@@ -67,7 +67,7 @@ export class AppPageHome extends TiniComponent {
             <h3>Framework</h3>
             <p>
               A conventional structure with router, state management, extendable
-              modules, ...
+              modules and more.
             </p>
           </li>
 
@@ -81,11 +81,11 @@ export class AppPageHome extends TiniComponent {
           </li>
 
           <li>
-            <div class="icon">📝</div>
-            <h3>Content</h3>
+            <div class="icon">📦</div>
+            <h3>Modules</h3>
             <p>
-              A file-based content management system for many kind of content
-              without a server or database.
+              Installable modules for adding more features to your app, such as
+              Content, PWA and more.
             </p>
           </li>
 

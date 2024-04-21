@@ -30,8 +30,20 @@ export class AppPageServer extends TiniComponent {
 
   private _getHomeTemplate() {
     return html`
-      <h1>TiniJS Server</h1>
-      <p>Page content.</p>
+      <h1>Tini Server</h1>
+      <p>
+        The <code>@tinijs/server</code> package is for running TiniJS apps from
+        Node servers in case you need server/API routes and other server stuffs
+        in contrast to static hosts.
+      </p>
+      <p>
+        It is <strong>NOT available yet</strong>! It will be implemented at
+        <a
+          href="https://github.com/tinijs/tinijs/tree/main/packages/server"
+          target="_blank"
+          >packages/server</a
+        >.
+      </p>
     `;
   }
 

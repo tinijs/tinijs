@@ -169,15 +169,21 @@ export class AppDocPageComponent
       posts = [];
     }
     // organize posts by category
-    const categoriesRecord = categories.reduce(
-      (result, item) => ({...result, [item.slug]: item}),
-      {}
-    ) as Record<string, DocCategory>;
-    const postsByCategory = {} as Record<string, DocPost[]>;
+    const categoriesRecord = categories
+      .sort((a, b) => a.order - b.order)
+      .reduce((result, item) => ({...result, [item.slug]: item}), {}) as Record<
+      string,
+      DocCategory
+    >;
+    const postsByCategory = Object.keys(categoriesRecord).reduce(
+      (result, key) => ({...result, [key]: []}),
+      {} as Record<string, DocPost[]>
+    );
     for (const post of posts) {
-      const group = (postsByCategory[post.category] ||= []);
-      group.push(post);
+      if (!postsByCategory[post.category]) continue;
+      postsByCategory[post.category].push(post);
     }
+    // build menu items
     const allPosts: DocPost[] = [];
     const menuItems: Array<{
       level: number;
@@ -185,7 +191,6 @@ export class AppDocPageComponent
       item: DocCategory | DocPost;
     }> = [];
     for (const [categorySlug, posts] of Object.entries(postsByCategory)) {
-      if (!categoriesRecord[categorySlug]) continue;
       const isUncategorized = categorySlug === 'uncategorized';
       const sortedPosts = posts.sort((a, b) => a.order - b.order);
       allPosts.push(...sortedPosts);
@@ -301,7 +306,6 @@ export class AppDocPageComponent
       }
 
       app-doc-page-toc {
-        border-left: 1px solid var(--color-background-shade);
         grid-area: toc;
       }
     }

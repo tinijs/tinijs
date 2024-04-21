@@ -123,7 +123,7 @@ export class HeaderComponent
                 active="active"
                 href="/module"
                 @click=${this._closeMobileMenu}
-                >Module</tini-link
+                >Modules</tini-link
               >
               <tini-link
                 active="active"

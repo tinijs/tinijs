@@ -133,6 +133,10 @@ export class AppDocPageTOCComponent extends TiniComponent {
     }
 
     @media (min-width: 1200px) {
+      :host {
+        border-left: 1px solid var(--color-background-shade);
+      }
+
       .toc {
         position: fixed;
         opacity: 1;
@@ -144,7 +148,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
         height: auto;
         right: 0;
         top: var(--header-height);
-        border-left: 1px solid var(--color-background-shade);
+        transform: translateX(1px);
       }
 
       .return-top {

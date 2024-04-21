@@ -17,7 +17,7 @@ export class AppPageModule extends TiniComponent {
     return html`
       <app-doc-page
         .context=${{
-          name: 'Module',
+          name: 'Modules',
           path: '/module',
           githubPath: `${GITHUB_CONTENT_PATH}/module-posts`,
           homeTemplate: this._getHomeTemplate(),
@@ -30,8 +30,8 @@ export class AppPageModule extends TiniComponent {
 
   private _getHomeTemplate() {
     return html`
-      <h1>TiniJS Module</h1>
-      <p>Page content.</p>
+      <h1>Tini Modules</h1>
+      <p>Installable modules to extend functionalities.</p>
     `;
   }
 

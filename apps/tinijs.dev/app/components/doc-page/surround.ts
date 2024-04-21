@@ -76,6 +76,7 @@ export class AppDocPageSurroundComponent extends TiniComponent {
       border: 1px solid var(--color-background-shade);
       border-radius: var(--size-radius);
       padding: var(--size-space);
+      text-decoration: none !important;
       transition:
         border-color 0.2s ease,
         box-shadow 0.2s ease;

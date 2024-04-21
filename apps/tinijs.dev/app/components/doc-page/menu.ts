@@ -137,10 +137,17 @@ export class AppDocPageMenuComponent extends TiniComponent {
 
     ul li strong {
       display: block;
+      margin-top: var(--size-space-1_5x);
       padding-top: var(--size-space);
       padding-bottom: var(--size-space-0_25x);
       font-size: 1.1rem;
       border-top: 1px solid var(--color-background-shade);
+    }
+
+    ul li:first-child strong {
+      margin-top: 0;
+      border-top: none;
+      padding-top: 0;
     }
 
     ul li tini-link::part(root) {
