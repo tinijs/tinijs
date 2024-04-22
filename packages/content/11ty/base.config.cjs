@@ -17,6 +17,7 @@ module.exports = function (eleventyConfig, options) {
     useHighlightPlugin,
     useBundlePlugin,
     useMarkdownItAnchor,
+    useMarkdownItAnchorPermalink,
     eleventyOptions,
   } = options || {};
 
@@ -85,6 +86,7 @@ module.exports = function (eleventyConfig, options) {
           class: 'header-anchor',
           symbol: '#',
           ariaHidden: false,
+          ...(useMarkdownItAnchorPermalink instanceof Object ? useMarkdownItAnchorPermalink : {})
         }),
         level: [1, 2, 3, 4],
         slugify: eleventyConfig.getFilter('slugify'),

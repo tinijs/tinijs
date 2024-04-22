@@ -1,7 +1,7 @@
 import {resolve} from 'pathe';
 import {green, blueBright, gray} from 'colorette';
 import {copyFile, readFile} from 'node:fs/promises';
-import {pathExistsSync, ensureDir, outputJSON} from 'fs-extra/esm';
+import {pathExistsSync, ensureDir, readJSON, outputJSON} from 'fs-extra/esm';
 import {createHash} from 'node:crypto';
 import {decodeHTML} from 'entities';
 import {minify} from 'html-minifier';
@@ -12,6 +12,7 @@ import transliterate from '@sindresorhus/transliterate';
 import slugify from '@sindresorhus/slugify';
 import {execa} from 'execa';
 import {consola} from 'consola';
+import {defu} from 'defu';
 import {getTiniProject, getProjectDirs} from '@tinijs/project';
 import {cleanDir, listDir, createCLICommand} from '@tinijs/cli';
 
@@ -143,15 +144,20 @@ export const contentBuildCommand = createCLICommand(
     const collectedTagsRecord = {} as Record<string, Record<string, Tag>>;
 
     let buildCount = 0;
+    const collectionOptionsCache = {} as Record<string, BuildOptions>;
     for (let i = 0; i < buildPaths.length; i++) {
       const path = buildPaths[i];
-      const [collection, slug] = path
+      const [collection, name] = path
         .split(`/${stagingContentDir}/`)
         .pop()!
         .replace(/\/[^/]+$/, '')
         .split('/');
+      const [orderStr, slug] = !/^\d+ - /.test(name)
+        ? ['', name]
+        : name.split(' - ');
+      const order = isNaN(+orderStr) ? undefined : +orderStr;
 
-      callbacks?.onBuildItem?.(collection, slug);
+      callbacks?.onBuildItem?.(collection, name);
 
       // process raw content
       let rawContent = await readFile(path, 'utf8');
@@ -167,16 +173,31 @@ export const contentBuildCommand = createCLICommand(
       });
       if (data.status && data.status !== 'publish' && data.status !== 'archive')
         continue;
-      const buildOptions = (data.$build || {}) as BuildOptions;
+
+      // load build options
+      const collectionOptionsPath = resolve(
+        contentDirName,
+        collection,
+        '$build.json'
+      );
+      const collectionOptions = (collectionOptionsCache[
+        collectionOptionsPath
+      ] ||= !pathExistsSync(collectionOptionsPath)
+        ? {}
+        : await readJSON(collectionOptionsPath));
+      const buildOptions = defu(
+        data.$build || {},
+        collectionOptions
+      ) as BuildOptions;
       delete data.$build;
 
       // item
       const digest = createHash('sha256')
         .update(rawContent)
         .digest('base64url');
-      const itemFull = {
-        ...(data.moredata || {}),
+      const detail = {
         ...data,
+        ...data.moredata,
         id: digest,
         slug,
         content: minify(content, {
@@ -190,22 +211,26 @@ export const contentBuildCommand = createCLICommand(
           sortAttributes: true,
           sortClassName: true,
         }),
-        moredata: undefined,
-      };
-      delete itemFull.moredata;
-      await outputJSON(resolve(destPath, `${digest}.json`), itemFull);
+      } as Record<string, any>;
+      delete detail.moredata;
+      if (detail.order === undefined && order !== undefined) {
+        detail.order = order;
+      }
+      await outputJSON(resolve(destPath, `${digest}.json`), detail);
       indexRecord[`${collection}/${slug}`] = digest;
 
       // collection
       collectionRecord[collection] ||= [];
-      const itemForListing = {
+      const item = {
         ...data,
         id: digest,
         slug,
-        moredata: undefined,
-      };
-      delete itemForListing.moredata;
-      collectionRecord[collection].push(itemForListing);
+      } as Record<string, any>;
+      delete item.moredata;
+      if (item.order === undefined && order !== undefined) {
+        item.order = order;
+      }
+      collectionRecord[collection].push(item);
 
       // fulltext search
       fulltextSearchRecord[collection] ||= {};
@@ -299,8 +324,8 @@ export const contentBuildCommand = createCLICommand(
       SPINNER.start(
         `Compile content using ${green('11ty')} to ${gray(tempDir)}.`
       ),
-    onBuildItem: (collection: string, slug: string) =>
-      (SPINNER.text = `Build: ${green(`${collection}/${slug}`)}`),
+    onBuildItem: (collection: string, name: string) =>
+      (SPINNER.text = `Build: ${green(`${collection}/${name}`)}`),
     onDone: (
       destDir: string,
       copyPaths: any[],
