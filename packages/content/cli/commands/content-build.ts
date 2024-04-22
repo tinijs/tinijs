@@ -1,5 +1,5 @@
 import {resolve} from 'pathe';
-import {green, blueBright} from 'colorette';
+import {green, blueBright, gray} from 'colorette';
 import {copyFile, readFile} from 'node:fs/promises';
 import {pathExistsSync, ensureDir, outputJSON} from 'fs-extra/esm';
 import {createHash} from 'node:crypto';
@@ -69,7 +69,7 @@ function buildSearchContent(
   return Array.from(new Set(words)).join(' ');
 }
 
-const SPINNER = ora(`Compile content using ${green('11ty')}`);
+const SPINNER = ora();
 
 export const contentBuildCommand = createCLICommand(
   {
@@ -102,7 +102,7 @@ export const contentBuildCommand = createCLICommand(
     await cleanDir(destPath);
 
     // 11ty render
-    callbacks?.onStart?.();
+    callbacks?.onStart?.(stagingContentDir);
     await execa('npx', ['@11ty/eleventy', '--config', eleventyConfigPath], {
       stdio: 'ignore',
     });
@@ -288,23 +288,31 @@ export const contentBuildCommand = createCLICommand(
     await outputJSON(resolve(destPath, 'index.json'), indexRecord);
 
     // done
-    callbacks?.onDone?.(copyPaths, buildPaths, buildCount);
+    callbacks?.onDone?.(tiniContentDir, copyPaths, buildPaths, buildCount);
   },
   {
     onInvalidProject: (contentDirName: string) =>
       consola.error(
         `Invalid content project (no ${contentDirName}/eleventy.config.cjs found).`
       ),
-    onStart: () => SPINNER.start(),
+    onStart: (tempDir: string) =>
+      SPINNER.start(
+        `Compile content using ${green('11ty')} to ${gray(tempDir)}.`
+      ),
     onBuildItem: (collection: string, slug: string) =>
       (SPINNER.text = `Build: ${green(`${collection}/${slug}`)}`),
-    onDone: (copyPaths: any[], buildPaths: any[], buildCount: number) =>
+    onDone: (
+      destDir: string,
+      copyPaths: any[],
+      buildPaths: any[],
+      buildCount: number
+    ) =>
       SPINNER.succeed(
         `Success! Copy ${blueBright(
           copyPaths.length
         )} items and build ${blueBright(buildCount)}/${
           buildPaths.length
-        } items.\n`
+        } items to ${gray(destDir)}.\n`
       ),
   }
 );
