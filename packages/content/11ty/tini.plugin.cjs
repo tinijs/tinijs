@@ -1,9 +1,9 @@
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPairedShortcode(
-    'elem',
-    async (content, tag, attributes) => {
+    'tini',
+    async (content, name, attributes) => {
       console.log(attributes);
-      if (!tag) throw new Error('Elem shortcode requires a tag.');
+      if (!name) throw new Error('Tini shortcode requires a name.');
       const attrs = Object.entries(attributes || {})
         .map(([key, value]) => {
           if (value instanceof Object) {
@@ -15,7 +15,7 @@ module.exports = function (eleventyConfig) {
           }
         })
         .join(' ');
-      return `<${tag} ${attrs}>${content}</${tag}>`;
+      return `<tini-${tag} ${attrs}>${content}</tini-${tag}>`;
     }
   );
 };

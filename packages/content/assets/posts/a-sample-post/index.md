@@ -13,7 +13,7 @@
 }
 +++
 
-{% set scopedUploads = "/tini-content/posts/a-sample-post/uploads" %}
+{% set localPathUploads = "/tini-content/posts/a-sample-post/uploads" %}
 
 <style>
   {% getBundle "css" %}
@@ -73,6 +73,6 @@ console.log('Test');
   }
 {% endcss %}
 
-Download a uploaded file: <a href="{{scopedUploads}}/file.txt" target="_blank">file.txt</a>
+Download a uploaded file: <a href="{{localPathUploads}}/file.txt" target="_blank">file.txt</a>
 
 Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.
