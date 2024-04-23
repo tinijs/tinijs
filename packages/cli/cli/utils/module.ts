@@ -6,10 +6,10 @@ import type {ModuleInit} from '@tinijs/project';
 
 import {modifyProjectPackageJSON} from './project.js';
 
-export async function installPackage(packageName: string, tag?: string) {
+export async function installPackage(packageName: string, version?: string) {
   return execa('npm', [
     'i',
-    `${packageName}${!tag ? '' : `@${tag}`}`,
+    `${packageName}${!version ? '' : `@${version}`}`,
     '--loglevel',
     'error',
   ]);

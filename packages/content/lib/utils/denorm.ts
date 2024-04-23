@@ -32,7 +32,7 @@ export function parseDenormList<Type = Record<string, unknown>>(
       result.push(
         parseDenorm(
           value instanceof Object
-            ? (value as Type)
+            ? {slug: key, ...(value as Type)}
             : `${value === true ? key : value} <${key}>`,
           fieldName
         )

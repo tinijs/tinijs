@@ -14,9 +14,7 @@ import type {
   Tags,
 } from './common.js';
 
-export type Post = Omit<PostDetail, 'content'>;
-
-export interface PostDetail
+export interface Post
   extends Id,
     Slug,
     Status,
@@ -26,7 +24,8 @@ export interface PostDetail
     Updated,
     Thumbnail,
     Image,
-    Content,
     Authors,
     Categories,
     Tags {}
+
+export interface PostDetail extends Post, Content {}

@@ -18,11 +18,12 @@ export const devCommand = createCLICommand(
   async (args, callbacks) => {
     const targetEnv = 'development';
     const tiniProject = await getTiniProject();
-    const {config: tiniConfig} = tiniProject;
+    const {config: tiniConfig, hooks} = tiniProject;
     // preparation
     exposeEnvs(tiniConfig, targetEnv);
     const builder = await loadBuilder(tiniProject);
     // start dev
+    await hooks.callHook('build:before');
     if (builder.dev instanceof Function) {
       await builder.dev();
     } else {
