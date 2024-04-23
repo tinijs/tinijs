@@ -24,8 +24,8 @@ export const moduleAddCommand = createCLICommand(
         type: 'positional',
         description: 'The package name to install.',
       },
-      tag: {
-        alias: 't',
+      version: {
+        alias: 'v',
         type: 'string',
         description: 'Use the custom version of the package.',
       },
@@ -35,7 +35,7 @@ export const moduleAddCommand = createCLICommand(
     if (!isGitClean()) return errorUncleanGit();
     const {config: tiniConfig} = await getTiniProject();
     // install packages
-    await installPackage(args.packageName, args.tag);
+    await installPackage(args.packageName, args.version);
     // handle init
     const moduleConfig = await loadVendorModule(args.packageName);
     if (moduleConfig?.init) {

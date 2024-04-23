@@ -9,17 +9,16 @@ import type {
   Content,
 } from './common.js';
 
-export type Author = Omit<AuthorDetail, 'content'>;
-
-export interface AuthorDetail
+export interface Author
   extends Id,
     Slug,
     Status,
     Name,
     Desc,
     Created,
-    Partial<Url>,
-    Content {
+    Partial<Url> {}
+
+export interface AuthorDetail extends Author, Content {
   photoUrl: string;
   email?: string;
 }

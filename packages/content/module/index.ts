@@ -1,8 +1,9 @@
+import {consola} from 'consola';
 import {defineTiniModule} from '@tinijs/project';
 
 import {PACKAGE_NAME} from '../lib/consts/common.js';
 
-import contentBuildCommand from '../cli/commands/content-build.js';
+import {contentBuildCommand} from '../cli/commands/content-build.js';
 
 export type ContentModuleOptions = Parameters<typeof contentBuildCommand>[0];
 
@@ -19,8 +20,12 @@ export default defineTiniModule<ContentModuleOptions>({
   },
   async setup(options, tini) {
     tini.hook(
-      'build:after',
-      () => contentBuildCommand(options) as Promise<void>
+      'build:before',
+      () =>
+        contentBuildCommand(options, {
+          onStart: () =>
+            consola.info(`[${PACKAGE_NAME}] Run hook build:before`),
+        }) as Promise<void>
     );
   },
 });

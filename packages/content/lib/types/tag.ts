@@ -1,5 +1,5 @@
 import type {Slug, Title} from './common.js';
 
-export type Tag = TagDetail;
+export interface Tag extends Slug, Title {}
 
-export interface TagDetail extends Slug, Title {}
+export type TagDetail = Tag;

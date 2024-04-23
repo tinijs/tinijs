@@ -109,9 +109,12 @@ export function createCLICommand<
       return handler(args as any, callbacks);
     };
   }
-  const command = (handler || function () {}) as NonNullable<typeof handler>;
-  (command as any).def = defineCommand(def);
-  return command;
+  const command = (handler || function () {}) as any;
+  command.def = defineCommand(def);
+  return command as (
+    args: CustomParsedArgs,
+    callbacks?: Partial<Callbacks>
+  ) => Promisable<void>;
 }
 
 export async function setupCLIExpansion<

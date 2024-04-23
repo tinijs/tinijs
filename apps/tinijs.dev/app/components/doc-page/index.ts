@@ -215,9 +215,7 @@ export class AppDocPageComponent
   private async _loadPost(postSlug: string | undefined, allPosts: DocPost[]) {
     let post: DocPostDetail | null;
     try {
-      post = !postSlug
-        ? null
-        : await this.postService.getDetailBySlug(postSlug);
+      post = !postSlug ? null : await this.postService.getDetail(postSlug);
     } catch (error) {
       post = null;
     }
