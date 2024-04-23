@@ -12,9 +12,8 @@
   },
   "scripts": {
     "tini": "../../packages/cli/dist/cli/index.js",
-    "content": "npm run tini -- content build",
-    "dev": "npm run content && npm run tini -- dev",
-    "build": "npm run content && npm run tini -- build",
+    "dev": "npm run tini -- dev",
+    "build": "npm run tini -- build",
     "preview": "npm run tini -- preview",
     "lint": "gts lint",
     "fix": "gts fix"

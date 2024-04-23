@@ -1,8 +1,7 @@
 {
-  "private": true,
   "name": "@tinijs/content",
   "version": "0.17.0",
-  "description": "A basic file-based content system.",
+  "description": "A file-based content management system.",
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",
   "license": "MIT",

@@ -1,8 +1,8 @@
 +++json
 {
   "status": "publish",
-  "title": "PWA",
-  "category": "official"
+  "title": "Get Started",
+  "category": "pwa"
 }
 +++
 

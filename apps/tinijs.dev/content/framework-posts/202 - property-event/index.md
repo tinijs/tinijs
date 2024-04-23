@@ -31,7 +31,7 @@ export class AppXXXComponent extends TiniComponent {
 Passing properties to components is similar to set attributes in native HTML elements, string values as in `key="value"` and non-string as in `.key=${varOrValue}`.
 
 ```html
-html`<app-xxx prop1="Lorem ipsum" .prop2=$\{\{ foo: 999 \}\}></app-xxx>`
+html`<app-xxx prop1="Lorem ipsum" .prop2={% raw %}${{ foo: 999 }}{% endraw %}></app-xxx>`
 ```
 
 Beside define properties, you can also use **Contexts** as a form of communicating data. Sometime certain values are required by many components in a long-nested chain of components, passing values down the whole chain (aka. prop drilling) would be very annoying. Use contexts to provide and consume such values is more efficient. Please see more detail at <https://lit.dev/docs/data/context/>.

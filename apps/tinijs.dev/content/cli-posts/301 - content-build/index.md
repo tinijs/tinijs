@@ -12,4 +12,4 @@ The build content of the [Tini Content](/module/content) module.
 npx tini content build
 ```
 
-**TODO**: Add more detail.
+Please see more detail at [Content CLI expansion](/module/content-cli).
