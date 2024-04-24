@@ -83,7 +83,27 @@ Something may be considered:
 - Build:
   - All: `npm run build`
   - Specific: `npm run build -- --scope @tinijs/<package-name>`
-- Release: `npm run release`
+
+## Release
+
+The `npm run release` script does the following:
+
+1. Release the main packages inside `./packages` using Lerna (**MUST** run first)
+2. Release the `@tinijs/ui-*` packages inside `./packages/ui/build` using a custom script
+
+### Prebuilt UI packages
+
+Prebuilt UI packages are released using the `release-ui` script.
+
+```bash
+npx tsx ./scripts/release-ui.mts
+```
+
+| Option | Description |
+| --- | --- |
+| `--dir <path>` | The path to the UI build dir, default `./packages/ui/build` |
+| `--pick <names>` | Pick certain packages to release, provide dir names in comma-separated |
+| `--version <value>` | Provide a version, default to field `version` in lerna.json |
 
 ## License
 
