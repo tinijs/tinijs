@@ -8,6 +8,14 @@ import {downloadAndUnzip} from '../utils/download.js';
 import {loadCLIPackageJSON} from '../utils/project.js';
 import {createCLICommand} from '../utils/cli.js';
 
+async function fetchLatestReleaseTag(repo: string): Promise<string | null> {
+  const url = `https://api.github.com/repos/${repo}/releases/latest`;
+  const response = await fetch(url);
+  if (!response.ok) return null;
+  const data = await response.json();
+  return !data.tag_name ? null : data.tag_name;
+}
+
 export const newCommand = createCLICommand(
   {
     meta: {
@@ -42,44 +50,57 @@ export const newCommand = createCLICommand(
     },
   },
   async (args, callbacks) => {
-    const {version: tiniVersion} = await loadCLIPackageJSON();
-    const sourceRepo = args.template || 'bare';
-    const source = sourceRepo.includes('/')
-      ? sourceRepo
-      : `tinijs/${sourceRepo}-starter`;
-    const tag = args.version || 'latest';
-    const resourceUrl = `https://github.com/${source}/archive/refs/tags/${tag}.zip`;
+    // process project name
     const projectName = args.projectName
       .toLowerCase()
       .replace(/[^a-zA-Z0-9-]/g, ' ')
       .replace(/ /g, '-');
     const projectPath = resolve(projectName);
-    // exists
     if (pathExistsSync(projectPath)) {
       return callbacks?.onProjectExists(projectName);
     }
+    // process template
+    const template = args.template || 'bare';
+    const repo = template.includes('/')
+      ? template
+      : `tinijs/${template}-starter`;
+    const tag = args.version || (await fetchLatestReleaseTag(repo));
+    if (!tag) return callbacks?.onInvalidTag(repo);
+    // download and unzip
+    const resourceUrl = `https://api.github.com/repos/${repo}/zipball/${tag}`;
     callbacks?.onBeforeCreate(projectName, resourceUrl);
-    // download
-    await downloadAndUnzip(resourceUrl, projectPath + '/download.zip');
+    try {
+      await downloadAndUnzip(resourceUrl, projectPath + '/download.zip');
+    } catch (error) {
+      return callbacks?.onCorruptedResource();
+    }
+    // post process
     const execaOptions = {
       stdio: 'inherit',
       cwd: projectPath,
     } as const;
-    // install dependencies
     if (!args.skipInstall) {
+      // install dependencies
       await execa('npm', ['i', '--loglevel', 'error'], execaOptions);
     }
-    // init git
     if (!args.skipGit) {
+      // init git
       await execa('git', ['init'], execaOptions);
     }
     // instruction
+    const {version: tiniVersion} = await loadCLIPackageJSON();
     callbacks?.onEnd(projectName, tiniVersion as string);
   },
   {
     onProjectExists: (projectName: string) =>
       consola.error(
         `A project with the name "${green(projectName)}" is already exist!`
+      ),
+    onInvalidTag: (repo: string) =>
+      consola.error(`No release version found for repo ${repo}!`),
+    onCorruptedResource: () =>
+      consola.error(
+        'Failed to download or extract, please check the resource!'
       ),
     onBeforeCreate: (projectName: string, resourceUrl: string) => {
       consola.info(`Create a new TiniJS project: ${green(projectName)}`);
