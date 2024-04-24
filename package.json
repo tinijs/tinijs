@@ -1,6 +1,6 @@
 {
-  "name": "@tinijs/monorepo",
   "private": true,
+  "name": "@tinijs/monorepo",
   "version": "0.0.0",
   "description": "The TiniJS Framework.",
   "author": "Nhan Lam",
@@ -37,7 +37,7 @@
     "test": "lerna run test",
     "lint": "lerna run lint",
     "fix": "lerna run fix",
-    "release": "lerna publish --no-private --force-publish"
+    "release": "lerna publish --no-private --force-publish && tsx ./scripts/release-ui.mts"
   },
   "repository": {
     "type": "git",
@@ -49,9 +49,16 @@
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.11.30",
+    "colorette": "^2.0.20",
+    "consola": "^3.2.3",
+    "execa": "^8.0.1",
+    "fs-extra": "^11.2.0",
     "gts": "^5.3.0",
     "lerna": "^8.1.2",
+    "mri": "^1.2.0",
+    "pathe": "^1.1.2",
     "rimraf": "^5.0.5",
+    "tsx": "^4.7.2",
     "type-fest": "^4.14.0",
     "typedoc": "^0.25.12",
     "typescript": "^5.4.3",

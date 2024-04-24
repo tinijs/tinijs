@@ -17,22 +17,17 @@ export const newCommand = createCLICommand(
     args: {
       projectName: {
         type: 'positional',
-        description: 'Project name.',
+        description: 'The project name.',
       },
       template: {
         alias: 't',
         type: 'string',
-        description: 'Use a custom template instead the official.',
-      },
-      latest: {
-        alias: 'l',
-        type: 'boolean',
-        description: 'Install the latest template.',
+        description: 'Use a custom template instead the default.',
       },
       version: {
         alias: 'v',
         type: 'string',
-        description: 'Use a custom version of the tempalte.',
+        description: 'Use a custom version of the template.',
       },
       skipInstall: {
         alias: 'i',
@@ -52,7 +47,7 @@ export const newCommand = createCLICommand(
     const source = sourceRepo.includes('/')
       ? sourceRepo
       : `tinijs/${sourceRepo}-starter`;
-    const tag = args.latest ? 'latest' : args.version || `v${tiniVersion}`;
+    const tag = args.version || 'latest';
     const resourceUrl = `https://github.com/${source}/archive/refs/tags/${tag}.zip`;
     const projectName = args.projectName
       .toLowerCase()
