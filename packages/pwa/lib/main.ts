@@ -5,8 +5,8 @@ import {SW_UNSUPPORTED_ERROR} from './consts.js';
 export function registerServiceWorker(swPath?: string) {
   if (!('serviceWorker' in navigator)) throw new Error(SW_UNSUPPORTED_ERROR);
   // register service worker
-  const workbox = new Workbox(swPath || '/sw.js');
-  workbox.register();
+  const sw = new Workbox(swPath || '/sw.js');
+  sw.register();
   // result
-  return workbox;
+  return sw;
 }

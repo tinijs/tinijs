@@ -1,5 +1,5 @@
 import {Workbox} from 'workbox-window';
 
-export interface AppWithWorkbox {
-  workbox: Workbox;
+export interface AppWithSW {
+  sw: Workbox;
 }
