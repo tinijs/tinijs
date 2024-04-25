@@ -1,7 +1,6 @@
 import {resolve, parse} from 'pathe';
 import {readFile} from 'node:fs/promises';
 import {outputFile, copy} from 'fs-extra/esm';
-import {load} from 'cheerio';
 import {
   TiniProject,
   getProjectDirs,
