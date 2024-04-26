@@ -5,7 +5,9 @@ import {
   type CommonBuildOptions,
 } from '@tinijs/project';
 
-export type BuildOptions = CommonBuildOptions;
+export interface BuildOptions extends CommonBuildOptions {
+  sourcemap?: 'source-map' | 'hidden-source-map';
+}
 
 export default function (options: BuildOptions, tiniProject: TiniProject) {
   return new WebpackBuilder(options, tiniProject);
@@ -13,7 +15,7 @@ export default function (options: BuildOptions, tiniProject: TiniProject) {
 
 export class WebpackBuilder implements Builder {
   private readonly DEFAULT_WEBPACK_CONFIG_FILE =
-    './node_modules/@tinijs/webpack-builder/webpack.config.cjs';
+    './node_modules/@tinijs/webpack-builder/webpack.config.js';
   private readonly LOCAL_WEBPACK_CONFIG_FILE = this.getLocalWebpackConfigFile();
 
   constructor(
@@ -74,10 +76,10 @@ export class WebpackBuilder implements Builder {
   }
 
   private getLocalWebpackConfigFile() {
-    const cjsPath = './webpack.config.cjs';
-    const ctsPath = './webpack.config.cts';
-    if (pathExistsSync(cjsPath)) return cjsPath;
-    if (pathExistsSync(ctsPath)) return ctsPath;
+    const jsPath = './webpack.config.js';
+    const tsPath = './webpack.config.ts';
+    if (pathExistsSync(jsPath)) return jsPath;
+    if (pathExistsSync(tsPath)) return tsPath;
     return null;
   }
 }

@@ -76,20 +76,7 @@ Homepage: <https://webpack.js.org/>
 ### Option 2: Or, manually
 
 1. Install: `npm i -D webpack webpack-cli webpack-dev-server html-bundler-webpack-plugin ts-loader`
-2. Add _webpack.config.cjs_, please see [example](https://github.com/tinijs/tinijs/blob/main/packages/webpack-builder/webpack.config.cjs).
+2. Add _webpack.config.js_, please see [example](https://github.com/tinijs/tinijs/blob/main/packages/webpack-builder/webpack.config.js).
 3. Add scripts:
   - **dev**: `webpack serve --history-api-fallback --mode development`
   - **build**: `webpack build --mode production`
-
-### Additional setup
-
-Either using Tini CLI or setup manually, you need to do these additional setup.
-
-- Modify _tsconfig.json_
-```json
-{
-  "compilerOptions": {
-    "declaration": false
-  }
-}
-```
