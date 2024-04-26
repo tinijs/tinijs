@@ -22,12 +22,6 @@ export class ViteBuilder implements Builder {
     private tiniProject: TiniProject
   ) {}
 
-  get build() {
-    return {
-      command: this.commands.buildCommand,
-    };
-  }
-
   get dev() {
     return {
       command: this.commands.devCommand,
@@ -35,9 +29,15 @@ export class ViteBuilder implements Builder {
     };
   }
 
+  get build() {
+    return {
+      command: this.commands.buildCommand,
+    };
+  }
+
   private get commands() {
     const {srcDir, compileDir, outDir, compile} = this.tiniProject.config;
-    const {configPath, buildCommand, devCommand, devHost, devPort} =
+    const {configPath, devCommand, devHost, devPort, buildCommand} =
       this.options;
     const inputDir = compile === false ? srcDir : compileDir;
     const configArgs = [
@@ -50,16 +50,21 @@ export class ViteBuilder implements Builder {
     const hostArgs = !devHost ? [] : ['--host', devHost];
     const portArgs = ['--port', `${devPort || '3000'}`];
     return {
-      buildCommand:
-        buildCommand ||
-        ['vite', 'build', inputDir, ...configArgs, ...outDirArgs].filter(
-          Boolean
-        ),
       devCommand:
         devCommand ||
         ['vite', inputDir, ...configArgs, ...hostArgs, ...portArgs].filter(
           Boolean
         ),
+      buildCommand:
+        buildCommand ||
+        [
+          'vite',
+          'build',
+          inputDir,
+          ...configArgs,
+          ...outDirArgs,
+          '--emptyOutDir',
+        ].filter(Boolean),
     };
   }
 
