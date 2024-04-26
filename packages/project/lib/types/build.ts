@@ -4,11 +4,13 @@ import type {TiniProject} from '../classes/project.js';
 
 export interface CommonBuildOptions {
   configPath?: string;
-  buildCommand?: string | string[];
+  // dev
   devCommand?: string | string[];
   devPort?: number;
   devHost?: string;
   onDevServerStart?: () => void;
+  // build
+  buildCommand?: string | string[];
 }
 
 export interface Builder {

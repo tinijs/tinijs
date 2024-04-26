@@ -32,13 +32,18 @@ export async function loadBuilder(tiniProject: TiniProject) {
 }
 
 export function exposeEnvs(tiniConfig: TiniConfig, targetEnv: string) {
-  const {srcDir, outDir, compileDir, entryDir, dirs} =
-    getProjectDirs(tiniConfig);
+  const projectDirs = getProjectDirs(tiniConfig);
   process.env.NODE_ENV = targetEnv;
   process.env.TARGET_ENV = targetEnv;
-  process.env.TINI_SRC_DIR = srcDir;
-  process.env.TINI_COMPILE_DIR = compileDir;
-  process.env.TINI_OUT_DIR = outDir;
-  process.env.TINI_ENTRY_DIR = entryDir;
-  process.env.TINI_DIRS_PUBLIC = dirs.public;
+  process.env.TINI_PROJECT_DIRS = JSON.stringify(projectDirs);
+  process.env.TINI_COMPILE_OPTIONS = JSON.stringify(
+    (tiniConfig.compile === false || tiniConfig.compile instanceof Function
+      ? undefined
+      : tiniConfig.compile?.options) || {}
+  );
+  process.env.TINI_BUILD_OPTIONS = JSON.stringify(
+    (tiniConfig.build instanceof Function
+      ? undefined
+      : tiniConfig.build?.options) || {}
+  );
 }
