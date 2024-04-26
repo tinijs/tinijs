@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "build": "rimraf ./dist && tsc",
-    "test": "vitest run",
+    "test": "vitest run --config ../../vitest.config.js",
     "lint": "gts lint",
     "fix": "gts fix"
   },
