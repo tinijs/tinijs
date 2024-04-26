@@ -5,7 +5,9 @@ import {
   type CommonBuildOptions,
 } from '@tinijs/project';
 
-export type BuildOptions = CommonBuildOptions;
+export interface BuildOptions extends CommonBuildOptions {
+  sourcemap?: 'source-map' | 'hidden-source-map';
+}
 
 export default function (options: BuildOptions, tiniProject: TiniProject) {
   return new WebpackBuilder(options, tiniProject);
@@ -13,19 +15,13 @@ export default function (options: BuildOptions, tiniProject: TiniProject) {
 
 export class WebpackBuilder implements Builder {
   private readonly DEFAULT_WEBPACK_CONFIG_FILE =
-    './node_modules/@tinijs/webpack-builder/webpack.config.cjs';
+    './node_modules/@tinijs/webpack-builder/webpack.config.js';
   private readonly LOCAL_WEBPACK_CONFIG_FILE = this.getLocalWebpackConfigFile();
 
   constructor(
     public options: BuildOptions,
     private tiniProject: TiniProject
   ) {}
-
-  get build() {
-    return {
-      command: this.commands.buildCommand,
-    };
-  }
 
   get dev() {
     return {
@@ -34,9 +30,15 @@ export class WebpackBuilder implements Builder {
     };
   }
 
+  get build() {
+    return {
+      command: this.commands.buildCommand,
+    };
+  }
+
   private get commands() {
     const {outDir} = this.tiniProject.config;
-    const {configPath, buildCommand, devCommand, devHost, devPort} =
+    const {configPath, devCommand, devHost, devPort, buildCommand} =
       this.options;
     const configArgs = [
       '--config',
@@ -48,16 +50,6 @@ export class WebpackBuilder implements Builder {
     const hostArgs = !devHost ? [] : ['--host', devHost];
     const portArgs = ['--port', `${devPort || '3000'}`];
     return {
-      buildCommand:
-        buildCommand ||
-        [
-          'webpack',
-          'build',
-          ...configArgs,
-          ...outDirArgs,
-          '--mode',
-          'production',
-        ].filter(Boolean),
       devCommand:
         devCommand ||
         [
@@ -70,14 +62,24 @@ export class WebpackBuilder implements Builder {
           '--mode',
           'development',
         ].filter(Boolean),
+      buildCommand:
+        buildCommand ||
+        [
+          'webpack',
+          'build',
+          ...configArgs,
+          ...outDirArgs,
+          '--mode',
+          'production',
+        ].filter(Boolean),
     };
   }
 
   private getLocalWebpackConfigFile() {
-    const cjsPath = './webpack.config.cjs';
-    const ctsPath = './webpack.config.cts';
-    if (pathExistsSync(cjsPath)) return cjsPath;
-    if (pathExistsSync(ctsPath)) return ctsPath;
+    const jsPath = './webpack.config.js';
+    const tsPath = './webpack.config.ts';
+    if (pathExistsSync(jsPath)) return jsPath;
+    if (pathExistsSync(tsPath)) return tsPath;
     return null;
   }
 }
