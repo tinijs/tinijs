@@ -5,7 +5,9 @@ import {
   type CommonBuildOptions,
 } from '@tinijs/project';
 
-export type BuildOptions = CommonBuildOptions;
+export interface BuildOptions extends CommonBuildOptions {
+  sourcemap?: boolean;
+}
 
 export default function (options: BuildOptions, tiniProject: TiniProject) {
   return new ParcelBuilder(options, tiniProject);
@@ -36,7 +38,7 @@ export class ParcelBuilder implements Builder {
 
   private get commands() {
     const {srcDir, compileDir, outDir, compile} = this.tiniProject.config;
-    const {configPath, devCommand, devHost, devPort, buildCommand} =
+    const {configPath, devCommand, devHost, devPort, buildCommand, sourcemap} =
       this.options;
     const indexFilePath =
       compile === false ? `${srcDir}/index.html` : `${compileDir}/index.html`;
@@ -49,6 +51,7 @@ export class ParcelBuilder implements Builder {
     const outDirArgs = ['--dist-dir', outDir];
     const hostArgs = !devHost ? [] : ['--host', devHost];
     const portArgs = ['--port', `${devPort || '3000'}`];
+    const sourcemapArgs = sourcemap !== false ? [] : ['--no-source-maps'];
     return {
       devCommand:
         devCommand ||
@@ -62,9 +65,14 @@ export class ParcelBuilder implements Builder {
         ].filter(Boolean),
       buildCommand:
         buildCommand ||
-        ['parcel', 'build', indexFilePath, ...configArgs, ...outDirArgs].filter(
-          Boolean
-        ),
+        [
+          'parcel',
+          'build',
+          indexFilePath,
+          ...configArgs,
+          ...outDirArgs,
+          ...sourcemapArgs,
+        ].filter(Boolean),
     };
   }
 
