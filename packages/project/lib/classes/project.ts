@@ -1,5 +1,4 @@
 import {createHooks} from 'hookable';
-import {loadFile, writeFile, type ProxifiedModule} from 'magicast';
 import {defu} from 'defu';
 import initJiti, {type JITI} from 'jiti';
 import {resolve} from 'pathe';
@@ -71,7 +70,7 @@ export async function createTiniProject(config: TiniConfig) {
   return tiniProject;
 }
 
-function getConfigFilePath() {
+export function getTiniConfigFilePath() {
   const tsFile = 'tini.config.ts';
   const jsFile = 'tini.config.js';
   const tsFilePath = resolve(tsFile);
@@ -90,7 +89,7 @@ export async function loadTiniConfig() {
     compileDir: DEFAULT_COMPILE_DIR,
     outDir: DEFAULT_OUT_DIR,
   };
-  const configFilePath = getConfigFilePath();
+  const configFilePath = getTiniConfigFilePath();
   if (!configFilePath) {
     return defaultConfig;
   }
@@ -103,19 +102,22 @@ export async function loadTiniConfig() {
   return defu(defaultConfig, fileConfig);
 }
 
-export async function modifyTiniConfig(
-  modifier: (
-    proxifiedModule: ProxifiedModule<TiniConfig>
-  ) => Promise<ProxifiedModule<TiniConfig>>
+export function isIntegratedItemExistsInConfig(
+  integration: TiniIntegration<{meta: TiniIntegrationMeta}>,
+  name: string
 ) {
-  const configFilePath = getConfigFilePath();
-  if (!configFilePath) {
-    throw new Error('No Tini config file available in the current project.');
-  }
-  const proxifiedModule = await modifier(
-    await loadFile<TiniConfig>(configFilePath)
-  );
-  return writeFile(proxifiedModule, configFilePath);
+  return integration.some(item => {
+    if (typeof item === 'string') return item === name;
+    if (!(item instanceof Array)) {
+      return item.meta.name === name;
+    } else {
+      if (typeof item[0] === 'string') {
+        return item[0] === name;
+      } else {
+        return item[0].meta.name === name;
+      }
+    }
+  });
 }
 
 export class TiniProject {

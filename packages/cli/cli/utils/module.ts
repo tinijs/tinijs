@@ -22,7 +22,7 @@ export async function copyAssets(
   for (const from in copy) {
     const fromPath = resolve('node_modules', packageName, from);
     const toPath = resolve(copy[from]);
-    if (pathExistsSync(fromPath) && !pathExistsSync(toPath)) {
+    if (pathExistsSync(fromPath)) {
       await copyFileOrDir(fromPath, toPath);
     }
   }

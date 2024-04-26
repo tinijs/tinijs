@@ -10,6 +10,7 @@ node_modules
 .ui
 .content
 tini-content
+sw.js
 
 packages/*/dist/
 apps/*/dist/

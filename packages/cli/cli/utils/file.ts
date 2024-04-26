@@ -1,8 +1,7 @@
 import {resolve} from 'pathe';
 import type {ParsedPath} from 'node:path';
-import {readFile} from 'node:fs/promises';
 import recursiveReaddir from 'recursive-readdir';
-import {ensureDir, remove, outputFile, readJSON, writeJSON} from 'fs-extra/esm';
+import {ensureDir, remove, outputFile} from 'fs-extra/esm';
 import {
   genImport,
   genTypeImport,
@@ -10,7 +9,6 @@ import {
   genObjectFromRaw,
   genArrayFromRaw,
 } from 'knitwork';
-import type {Promisable} from 'type-fest';
 
 export interface AvailableFile {
   path: string;
@@ -46,25 +44,6 @@ export async function cleanDir(dirPath: string) {
 
 export async function listDir(dirPath: string, ignores?: string[]) {
   return recursiveReaddir(dirPath, ignores);
-}
-
-export async function modifyTextFile(
-  filePath: string,
-  modifier: (content: string) => Promisable<string>
-) {
-  filePath = resolve(filePath);
-  const content = await readFile(filePath, 'utf8');
-  return outputFile(filePath, await modifier(content));
-}
-
-export async function modifyJSONFile<Type>(
-  filePath: string,
-  modifier: (content: Type) => Promisable<Type>,
-  options?: Parameters<typeof writeJSON>[2]
-) {
-  filePath = resolve(filePath);
-  const data = (await readJSON(filePath)) as Type;
-  return writeJSON(filePath, await modifier(data), options);
 }
 
 export function tsToJS(filePath: string) {

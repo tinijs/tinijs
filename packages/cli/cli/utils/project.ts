@@ -2,7 +2,7 @@ import {resolve} from 'pathe';
 import type {PackageJson} from 'type-fest';
 import {readJSON} from 'fs-extra/esm';
 
-import {modifyJSONFile} from './file.js';
+import {modifyJSONFile} from './modify.js';
 import cliPackageJSON = require('../../package.json');
 
 export const TINIJS_INSTALL_DIR_PATH = resolve('node_modules', '@tinijs');

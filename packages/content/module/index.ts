@@ -19,8 +19,8 @@ export default defineTiniModule<ContentModuleOptions>({
     };
   },
   async setup(options, tini) {
-    const buildContent = (hookName: string) =>
-      async () => contentBuildCommand(options, {
+    const buildContent = (hookName: string) => async () =>
+      contentBuildCommand(options, {
         onStart: () => consola.info(`[${PACKAGE_NAME}] Run hook ${hookName}`),
       });
     tini.hook('dev:before', buildContent('dev:before'));

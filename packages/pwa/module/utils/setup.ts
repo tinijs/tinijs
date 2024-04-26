@@ -10,53 +10,55 @@ import type {PWAModuleOptions} from '../index.js';
 
 const {transpileModule, ScriptTarget, ModuleKind} = typescript;
 
-export async function handleSW(
-  hookName: string,
+export async function processSW(
   {precaching}: PWAModuleOptions,
-  tiniConfig: TiniConfig
+  tiniConfig: TiniConfig,
+  isBuild: boolean
 ) {
-  const {srcDir, outDir} = getProjectDirs(tiniConfig);
-  // read sw.ts
-  const tsCode = await readFile(resolve(srcDir, 'sw.ts'), 'utf8');
-  // transpile
-  let {outputText: code} = transpileModule(tsCode, {
-    compilerOptions: {
-      noEmit: false,
-      sourceMap: false,
-      module: ModuleKind.NodeNext,
-      target: ScriptTarget.ESNext,
-      lib: ['ESNext'],
-      isolatedModules: true,
-      verbatimModuleSyntax: true,
-      skipLibCheck: true,
-    },
-  });
+  const {srcDir, outDir, dirs} = getProjectDirs(tiniConfig);
+  const destDir = isBuild ? outDir : `${srcDir}/${dirs.public}`;
+  // read sw.ts & transpile
+  const {outputText} = transpileModule(
+    await readFile(resolve(srcDir, 'sw.ts'), 'utf8'),
+    {
+      compilerOptions: {
+        noEmit: false,
+        sourceMap: false,
+        module: ModuleKind.ESNext,
+        target: ScriptTarget.ESNext,
+        lib: ['ESNext', 'WebWorker'],
+        isolatedModules: true,
+        verbatimModuleSyntax: true,
+        skipLibCheck: true,
+      },
+    }
+  );
+  let jsCode = outputText;
   // inject precaching entries
-  if (precaching !== false) {
+  if (isBuild && precaching !== false) {
     const {manifestEntries} = await getManifest({
       globDirectory: outDir,
       ...(precaching || {
         globPatterns: [
-          '**\/*.{html,css,js,ico,svg,webp,avif,jpe?g,png,woff2?,ttf,otf}',
-          '!tini-content/**/*',
-        ]
-      })
+          '**/*.{html,css,js,ico,svg,webp,avif,jpg,jpeg,png,woff,woff2,ttf,otf}',
+        ],
+        globIgnores: ['tini-content/**/*', 'sw.js'],
+      }),
     });
-    code =
-      `
-  import {precacheAndRoute} from 'workbox-precaching';
-  precacheAndRoute(${JSON.stringify(manifestEntries)});
-    \n` + code;
+    jsCode = [
+      "import {precacheAndRoute} from 'workbox-precaching';",
+      `precacheAndRoute(${JSON.stringify(manifestEntries)});`,
+      jsCode,
+    ].join('\n\n');
   }
-  // save file
-  await outputFile(resolve(outDir, 'sw.js'), code);
-  // bundle
+  // save sw.js and bundle
+  await outputFile(resolve(destDir, 'sw.js'), jsCode);
   await esBuild({
-    entryPoints: [`${outDir}/sw.js`],
+    entryPoints: [`${destDir}/sw.js`],
     allowOverwrite: true,
     bundle: true,
-    sourcemap: true,
-    minify: true,
-    outdir: outDir,
+    sourcemap: isBuild,
+    minify: isBuild,
+    outdir: destDir,
   });
 }

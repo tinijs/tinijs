@@ -1,11 +1,15 @@
-import {resolve} from 'pathe';
 import {consola} from 'consola';
+import {blueBright, green, gray} from 'colorette';
 import type {GetManifestOptions} from 'workbox-build';
-import {modifyTextFile} from '@tinijs/cli';
 import {defineTiniModule, getProjectDirs} from '@tinijs/project';
 
 import {PACKAGE_NAME} from '../lib/consts.js';
-import {handleSW} from './utils/setup.js';
+import {
+  injectMetaTags,
+  injectServiceWorker,
+  modifyTiniConfigModules,
+} from './utils/init.js';
+import {processSW} from './utils/setup.js';
 
 export interface PWAModuleOptions {
   precaching?: false | Partial<GetManifestOptions>;
@@ -19,45 +23,37 @@ export default defineTiniModule({
     const {srcDir, dirs} = getProjectDirs(tiniConfig);
     return {
       copy: {
-        'assets/icons': `${srcDir}/${dirs.assets}/icons`,
+        'assets/icons': `${srcDir}/${dirs.public}/pwa-icons`,
         'assets/manifest.webmanifest': `${srcDir}/manifest.webmanifest`,
         'assets/sw.ts': `${srcDir}/sw.ts`,
       },
-      run() {
-
-        // TODO: move to injectMetaTags() in init.ts
-        modifyTextFile(resolve(srcDir, 'index.html'), content => {
-          const manifestUrl = './manifest.webmanifest';
-          if (content.indexOf(manifestUrl) !== -1) return content;
-          const template = `
-        <!-- PWA -->
-        <link rel="manifest" href="${manifestUrl}">
-        <script src="https://cdn.jsdelivr.net/npm/pwacompat" crossorigin="anonymous" async></script>
-        <link rel="icon" type="image/png" href="./assets/icons/icon-128x128.png" sizes="128x128">`;
-          const themeColorMatching = content.match(
-            /(<meta name="theme-color")([\s\S]*?)(>)/
-          );
-          if (themeColorMatching) {
-            const anchorStr = themeColorMatching[0];
-            return content.replace(anchorStr, anchorStr + template);
-          } else {
-            const anchorStr = '</head>';
-            return content.replace(anchorStr, template + '\n  ' + anchorStr);
-          }
-        });
-
+      async run() {
+        await injectMetaTags(srcDir);
+        await injectServiceWorker(srcDir);
+        try {
+          await modifyTiniConfigModules();
+        } catch (error) {
+          setTimeout(() => {
+            consola.warn(
+              'Unable to modify config automatically, please add the following code manually:'
+            );
+            consola.box(
+              `${blueBright('// tini.config.ts')}\n
+${gray('export default defineTiniConfig({')}
+  modules: [${green(`'${PACKAGE_NAME}'`)}]
+${gray('});')}`
+            );
+          }, 300);
+        }
       },
     };
   },
   async setup(options, tini) {
-
-    const buildSW = (hookName: string) =>
-      async () => {
-        consola.log(`[${PACKAGE_NAME}] Run hook ${hookName}`);
-        return handleSW(hookName, options, tini.config);
-      };
+    const buildSW = (hookName: string) => async () => {
+      consola.info(`[${PACKAGE_NAME}] Run hook ${hookName}`);
+      return processSW(options, tini.config, hookName === 'build:after');
+    };
     tini.hook('dev:before', buildSW('dev:before'));
     tini.hook('build:after', buildSW('build:after'));
-
   },
 });

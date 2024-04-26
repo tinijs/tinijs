@@ -1,4 +1,4 @@
-import {Workbox} from 'workbox-window';
+import type {Workbox} from 'workbox-window/Workbox.js';
 
 export type SW = Workbox;
 

@@ -1,12 +1,13 @@
-import {Workbox} from 'workbox-window';
+import {Workbox} from 'workbox-window/Workbox.js';
 
 import {SW_UNSUPPORTED_ERROR} from './consts.js';
 
-export function registerServiceWorker(swPath?: string) {
+export function registerServiceWorker(
+  swPath?: string,
+  options?: RegistrationOptions
+) {
   if (!('serviceWorker' in navigator)) throw new Error(SW_UNSUPPORTED_ERROR);
-  // register service worker
-  const sw = new Workbox(swPath || '/sw.js');
+  const sw = new Workbox(swPath || '/sw.js', options);
   sw.register();
-  // result
   return sw;
 }

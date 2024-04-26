@@ -47,12 +47,13 @@
     "@tinijs/cli": "^0.17.0",
     "@tinijs/core": "^0.17.0",
     "@tinijs/project": "^0.17.0",
-    "cheerio": "^1.0.0-rc.12",
+    "colorette": "^2.0.20",
     "consola": "^3.2.3",
+    "esbuild": "^0.20.2",
     "pathe": "^1.1.2",
     "typescript": "^5.4.5",
     "workbox-build": "^7.1.0",
-    "workbox-precaching": "^7.0.0",
-    "workbox-window": "^7.0.0"
+    "workbox-precaching": "^7.1.0",
+    "workbox-window": "^7.1.0"
   }
 }

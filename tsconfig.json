@@ -3,7 +3,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "NodeNext",
-    "lib": ["ESNext", "DOM"],
+    "lib": ["ESNext", "DOM", "WebWorker"],
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
     "isolatedModules": true,

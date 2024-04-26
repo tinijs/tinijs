@@ -1,4 +1,4 @@
-import {Workbox} from 'workbox-window';
+import type {Workbox} from 'workbox-window/Workbox.js';
 import {GLOBAL_TINI as BASE_GLOBAL_TINI} from '@tinijs/core';
 
 export const PACKAGE_NAME = '@tinijs/pwa';
