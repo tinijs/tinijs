@@ -19,13 +19,11 @@ export default defineTiniModule<ContentModuleOptions>({
     };
   },
   async setup(options, tini) {
-    tini.hook(
-      'build:before',
-      () =>
-        contentBuildCommand(options, {
-          onStart: () =>
-            consola.info(`[${PACKAGE_NAME}] Run hook build:before`),
-        }) as Promise<void>
-    );
+    const buildContent = (hookName: string) =>
+      async () => contentBuildCommand(options, {
+        onStart: () => consola.info(`[${PACKAGE_NAME}] Run hook ${hookName}`),
+      });
+    tini.hook('dev:before', buildContent('dev:before'));
+    tini.hook('build:before', buildContent('build:before'));
   },
 });

@@ -23,7 +23,7 @@ export const devCommand = createCLICommand(
     exposeEnvs(tiniConfig, targetEnv);
     const builder = await loadBuilder(tiniProject);
     // start dev
-    await hooks.callHook('build:before');
+    await hooks.callHook('dev:before');
     if (builder.dev instanceof Function) {
       await builder.dev();
     } else {
