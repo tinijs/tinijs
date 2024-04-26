@@ -1,10 +1,19 @@
 import {resolve} from 'pathe';
+import {consola} from 'consola';
+import type {GetManifestOptions} from 'workbox-build';
 import {modifyTextFile} from '@tinijs/cli';
 import {defineTiniModule, getProjectDirs} from '@tinijs/project';
 
+import {PACKAGE_NAME} from '../lib/consts.js';
+import {handleSW} from './utils/setup.js';
+
+export interface PWAModuleOptions {
+  precaching?: false | Partial<GetManifestOptions>;
+}
+
 export default defineTiniModule({
   meta: {
-    name: '@tinijs/pwa',
+    name: PACKAGE_NAME,
   },
   init(tiniConfig) {
     const {srcDir, dirs} = getProjectDirs(tiniConfig);
@@ -15,6 +24,8 @@ export default defineTiniModule({
         'assets/sw.ts': `${srcDir}/sw.ts`,
       },
       run() {
+
+        // TODO: move to injectMetaTags() in init.ts
         modifyTextFile(resolve(srcDir, 'index.html'), content => {
           const manifestUrl = './manifest.webmanifest';
           if (content.indexOf(manifestUrl) !== -1) return content;
@@ -34,8 +45,19 @@ export default defineTiniModule({
             return content.replace(anchorStr, template + '\n  ' + anchorStr);
           }
         });
+
       },
     };
   },
-  async setup(options, tini) {},
+  async setup(options, tini) {
+
+    const buildSW = (hookName: string) =>
+      async () => {
+        consola.log(`[${PACKAGE_NAME}] Run hook ${hookName}`);
+        return handleSW(hookName, options, tini.config);
+      };
+    tini.hook('dev:before', buildSW('dev:before'));
+    tini.hook('build:after', buildSW('build:after'));
+
+  },
 });
