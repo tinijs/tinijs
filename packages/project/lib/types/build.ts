@@ -11,8 +11,6 @@ export interface CommonBuildOptions {
   onDevServerStart?: () => void;
   // build
   buildCommand?: string | string[];
-  // optimizations
-  transformTemplates?: boolean;
 }
 
 export interface Builder {

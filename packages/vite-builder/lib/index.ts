@@ -6,7 +6,10 @@ import {
   type CommonBuildOptions,
 } from '@tinijs/project';
 
-export type BuildOptions = CommonBuildOptions;
+export interface BuildOptions extends CommonBuildOptions {
+  transformTemplates?: boolean;
+  sourcemap?: boolean | 'hidden';
+}
 
 export default function (options: BuildOptions, tiniProject: TiniProject) {
   return new ViteBuilder(options, tiniProject);
