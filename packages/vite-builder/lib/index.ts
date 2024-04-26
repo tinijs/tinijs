@@ -1,3 +1,4 @@
+import {pathExistsSync} from 'fs-extra/esm';
 import {relative} from 'pathe';
 import {
   TiniProject,
@@ -12,6 +13,10 @@ export default function (options: BuildOptions, tiniProject: TiniProject) {
 }
 
 export class ViteBuilder implements Builder {
+  private readonly DEFAULT_VITE_CONFIG_FILE =
+    './node_modules/@tinijs/vite-builder/vite.config.js';
+  private readonly LOCAL_VITE_CONFIG_FILE = this.getLocalViteConfigFile();
+
   constructor(
     public options: BuildOptions,
     private tiniProject: TiniProject
@@ -35,7 +40,12 @@ export class ViteBuilder implements Builder {
     const {configPath, buildCommand, devCommand, devHost, devPort} =
       this.options;
     const inputDir = compile === false ? srcDir : compileDir;
-    const configArgs = !configPath ? [] : ['--config', configPath];
+    const configArgs = [
+      '--config',
+      configPath ||
+        this.LOCAL_VITE_CONFIG_FILE ||
+        this.DEFAULT_VITE_CONFIG_FILE,
+    ];
     const outDirArgs = ['--outDir', relative(inputDir, outDir)];
     const hostArgs = !devHost ? [] : ['--host', devHost];
     const portArgs = ['--port', `${devPort || '3000'}`];
@@ -51,5 +61,13 @@ export class ViteBuilder implements Builder {
           Boolean
         ),
     };
+  }
+
+  private getLocalViteConfigFile() {
+    const jsPath = './vite.config.js';
+    const tsPath = './vite.config.ts';
+    if (pathExistsSync(jsPath)) return jsPath;
+    if (pathExistsSync(tsPath)) return tsPath;
+    return null;
   }
 }
