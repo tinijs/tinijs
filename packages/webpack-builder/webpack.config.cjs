@@ -1,13 +1,13 @@
 const HtmlBundlerPlugin = require('html-bundler-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
-const {TINI_SRC_DIR, TINI_ENTRY_DIR, TINI_DIRS_PUBLIC} = process.env;
+const {srcDir, entryDir, dirs} = JSON.parse(process.env.TINI_PROJECT_DIRS);
 
 module.exports = {
   plugins: [
     new HtmlBundlerPlugin({
       entry: {
-        index: `${TINI_ENTRY_DIR}/index.html`,
+        index: `${entryDir}/index.html`,
       },
       js: {
         filename: 'js/[name].[contenthash:8].js'
@@ -18,7 +18,7 @@ module.exports = {
     }),
     new CopyPlugin({
       patterns: [
-        { from: `${TINI_SRC_DIR}/${TINI_DIRS_PUBLIC}`, to: '' },
+        { from: `${srcDir}/${dirs.public}`, to: '' },
       ],
     }),
   ],

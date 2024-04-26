@@ -7,10 +7,6 @@ import cliPackageJSON = require('../../package.json');
 
 export const TINIJS_INSTALL_DIR_PATH = resolve('node_modules', '@tinijs');
 
-export function getTargetEnv() {
-  return process.env.TARGET_ENV || 'development';
-}
-
 export async function loadCLIPackageJSON() {
   return cliPackageJSON as PackageJson;
 }
