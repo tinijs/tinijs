@@ -9,6 +9,7 @@ import {
 } from 'cheerio';
 import type {Options as PrettierOptions} from 'prettier';
 import type {Promisable} from 'type-fest';
+import {getTiniConfigFilePath} from '@tinijs/project';
 
 import {formatHTML, formatTS} from './format.js';
 
@@ -227,5 +228,13 @@ export async function modifyConfigAlikeFile(
   return outputFile(
     filePath,
     await formatTS(modify.getResult(), formatOptions)
+  );
+}
+
+export async function registerTiniConfigModule(moduleName: string) {
+  const tiniConfigPath = getTiniConfigFilePath();
+  if (!tiniConfigPath) throw new Error('Cannot find a valid Tini config file!');
+  return modifyConfigAlikeFile(tiniConfigPath, modify =>
+    modify.addArrayItem('modules', `'${moduleName}'`)
   );
 }

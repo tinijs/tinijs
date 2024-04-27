@@ -1,5 +1,6 @@
 import {consola} from 'consola';
-import {defineTiniModule} from '@tinijs/project';
+import {defineTiniModule, checkPotentialTiniApp} from '@tinijs/project';
+import {registerTiniConfigModule, warnManualRegisterModule} from '@tinijs/cli';
 
 import {PACKAGE_NAME} from '../lib/consts/common.js';
 
@@ -11,10 +12,18 @@ export default defineTiniModule<ContentModuleOptions>({
   meta: {
     name: PACKAGE_NAME,
   },
-  init() {
+  init(tiniConfig) {
     return {
       copy: {
         assets: 'content',
+      },
+      async run() {
+        if (!checkPotentialTiniApp(tiniConfig)) return;
+        try {
+          await registerTiniConfigModule(PACKAGE_NAME);
+        } catch (error) {
+          setTimeout(() => warnManualRegisterModule(PACKAGE_NAME), 300);
+        }
       },
     };
   },

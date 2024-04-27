@@ -9,8 +9,8 @@ node_modules
 .output
 .ui
 .content
-tini-content
-sw.js
+**/public/tini-content
+**/public/sw.js
 
 packages/*/dist/
 apps/*/dist/

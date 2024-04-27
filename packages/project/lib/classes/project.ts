@@ -16,6 +16,7 @@ import {
   DEFAULT_SRC_DIR,
   DEFAULT_COMPILE_DIR,
   DEFAULT_OUT_DIR,
+  getProjectDirs,
 } from '../utils/dir.js';
 import {setupModules} from '../utils/module.js';
 
@@ -100,6 +101,17 @@ export async function loadTiniConfig() {
     default?: TiniConfig;
   };
   return defu(defaultConfig, fileConfig);
+}
+
+export function checkPotentialTiniApp(tiniConfig: TiniConfig) {
+  const configFilePath = getTiniConfigFilePath();
+  if (!configFilePath) return false;
+  const {srcDir} = getProjectDirs(tiniConfig);
+  const indexHTMLExists = pathExistsSync(resolve(srcDir, 'index.html'));
+  if (!indexHTMLExists) return false;
+  const appTSExists = pathExistsSync(resolve(srcDir, 'app.ts'));
+  if (!appTSExists) return false;
+  return true;
 }
 
 export function isIntegratedItemExistsInConfig(

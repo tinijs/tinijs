@@ -1,14 +1,15 @@
 import {consola} from 'consola';
-import {blueBright, green, gray} from 'colorette';
+import {blueBright} from 'colorette';
 import type {GetManifestOptions} from 'workbox-build';
-import {defineTiniModule, getProjectDirs} from '@tinijs/project';
+import {
+  defineTiniModule,
+  getProjectDirs,
+  checkPotentialTiniApp,
+} from '@tinijs/project';
+import {registerTiniConfigModule, warnManualRegisterModule} from '@tinijs/cli';
 
 import {PACKAGE_NAME} from '../lib/consts.js';
-import {
-  injectMetaTags,
-  injectServiceWorker,
-  modifyTiniConfigModules,
-} from './utils/init.js';
+import {injectMetaTags, injectServiceWorker} from './utils/init.js';
 import {processSW} from './utils/setup.js';
 
 export interface PWAModuleOptions {
@@ -20,6 +21,17 @@ export default defineTiniModule({
     name: PACKAGE_NAME,
   },
   init(tiniConfig) {
+    if (!checkPotentialTiniApp(tiniConfig)) {
+      return {
+        run() {
+          consola.error(
+            `Module ${blueBright(
+              PACKAGE_NAME
+            )} requires a valid Tini app to work.`
+          );
+        },
+      };
+    }
     const {srcDir, dirs} = getProjectDirs(tiniConfig);
     return {
       copy: {
@@ -31,19 +43,9 @@ export default defineTiniModule({
         await injectMetaTags(srcDir);
         await injectServiceWorker(srcDir);
         try {
-          await modifyTiniConfigModules();
+          await registerTiniConfigModule(PACKAGE_NAME);
         } catch (error) {
-          setTimeout(() => {
-            consola.warn(
-              'Unable to modify config automatically, please add the following code manually:'
-            );
-            consola.box(
-              `${blueBright('// tini.config.ts')}\n
-${gray('export default defineTiniConfig({')}
-  modules: [${green(`'${PACKAGE_NAME}'`)}]
-${gray('});')}`
-            );
-          }, 300);
+          setTimeout(() => warnManualRegisterModule(PACKAGE_NAME), 300);
         }
       },
     };
