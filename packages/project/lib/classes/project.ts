@@ -51,12 +51,45 @@ export interface TiniConfig extends AppConfig {
 
 let TINI_PROJECT: TiniProject | null = null;
 
+export const TINI_CONFIG_TS_FILE = 'tini.config.ts';
+export const TINI_CONFIG_JS_FILE = 'tini.config.js';
+
 export function defineTiniConfig(config: Partial<TiniConfig>) {
   return config;
 }
 
-export async function getTiniProject() {
-  return (TINI_PROJECT ||= await createTiniProject(await loadTiniConfig()));
+export function getTiniConfigFilePath(dir = '.') {
+  const tsFilePath = resolve(dir, TINI_CONFIG_TS_FILE);
+  const jsFilePath = resolve(dir, TINI_CONFIG_JS_FILE);
+  const configFilePath = pathExistsSync(tsFilePath)
+    ? tsFilePath
+    : pathExistsSync(jsFilePath)
+      ? jsFilePath
+      : null;
+  return configFilePath;
+}
+
+export async function loadTiniConfig(dir?: string) {
+  const defaultConfig: TiniConfig = {
+    srcDir: DEFAULT_SRC_DIR,
+    compileDir: DEFAULT_COMPILE_DIR,
+    outDir: DEFAULT_OUT_DIR,
+  };
+  const configFilePath = getTiniConfigFilePath(dir);
+  if (!configFilePath) {
+    return defaultConfig;
+  }
+  const {default: fileConfig = {}} = (await jiti.import(
+    configFilePath,
+    {}
+  )) as {
+    default?: TiniConfig;
+  };
+  return defu(defaultConfig, fileConfig);
+}
+
+export async function getTiniProject(dir?: string) {
+  return (TINI_PROJECT ||= await createTiniProject(await loadTiniConfig(dir)));
 }
 
 export async function createTiniProject(config: TiniConfig) {
@@ -69,38 +102,6 @@ export async function createTiniProject(config: TiniConfig) {
   }
   // result
   return tiniProject;
-}
-
-export function getTiniConfigFilePath() {
-  const tsFile = 'tini.config.ts';
-  const jsFile = 'tini.config.js';
-  const tsFilePath = resolve(tsFile);
-  const jsFilePath = resolve(jsFile);
-  const configFilePath = pathExistsSync(tsFilePath)
-    ? tsFilePath
-    : pathExistsSync(jsFilePath)
-      ? jsFilePath
-      : null;
-  return configFilePath;
-}
-
-export async function loadTiniConfig() {
-  const defaultConfig: TiniConfig = {
-    srcDir: DEFAULT_SRC_DIR,
-    compileDir: DEFAULT_COMPILE_DIR,
-    outDir: DEFAULT_OUT_DIR,
-  };
-  const configFilePath = getTiniConfigFilePath();
-  if (!configFilePath) {
-    return defaultConfig;
-  }
-  const {default: fileConfig = {}} = (await jiti.import(
-    configFilePath,
-    {}
-  )) as {
-    default?: TiniConfig;
-  };
-  return defu(defaultConfig, fileConfig);
 }
 
 export function checkPotentialTiniApp(tiniConfig: TiniConfig) {

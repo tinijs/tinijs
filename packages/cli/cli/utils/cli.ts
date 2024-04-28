@@ -166,11 +166,11 @@ export async function setupCLIExpansion<
       if (localAuto) cliExpand.push(localAuto);
     }
   }
-  // load expanded commands
-  const expandedCommands: SubCommandsDef = {};
+  // load expandable commands
+  const expandableCommands: SubCommandsDef = {};
   for (const item of cliExpand) {
     const [localOrVendor, options = {}] = item instanceof Array ? item : [item];
-    // process expanded commands
+    // process expandable commands
     const expansionConfig =
       localOrVendor instanceof Object
         ? localOrVendor
@@ -189,11 +189,11 @@ export async function setupCLIExpansion<
         );
     // merge commands
     for (const [key, value] of Object.entries(commands)) {
-      if (expandedCommands[key]) continue;
-      expandedCommands[key] = value;
+      if (expandableCommands[key]) continue;
+      expandableCommands[key] = value;
     }
   }
-  return expandedCommands;
+  return expandableCommands;
 }
 
 export async function loadVendorCLIExpansion<

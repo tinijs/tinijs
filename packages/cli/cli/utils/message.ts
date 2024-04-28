@@ -1,5 +1,6 @@
 import {consola} from 'consola';
 import {blueBright, green, gray} from 'colorette';
+import {TINI_CONFIG_TS_FILE} from '@tinijs/project';
 
 export function errorUncleanGit() {
   consola.error(
@@ -14,7 +15,7 @@ export function warnManualRegisterModule(moduleName: string) {
     'Unable to modify Tini config, please add the following code manually:'
   );
   consola.box(
-    `// File: ${blueBright('tini.config.ts')}\n
+    `// File: ${blueBright(TINI_CONFIG_TS_FILE)}\n
 ${gray('export default defineTiniConfig({')}
   modules: [${green(`'${moduleName}'`)}]
 ${gray('});')}`

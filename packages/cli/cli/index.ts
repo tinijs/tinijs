@@ -32,9 +32,9 @@ async function getCommands(tiniProject: TiniProject) {
       import('./commands/preview.js').then(resolveCommand);
   if (!noBuiltins && cliConfig?.module !== false)
     commands.module = () => import('./commands/module.js').then(resolveCommand);
-  // expanded commands
-  const expandedCommands = await setupCLIExpansion(tiniProject);
-  for (const [key, value] of Object.entries(expandedCommands)) {
+  // expandable commands
+  const expandableCommands = await setupCLIExpansion(tiniProject);
+  for (const [key, value] of Object.entries(expandableCommands)) {
     if (commands[key]) continue;
     commands[key] = value;
   }
