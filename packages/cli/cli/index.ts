@@ -8,28 +8,29 @@ import {resolveCommand, setupCLIExpansion} from './utils/cli.js';
 
 async function getCommands(tiniProject: TiniProject) {
   const cliConfig = tiniProject.config.cli;
+  const {noBuiltins} = cliConfig || {};
   const commands: SubCommandsDef = {};
   // built-in commands
-  if (cliConfig?.docs !== false)
+  if (!noBuiltins && cliConfig?.docs !== false)
     commands.docs = () => import('./commands/docs.js').then(resolveCommand);
-  if (cliConfig?.info !== false)
+  if (!noBuiltins && cliConfig?.info !== false)
     commands.info = () => import('./commands/info.js').then(resolveCommand);
-  if (cliConfig?.new !== false)
+  if (!noBuiltins && cliConfig?.new !== false)
     commands.new = () => import('./commands/new.js').then(resolveCommand);
-  if (cliConfig?.generate !== false)
+  if (!noBuiltins && cliConfig?.generate !== false)
     commands.generate = () =>
       import('./commands/generate.js').then(resolveCommand);
-  if (cliConfig?.compile !== false)
+  if (!noBuiltins && cliConfig?.compile !== false)
     commands.compile = () =>
       import('./commands/compile.js').then(resolveCommand);
-  if (cliConfig?.dev !== false)
+  if (!noBuiltins && cliConfig?.dev !== false)
     commands.dev = () => import('./commands/dev.js').then(resolveCommand);
-  if (cliConfig?.build !== false)
+  if (!noBuiltins && cliConfig?.build !== false)
     commands.build = () => import('./commands/build.js').then(resolveCommand);
-  if (cliConfig?.preview !== false)
+  if (!noBuiltins && cliConfig?.preview !== false)
     commands.preview = () =>
       import('./commands/preview.js').then(resolveCommand);
-  if (cliConfig?.module !== false)
+  if (!noBuiltins && cliConfig?.module !== false)
     commands.module = () => import('./commands/module.js').then(resolveCommand);
   // expanded commands
   const expandedCommands = await setupCLIExpansion(tiniProject);

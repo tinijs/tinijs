@@ -8,8 +8,4 @@ export default defineTiniConfig({
   },
 
   modules: ['@tinijs/content'],
-
-  cli: {
-    expand: ['@tinijs/content'],
-  },
 });

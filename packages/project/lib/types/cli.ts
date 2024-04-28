@@ -31,7 +31,9 @@ export interface CLIConfig {
   build?: false;
   preview?: false;
   module?: false;
+  noBuiltins?: true;
   expand?: TiniIntegration<CLIExpansionConfig>;
+  noAutoExpansions?: true;
 }
 
 export interface CLIHooks {
