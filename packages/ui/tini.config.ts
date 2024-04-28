@@ -1,7 +1,5 @@
 import {defineTiniConfig, type UIConfig} from '@tinijs/project';
 
-import uiCLIExpansion from './cli/expand.js';
-
 const bootstrapUIPack: NonNullable<UIConfig['outPacks']>[0] = {
   extends: false,
   outDir: './build/bootstrap',
@@ -30,9 +28,5 @@ export default defineTiniConfig({
     outDir: '.ui',
     // icons: ['./test-icons'],
     outPacks: [bootstrapUIPack],
-  },
-
-  cli: {
-    expand: [uiCLIExpansion],
   },
 });

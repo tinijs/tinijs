@@ -8,7 +8,7 @@
 
 Tini CLI has an **expandable architect** where you can add more commands to be used various purposes.
 
-More commands can be added into the original CLI, then you can run the extra commands similar to any built-in command. There are 3 types of expansions (or expansion packs): **official** expansions, **community** expansions and **private** expansions. For official expansions, please see the **Official Expansions** category.
+More commands can be added into the original CLI, then you can run the extra commands similar to any built-in command. There are 3 types of expansions (or expansion packs): **official** expansions, **community** expansions and **local/private** expansions. For official expansions, please see the **Official Expansions** category.
 
 In any project, you can install the [Tini CLI](/cli) and one or more expansion packs, then config `tini.config.ts` to use the expansions:
 
@@ -24,7 +24,6 @@ export default defineTiniConfig({
       'some-name-2'
     ],
 
-    // options
     // disable autoload official and local expansions, default: false (auto load)
     noAutoExpansions: true,
   },
@@ -111,24 +110,10 @@ export default xxxCommand;
 
 Start the developement and publish your package to NPM.
 
-## Private expansions
+## Local expansions
 
 You can create private expansions for using in your own projects.
 
 Follow **Step 1** and **Step 2** of _"Use an existing project"_ above.
 
-Register in the `tini.config.ts`:
-
-```ts
-import myCLIExpansion from './cli/expand.js';
-
-export default defineTiniConfig({
-
-  cli: {
-    expand: [myCLIExpansion],
-  },
-
-});
-```
-
-Then run `npx tini` to see the if the command is available.
+Local expansion will be loaded automatically. Then run `npx tini` to see the if the command is available.

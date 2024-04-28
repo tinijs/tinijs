@@ -33,7 +33,7 @@ npx tini module add @tinijs/content
 
 The above command will
   - Install the `@tinijs/content` package
-  - Add `@tinijs/content` to the `modules` section in `tini.config.json` (if using TiniJS)
+  - Config the `modules` section in `tini.config.json` (if using TiniJS)
   - Copy sample assets to the `content` folder
   - Make `tini content` command and its sub-commands available
 

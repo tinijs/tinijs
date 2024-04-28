@@ -8,10 +8,10 @@
 
 Expandable commands provided by the [Tini UI](/ui).
 
-- Build the UI packs:
 
 ```bash
+# build the UI packs
 npx tini ui build
 ```
 
-**TODO**: Add more detail.
+Please see more detail at [UI page](/ui).

@@ -22,7 +22,8 @@ The configuration for Eleventy is in the `content/eleventy.config.cjs`. The defa
   - `image/imageUrl/imageData` for working with images.
 - Plugins, libraries, shortcodes:
   - **Image**: shortcodes for working with images - [link](https://www.11ty.dev/docs/plugins/image/)
-  - **Tini**: shortcodes for working with Tini UI components
+  - **App**: shortcode for working with app components
+  - **Tini**: shortcode for working with Tini UI components
   - **Render**: render template inside another template - [link](https://www.11ty.dev/docs/plugins/render/)
   - **Hightlight**: code highlighting - [link](https://www.11ty.dev/docs/plugins/syntaxhighlight/)
   - **Bundle**: working with inline CSS and JS - [link](https://github.com/11ty/eleventy-plugin-bundle)

@@ -25,7 +25,11 @@ There are several TiniJS starters for getting started with TiniJS quickly, you c
 npx @tinijs/cli@latest new my-app
 ```
 
-Run a command: `npx tini docs`
+Run a command:
+
+```bash
+npx tini docs
+```
 
 ### Install locally
 
@@ -45,7 +49,11 @@ Add `scripts` to `package.json`:
 }
 ```
 
-Run a command: `npx tini docs`
+Run a command:
+
+```bash
+npx tini docs
+```
 
 ### Install globally
 
@@ -55,7 +63,12 @@ Install Tini CLI globally to use it in any project.
 npm i -g @tinijs/cli
 ```
 
-Run a command: `tini docs`
+Run a command:
+
+
+```bash
+tini docs
+```
 
 ## Usage
 

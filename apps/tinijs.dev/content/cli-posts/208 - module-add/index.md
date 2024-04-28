@@ -9,10 +9,10 @@
 
 Add a Tini Module to the project.
 
-Before add a module, you need to commit any change in your project.
+Before add a module, you need to **commit or stash** any change in your project.
 
 ```bash
 npx tini module add <name> 
 ```
 
-**TODO**: Add more details.
+Please see [modules page](/module) for more information.

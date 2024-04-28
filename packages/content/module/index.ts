@@ -1,6 +1,9 @@
-import {consola} from 'consola';
 import {defineTiniModule, checkPotentialTiniApp} from '@tinijs/project';
-import {registerTiniConfigModule, warnManualRegisterModule} from '@tinijs/cli';
+import {
+  registerTiniConfigModule,
+  warnManualRegisterModule,
+  infoRunHook,
+} from '@tinijs/cli';
 
 import {PACKAGE_NAME} from '../lib/consts/common.js';
 
@@ -30,7 +33,7 @@ export default defineTiniModule<ContentModuleOptions>({
   async setup(options, tini) {
     const buildContent = (hookName: string) => async () =>
       contentBuildCommand(options, {
-        onStart: () => consola.info(`[${PACKAGE_NAME}] Run hook ${hookName}`),
+        onStart: () => infoRunHook(PACKAGE_NAME, hookName),
       });
     tini.hook('dev:before', buildContent('dev:before'));
     tini.hook('build:before', buildContent('build:before'));

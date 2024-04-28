@@ -6,7 +6,12 @@ import {
   getProjectDirs,
   checkPotentialTiniApp,
 } from '@tinijs/project';
-import {registerTiniConfigModule, warnManualRegisterModule} from '@tinijs/cli';
+import {
+  registerTiniConfigModule,
+  errorModuleRequireTiniApp,
+  warnManualRegisterModule,
+  infoRunHook,
+} from '@tinijs/cli';
 
 import {PACKAGE_NAME} from '../lib/consts.js';
 import {injectMetaTags, injectServiceWorker} from './utils/init.js';
@@ -24,11 +29,7 @@ export default defineTiniModule({
     if (!checkPotentialTiniApp(tiniConfig)) {
       return {
         run() {
-          consola.error(
-            `Module ${blueBright(
-              PACKAGE_NAME
-            )} requires a valid Tini app to work.`
-          );
+          errorModuleRequireTiniApp(PACKAGE_NAME);
         },
       };
     }
@@ -52,7 +53,7 @@ export default defineTiniModule({
   },
   async setup(options, tini) {
     const buildSW = (hookName: string) => async () => {
-      consola.info(`[${PACKAGE_NAME}] Run hook ${hookName}`);
+      infoRunHook(PACKAGE_NAME, hookName);
       return processSW(options, tini.config, hookName === 'build:after');
     };
     tini.hook('dev:before', buildSW('dev:before'));

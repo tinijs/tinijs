@@ -8,9 +8,9 @@
 
 Expandable commands provided by the [Tini Content](/module/content) module.
 
-- Build the content:
 
 ```bash
+# build the content
 npx tini content build
 ```
 

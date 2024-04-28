@@ -8,6 +8,7 @@ import {resolve} from 'pathe';
 import {pathExistsSync} from 'fs-extra/esm';
 import type {Promisable} from 'type-fest';
 import {defu} from 'defu';
+import initJiti, {type JITI} from 'jiti';
 
 import {
   TiniProject,
@@ -17,6 +18,9 @@ import {
 
 import {tsToJS} from './file.js';
 import {loadProjectPackageJSON} from './project.js';
+
+// @ts-ignore
+const jiti = initJiti(import.meta.url) as JITI;
 
 const OFFICIAL_EXPANSIONS = ['@tinijs/content', '@tinijs/ui'];
 
@@ -152,14 +156,14 @@ export async function setupCLIExpansion<
       }
     }
     // local
-    const autoTSFile = './cli/expand.ts';
+    const autoTSFile = resolve('cli', 'expand.ts');
     const autoJSFile = tsToJS(autoTSFile);
-    if (pathExistsSync(resolve(autoTSFile))) {
-      const {default: localAuto} = (await import(autoJSFile)) as {
+    if (pathExistsSync(autoTSFile)) {
+      const {default: localAuto} = (await jiti.import(autoTSFile, {})) as {
         default: CLIExpansionConfig;
       };
       if (localAuto) cliExpand.push(localAuto);
-    } else if (pathExistsSync(resolve(autoJSFile))) {
+    } else if (pathExistsSync(autoJSFile)) {
       const {default: localAuto} = (await import(autoJSFile)) as {
         default: CLIExpansionConfig;
       };
