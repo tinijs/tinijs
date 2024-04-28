@@ -27,15 +27,19 @@ Make sure you have [Tini CLI](/cli) installed, if not run `npm i -D @tinijs/cli`
 
 Also, commit any change before adding the module.
 
-### Add the module
-
 ```sh
 npx tini module add @tinijs/content
 ```
 
-The above command will install the `@tinijs/content` package and copy sample assets to the `content` folder.
+The above command will
+  - Install the `@tinijs/content` package
+  - Add `@tinijs/content` to the `modules` section in `tini.config.json` (if using TiniJS)
+  - Copy sample assets to the `content` folder
+  - Make `tini content` command and its sub-commands available
 
 More detail about working with content, please see the [Manage content](/module/content-manage) page.
+
+## Usage
 
 ### Use with TiniJS apps
 
