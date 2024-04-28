@@ -7,8 +7,8 @@ import {
 } from '@tinijs/project';
 
 export interface BuildOptions extends CommonBuildOptions {
-  transformTemplates?: boolean;
   sourcemap?: boolean | 'hidden';
+  transformTemplates?: boolean;
 }
 
 export default function (options: BuildOptions, tiniProject: TiniProject) {

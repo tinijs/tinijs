@@ -38,7 +38,8 @@ export class AppPageFramework extends TiniComponent {
       <h1>TiniJS Framework</h1>
       <p>
         A <strong>small</strong>, <strong>fast</strong> and
-        <strong>interoperable</strong> JavaScript framework.
+        <strong>interoperable</strong> JavaScript framework based on
+        <a href="https://lit.dev/" target="_blank">Lit</a>.
       </p>
       <p>
         <strong>Tini</strong> (or

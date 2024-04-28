@@ -10,9 +10,13 @@ Components are basic building blocks of TiniJS apps. They are [custom elements](
 
 ## Create components
 
-To quickly scaffold a component using [Tini CLI](https://tinijs.dev/cli), run `npx tini generate component <name>`, a component file will be created at `app/components/<name>.ts`.
+To quickly scaffold a component using [Tini CLI](https://tinijs.dev/cli), run:
 
-**A TiniJS component** looks like this:
+```bash
+npx tini generate component <name>
+```
+
+Or, create `app/components/<name>.ts` file manually, a component looks like this:
 
 ```ts
 import {html, css} from 'lit';

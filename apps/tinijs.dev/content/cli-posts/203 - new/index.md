@@ -6,7 +6,7 @@
 }
 +++
 
-Create a new project using one of the [Starters](/framework/get-started).
+Create a new project using one of the [Starters](/framework/starter).
 
 ```bash
 npx tini new <NAME> [OPTIONS]

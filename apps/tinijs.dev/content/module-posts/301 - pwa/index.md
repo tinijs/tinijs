@@ -23,8 +23,8 @@ npx tini module add @tinijs/pwa
 
 The above command will:
   - Install the `@tinijs/pwa` package
-  - Config the `modules` section in `tini.config.json`
   - Copy assets
+  - Config the `modules` section in `tini.config.json`
   - Modify `index.html` and `app.ts` files
 
 ## Usage
@@ -85,3 +85,12 @@ export class AppPageXXX extends TiniComponent {
   }
 }
 ```
+
+## Icons
+
+For app icons, you can use <https://www.pwabuilder.com/> to generate icons.
+
+Or, use **Affinity Design** icon template:
+- Download a template from <https://github.com/tinijs/tinijs/blob/main/packages/pwa/pwa-icons.afdesign>
+- Add your design to the template
+- Go to `Export Persona` and export the icons
