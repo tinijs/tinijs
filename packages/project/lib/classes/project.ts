@@ -1,5 +1,4 @@
 import {createHooks} from 'hookable';
-import {loadFile, writeFile, type ProxifiedModule} from 'magicast';
 import {defu} from 'defu';
 import initJiti, {type JITI} from 'jiti';
 import {resolve} from 'pathe';
@@ -17,6 +16,7 @@ import {
   DEFAULT_SRC_DIR,
   DEFAULT_COMPILE_DIR,
   DEFAULT_OUT_DIR,
+  getProjectDirs,
 } from '../utils/dir.js';
 import {setupModules} from '../utils/module.js';
 
@@ -51,12 +51,45 @@ export interface TiniConfig extends AppConfig {
 
 let TINI_PROJECT: TiniProject | null = null;
 
+export const TINI_CONFIG_TS_FILE = 'tini.config.ts';
+export const TINI_CONFIG_JS_FILE = 'tini.config.js';
+
 export function defineTiniConfig(config: Partial<TiniConfig>) {
   return config;
 }
 
-export async function getTiniProject() {
-  return (TINI_PROJECT ||= await createTiniProject(await loadTiniConfig()));
+export function getTiniConfigFilePath(dir = '.') {
+  const tsFilePath = resolve(dir, TINI_CONFIG_TS_FILE);
+  const jsFilePath = resolve(dir, TINI_CONFIG_JS_FILE);
+  const configFilePath = pathExistsSync(tsFilePath)
+    ? tsFilePath
+    : pathExistsSync(jsFilePath)
+      ? jsFilePath
+      : null;
+  return configFilePath;
+}
+
+export async function loadTiniConfig(dir?: string) {
+  const defaultConfig: TiniConfig = {
+    srcDir: DEFAULT_SRC_DIR,
+    compileDir: DEFAULT_COMPILE_DIR,
+    outDir: DEFAULT_OUT_DIR,
+  };
+  const configFilePath = getTiniConfigFilePath(dir);
+  if (!configFilePath) {
+    return defaultConfig;
+  }
+  const {default: fileConfig = {}} = (await jiti.import(
+    configFilePath,
+    {}
+  )) as {
+    default?: TiniConfig;
+  };
+  return defu(defaultConfig, fileConfig);
+}
+
+export async function getTiniProject(dir?: string) {
+  return (TINI_PROJECT ||= await createTiniProject(await loadTiniConfig(dir)));
 }
 
 export async function createTiniProject(config: TiniConfig) {
@@ -71,51 +104,33 @@ export async function createTiniProject(config: TiniConfig) {
   return tiniProject;
 }
 
-function getConfigFilePath() {
-  const tsFile = 'tini.config.ts';
-  const jsFile = 'tini.config.js';
-  const tsFilePath = resolve(tsFile);
-  const jsFilePath = resolve(jsFile);
-  const configFilePath = pathExistsSync(tsFilePath)
-    ? tsFilePath
-    : pathExistsSync(jsFilePath)
-      ? jsFilePath
-      : null;
-  return configFilePath;
+export function checkPotentialTiniApp(tiniConfig: TiniConfig) {
+  const configFilePath = getTiniConfigFilePath();
+  if (!configFilePath) return false;
+  const {srcDir} = getProjectDirs(tiniConfig);
+  const indexHTMLExists = pathExistsSync(resolve(srcDir, 'index.html'));
+  if (!indexHTMLExists) return false;
+  const appTSExists = pathExistsSync(resolve(srcDir, 'app.ts'));
+  if (!appTSExists) return false;
+  return true;
 }
 
-export async function loadTiniConfig() {
-  const defaultConfig: TiniConfig = {
-    srcDir: DEFAULT_SRC_DIR,
-    compileDir: DEFAULT_COMPILE_DIR,
-    outDir: DEFAULT_OUT_DIR,
-  };
-  const configFilePath = getConfigFilePath();
-  if (!configFilePath) {
-    return defaultConfig;
-  }
-  const {default: fileConfig = {}} = (await jiti.import(
-    configFilePath,
-    {}
-  )) as {
-    default?: TiniConfig;
-  };
-  return defu(defaultConfig, fileConfig);
-}
-
-export async function modifyTiniConfig(
-  modifier: (
-    proxifiedModule: ProxifiedModule<TiniConfig>
-  ) => Promise<ProxifiedModule<TiniConfig>>
+export function isIntegratedItemExistsInConfig(
+  integration: TiniIntegration<{meta: TiniIntegrationMeta}>,
+  name: string
 ) {
-  const configFilePath = getConfigFilePath();
-  if (!configFilePath) {
-    throw new Error('No Tini config file available in the current project.');
-  }
-  const proxifiedModule = await modifier(
-    await loadFile<TiniConfig>(configFilePath)
-  );
-  return writeFile(proxifiedModule, configFilePath);
+  return integration.some(item => {
+    if (typeof item === 'string') return item === name;
+    if (!(item instanceof Array)) {
+      return item.meta.name === name;
+    } else {
+      if (typeof item[0] === 'string') {
+        return item[0] === name;
+      } else {
+        return item[0].meta.name === name;
+      }
+    }
+  });
 }
 
 export class TiniProject {

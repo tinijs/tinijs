@@ -6,7 +6,7 @@
 }
 +++
 
-Create a new project using one of the [Starters](/framework/get-started).
+Create a new project using one of the [Starters](/framework/starter).
 
 ```bash
 npx tini new <NAME> [OPTIONS]
@@ -17,7 +17,6 @@ npx tini new <NAME> [OPTIONS]
 | Option | Description |
 | --- | --- |
 | `--template` or `-t` | The template to be used, default to **Bare**. |
-| `--latest` or `-l` | Install the latest released tag. |
 | `--version <value>` or `-v` | Use a custom released tag. |
 | `--skipInstall` or `-i` | Skip npm install. |
 | `--skipGit` or `-g` | Skip git init. |

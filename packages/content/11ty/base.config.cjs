@@ -6,13 +6,13 @@ const YAML = require('yaml');
 const TOML = require('@iarna/toml');
 
 const pluginImage = require('./image.plugin.cjs');
-const pluginTini = require('./tini.plugin.cjs');
+const pluginElem = require('./elem.plugin.cjs');
 
 module.exports = function (eleventyConfig, options) {
   const {
     useCopy,
     useImagePlugin,
-    useTiniPlugin,
+    useElemPlugin,
     useRenderPlugin,
     useHighlightPlugin,
     useBundlePlugin,
@@ -55,8 +55,8 @@ module.exports = function (eleventyConfig, options) {
     eleventyConfig.addPlugin(pluginImage);
   }
 
-  if (useTiniPlugin !== false) {
-    eleventyConfig.addPlugin(pluginTini);
+  if (useElemPlugin !== false) {
+    eleventyConfig.addPlugin(pluginElem);
   }
 
   if (useRenderPlugin !== false) {

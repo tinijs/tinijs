@@ -1,41 +1,62 @@
-import {resolve} from 'pathe';
-import {modifyTextFile} from '@tinijs/cli';
-import {defineTiniModule, getProjectDirs} from '@tinijs/project';
+import {consola} from 'consola';
+import {blueBright} from 'colorette';
+import type {GetManifestOptions} from 'workbox-build';
+import {
+  defineTiniModule,
+  getProjectDirs,
+  checkPotentialTiniApp,
+} from '@tinijs/project';
+import {
+  registerTiniConfigModule,
+  errorModuleRequireTiniApp,
+  warnManualRegisterModule,
+  infoRunHook,
+} from '@tinijs/cli';
+
+import {PACKAGE_NAME} from '../lib/consts.js';
+import {injectMetaTags, injectServiceWorker} from './utils/init.js';
+import {processSW} from './utils/setup.js';
+
+export interface PWAModuleOptions {
+  precaching?: false | Partial<GetManifestOptions>;
+}
 
 export default defineTiniModule({
   meta: {
-    name: '@tinijs/pwa',
+    name: PACKAGE_NAME,
   },
   init(tiniConfig) {
+    if (!checkPotentialTiniApp(tiniConfig)) {
+      return {
+        run() {
+          errorModuleRequireTiniApp(PACKAGE_NAME);
+        },
+      };
+    }
     const {srcDir, dirs} = getProjectDirs(tiniConfig);
     return {
       copy: {
-        'assets/icons': `${srcDir}/${dirs.assets}/icons`,
+        'assets/icons': `${srcDir}/${dirs.public}/pwa-icons`,
         'assets/manifest.webmanifest': `${srcDir}/manifest.webmanifest`,
         'assets/sw.ts': `${srcDir}/sw.ts`,
       },
-      run() {
-        modifyTextFile(resolve(srcDir, 'index.html'), content => {
-          const manifestUrl = './manifest.webmanifest';
-          if (content.indexOf(manifestUrl) !== -1) return content;
-          const template = `
-        <!-- PWA -->
-        <link rel="manifest" href="${manifestUrl}">
-        <script src="https://cdn.jsdelivr.net/npm/pwacompat" crossorigin="anonymous" async></script>
-        <link rel="icon" type="image/png" href="./assets/icons/icon-128x128.png" sizes="128x128">`;
-          const themeColorMatching = content.match(
-            /(<meta name="theme-color")([\s\S]*?)(>)/
-          );
-          if (themeColorMatching) {
-            const anchorStr = themeColorMatching[0];
-            return content.replace(anchorStr, anchorStr + template);
-          } else {
-            const anchorStr = '</head>';
-            return content.replace(anchorStr, template + '\n  ' + anchorStr);
-          }
-        });
+      async run() {
+        await injectMetaTags(srcDir);
+        await injectServiceWorker(srcDir);
+        try {
+          await registerTiniConfigModule(PACKAGE_NAME);
+        } catch (error) {
+          setTimeout(() => warnManualRegisterModule(PACKAGE_NAME), 300);
+        }
       },
     };
   },
-  async setup(options, tini) {},
+  async setup(options, tini) {
+    const buildSW = (hookName: string) => async () => {
+      infoRunHook(PACKAGE_NAME, hookName);
+      return processSW(options, tini.config, hookName === 'build:after');
+    };
+    tini.hook('dev:before', buildSW('dev:before'));
+    tini.hook('build:after', buildSW('build:after'));
+  },
 });

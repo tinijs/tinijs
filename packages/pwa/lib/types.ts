@@ -1,5 +1,7 @@
-import {Workbox} from 'workbox-window';
+import type {Workbox} from 'workbox-window/Workbox.js';
 
-export interface AppWithWorkbox {
-  workbox: Workbox;
+export type SW = Workbox;
+
+export interface AppWithSW {
+  sw: SW;
 }

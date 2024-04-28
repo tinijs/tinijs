@@ -3,6 +3,7 @@ import {resolve} from 'pathe';
 import {gray, green, cyan} from 'colorette';
 import {consola} from 'consola';
 import {pathExistsSync} from 'fs-extra/esm';
+import {getTiniConfigFilePath} from '@tinijs/project';
 
 import {downloadAndUnzip} from '../utils/download.js';
 import {loadCLIPackageJSON} from '../utils/project.js';
@@ -89,7 +90,8 @@ export const newCommand = createCLICommand(
     }
     // instruction
     const {version: tiniVersion} = await loadCLIPackageJSON();
-    callbacks?.onEnd(projectName, tiniVersion as string);
+    const tiniConfigPath = getTiniConfigFilePath(projectPath);
+    callbacks?.onEnd(projectName, tiniVersion, tiniConfigPath);
   },
   {
     onProjectExists: (projectName: string) =>
@@ -106,9 +108,15 @@ export const newCommand = createCLICommand(
       consola.info(`Create a new TiniJS project: ${green(projectName)}`);
       consola.info(`From: ${gray(resourceUrl)}`);
     },
-    onEnd: (projectName: string, tiniVersion: string) =>
-      consola.log(`
-${gray('TiniJS ' + tiniVersion)}
+    onEnd: (
+      projectName: string,
+      tiniVersion: string | undefined,
+      tiniConfigPath: string | null
+    ) =>
+      !tiniConfigPath
+        ? consola.success('Project created successfully!')
+        : consola.log(`
+${gray(`TiniJS v${tiniVersion || '0.0.0'}`)}
 ✨ Thank you for using TiniJS! ✨
 
 What's next?

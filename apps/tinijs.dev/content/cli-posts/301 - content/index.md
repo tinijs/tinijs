@@ -1,14 +1,16 @@
 +++json
 {
   "status": "publish",
-  "title": "content build",
+  "title": "content",
   "category": "official-expansions"
 }
 +++
 
-The build content of the [Tini Content](/module/content) module.
+Expandable commands provided by the [Tini Content](/module/content) module.
+
 
 ```bash
+# build the content
 npx tini content build
 ```
 

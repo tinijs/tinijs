@@ -18,16 +18,6 @@ export default defineTiniConfig({});
 
 Add content module to your project by running `npx tini module add @tinijs/content`.
 
-Edit `tini.config.ts` to include the CLI expansion:
-
-```ts
-export default defineTiniConfig({
-  cli: {
-    expand: ['@tinijs/content'],
-  },
-});
-```
-
 Now you can start adding content to your project, please see [Manage content](/module/content-manage) page for more details.
 
 After adding content, you can build the content using the `npx tini content build` command.

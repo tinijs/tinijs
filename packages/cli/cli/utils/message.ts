@@ -1,22 +1,33 @@
 import {consola} from 'consola';
-
-export function logMissingArg(name: string) {
-  consola.log(`error: missing required argument '${name}'`, true);
-}
-
-export function errorInvalidSubCommand(
-  subCommand: string,
-  availableSubCommands: Record<string, string>
-) {
-  consola.error(
-    `Invalid sub-command '${subCommand}', available: ${Object.values(
-      availableSubCommands
-    ).join(', ')}.`
-  );
-}
+import {blueBright, green, gray, magenta} from 'colorette';
+import {TINI_CONFIG_TS_FILE} from '@tinijs/project';
 
 export function errorUncleanGit() {
   consola.error(
-    'Unclean git working directory. Please commit or stash changes first.'
+    `Unclean GIT working directory, please ${green('commit')} or ${green(
+      'stash'
+    )} changes first.`
+  );
+}
+
+export function infoRunHook(sourceName: string, hookName: string) {
+  consola.info(`[${magenta(sourceName)}] Run hook ${green(hookName)}`);
+}
+
+export function warnManualRegisterModule(moduleName: string) {
+  consola.warn(
+    'Unable to modify Tini config, please add the following code manually:'
+  );
+  consola.box(
+    `// File: ${blueBright(TINI_CONFIG_TS_FILE)}\n
+${gray('export default defineTiniConfig({')}
+  modules: [${green(`'${moduleName}'`)}]
+${gray('});')}`
+  );
+}
+
+export function errorModuleRequireTiniApp(moduleName: string) {
+  consola.error(
+    `Module ${blueBright(moduleName)} requires a valid Tini app to work.`
   );
 }

@@ -36,9 +36,7 @@
   "dependencies": {
     "@tinijs/cli": "^0.17.0",
     "@tinijs/project": "^0.17.0",
-    "cheerio": "^1.0.0-rc.12",
     "fs-extra": "^11.2.0",
-    "magicast": "^0.3.3",
     "pathe": "^1.1.2",
     "sass": "^1.71.1"
   }

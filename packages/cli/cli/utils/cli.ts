@@ -4,10 +4,25 @@ import {
   type ArgsDef,
   type SubCommandsDef,
 } from 'citty';
+import {resolve} from 'pathe';
+import {pathExistsSync} from 'fs-extra/esm';
 import type {Promisable} from 'type-fest';
 import {defu} from 'defu';
+import initJiti, {type JITI} from 'jiti';
 
-import {TiniProject, type CLIExpansionConfig} from '@tinijs/project';
+import {
+  TiniProject,
+  isIntegratedItemExistsInConfig,
+  type CLIExpansionConfig,
+} from '@tinijs/project';
+
+import {tsToJS} from './file.js';
+import {loadProjectPackageJSON} from './project.js';
+
+// @ts-ignore
+const jiti = initJiti(import.meta.url) as JITI;
+
+const OFFICIAL_EXPANSIONS = ['@tinijs/content', '@tinijs/ui'];
 
 export function resolveCommand(m: any) {
   return m.default.def as Promise<CommandDef>;
@@ -120,11 +135,46 @@ export function createCLICommand<
 export async function setupCLIExpansion<
   Options extends Record<string, unknown> = {},
 >(tiniProject: TiniProject) {
-  const cliExpand = tiniProject.config.cli?.expand || [];
-  const expandedCommands: SubCommandsDef = {};
+  const {expand: cliExpand = [], noAutoExpansions} =
+    tiniProject.config.cli || {};
+  // auto load available expansions
+  if (!noAutoExpansions) {
+    // official
+    const {dependencies, devDependencies, peerDependencies} =
+      await loadProjectPackageJSON();
+    const allDependencies = {
+      ...dependencies,
+      ...devDependencies,
+      ...peerDependencies,
+    };
+    for (const officialPackage of OFFICIAL_EXPANSIONS) {
+      if (
+        allDependencies[officialPackage] &&
+        !isIntegratedItemExistsInConfig(cliExpand, officialPackage)
+      ) {
+        cliExpand.push(officialPackage);
+      }
+    }
+    // local
+    const autoTSFile = resolve('cli', 'expand.ts');
+    const autoJSFile = tsToJS(autoTSFile);
+    if (pathExistsSync(autoTSFile)) {
+      const {default: localAuto} = (await jiti.import(autoTSFile, {})) as {
+        default: CLIExpansionConfig;
+      };
+      if (localAuto) cliExpand.push(localAuto);
+    } else if (pathExistsSync(autoJSFile)) {
+      const {default: localAuto} = (await import(autoJSFile)) as {
+        default: CLIExpansionConfig;
+      };
+      if (localAuto) cliExpand.push(localAuto);
+    }
+  }
+  // load expandable commands
+  const expandableCommands: SubCommandsDef = {};
   for (const item of cliExpand) {
     const [localOrVendor, options = {}] = item instanceof Array ? item : [item];
-    // process expanded commands
+    // process expandable commands
     const expansionConfig =
       localOrVendor instanceof Object
         ? localOrVendor
@@ -143,11 +193,11 @@ export async function setupCLIExpansion<
         );
     // merge commands
     for (const [key, value] of Object.entries(commands)) {
-      if (expandedCommands[key]) continue;
-      expandedCommands[key] = value;
+      if (expandableCommands[key]) continue;
+      expandableCommands[key] = value;
     }
   }
-  return expandedCommands;
+  return expandableCommands;
 }
 
 export async function loadVendorCLIExpansion<

@@ -46,6 +46,7 @@
     "adm-zip": "^0.5.10",
     "axios": "^1.6.7",
     "change-case": "^5.4.3",
+    "cheerio": "^1.0.0-rc.12",
     "chokidar": "^3.6.0",
     "citty": "^0.1.6",
     "colorette": "^2.0.20",
@@ -57,8 +58,10 @@
     "jiti": "^1.21.0",
     "knitwork": "^1.1.0",
     "open": "^10.0.4",
+    "ora": "^8.0.1",
     "pathe": "^1.1.2",
     "picomatch": "^4.0.1",
+    "prettier": "^3.2.5",
     "recursive-readdir": "^2.2.3",
     "superstatic": "^9.0.3",
     "typescript": "~5.3.3"

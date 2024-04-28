@@ -6,15 +6,7 @@
 }
 +++
 
-Expanding [Tini CLI](/cli) with more content related commands.
-
-```ts
-export default defineTiniConfig({
-  cli: {
-    expand: ['@tinijs/content'],
-  }
-});
-```
+Expand [Tini CLI](/cli) with more content related commands.
 
 ## `content build`
 

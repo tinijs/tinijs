@@ -1,9 +1,9 @@
-import {getWorkbox} from './methods.js';
+import {getSW} from './methods.js';
 
-export function UseWorkbox() {
+export function UseSW() {
   return function (prototype: any, propertyKey: string) {
     Object.defineProperty(prototype, propertyKey, {
-      get: () => getWorkbox(),
+      get: () => getSW(),
     });
   };
 }

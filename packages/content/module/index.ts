@@ -1,5 +1,9 @@
-import {consola} from 'consola';
-import {defineTiniModule} from '@tinijs/project';
+import {defineTiniModule, checkPotentialTiniApp} from '@tinijs/project';
+import {
+  registerTiniConfigModule,
+  warnManualRegisterModule,
+  infoRunHook,
+} from '@tinijs/cli';
 
 import {PACKAGE_NAME} from '../lib/consts/common.js';
 
@@ -11,21 +15,27 @@ export default defineTiniModule<ContentModuleOptions>({
   meta: {
     name: PACKAGE_NAME,
   },
-  init() {
+  init(tiniConfig) {
     return {
       copy: {
         assets: 'content',
       },
+      async run() {
+        if (!checkPotentialTiniApp(tiniConfig)) return;
+        try {
+          await registerTiniConfigModule(PACKAGE_NAME);
+        } catch (error) {
+          setTimeout(() => warnManualRegisterModule(PACKAGE_NAME), 300);
+        }
+      },
     };
   },
   async setup(options, tini) {
-    tini.hook(
-      'build:before',
-      () =>
-        contentBuildCommand(options, {
-          onStart: () =>
-            consola.info(`[${PACKAGE_NAME}] Run hook build:before`),
-        }) as Promise<void>
-    );
+    const buildContent = (hookName: string) => async () =>
+      contentBuildCommand(options, {
+        onStart: () => infoRunHook(PACKAGE_NAME, hookName),
+      });
+    tini.hook('dev:before', buildContent('dev:before'));
+    tini.hook('build:before', buildContent('build:before'));
   },
 });

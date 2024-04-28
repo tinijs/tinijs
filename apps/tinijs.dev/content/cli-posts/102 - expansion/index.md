@@ -8,21 +8,62 @@
 
 Tini CLI has an **expandable architect** where you can add more commands to be used various purposes.
 
-More commands can be added into the original CLI, then you can run the extra commands similar to any built-in command. There are 3 types of expansions (or expansion packs): **official** expansions, **community** expansions and **private** expansions.
+More commands can be added into the original CLI, then you can run the extra commands similar to any built-in command. There are 3 types of expansions (or expansion packs): **official** expansions, **community** expansions and **local/private** expansions. For official expansions, please see the **Official Expansions** category.
 
-For official expansions, please see the **Official Expansions** category.
+In any project, you can install the [Tini CLI](/cli) and one or more expansion packs, then config `tini.config.ts` to use the expansions:
+
+```ts
+import {defineTiniConfig} from '@tinijs/project';
+
+export default defineTiniConfig({
+
+  cli: {
+    // list of installed expansions
+    expand: [
+      'some-name-1',
+      'some-name-2'
+    ],
+
+    // disable autoload official and local expansions, default: false (auto load)
+    noAutoExpansions: true,
+  },
+
+});
+```
+
+If an expandable command already exists in the CLI built-in list, it will be skipped. You can disable the built-in commands by setting `noBuiltins: true` or set individual command to `false`.
 
 ## Community expansions
 
-- Add your shared expansions here
-
-## Author an expansion
-
 You can create expansions for using in your own projects or distribute them to be used by others.
 
-See an example: <https://github.com/tinijs/tinijs/blob/main/packages/content/cli/expand.ts>
+### List of community expansions
 
-- Create `cli/expand.ts`:
+- Add your shared expansions here
+
+### Author an expansion
+
+You can either start a new expansion or add to an existing project.
+
+Examples:
+  - Tini Content CLI: <https://github.com/tinijs/tinijs/blob/main/packages/content/cli/expand.ts>
+  - Tini UI CLI: <https://github.com/tinijs/tinijs/blob/main/packages/ui/cli/expand.ts>
+
+#### Start a new expansion
+
+Download the [CLI Expansion Starter Template](https://github.com/tinijs/cli-expansion-starter), or using the CLI to create a new expansion (similar to creating a new app):
+
+```bash
+npx @tinijs/cli@latest new my-cli -t cli-expansion
+```
+
+Follow the `README.md` file to start the devlopement and publish the expansion to NPM.
+
+#### Use an existing project
+
+Use can also create an expansion in a exisiting package in 3 steps:
+
+- **Step 1**: Create `cli/expand.ts`:
 
 ```ts
 import {defineTiniCLIExpansion, resolveCommand} from '@tinijs/cli';
@@ -39,7 +80,7 @@ export default defineTiniCLIExpansion({
 });
 ```
 
-- Create a command file `cli/commands/xxx.ts`:
+- **Step 2**: create a command file `cli/commands/xxx.ts`:
 
 ```ts
 import {createCLICommand} from '@tinijs/cli';
@@ -47,7 +88,7 @@ import {createCLICommand} from '@tinijs/cli';
 export const xxxCommand = createCLICommand({
   meta: {
     name: 'xxx',
-    description: 'Command description.',
+    description: 'The command description.',
   },
   async (args) => {
     // command logic
@@ -57,27 +98,22 @@ export const xxxCommand = createCLICommand({
 export default xxxCommand;
 ```
 
-- Add to `package.json`:
+- **Step 3**: add to `package.json`:
 
 ```json
 {
-  "name": "some-name",
   "exports": {
     "./cli-expansion": "./dist/cli/expand.js"
   },
 }
 ```
 
-- Publish the package for others to use.
+Start the developement and publish your package to NPM.
 
-```ts
-import {defineTiniConfig} from '@tinijs/project';
+## Local expansions
 
-export default defineTiniConfig({
+You can create private expansions for using in your own projects.
 
-  cli: {
-    expand: ['some-name'],
-  },
+Follow **Step 1** and **Step 2** of _"Use an existing project"_ above.
 
-});
-```
+Local expansion will be loaded automatically. Then run `npx tini` to see the if the command is available.

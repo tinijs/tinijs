@@ -1,5 +1,5 @@
 import {blueBright} from 'colorette';
-import {consola} from 'consola';
+import ora from 'ora';
 
 import {getTiniProject, loadVendorModule} from '@tinijs/project';
 
@@ -12,6 +12,8 @@ import {
 } from '../utils/module.js';
 import {isGitClean} from '../utils/git.js';
 import {createCLICommand} from '../utils/cli.js';
+
+const SPINNER = ora();
 
 export const moduleAddCommand = createCLICommand(
   {
@@ -36,23 +38,42 @@ export const moduleAddCommand = createCLICommand(
     const {config: tiniConfig} = await getTiniProject();
     // install packages
     await installPackage(args.packageName, args.version);
+
     // handle init
+    callbacks?.onStart(args.packageName);
     const moduleConfig = await loadVendorModule(args.packageName);
     if (moduleConfig?.init) {
       const {copy, scripts, buildCommand, run} = moduleConfig.init(tiniConfig);
       // copy assets
-      if (copy) await copyAssets(args.packageName, copy);
+      if (copy) {
+        callbacks?.onCopyAssets();
+        await copyAssets(args.packageName, copy);
+      }
       // add scripts
-      if (scripts) await updateScripts(scripts, buildCommand);
+      if (scripts) {
+        callbacks?.onUpdateScripts();
+        await updateScripts(scripts, buildCommand);
+      }
       // run
-      if (run) await initRun(run);
+      if (run) {
+        callbacks?.onInitRun();
+        await initRun(run);
+      }
     }
     // done
     callbacks?.onEnd(args.packageName);
   },
   {
+    onStart: (packageName: string) => {
+      SPINNER.start(
+        `Load initial instruction for module ${blueBright(packageName)}.`
+      );
+    },
+    onCopyAssets: () => (SPINNER.text = 'Copy assets.'),
+    onUpdateScripts: () => (SPINNER.text = 'Update scripts.'),
+    onInitRun: () => (SPINNER.text = 'Run initial tasks.'),
     onEnd: (packageName: string) =>
-      consola.success(`Add module ${blueBright(packageName)} successfully.`),
+      SPINNER.succeed(`Add module ${blueBright(packageName)} successfully.\n`),
   }
 );
 

@@ -7,11 +7,22 @@
 +++
 
 See example modules:
-- Tini Content - <https://github.com/tinijs/tinijs/tree/main/packages/content>
+  - Tini Content - <https://github.com/tinijs/tinijs/tree/main/packages/content>
+  - Tini PWA - <https://github.com/tinijs/tinijs/tree/main/packages/pwa>
 
-## Create a module
+## Create a new module
 
-- Create `module/index.ts`
+Download the [Module Starter Template](https://github.com/tinijs/module-starter), or using the CLI to create a new module (similar to creating a new app):
+
+```bash
+npx @tinijs/cli@latest new my-module -t module
+```
+
+Follow the `README.md` file to start the devlopement and publish the expansion to NPM.
+
+## Use an existing project
+
+- Step 1: create `module/index.ts`
 
 ```ts
 import {defineTiniModule} from '@tinijs/project';
@@ -35,21 +46,32 @@ export default defineTiniModule<MyModuleOptions>({
 });
 ```
 
-- Add to `package.json`
+- Step 2: add to `package.json`
 
 ```json
 {
-  "name": "my-module",
   "exports": {
     "./module-loader": "./dist/module/index.js"
   }
 }
 ```
 
-- Publish to NPM for others to use
+Start the development and publish the module to NPM.
 
-```sh
-npx tini module add my-module
+## Local modules
+
+You can also create a module in the local project.
+
+Follow **Step 1** and **Step 2** of _"Use an existing project"_ above, then add the module to the `tini.config.ts` file.
+
+```ts
+import myModule from './module/index.js';
+
+export default defineTiniConfig({
+
+  modules: [
+    myModule
+  ],
+
+});
 ```
-
-**TODO:** Add more detail instructions.

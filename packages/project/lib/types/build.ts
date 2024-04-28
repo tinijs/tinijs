@@ -36,6 +36,7 @@ export interface BuildConfig {
 export type CustomBuildConfig = (tiniProject: TiniProject) => Builder;
 
 export interface BuildHooks {
+  'dev:before': () => ReturnType<HookCallback>;
   'build:before': () => ReturnType<HookCallback>;
   'build:after': () => ReturnType<HookCallback>;
 }
