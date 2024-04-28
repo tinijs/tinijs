@@ -1,12 +1,14 @@
 +++json
 {
   "status": "publish",
-  "title": "ui build",
+  "title": "ui",
   "category": "official-expansions"
 }
 +++
 
-The build content of the [Tini UI](/ui) module.
+Expandable commands provided by the [Tini UI](/ui).
+
+- Build the UI packs:
 
 ```bash
 npx tini ui build

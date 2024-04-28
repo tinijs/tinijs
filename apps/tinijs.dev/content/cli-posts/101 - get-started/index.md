@@ -22,21 +22,17 @@ There are 3 ways to install Tini CLI:
 There are several TiniJS starters for getting started with TiniJS quickly, you can find them in the [Starters](/framework/get-started) page.
 
 ```bash
-npx @tinijs/cli@latest new my-app -l
+npx @tinijs/cli@latest new my-app
 ```
 
-Run a command:
-
-```bash
-npx tini generate component my-component
-```
+Run a command: `npx tini docs`
 
 ### Install locally
 
 Drop Tini CLI into any project add runs it using `scripts` or `npx`.
 
 ```bash
-npm i @tinijs/cli
+npm i -D @tinijs/cli
 ```
 
 Add `scripts` to `package.json`:
@@ -49,11 +45,7 @@ Add `scripts` to `package.json`:
 }
 ```
 
-Run a command:
-
-```bash
-npx tini generate component my-component
-```
+Run a command: `npx tini docs`
 
 ### Install globally
 
@@ -63,11 +55,7 @@ Install Tini CLI globally to use it in any project.
 npm i -g @tinijs/cli
 ```
 
-Run a command:
-
-```bash
-tini generate component my-component
-```
+Run a command: `tini docs`
 
 ## Usage
 
@@ -86,11 +74,35 @@ List of built-in commands:
 | [`generate`](/cli/generate) | Generate assets like components, pages, layouts, etc. |
 | [`module add`](/cli/module-add) | Add a Tini Module to the project. |
 
-List of official expanded commands:
+List of official expandable commands:
 
 | Official expansions | Description |
 | --- | --- |
-| [`content build`](/cli/content-build) | Build content using `@tinijs/content`. |
-| [`ui build`](/cli/ui-build) | Build UI packs using `@tinijs/ui`. |
+| [`content`](/cli/content) | Provided by [Tini Content](/module/content) module. |
+| [`ui`](/cli/ui) | Provided by [Tini UI](/ui). |
 
 And any community or private expansions, please refer to the [CLI expansion](/cli/expansion).
+
+## Config
+
+You can config CLI behaviors using the `cli` field in the `tini.config.ts`
+
+```ts
+import {defineTiniConfig} from '@tinijs/project';
+
+export default defineTiniConfig({
+
+  cli: {
+    noBuiltins: true, // disable all built-in commands, default: false (enable)
+    docs: false, // enable/disable 'docs' command, default: true (enable)
+    info: false, // enable/disable 'info' command, default: true (enable)
+    new: false, // enable/disable 'new' command, default: true (enable)
+    dev: false, // enable/disable 'dev' command, default: true (enable)
+    build: false, // enable/disable 'build' command, default: true (enable)
+    preview: false, // enable/disable 'preview' command, default: true (enable)
+    generate: false, // enable/disable 'generate' command, default: true (enable)
+    module: false, // enable/disable 'module' command, default: true (enable)
+  },
+
+});
+```

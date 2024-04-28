@@ -39,40 +39,29 @@ More detail about working with content, please see the [Manage content](/module/
 
 ### Use with TiniJS apps
 
-For using Tini Content with a TiniJS app, config `tini.config.ts` to include the module so that when run `npm run build` it will build the content first before building the app.
-
-```ts
-export default defineTiniConfig({
-  modules: ['@tinijs/content']
-});
-```
-
-With options.
+The module will be add to the `tini.config.ts` file automatically, if you need to config the module further, use below syntax.
 
 ```ts
 import type {ContentModuleOptions} from '@tinijs/content/module';
 
 export default defineTiniConfig({
   modules: [
-    ['@tinijs/content', {
-      dir: 'app-content', // default is 'content'
-      outDir: 'public', // default is 'app/public'
-    } as ContentModuleOptions]
+
+    [
+      '@tinijs/content',
+      {
+        dir: 'app-content', // default is 'content'
+        outDir: 'public', // default is 'app/public'
+      } as ContentModuleOptions
+    ]
+
   ]
 });
 ```
 
-### Register CLI commands
+### CLI commands
 
-You can register expanded CLI commands in `tini.config.ts` for running them manually.
-
-```ts
-export default defineTiniConfig({
-  cli: {
-    expand: ['@tinijs/content'],
-  }
-});
-```
+Official [CLI expansions](/cli/expansion) will be available automatically after adding the module.
 
 Now you can build the content using the `content build` command:
 
