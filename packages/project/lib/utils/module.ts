@@ -19,7 +19,7 @@ export async function setupModules(tiniProject: TiniProject) {
         ? localOrVendor
         : await loadVendorModule(localOrVendor);
     await moduleConfig?.setup(
-      defu(moduleConfig.defaults, options),
+      defu(options, moduleConfig.defaults),
       tiniProject
     );
   }

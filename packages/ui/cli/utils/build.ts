@@ -410,14 +410,14 @@ return initUI({
       : '{...availableSkins, ...customConfig.skins}'
   },
   shares: defu(
-    availableBases,
     Object.entries(customConfig.shares || {}).reduce(
       (result, [key, value]) => {
         result[key] = listify<CSSResultOrNative>(value);
         return result;
       },
       {} as Record<string, CSSResultOrNative[]>
-    )
+    ),
+    availableBases,
   ),
   options: customConfig.options,
 });

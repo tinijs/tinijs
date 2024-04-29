@@ -1,6 +1,7 @@
 import {pathExistsSync} from 'fs-extra/esm';
 import {
   TiniProject,
+  getProjectDirs,
   type Builder,
   type CommonBuildOptions,
 } from '@tinijs/project';
@@ -37,7 +38,7 @@ export class WebpackBuilder implements Builder {
   }
 
   private get commands() {
-    const {outDir} = this.tiniProject.config;
+    const {outDir} = getProjectDirs(this.tiniProject.config);
     const {configPath, devCommand, devHost, devPort, buildCommand} =
       this.options;
     const configArgs = [

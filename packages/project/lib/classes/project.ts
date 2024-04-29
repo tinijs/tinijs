@@ -85,7 +85,7 @@ export async function loadTiniConfig(dir?: string) {
   )) as {
     default?: TiniConfig;
   };
-  return defu(defaultConfig, fileConfig);
+  return defu(fileConfig, defaultConfig);
 }
 
 export async function getTiniProject(dir?: string) {

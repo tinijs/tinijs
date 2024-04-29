@@ -1,6 +1,7 @@
 import {pathExistsSync} from 'fs-extra/esm';
 import {
   TiniProject,
+  getProjectDirs,
   type Builder,
   type CommonBuildOptions,
 } from '@tinijs/project';
@@ -37,11 +38,10 @@ export class ParcelBuilder implements Builder {
   }
 
   private get commands() {
-    const {srcDir, compileDir, outDir, compile} = this.tiniProject.config;
+    const {entryDir, outDir} = getProjectDirs(this.tiniProject.config);
     const {configPath, devCommand, devHost, devPort, buildCommand, sourcemap} =
       this.options;
-    const indexFilePath =
-      compile === false ? `${srcDir}/index.html` : `${compileDir}/index.html`;
+    const entryFilePath = `${entryDir}/index.html`;
     const configArgs = [
       '--config',
       configPath ||
@@ -57,7 +57,7 @@ export class ParcelBuilder implements Builder {
         devCommand ||
         [
           'parcel',
-          indexFilePath,
+          entryFilePath,
           ...configArgs,
           ...outDirArgs,
           ...hostArgs,
@@ -68,7 +68,7 @@ export class ParcelBuilder implements Builder {
         [
           'parcel',
           'build',
-          indexFilePath,
+          entryFilePath,
           ...configArgs,
           ...outDirArgs,
           ...sourcemapArgs,
