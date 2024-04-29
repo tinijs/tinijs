@@ -2,9 +2,9 @@ name: Main
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
   pull_request:
+    branches: ["main"]
 
 permissions:
   actions: read
@@ -12,17 +12,25 @@ permissions:
 
 jobs:
   main:
+
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v3
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm ci
+
       - uses: nrwl/nx-set-shas@v4
 
       - run: git branch --track main origin/main
