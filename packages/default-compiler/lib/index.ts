@@ -123,31 +123,20 @@ export class DefaultCompiler implements Compiler {
     context: CompileFileHookContext,
     options: Exclude<CompileOptions['compileTaggedHTML'], false>
   ) {
-    const templateMatching = context.content!.match(
-      /(return html`)([\s\S]*?)(`;)/
+    const templateMatchingArr = context.content!.match(
+      /(return html`)([\s\S]*?)(`;)/g
     );
-    if (!templateMatching) return; // no return html`...`
-    const {isDevelopment} = context;
+    if (!templateMatchingArr) return; // no return html`...`
     // minify template literals
-    if (!isDevelopment) {
-      const matchedTemplate = templateMatching[0];
-      let minifiedTemplate: string | undefined;
-      // minify
-      try {
-        if (options?.minify !== false) {
-          const result = minifyHTMLLiterals(matchedTemplate);
-          if (!result) throw new Error('Run minifyHTMLLiterals() failed.');
-          minifiedTemplate = result.code;
+    if (options?.minify !== false) {
+      for (const matchedTemplate of templateMatchingArr) {
+        const result = minifyHTMLLiterals(matchedTemplate);
+        if (result) {
+          context.content = context.content!.replace(
+            matchedTemplate,
+            result.code
+          );
         }
-      } catch (error) {
-        // eslint-disable-next-line no-empty
-      }
-      // replace original with minified
-      if (minifiedTemplate) {
-        context.content = context.content!.replace(
-          matchedTemplate,
-          minifiedTemplate
-        );
       }
     }
   }
@@ -158,29 +147,20 @@ export class DefaultCompiler implements Compiler {
   ) {
     const cssMatchingArr = context.content!.match(/(css`)([\s\S]*?)(`,|`;)/g);
     if (!cssMatchingArr?.length) return; // no css``
-    const {isDevelopment} = context;
     // compile scss
-    for (let i = 0; i < cssMatchingArr.length; i++) {
-      const cssMatching = cssMatchingArr[i];
-      if (cssMatching.includes('/* no-sass */')) continue;
+    for (const matchedCSS of cssMatchingArr) {
+      if (matchedCSS.includes('/* no-sass */')) continue;
       // extract original
-      let originalValue = cssMatching.replace('css`', '');
+      let originalValue = matchedCSS.replace('css`', '');
       originalValue = originalValue.substring(0, originalValue.length - 2);
       // compile scss
-      let compiledValue: string;
-      try {
-        compiledValue = (
-          await compileStringAsync(originalValue, {
-            loadPaths: ['node_modules', this.projectDirs.srcDir],
-            ...options,
-            style: isDevelopment ? 'expanded' : 'compressed',
-          })
-        ).css;
-      } catch (err) {
-        compiledValue = isDevelopment
-          ? originalValue
-          : originalValue.replace(/(?:\r\n|\r|\n)/g, '').replace(/\s\s+/g, ' ');
-      }
+      const compiledValue = (
+        await compileStringAsync(originalValue, {
+          loadPaths: ['node_modules', this.projectDirs.srcDir],
+          ...options,
+          style: 'compressed',
+        })
+      ).css;
       // replacing original with compiled
       context.content = context.content!.replace(originalValue, compiledValue);
     }
