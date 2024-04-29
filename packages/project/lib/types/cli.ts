@@ -33,7 +33,7 @@ export interface CLIConfig {
   module?: false;
   noBuiltins?: true;
   expand?: TiniIntegration<CLIExpansionConfig>;
-  noAutoExpansions?: true;
+  noAutoExpansions?: true | string[];
 }
 
 export interface CLIHooks {

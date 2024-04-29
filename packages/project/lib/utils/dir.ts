@@ -1,5 +1,7 @@
 import type {TiniConfig} from '../classes/project.js';
 
+export type ProjectDirs = ReturnType<typeof getProjectDirs>;
+
 export const DEFAULT_SRC_DIR = 'app';
 export const DEFAULT_COMPILE_DIR = '.app';
 export const DEFAULT_OUT_DIR = '.output';
@@ -34,4 +36,8 @@ export function getProjectDirs({
       vendor: dirs?.vendor || 'vendor',
     },
   };
+}
+
+export function isUnderTopDir(path: string, srcDir: string, topDir: string) {
+  return path.includes(`/${srcDir}/${topDir}/`);
 }

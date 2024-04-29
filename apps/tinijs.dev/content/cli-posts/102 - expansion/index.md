@@ -24,7 +24,10 @@ export default defineTiniConfig({
       'some-name-2'
     ],
 
-    // disable autoload official and local expansions, default: false (auto load)
+    // disable autoload official and local expansions, default: false (auto load all available)
+    // undefined or false: auto load all available
+    // true: disable all auto load
+    // string[]: disable specific ones, example: ['local', '@tinijs/content']
     noAutoExpansions: true,
   },
 

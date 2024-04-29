@@ -1,9 +1,15 @@
+import {resolve, parse} from 'pathe';
+import {readFile} from 'node:fs/promises';
+import type {Matcher} from 'picomatch';
 import {
   TiniProject,
   getProjectDirs,
+  isUnderTopDir,
   type TiniConfig,
   type Compiler,
   type Builder,
+  type ProjectDirs,
+  type CompileFileHookContext,
 } from '@tinijs/project';
 
 export async function loadCompiler(
@@ -37,13 +43,59 @@ export function exposeEnvs(tiniConfig: TiniConfig, targetEnv: string) {
   process.env.TARGET_ENV = targetEnv;
   process.env.TINI_PROJECT_DIRS = JSON.stringify(projectDirs);
   process.env.TINI_COMPILE_OPTIONS = JSON.stringify(
-    (tiniConfig.compile === false || tiniConfig.compile instanceof Function
-      ? undefined
-      : tiniConfig.compile?.options) || {}
+    extractCompileOptions(tiniConfig.compile)
   );
   process.env.TINI_BUILD_OPTIONS = JSON.stringify(
     (tiniConfig.build instanceof Function
       ? undefined
       : tiniConfig.build?.options) || {}
   );
+}
+
+export function extractCompileOptions<Type>(
+  compileConfig: TiniConfig['compile']
+) {
+  return ((compileConfig === false || compileConfig instanceof Function
+    ? undefined
+    : compileConfig?.options) || {}) as Type;
+}
+
+export async function parseCompileFileContext(
+  path: string,
+  {srcDir, compileDir, dirs}: ProjectDirs,
+  ignoreMatcher?: Matcher
+): Promise<CompileFileHookContext | null> {
+  if (ignoreMatcher?.(path)) return null;
+  const env = process.env.TARGET_ENV || 'development';
+  const isDevelopment = env === 'development';
+  const inPath = resolve(path);
+  const outPath = resolve(
+    compileDir,
+    inPath.replace(`${resolve(srcDir)}/`, '')
+  );
+  const {base, name, ext} = parse(inPath);
+  const isPublic = isUnderTopDir(inPath, srcDir, dirs.public);
+  const copyOnly = !!(
+    isPublic || !['.html', '.css', '.scss', '.ts', '.js'].includes(ext)
+  );
+  const isAppEntry = path.endsWith(`${srcDir}/index.html`);
+  const isAppRoot = path.endsWith(`${srcDir}/app.ts`);
+  const isActiveConfig = path.endsWith(
+    `${srcDir}/${dirs.configs}/${process.env.TARGET_ENV}.ts`
+  );
+  return {
+    env,
+    isDevelopment,
+    base,
+    name,
+    ext,
+    inPath,
+    outPath,
+    content: copyOnly ? undefined : await readFile(inPath, 'utf8'),
+    copyOnly,
+    isPublic,
+    isAppEntry,
+    isAppRoot,
+    isActiveConfig,
+  };
 }

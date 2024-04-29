@@ -138,7 +138,7 @@ export async function setupCLIExpansion<
   const {expand: cliExpand = [], noAutoExpansions} =
     tiniProject.config.cli || {};
   // auto load available expansions
-  if (!noAutoExpansions) {
+  if (noAutoExpansions !== true) {
     // official
     const {dependencies, devDependencies, peerDependencies} =
       await loadProjectPackageJSON();
@@ -150,24 +150,27 @@ export async function setupCLIExpansion<
     for (const officialPackage of OFFICIAL_EXPANSIONS) {
       if (
         allDependencies[officialPackage] &&
-        !isIntegratedItemExistsInConfig(cliExpand, officialPackage)
+        !isIntegratedItemExistsInConfig(cliExpand, officialPackage) &&
+        (!noAutoExpansions || !noAutoExpansions.includes(officialPackage))
       ) {
         cliExpand.push(officialPackage);
       }
     }
     // local
-    const autoTSFile = resolve('cli', 'expand.ts');
-    const autoJSFile = tsToJS(autoTSFile);
-    if (pathExistsSync(autoTSFile)) {
-      const {default: localAuto} = (await jiti.import(autoTSFile, {})) as {
-        default: CLIExpansionConfig;
-      };
-      if (localAuto) cliExpand.push(localAuto);
-    } else if (pathExistsSync(autoJSFile)) {
-      const {default: localAuto} = (await import(autoJSFile)) as {
-        default: CLIExpansionConfig;
-      };
-      if (localAuto) cliExpand.push(localAuto);
+    if (!noAutoExpansions || !noAutoExpansions.includes('local')) {
+      const autoTSFile = resolve('cli', 'expand.ts');
+      const autoJSFile = tsToJS(autoTSFile);
+      if (pathExistsSync(autoTSFile)) {
+        const {default: localAuto} = (await jiti.import(autoTSFile, {})) as {
+          default: CLIExpansionConfig;
+        };
+        if (localAuto) cliExpand.push(localAuto);
+      } else if (pathExistsSync(autoJSFile)) {
+        const {default: localAuto} = (await import(autoJSFile)) as {
+          default: CLIExpansionConfig;
+        };
+        if (localAuto) cliExpand.push(localAuto);
+      }
     }
   }
   // load expandable commands
