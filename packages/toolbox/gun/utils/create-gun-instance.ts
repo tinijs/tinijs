@@ -9,8 +9,6 @@ import 'gun/sea';
 export type GunResult<Type> = Type | null | undefined;
 export type GunLink = GunResult<{'#': string}>;
 
-export type CreateGunInstance = typeof createGunInstance;
-
 export function createGunInstance(root: string, options?: GunOptions) {
   const gun = (Gun as unknown as IGun)(
     options || {
@@ -29,3 +27,4 @@ export function createGunInstance(root: string, options?: GunOptions) {
 }
 
 export default createGunInstance;
+export type CreateGunInstanceUtil = typeof createGunInstance;

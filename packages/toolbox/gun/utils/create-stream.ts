@@ -4,8 +4,6 @@ import type {GunResult} from './create-gun-instance.js';
 import {emitStaticValue} from './emit-static-value.js';
 import {emitStreamValue} from './emit-stream-value.js';
 
-export type CreateStream = typeof createStream;
-
 export interface StreamOptions {
   timeout?: number;
 }
@@ -51,3 +49,4 @@ export function createStream<Data>(
 }
 
 export default createStream;
+export type CreateStreamUtil = typeof createStream;

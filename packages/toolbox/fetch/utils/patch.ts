@@ -1,11 +1,9 @@
 import {
-  fetchx,
+  fetch_,
   type Input,
   type Options,
   type AdditionalOptions,
 } from './fetch.js';
-
-export type Patch = typeof patch;
 
 export function patch<Result>(
   input: Input,
@@ -13,7 +11,8 @@ export function patch<Result>(
   options?: Options,
   additionalOptions?: AdditionalOptions
 ) {
-  return fetchx<Result>('PATCH', input, body, options);
+  return fetch_<Result>('PATCH', input, body, options);
 }
 
 export default patch;
+export type PatchUtil = typeof patch;

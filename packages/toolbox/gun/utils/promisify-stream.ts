@@ -1,7 +1,5 @@
 import type {StreamResult, StreamCallback} from './create-stream.js';
 
-export type PromisifyStream = typeof promisifyStream;
-
 export type ExcludeLastStreamMethodParam<T extends any[]> = T extends [
   ...infer ExcludeLastStreamMethodParam,
   any,
@@ -28,3 +26,4 @@ export async function promisifyStream<
 }
 
 export default promisifyStream;
+export type PromisifyStreamUtil = typeof promisifyStream;

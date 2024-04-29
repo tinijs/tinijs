@@ -1,11 +1,9 @@
 import {
-  fetchx,
+  fetch_,
   type Input,
   type Options,
   type AdditionalOptions,
 } from './fetch.js';
-
-export type Post = typeof post;
 
 export function post<Result>(
   input: Input,
@@ -13,7 +11,8 @@ export function post<Result>(
   options?: Options,
   additionalOptions?: AdditionalOptions
 ) {
-  return fetchx<Result>('POST', input, body, options);
+  return fetch_<Result>('POST', input, body, options);
 }
 
 export default post;
+export type PostUtil = typeof post;

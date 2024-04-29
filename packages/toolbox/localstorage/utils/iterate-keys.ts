@@ -1,7 +1,5 @@
 import type {LocalForage} from './create-local-forage.js';
 
-export type IterateKeys = typeof iterateKeys;
-
 export type LocalstorageIterateKeysHandler = (
   key: string,
   iterationNumber: number
@@ -18,3 +16,4 @@ export async function iterateKeys(
 }
 
 export default iterateKeys;
+export type IterateKeysUtil = typeof iterateKeys;

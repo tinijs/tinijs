@@ -2,8 +2,6 @@ import {base64ToBinary} from '../../common/utils/base64-to-binary.js';
 import {binaryToText} from '../../common/utils/binary-to-text.js';
 import {RSA_ALGORITHM} from './generate-rsa-keys.js';
 
-export type DecryptRSA = typeof decryptRSA;
-
 export async function decryptRSA(privateKey: CryptoKey, cipherPlus: string) {
   if (!cipherPlus.startsWith('RSA')) throw new Error('Invalid cipher content!');
   const {ct: cipher, iv: vector} = JSON.parse(cipherPlus.slice(3)) as {
@@ -22,3 +20,4 @@ export async function decryptRSA(privateKey: CryptoKey, cipherPlus: string) {
 }
 
 export default decryptRSA;
+export type DecryptRSAUtil = typeof decryptRSA;

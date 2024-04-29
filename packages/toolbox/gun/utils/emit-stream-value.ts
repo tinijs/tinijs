@@ -1,7 +1,5 @@
 import type {StreamContext, StreamCallback} from './create-stream.js';
 
-export type EmitStreamValue = typeof emitStreamValue;
-
 export function emitStreamValue<Data>(
   data: Data,
   context: StreamContext,
@@ -16,3 +14,4 @@ export function emitStreamValue<Data>(
 }
 
 export default emitStreamValue;
+export type EmitStreamValueUtil = typeof emitStreamValue;

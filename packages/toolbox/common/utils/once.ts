@@ -1,5 +1,3 @@
-export type Once = typeof once;
-
 export function once<Target extends (...params: any[]) => any>(
   target: Target,
   id?: string | symbol | ((...params: Parameters<Target>) => string)
@@ -20,3 +18,4 @@ export function once<Target extends (...params: any[]) => any>(
 }
 
 export default once;
+export type OnceUtil = typeof once;

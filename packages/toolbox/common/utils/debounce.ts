@@ -1,5 +1,3 @@
-export type Debounce = typeof debounce;
-
 export function debounce(target: Function, timeout = 100) {
   let timer: any;
   return (...params: any[]) => {
@@ -9,3 +7,4 @@ export function debounce(target: Function, timeout = 100) {
 }
 
 export default debounce;
+export type DebounceUtil = typeof debounce;

@@ -1,7 +1,5 @@
 import type {LocalForage} from './create-local-forage.js';
 
-export type GetBulk = typeof getBulk;
-
 export async function getBulk<Result>(
   localForage: LocalForage,
   keys: string[]
@@ -15,3 +13,4 @@ export async function getBulk<Result>(
 }
 
 export default getBulk;
+export type GetBulkUtil = typeof getBulk;

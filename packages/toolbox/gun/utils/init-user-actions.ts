@@ -5,8 +5,6 @@ import {importRSAPublicKey} from '../../crypto/utils/import-rsa-public-key.js';
 import {importRSAPrivateKey} from '../../crypto/utils/import-rsa-private-key.js';
 import type {GunResult} from './create-gun-instance.js';
 
-export type InitUserActions = typeof initUserActions;
-
 export type GunUserInstance = ReturnType<IGunInstance<any>['user']>;
 
 async function loadRSAPair(user: GunUserInstance, SEA: ISEA, retries = 7) {
@@ -49,3 +47,4 @@ export function initUserActions(
 }
 
 export default initUserActions;
+export type InitUserActionsUtil = typeof initUserActions;

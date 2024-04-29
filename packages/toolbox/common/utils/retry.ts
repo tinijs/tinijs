@@ -1,5 +1,3 @@
-export type Retry = typeof retry;
-
 export async function retry<Value>(
   handler: () => Promise<Value>,
   withTimeout: false | number = 0
@@ -13,3 +11,4 @@ export async function retry<Value>(
 }
 
 export default retry;
+export type RetryUtil = typeof retry;

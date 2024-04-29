@@ -1,18 +1,17 @@
 import {
-  fetchx,
+  fetch_,
   type Input,
   type Options,
   type AdditionalOptions,
 } from './fetch.js';
-
-export type Get = typeof get;
 
 export function get<Result>(
   input: Input,
   options?: Options,
   additionalOptions?: AdditionalOptions
 ) {
-  return fetchx<Result>('GET', input, undefined, options);
+  return fetch_<Result>('GET', input, undefined, options);
 }
 
 export default get;
+export type GetUtil = typeof get;
