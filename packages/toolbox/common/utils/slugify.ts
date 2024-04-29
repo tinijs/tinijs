@@ -1,7 +1,5 @@
 import slugify_ from '@sindresorhus/slugify';
 
-export type Slugify = typeof slugify;
-
 export function slugify(
   input: string,
   options?: Parameters<typeof slugify_>[1]
@@ -10,3 +8,4 @@ export function slugify(
 }
 
 export default slugify;
+export type SlugifyUtil = typeof slugify;

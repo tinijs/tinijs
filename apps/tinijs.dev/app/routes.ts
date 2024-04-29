@@ -26,6 +26,11 @@ export const routes: Route[] = [
         action: () => import('./pages/module.js'),
       },
       {
+        path: 'toolbox/:slug?',
+        component: 'app-page-toolbox',
+        action: () => import('./pages/toolbox.js'),
+      },
+      {
         path: 'server/:slug?',
         component: 'app-page-server',
         action: () => import('./pages/server.js'),

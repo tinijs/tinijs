@@ -1,5 +1,5 @@
 import {
-  fetchx,
+  fetch_,
   type Method,
   type Input,
   type Body,
@@ -37,7 +37,7 @@ export class FetchService {
   }
 
   fetch<Result>(method: Method, input: Input, body?: Body, options?: Options) {
-    return fetchx<Result>(method, input, body, options, {
+    return fetch_<Result>(method, input, body, options, {
       baseUrl: this.baseUrl,
       globalHeaders: this.globalHeaders,
     });

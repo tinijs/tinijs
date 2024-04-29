@@ -1,7 +1,5 @@
 import type {IGunChain} from 'gun';
 
-export type SetValue = typeof setValue;
-
 export async function setValue(chain: IGunChain<any>, key: string, value: any) {
   return new Promise<true>((resolve, reject) =>
     chain.get(key).put(value, (result: any) => {
@@ -12,3 +10,4 @@ export async function setValue(chain: IGunChain<any>, key: string, value: any) {
 }
 
 export default setValue;
+export type SetValueUtil = typeof setValue;

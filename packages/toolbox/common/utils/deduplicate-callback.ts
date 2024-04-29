@@ -1,7 +1,5 @@
 import {HashEncoding, sha256} from '../../crypto/utils/sha-256.js';
 
-export type DeduplicateCallback = typeof deduplicateCallback;
-
 export function deduplicateCallback<Target extends (...params: any[]) => any>(
   target: Target
 ): Target {
@@ -30,3 +28,4 @@ export function deduplicateCallback<Target extends (...params: any[]) => any>(
 }
 
 export default deduplicateCallback;
+export type DeduplicateCallbackUtil = typeof deduplicateCallback;

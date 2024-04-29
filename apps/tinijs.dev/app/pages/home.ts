@@ -62,7 +62,7 @@ export class AppPageHome extends TiniComponent {
 
       <section class="members">
         <ul>
-          <li>
+          <li @click=${() => this.router.go('/framework')}>
             <div class="icon">🏗️</div>
             <h3>Framework</h3>
             <p>
@@ -71,7 +71,7 @@ export class AppPageHome extends TiniComponent {
             </p>
           </li>
 
-          <li>
+          <li @click=${() => this.router.go('/ui')}>
             <div class="icon">🎨</div>
             <h3>UI</h3>
             <p>
@@ -80,7 +80,7 @@ export class AppPageHome extends TiniComponent {
             </p>
           </li>
 
-          <li>
+          <li @click=${() => this.router.go('/module')}>
             <div class="icon">📦</div>
             <h3>Modules</h3>
             <p>
@@ -89,7 +89,25 @@ export class AppPageHome extends TiniComponent {
             </p>
           </li>
 
-          <li>
+          <li @click=${() => this.router.go('/toolbox')}>
+            <div class="icon">🧰</div>
+            <h3>Toolbox</h3>
+            <p>
+              A unified place for commonly used tools from a wide range of
+              category.
+            </p>
+          </li>
+
+          <li @click=${() => this.router.go('/module/content')}>
+            <div class="icon">📝</div>
+            <h3>Content</h3>
+            <p>
+              File-based content management system without a need of server and
+              database.
+            </p>
+          </li>
+
+          <li @click=${() => this.router.go('/server')}>
             <div class="icon">🎛️</div>
             <h3>Server</h3>
             <p>
@@ -98,7 +116,7 @@ export class AppPageHome extends TiniComponent {
             </p>
           </li>
 
-          <li>
+          <li @click=${() => this.router.go('/cli')}>
             <div class="icon">⌨️</div>
             <h3>CLI</h3>
             <p>
@@ -212,6 +230,16 @@ export class AppPageHome extends TiniComponent {
       padding: var(--size-space);
       border-radius: var(--size-radius);
       background: var(--color-background);
+      border: 1px solid var(--color-background);
+      transition:
+        box-shadow 0.3s,
+        border-color 0.3s;
+    }
+
+    .members li:hover {
+      cursor: pointer;
+      box-shadow: var(--shadow-greater);
+      border-color: var(--color-background-shade);
     }
 
     .members li .icon {

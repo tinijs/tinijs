@@ -9,8 +9,6 @@ export enum HashEncoding {
   Utf8 = 'utf8',
 }
 
-export type Sha256 = typeof sha256;
-
 export async function sha256(
   input: string,
   encode: HashEncoding = HashEncoding.Base64
@@ -24,3 +22,4 @@ export async function sha256(
 }
 
 export default sha256;
+export type Sha256Util = typeof sha256;

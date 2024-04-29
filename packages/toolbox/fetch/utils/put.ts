@@ -1,11 +1,9 @@
 import {
-  fetchx,
+  fetch_,
   type Input,
   type Options,
   type AdditionalOptions,
 } from './fetch.js';
-
-export type Put = typeof put;
 
 export function put<Result>(
   input: Input,
@@ -13,7 +11,8 @@ export function put<Result>(
   options?: Options,
   additionalOptions?: AdditionalOptions
 ) {
-  return fetchx<Result>('PUT', input, body, options);
+  return fetch_<Result>('PUT', input, body, options);
 }
 
 export default put;
+export type PutUtil = typeof put;

@@ -1,19 +1,18 @@
 import {
-  fetchx,
+  fetch_,
   type Input,
   type Options,
   type AdditionalOptions,
 } from './fetch.js';
 
-export type DeleteX = typeof deletex;
-
-export function deletex<Result>(
+export function delete_<Result>(
   input: Input,
   body?: Body,
   options?: Options,
   additionalOptions?: AdditionalOptions
 ) {
-  return fetchx<Result>('DELETE', input, body, options);
+  return fetch_<Result>('DELETE', input, body, options);
 }
 
-export default deletex;
+export default delete_;
+export type DeleteUtil = typeof delete_;

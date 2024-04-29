@@ -7,8 +7,6 @@ export const RSA_ALGORITHM: RsaHashedKeyGenParams = {
   hash: 'SHA-256',
 };
 
-export type GenerateRSAKeys = typeof generateRSAKeys;
-
 export async function generateRSAKeys(modulusLength?: number) {
   const pair = await globalThis.crypto.subtle.generateKey(
     {
@@ -31,3 +29,4 @@ export async function generateRSAKeys(modulusLength?: number) {
 }
 
 export default generateRSAKeys;
+export type GenerateRSAKeysUtil = typeof generateRSAKeys;

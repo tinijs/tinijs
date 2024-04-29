@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {createInstance} from 'localforage';
 
-export type CreateLocalForage = typeof createLocalForage;
-
 export function createLocalForage(localForageOptions: LocalForageOptions = {}) {
   return createInstance({
     name: 'TINI_APP_LOCAL_STORAGE',
@@ -11,6 +9,7 @@ export function createLocalForage(localForageOptions: LocalForageOptions = {}) {
 }
 
 export default createLocalForage;
+export type CreateLocalForageUtil = typeof createLocalForage;
 
 /*
  * https://github.com/localForage/localForage/blob/master/typings/localforage.d.ts

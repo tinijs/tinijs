@@ -1,7 +1,5 @@
 import type {StreamCallback, StreamContextEntry} from './create-stream.js';
 
-export type EmitStaticValue = typeof emitStaticValue;
-
 export function emitStaticValue<Data>(
   callback: StreamCallback<Data>,
   value?: Data
@@ -15,3 +13,4 @@ export function emitStaticValue<Data>(
 }
 
 export default emitStaticValue;
+export type EmitStaticValueUtil = typeof emitStaticValue;

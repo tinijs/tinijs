@@ -1,13 +1,11 @@
-export type FetchX = typeof fetchx;
-
-export type Params = Parameters<FetchX>;
+export type Params = Parameters<FetchUtil>;
 export type Method = Params[0];
 export type Input = Params[1];
 export type Body = Params[2];
 export type Options = Params[3];
 export type AdditionalOptions = Params[4];
 
-export async function fetchx<Result>(
+export async function fetch_<Result>(
   method: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE',
   input: RequestInfo | URL,
   body?: unknown,
@@ -47,4 +45,5 @@ export async function fetchx<Result>(
   return responseBody;
 }
 
-export default fetchx;
+export default fetch_;
+export type FetchUtil = typeof fetch_;

@@ -1,8 +1,6 @@
 import type {LocalForage} from './create-local-forage.js';
 import set from './set.js';
 
-export type SetBulk = typeof setBulk;
-
 export function setBulk(
   localForage: LocalForage,
   input: Record<string, unknown>
@@ -13,3 +11,4 @@ export function setBulk(
 }
 
 export default setBulk;
+export type SetBulkUtil = typeof setBulk;

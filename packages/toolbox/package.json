@@ -1,8 +1,7 @@
 {
-  "private": true,
   "name": "@tinijs/toolbox",
-  "version": "0.0.0",
-  "description": "Useful services, helpers, ... for TiniJS apps.",
+  "version": "0.17.0",
+  "description": "Useful helpers, services for TiniJS apps.",
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",
   "license": "MIT",

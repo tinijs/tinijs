@@ -43,6 +43,14 @@ export const modulePostService = new ContentService<DocPost, DocPostDetail>(
   'module-posts'
 );
 
+export const toolboxCategoryService = new ContentService<
+  DocCategory,
+  DocCategoryDetail
+>('toolbox-categories');
+export const toolboxPostService = new ContentService<DocPost, DocPostDetail>(
+  'toolbox-posts'
+);
+
 export const serverCategoryService = new ContentService<
   DocCategory,
   DocCategoryDetail

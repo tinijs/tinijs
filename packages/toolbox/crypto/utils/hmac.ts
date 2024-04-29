@@ -6,8 +6,6 @@ import {HashEncoding} from './sha-256.js';
 
 export const HMAC_ALGORITHM: HmacKeyGenParams = {name: 'HMAC', hash: 'SHA-256'};
 
-export type Hmac = typeof hmac;
-
 export async function hmac(
   input: string,
   secret: string,
@@ -33,3 +31,4 @@ export async function hmac(
 }
 
 export default hmac;
+export type HmacUtil = typeof hmac;
