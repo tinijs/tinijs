@@ -14,7 +14,7 @@ export interface CommonBuildOptions {
 }
 
 export interface Builder {
-  options: Record<string, any>;
+  options: NonNullable<BuildConfig['options']>;
   dev:
     | (() => Promise<void>)
     | {

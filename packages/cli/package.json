@@ -60,7 +60,7 @@
     "open": "^10.0.4",
     "ora": "^8.0.1",
     "pathe": "^1.1.2",
-    "picomatch": "^4.0.1",
+    "picomatch": "^4.0.2",
     "prettier": "^3.2.5",
     "recursive-readdir": "^2.2.3",
     "superstatic": "^9.0.3",

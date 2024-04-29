@@ -37,7 +37,9 @@
     "@tinijs/cli": "^0.17.0",
     "@tinijs/project": "^0.17.0",
     "fs-extra": "^11.2.0",
+    "minify-html-literals": "^1.3.5",
     "pathe": "^1.1.2",
-    "sass": "^1.71.1"
+    "picomatch": "^4.0.2",
+    "sass": "^1.75.0"
   }
 }

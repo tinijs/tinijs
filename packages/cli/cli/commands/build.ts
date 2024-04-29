@@ -24,11 +24,10 @@ export const buildCommand = createCLICommand(
     },
   },
   async (args, callbacks) => {
-    const targetEnv = args.target || 'production';
     const tiniProject = await getTiniProject();
     const {config: tiniConfig, hooks} = tiniProject;
     //  preparation
-    exposeEnvs(tiniConfig, targetEnv);
+    exposeEnvs(tiniConfig, args.target || 'production');
     const compiler = await loadCompiler(tiniProject);
     const builder = await loadBuilder(tiniProject);
     // clean
