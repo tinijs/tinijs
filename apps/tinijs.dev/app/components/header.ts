@@ -127,6 +127,12 @@ export class HeaderComponent
               >
               <tini-link
                 active="active"
+                href="/toolbox"
+                @click=${this._closeMobileMenu}
+                >Toolbox</tini-link
+              >
+              <tini-link
+                active="active"
                 href="/server"
                 @click=${this._closeMobileMenu}
                 >Server</tini-link
