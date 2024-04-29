@@ -71,11 +71,13 @@ Use can also create an expansion in a exisiting package in 3 steps:
 ```ts
 import {defineTiniCLIExpansion, resolveCommand} from '@tinijs/cli';
 
-export default defineTiniCLIExpansion({
+export type MyCLIExpansionOptions = {};
+
+export default defineTiniCLIExpansion<MyCLIExpansionOptions>({
   meta: {
     name: 'some-name',
   },
-  setup() {
+  setup(options, tini) {
     return {
       xxx: () => import('./commands/xxx.js').then(resolveCommand),
     };

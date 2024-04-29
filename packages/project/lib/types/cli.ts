@@ -28,6 +28,7 @@ export interface CLIConfig {
   generate?: false | CLIGenerateCommandConfig;
   compile?: false;
   dev?: false;
+  watch?: false;
   build?: false;
   preview?: false;
   module?: false;

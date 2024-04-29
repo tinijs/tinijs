@@ -14,16 +14,32 @@ export function infoRunHook(sourceName: string, hookName: string) {
   consola.info(`[${magenta(sourceName)}] Run hook ${green(hookName)}`);
 }
 
-export function warnManualRegisterModule(moduleName: string) {
-  consola.warn(
-    'Unable to modify Tini config, please add the following code manually:'
-  );
+export function warnManualConfig(
+  code: string,
+  text?: string,
+  blocks?: [string, string?]
+) {
+  text ||= `Unable to modify ${blueBright(
+    TINI_CONFIG_TS_FILE
+  )}, please add the following code:`;
+  const [beginBLock = 'export default defineTiniConfig({', endBlock = '});'] =
+    blocks || [];
+  consola.warn(text);
   consola.box(
-    `// File: ${blueBright(TINI_CONFIG_TS_FILE)}\n
-${gray('export default defineTiniConfig({')}
-  modules: [${green(`'${moduleName}'`)}]
-${gray('});')}`
+    `${gray(beginBLock)}
+${code}
+${gray(endBlock)}`
   );
+}
+
+export function warnManualConfigWithoutTiniApp(content: string, text?: string) {
+  text ||=
+    "It seems like you're using one or more features provided by the Tini Platform without a Tini app. If so, please config:";
+  consola.warn(`${text}\n${content}`);
+}
+
+export function warnManualRegisterModule(moduleName: string) {
+  warnManualConfig(`  modules: [${green(`'${moduleName}'`)}]`);
 }
 
 export function errorModuleRequireTiniApp(moduleName: string) {

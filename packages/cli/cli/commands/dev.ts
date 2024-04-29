@@ -5,7 +5,7 @@ import {blueBright, gray} from 'colorette';
 
 import {getTiniProject} from '@tinijs/project';
 
-import {exposeEnvs, loadBuilder} from '../utils/build.js';
+import {exposeEnvs, loadCompiler, loadBuilder} from '../utils/build.js';
 import {createCLICommand} from '../utils/cli.js';
 
 export const devCommand = createCLICommand(
@@ -20,6 +20,7 @@ export const devCommand = createCLICommand(
     const {config: tiniConfig, hooks} = tiniProject;
     // preparation
     exposeEnvs(tiniConfig, 'development');
+    const compiler = await loadCompiler(tiniProject);
     const builder = await loadBuilder(tiniProject);
     // start dev
     await hooks.callHook('dev:before');
@@ -28,15 +29,20 @@ export const devCommand = createCLICommand(
     } else {
       const devCommand = builder.dev.command;
       if (tiniConfig.compile !== false) {
-        const compileCmd = 'tini compile --watch';
+        // initial compile
+        await compiler?.compile();
+        // run compile and dev concurrently
+        const compileCmd = 'tini compile --watch --lazy';
         const devCmd =
           typeof devCommand === 'string' ? devCommand : devCommand.join(' ');
         concurrently([{command: compileCmd}, {command: devCmd}]);
-        callbacks?.onShowDebug([compileCmd, devCmd]);
+        callbacks?.onShowDebug?.([compileCmd, devCmd]);
+        // server start
         const customOnServerStart = builder.dev.onServerStart;
         setTimeout(
-          () => callbacks?.onServerStart(builder.options, customOnServerStart),
-          2000
+          () =>
+            callbacks?.onServerStart?.(builder.options, customOnServerStart),
+          3000
         );
       } else {
         const [cmd, ...args] =

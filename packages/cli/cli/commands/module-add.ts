@@ -40,28 +40,28 @@ export const moduleAddCommand = createCLICommand(
     await installPackage(args.packageName, args.version);
 
     // handle init
-    callbacks?.onStart(args.packageName);
+    callbacks?.onStart?.(args.packageName);
     const moduleConfig = await loadVendorModule(args.packageName);
     if (moduleConfig?.init) {
       const {copy, scripts, buildCommand, run} = moduleConfig.init(tiniConfig);
       // copy assets
       if (copy) {
-        callbacks?.onCopyAssets();
+        callbacks?.onCopyAssets?.();
         await copyAssets(args.packageName, copy);
       }
       // add scripts
       if (scripts) {
-        callbacks?.onUpdateScripts();
+        callbacks?.onUpdateScripts?.();
         await updateScripts(scripts, buildCommand);
       }
       // run
       if (run) {
-        callbacks?.onInitRun();
+        callbacks?.onInitRun?.();
         await initRun(run);
       }
     }
     // done
-    callbacks?.onEnd(args.packageName);
+    callbacks?.onEnd?.(args.packageName);
   },
   {
     onStart: (packageName: string) => {

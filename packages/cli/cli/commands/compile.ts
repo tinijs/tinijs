@@ -25,12 +25,17 @@ export const compileCommand = createCLICommand(
       watch: {
         alias: 'w',
         type: 'boolean',
-        description: 'Also watch for changes.',
+        description: 'Compile and watch for changes.',
       },
       target: {
         alias: 't',
         type: 'string',
         description: 'Target: development (default), production, ...',
+      },
+      lazy: {
+        alias: 'l',
+        type: 'boolean',
+        description: 'No initial compile, only watch for changes.',
       },
     },
   },
@@ -47,23 +52,27 @@ export const compileCommand = createCLICommand(
     const compiler = await loadCompiler(tiniProject, true);
     // compile
     if (!compiler) {
-      callbacks?.onUnavailable();
+      callbacks?.onUnavailable?.();
     } else {
-      await compiler.compile();
+      // initial compile
+      if (!args.watch || !args.lazy) {
+        await compiler.compile();
+      }
+      // watch or done
       if (!args.watch) {
-        callbacks?.onSingleCompile(compileDir);
+        callbacks?.onSingleCompile?.(compileDir);
       } else {
         watch(resolve(srcDir), {ignoreInitial: true})
           .on('add', path => {
-            callbacks?.onCompileFile('add', path);
+            callbacks?.onCompileFile?.('add', path);
             compiler.compileFile(resolve(path));
           })
           .on('change', path => {
-            callbacks?.onCompileFile('change', path);
+            callbacks?.onCompileFile?.('change', path);
             compiler.compileFile(resolve(path));
           })
           .on('unlink', async path => {
-            callbacks?.onCompileFile('unlink', path);
+            callbacks?.onCompileFile?.('unlink', path);
             const ignoreMatcher = !compileOptions.ignorePatterns
               ? undefined
               : picomatch(compileOptions.ignorePatterns);
@@ -77,7 +86,7 @@ export const compileCommand = createCLICommand(
             await remove(context.outPath);
             await hooks.callHook('compile:afterRemoveFile', context);
           });
-        callbacks?.onCompileAndWatch(compileDir);
+        callbacks?.onCompileAndWatch?.(compileDir);
       }
     }
   },

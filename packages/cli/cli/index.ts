@@ -25,6 +25,8 @@ async function getCommands(tiniProject: TiniProject) {
       import('./commands/compile.js').then(resolveCommand);
   if (!noBuiltins && cliConfig?.dev !== false)
     commands.dev = () => import('./commands/dev.js').then(resolveCommand);
+  if (!noBuiltins && cliConfig?.watch !== false)
+    commands.watch = () => import('./commands/watch.js').then(resolveCommand);
   if (!noBuiltins && cliConfig?.build !== false)
     commands.build = () => import('./commands/build.js').then(resolveCommand);
   if (!noBuiltins && cliConfig?.preview !== false)

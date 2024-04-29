@@ -31,6 +31,12 @@ export class WebpackBuilder implements Builder {
     };
   }
 
+  get watch() {
+    return {
+      command: this.commands.watchCommand,
+    };
+  }
+
   get build() {
     return {
       command: this.commands.buildCommand,
@@ -39,8 +45,14 @@ export class WebpackBuilder implements Builder {
 
   private get commands() {
     const {outDir} = getProjectDirs(this.tiniProject.config);
-    const {configPath, devCommand, devHost, devPort, buildCommand} =
-      this.options;
+    const {
+      configPath,
+      devCommand,
+      devHost,
+      devPort,
+      watchCommand,
+      buildCommand,
+    } = this.options;
     const configArgs = [
       '--config',
       configPath ||
@@ -60,6 +72,16 @@ export class WebpackBuilder implements Builder {
           ...hostArgs,
           ...portArgs,
           '--history-api-fallback',
+          '--mode',
+          'development',
+        ].filter(Boolean),
+      watchCommand:
+        watchCommand ||
+        [
+          'webpack',
+          'watch',
+          ...configArgs,
+          ...outDirArgs,
           '--mode',
           'development',
         ].filter(Boolean),

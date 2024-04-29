@@ -9,7 +9,7 @@ import {
 } from 'cheerio';
 import type {Options as PrettierOptions} from 'prettier';
 import type {Promisable} from 'type-fest';
-import {getTiniConfigFilePath} from '@tinijs/project';
+import {getTiniConfigFilePathOrThrow} from '@tinijs/project';
 
 import {formatHTML, formatTS} from './format.js';
 
@@ -180,8 +180,15 @@ export class ModifyConfigAlike {
     return this as ModifyConfigAlike;
   }
 
+  setOption(optionKey: string, value: string) {
+    if (!this.content.includes(`\n  ${optionKey}: `)) {
+      return this.addOption(`${optionKey}: ${value},`);
+    }
+    return this as ModifyConfigAlike;
+  }
+
   addObjectEntry(optionKey: string, value: string) {
-    const optionKeyMatching = `${optionKey}: {`;
+    const optionKeyMatching = `\n  ${optionKey}: {`;
     if (!this.content.includes(optionKeyMatching)) {
       return this.addOption(`${optionKey}: {${value}},`);
     } else {
@@ -194,7 +201,7 @@ export class ModifyConfigAlike {
   }
 
   addArrayItem(optionKey: string, value: string) {
-    const optionKeyMatching = `${optionKey}: [`;
+    const optionKeyMatching = `\n  ${optionKey}: [`;
     if (!this.content.includes(optionKeyMatching)) {
       return this.addOption(`${optionKey}: [${value}],`);
     } else {
@@ -231,10 +238,14 @@ export async function modifyConfigAlikeFile(
   );
 }
 
+export async function setTiniConfigOption(optionKey: string, value: string) {
+  return modifyConfigAlikeFile(getTiniConfigFilePathOrThrow(), modify =>
+    modify.setOption(optionKey, value)
+  );
+}
+
 export async function registerTiniConfigModule(moduleName: string) {
-  const tiniConfigPath = getTiniConfigFilePath();
-  if (!tiniConfigPath) throw new Error('Cannot find a valid Tini config file!');
-  return modifyConfigAlikeFile(tiniConfigPath, modify =>
+  return modifyConfigAlikeFile(getTiniConfigFilePathOrThrow(), modify =>
     modify.addArrayItem('modules', `'${moduleName}'`)
   );
 }

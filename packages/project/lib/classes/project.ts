@@ -69,6 +69,12 @@ export function getTiniConfigFilePath(dir = '.') {
   return configFilePath;
 }
 
+export function getTiniConfigFilePathOrThrow(dir?: string) {
+  const tiniConfigPath = getTiniConfigFilePath(dir);
+  if (!tiniConfigPath) throw new Error('No valid Tini config file found!');
+  return tiniConfigPath;
+}
+
 export async function loadTiniConfig(dir?: string) {
   const defaultConfig: TiniConfig = {
     srcDir: DEFAULT_SRC_DIR,

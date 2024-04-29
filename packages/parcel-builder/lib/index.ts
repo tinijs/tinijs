@@ -31,6 +31,12 @@ export class ParcelBuilder implements Builder {
     };
   }
 
+  get watch() {
+    return {
+      command: this.commands.watchCommand,
+    };
+  }
+
   get build() {
     return {
       command: this.commands.buildCommand,
@@ -39,8 +45,15 @@ export class ParcelBuilder implements Builder {
 
   private get commands() {
     const {entryDir, outDir} = getProjectDirs(this.tiniProject.config);
-    const {configPath, devCommand, devHost, devPort, buildCommand, sourcemap} =
-      this.options;
+    const {
+      configPath,
+      devCommand,
+      devHost,
+      devPort,
+      watchCommand,
+      buildCommand,
+      sourcemap,
+    } = this.options;
     const entryFilePath = `${entryDir}/index.html`;
     const configArgs = [
       '--config',
@@ -62,6 +75,16 @@ export class ParcelBuilder implements Builder {
           ...outDirArgs,
           ...hostArgs,
           ...portArgs,
+        ].filter(Boolean),
+      watchCommand:
+        watchCommand ||
+        [
+          'parcel',
+          'watch',
+          entryFilePath,
+          ...configArgs,
+          ...outDirArgs,
+          ...sourcemapArgs,
         ].filter(Boolean),
       buildCommand:
         buildCommand ||

@@ -14,7 +14,7 @@ export const docsCommand = createCLICommand(
     },
   },
   (args, callbacks) => {
-    callbacks?.onOpen(HOME_URL);
+    callbacks?.onOpen?.(HOME_URL);
     open(HOME_URL);
   },
   {

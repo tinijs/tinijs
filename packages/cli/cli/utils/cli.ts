@@ -22,7 +22,7 @@ import {loadProjectPackageJSON} from './project.js';
 // @ts-ignore
 const jiti = initJiti(import.meta.url) as JITI;
 
-const OFFICIAL_EXPANSIONS = ['@tinijs/content', '@tinijs/ui'];
+const OFFICIAL_EXPANSIONS = ['@tinijs/content', '@tinijs/ui', '@tinijs/server'];
 
 export function resolveCommand(m: any) {
   return m.default.def as Promise<CommandDef>;

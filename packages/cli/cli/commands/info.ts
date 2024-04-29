@@ -42,7 +42,7 @@ Working directory: ${blueBright(cwd)}
 👉 Suggest an improvement: ${blueBright('https://discord.gg/EABbZVbPAb')}
 👉 Read documentation: ${blueBright(HOME_URL)}
 `;
-    callbacks?.onPrint(info);
+    callbacks?.onPrint?.(info);
   },
   {
     onPrint: (info: string) => console.log(info),

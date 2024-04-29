@@ -25,6 +25,7 @@
     "@tinijs/core": "*",
     "@tinijs/meta": "*",
     "@tinijs/router": "*",
+    "@tinijs/server": "*",
     "@tinijs/store": "*",
     "@tinijs/ui-bootstrap": "*",
     "highlight.js": "^11.9.0",

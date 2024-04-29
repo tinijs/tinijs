@@ -33,6 +33,12 @@ export class ViteBuilder implements Builder {
     };
   }
 
+  get watch() {
+    return {
+      command: this.commands.watchCommand,
+    };
+  }
+
   get build() {
     return {
       command: this.commands.buildCommand,
@@ -41,8 +47,14 @@ export class ViteBuilder implements Builder {
 
   private get commands() {
     const {entryDir, outDir} = getProjectDirs(this.tiniProject.config);
-    const {configPath, devCommand, devHost, devPort, buildCommand} =
-      this.options;
+    const {
+      configPath,
+      devCommand,
+      devHost,
+      devPort,
+      watchCommand,
+      buildCommand,
+    } = this.options;
     const configArgs = [
       '--config',
       configPath ||
@@ -58,6 +70,17 @@ export class ViteBuilder implements Builder {
         ['vite', entryDir, ...configArgs, ...hostArgs, ...portArgs].filter(
           Boolean
         ),
+      watchCommand:
+        watchCommand ||
+        [
+          'vite',
+          'build',
+          entryDir,
+          ...configArgs,
+          ...outDirArgs,
+          '--watch',
+          '--emptyOutDir',
+        ].filter(Boolean),
       buildCommand:
         buildCommand ||
         [
