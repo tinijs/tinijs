@@ -24,6 +24,7 @@ export type PWAModuleOptions = {
 export default defineTiniModule<PWAModuleOptions>({
   meta: {
     name: PACKAGE_NAME,
+    url: 'https://tinijs.dev/module/pwa',
   },
   init(tiniConfig) {
     if (!checkPotentialTiniApp(tiniConfig)) {

@@ -9,6 +9,7 @@ import type {
 export interface ModuleInit {
   copy?: Record<string, string>;
   scripts?: Record<string, string>;
+  devCommand?: string;
   buildCommand?: string;
   run?: string | (() => Promisable<void>);
 }

@@ -25,6 +25,7 @@ const jiti = initJiti(import.meta.url) as JITI;
 
 export interface TiniIntegrationMeta {
   name: string;
+  url?: string;
 }
 
 export type TiniIntegration<

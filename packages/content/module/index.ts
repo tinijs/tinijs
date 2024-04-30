@@ -14,6 +14,7 @@ export type ContentModuleOptions = Parameters<typeof contentBuildCommand>[0];
 export default defineTiniModule<ContentModuleOptions>({
   meta: {
     name: PACKAGE_NAME,
+    url: 'https://tinijs.dev/module/content',
   },
   init(tiniConfig) {
     return {

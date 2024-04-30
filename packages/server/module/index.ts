@@ -13,6 +13,7 @@ export type ServerModuleOptions = {};
 export default defineTiniModule<ServerModuleOptions>({
   meta: {
     name: PACKAGE_NAME,
+    url: 'https://tinijs.dev/server',
   },
   init(tiniConfig) {
     return {
@@ -20,6 +21,7 @@ export default defineTiniModule<ServerModuleOptions>({
         assets: 'server',
       },
       scripts: {
+        'dev:app': 'tini dev',
         dev: 'tini server dev',
         build: 'tini server build',
         preview: 'tini server preview',
@@ -28,7 +30,7 @@ export default defineTiniModule<ServerModuleOptions>({
         await prepareNitro();
         if (checkPotentialTiniApp(tiniConfig)) {
           try {
-            await setTiniConfigOption('outDir', './server/public');
+            await setTiniConfigOption('outDir', "'./server/public'");
           } catch (error) {
             setTimeout(() => showConfigInstruction(), 300);
           }

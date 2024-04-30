@@ -11,7 +11,7 @@ export function createServerApp(entryURL: string, options?: AppOptions) {
 export class ServerApp {
   private entryPath = fileURLToPath(this.entryURL);
   private isDevelopment = this.entryPath.includes('/.nitro/dev/');
-  private originalIndexHTML?: string;
+  private indexHTMLContent?: string;
 
   constructor(
     private entryURL: string,
@@ -23,7 +23,7 @@ export class ServerApp {
       readFile(resolve(parse(this.entryPath).dir, 'index.html'), 'utf8');
     return this.isDevelopment
       ? await read()
-      : (this.originalIndexHTML ||= await read());
+      : (this.indexHTMLContent ||= await read());
   }
 
   async serve() {
