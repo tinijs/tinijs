@@ -1,7 +1,7 @@
 import {resolve} from 'pathe';
-import {green, blueBright, gray} from 'colorette';
-import {copyFile, readFile} from 'node:fs/promises';
-import {pathExistsSync, ensureDir, readJSON, outputJSON} from 'fs-extra/esm';
+import {green, gray, blueBright} from 'colorette';
+import {readFile} from 'node:fs/promises';
+import {pathExistsSync, readJSON, outputJSON, copy} from 'fs-extra/esm';
 import {createHash} from 'node:crypto';
 import {decodeHTML} from 'entities';
 import {minify} from 'html-minifier';
@@ -13,8 +13,10 @@ import slugify from '@sindresorhus/slugify';
 import {execa} from 'execa';
 import {consola} from 'consola';
 import {defu} from 'defu';
-import {getTiniProject, getProjectDirs} from '@tinijs/project';
+import {getProjectDirs} from '@tinijs/project';
 import {cleanDir, listDir, createCLICommand} from '@tinijs/cli';
+
+import contentCLIExpansion from '../expand.js';
 
 interface BuildOptions {
   collectTags?: false | {collection: string; field?: string};
@@ -94,6 +96,11 @@ export const contentBuildCommand = createCLICommand(
         type: 'string',
         description: 'The output directory.',
       },
+      clean: {
+        alias: 'c',
+        type: 'boolean',
+        description: 'Clean staging dir and out dir before build.',
+      },
       debug: {
         alias: 'd',
         type: 'boolean',
@@ -104,79 +111,64 @@ export const contentBuildCommand = createCLICommand(
   async (args, callbacks) => {
     const debugMode = !!args.debug;
     const contentDir = args.dir || 'content';
+    const contentDirPath = resolve(contentDir);
     const eleventyConfigPath = resolve(contentDir, 'eleventy.config.cjs');
     if (!pathExistsSync(eleventyConfigPath)) {
       return callbacks?.onInvalidProject?.(contentDir);
     }
-    const {config: tiniConfig} = await getTiniProject();
-    const {srcDir, dirs} = getProjectDirs(tiniConfig);
+    const {tiniProject} = contentCLIExpansion.context;
+    const {srcDir, dirs} = getProjectDirs(tiniProject.config);
     const stagingDir = args.stagingDir || '.content';
-    const outDir = `${args.outDir || `${srcDir}/${dirs.public}`}/tini-content`;
     const stagingDirPath = resolve(stagingDir);
+    const outDir = `${args.outDir || `${srcDir}/${dirs.public}`}/tini-content`;
     const outDirPath = resolve(outDir);
+    callbacks?.onStart?.(stagingDir, debugMode);
 
-    // read cache digests
-    const cachedFile = '_cached.json';
-    const cachedPath = resolve(stagingDir, cachedFile);
-    const cacheDigests: Record<string, string> = !pathExistsSync(cachedPath)
-      ? {}
-      : await readJSON(cachedPath);
+    // clean dirs
+    if (args.clean) {
+      await cleanDir(stagingDirPath);
+      await cleanDir(outDirPath);
+    }
 
     // compile using 11ty
-    callbacks?.onStart?.(stagingDir, debugMode);
-    await cleanDir(stagingDirPath);
     await execa('npx', ['@11ty/eleventy', '--config', eleventyConfigPath], {
       env: {
-        TINI_11TY_SRC: contentDir,
-        TINI_11TY_DEST: stagingDir,
+        TINI_11TY_INPUT: contentDir,
+        TINI_11TY_OUTPUT: stagingDir,
       },
       stdio: !debugMode ? undefined : 'inherit',
     });
 
-    // read content
-    const {copyPaths, buildPaths} = (await listDir(stagingDirPath)).reduce(
-      (result, item) => {
-        if (item === cachedPath) return result;
-        if (
-          ~item.indexOf('/uploads/') ||
-          ~item.indexOf(`/${stagingDir}/images/`) ||
-          !item.endsWith('.html')
-        ) {
-          result.copyPaths.push(item);
-        } else {
-          result.buildPaths.push(item);
-        }
-        return result;
-      },
-      {
-        copyPaths: [] as string[],
-        buildPaths: [] as string[],
-      }
+    // copy uploads & images
+    const copyPaths = (await listDir(contentDirPath)).filter(path =>
+      path.includes('/uploads/')
     );
-
-    // copy
-    await Promise.all(
-      copyPaths.map(async path => {
-        const filePath = path.replace(stagingDir, outDir);
-        await ensureDir(filePath.replace(/\/[^/]+$/, ''));
-        return copyFile(path, filePath);
-      })
-    );
+    for (const path of copyPaths) {
+      const destPath = resolve(
+        outDir,
+        path.replace(`${contentDirPath}/`, '').replace(/\/\d+ - /, '/')
+      );
+      await copy(path, destPath);
+    }
+    const imagesPath = resolve(stagingDirPath, 'images');
+    if (pathExistsSync(imagesPath)) {
+      await copy(imagesPath, resolve(outDirPath, 'images'));
+    }
 
     // build
+    const buildPaths = (await listDir(stagingDirPath)).filter(path =>
+      path.endsWith('/index.html')
+    );
     const indexRecord = {} as Record<string, string>;
     const collectionRecord = {} as Record<string, any[]>;
     const extraSearchRecord = {} as Record<string, Record<string, any>>;
     const collectedTagsRecord = {} as Record<string, Record<string, Tag>>;
     const collectionOptionsCache = {} as Record<string, BuildOptions>;
-    const updatedCacheDigests = {} as Record<string, string>;
     let buildCount = 0;
-    let cachedCount = 0;
     for (let i = 0; i < buildPaths.length; i++) {
       const path = buildPaths[i];
       const [collection, name] = path
-        .split(`/${stagingDir}/`)
-        .pop()!
+        .replace(`${stagingDirPath}/`, '')
         .replace(/\/[^/]+$/, '')
         .split('/');
       const [orderStr, slug] = !/^\d+ - /.test(name)
@@ -185,7 +177,7 @@ export const contentBuildCommand = createCLICommand(
       const order = isNaN(+orderStr) ? undefined : +orderStr;
       callbacks?.onBuildItem?.(collection, name);
 
-      // process raw content
+      // load and process raw content
       let rawContent = await readFile(path, 'utf8');
       rawContent = rawContent.replace(/(<p>\+\+\+)|(\+\+\+<\/p>)/g, '+++');
       const matterMatching = rawContent.match(/\+\+\+([\s\S]*?)\+\+\+/);
@@ -197,15 +189,6 @@ export const contentBuildCommand = createCLICommand(
           toml: toml.parse.bind(toml),
         },
       });
-      const previousDigest = cacheDigests[path];
-      const currentDigest = createHash('sha256')
-        .update(rawContent)
-        .digest('base64url');
-      updatedCacheDigests[path] = currentDigest;
-      if (previousDigest === currentDigest) {
-        cachedCount++;
-        continue;
-      }
       if (data.status && data.status !== 'publish' && data.status !== 'archive')
         continue;
 
@@ -227,7 +210,7 @@ export const contentBuildCommand = createCLICommand(
       delete data.$build;
 
       // item
-      const docId = currentDigest;
+      const docId = createHash('sha256').update(rawContent).digest('base64url');
       const detail = {
         ...data,
         ...data.moredata,
@@ -342,21 +325,20 @@ export const contentBuildCommand = createCLICommand(
     // index
     await outputJSON(resolve(outDirPath, 'index.json'), indexRecord);
 
-    // update cache digests
-    await outputJSON(cachedPath, updatedCacheDigests);
-
     // done
-    callbacks?.onDone?.(outDir, copyPaths, buildPaths, buildCount, cachedCount);
+    callbacks?.onDone?.(outDir, copyPaths, buildPaths, buildCount);
   },
   {
     onInvalidProject: (contentDir: string) =>
       consola.error(
-        `Invalid content project (no ${contentDir}/eleventy.config.cjs found).`
+        `Invalid content project (no ${blueBright(
+          `${contentDir}/eleventy.config.cjs`
+        )} found).`
       ),
     onStart: (stagingDir: string, debugMode: boolean) => {
       if (debugMode) return;
       SPINNER.start(
-        `Compile content using ${green('11ty')} to ${gray(stagingDir)}.`
+        `Compile content using ${green('11ty')} to ${gray(stagingDir)}`
       );
     },
     onBuildItem: (collection: string, name: string) => {
@@ -367,16 +349,13 @@ export const contentBuildCommand = createCLICommand(
       outDir: string,
       copyPaths: any[],
       buildPaths: any[],
-      buildCount: number,
-      cachedCount: number
+      buildCount: number
     ) => {
       if (!SPINNER.isSpinning) SPINNER.start();
       SPINNER.succeed(
         `Success! Copy ${green(copyPaths.length)} items and build ${green(
           buildCount
-        )}/${buildPaths.length} items${
-          !cachedCount ? '' : ` (${green(cachedCount)} cached)`
-        } to ${gray(outDir)}.\n`
+        )}/${buildPaths.length} items to ${gray(outDir)}.\n`
       );
     },
   }

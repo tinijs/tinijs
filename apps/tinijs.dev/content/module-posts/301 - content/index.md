@@ -54,9 +54,10 @@ export default defineTiniConfig({
     [
       '@tinijs/content',
       {
-        dir?: string, // default is 'content'
-        stagingDir?: string, // default is '.content'
-        outDir?: string, // default is 'app/public'
+        dir?: string, // conten folder, default is 'content'
+        stagingDir?: string, // 11ty output dir, default is '.content'
+        outDir?: string, // build output, default is 'app/public'
+        clean?: boolean, // clean staging and out dir, default is false
       } as ContentModuleOptions
     ]
 
