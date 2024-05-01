@@ -16,6 +16,12 @@ Run development server.
 npx tini server dev
 ```
 
+### Options
+
+| Option | Description |
+| --- | --- |
+| `--debug` or `-d` | Log output from all commands. |
+
 ## `server build`
 
 Build the server for production.

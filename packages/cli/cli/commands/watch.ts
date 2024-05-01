@@ -3,7 +3,6 @@ import {execa} from 'execa';
 import {consola} from 'consola';
 import {gray, green} from 'colorette';
 import {remove} from 'fs-extra/esm';
-import {concurrently} from 'concurrently';
 
 import {getTiniProject, getProjectDirs} from '@tinijs/project';
 
@@ -17,15 +16,20 @@ export const watchCommand = createCLICommand(
       description: 'Watch and build the app.',
     },
     args: {
+      clean: {
+        alias: 'c',
+        type: 'boolean',
+        description: 'Clean the output dir.',
+      },
       lazy: {
         alias: 'l',
         type: 'boolean',
         description: 'No initial actions, only watch for changes.',
       },
-      clean: {
-        alias: 'c',
+      debug: {
+        alias: '-d',
         type: 'boolean',
-        description: 'Clean the output dir.',
+        description: 'Log output from all commands (only if using a compiler).',
       },
     },
   },
@@ -46,6 +50,7 @@ export const watchCommand = createCLICommand(
     } else {
       const watchCommand = builder.watch.command;
       if (tiniConfig.compile !== false) {
+        const debugMode = !!args.debug;
         // initial actions
         if (!args.lazy) {
           await hooks.callHook('dev:before');
@@ -57,10 +62,22 @@ export const watchCommand = createCLICommand(
           typeof watchCommand === 'string'
             ? watchCommand
             : watchCommand.join(' ');
-        concurrently([{command: compileCmd}, {command: watchCmd}]);
-        callbacks?.onShowDebug?.([compileCmd, watchCmd]);
+        execa(
+          'concurrently',
+          [
+            `"${compileCmd}"`,
+            `"${watchCmd}"`,
+            '--names',
+            'COMPILE,WATCH',
+            '--prefix-colors',
+            'bgMagenta,bgBlue',
+            '--kill-others',
+          ],
+          !debugMode ? undefined : {stdio: 'inherit'}
+        );
+        callbacks?.onShowInfo?.([compileCmd, watchCmd], debugMode);
         // watch start
-        callbacks?.onWatchStart?.(entryDir, outDir);
+        callbacks?.onWatchStart?.(entryDir, outDir, debugMode);
       } else {
         const [cmd, ...args] =
           typeof watchCommand !== 'string'
@@ -71,16 +88,24 @@ export const watchCommand = createCLICommand(
     }
   },
   {
-    onShowDebug: (commands: string[]) =>
+    onShowInfo: (commands: string[], debugMode: boolean) => {
       consola.info(
         `Concurrently running ${commands
           .map(command => gray(command))
           .join(' & ')}`
-      ),
-    onWatchStart: (entryDir: string, outDir: string) =>
+      );
+      if (!debugMode) {
+        consola.info(
+          `Optionally use the flag ${gray('--debug')} to log all detail.`
+        );
+      }
+    },
+    onWatchStart: (entryDir: string, outDir: string, debugMode: boolean) => {
+      if (debugMode) return;
       consola.info(
         `Watch ${green(entryDir)} and build app to ${green(outDir)}.`
-      ),
+      );
+    },
   }
 );
 

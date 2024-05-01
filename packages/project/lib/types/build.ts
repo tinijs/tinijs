@@ -21,7 +21,7 @@ export interface Builder {
     | (() => Promise<void>)
     | {
         command: string | string[];
-        onServerStart?: () => void;
+        onServerStart?: (context: OnDevServerStartContext) => void;
       };
   watch:
     | (() => Promise<void>)
@@ -33,6 +33,10 @@ export interface Builder {
     | {
         command: string | string[];
       };
+}
+
+export interface OnDevServerStartContext extends Record<string, any> {
+  debugMode?: boolean;
 }
 
 export interface BuildConfig {

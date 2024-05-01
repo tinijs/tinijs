@@ -1,8 +1,8 @@
 import {resolve} from 'pathe';
 import {gray, blueBright} from 'colorette';
 import {consola} from 'consola';
-import {concurrently} from 'concurrently';
 import {watch} from 'chokidar';
+import {execa} from 'execa';
 import {createCLICommand, exposeEnvs, loadCompiler} from '@tinijs/cli';
 
 import serverCLIExpansion from '../expand.js';
@@ -15,11 +15,19 @@ export const serverDevCommand = createCLICommand(
       name: 'dev',
       description: 'Start the development server.',
     },
+    args: {
+      debug: {
+        alias: '-d',
+        type: 'boolean',
+        description: 'Log output from all commands.',
+      },
+    },
   },
   async (args, callbacks) => {
     const {options, tiniProject} = serverCLIExpansion.context;
     const {config: tiniConfig, hooks} = tiniProject;
-    const {appBuildCommand, appWatchCommand} = options;
+    const {appWatchCommand} = options;
+    const debugMode = !!args.debug;
     //  preparation
     exposeEnvs(tiniConfig, 'development');
     const compiler = await loadCompiler(tiniProject);
@@ -37,19 +45,39 @@ export const serverDevCommand = createCLICommand(
         ? appWatchCommand
         : appWatchCommand.join(' ');
     const nitroDevCmd = 'nitro dev --dir server --port 3000';
-    concurrently([{command: watchCmd}, {command: nitroDevCmd}]);
-    callbacks?.onShowDebug?.([watchCmd, nitroDevCmd]);
-    setTimeout(() => callbacks?.onServerStart?.(), 3000);
+    execa(
+      'concurrently',
+      [
+        `"${watchCmd}"`,
+        `"${nitroDevCmd}"`,
+        '--names',
+        'COMPILE,DEV',
+        '--prefix-colors',
+        'bgMagenta,bgBlue',
+        '--kill-others',
+      ],
+      !debugMode ? undefined : {stdio: 'inherit'}
+    );
+    callbacks?.onShowInfo?.([watchCmd, nitroDevCmd], debugMode);
+    setTimeout(() => callbacks?.onServerStart?.(debugMode), 2000);
   },
   {
-    onShowDebug: (commands: string[]) =>
+    onShowInfo: (commands: string[], debugMode: boolean) => {
       consola.info(
         `Concurrently running ${commands
           .map(command => gray(command))
           .join(' & ')}`
-      ),
-    onServerStart: () =>
-      consola.info(`Server running at: ${blueBright('http://localhost:3000')}`),
+      );
+      if (!debugMode) {
+        consola.info(
+          `Optionally use the flag ${gray('--debug')} to log all detail.`
+        );
+      }
+    },
+    onServerStart: (debugMode: boolean) => {
+      if (debugMode) return;
+      consola.info(`Server running at: ${blueBright('http://localhost:3000')}`);
+    },
   }
 );
 

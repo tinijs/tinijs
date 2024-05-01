@@ -19,4 +19,6 @@ npx tini build
 | `--target <value>` or `-t` | Target environment: production (default), stage, qa, ... |
 | `--clean` or `-c` | Clean the output dir before build. |
 
+## Configuration
+
 **TODO**: Add instructions for configuration.

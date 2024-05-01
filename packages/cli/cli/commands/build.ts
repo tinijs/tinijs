@@ -1,7 +1,7 @@
 import {resolve} from 'pathe';
 import {execa} from 'execa';
 import {consola} from 'consola';
-import {gray} from 'colorette';
+import {gray, green} from 'colorette';
 import {remove} from 'fs-extra/esm';
 
 import {getTiniProject, getProjectDirs} from '@tinijs/project';
@@ -31,7 +31,7 @@ export const buildCommand = createCLICommand(
   async (args, callbacks) => {
     const tiniProject = await getTiniProject();
     const {config: tiniConfig, hooks} = tiniProject;
-    const {outDir} = getProjectDirs(tiniConfig);
+    const {srcDir, compileDir, outDir} = getProjectDirs(tiniConfig);
     //  preparation
     exposeEnvs(tiniConfig, args.target || 'production');
     const compiler = await loadCompiler(tiniProject);
@@ -51,14 +51,33 @@ export const buildCommand = createCLICommand(
         typeof buildCommand !== 'string'
           ? buildCommand
           : buildCommand.split(' ');
-      callbacks?.onShowDebug?.(`${cmd} ${args.join(' ')}`);
+      callbacks?.onShowInfo?.(`${cmd} ${args.join(' ')}`, {
+        yes: tiniConfig.compile !== false,
+        srcDir,
+        compileDir,
+      });
       await execa(cmd, args, {stdio: 'inherit'});
     }
     await hooks.callHook('build:after');
   },
   {
-    onShowDebug: (command: string) =>
-      consola.info(`Compiled and run ${gray(command)}`),
+    onShowInfo: (
+      command: string,
+      compile: {
+        yes: boolean;
+        srcDir: string;
+        compileDir: string;
+      }
+    ) => {
+      if (compile.yes) {
+        consola.info(
+          `Compile app from ${green(compile.srcDir)} to ${green(
+            compile.compileDir
+          )}.`
+        );
+      }
+      consola.info(`Build app using ${gray(command)}`);
+    },
   }
 );
 
