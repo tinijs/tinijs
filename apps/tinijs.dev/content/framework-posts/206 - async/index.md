@@ -48,10 +48,10 @@ For more detail, please see <https://lit.dev/docs/data/task/>
 ## Section render
 
 Similar to Task Render, Section Render renders a section of a page based on **the values of local states**. There are 4 render states:
-- `loading`: all dependencies are `undefined`
-- `empty`: all are `null` or `[]` or `{}` or zero-size Map
+- `main`: all are not `undefined` and not empty (`null` or `[]` or `{}` or zero-size Map)
 - `error`: any instanceof Error
-- `main`: fulfilled scenario
+- `empty`: all are empty
+- `loading`: else
 
 ```ts
 import {sectionRender, type SectionRenderData} from '@tinijs/core';
