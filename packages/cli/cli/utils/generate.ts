@@ -28,6 +28,7 @@ export interface GeneratedTemplate {
 enum BuiltinTypes {
   Const = 'const',
   Store = 'store',
+  Context = 'context',
   Class = 'class',
   Service = 'service',
   Layout = 'layout',
@@ -42,46 +43,62 @@ enum BuiltinTypes {
 export const BUILTIN_GENERATORS: Record<string, TemplateGenerator> = {
   [BuiltinTypes.Const]: async (context, tiniConfig) => {
     const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
+    // TODO: generate spec file
     return [mainTemplate];
   },
   [BuiltinTypes.Store]: async (context, tiniConfig) => {
     const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
+    // TODO: generate spec file
+    return [mainTemplate];
+  },
+  [BuiltinTypes.Context]: async (context, tiniConfig) => {
+    const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
+    // TODO: generate spec file
     return [mainTemplate];
   },
   [BuiltinTypes.Class]: async (context, tiniConfig) => {
     const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
+    // TODO: generate spec file
     return [mainTemplate];
   },
   [BuiltinTypes.Service]: async (context, tiniConfig) => {
     const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
+    // TODO: generate spec file
     return [mainTemplate];
   },
   [BuiltinTypes.Layout]: async (context, tiniConfig) => {
     const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
+    // TODO: generate spec file
     return [mainTemplate];
   },
   [BuiltinTypes.Page]: async (context, tiniConfig) => {
     const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
+    // TODO: generate spec file
     return [mainTemplate];
   },
   [BuiltinTypes.Component]: async (context, tiniConfig) => {
     const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
+    // TODO: generate spec file
     return [mainTemplate];
   },
   [BuiltinTypes.Icon]: async (context, tiniConfig) => {
     const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
+    // TODO: generate spec file
     return [mainTemplate];
   },
   [BuiltinTypes.Partial]: async (context, tiniConfig) => {
     const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
+    // TODO: generate spec file
     return [mainTemplate];
   },
   [BuiltinTypes.Util]: async (context, tiniConfig) => {
     const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
+    // TODO: generate spec file
     return [mainTemplate];
   },
   [BuiltinTypes.Type]: async (context, tiniConfig) => {
     const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
+    // TODO: generate spec file
     return [mainTemplate];
   },
 };
@@ -125,6 +142,7 @@ async function generateBuiltinMainTemplate(
     {
       [BuiltinTypes.Const]: dirs.consts,
       [BuiltinTypes.Store]: dirs.stores,
+      [BuiltinTypes.Context]: dirs.contexts,
       [BuiltinTypes.Class]: dirs.classes,
       [BuiltinTypes.Service]: dirs.services,
       [BuiltinTypes.Layout]: dirs.layouts,
@@ -153,6 +171,9 @@ async function generateBuiltinMainTemplate(
       break;
     case BuiltinTypes.Store:
       content = getStoreMainContent(names);
+      break;
+    case BuiltinTypes.Context:
+      content = getContextMainContent(names);
       break;
     case BuiltinTypes.Class:
       content = getClassMainContent(names);
@@ -203,6 +224,19 @@ function getStoreMainContent({varName}: Names) {
 export const ${varName}Store = createStore({
   name: '${varName}',
 });\n`;
+}
+
+function getContextMainContent({varName, className, tagName}: Names) {
+  return `import {createContext} from '@lit/context';
+
+export interface ${className}Context {
+  foo?: string;
+}
+
+export const ${varName}Context = createContext<${className}Context>(
+  Symbol('${tagName}-context')
+);
+`;
 }
 
 function getClassMainContent({className}: Names) {
