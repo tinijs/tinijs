@@ -132,9 +132,7 @@ export function createCLICommand<
   ) => Promisable<void>;
 }
 
-export async function setupCLIExpansion<
-  Options extends Record<string, unknown> = {},
->(tiniProject: TiniProject) {
+export async function setupCLIExpansion(tiniProject: TiniProject) {
   const {expand: cliExpand = [], noAutoExpansions} =
     tiniProject.config.cli || {};
   // auto load available expansions
