@@ -18,5 +18,6 @@ npx tini content build
 
 | Option | Description |
 | --- | --- |
-| `--dir <value>` or `-d` | Custom source dir, default to `content`. |
-| `--outDir <value>` or `-o` | Custom out dir, default to `app/public`. |
+| `--dir <value>` or `-d` | Custom content dir, default is `content`. |
+| `--stagingDir <value>` or `-s` | Custom staging dir for 11ty, default is `.content`. |
+| `--outDir <value>` or `-o` | Custom output dir, default is `app/public`. |

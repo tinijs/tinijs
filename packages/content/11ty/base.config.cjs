@@ -9,6 +9,7 @@ const pluginImage = require('./image.plugin.cjs');
 const pluginElem = require('./elem.plugin.cjs');
 
 module.exports = function (eleventyConfig, options) {
+  const {TINI_11TY_SRC = 'content', TINI_11TY_DEST = '.content'} = process.env;
   const {
     useCopy,
     useImagePlugin,
@@ -33,7 +34,7 @@ module.exports = function (eleventyConfig, options) {
    */
 
   if (useCopy !== false) {
-    eleventyConfig.addPassthroughCopy(useCopy || 'content/**/uploads/**/*');
+    eleventyConfig.addPassthroughCopy(useCopy || `${TINI_11TY_SRC}/**/uploads/**/*`);
   }
 
   /*
@@ -104,8 +105,8 @@ module.exports = function (eleventyConfig, options) {
     markdownTemplateEngine: 'njk',
     htmlTemplateEngine: 'njk',
     dir: {
-      input: 'content',
-      output: '.content',
+      input: TINI_11TY_SRC,
+      output: TINI_11TY_DEST,
     },
     pathPrefix: '/tini-content/',
     ...(eleventyOptions || {}),
