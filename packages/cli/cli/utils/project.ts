@@ -1,18 +1,23 @@
-import {resolve} from 'pathe';
+import {resolve, parse} from 'pathe';
+import {fileURLToPath} from 'node:url';
 import type {PackageJson} from 'type-fest';
-import {readJSON} from 'fs-extra/esm';
+import {readJSON, pathExistsSync} from 'fs-extra/esm';
 
 import {modifyJSONFile} from './modify.js';
-import cliPackageJSON = require('../../package.json');
 
 export const TINIJS_INSTALL_DIR_PATH = resolve('node_modules', '@tinijs');
 
 export async function loadCLIPackageJSON() {
-  return cliPackageJSON as PackageJson;
+  const path = resolve(
+    parse(fileURLToPath(import.meta.url)).dir,
+    '../../../package.json'
+  );
+  return (!pathExistsSync(path) ? {} : readJSON(path)) as Promise<PackageJson>;
 }
 
 export async function loadProjectPackageJSON() {
-  return readJSON(resolve('package.json')) as Promise<PackageJson>;
+  const path = resolve('package.json');
+  return (!pathExistsSync(path) ? {} : readJSON(path)) as Promise<PackageJson>;
 }
 
 export async function modifyProjectPackageJSON(
