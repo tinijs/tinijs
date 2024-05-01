@@ -22,7 +22,7 @@ import {loadProjectPackageJSON} from './project.js';
 // @ts-ignore
 const jiti = initJiti(import.meta.url) as JITI;
 
-const OFFICIAL_EXPANSIONS = ['@tinijs/content', '@tinijs/ui'];
+const OFFICIAL_EXPANSIONS = ['@tinijs/content', '@tinijs/ui', '@tinijs/server'];
 
 export function resolveCommand(m: any) {
   return m.default.def as Promise<CommandDef>;
@@ -181,7 +181,7 @@ export async function setupCLIExpansion<
     const expansionConfig =
       localOrVendor instanceof Object
         ? localOrVendor
-        : await loadVendorCLIExpansion<Options>(localOrVendor);
+        : await loadVendorCLIExpansion(localOrVendor);
     if (expansionConfig) {
       (expansionConfig as any).context = {
         options,
@@ -191,7 +191,7 @@ export async function setupCLIExpansion<
     const commands: SubCommandsDef = !expansionConfig
       ? {}
       : await expansionConfig.setup(
-          defu(expansionConfig.defaults, options),
+          defu(options, expansionConfig.defaults),
           tiniProject
         );
     // merge commands
@@ -203,10 +203,8 @@ export async function setupCLIExpansion<
   return expandableCommands;
 }
 
-export async function loadVendorCLIExpansion<
-  Options extends Record<string, unknown> = {},
->(packageName: string) {
+export async function loadVendorCLIExpansion(packageName: string) {
   const {default: defaulExport} = await import(`${packageName}/cli-expansion`);
   if (!defaulExport?.meta || !defaulExport?.setup) return null;
-  return defaulExport as CLIExpansionConfig<Options>;
+  return defaulExport as CLIExpansionConfig;
 }

@@ -7,12 +7,16 @@ import type {ModuleInit} from '@tinijs/project';
 import {modifyProjectPackageJSON} from './project.js';
 
 export async function installPackage(packageName: string, version?: string) {
-  return execa('npm', [
-    'i',
-    `${packageName}${!version ? '' : `@${version}`}`,
-    '--loglevel',
-    'error',
-  ]);
+  return execa(
+    'npm',
+    [
+      'i',
+      `${packageName}${!version ? '' : `@${version}`}`,
+      '--loglevel',
+      'error',
+    ],
+    {stdio: 'inherit'}
+  );
 }
 
 export async function copyAssets(
@@ -30,22 +34,41 @@ export async function copyAssets(
 
 export async function updateScripts(
   scripts: NonNullable<ModuleInit['scripts']>,
+  devCommand?: ModuleInit['devCommand'],
   buildCommand?: ModuleInit['buildCommand']
 ) {
-  return modifyProjectPackageJSON(async data => {
+  let multipleDevCommands = false;
+  await modifyProjectPackageJSON(async data => {
+    // scripts.dev
+    const devCommands = [
+      (data.scripts as any).dev,
+      !devCommand ? undefined : devCommand,
+    ].filter(Boolean);
+    multipleDevCommands = devCommands.length > 1;
+    const dev = !multipleDevCommands
+      ? devCommands[0]
+      : `concurrently ${devCommands.map(item => `"${item}"`).join(' ')}`;
+    // scripts.build
     const build = [
       (data.scripts as any).build,
-      !buildCommand ? undefined : `npm run ${buildCommand}`,
+      !buildCommand ? undefined : buildCommand,
     ]
       .filter(Boolean)
       .join(' && ');
+    // update scripts
     data.scripts = {
-      ...scripts,
       ...data.scripts,
+      ...(!dev ? {} : {dev}),
       ...(!build ? {} : {build}),
+      ...scripts,
     };
+    // save updated package.json
     return data;
   });
+  // install concurrently
+  if (multipleDevCommands) {
+    await installPackage('concurrently');
+  }
 }
 
 export async function initRun(run: NonNullable<ModuleInit['run']>) {

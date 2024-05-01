@@ -80,9 +80,7 @@ export async function parseCompileFileContext(
   );
   const isAppEntry = path.endsWith(`${srcDir}/index.html`);
   const isAppRoot = path.endsWith(`${srcDir}/app.ts`);
-  const isActiveConfig = path.endsWith(
-    `${srcDir}/${dirs.configs}/${process.env.TARGET_ENV}.ts`
-  );
+  const isActiveConfig = path.endsWith(`${srcDir}/${dirs.configs}/${env}.ts`);
   return {
     env,
     isDevelopment,

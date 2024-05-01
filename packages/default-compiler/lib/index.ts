@@ -154,15 +154,22 @@ export class DefaultCompiler implements Compiler {
       let originalValue = matchedCSS.replace('css`', '');
       originalValue = originalValue.substring(0, originalValue.length - 2);
       // compile scss
-      const compiledValue = (
-        await compileStringAsync(originalValue, {
-          loadPaths: ['node_modules', this.projectDirs.srcDir],
-          ...options,
-          style: 'compressed',
-        })
-      ).css;
-      // replacing original with compiled
-      context.content = context.content!.replace(originalValue, compiledValue);
+      try {
+        const compiledValue = (
+          await compileStringAsync(originalValue, {
+            loadPaths: ['node_modules', this.projectDirs.srcDir],
+            ...options,
+            style: 'compressed',
+          })
+        ).css;
+        // replacing original with compiled
+        context.content = context.content!.replace(
+          originalValue,
+          compiledValue
+        );
+      } catch (error) {
+        // eslint-disable-next-line no-empty
+      }
     }
   }
 }

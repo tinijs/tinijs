@@ -68,6 +68,7 @@ class ReleaseUI {
     for (const availablePackage of availablePackages) {
       await this.syncVersionAndTiniDependencies(availablePackage);
       await execa('npm', ['publish', '--access', 'public'], {
+        stdio: 'inherit',
         cwd: availablePackage.dirPath,
       });
     }

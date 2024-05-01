@@ -12,4 +12,12 @@ Start a development server for the current project.
 npx tini dev
 ```
 
+## Options
+
+| Option | Description |
+| --- | --- |
+| `--debug` or `-d` | When using a compiler, log output from all commands. |
+
+## Configuration
+
 **TODO**: Add instructions for configuation.

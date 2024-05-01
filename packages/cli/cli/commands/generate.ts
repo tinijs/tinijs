@@ -52,7 +52,7 @@ export const generateCommand = createCLICommand(
     };
     const generator = availableGenerators[args.type];
     if (!generator) {
-      return callbacks?.onInvalid(args.type, availableGenerators);
+      return callbacks?.onInvalid?.(args.type, availableGenerators);
     }
     const templates = await generator(
       {
@@ -67,13 +67,13 @@ export const generateCommand = createCLICommand(
     );
     const {fullPath: mainFullPath} = templates[0];
     if (pathExistsSync(mainFullPath)) {
-      return callbacks?.onExists(args.type, templates[0]);
+      return callbacks?.onExists?.(args.type, templates[0]);
     }
     // save files
     for (let i = 0; i < templates.length; i++) {
       const {fullPath, content} = templates[i];
       await outputFile(fullPath, content);
-      callbacks?.onOutput(templates[i]);
+      callbacks?.onOutput?.(templates[i]);
     }
   },
   {

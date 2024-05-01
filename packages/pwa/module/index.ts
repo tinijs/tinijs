@@ -17,13 +17,14 @@ import {PACKAGE_NAME} from '../lib/consts.js';
 import {injectMetaTags, injectServiceWorker} from './utils/init.js';
 import {processSW} from './utils/setup.js';
 
-export interface PWAModuleOptions {
+export type PWAModuleOptions = {
   precaching?: false | Partial<GetManifestOptions>;
-}
+};
 
-export default defineTiniModule({
+export default defineTiniModule<PWAModuleOptions>({
   meta: {
     name: PACKAGE_NAME,
+    url: 'https://tinijs.dev/module/pwa',
   },
   init(tiniConfig) {
     if (!checkPotentialTiniApp(tiniConfig)) {

@@ -50,6 +50,7 @@ You can either start a new expansion or add to an existing project.
 
 Examples:
   - Tini Content CLI: <https://github.com/tinijs/tinijs/blob/main/packages/content/cli/expand.ts>
+  - Tini Server CLI: <https://github.com/tinijs/tinijs/blob/main/packages/server/cli/expand.ts>
   - Tini UI CLI: <https://github.com/tinijs/tinijs/blob/main/packages/ui/cli/expand.ts>
 
 #### Start a new expansion
@@ -71,11 +72,14 @@ Use can also create an expansion in a exisiting package in 3 steps:
 ```ts
 import {defineTiniCLIExpansion, resolveCommand} from '@tinijs/cli';
 
-export default defineTiniCLIExpansion({
+export type MyCLIExpansionOptions = {};
+
+export default defineTiniCLIExpansion<MyCLIExpansionOptions>({
   meta: {
     name: 'some-name',
+    url: 'url-to-usage', // optional usage url
   },
-  setup() {
+  setup(options, tini) {
     return {
       xxx: () => import('./commands/xxx.js').then(resolveCommand),
     };

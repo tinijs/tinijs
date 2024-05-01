@@ -25,6 +25,7 @@ const jiti = initJiti(import.meta.url) as JITI;
 
 export interface TiniIntegrationMeta {
   name: string;
+  url?: string;
 }
 
 export type TiniIntegration<
@@ -69,6 +70,12 @@ export function getTiniConfigFilePath(dir = '.') {
   return configFilePath;
 }
 
+export function getTiniConfigFilePathOrThrow(dir?: string) {
+  const tiniConfigPath = getTiniConfigFilePath(dir);
+  if (!tiniConfigPath) throw new Error('No valid Tini config file found!');
+  return tiniConfigPath;
+}
+
 export async function loadTiniConfig(dir?: string) {
   const defaultConfig: TiniConfig = {
     srcDir: DEFAULT_SRC_DIR,
@@ -85,7 +92,7 @@ export async function loadTiniConfig(dir?: string) {
   )) as {
     default?: TiniConfig;
   };
-  return defu(defaultConfig, fileConfig);
+  return defu(fileConfig, defaultConfig);
 }
 
 export async function getTiniProject(dir?: string) {

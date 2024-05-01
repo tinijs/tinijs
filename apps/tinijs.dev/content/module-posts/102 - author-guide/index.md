@@ -34,6 +34,7 @@ export type MyModuleOptions = {
 export default defineTiniModule<MyModuleOptions>({
   meta: {
     name: 'my-module',
+    url: 'url-to-usage', // optional usage url
   },
   init() {
     return {

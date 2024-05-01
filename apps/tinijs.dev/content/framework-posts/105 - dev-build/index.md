@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Dev and Build",
-  "category": "uncategorized"
+  "category": "core"
 }
 +++
 
@@ -10,30 +10,24 @@ The **development and build workflow** of TiniJS are backed by any of your favor
 
 In theory, you can use any other tools (Turbo Pack, Gulp, ...). But I don't have time to try them, it is opened up for community contribution.
 
-## Vite (default, recommended)
+## Via Tini CLI
+
+Using [Tini CLI](/cli) and official builders is the **recommended** way to setup development and build workflow.
+
+### Vite (default, recommended)
 
 Homepage: <https://vitejs.dev/>
 
-### Setup
-
-**Option 1**: Via **Tini CLI** (recommended)
+#### Setup
 
 1. Install: `npm i -D @tinijs/cli @tinijs/vite-builder`
 2. Add scripts:
   - **dev**: `tini dev`
   - **build**: `tini build`
 
-**Option 2**: Or, manually
+#### Config
 
-1. Install: `npm i -D vite`
-2. Add scripts:
-  - **dev**: `vite app`
-  - **build**: `vite build app --outDir www`
-
-### Config
-
-
-When use [Tini CLI](/cli) (option 1), you can provide options via `tini.config.ts`.
+The Vite builder supports basic configuration, you can provide options in `tini.config.ts`.
 
 ```ts
 import type {BuildOptions} from '@tinijs/vite-builder';
@@ -47,7 +41,7 @@ export default defineTiniConfig({
       devCommand?: string | string[];
       devPort?: number;
       devHost?: string;
-      onDevServerStart?: () => void;
+      onDevServerStart?: (context) => void;
       // build
       buildCommand?: string | string[];
       // optimazations
@@ -59,13 +53,13 @@ export default defineTiniConfig({
 });
 ```
 
-## Parcel
+By default, Vite builder using [this default config](https://github.com/tinijs/tinijs/blob/main/packages/vite-builder/vite.config.js), you can create `vite.config.ts` in your project root to with advanced configuration. You can also use the `configPath` option to point to a config file some where else.
+
+### Parcel
 
 Homepage: <https://parceljs.org/>
 
-### Setup
-
-**Option 1**: Via **Tini CLI** (recommended)
+#### Setup
 
 1. Install: `npm i -D @tinijs/cli @tinijs/parcel-builder`
 2. Config _tini.config.ts_, set **build.builder** to `@tinijs/parcel-builder`
@@ -73,14 +67,7 @@ Homepage: <https://parceljs.org/>
   - **dev**: `tini dev`
   - **build**: `tini build`
 
-**Option 2**: Or, manually
-
-1. Install: `npm i -D parcel @parcel/config-default`
-2. Add scripts:
-  - **dev**: `parcel app/index.html --dist-dir www`
-  - **build**: `parcel build app/index.html --dist-dir www`
-
-### Additional setup
+#### Additional setup
 
 Either using Tini CLI or setup manually, you need to do these additional setup.
 
@@ -94,9 +81,9 @@ Either using Tini CLI or setup manually, you need to do these additional setup.
 }
 ```
 
-### Config
+#### Config
 
-When use [Tini CLI](/cli) (option 1), you can provide options via `tini.config.ts`.
+The Parcel builder supports basic configuration, you can provide options in `tini.config.ts`.
 
 ```ts
 import type {BuildOptions} from '@tinijs/parcel-builder';
@@ -111,7 +98,7 @@ export default defineTiniConfig({
       devCommand?: string | string[];
       devPort?: number;
       devHost?: string;
-      onDevServerStart?: () => void;
+      onDevServerStart?: (context) => void;
       // build
       buildCommand?: string | string[];
       // optimazations
@@ -122,13 +109,13 @@ export default defineTiniConfig({
 });
 ```
 
-## Webpack
+By default, Parcel builder using [this default config](https://github.com/tinijs/tinijs/blob/main/packages/parcel-builder/.parcelrc), you can create `.parcelrc` in your project root to with advanced configuration. You can also use the `configPath` option to point to a config file some where else.
+
+### Webpack
 
 Homepage: <https://webpack.js.org/>
 
-### Setup
-
-**Option 1**: Via **Tini CLI** (recommended)
+#### Setup
 
 1. Install: `npm i -D @tinijs/cli @tinijs/webpack-builder`
 2. Config _tini.config.ts_, set **build.builder** to `@tinijs/webpack-builder`
@@ -136,17 +123,9 @@ Homepage: <https://webpack.js.org/>
   - **dev**: `tini dev`
   - **build**: `tini build`
 
-**Option 2**: Or, manually
+#### Config
 
-1. Install: `npm i -D webpack webpack-cli webpack-dev-server html-bundler-webpack-plugin ts-loader`
-2. Add _webpack.config.js_, please see [example](https://github.com/tinijs/tinijs/blob/main/packages/webpack-builder/webpack.config.js).
-3. Add scripts:
-  - **dev**: `webpack serve --history-api-fallback --mode development`
-  - **build**: `webpack build --mode production`
-
-### Config
-
-When use [Tini CLI](/cli) (option 1), you can provide options via `tini.config.ts`.
+The Webpack builder supports basic configuration, you can provide options in `tini.config.ts`.
 
 ```ts
 import type {BuildOptions} from '@tinijs/webpack-builder';
@@ -161,7 +140,7 @@ export default defineTiniConfig({
       devCommand?: string | string[];
       devPort?: number;
       devHost?: string;
-      onDevServerStart?: () => void;
+      onDevServerStart?: (context) => void;
       // build
       buildCommand?: string | string[];
       // optimazations
@@ -171,3 +150,31 @@ export default defineTiniConfig({
 
 });
 ```
+
+By default, Webpack builder using [this default config](https://github.com/tinijs/tinijs/blob/main/packages/webpack-builder/webpack.config.js), you can create `webpack.config.js` in your project root to with advanced configuration. You can also use the `configPath` option to point to a config file some where else.
+
+## Manual setup
+
+If you prefer to setup manually, you can follow these steps for each tools.
+
+### Vite
+
+1. Install: `npm i -D vite`
+2. Add scripts:
+  - **dev**: `vite app`
+  - **build**: `vite build app --outDir www`
+
+### Parcel
+
+1. Install: `npm i -D parcel @parcel/config-default`
+2. Add scripts:
+  - **dev**: `parcel app/index.html --dist-dir www`
+  - **build**: `parcel build app/index.html --dist-dir www`
+
+### Webpack
+
+1. Install: `npm i -D webpack webpack-cli webpack-dev-server html-bundler-webpack-plugin ts-loader`
+2. Add _webpack.config.js_, please see [example](https://github.com/tinijs/tinijs/blob/main/packages/webpack-builder/webpack.config.js).
+3. Add scripts:
+  - **dev**: `webpack serve --history-api-fallback --mode development`
+  - **build**: `webpack build --mode production`

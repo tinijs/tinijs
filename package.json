@@ -37,7 +37,7 @@
     "test": "lerna run test",
     "lint": "lerna run lint",
     "fix": "lerna run fix",
-    "release": "lerna publish --no-private --force-publish && tsx ./scripts/release-ui.mts"
+    "release": "lerna publish --no-private --force-publish --conventional-commit && tsx ./scripts/release-ui.mts"
   },
   "repository": {
     "type": "git",

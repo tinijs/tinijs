@@ -279,6 +279,10 @@ export class AppDocPageComponent
       min-height: calc(var(--page-height) - var(--toolbar-height));
     }
 
+    .content {
+      width: 100vw;
+    }
+
     @media (min-width: 992px) {
       .container {
         display: grid;
@@ -293,6 +297,7 @@ export class AppDocPageComponent
 
       .content {
         grid-area: content;
+        width: calc(100vw - 250px);
       }
     }
 
@@ -305,6 +310,10 @@ export class AppDocPageComponent
 
       app-doc-page-toc {
         grid-area: toc;
+      }
+
+      .content {
+        width: calc(100vw - 500px);
       }
     }
   `;

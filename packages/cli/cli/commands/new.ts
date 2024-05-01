@@ -58,7 +58,7 @@ export const newCommand = createCLICommand(
       .replace(/ /g, '-');
     const projectPath = resolve(projectName);
     if (pathExistsSync(projectPath)) {
-      return callbacks?.onProjectExists(projectName);
+      return callbacks?.onProjectExists?.(projectName);
     }
     // process template
     const template = args.template || 'bare';
@@ -66,14 +66,14 @@ export const newCommand = createCLICommand(
       ? template
       : `tinijs/${template}-starter`;
     const tag = args.version || (await fetchLatestReleaseTag(repo));
-    if (!tag) return callbacks?.onInvalidTag(repo);
+    if (!tag) return callbacks?.onInvalidTag?.(repo);
     // download and unzip
     const resourceUrl = `https://api.github.com/repos/${repo}/zipball/${tag}`;
-    callbacks?.onBeforeCreate(projectName, resourceUrl);
+    callbacks?.onBeforeCreate?.(projectName, resourceUrl);
     try {
       await downloadAndUnzip(resourceUrl, projectPath + '/download.zip');
     } catch (error) {
-      return callbacks?.onCorruptedResource();
+      return callbacks?.onCorruptedResource?.();
     }
     // post process
     const execaOptions = {
@@ -91,7 +91,7 @@ export const newCommand = createCLICommand(
     // instruction
     const {version: tiniVersion} = await loadCLIPackageJSON();
     const tiniConfigPath = getTiniConfigFilePath(projectPath);
-    callbacks?.onEnd(projectName, tiniVersion, tiniConfigPath);
+    callbacks?.onEnd?.(projectName, tiniVersion, tiniConfigPath);
   },
   {
     onProjectExists: (projectName: string) =>

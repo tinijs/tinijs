@@ -2,6 +2,7 @@ import {pathExistsSync} from 'fs-extra/esm';
 import {relative} from 'pathe';
 import {
   TiniProject,
+  getProjectDirs,
   type Builder,
   type CommonBuildOptions,
 } from '@tinijs/project';
@@ -32,6 +33,12 @@ export class ViteBuilder implements Builder {
     };
   }
 
+  get watch() {
+    return {
+      command: this.commands.watchCommand,
+    };
+  }
+
   get build() {
     return {
       command: this.commands.buildCommand,
@@ -39,31 +46,47 @@ export class ViteBuilder implements Builder {
   }
 
   private get commands() {
-    const {srcDir, compileDir, outDir, compile} = this.tiniProject.config;
-    const {configPath, devCommand, devHost, devPort, buildCommand} =
-      this.options;
-    const inputDir = compile === false ? srcDir : compileDir;
+    const {entryDir, outDir} = getProjectDirs(this.tiniProject.config);
+    const {
+      configPath,
+      devCommand,
+      devHost,
+      devPort,
+      watchCommand,
+      buildCommand,
+    } = this.options;
     const configArgs = [
       '--config',
       configPath ||
         this.LOCAL_VITE_CONFIG_FILE ||
         this.DEFAULT_VITE_CONFIG_FILE,
     ];
-    const outDirArgs = ['--outDir', relative(inputDir, outDir)];
+    const outDirArgs = ['--outDir', relative(entryDir, outDir)];
     const hostArgs = !devHost ? [] : ['--host', devHost];
     const portArgs = ['--port', `${devPort || '3000'}`];
     return {
       devCommand:
         devCommand ||
-        ['vite', inputDir, ...configArgs, ...hostArgs, ...portArgs].filter(
+        ['vite', entryDir, ...configArgs, ...hostArgs, ...portArgs].filter(
           Boolean
         ),
+      watchCommand:
+        watchCommand ||
+        [
+          'vite',
+          'build',
+          entryDir,
+          ...configArgs,
+          ...outDirArgs,
+          '--watch',
+          '--emptyOutDir',
+        ].filter(Boolean),
       buildCommand:
         buildCommand ||
         [
           'vite',
           'build',
-          inputDir,
+          entryDir,
           ...configArgs,
           ...outDirArgs,
           '--emptyOutDir',

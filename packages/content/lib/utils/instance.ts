@@ -63,7 +63,7 @@ export class ContentInstance<Item, Detail> {
 
   private async getExtraSearchUrl() {
     const rootIndex = await this.retrieveRootIndex();
-    const id = rootIndex[`${this.collectionName}-search`];
+    const id = rootIndex[`search-${this.collectionName}`];
     if (!id)
       throw new Error(`No extra search found for ${this.collectionName}`);
     return `${this.baseUrl}/${id}.json`;

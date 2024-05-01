@@ -1,5 +1,4 @@
 {
-  "private": true,
   "name": "@tinijs/webpack-builder",
   "version": "0.17.0",
   "description": "Build TiniJS app using Webpack.",

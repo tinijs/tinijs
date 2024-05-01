@@ -35,7 +35,7 @@ export class AppPageXXX extends TiniComponent {
 }
 ```
 
-Beside the `@Page()` decorator, everything else would work the same as any component. But, please note the `name: 'app-page-xxx'` property, it plays a role later when we setup the [Tini Router](https://tinijs.dev/framework/router-overview).
+Beside the `@Page()` decorator, everything else would work the same as any component. But, please note the `name: 'app-page-xxx'` property, it plays a role later when we setup the [Tini Router](https://tinijs.dev/framework/router).
 
 ## Layouts
 
@@ -72,4 +72,4 @@ export class AppLayoutXXX extends TiniComponent {
 }
 ```
 
-Beside the `@Layout()` decorator and the `<slot></slot>` in the template, everything else would work the same as any component. But, please note the `name: 'app-layout-xxx'` property, it plays a role later when we setup the [Tini Router](https://tinijs.dev/framework/router-overview).
+Beside the `@Layout()` decorator and the `<slot></slot>` in the template, everything else would work the same as any component. But, please note the `name: 'app-layout-xxx'` property, it plays a role later when we setup the [Tini Router](https://tinijs.dev/framework/router).

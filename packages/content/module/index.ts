@@ -14,6 +14,7 @@ export type ContentModuleOptions = Parameters<typeof contentBuildCommand>[0];
 export default defineTiniModule<ContentModuleOptions>({
   meta: {
     name: PACKAGE_NAME,
+    url: 'https://tinijs.dev/module/content',
   },
   init(tiniConfig) {
     return {
@@ -35,7 +36,8 @@ export default defineTiniModule<ContentModuleOptions>({
       contentBuildCommand(options, {
         onStart: () => infoRunHook(PACKAGE_NAME, hookName),
       });
-    tini.hook('dev:before', buildContent('dev:before'));
+    // TODO: enable 'dev:before' hook when caching is implemented
+    // tini.hook('dev:before', buildContent('dev:before'));
     tini.hook('build:before', buildContent('build:before'));
   },
 });

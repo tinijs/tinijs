@@ -1,7 +1,7 @@
 import {resolve} from 'pathe';
-import {green, blueBright, gray} from 'colorette';
-import {copyFile, readFile} from 'node:fs/promises';
-import {pathExistsSync, ensureDir, readJSON, outputJSON} from 'fs-extra/esm';
+import {green, gray, blueBright} from 'colorette';
+import {readFile} from 'node:fs/promises';
+import {pathExistsSync, readJSON, outputJSON, copy} from 'fs-extra/esm';
 import {createHash} from 'node:crypto';
 import {decodeHTML} from 'entities';
 import {minify} from 'html-minifier';
@@ -13,8 +13,10 @@ import slugify from '@sindresorhus/slugify';
 import {execa} from 'execa';
 import {consola} from 'consola';
 import {defu} from 'defu';
-import {getTiniProject, getProjectDirs} from '@tinijs/project';
+import {getProjectDirs} from '@tinijs/project';
 import {cleanDir, listDir, createCLICommand} from '@tinijs/cli';
+
+import contentCLIExpansion from '../expand.js';
 
 interface BuildOptions {
   collectTags?: false | {collection: string; field?: string};
@@ -82,91 +84,100 @@ export const contentBuildCommand = createCLICommand(
       dir: {
         alias: 'd',
         type: 'string',
-        description: 'The source directory.',
+        description: 'The content directory.',
+      },
+      stagingDir: {
+        alias: 's',
+        type: 'string',
+        description: 'The staging directory for 11ty.',
       },
       outDir: {
         alias: 'o',
         type: 'string',
         description: 'The output directory.',
       },
+      clean: {
+        alias: 'c',
+        type: 'boolean',
+        description: 'Clean staging dir and out dir before build.',
+      },
+      debug: {
+        alias: 'd',
+        type: 'boolean',
+        description: 'Show 11ty logs.',
+      },
     },
   },
   async (args, callbacks) => {
-    const contentDirName = args.dir || 'content';
-    const eleventyConfigPath = resolve(contentDirName, 'eleventy.config.cjs');
+    const debugMode = !!args.debug;
+    const contentDir = args.dir || 'content';
+    const contentDirPath = resolve(contentDir);
+    const eleventyConfigPath = resolve(contentDir, 'eleventy.config.cjs');
     if (!pathExistsSync(eleventyConfigPath)) {
-      return callbacks?.onInvalidProject?.(contentDirName);
+      return callbacks?.onInvalidProject?.(contentDir);
     }
-    const {config: tiniConfig} = await getTiniProject();
-    const {srcDir, dirs} = getProjectDirs(tiniConfig);
-    const stagingContentDir = '.content';
-    const tiniContentDir = `${
-      args.outDir || `${srcDir}/${dirs.public}`
-    }/tini-content`;
-    const srcPath = resolve(stagingContentDir);
-    const outPath = resolve(tiniContentDir);
-    // clear the staging and tini-content dir
-    await cleanDir(srcPath);
-    await cleanDir(outPath);
+    const {tiniProject} = contentCLIExpansion.context;
+    const {srcDir, dirs} = getProjectDirs(tiniProject.config);
+    const stagingDir = args.stagingDir || '.content';
+    const stagingDirPath = resolve(stagingDir);
+    const outDir = `${args.outDir || `${srcDir}/${dirs.public}`}/tini-content`;
+    const outDirPath = resolve(outDir);
+    callbacks?.onStart?.(stagingDir, debugMode);
 
-    // 11ty render
-    callbacks?.onStart?.(stagingContentDir);
+    // clean dirs
+    if (args.clean) {
+      await cleanDir(stagingDirPath);
+      await cleanDir(outDirPath);
+    }
+
+    // compile using 11ty
     await execa('npx', ['@11ty/eleventy', '--config', eleventyConfigPath], {
-      stdio: 'ignore',
+      env: {
+        TINI_11TY_INPUT: contentDir,
+        TINI_11TY_OUTPUT: stagingDir,
+      },
+      stdio: !debugMode ? undefined : 'inherit',
     });
 
-    // read content
-    const {copyPaths, buildPaths} = (await listDir(srcPath)).reduce(
-      (result, item) => {
-        if (
-          ~item.indexOf('/uploads/') ||
-          ~item.indexOf(`/${stagingContentDir}/images/`) ||
-          !item.endsWith('.html')
-        ) {
-          result.copyPaths.push(item);
-        } else {
-          result.buildPaths.push(item);
-        }
-        return result;
-      },
-      {
-        copyPaths: [] as string[],
-        buildPaths: [] as string[],
-      }
+    // copy uploads & images
+    const copyPaths = (await listDir(contentDirPath)).filter(path =>
+      path.includes('/uploads/')
     );
-
-    // copy
-    await Promise.all(
-      copyPaths.map(async path => {
-        const filePath = path.replace(stagingContentDir, tiniContentDir);
-        await ensureDir(filePath.replace(/\/[^/]+$/, ''));
-        return copyFile(path, filePath);
-      })
-    );
+    for (const path of copyPaths) {
+      const destPath = resolve(
+        outDir,
+        path.replace(`${contentDirPath}/`, '').replace(/\/\d+ - /, '/')
+      );
+      await copy(path, destPath);
+    }
+    const imagesPath = resolve(stagingDirPath, 'images');
+    if (pathExistsSync(imagesPath)) {
+      await copy(imagesPath, resolve(outDirPath, 'images'));
+    }
 
     // build
+    const buildPaths = (await listDir(stagingDirPath)).filter(path =>
+      path.endsWith('/index.html')
+    );
     const indexRecord = {} as Record<string, string>;
     const collectionRecord = {} as Record<string, any[]>;
-    const fulltextSearchRecord = {} as Record<string, Record<string, any>>;
+    const extraSearchRecord = {} as Record<string, Record<string, any>>;
     const collectedTagsRecord = {} as Record<string, Record<string, Tag>>;
-
-    let buildCount = 0;
     const collectionOptionsCache = {} as Record<string, BuildOptions>;
+    let buildCount = 0;
     for (let i = 0; i < buildPaths.length; i++) {
       const path = buildPaths[i];
       const [collection, name] = path
-        .split(`/${stagingContentDir}/`)
-        .pop()!
+        .replace(`${stagingDirPath}/`, '')
         .replace(/\/[^/]+$/, '')
         .split('/');
       const [orderStr, slug] = !/^\d+ - /.test(name)
         ? ['', name]
         : name.split(' - ');
       const order = isNaN(+orderStr) ? undefined : +orderStr;
-
       callbacks?.onBuildItem?.(collection, name);
 
-      // process raw content
+      // load and process raw content
       let rawContent = await readFile(path, 'utf8');
       rawContent = rawContent.replace(/(<p>\+\+\+)|(\+\+\+<\/p>)/g, '+++');
       const matterMatching = rawContent.match(/\+\+\+([\s\S]*?)\+\+\+/);
@@ -183,7 +194,7 @@ export const contentBuildCommand = createCLICommand(
 
       // load build options
       const collectionOptionsPath = resolve(
-        contentDirName,
+        contentDir,
         collection,
         '$build.json'
       );
@@ -199,13 +210,11 @@ export const contentBuildCommand = createCLICommand(
       delete data.$build;
 
       // item
-      const digest = createHash('sha256')
-        .update(rawContent)
-        .digest('base64url');
+      const docId = createHash('sha256').update(rawContent).digest('base64url');
       const detail = {
         ...data,
         ...data.moredata,
-        id: digest,
+        id: docId,
         slug,
         content: minify(content, {
           html5: true,
@@ -223,14 +232,14 @@ export const contentBuildCommand = createCLICommand(
       if (detail.order === undefined && order !== undefined) {
         detail.order = order;
       }
-      await outputJSON(resolve(outPath, `${digest}.json`), detail);
-      indexRecord[`${collection}/${slug}`] = digest;
+      await outputJSON(resolve(outDirPath, `${docId}.json`), detail);
+      indexRecord[`${collection}/${slug}`] = docId;
 
       // collection
       collectionRecord[collection] ||= [];
       const item = {
         ...data,
-        id: digest,
+        id: docId,
         slug,
       } as Record<string, any>;
       delete item.moredata;
@@ -239,12 +248,9 @@ export const contentBuildCommand = createCLICommand(
       }
       collectionRecord[collection].push(item);
 
-      // fulltext search
-      fulltextSearchRecord[collection] ||= {};
-      fulltextSearchRecord[collection][slug] = buildSearchContent(
-        content,
-        data
-      );
+      // extra search
+      extraSearchRecord[collection] ||= {};
+      extraSearchRecord[collection][slug] = buildSearchContent(content, data);
 
       // collect tags
       if (
@@ -288,65 +294,70 @@ export const contentBuildCommand = createCLICommand(
 
     // collections
     for (const [collection, items] of Object.entries(collectionRecord)) {
-      const digest = createHash('sha256')
+      const collectionId = createHash('sha256')
         .update(JSON.stringify(items))
         .digest('base64url');
-      await outputJSON(resolve(outPath, `${digest}.json`), items);
-      indexRecord[collection] = digest;
+      await outputJSON(resolve(outDirPath, `${collectionId}.json`), items);
+      indexRecord[collection] = collectionId;
     }
 
     // search
-    for (const [collection, items] of Object.entries(fulltextSearchRecord)) {
-      const digest = createHash('sha256')
+    for (const [collection, items] of Object.entries(extraSearchRecord)) {
+      const searchId = createHash('sha256')
         .update(JSON.stringify(items))
         .digest('base64url');
-      await outputJSON(resolve(outPath, `${digest}.json`), items);
-      indexRecord[`${collection}-search`] = digest;
+      await outputJSON(resolve(outDirPath, `${searchId}.json`), items);
+      indexRecord[`search-${collection}`] = searchId;
     }
 
     // tags
     if (Object.keys(collectedTagsRecord).length) {
       for (const [collection, record] of Object.entries(collectedTagsRecord)) {
         const items = Object.values(record);
-        const digest = createHash('sha256')
+        const tagId = createHash('sha256')
           .update(JSON.stringify(items))
           .digest('base64url');
-        await outputJSON(resolve(outPath, `${digest}.json`), items);
-        indexRecord[collection] = digest;
+        await outputJSON(resolve(outDirPath, `${tagId}.json`), items);
+        indexRecord[collection] = tagId;
       }
     }
 
     // index
-    await outputJSON(resolve(outPath, 'index.json'), indexRecord);
+    await outputJSON(resolve(outDirPath, 'index.json'), indexRecord);
 
     // done
-    callbacks?.onDone?.(tiniContentDir, copyPaths, buildPaths, buildCount);
+    callbacks?.onDone?.(outDir, copyPaths, buildPaths, buildCount);
   },
   {
-    onInvalidProject: (contentDirName: string) =>
+    onInvalidProject: (contentDir: string) =>
       consola.error(
-        `Invalid content project (no ${contentDirName}/eleventy.config.cjs found).`
+        `Invalid content project (no ${blueBright(
+          `${contentDir}/eleventy.config.cjs`
+        )} found).`
       ),
-    onStart: (tempDir: string) => {
+    onStart: (stagingDir: string, debugMode: boolean) => {
+      if (debugMode) return;
       SPINNER.start(
-        `Compile content using ${green('11ty')} to ${gray(tempDir)}.`
+        `Compile content using ${green('11ty')} to ${gray(stagingDir)}`
       );
     },
-    onBuildItem: (collection: string, name: string) =>
-      (SPINNER.text = `Build: ${green(`${collection}/${name}`)}`),
+    onBuildItem: (collection: string, name: string) => {
+      if (!SPINNER.isSpinning) SPINNER.start();
+      SPINNER.text = `Build document: ${green(`${collection}/${name}`)}`;
+    },
     onDone: (
-      destDir: string,
+      outDir: string,
       copyPaths: any[],
       buildPaths: any[],
       buildCount: number
-    ) =>
+    ) => {
+      if (!SPINNER.isSpinning) SPINNER.start();
       SPINNER.succeed(
-        `Success! Copy ${blueBright(
-          copyPaths.length
-        )} items and build ${blueBright(buildCount)}/${
-          buildPaths.length
-        } items to ${gray(destDir)}.\n`
-      ),
+        `Success! Copy ${green(copyPaths.length)} items and build ${green(
+          buildCount
+        )}/${buildPaths.length} items to ${gray(outDir)}.\n`
+      );
+    },
   }
 );
 

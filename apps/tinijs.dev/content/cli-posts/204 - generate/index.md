@@ -16,6 +16,7 @@ Support these types:
 
 - `const` - Shared constants.
 - `store` - Stores for global states management.
+- `context` - Consumable contexts.
 - `class` - Constructors which are intended to be used to construct objects.
 - `service` - Groups of similar utilities, you can either import or inject them.
 - `layout` - Layouts for pages.
@@ -30,6 +31,6 @@ Support these types:
 
 | Option | Description |
 | --- | --- |
-| `--dir <value>` or `-d` | Custom srcDir, default to `app`. |
+| `--dir <value>` or `-d` | Custom client app srcDir, default to `app`. |
 | `--typePrefixed` or `-t` | Use format `name.type.ext`. |
-| `--nested` or `-n` | Nested under a folder. |
+| `--nested` or `-n` | Nested under the folder with the same name. |

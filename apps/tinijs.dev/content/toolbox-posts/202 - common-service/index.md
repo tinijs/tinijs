@@ -1,7 +1,7 @@
 +++json
 {
   "status": "publish",
-  "title": "Services",
+  "title": "Common services",
   "category": "common"
 }
 +++

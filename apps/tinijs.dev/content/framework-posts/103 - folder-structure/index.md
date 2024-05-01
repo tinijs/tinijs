@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Folder Structure",
-  "category": "uncategorized"
+  "category": "core"
 }
 +++
 

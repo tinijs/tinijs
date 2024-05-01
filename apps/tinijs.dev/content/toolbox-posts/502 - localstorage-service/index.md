@@ -1,7 +1,7 @@
 +++json
 {
   "status": "publish",
-  "title": "Services",
+  "title": "Localstorage services",
   "category": "localstorage"
 }
 +++

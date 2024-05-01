@@ -31,11 +31,6 @@ export const routes: Route[] = [
         action: () => import('./pages/toolbox.js'),
       },
       {
-        path: 'server/:slug?',
-        component: 'app-page-server',
-        action: () => import('./pages/server.js'),
-      },
-      {
         path: 'cli/:slug?',
         component: 'app-page-cli',
         action: () => import('./pages/cli.js'),

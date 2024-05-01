@@ -51,14 +51,6 @@ export const toolboxPostService = new ContentService<DocPost, DocPostDetail>(
   'toolbox-posts'
 );
 
-export const serverCategoryService = new ContentService<
-  DocCategory,
-  DocCategoryDetail
->('server-categories');
-export const serverPostService = new ContentService<DocPost, DocPostDetail>(
-  'server-posts'
-);
-
 export const cliCategoryService = new ContentService<
   DocCategory,
   DocCategoryDetail

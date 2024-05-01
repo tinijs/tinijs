@@ -6,7 +6,7 @@
 }
 +++
 
-Tini Toolbox is a collection of commonly used utilities and services for building web applications. It is aimed to provide every useful tools from a wide range of categories in a unified place.
+**Tini Toolbox** is a collection of commonly used utilities and services for building web applications. It is aimed to provide every useful tools from a wide range of categories in a unified place.
 
 The utils and services can be used with TiniJS framework and other frameworks or no framework.
 

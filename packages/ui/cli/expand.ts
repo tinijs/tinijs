@@ -2,7 +2,9 @@ import {defineTiniCLIExpansion, resolveCommand} from '@tinijs/cli';
 
 import {PACKAGE_NAME} from '../lib/consts/common.js';
 
-export default defineTiniCLIExpansion({
+export type UICLIExpansionOptions = {};
+
+export default defineTiniCLIExpansion<UICLIExpansionOptions>({
   meta: {
     name: PACKAGE_NAME,
   },

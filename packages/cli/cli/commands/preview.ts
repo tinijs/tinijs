@@ -52,7 +52,7 @@ export const previewCommand = createCLICommand(
         config,
         debug: false,
       })
-      .listen(() => callbacks?.onServerStart(hostname, port));
+      .listen(() => callbacks?.onServerStart?.(hostname, port));
   },
   {
     onServerStart: (hostname: string, port: number) =>
