@@ -57,7 +57,7 @@ export class AppPageGetStarted extends TiniComponent {
           <p>To create a new TiniJS app, run:</p>
           <app-code
             language="bash"
-            code="npx @tinijs/cli new my-app --latest"
+            code="npx @tinijs/cli@latest new my-app"
           ></app-code>
           <p>
             The Starter app comes with a default theme

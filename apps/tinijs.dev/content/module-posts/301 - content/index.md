@@ -87,7 +87,9 @@ Or, add scripts to `package.json`:
 }
 ```
 
-Please note, for now, there is **NO WATCH** for change, please run the command manually when you update the `content` folder. For detail command usage, please see the [Content CLI expansions](/module/content-cli) page.
+Future improvements:
+- Please note, there is **NO WATCH** for change for now, please run the command manually when you update the `content` folder. For detail command usage, please see the [Content CLI expansions](/module/content-cli) page.
+- There is **NO CACHE** also, all files will be re-processed every time you run the command.
 
 ## Frameworks
 

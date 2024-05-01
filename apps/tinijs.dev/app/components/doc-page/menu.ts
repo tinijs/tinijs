@@ -99,11 +99,11 @@ export class AppDocPageMenuComponent extends TiniComponent {
         transform 0.2s ease,
         opacity 0.2s ease;
       z-index: 800;
-    }
 
-    .menu.mobile-opened {
-      opacity: 1;
-      transform: translateX(0);
+      &.mobile-opened {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
 
     .title {
@@ -115,13 +115,15 @@ export class AppDocPageMenuComponent extends TiniComponent {
       gap: var(--size-space);
       font-weight: bold;
       font-size: 1.2rem;
-    }
-    .title icon-home {
-      transform: translateY(-2px);
-    }
-    .title:hover {
-      text-decoration: none;
-      color: var(--color-tertiary);
+
+      icon-home {
+        transform: translateY(-2px);
+      }
+
+      &:hover {
+        text-decoration: none;
+        color: var(--color-tertiary);
+      }
     }
 
     ul {
@@ -133,34 +135,38 @@ export class AppDocPageMenuComponent extends TiniComponent {
       display: flex;
       flex-flow: column;
       gap: var(--size-space-0_25x);
-    }
 
-    ul li strong {
-      display: block;
-      margin-top: var(--size-space-1_5x);
-      padding-top: var(--size-space);
-      padding-bottom: var(--size-space-0_25x);
-      font-size: 1.1rem;
-      border-top: 1px solid var(--color-background-shade);
-    }
+      li {
+        strong {
+          display: block;
+          margin-top: var(--size-space-1_5x);
+          padding-top: var(--size-space);
+          padding-bottom: var(--size-space-0_25x);
+          font-size: 1.1rem;
+          border-top: 1px solid var(--color-background-shade);
+        }
 
-    ul li:first-child strong {
-      margin-top: 0;
-      border-top: none;
-      padding-top: 0;
-    }
+        &:first-child strong {
+          margin-top: 0;
+          border-top: none;
+          padding-top: 0;
+        }
 
-    ul li tini-link::part(root) {
-      color: var(--color-medium);
-      text-decoration: none;
-    }
-    ul li tini-link:hover::part(root) {
-      color: var(--color-text);
-    }
-    ul li tini-link::part(active) {
-      color: var(--color-text);
-      cursor: default;
-      pointer-events: none;
+        tini-link::part(root) {
+          color: var(--color-medium);
+          text-decoration: none;
+        }
+
+        tini-link:hover::part(root) {
+          color: var(--color-text);
+        }
+
+        tini-link::part(active) {
+          color: var(--color-text);
+          cursor: default;
+          pointer-events: none;
+        }
+      }
     }
 
     @media (min-width: 992px) {
@@ -171,6 +177,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
         left: 0;
         background: var(--color-background);
         border-right: none;
+        padding-bottom: var(--footer-height);
       }
 
       .title {

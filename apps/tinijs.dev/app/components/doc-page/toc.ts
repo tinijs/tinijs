@@ -80,13 +80,13 @@ export class AppDocPageTOCComponent extends TiniComponent {
       width: calc(100% - var(--size-space-2x));
       max-width: var(--wide-ss);
       z-index: 800;
-    }
 
-    .toc.mobile-opened {
-      border: 1px solid var(--color-background-shade);
-      height: auto;
-      opacity: 1;
-      transform: translateY(0);
+      &.mobile-opened {
+        border: 1px solid var(--color-background-shade);
+        height: auto;
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .return-top {
@@ -110,26 +110,29 @@ export class AppDocPageTOCComponent extends TiniComponent {
       margin: 0;
       border-top: 1px solid var(--color-background-shade);
       padding: var(--size-space-0_5x) 0;
-    }
 
-    ul li.level-3 {
-      padding-left: var(--size-space);
-    }
-    ul li.level-4 {
-      padding-left: var(--size-space-2x);
-    }
-    ul li.level-5 {
-      padding-left: var(--size-space-3x);
-    }
+      li {
+        &.level-3 {
+          padding-left: var(--size-space);
+        }
+        &.level-4 {
+          padding-left: var(--size-space-2x);
+        }
+        &.level-5 {
+          padding-left: var(--size-space-3x);
+        }
 
-    ul li a {
-      display: block;
-      padding: var(--size-space-0_25x) var(--size-space);
-      color: var(--color-medium);
-    }
-    ul li a:hover {
-      text-decoration: none;
-      color: var(--color-text);
+        a {
+          display: block;
+          padding: var(--size-space-0_25x) var(--size-space);
+          color: var(--color-medium);
+
+          &:hover {
+            text-decoration: none;
+            color: var(--color-text);
+          }
+        }
+      }
     }
 
     @media (min-width: 1200px) {
@@ -149,6 +152,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
         right: 0;
         top: var(--header-height);
         transform: translateX(1px);
+        padding-bottom: var(--footer-height);
       }
 
       .return-top {

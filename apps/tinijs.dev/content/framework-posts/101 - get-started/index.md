@@ -9,7 +9,7 @@
 To quickly create a TiniJS project, you can use the [Tini CLI](/cli) to initialize a template.
 
 ```bash
-npx @tinijs/cli@latest new my-app -l
+npx @tinijs/cli@latest new my-app
 ```
 
 The above command creates an app by downloading the **Bare** template. In the future, I would like to provide several starter templates. You can also create your own templates and share them with the community or for your own private use. Currently, these templates available at [Starters page](/framework/starter).
