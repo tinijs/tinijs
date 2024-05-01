@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "CLI expansion",
-  "category": "uncategorized"
+  "category": "server"
 }
 +++
 

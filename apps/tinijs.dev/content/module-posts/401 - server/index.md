@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Get Started",
-  "category": "uncategorized"
+  "category": "server"
 }
 +++
 
@@ -34,7 +34,7 @@ The production build will be in the `.output` folder, depends on the deploy pipe
 
 ## CLI Expansion
 
-The above `tini server ...` commands are available via [Tini CLI](/cli) expandable architect. Please see [Tini Server CLI expansion](/server/cli) for more details.
+The above `tini server ...` commands are available via [Tini CLI](/cli) expandable architect. Please see [Tini Server CLI expansion](/module/server-cli) for more details.
 
 ## Server Routes
 

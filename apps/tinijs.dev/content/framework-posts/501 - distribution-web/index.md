@@ -8,7 +8,7 @@
 
 A TiniJS app can be started as a static web no matter big or small without a need of a server or database. You can always use SaaS services for almost any backend needs.
 
-An [optional Nitro server](/server) for server/API routes and other server stuffs if you need to handle backend tasks and refer to serve the web app from a Node server instead of a static host.
+An [optional Nitro server](/module/server) for server/API routes and other server stuffs if you need to handle backend tasks and refer to serve the web app from a Node server instead of a static host.
 
 This guide will focus on distributing a TiniJS web app as a static web. After you have built your web app, you can run `npm run build` to generate the distribution files. The distribution files are located by default in the `.output` folder. You can now upload the files to a static web host like GitHub Pages, Cloudflare Pages, Netlify, Firebase Hosting, etc.
 

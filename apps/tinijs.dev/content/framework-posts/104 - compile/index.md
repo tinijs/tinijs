@@ -2,11 +2,11 @@
 {
   "status": "publish",
   "title": "Compile",
-  "category": "uncategorized"
+  "category": "core"
 }
 +++
 
-Compile is an optional but recommended step in the dev/build workflow for TiniJS apps. You can think of it as a transformation step that takes the source code and transforms it before forwarding the code to the build tool.
+Compile is an **optional but recommended** step in the dev/build workflow for TiniJS apps. You can think of it as a transformation step that takes the source code and transforms it before forwarding the code to the build tool.
 
 With the **Default Compiler**, you can use these features:
 - Support `SCSS` in `` css`...` ``

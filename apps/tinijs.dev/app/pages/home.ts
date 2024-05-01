@@ -107,7 +107,7 @@ export class AppPageHome extends TiniComponent {
             </p>
           </li>
 
-          <li @click=${() => this.router.go('/server')}>
+          <li @click=${() => this.router.go('/module/server')}>
             <div class="icon">🎛️</div>
             <h3>Server</h3>
             <p>

@@ -6,7 +6,7 @@
 }
 +++
 
-Expandable commands provided by the [Tini Server](/server).
+Expandable commands provided by the [Tini Server](/module/server).
 
 
 ```bash
@@ -20,4 +20,4 @@ npx tini server build
 npx tini server preview
 ```
 
-Please see more detail at [Server page](/server/cli).
+Please see more detail at [Server page](/module/server-cli).
