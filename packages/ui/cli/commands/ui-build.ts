@@ -1,14 +1,15 @@
 import {resolve} from 'pathe';
 import {defu} from 'defu';
 import {
+  tsToJS,
   createCLICommand,
   outputGenFileResults,
   type GenFileResult,
 } from '@tinijs/cli';
 import {TINI_CONFIG_TS_FILE} from '@tinijs/project';
 import {consola} from 'consola';
-import {green} from 'colorette';
-import ora from 'ora';
+import {green, gray} from 'colorette';
+import {execa} from 'execa';
 import type {AsyncReturnType} from 'type-fest';
 
 import {
@@ -26,8 +27,6 @@ import {
 import {buildIcons} from '../utils/icon.js';
 
 import cliExpansion from '../expand.js';
-
-const SPINNER = ora();
 
 export const uiBuildCommand = createCLICommand(
   {
@@ -60,13 +59,18 @@ export const uiBuildCommand = createCLICommand(
             pack.extends === false ? pack : defu(pack, uiConfig)
           )
     );
-    callbacks?.onStart?.(packConfigs.length);
+    let packCount = 0;
     for (const config of packConfigs) {
       if (!config.sources?.length || !config.families) continue;
+      const outDir = config.outDir || 'app/ui';
       const results: GenFileResult[] = [];
 
+      // start building
+      packCount++;
+      callbacks?.onStartPack?.(outDir);
+
       // load available components and theme families
-      const outDirPath = resolve(config.outDir || '.ui');
+      const outDirPath = resolve(outDir);
       const {
         components: availableComponents,
         themeFamilies: availableThemeFamilies,
@@ -125,23 +129,45 @@ export const uiBuildCommand = createCLICommand(
       await outputGenFileResults(outDirPath, results);
 
       // transpile & remove .ts files
-      if (config.transpile) {
-        await transpileAndRemoveTSFiles(
-          outDirPath,
-          results
-            .map(result => resolve(outDirPath, result.path))
-            .filter(path => path.endsWith('.ts'))
+      const tsPaths = results
+        .map(result => resolve(outDirPath, result.path))
+        .filter(path => path.endsWith('.ts'));
+      if (config.transpile || config.bundled) {
+        await transpileAndRemoveTSFiles(outDirPath, tsPaths);
+      }
+
+      // bundled
+      if (config.bundled) {
+        callbacks?.onBundle?.();
+        const jsPaths = tsPaths
+          .filter(path => !path.endsWith('/public-api.ts'))
+          .map(path => tsToJS(path.replace(`${outDirPath}/`, '')));
+        await execa(
+          'esbuild',
+          [
+            ...jsPaths,
+            '--outdir=bundled',
+            '--format=esm',
+            '--bundle',
+            '--minify',
+          ],
+          {stdio: 'inherit', cwd: outDirPath}
         );
       }
     }
-    callbacks?.onEnd?.(packConfigs.length);
+    callbacks?.onEnd?.(packCount);
   },
   {
-    onStart: (packCount: number) => {
-      SPINNER.start(`Building ${green(packCount)} UI packages.`);
+    onStartPack: (outDir: string) => {
+      console.log();
+      consola.info(`Build package to ${gray(outDir)}.`);
     },
-    onEnd: (packCount: number) =>
-      SPINNER.succeed(`Built ${green(packCount)} UI packages successfully.`),
+    onBundle: () => consola.info('Bundle for CDN usage.'),
+    onEnd: (packCount: number) => {
+      console.log();
+      consola.success(`Built ${green(packCount)} UI packages successfully!`);
+      console.log();
+    },
   }
 );
 

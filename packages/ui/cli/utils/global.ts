@@ -1,3 +1,5 @@
+import {minifyCSS} from '@tinijs/cli';
+
 interface ColorDef {
   base: string;
   subtle: string;
@@ -384,20 +386,20 @@ function generateCommonGradientVars() {
 
 export function getCommonColors() {
   const commonColors = generateCommonColorVars();
-  return `
+  return minifyCSS(`
 :root {
   ${commonColors}
 }
-`;
+`);
 }
 
 export function getCommonGradients() {
   const commonGradients = generateCommonGradientVars();
-  return `
+  return minifyCSS(`
 :root {
   ${commonGradients}
 }
-`;
+`);
 }
 
 export function getSkinUtils() {
@@ -408,7 +410,7 @@ export function getSkinUtils() {
   const borderSizes = generateBorderVars();
   const radiusSizes = generateRadiusVars();
   const shadows = '--shadow-none: none;';
-  return `
+  return minifyCSS(`
 :root {
   ${scales}
   ${textSizes}
@@ -418,11 +420,11 @@ export function getSkinUtils() {
   ${radiusSizes}
   ${shadows}
 }
-`;
+`);
 }
 
 export function getGeneralStyles() {
-  return `
+  return minifyCSS(`
 *,
 *::before,
 *::after {
@@ -439,5 +441,5 @@ body {
   background: var(--color-background);
   color: var(--color-foreground);
 }
-`;
+`);
 }

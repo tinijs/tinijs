@@ -16,6 +16,7 @@ export interface UIConfig {
   manualSkinSelection?: true;
   framework?: 'react';
   transpile?: true;
+  bundled?: true;
   rewritePath?: true | ((path: string) => string | null | undefined);
   packageJSON?:
     | true

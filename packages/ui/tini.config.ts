@@ -37,6 +37,7 @@ export default defineTiniConfig({
     sources: ['./ui'],
     manualSkinSelection: true,
     transpile: true,
+    bundled: true,
     rewritePath: true,
     outPacks: [
       {
