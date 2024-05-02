@@ -45,6 +45,7 @@
     "@sindresorhus/slugify": "^2.2.1",
     "@tinijs/cli": "^0.18.0",
     "@tinijs/project": "^0.18.0",
+    "colorette": "^2.0.20",
     "consola": "^3.2.3",
     "defu": "^6.1.4",
     "destr": "^2.0.3",
@@ -53,6 +54,7 @@
     "knitwork": "^1.1.0",
     "lit": "^3.1.2",
     "nanoid": "^5.0.4",
+    "ora": "^8.0.1",
     "pathe": "^1.1.2",
     "svgo": "^3.2.0",
     "typescript": "^5.4.3"

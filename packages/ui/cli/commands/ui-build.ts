@@ -7,12 +7,14 @@ import {
 } from '@tinijs/cli';
 import {TINI_CONFIG_TS_FILE} from '@tinijs/project';
 import {consola} from 'consola';
+import {green} from 'colorette';
+import ora from 'ora';
 import type {AsyncReturnType} from 'type-fest';
 
 import {
   listAvailableComponents,
   listAvailableThemeFamilies,
-  buildGlobal,
+  buildGlobals,
   buildSkins,
   buildBases,
   buildComponents,
@@ -25,6 +27,8 @@ import {buildIcons} from '../utils/icon.js';
 
 import cliExpansion from '../expand.js';
 
+const SPINNER = ora();
+
 export const uiBuildCommand = createCLICommand(
   {
     meta: {
@@ -32,15 +36,16 @@ export const uiBuildCommand = createCLICommand(
       description: 'Build UI packages.',
     },
   },
-  async () => {
+  async (args, callbacks) => {
     const {
       context: {tiniProject},
     } = cliExpansion;
     const uiConfig = tiniProject.config.ui;
-    if (!uiConfig)
+    if (!uiConfig) {
       return consola.error(
         `No UI configuration found in ${TINI_CONFIG_TS_FILE}.`
       );
+    }
     const cachedAvailable = {} as Record<
       string,
       {
@@ -55,8 +60,10 @@ export const uiBuildCommand = createCLICommand(
             pack.extends === false ? pack : defu(pack, uiConfig)
           )
     );
+    callbacks?.onStart?.(packConfigs.length);
     for (const config of packConfigs) {
       if (!config.sources?.length || !config.families) continue;
+      const results: GenFileResult[] = [];
 
       // load available components and theme families
       const outDirPath = resolve(config.outDir || '.ui');
@@ -68,10 +75,8 @@ export const uiBuildCommand = createCLICommand(
         themeFamilies: await listAvailableThemeFamilies(config.sources),
       });
 
-      const results: GenFileResult[] = [];
-
-      // build global styles
-      const globalResults = await buildGlobal();
+      // build globals
+      const globalResults = await buildGlobals();
       results.push(...globalResults);
 
       // build skins
@@ -109,12 +114,7 @@ export const uiBuildCommand = createCLICommand(
 
       // build public api & package.json
       if (config.packageJSON) {
-        const publicAPIResult = await buildPublicAPI([
-          setupResult,
-          ...globalResults,
-          ...skinResults,
-          ...baseResults,
-        ]);
+        const publicAPIResult = await buildPublicAPI([setupResult]);
         results.push(publicAPIResult);
 
         const packageJSONResult = await buildPackageJSON(config.packageJSON);
@@ -134,6 +134,14 @@ export const uiBuildCommand = createCLICommand(
         );
       }
     }
+    callbacks?.onEnd?.(packConfigs.length);
+  },
+  {
+    onStart: (packCount: number) => {
+      SPINNER.start(`Building ${green(packCount)} UI packages.`);
+    },
+    onEnd: (packCount: number) =>
+      SPINNER.succeed(`Built ${green(packCount)} UI packages successfully.`),
   }
 );
 

@@ -240,9 +240,9 @@ export class TiniElement extends LitElement {
     // theme styles
     if (optionalUI) {
       const {familyId, skinId} = optionalUI.activeTheme;
-      const {sharedStyles} = optionalUI.getStyles(familyId, skinId);
+      const {shareStyles} = optionalUI.getStyles(familyId, skinId);
       allStyles.push(
-        ...sharedStyles,
+        ...shareStyles,
         ...getStylesFromTheming(
           (this.constructor as typeof TiniElement).theming,
           optionalUI.activeTheme

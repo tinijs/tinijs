@@ -421,7 +421,7 @@ export function getSkinUtils() {
 `;
 }
 
-export function getDefaultGlobal() {
+export function getGeneralStyles() {
   return `
 *,
 *::before,

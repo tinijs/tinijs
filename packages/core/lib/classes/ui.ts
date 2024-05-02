@@ -67,7 +67,7 @@ export interface UIOptions<
 
 export interface UIInit {
   host?: HTMLElement;
-  global?: CSSResultOrNative | CSSResultOrNative[];
+  globals?: CSSResultOrNative | CSSResultOrNative[];
   skins: Record<string, CSSResultOrNative | CSSResultOrNative[]>;
   shares?: Record<string, CSSResultOrNative | CSSResultOrNative[]>;
   options?: UIOptions;
@@ -229,14 +229,14 @@ export class UI {
 
   getStyles(familyId: string, skinId: string) {
     const themeId = `${familyId}/${skinId}`;
-    const {skins, global, shares} = this._init;
-    const globalStyles = listify<CSSResultOrNative>(global || []);
+    const {skins, globals, shares} = this._init;
+    const globalStyles = listify<CSSResultOrNative>(globals || []);
     const skinStyles = listify<CSSResultOrNative>(skins[themeId] || []);
-    const sharedStyles = ([] as CSSResultOrNative[])
+    const shareStyles = ([] as CSSResultOrNative[])
       .concat(listify<CSSResultOrNative>(shares?.['*'] || []))
       .concat(listify<CSSResultOrNative>(shares?.[familyId] || []))
       .concat(listify<CSSResultOrNative>(shares?.[themeId] || []));
-    return {globalStyles, skinStyles, sharedStyles};
+    return {globalStyles, skinStyles, shareStyles};
   }
 
   private _rebuildActiveTheme(
@@ -272,13 +272,13 @@ export class UI {
 
   private _applyTheme(familyId: string, skinId: string) {
     const host = this._init.host || document;
-    const {globalStyles, skinStyles, sharedStyles} = this.getStyles(
+    const {globalStyles, skinStyles, shareStyles} = this.getStyles(
       familyId,
       skinId
     );
     return adoptStyles(
       ((host as HTMLElement).shadowRoot || host) as ShadowRoot,
-      [...skinStyles, ...globalStyles, ...sharedStyles]
+      [...skinStyles, ...globalStyles, ...shareStyles]
     );
   }
 }
