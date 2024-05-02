@@ -11,12 +11,12 @@ import {
   type OnDestroy,
 } from '@tinijs/core';
 import {ROUTE_CHANGE_EVENT} from '@tinijs/router';
-import {TiniLinkComponent} from '@tinijs/ui-bootstrap/components/link.js';
+import {TiniLinkComponent} from '../ui/components/link.js';
 import {
   TiniSwitchComponent,
   type SwitchEventDetail,
-} from '@tinijs/ui-bootstrap/components/switch.js';
-import {TiniIconComponent} from '@tinijs/ui-bootstrap/components/icon.js';
+} from '../ui/components/switch.js';
+import {TiniIconComponent} from '../ui/components/icon.js';
 
 import {LOGO_URL} from '../consts/common.js';
 

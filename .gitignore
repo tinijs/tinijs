@@ -11,9 +11,7 @@ packages/*/dist
 # apps
 .parcel-cache
 .tini
-.app
 .output
-.content
 apps/*/app/ui
 apps/*/app/public/tini-content
 apps/*/app/public/sw.js

@@ -13,7 +13,7 @@
   "scripts": {
     "tini": "../../packages/cli/dist/cli/index.js",
     "dev": "npm run tini -- dev",
-    "build": "npm run tini -- build",
+    "build": "npm run tini -- ui build && npm run tini -- build",
     "preview": "npm run tini -- preview",
     "lint": "gts lint",
     "fix": "gts fix"
@@ -27,7 +27,7 @@
     "@tinijs/router": "*",
     "@tinijs/server": "*",
     "@tinijs/store": "*",
-    "@tinijs/ui-bootstrap": "*",
+    "@tinijs/ui": "*",
     "highlight.js": "^11.9.0",
     "lit": "^3.1.2"
   }

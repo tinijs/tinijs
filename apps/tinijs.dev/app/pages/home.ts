@@ -2,9 +2,9 @@ import {html, css} from 'lit';
 
 import {Page, TiniComponent, Colors, CommonGradients} from '@tinijs/core';
 import {UseRouter, Router} from '@tinijs/router';
-import {TiniTextComponent} from '@tinijs/ui-bootstrap/components/text.js';
-import {TiniButtonComponent} from '@tinijs/ui-bootstrap/components/button.js';
-import {TiniEmbedComponent} from '@tinijs/ui-bootstrap/components/embed.js';
+import {TiniTextComponent} from '../ui/components/text.js';
+import {TiniButtonComponent} from '../ui/components/button.js';
+import {TiniEmbedComponent} from '../ui/components/embed.js';
 
 import {IconHeartComponent} from '../icons/heart.js';
 

@@ -5,6 +5,7 @@ import {
   outputGenFileResults,
   type GenFileResult,
 } from '@tinijs/cli';
+import {TINI_CONFIG_TS_FILE} from '@tinijs/project';
 import {consola} from 'consola';
 import type {AsyncReturnType} from 'type-fest';
 
@@ -28,7 +29,7 @@ export const uiBuildCommand = createCLICommand(
   {
     meta: {
       name: 'build',
-      description: 'Build the UI package.',
+      description: 'Build UI packages.',
     },
   },
   async () => {
@@ -36,7 +37,10 @@ export const uiBuildCommand = createCLICommand(
       context: {tiniProject},
     } = cliExpansion;
     const uiConfig = tiniProject.config.ui;
-    if (!uiConfig) return consola.error('No UI configuration found.');
+    if (!uiConfig)
+      return consola.error(
+        `No UI configuration found in ${TINI_CONFIG_TS_FILE}.`
+      );
     const cachedAvailable = {} as Record<
       string,
       {

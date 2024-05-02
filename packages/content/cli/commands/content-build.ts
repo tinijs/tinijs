@@ -118,7 +118,7 @@ export const contentBuildCommand = createCLICommand(
     }
     const {tiniProject} = contentCLIExpansion.context;
     const {srcDir, dirs} = getProjectDirs(tiniProject.config);
-    const stagingDir = args.stagingDir || '.content';
+    const stagingDir = args.stagingDir || '.tini/content';
     const stagingDirPath = resolve(stagingDir);
     const outDir = `${args.outDir || `${srcDir}/${dirs.public}`}/tini-content`;
     const outDirPath = resolve(outDir);

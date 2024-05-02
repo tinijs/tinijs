@@ -375,7 +375,7 @@ export async function buildComponents(
   return results;
 }
 
-export async function buildSetup(config: UIConfig) {
+export async function buildSetup({manualSkinSelection}: UIConfig) {
   const setupTS = createGenFile();
 
   // imports
@@ -385,32 +385,31 @@ export async function buildSetup(config: UIConfig) {
     .addImport('@tinijs/core', ['listify', 'initUI', 'type UI', 'type UIInit'])
     .addImport('./styles/global.js', ['globalStyles'])
     .addImport('./styles/base.js', ['availableBases']);
-  if (!config.manualSkinSelection) {
+  if (!manualSkinSelection) {
     setupTS.addImport('./styles/skin.js', ['availableSkins']);
   }
 
   // blocks
-  setupTS.addBlock('export interface AppWithUI', '{ui: UI}').addBlock(
-    `export function setupUI(
-    customConfig: Pick<
-      UIInit,
-      'host' | 'global' | 'skins' | 'shares' | 'options'
-    >${config.manualSkinSelection ? '' : ' = {}'}
-  )`,
-    `{
+  setupTS
+    .addBlock('export interface AppWithUI', '{ui: UI}')
+    .addBlock(
+      'export type UISetup = ',
+      manualSkinSelection ? 'UIInit' : 'Partial<UIInit>'
+    )
+    .addBlock(
+      `export function setupUI({host, global, skins, shares, options}: UISetup${
+        manualSkinSelection ? '' : ' = {}'
+      })`,
+      `{
 return initUI({
-  host: customConfig.host,
+  host,
   global: [
     ...globalStyles,
-    ...listify<CSSResultOrNative>(customConfig.global || [])
+    ...listify<CSSResultOrNative>(global || [])
   ],
-  skins: ${
-    config.manualSkinSelection
-      ? 'customConfig.skins'
-      : '{...availableSkins, ...customConfig.skins}'
-  },
+  skins: ${manualSkinSelection ? 'skins' : '{...availableSkins, ...skins}'},
   shares: defu(
-    Object.entries(customConfig.shares || {}).reduce(
+    Object.entries(shares || {}).reduce(
       (result, [key, value]) => {
         result[key] = listify<CSSResultOrNative>(value);
         return result;
@@ -419,10 +418,10 @@ return initUI({
     ),
     availableBases,
   ),
-  options: customConfig.options,
+  options,
 });
 }`
-  );
+    );
 
   // result
   return setupTS.toResult('setup.ts');
@@ -451,6 +450,8 @@ export async function buildPackageJSON(
     type: 'module',
     exports: {
       '.': './public-api.js',
+      './bases/*': './bases/*',
+      './skins/*': './skins/*',
       './components/*': './components/*',
       './icons/*': './icons/*',
     },

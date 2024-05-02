@@ -1,4 +1,4 @@
-import {TiniIconComponent} from '@tinijs/ui-bootstrap/components/icon.js';
+import {TiniIconComponent} from '../ui/components/icon.js';
 
 export class IconDownComponent extends TiniIconComponent {
   static readonly defaultTagName = 'icon-down';

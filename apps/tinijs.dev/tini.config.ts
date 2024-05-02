@@ -1,4 +1,8 @@
+// eslint-disable-next-line node/no-extraneous-import
+import {resolve} from 'pathe';
 import {defineTiniConfig} from '@tinijs/project';
+
+const uiPackagePath = resolve('../../packages/ui');
 
 export default defineTiniConfig({
   build: {
@@ -8,4 +12,13 @@ export default defineTiniConfig({
   },
 
   modules: ['@tinijs/content'],
+
+  ui: {
+    sources: ['../../packages/ui/ui'],
+    families: {
+      bootstrap: ['light', 'dark'],
+    },
+    outDir: './app/ui',
+    rewritePath: path => path.replace(uiPackagePath, '@tinijs/ui/dist'),
+  },
 });

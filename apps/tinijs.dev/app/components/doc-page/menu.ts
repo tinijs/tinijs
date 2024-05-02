@@ -14,7 +14,7 @@ import {
   type SectionRenderData,
 } from '@tinijs/core';
 
-import {TiniLinkComponent} from '@tinijs/ui-bootstrap/components/link.js';
+import {TiniLinkComponent} from '../../ui/components/link.js';
 
 import type {DocCategory, DocPost} from '../../services/content.js';
 

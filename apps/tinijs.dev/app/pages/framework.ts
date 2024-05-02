@@ -1,8 +1,8 @@
 import {html, css} from 'lit';
 
 import {Page, TiniComponent, Colors} from '@tinijs/core';
-import {TiniMessageComponent} from '@tinijs/ui-bootstrap/components/message.js';
-import {TiniEmbedComponent} from '@tinijs/ui-bootstrap/components/embed.js';
+import {TiniMessageComponent} from '../ui/components/message.js';
+import {TiniEmbedComponent} from '../ui/components/embed.js';
 
 import {GITHUB_CONTENT_PATH} from '../consts/common.js';
 

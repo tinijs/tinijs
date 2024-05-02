@@ -11,7 +11,7 @@ import {
   Colors,
 } from '@tinijs/core';
 
-import {TiniIconComponent} from '@tinijs/ui-bootstrap/components/icon.js';
+import {TiniIconComponent} from '../../ui/components/icon.js';
 
 import {IconUpComponent} from '../../icons/up.js';
 import {IconDownComponent} from '../../icons/down.js';

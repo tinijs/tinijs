@@ -16,6 +16,7 @@
   "exports": {
     ".": "./dist/public-api.js",
     "./dist/*": "./dist/*",
+    "./cli": "./dist/cli/public-api.js",
     "./cli-expansion": "./dist/cli/expand.js"
   },
   "files": [

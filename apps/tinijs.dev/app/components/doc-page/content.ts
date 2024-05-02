@@ -17,10 +17,10 @@ import {
 } from '@tinijs/core';
 import {UseRouter, type Router, type FragmentItem} from '@tinijs/router';
 
-import {TiniMessageComponent} from '@tinijs/ui-bootstrap/components/message.js';
-import {TiniCodeComponent} from '@tinijs/ui-bootstrap/components/code.js';
-import {TiniImageComponent} from '@tinijs/ui-bootstrap/components/image.js';
-import {TiniFigureComponent} from '@tinijs/ui-bootstrap/components/figure.js';
+import {TiniMessageComponent} from '../../ui/components/message.js';
+import {TiniCodeComponent} from '../../ui/components/code.js';
+import {TiniImageComponent} from '../../ui/components/image.js';
+import {TiniFigureComponent} from '../../ui/components/figure.js';
 
 import type {DocPostDetail} from '../../services/content.js';
 

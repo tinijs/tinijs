@@ -171,32 +171,32 @@ export function getUI() {
 }
 
 export function initUI(
-  config: UIInit,
-  customThemeIdGetter?: (config: UIInit) => string
+  init: UIInit,
+  customThemeIdRetriever?: (init: UIInit) => string
 ) {
   if (GLOBAL_TINI.ui) throw DUPLICATED_UI_ERROR;
-  return (GLOBAL_TINI.ui = new UI(config)).init(customThemeIdGetter);
+  return (GLOBAL_TINI.ui = new UI(init)).init(customThemeIdRetriever);
 }
 
 export class UI {
   private _activeTheme?: ActiveTheme;
 
-  constructor(private _config: UIInit) {}
+  constructor(private _init: UIInit) {}
 
-  init(customThemeIdGetter?: (config: UIInit) => string) {
+  init(customThemeIdRetriever?: (init: UIInit) => string) {
     const initialThemeId =
-      customThemeIdGetter?.(this._config) ||
+      customThemeIdRetriever?.(this._init) ||
       localStorage.getItem(THEME_LOCAL_STORAGE_KEY);
     this.setTheme(
-      initialThemeId && this._config.skins[initialThemeId]
+      initialThemeId && this._init.skins[initialThemeId]
         ? initialThemeId
-        : Object.keys(this._config.skins)[0]
+        : Object.keys(this._init.skins)[0]
     );
     return this;
   }
 
   get options() {
-    return this._config.options || ({} as UIOptions);
+    return this._init.options || ({} as UIOptions);
   }
 
   get activeTheme() {
@@ -229,7 +229,7 @@ export class UI {
 
   getStyles(familyId: string, skinId: string) {
     const themeId = `${familyId}/${skinId}`;
-    const {skins, global, shares} = this._config;
+    const {skins, global, shares} = this._init;
     const globalStyles = listify<CSSResultOrNative>(global || []);
     const skinStyles = listify<CSSResultOrNative>(skins[themeId] || []);
     const sharedStyles = ([] as CSSResultOrNative[])
@@ -271,7 +271,7 @@ export class UI {
   }
 
   private _applyTheme(familyId: string, skinId: string) {
-    const host = this._config.host || document;
+    const host = this._init.host || document;
     const {globalStyles, skinStyles, sharedStyles} = this.getStyles(
       familyId,
       skinId
