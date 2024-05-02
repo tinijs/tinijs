@@ -1,19 +1,19 @@
+# general
 .DS_Store
 node_modules
-
 .nx/cache
 
+# packages
+packages/*/build
+packages/*/dist
+*.tgz
+
+# apps
 .parcel-cache
 .tini
 .app
 .output
-.ui
 .content
-**/public/tini-content
-**/public/sw.js
-
-packages/*/dist/
-apps/*/dist/
-packages/*/build/
-apps/*/build/
-*.tgz
+apps/*/app/ui
+apps/*/app/public/tini-content
+apps/*/app/public/sw.js
