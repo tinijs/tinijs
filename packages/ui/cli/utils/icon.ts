@@ -26,7 +26,7 @@ export async function buildIcons(config: UIConfig) {
       `export class Icon${className}Component extends TiniIconComponent`,
       `{
 static readonly defaultTagName = '${tagName}';
-static readonly prebuiltSRC = \`${dataURI}\`;   
+static readonly src = \`${dataURI}\`;   
 }`
     );
 

@@ -159,9 +159,6 @@ export function processComponentStyles(
 }
 
 export function getOptionalUI() {
-  if (!GLOBAL_TINI.ui && process.env.NODE_ENV === 'development') {
-    console.warn(NO_UI_ERROR.message);
-  }
   return GLOBAL_TINI.ui;
 }
 

@@ -54,6 +54,12 @@ export class AppDocPageContentComponent
 
   private _articleRef: Ref<HTMLElement> = createRef();
 
+  private get editOnGithubUrl() {
+    return `${this.context.githubPath.replace('/tree/', '/edit/')}/${
+      !this.post?.order ? '' : `${!this.post?.order} - `
+    }${this.postSlug}/index.md`;
+  }
+
   onRenders() {
     const fragments = this.router
       .renewFragments(this._articleRef.value!, {delay: 500})
@@ -102,11 +108,7 @@ export class AppDocPageContentComponent
 
         <div class="content">${unsafeHTML(post.content)}</div>
 
-        <a
-          class="suggest-edit"
-          href=${`${this.context.githubPath}/${this.postSlug}`}
-          target="_blank"
-        >
+        <a class="suggest-edit" href=${this.editOnGithubUrl} target="_blank">
           <icon-edit scheme=${Colors.Primary} scale=${Scales.SS}></icon-edit>
           <span>Suggest changes to this page</span>
         </a>

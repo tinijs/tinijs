@@ -130,12 +130,16 @@ export class DefaultCompiler implements Compiler {
     // minify template literals
     if (options?.minify !== false) {
       for (const matchedTemplate of templateMatchingArr) {
-        const result = minifyHTMLLiterals(matchedTemplate);
-        if (result) {
-          context.content = context.content!.replace(
-            matchedTemplate,
-            result.code
-          );
+        try {
+          const result = minifyHTMLLiterals(matchedTemplate);
+          if (result) {
+            context.content = context.content!.replace(
+              matchedTemplate,
+              result.code
+            );
+          }
+        } catch (error) {
+          // eslint-disable-next-line no-empty
         }
       }
     }

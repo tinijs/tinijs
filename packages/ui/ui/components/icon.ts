@@ -12,8 +12,10 @@ import {
   type UIIconOptions,
 } from '@tinijs/core';
 
+type ComponentConstructor = typeof import('./icon.js').default;
+
 export default class extends TiniElement {
-  static readonly prebuiltSRC?: string;
+  static readonly src?: string;
 
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) src?: string;
@@ -37,7 +39,7 @@ export default class extends TiniElement {
       },
     });
     // root styles
-    const prebuiltSRC = (this.constructor as any).prebuiltSRC;
+    const prebuiltSRC = (this.constructor as ComponentConstructor).src;
     if (prebuiltSRC) {
       this.rootStyles = {
         '--icon-image': `url("${prebuiltSRC}")`,

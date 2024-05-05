@@ -53,9 +53,7 @@ export class AppDocPageMobileToolbarComponent extends TiniComponent {
           <tini-icon
             scheme=${Colors.Foreground}
             scale=${Scales.SS}
-            src=${!this.tocOpened
-              ? IconDownComponent.prebuiltSRC
-              : IconUpComponent.prebuiltSRC}
+            src=${!this.tocOpened ? IconDownComponent.src : IconUpComponent.src}
           ></tini-icon>
         </button>
       </div>

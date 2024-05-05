@@ -18,7 +18,7 @@ export function ___checkForUnstableComponent(
 ) {
   if (unstable) {
     const messages = [
-      `The component "${componentName}" (<${tagName}>) is ${unstable.toUpperCase()}.`,
+      `The "${componentName}" (<${tagName}>) component is ${unstable.toUpperCase()}.`,
     ];
     messages.push(
       {

@@ -54,7 +54,6 @@ export const serverDevCommand = createCLICommand(
         'COMPILE,DEV',
         '--prefix-colors',
         'bgMagenta,bgBlue',
-        '--kill-others',
       ],
       !debugMode ? undefined : {stdio: 'inherit'}
     );

@@ -176,8 +176,8 @@ export class HeaderComponent
             <tini-icon
               scheme=${Colors.Foreground}
               .src=${!this.mobileMenuOpened
-                ? IconMenuComponent.prebuiltSRC
-                : IconCloseComponent.prebuiltSRC}
+                ? IconMenuComponent.src
+                : IconCloseComponent.src}
             ></tini-icon>
           </button>
         </div>
