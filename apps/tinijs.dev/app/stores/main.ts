@@ -4,4 +4,5 @@ import {UIConsumerTargets} from '../consts/common.js';
 
 export const mainStore = createStore({
   uiConsumerTarget: UIConsumerTargets.Tini,
+  skinEditorShown: false,
 });

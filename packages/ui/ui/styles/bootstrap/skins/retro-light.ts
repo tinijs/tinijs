@@ -162,12 +162,12 @@ export default css`:root {
   --wide-xxl: 2560px;
   --wide-xxxl: 3840px;
   /* shadows */
-  --shadow-normal: 0 4px 6px -1px #0000001a, 0 2px 4px -1px #0000000f;
+  --shadow-scarcity: 0 0 0 1px #0000000d;
   --shadow-least: 0 1px 2px 0 #0000000d;
   --shadow-lesser: 0 1px 3px 0 #0000001a, 0 1px 2px 0 #0000000f;
+  --shadow-normal: 0 4px 6px -1px #0000001a, 0 2px 4px -1px #0000000f;
   --shadow-greater: 0 10px 15px -3px #0000001a, 0 4px 6px -2px #0000000d;
   --shadow-greatest: 0 20px 25px -5px #0000001a, 0 10px 10px -5px #0000000a;
-  --shadow-scarcity: 0 0 0 1px #0000000d;
   --shadow-excess: 0px 0px 0px 1px #0000001a, 0px 5px 10px #00000033, 0px 15px 40px #00000066;
 }`;
 /* eslint-enable prettier/prettier */

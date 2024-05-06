@@ -26,6 +26,10 @@ import {
 } from '@tinijs/core';
 import {Subscribe} from '@tinijs/store';
 
+import {TiniLinkComponent} from '../../ui/components/link.js';
+import {TiniIconComponent} from '../../ui/components/icon.js';
+import {TiniCodeComponent} from '../../ui/components/code.js';
+
 import {UIConsumerTargets} from '../../consts/common.js';
 
 import {mainStore} from '../../stores/main.js';
@@ -45,9 +49,7 @@ import {IconAngularComponent} from '../../icons/angular.js';
 import {IconSvelteComponent} from '../../icons/svelte.js';
 import {IconHTMLComponent} from '../../icons/html.js';
 
-import {TiniLinkComponent} from '../../ui/components/link.js';
-import {TiniIconComponent} from '../../ui/components/icon.js';
-import {TiniCodeComponent} from '../../ui/components/code.js';
+import {AppSkinEditorTogglerComponent} from '../skin-editor/toggler.js';
 import {AppComponentEditorSelectComponent} from './select.js';
 import {AppComponentEditorTextareaComponent} from './textarea.js';
 
@@ -93,6 +95,7 @@ const componentLoaders: Record<
     IconAngularComponent,
     IconSvelteComponent,
     IconHTMLComponent,
+    AppSkinEditorTogglerComponent,
     AppComponentEditorSelectComponent,
     AppComponentEditorTextareaComponent,
   ],
@@ -406,7 +409,12 @@ registerComponents([ ${constructorName} ]);`;
       `;
         });
     return html`
-      <div class="header"><strong>Edit</strong></div>
+      <div class="header">
+        <strong>Edit</strong>
+        ${this.isFullscreen
+          ? nothing
+          : html`<app-skin-editor-toggler></app-skin-editor-toggler>`}
+      </div>
       <div class="content">
         ${editTemplate}
         <div>
@@ -564,7 +572,7 @@ registerComponents([ ${constructorName} ]);`;
           ? nothing
           : html`
               <div>
-                <p>Step 2: copy below code to the template.</p>
+                <p><strong>Step 2</strong>: copy below code to the template.</p>
                 <tini-code
                   language="html"
                   content=${this.usageCode}

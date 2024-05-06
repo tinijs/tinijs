@@ -34,9 +34,16 @@
     "@tinijs/store": "*",
     "@tinijs/ui": "*",
     "change-case": "^5.4.4",
+    "chroma-js": "^2.4.2",
+    "gradient-parser": "^1.0.2",
+    "grapick": "^0.1.13",
     "highlight.js": "^11.9.0",
     "knitwork": "^1.1.0",
     "lit": "^3.1.2",
     "screenfull": "^6.0.2"
+  },
+  "devDependencies": {
+    "@types/chroma-js": "^2.4.4",
+    "@types/gradient-parser": "^0.1.5"
   }
 }

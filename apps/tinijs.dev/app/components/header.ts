@@ -6,11 +6,13 @@ import {
   TiniComponent,
   Reactive,
   Colors,
-  getUI,
+  UseUI,
+  type UI,
   type OnCreate,
   type OnDestroy,
 } from '@tinijs/core';
 import {ROUTE_CHANGE_EVENT} from '@tinijs/router';
+
 import {TiniLinkComponent} from '../ui/components/link.js';
 import {
   TiniSwitchComponent,
@@ -26,6 +28,8 @@ import {IconGithubComponent} from '../icons/github.js';
 import {IconXComponent} from '../icons/x.js';
 import {IconDiscordComponent} from '../icons/discord.js';
 
+import {AppSkinEditorComponent} from '../components/skin-editor/index.js';
+
 enum Themes {
   BootstrapLight = 'bootstrap/light',
   BootstrapDark = 'bootstrap/dark',
@@ -39,6 +43,7 @@ enum Themes {
     IconGithubComponent,
     IconXComponent,
     IconDiscordComponent,
+    AppSkinEditorComponent,
   ],
 })
 export class HeaderComponent
@@ -47,18 +52,15 @@ export class HeaderComponent
 {
   static readonly defaultTagName = 'app-header';
 
-  private ui = getUI();
-
+  @UseUI() readonly ui!: UI;
   @Reactive() mobileMenuOpened = false;
 
-  private onRouteChange = () => (this.mobileMenuOpened = false);
-
+  private _onRouteChange = () => (this.mobileMenuOpened = false);
   onCreate() {
-    addEventListener(ROUTE_CHANGE_EVENT, this.onRouteChange);
+    addEventListener(ROUTE_CHANGE_EVENT, this._onRouteChange);
   }
-
   onDestroy() {
-    removeEventListener(ROUTE_CHANGE_EVENT, this.onRouteChange);
+    removeEventListener(ROUTE_CHANGE_EVENT, this._onRouteChange);
   }
 
   private _closeMobileMenu() {
@@ -182,6 +184,8 @@ export class HeaderComponent
           </button>
         </div>
       </header>
+
+      <app-skin-editor></app-skin-editor>
     `;
   }
 
@@ -199,23 +203,26 @@ export class HeaderComponent
       height: calc(100dvh - var(--header-height));
       background: var(--color-background-tint);
       padding: var(--size-space-1_5x);
-    }
-    .navbar.opened {
-      display: flex;
+
+      &.opened {
+        display: flex;
+      }
     }
 
     .menu {
       display: flex;
       flex-direction: column;
-    }
-    .menu tini-link {
-      border-bottom: 1px solid var(--color-background-shade);
-    }
-    .menu tini-link::part(root) {
-      display: block;
-      padding: var(--size-space-0_75x) 0;
-      color: var(--color-foreground);
-      text-decoration: none;
+
+      tini-link {
+        border-bottom: 1px solid var(--color-background-shade);
+
+        &::part(root) {
+          display: block;
+          padding: var(--size-space-0_75x) 0;
+          color: var(--color-foreground);
+          text-decoration: none;
+        }
+      }
     }
 
     .theme {
@@ -232,11 +239,12 @@ export class HeaderComponent
       gap: var(--size-space-1_5x);
       align-items: center;
       justify-content: center;
-    }
-    .social a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
 
     .mobile-toggler {
@@ -266,19 +274,21 @@ export class HeaderComponent
         flex-direction: row;
         align-items: center;
         gap: var(--size-space-0_25x);
-      }
-      .menu tini-link {
-        border-bottom: none;
-      }
-      .menu tini-link::part(root) {
-        padding: var(--size-space-0_25x) var(--size-space);
-        border-radius: var(--size-radius);
-      }
-      .menu tini-link:hover::part(root) {
-        background: var(--color-background);
-      }
-      .menu tini-link.active::part(root) {
-        background: var(--color-background-shade);
+
+        tini-link {
+          border-bottom: none;
+
+          &::part(root) {
+            padding: var(--size-space-0_25x) var(--size-space);
+            border-radius: var(--size-radius);
+          }
+          &:hover::part(root) {
+            background: var(--color-background);
+          }
+          &.active::part(root) {
+            background: var(--color-background-shade);
+          }
+        }
       }
 
       .theme {
@@ -287,9 +297,10 @@ export class HeaderComponent
         padding: 0 var(--size-space);
         border-left: 1px solid var(--color-background);
         border-right: 1px solid var(--color-background);
-      }
-      .theme span {
-        display: none;
+
+        span {
+          display: none;
+        }
       }
 
       .social {

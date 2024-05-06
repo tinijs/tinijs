@@ -121,13 +121,10 @@ export function getScriptsFromTheming(
   return {prevScripts, currentScripts};
 }
 
-export function processComponentStyles(
-  allStyles: Array<string | CSSResultOrNative>,
-  activeTheme?: ActiveTheme,
-  additionalProcess?: (styleText: string, activeTheme?: ActiveTheme) => string
+export function extractTextFromStyles(
+  styles: Array<string | CSSResultOrNative>
 ) {
-  // 1. combine all styles
-  let styleText = allStyles
+  return styles
     .map(style => {
       if (typeof style === 'string') {
         return style;
@@ -142,6 +139,15 @@ export function processComponentStyles(
       }
     })
     .join('\n');
+}
+
+export function processComponentStyles(
+  allStyles: Array<string | CSSResultOrNative>,
+  activeTheme?: ActiveTheme,
+  additionalProcess?: (styleText: string, activeTheme?: ActiveTheme) => string
+) {
+  // 1. combine all styles
+  let styleText = extractTextFromStyles(allStyles);
   // 2. run additional process
   if (additionalProcess) styleText = additionalProcess(styleText, activeTheme);
   // 3. replace breakpoints
