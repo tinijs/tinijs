@@ -12,9 +12,9 @@ import {
 } from '@tinijs/core';
 
 export default class extends TiniElement {
-  static readonly componentMetadata = {
-    unstable: UnstableStates.Experimental,
-  };
+  // static readonly componentMetadata = {
+  //   unstable: UnstableStates.Experimental,
+  // };
 
   /* eslint-disable prettier/prettier */
   @property({type: Object}) head!: any[];

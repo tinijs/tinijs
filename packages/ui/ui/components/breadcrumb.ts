@@ -22,7 +22,7 @@ export interface BreadcrumbItem {
 ***/
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: String}) items?: BreadcrumbItem[];
+  @property({type: Array}) items?: BreadcrumbItem[];
   @property({type: String, reflect: true}) linkColor?: Colors | Gradients;
   /* eslint-enable prettier/prettier */
 

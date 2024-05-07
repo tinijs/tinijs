@@ -1,6 +1,6 @@
-import {html, css} from 'lit';
+import {html, css, nothing} from 'lit';
 
-import {Component, TiniComponent, Scales} from '@tinijs/core';
+import {Component, TiniComponent, Input, Scales} from '@tinijs/core';
 
 import {mainStore} from '../../stores/main.js';
 
@@ -12,6 +12,8 @@ import {IconThemeComponent} from '../../icons/theme.js';
 export class AppSkinEditorTogglerComponent extends TiniComponent {
   static readonly defaultTagName = 'app-skin-editor-toggler';
 
+  @Input({type: Boolean}) showText = false;
+
   private _toggleSkinEditor() {
     mainStore.skinEditorShown = !mainStore.skinEditorShown;
   }
@@ -20,7 +22,7 @@ export class AppSkinEditorTogglerComponent extends TiniComponent {
     return html`
       <button @click=${this._toggleSkinEditor}>
         <icon-theme scale=${Scales.SM}></icon-theme>
-        <span>Skin Editor</span>
+        ${!this.showText ? nothing : html`<span>Skin Editor</span>`}
       </button>
     `;
   }

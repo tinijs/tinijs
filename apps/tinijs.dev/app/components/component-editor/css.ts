@@ -1,5 +1,7 @@
 import {html, css} from 'lit';
 
+import {TiniTextareaComponent} from '../../ui/components/textarea.js';
+
 import {
   Component,
   TiniComponent,
@@ -9,16 +11,14 @@ import {
   type OnCreate,
 } from '@tinijs/core';
 
-import {TiniInputComponent} from '../../ui/components/input.js';
-
 @Component({
-  components: [TiniInputComponent],
+  components: [TiniTextareaComponent],
 })
-export class AppComponentEditorInputComponent
+export class AppComponentEditorCSSComponent
   extends TiniComponent
   implements OnCreate
 {
-  static readonly defaultTagName = 'app-component-editor-input';
+  static readonly defaultTagName = 'app-component-editor-css';
 
   @Input() label!: string;
   @Input() value?: string;
@@ -30,24 +30,28 @@ export class AppComponentEditorInputComponent
 
   protected render() {
     return html`
-      <tini-input
-        wrap
-        block
+      <tini-textarea
         .label=${this.label}
         .value=${this.value}
         events="change"
         @change=${({detail}: CustomEvent<InputEvent>) =>
           this.change.emit((detail as any).target.value)}
-      ></tini-input>
+      ></tini-textarea>
     `;
   }
 
   static styles = css`
-    tini-input {
+    tini-textarea {
       &::part(label) {
         font-weight: bold;
         font-size: var(--size-text-0_8x);
         text-transform: uppercase;
+      }
+
+      &::part(textarea) {
+        height: 120px;
+        font-family: var(--font-code);
+        font-size: var(--size-text-0_9x);
       }
     }
   `;

@@ -1,6 +1,7 @@
 import {html, nothing, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {TiniElement, partAttrMap, VaryGroups} from '@tinijs/core';
 
 import type {CheckboxesItem} from './checkboxes.js';
@@ -49,6 +50,7 @@ export default class extends TiniElement {
 
   private renderItem({
     label,
+    value,
     checked,
     disabled,
     scheme,
@@ -69,6 +71,7 @@ export default class extends TiniElement {
           part="input"
           type="radio"
           name=${this.name}
+          value=${ifDefined(value)}
           ?checked=${checked}
           ?disabled=${disabled}
         />

@@ -13,6 +13,7 @@ import {
 export interface CheckboxesItem {
   name?: string;
   label?: string;
+  value?: string;
   checked?: boolean;
   disabled?: boolean;
   scheme?: Colors;
@@ -56,6 +57,7 @@ export default class extends TiniElement {
   private renderItem({
     name,
     label,
+    value,
     checked,
     disabled,
     scheme,
@@ -76,6 +78,7 @@ export default class extends TiniElement {
           part="input"
           type="checkbox"
           name=${ifDefined(name)}
+          value=${ifDefined(value)}
           ?checked=${checked}
           ?disabled=${disabled}
         />

@@ -15,6 +15,25 @@ Use buttons to trigger actions.
     name: 'button',
     sections: [
       {
+        section: 'radios',
+        attrs: {
+          label: 'Mode',
+          items: [
+            {label: 'Default', value: '_default', checked: true},
+            {label: 'Outline', value: 'outline'},
+            {label: 'Clear', value: 'clear'}
+          ]
+        },
+        target: 'mode'
+      },
+      {
+        section: 'switch',
+        attrs: {
+          label: 'Block'
+        },
+        target: 'block'
+      },
+      {
         section: 'select',
         attrs: {
           label: 'Scheme',
@@ -31,17 +50,11 @@ Use buttons to trigger actions.
         target: 'scale'
       },
       {
-        section: 'textarea',
-        attrs: {
-          label: 'Inner'
-        },
+        section: 'html',
+        attrs: {label: 'Inner'},
         target: 'inner',
         value: 'Button'
       }
     ]
   }
 %}{% endapp %}
-
-## API
-
-Lorem ipsum ...

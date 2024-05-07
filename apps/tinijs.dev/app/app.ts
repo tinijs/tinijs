@@ -14,11 +14,7 @@ import {TiniCodeComponent} from './ui/components/code.js';
 
 import type {AppConfig} from './types/common.js';
 
-import {
-  hljsHighlight,
-  hljsThemeLight,
-  hljsThemeDark,
-} from './utils/highlight.js';
+import {prismHighlight, prismThemeDark} from './utils/prism.js';
 
 import {config} from './configs/development.js';
 import {metadata} from './metadata.js';
@@ -40,18 +36,11 @@ export class AppRoot
   });
   readonly ui = setupUI({
     options: {
-      'bootstrap/light': {
+      '*': {
         [TiniCodeComponent.componentName]: {
-          engine: 'hljs',
-          highlight: hljsHighlight,
-          theme: hljsThemeLight,
-        },
-      },
-      'bootstrap/dark': {
-        [TiniCodeComponent.componentName]: {
-          engine: 'hljs',
-          highlight: hljsHighlight,
-          theme: hljsThemeDark,
+          engine: 'prism',
+          highlight: prismHighlight,
+          theme: prismThemeDark,
         },
       },
     },

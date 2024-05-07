@@ -8,7 +8,7 @@ import '@interactjs/modifiers';
 import interact from '@interactjs/interact'; // eslint-disable-next-line node/no-extraneous-import
 import type {InteractStatic} from '@interactjs/core/InteractStatic.js';
 import screenfull from 'screenfull';
-import {genObjectFromRaw} from 'knitwork';
+import JSON5 from 'json5';
 
 import {
   Component,
@@ -50,8 +50,14 @@ import {IconSvelteComponent} from '../../icons/svelte.js';
 import {IconHTMLComponent} from '../../icons/html.js';
 
 import {AppSkinEditorTogglerComponent} from '../skin-editor/toggler.js';
-import {AppComponentEditorSelectComponent} from './select.js';
+import {AppComponentEditorInputComponent} from './input.js';
 import {AppComponentEditorTextareaComponent} from './textarea.js';
+import {AppComponentEditorSelectComponent} from './select.js';
+import {AppComponentEditorRadiosComponent} from './radios.js';
+import {AppComponentEditorSwitchComponent} from './switch.js';
+import {AppComponentEditorHTMLComponent} from './html.js';
+import {AppComponentEditorCSSComponent} from './css.js';
+import {AppComponentEditorJSComponent} from './js.js';
 
 export interface FunctionSection {
   section: string;
@@ -65,7 +71,7 @@ export interface ComponentData {
   inner?: string;
 }
 
-export enum PresetViewports {
+export enum CommonViewports {
   Mobile = 'mobile',
   Tablet = 'tablet',
   Laptop = 'laptop',
@@ -76,8 +82,59 @@ const componentLoaders: Record<
   string,
   () => Promise<CustomElementConstructor>
 > = {
+  heading: () =>
+    import('../../ui/components/heading.js').then(m => m.TiniHeadingComponent),
+  text: () =>
+    import('../../ui/components/text.js').then(m => m.TiniTextComponent),
+  link: () =>
+    import('../../ui/components/link.js').then(m => m.TiniLinkComponent),
+  box: () => import('../../ui/components/box.js').then(m => m.TiniBoxComponent),
+  skeleton: () =>
+    import('../../ui/components/skeleton.js').then(
+      m => m.TiniSkeletonComponent
+    ),
+  icon: () =>
+    import('../../ui/components/icon.js').then(m => m.TiniIconComponent),
   button: () =>
     import('../../ui/components/button.js').then(m => m.TiniButtonComponent),
+  badge: () =>
+    import('../../ui/components/badge.js').then(m => m.TiniBadgeComponent),
+  label: () =>
+    import('../../ui/components/label.js').then(m => m.TiniLabelComponent),
+  message: () =>
+    import('../../ui/components/message.js').then(m => m.TiniMessageComponent),
+  spinner: () =>
+    import('../../ui/components/spinner.js').then(m => m.TiniSpinnerComponent),
+  card: () =>
+    import('../../ui/components/card.js').then(m => m.TiniCardComponent),
+  breadcrumb: () =>
+    import('../../ui/components/breadcrumb.js').then(
+      m => m.TiniBreadcrumbComponent
+    ),
+  pagination: () =>
+    import('../../ui/components/pagination.js').then(
+      m => m.TiniPaginationComponent
+    ),
+  dialog: () =>
+    import('../../ui/components/dialog.js').then(m => m.TiniDialogComponent),
+  modal: () =>
+    import('../../ui/components/modal.js').then(m => m.TiniModalComponent),
+  input: () =>
+    import('../../ui/components/input.js').then(m => m.TiniInputComponent),
+  textarea: () =>
+    import('../../ui/components/textarea.js').then(
+      m => m.TiniTextareaComponent
+    ),
+  select: () =>
+    import('../../ui/components/select.js').then(m => m.TiniSelectComponent),
+  checkboxes: () =>
+    import('../../ui/components/checkboxes.js').then(
+      m => m.TiniCheckboxesComponent
+    ),
+  radios: () =>
+    import('../../ui/components/radios.js').then(m => m.TiniRadiosComponent),
+  switch: () =>
+    import('../../ui/components/switch.js').then(m => m.TiniSwitchComponent),
 };
 
 @Component({
@@ -96,8 +153,14 @@ const componentLoaders: Record<
     IconSvelteComponent,
     IconHTMLComponent,
     AppSkinEditorTogglerComponent,
-    AppComponentEditorSelectComponent,
+    AppComponentEditorInputComponent,
     AppComponentEditorTextareaComponent,
+    AppComponentEditorSelectComponent,
+    AppComponentEditorRadiosComponent,
+    AppComponentEditorSwitchComponent,
+    AppComponentEditorHTMLComponent,
+    AppComponentEditorCSSComponent,
+    AppComponentEditorJSComponent,
   ],
 })
 export class AppComponentEditorComponent
@@ -110,9 +173,9 @@ export class AppComponentEditorComponent
   @Subscribe(mainStore) uiConsumerTarget = mainStore.uiConsumerTarget;
 
   @Input() name!: string;
-  @Input({type: Object, reflect: false}) sections!: FunctionSection[];
+  @Input({type: Object}) sections!: FunctionSection[];
 
-  @Reactive() presetViewport?: string;
+  @Reactive() commonViewport?: string;
   @Reactive() isFullscreen = false;
   @Reactive() data?: ComponentData;
 
@@ -152,16 +215,19 @@ export class AppComponentEditorComponent
     this.previewTemplate = this.buildPreviewCode();
   }
 
+  private originalAvailableWidth!: number;
   private viewportSizeTimeout?: any;
   onFirstRender() {
+    this.originalAvailableWidth = this._previewRef.value!.clientWidth;
+    // init resizable
     (interact as InteractStatic)(this._resizableRef.value!).resizable({
       edges: {right: true, bottom: true},
       listeners: {
         move: (event: any) => {
           const target = event.target;
           const {width, height} = event.rect;
-          target.style.width = width + 'px';
-          target.style.height = height + 'px';
+          target.style.width = `${width}px`;
+          target.style.height = `${height}px`;
           // show viewport size
           const viewportSizeElem = this._viewportSizeRef.value!;
           viewportSizeElem.textContent = `${Math.round(width)}×${Math.round(
@@ -260,8 +326,8 @@ registerComponents([ ${constructorName} ]);`;
             } else if (value instanceof Object) {
               return `${prefix}${key}${suffix}=${open}${
                 stringifyObject
-                  ? JSON.stringify(value)
-                  : genObjectFromRaw(value)
+                  ? JSON.stringify(value, null, 2)
+                  : JSON5.stringify(value, null, 2)
               }${close}`;
             } else {
               return `${key}="${value}"`;
@@ -289,7 +355,6 @@ registerComponents([ ${constructorName} ]);`;
         break;
       }
       case UIConsumerTargets.Svelte: {
-        tag = `Tini${this.names.className}`;
         properties = this.buildUsageProperties(props, ['', '', '{', '}']);
         break;
       }
@@ -313,28 +378,37 @@ registerComponents([ ${constructorName} ]);`;
       ? ''
       : unsafeStatic(
           Object.entries(props)
-            .map(([key, value]) => `${key}="${value}"`)
+            .map(([key, value]) => {
+              if (!value) return null;
+              if (value === true) {
+                return key;
+              } else if (value instanceof Object) {
+                return `${key}='${JSON.stringify(value)}'`;
+              } else {
+                return `${key}="${value}"`;
+              }
+            })
+            .filter(Boolean)
             .join(' ')
         );
     return staticHTML`<${tag} ${properties}>${unsafeStatic(inner)}</${tag}>`;
   }
 
-  private availableWidth?: number;
-  private changePresetViewport(preset: PresetViewports) {
-    if (preset === this.presetViewport) {
-      this.presetViewport = undefined;
+  private changeCommonViewport(viewport: CommonViewports) {
+    if (viewport === this.commonViewport) {
+      this.commonViewport = undefined;
     } else {
-      const availableWidth =
-        this.availableWidth || this._previewRef.value!.clientWidth;
+      const availableWidth = this._previewRef.value!.clientWidth;
       const targetWidth = {
-        [PresetViewports.Mobile]: 320,
-        [PresetViewports.Tablet]: 768,
-        [PresetViewports.Laptop]: 1024,
-        [PresetViewports.Desktop]: 1440,
-      }[preset];
-      this.presetViewport = preset;
-      this._resizableRef.value!.style.width =
-        (targetWidth <= availableWidth ? targetWidth : availableWidth) + 'px';
+        [CommonViewports.Mobile]: 320,
+        [CommonViewports.Tablet]: 768,
+        [CommonViewports.Laptop]: 1024,
+        [CommonViewports.Desktop]: 1440,
+      }[viewport];
+      this.commonViewport = viewport;
+      this._resizableRef.value!.style.width = `${
+        targetWidth <= availableWidth ? targetWidth : availableWidth
+      }px`;
     }
   }
 
@@ -346,6 +420,7 @@ registerComponents([ ${constructorName} ]);`;
   private toggleFullScreen() {
     if (!screenfull.isEnabled) return;
     if (screenfull.isFullscreen) {
+      this._resizableRef.value!.style.width = `${this.originalAvailableWidth}px`;
       screenfull.exit();
       this.isFullscreen = false;
     } else {
@@ -383,7 +458,17 @@ registerComponents([ ${constructorName} ]);`;
             ? ''
             : unsafeStatic(
                 Object.entries(attrs)
-                  .map(([key, value]) => `${key}="${value}"`)
+                  .map(([key, value]) => {
+                    if (!value) return null;
+                    if (value === true) {
+                      return key;
+                    } else if (value instanceof Object) {
+                      return `${key}='${JSON.stringify(value)}'`;
+                    } else {
+                      return `${key}="${value}"`;
+                    }
+                  })
+                  .filter(Boolean)
                   .join(' ')
               );
           // value event
@@ -393,7 +478,7 @@ registerComponents([ ${constructorName} ]);`;
               data.inner = value;
             } else {
               data.props ||= {};
-              if (value === '_default') {
+              if (!value || value === '_default') {
                 delete data.props[target];
               } else {
                 data.props[target] = value;
@@ -409,15 +494,15 @@ registerComponents([ ${constructorName} ]);`;
       `;
         });
     return html`
-      <div class="header">
+      <div class="head">
         <strong>Edit</strong>
         ${this.isFullscreen
           ? nothing
           : html`<app-skin-editor-toggler></app-skin-editor-toggler>`}
       </div>
-      <div class="content">
+      <div class="body">
         ${editTemplate}
-        <div>
+        <div class="foot">
           <a href="/ui/customization">Not sastify, more options?</a>
         </div>
       </div>
@@ -426,14 +511,14 @@ registerComponents([ ${constructorName} ]);`;
 
   private getPreviewTemplate() {
     return html`
-      <div class="header">
+      <div class="head">
         <div class="title"><strong>Preview</strong></div>
         <div class="buttons">
           <button
             class=${classMap({
-              selected: this.presetViewport === PresetViewports.Mobile,
+              selected: this.commonViewport === CommonViewports.Mobile,
             })}
-            @click=${() => this.changePresetViewport(PresetViewports.Mobile)}
+            @click=${() => this.changeCommonViewport(CommonViewports.Mobile)}
           >
             <icon-mobile
               scheme=${Colors.Foreground}
@@ -442,9 +527,9 @@ registerComponents([ ${constructorName} ]);`;
           </button>
           <button
             class=${classMap({
-              selected: this.presetViewport === PresetViewports.Tablet,
+              selected: this.commonViewport === CommonViewports.Tablet,
             })}
-            @click=${() => this.changePresetViewport(PresetViewports.Tablet)}
+            @click=${() => this.changeCommonViewport(CommonViewports.Tablet)}
           >
             <icon-tablet
               scheme=${Colors.Foreground}
@@ -453,9 +538,9 @@ registerComponents([ ${constructorName} ]);`;
           </button>
           <button
             class=${classMap({
-              selected: this.presetViewport === PresetViewports.Laptop,
+              selected: this.commonViewport === CommonViewports.Laptop,
             })}
-            @click=${() => this.changePresetViewport(PresetViewports.Laptop)}
+            @click=${() => this.changeCommonViewport(CommonViewports.Laptop)}
           >
             <icon-laptop
               scheme=${Colors.Foreground}
@@ -464,9 +549,9 @@ registerComponents([ ${constructorName} ]);`;
           </button>
           <button
             class=${classMap({
-              selected: this.presetViewport === PresetViewports.Desktop,
+              selected: this.commonViewport === CommonViewports.Desktop,
             })}
-            @click=${() => this.changePresetViewport(PresetViewports.Desktop)}
+            @click=${() => this.changeCommonViewport(CommonViewports.Desktop)}
           >
             <icon-desktop
               scheme=${Colors.Foreground}
@@ -485,7 +570,7 @@ registerComponents([ ${constructorName} ]);`;
           </button>
         </div>
       </div>
-      <div ${ref(this._resizableRef)} class="content resizable">
+      <div ${ref(this._resizableRef)} class="body resizable">
         <div class="viewport">${this.previewTemplate}</div>
         <div class="viewport-size" ${ref(this._viewportSizeRef)}></div>
         <div class="right-grip"></div>
@@ -496,7 +581,7 @@ registerComponents([ ${constructorName} ]);`;
 
   private getCodeTemplate() {
     return html`
-      <div class="header">
+      <div class="head">
         <button
           class=${classMap({
             selected: this.uiConsumerTarget === UIConsumerTargets.Tini,
@@ -552,13 +637,13 @@ registerComponents([ ${constructorName} ]);`;
           <span>Vanilla</span>
         </button>
       </div>
-      <div class="content">
+      <div class="body">
         ${!this.importCode
           ? nothing
           : html`
               <div>
                 <p>
-                  <strong>Step 1</strong>: import and register the component,
+                  <strong>Step 1</strong>: Import and register the component,
                   please see <a href="/ui/get-started">Get started</a> for more
                   details.
                 </p>
@@ -572,7 +657,7 @@ registerComponents([ ${constructorName} ]);`;
           ? nothing
           : html`
               <div>
-                <p><strong>Step 2</strong>: copy below code to the template.</p>
+                <p><strong>Step 2</strong>: Copy below code to the template.</p>
                 <tini-code
                   language="html"
                   content=${this.usageCode}
@@ -598,32 +683,32 @@ registerComponents([ ${constructorName} ]);`;
     .edit,
     .preview,
     .code {
-      --header-height: 40px;
+      --head-height: 40px;
       overflow: hidden;
       width: 100%;
       border: 1px solid var(--color-background-shade);
       border-radius: var(--size-radius);
 
-      .header {
+      .head {
         display: flex;
         box-sizing: border-box;
         align-items: center;
         justify-content: space-between;
-        height: var(--header-height);
+        height: var(--head-height);
         padding: var(--size-space-0_5x);
         border-bottom: 1px solid var(--color-background-shade);
       }
 
-      .content {
+      .body {
         padding: var(--size-space);
       }
     }
 
     aside {
-      .content {
+      .body {
         display: flex;
         flex-flow: column;
-        gap: 1rem;
+        gap: var(--size-space-1_25x);
       }
     }
 
@@ -633,11 +718,11 @@ registerComponents([ ${constructorName} ]);`;
       gap: 1rem;
 
       .preview {
-        --header-height: 40px;
+        --head-height: 40px;
         height: 480px;
         background: var(--color-background);
 
-        .header {
+        .head {
           background: var(--color-background-tint);
 
           .buttons {
@@ -677,7 +762,7 @@ registerComponents([ ${constructorName} ]);`;
           box-sizing: border-box;
           position: relative;
           width: 100%;
-          height: calc(100% - var(--header-height));
+          height: calc(100% - var(--head-height));
           min-width: 240px;
           min-height: 240px;
           background: var(--color-background-tint);
@@ -730,7 +815,7 @@ registerComponents([ ${constructorName} ]);`;
       }
 
       .code {
-        .header {
+        .head {
           display: flex;
           padding: 0;
           justify-content: flex-start;
@@ -745,7 +830,7 @@ registerComponents([ ${constructorName} ]);`;
             padding: var(--size-space-0_5x) var(--size-space-0_75x);
             cursor: pointer;
             box-sizing: border-box;
-            height: calc(var(--header-height) + 1px);
+            height: calc(var(--head-height) + 1px);
             border-bottom: 1px solid var(--color-background-shade);
             border-right: 1px solid var(--color-background-shade);
 
@@ -771,7 +856,7 @@ registerComponents([ ${constructorName} ]);`;
     }
 
     @media (min-width: 768px) {
-      main .code .header button span {
+      main .code .head button span {
         display: inline;
       }
     }

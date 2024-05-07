@@ -11,9 +11,9 @@ import {
 } from '@tinijs/core';
 
 export default class extends TiniElement {
-  static readonly componentMetadata = {
-    unstable: UnstableStates.Experimental,
-  };
+  // static readonly componentMetadata = {
+  //   unstable: UnstableStates.Experimental,
+  // };
 
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) language!: string;
@@ -35,18 +35,20 @@ export default class extends TiniElement {
   };
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // default and validations
-    this.validateProperties();
-    // root classes parts
-    this.extendRootClasses({});
-    // code classes parts
-    this.componentOptions = this.getUIContext()
-      .componentOptions as UICodeOptions;
-    this.codeClasses = {
-      code: true,
+    const commonClasses = {
       [this.componentOptions.engine]: true,
       [`language-${this.language}`]: true,
     };
+    // default and validations
+    this.validateProperties();
+    // root classes parts
+    this.extendRootClasses({
+      raw: commonClasses,
+    });
+    // code classes parts
+    this.componentOptions = this.getUIContext()
+      .componentOptions as UICodeOptions;
+    this.codeClasses = {code: true, ...commonClasses};
   }
 
   async updated() {

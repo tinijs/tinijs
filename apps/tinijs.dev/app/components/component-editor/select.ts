@@ -16,6 +16,10 @@ import {
   CommonColors,
   CommonGradients,
   Scales,
+  Factors,
+  FontTypes,
+  FontWeights,
+  TextTransforms,
   type EventEmitter,
   type OnCreate,
 } from '@tinijs/core';
@@ -31,18 +35,65 @@ export class AppComponentEditorSelectComponent
 {
   static readonly defaultTagName = 'app-component-editor-select';
 
-  @Input() preset!: string;
   @Input() label!: string;
+  @Input() preset?: string;
+  @Input({type: Object}) items?: Array<SelectOption | SelectOptgroup>;
   @Input() value?: string;
   @Output() change!: EventEmitter<string>;
 
-  private buildSelectOptions(list: Record<string, string>) {
-    return Object.entries(list).map(([key, value]) => {
-      const names = parseName(key);
-      const label = names.noCase
-        .split(' ')
-        .map(word => word.replace(/^\w/, c => c.toUpperCase()))
-        .join(' ');
+  private presetDefaultItem: SelectOption = {
+    label: 'Default',
+    value: '_default',
+    selected: true,
+  };
+  private colors: SelectOptgroup[] = [
+    {
+      label: 'APP COLORS',
+      children: this.buildPresetItems(Colors),
+    },
+    {
+      label: 'COMMON COLORS',
+      children: this.buildPresetItems(CommonColors),
+    },
+  ];
+  private gradients: SelectOptgroup[] = [
+    {
+      label: 'APP GREADIENTS',
+      children: this.buildPresetItems(Gradients),
+    },
+    {
+      label: 'COMMON GRADIENTS',
+      children: this.buildPresetItems(CommonGradients),
+    },
+  ];
+  private presets: Record<string, Array<SelectOption | SelectOptgroup>> = {
+    colors: this.colors,
+    gradients: this.gradients,
+    colorsAndGradients: [...this.colors, ...this.gradients],
+    scales: this.buildPresetItems(Scales, value => value.toUpperCase()),
+    factors: this.buildPresetItems(Factors, value => value),
+    fontTypes: this.buildPresetItems(FontTypes),
+    fontWeights: this.buildPresetItems(FontWeights),
+    textTransforms: this.buildPresetItems(TextTransforms),
+  };
+
+  onCreate() {
+    if (!this.label) throw new Error('label is required');
+    if (!this.preset && !this.items)
+      throw new Error('preset or items is required');
+  }
+
+  private buildPresetItems(
+    list: Record<string, string>,
+    labelBuilder?: (value: string) => string
+  ) {
+    return Object.values(list).map(value => {
+      const label = labelBuilder
+        ? labelBuilder(value)
+        : parseName(value)
+            .noCase.split(' ')
+            .map(word => word.replace(/^\w/, c => c.toUpperCase()))
+            .join(' ');
       return {
         label,
         value,
@@ -50,50 +101,16 @@ export class AppComponentEditorSelectComponent
       };
     });
   }
-  private defaultItem: SelectOption = {
-    label: 'Default',
-    selected: true,
-    value: '_default',
-  };
-  private colors: SelectOptgroup[] = [
-    {
-      label: 'APP COLORS',
-      children: this.buildSelectOptions(Colors),
-    },
-    {
-      label: 'COMMON COLORS',
-      children: this.buildSelectOptions(CommonColors),
-    },
-  ];
-  private gradients: SelectOptgroup[] = [
-    {
-      label: 'APP GREADIENTS',
-      children: this.buildSelectOptions(Gradients),
-    },
-    {
-      label: 'COMMON GRADIENTS',
-      children: this.buildSelectOptions(CommonGradients),
-    },
-  ];
-  private scales: SelectOption[] = this.buildSelectOptions(Scales);
-  private presets = {
-    colors: this.colors,
-    gradients: this.gradients,
-    colorsAndGradients: [...this.colors, ...this.gradients],
-    scales: this.scales,
-  } as Record<string, SelectOptgroup[]>;
-
-  onCreate() {
-    if (!this.label) throw new Error('label is required');
-    if (!this.preset) throw new Error('preset is required');
-  }
 
   protected render() {
     return html`
       <tini-select
         wrap
+        block
         .label=${this.label}
-        .items=${[this.defaultItem, ...this.presets[this.preset]]}
+        .items=${!this.preset
+          ? this.items
+          : [this.presetDefaultItem, ...this.presets[this.preset]]}
         events="change"
         @change=${({detail}: CustomEvent<InputEvent>) =>
           this.change.emit((detail as any).target.value)}
@@ -101,5 +118,13 @@ export class AppComponentEditorSelectComponent
     `;
   }
 
-  static styles = css``;
+  static styles = css`
+    tini-select {
+      &::part(label) {
+        font-weight: bold;
+        font-size: var(--size-text-0_8x);
+        text-transform: uppercase;
+      }
+    }
+  `;
 }

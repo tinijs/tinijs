@@ -61,6 +61,27 @@ export const styles = css`
   }
 
   /*
+   * [block]
+   */
+
+  :host(.block) {
+    display: block;
+    width: 100%;
+  }
+
+  :host(.block) .root {
+    display: flex;
+  }
+
+  :host(.block) select {
+    flex: 1;
+  }
+
+  :host(.block) .wrap select {
+    width: 100%;
+  }
+
+  /*
    * [scheme]
    */
 

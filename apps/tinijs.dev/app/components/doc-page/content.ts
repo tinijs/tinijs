@@ -1,4 +1,4 @@
-import {html, css, type TemplateResult} from 'lit';
+import {html, css, unsafeCSS} from 'lit';
 import {consume} from '@lit/context';
 import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 import {ref, createRef, type Ref} from 'lit/directives/ref.js';
@@ -27,6 +27,8 @@ import type {DocPostDetail} from '../../services/content.js';
 import {docPageContext, type DocPageContext} from '../../contexts/doc-page.js';
 
 import {IconEditComponent} from '../../icons/edit.js';
+
+import {prismThemeDark} from '../../utils/prism.js';
 
 @Component({
   components: [
@@ -204,133 +206,6 @@ export class AppDocPageContentComponent
         }
       }
     `,
-
-    // Prism theme
-    css`
-      code[class*='language-'],
-      pre[class*='language-'] {
-        color: #f8f8f2;
-        background: 0 0;
-        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-        text-align: left;
-        white-space: pre;
-        word-spacing: normal;
-        word-break: normal;
-        word-wrap: normal;
-        line-height: 1.5;
-        -moz-tab-size: 4;
-        -o-tab-size: 4;
-        tab-size: 4;
-        -webkit-hyphens: none;
-        -moz-hyphens: none;
-        -ms-hyphens: none;
-        hyphens: none;
-      }
-      pre[class*='language-'] {
-        padding: 1em;
-        margin: 0.5em 0;
-        overflow: auto;
-        border-radius: 0.3em;
-      }
-      :not(pre) > code[class*='language-'],
-      pre[class*='language-'] {
-        background: #2b2b2b;
-      }
-      :not(pre) > code[class*='language-'] {
-        padding: 0.1em;
-        border-radius: 0.3em;
-        white-space: normal;
-      }
-      .token.cdata,
-      .token.comment,
-      .token.doctype,
-      .token.prolog {
-        color: #d4d0ab;
-      }
-      .token.punctuation {
-        color: #fefefe;
-      }
-      .token.constant,
-      .token.deleted,
-      .token.property,
-      .token.symbol,
-      .token.tag {
-        color: #ffa07a;
-      }
-      .language-css .token.string,
-      .style .token.string,
-      .token.boolean,
-      .token.entity,
-      .token.keyword,
-      .token.number,
-      .token.operator,
-      .token.url,
-      .token.variable {
-        color: #00e0e0;
-      }
-      .token.attr-name,
-      .token.builtin,
-      .token.char,
-      .token.inserted,
-      .token.selector,
-      .token.string {
-        color: #abe338;
-      }
-      .token.atrule,
-      .token.attr-value,
-      .token.function,
-      .token.important,
-      .token.regex {
-        color: gold;
-      }
-      .token.bold,
-      .token.important {
-        font-weight: 700;
-      }
-      .token.italic {
-        font-style: italic;
-      }
-      .token.entity {
-        cursor: help;
-      }
-      @media screen and (-ms-high-contrast: active) {
-        code[class*='language-'],
-        pre[class*='language-'] {
-          color: windowText;
-          background: window;
-        }
-        :not(pre) > code[class*='language-'],
-        pre[class*='language-'] {
-          background: window;
-        }
-        .token.important {
-          background: highlight;
-          color: window;
-          font-weight: 400;
-        }
-        .token.atrule,
-        .token.attr-value,
-        .token.function,
-        .token.keyword,
-        .token.operator,
-        .token.selector {
-          font-weight: 700;
-        }
-        .token.attr-value,
-        .token.comment,
-        .token.doctype,
-        .token.function,
-        .token.keyword,
-        .token.operator,
-        .token.property,
-        .token.string {
-          color: highlight;
-        }
-        .token.attr-value,
-        .token.url {
-          font-weight: 400;
-        }
-      }
-    `,
+    unsafeCSS(prismThemeDark),
   ];
 }
