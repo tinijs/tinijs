@@ -16,7 +16,7 @@ import {defu} from 'defu';
 import {getProjectDirs} from '@tinijs/project';
 import {cleanDir, listDir, createCLICommand} from '@tinijs/cli';
 
-import contentCLIExpansion from '../expand.js';
+import contentCLIExpansion from '../expansion.js';
 
 interface BuildOptions {
   collectTags?: false | {collection: string; field?: string};

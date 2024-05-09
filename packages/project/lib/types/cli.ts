@@ -22,6 +22,7 @@ export interface CLIExpansionConfig<
 }
 
 export interface CLIConfig {
+  // built-ins
   docs?: false;
   info?: false;
   new?: false;
@@ -33,7 +34,8 @@ export interface CLIConfig {
   preview?: false;
   module?: false;
   noBuiltins?: true;
-  expand?: TiniIntegration<CLIExpansionConfig>;
+  // expansion
+  expansions?: TiniIntegration<CLIExpansionConfig>;
   noAutoExpansions?: true | string[];
 }
 

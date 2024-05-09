@@ -3,7 +3,7 @@ import {remove, outputFile, copy} from 'fs-extra/esm';
 import {execa} from 'execa';
 import {resolve} from 'pathe';
 
-import type {ServerCLIExpansionOptions} from '../expand.js';
+import type {ServerCLIExpansionOptions} from '../expansion.js';
 
 export async function buildApp(
   appBuildCommand: ServerCLIExpansionOptions['appBuildCommand'],

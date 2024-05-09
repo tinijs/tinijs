@@ -26,7 +26,7 @@ import {
 } from '../utils/build.js';
 import {buildIcons} from '../utils/icon.js';
 
-import cliExpansion from '../expand.js';
+import cliExpansion from '../expansion.js';
 
 export const uiBuildCommand = createCLICommand(
   {

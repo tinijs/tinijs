@@ -5,7 +5,7 @@ import {watch} from 'chokidar';
 import {execa} from 'execa';
 import {createCLICommand, exposeEnvs, loadCompiler} from '@tinijs/cli';
 
-import serverCLIExpansion from '../expand.js';
+import serverCLIExpansion from '../expansion.js';
 
 import {onServerPublicChange} from '../utils/build.js';
 

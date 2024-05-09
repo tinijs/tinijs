@@ -2,7 +2,7 @@ import {execa} from 'execa';
 import {getProjectDirs} from '@tinijs/project';
 import {createCLICommand} from '@tinijs/cli';
 
-import serverCLIExpansion from '../expand.js';
+import serverCLIExpansion from '../expansion.js';
 
 import {loadNitroConfig} from '../utils/nitro.js';
 import {buildApp, preNitroBuild, postNitroBuild} from '../utils/build.js';

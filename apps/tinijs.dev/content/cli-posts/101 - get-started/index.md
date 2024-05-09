@@ -92,6 +92,7 @@ List of official expandable commands:
 | Official expansions | Description |
 | --- | --- |
 | [`content`](/cli/content) | Provided by [Tini Content](/module/content) module. |
+| [`server`](/cli/server) | Provided by [Tini Server](/module/server). |
 | [`ui`](/cli/ui) | Provided by [Tini UI](/ui). |
 
 And any community or private expansions, please refer to the [CLI expansion](/cli/expansion).
