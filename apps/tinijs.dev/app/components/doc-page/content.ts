@@ -1,7 +1,7 @@
 import {html, css, unsafeCSS} from 'lit';
 import {consume} from '@lit/context';
 import {unsafeHTML} from 'lit/directives/unsafe-html.js';
-import {ref, createRef, type Ref} from 'lit/directives/ref.js';
+import {ref, createRef} from 'lit/directives/ref.js';
 
 import {
   Component,
@@ -54,7 +54,7 @@ export class AppDocPageContentComponent
 
   @Output() renewFragments!: EventEmitter<FragmentItem[]>;
 
-  private _articleRef: Ref<HTMLElement> = createRef();
+  private _articleRef = createRef<HTMLElement>();
 
   private get editOnGithubUrl() {
     return `${this.context.githubPath.replace('/tree/', '/edit/')}/${

@@ -1,7 +1,7 @@
 import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
-import {ref, createRef, type Ref} from 'lit/directives/ref.js';
+import {ref, createRef} from 'lit/directives/ref.js';
 import {TiniElement, partAttrMap, VaryGroups, BoxShadows} from '@tinijs/core';
 
 import type {DialogButton, DialogResult} from './dialog.js';
@@ -28,7 +28,7 @@ export default class extends TiniElement {
   @property({type: Object}) yesButton?: ModalButton;
   /* eslint-enable prettier/prettier */
 
-  private dialogRef: Ref<HTMLDialogElement> = createRef();
+  private dialogRef = createRef<HTMLDialogElement>();
   private context?: unknown;
 
   willUpdate(changedProperties: PropertyValues<this>) {

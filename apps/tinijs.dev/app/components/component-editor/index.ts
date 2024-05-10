@@ -1,5 +1,5 @@
 import {html, css, nothing, type TemplateResult} from 'lit';
-import {ref, createRef, type Ref} from 'lit/directives/ref.js';
+import {ref, createRef} from 'lit/directives/ref.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {html as staticHTML, unsafeStatic} from 'lit/static-html.js';
 import '@interactjs/auto-start';
@@ -15,7 +15,7 @@ import {
   TiniComponent,
   Input,
   Reactive,
-  registerComponents,
+  createComponentLoader,
   UseUI,
   Colors,
   Scales,
@@ -78,10 +78,7 @@ export enum CommonViewports {
   Desktop = 'desktop',
 }
 
-const componentLoaders: Record<
-  string,
-  () => Promise<CustomElementConstructor>
-> = {
+const componentLoader = createComponentLoader({
   heading: () =>
     import('../../ui/components/heading.js').then(m => m.TiniHeadingComponent),
   text: () =>
@@ -135,7 +132,7 @@ const componentLoaders: Record<
     import('../../ui/components/radios.js').then(m => m.TiniRadiosComponent),
   switch: () =>
     import('../../ui/components/switch.js').then(m => m.TiniSwitchComponent),
-};
+});
 
 @Component({
   components: [
@@ -179,10 +176,10 @@ export class AppComponentEditorComponent
   @Reactive() isFullscreen = false;
   @Reactive() data?: ComponentData;
 
-  private readonly _rootRef: Ref<HTMLDivElement> = createRef();
-  private readonly _previewRef: Ref<HTMLDivElement> = createRef();
-  private readonly _resizableRef: Ref<HTMLDivElement> = createRef();
-  private readonly _viewportSizeRef: Ref<HTMLDivElement> = createRef();
+  private readonly _rootRef = createRef<HTMLDivElement>();
+  private readonly _previewRef = createRef<HTMLDivElement>();
+  private readonly _resizableRef = createRef<HTMLDivElement>();
+  private readonly _viewportSizeRef = createRef<HTMLDivElement>();
 
   importCode?: string;
   usageCode?: string;
@@ -208,7 +205,13 @@ export class AppComponentEditorComponent
 
   onChanges() {
     // load constructors
-    this.loadComponents();
+    if (!this.data?.inner) {
+      componentLoader.load([this.name]);
+    } else {
+      componentLoader.extractAndLoad([[this.name], this.data?.inner], {
+        prefixes: ['tini'],
+      });
+    }
     // build codes
     this.importCode = this.buildImportCode();
     this.usageCode = this.buildUsageCode();
@@ -249,27 +252,6 @@ export class AppComponentEditorComponent
         }),
       ],
     });
-  }
-
-  private async loadComponents() {
-    const inner = this.data?.inner;
-    const childNames = !inner
-      ? []
-      : (inner.match(/<tini-([\s\S]*?) /g) || []).map(item =>
-          item.slice(6, -1)
-        );
-    // get loaders
-    const loaders = [this.name, ...childNames].map(
-      name => componentLoaders[name]
-    );
-    const components: CustomElementConstructor[] = [];
-    for (const loader of loaders) {
-      const component = await loader();
-      if (!component) continue;
-      components.push(component);
-    }
-    // register components
-    registerComponents(components);
   }
 
   private buildImportCode() {

@@ -2,7 +2,7 @@ import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {ref, createRef, type Ref} from 'lit/directives/ref.js';
+import {ref, createRef} from 'lit/directives/ref.js';
 import {
   TiniElement,
   partAttrMap,
@@ -19,7 +19,7 @@ export type LinkTargets = '_blank' | '_self' | '_parent' | '_top';
 
 export default class extends TiniElement {
   private readonly ROUTER_CHANGE_EVENT = 'tini:route-change';
-  private anchorRef: Ref<HTMLAnchorElement> = createRef();
+  private anchorRef = createRef<HTMLAnchorElement>();
 
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) href?: string;

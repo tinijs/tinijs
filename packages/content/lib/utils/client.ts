@@ -2,27 +2,27 @@ import {ofetch} from 'ofetch';
 
 export type RootIndex = Record<string, string>;
 
-export interface ContentOptions {
+export interface ContentClientOptions {
   baseUrl?: string;
   manualRootIndex?: RootIndex;
 }
 
-export function createContentInstance<Item, Detail>(
+export function createContentClient<Item, Detail>(
   collectionName: string,
-  options: ContentOptions = {}
+  options: ContentClientOptions = {}
 ) {
   const baseUrl = options.baseUrl || `${window.location.origin}/tini-content`;
   delete options.baseUrl;
-  return new ContentInstance<Item, Detail>(collectionName, baseUrl, options);
+  return new ContentClient<Item, Detail>(collectionName, baseUrl, options);
 }
 
-export class ContentInstance<Item, Detail> {
+export class ContentClient<Item, Detail> {
   static readonly cachedRootIndex = new Map<string, RootIndex>();
 
   constructor(
     readonly collectionName: string,
     readonly baseUrl: string,
-    readonly options: Omit<ContentOptions, 'baseUrl'> = {}
+    readonly options: Omit<ContentClientOptions, 'baseUrl'> = {}
   ) {}
 
   async has(slug?: string) {
@@ -72,8 +72,8 @@ export class ContentInstance<Item, Detail> {
   private async retrieveRootIndex() {
     const rootIndex =
       this.options.manualRootIndex ||
-      ContentInstance.cachedRootIndex.get(this.baseUrl) ||
-      ContentInstance.cachedRootIndex
+      ContentClient.cachedRootIndex.get(this.baseUrl) ||
+      ContentClient.cachedRootIndex
         .set(
           this.baseUrl,
           await ofetch<RootIndex>(`${this.baseUrl}/index.json`, {method: 'GET'})

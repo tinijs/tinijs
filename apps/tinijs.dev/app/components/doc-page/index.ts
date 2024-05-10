@@ -1,12 +1,13 @@
 import {html, css} from 'lit';
 import {provide} from '@lit/context';
-import {ref, createRef, type Ref} from 'lit/directives/ref.js';
+import {ref, createRef} from 'lit/directives/ref.js';
 
 import {
   Component,
   TiniComponent,
   Input,
   Reactive,
+  createComponentLoader,
   type SectionRenderData,
   type OnCreate,
   type OnInit,
@@ -20,6 +21,11 @@ import {
   type FragmentItem,
 } from '@tinijs/router';
 import {Statuses} from '@tinijs/content';
+
+import {
+  UI_POST_COMPONENT_REGISTRY,
+  UI_POST_COMPONENT_PREFIX,
+} from '../../../content/ui-posts/components.js';
 
 import type {
   CategoryService,
@@ -36,6 +42,10 @@ import {AppDocPageContentComponent} from './content.js';
 import {AppDocPageSurroundComponent} from './surround.js';
 
 import {docPageContext, type DocPageContext} from '../../contexts/doc-page.js';
+
+const componentLoader = createComponentLoader({
+  ...UI_POST_COMPONENT_REGISTRY,
+});
 
 @Component({
   components: [
@@ -64,10 +74,9 @@ export class AppDocPageComponent
   @Reactive() mobileMenuOpened = false;
   @Reactive() mobileTOCOpened = false;
 
-  private _mobileToolbarRef: Ref<AppDocPageMobileToolbarComponent> =
-    createRef();
-  private _menuRef: Ref<AppDocPageMenuComponent> = createRef();
-  private _tocRef: Ref<AppDocPageTOCComponent> = createRef();
+  private _mobileToolbarRef = createRef<AppDocPageMobileToolbarComponent>();
+  private _menuRef = createRef<AppDocPageMenuComponent>();
+  private _tocRef = createRef<AppDocPageTOCComponent>();
 
   onCreate() {
     if (!this.context) throw new Error('context is required');
@@ -215,7 +224,16 @@ export class AppDocPageComponent
   private async _loadPost(postSlug: string | undefined, allPosts: DocPost[]) {
     let post: DocPostDetail | null;
     try {
-      post = !postSlug ? null : await this.postService.getDetail(postSlug);
+      if (!postSlug) {
+        post = null;
+      } else {
+        post = await this.postService.getDetail(postSlug);
+        if (post?.content) {
+          await componentLoader.extractAndLoad([post.content], {
+            prefixes: [UI_POST_COMPONENT_PREFIX],
+          });
+        }
+      }
     } catch (error) {
       post = null;
     }

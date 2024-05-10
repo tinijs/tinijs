@@ -1,6 +1,7 @@
 import {resolve, parse} from 'pathe';
 import {readFile} from 'node:fs/promises';
 import type {Matcher} from 'picomatch';
+import {defu} from 'defu';
 import {
   TiniProject,
   getProjectDirs,
@@ -55,9 +56,11 @@ export function exposeEnvs(tiniConfig: TiniConfig, targetEnv: string) {
 export function extractCompileOptions<Type>(
   compileConfig: TiniConfig['compile']
 ) {
-  return ((compileConfig === false || compileConfig instanceof Function
-    ? undefined
-    : compileConfig?.options) || {}) as Type;
+  return (
+    compileConfig === false || compileConfig instanceof Function
+      ? {}
+      : defu(compileConfig?.options, {ignorePatterns: ['ui/**']})
+  ) as Type;
 }
 
 export async function parseCompileFileContext(
@@ -65,14 +68,12 @@ export async function parseCompileFileContext(
   {srcDir, compileDir, dirs}: ProjectDirs,
   ignoreMatcher?: Matcher
 ): Promise<CompileFileHookContext | null> {
-  if (ignoreMatcher?.(path)) return null;
+  const inPath = resolve(path);
+  const shortPath = inPath.replace(`${resolve(srcDir)}/`, '');
+  if (ignoreMatcher?.(shortPath)) return null;
   const env = process.env.TARGET_ENV || 'development';
   const isDevelopment = env === 'development';
-  const inPath = resolve(path);
-  const outPath = resolve(
-    compileDir,
-    inPath.replace(`${resolve(srcDir)}/`, '')
-  );
+  const outPath = resolve(compileDir, shortPath);
   const {base, name, ext} = parse(inPath);
   const isPublic = isUnderTopDir(inPath, srcDir, dirs.public);
   const copyOnly = !!(

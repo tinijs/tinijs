@@ -9,7 +9,7 @@ export * from './types/tag.js';
 export * from './types/page.js';
 export * from './types/post.js';
 
+export * from './utils/client.js';
 export * from './utils/denorm.js';
-export * from './utils/instance.js';
 export * from './utils/slugify.js';
 export * from './utils/transliterate.js';

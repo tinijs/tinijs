@@ -1,7 +1,7 @@
 import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
-import {ref, createRef, type Ref} from 'lit/directives/ref.js';
+import {ref, createRef} from 'lit/directives/ref.js';
 
 import {
   TiniElement,
@@ -20,8 +20,8 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) content!: string;
   /* eslint-enable prettier/prettier */
 
-  private readonly styleRef: Ref<HTMLStyleElement> = createRef();
-  private readonly codeRef: Ref<HTMLElement> = createRef();
+  private readonly styleRef = createRef<HTMLStyleElement>();
+  private readonly codeRef = createRef<HTMLElement>();
 
   private validateProperties() {
     if (!this.language) throw new Error('Property "language" is required.');

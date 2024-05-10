@@ -1,7 +1,7 @@
 import {html, css} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
 import {styleMap} from 'lit/directives/style-map.js';
-import {ref, createRef, type Ref} from 'lit/directives/ref.js';
+import {ref, createRef} from 'lit/directives/ref.js';
 import {
   Component,
   TiniComponent,
@@ -26,11 +26,11 @@ export class AppSkinEditorGradientPickerComponent extends TiniComponent {
 
   @Reactive() private showed = false;
 
-  private togglerRef: Ref<HTMLButtonElement> = createRef();
-  private containerRef: Ref<HTMLDivElement> = createRef();
-  private grapickRef: Ref<HTMLDivElement> = createRef();
-  private typeSelectRef: Ref<HTMLSelectElement> = createRef();
-  private directionSelectRef: Ref<HTMLSelectElement> = createRef();
+  private togglerRef = createRef<HTMLButtonElement>();
+  private containerRef = createRef<HTMLDivElement>();
+  private grapickRef = createRef<HTMLDivElement>();
+  private typeSelectRef = createRef<HTMLSelectElement>();
+  private directionSelectRef = createRef<HTMLSelectElement>();
   private grapickInstance: any;
 
   private onGlobalClicked = (e: MouseEvent) => {

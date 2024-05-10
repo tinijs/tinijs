@@ -1,6 +1,5 @@
 import {html, css} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
-import {ref, createRef, type Ref} from 'lit/directives/ref.js';
 
 import {
   Component,

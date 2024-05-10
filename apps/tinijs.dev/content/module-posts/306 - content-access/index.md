@@ -6,22 +6,22 @@
 }
 +++
 
-There are two ways to access content in TiniJS. The first is to use the `ContentInstance` and the second is to use the `ContentService`.
+There are two ways to access content in TiniJS. The first is to use the `ContentClient` and the second is to use the `ContentService`.
 
-## Content instances
+## Content clients
 
-A content instance is a prepresentation of a collection. To create an instance for a collection:
+A content client is a prepresentation of a collection. To create an client for a collection:
 
 ```js
-import { createContentInstance, type Post, type PostDetail } from '@tinijs/content';
+import { createContentClient, type Post, type PostDetail } from '@tinijs/content';
 
-const postContent = createContentInstance<Post, PostDetail>('posts');
+const postContent = createContentClient<Post, PostDetail>('posts');
 
 const posts = await postContent.fetchList();
-const aPost = await postContent.fetchDetail('a-post-slug');
+const post = await postContent.fetchDetail('post-slug');
 
 const postCollectionExists = postContent.has();
-const aPostExists = postContent.has('a-post-slug');
+const postExists = postContent.has('post-slug');
 ```
 
 ## `ContentService`

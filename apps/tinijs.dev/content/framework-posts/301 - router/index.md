@@ -330,14 +330,14 @@ Because we use the Shadow DOM to encapsulate our app, the browser seems to be un
 **Tini Router** provides some methods to **direct visitors to the respected sections** and **retrieve section headings** for outlined purpose (aka. table of content).
 
 ```ts
-import {ref, createRef, type Ref} from 'lit/directives/ref.js';
+import {ref, createRef} from 'lit/directives/ref.js';
 
 @Page({})
 export class AppPageXXX extends TiniComponent {
 
   @UseRouter() readonly router!: Router;
 
-  private _articleRef: Ref<HTMLElement> = createRef();
+  private _articleRef = createRef<HTMLElement>();
 
   onRenders() {
     // will scroll to the #whatever section if presented

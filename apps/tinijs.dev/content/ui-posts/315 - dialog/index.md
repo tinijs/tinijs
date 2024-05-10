@@ -6,6 +6,4 @@
 }
 +++
 
-## Usage
-
-TODO: ...
+<content-ui-post-dialog-usage></content-ui-post-dialog-usage>

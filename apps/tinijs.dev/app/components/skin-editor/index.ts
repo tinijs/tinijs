@@ -1,7 +1,7 @@
 import {html, css, render, nothing, type CSSResultOrNative} from 'lit';
 import {queryAll} from 'lit/decorators.js';
 import {repeat} from 'lit/directives/repeat.js';
-import {ref, createRef, type Ref} from 'lit/directives/ref.js';
+import {ref, createRef} from 'lit/directives/ref.js';
 import {
   Component,
   TiniComponent,
@@ -49,8 +49,8 @@ export class AppSkinEditorComponent extends TiniComponent {
   @queryAll('.field') private allInputs!: NodeListOf<HTMLElement>;
   @Subscribe(mainStore) skinEditorShown = mainStore.skinEditorShown;
 
-  private modalRef: Ref<TiniModalComponent> = createRef();
-  private modalContentRef: Ref<HTMLDivElement> = createRef();
+  private modalRef = createRef<TiniModalComponent>();
+  private modalContentRef = createRef<HTMLDivElement>();
 
   private variablesMap: Map<string, VariableDef> = new Map();
   private changedVariablesMap: Map<string, string> = new Map();

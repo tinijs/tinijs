@@ -1,5 +1,5 @@
 import {html, css} from 'lit';
-import {ref, createRef, type Ref} from 'lit/directives/ref.js';
+import {ref, createRef} from 'lit/directives/ref.js';
 
 import {
   Component,
@@ -29,8 +29,8 @@ export class AppDocPageMobileToolbarComponent extends TiniComponent {
   @Output() toggleMenu!: EventEmitter<void>;
   @Output() toggleTOC!: EventEmitter<void>;
 
-  menuTogglerRef: Ref<HTMLButtonElement> = createRef();
-  tocTogglerRef: Ref<HTMLButtonElement> = createRef();
+  menuTogglerRef = createRef<HTMLButtonElement>();
+  tocTogglerRef = createRef<HTMLButtonElement>();
 
   protected render() {
     return html`

@@ -7,10 +7,10 @@ import MiniSearch, {
 import {transliterate} from '../utils/transliterate.js';
 import {parseDenormList} from '../utils/denorm.js';
 import {
-  createContentInstance,
-  type ContentInstance,
-  type ContentOptions,
-} from '../utils/instance.js';
+  createContentClient,
+  type ContentClient,
+  type ContentClientOptions,
+} from '../utils/client.js';
 
 export type FilterItems<Item> = (item: Item) => boolean;
 export type SortItems<Item> = (a: Item, b: Item) => number;
@@ -24,7 +24,7 @@ export interface SearchItem {
 }
 
 export class ContentService<Item, Detail> {
-  readonly contentInstance: ContentInstance<Item, Detail>;
+  readonly client: ContentClient<Item, Detail>;
 
   private items?: Item[];
   private records?: Record<string, Item>;
@@ -35,13 +35,13 @@ export class ContentService<Item, Detail> {
   private detailSearchIndex?: MiniSearch<SearchItem>;
 
   constructor(
-    public collectionName: string,
-    public options: ContentOptions = {},
-    private searchIndexOptions?: SearchIndexOptions
+    public readonly collectionName: string,
+    public readonly clientOptions?: ContentClientOptions,
+    public readonly searchIndexOptions?: SearchIndexOptions
   ) {
-    this.contentInstance = createContentInstance<Item, Detail>(
+    this.client = createContentClient<Item, Detail>(
       collectionName,
-      options
+      clientOptions
     );
   }
 
@@ -108,7 +108,7 @@ export class ContentService<Item, Detail> {
     const result =
       this.cachedDetails.get(slug) ||
       this.cachedDetails
-        .set(slug, await this.contentInstance.fetchDetail(slug))
+        .set(slug, await this.client.fetchDetail(slug))
         .get(slug);
     return !result ? null : this.cloneData(result);
   }
@@ -175,7 +175,7 @@ export class ContentService<Item, Detail> {
       });
       //  add items
       index.addAll(
-        Object.entries(await this.contentInstance.fetchExtraSearch()).reduce(
+        Object.entries(await this.client.fetchExtraSearch()).reduce(
           (result, [slug, text]) => result.concat({slug, text}),
           [] as SearchItem[]
         )
@@ -227,7 +227,7 @@ export class ContentService<Item, Detail> {
   }
 
   private async getItemsAndRecords() {
-    this.items ||= (await this.contentInstance.fetchList()) || [];
+    this.items ||= (await this.client.fetchList()) || [];
     this.records ||= Object.fromEntries(
       (this.items || []).map(item => [(item as any).slug, item])
     ) as Record<string, Item>;
