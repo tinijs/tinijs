@@ -1,6 +1,5 @@
 import {css} from 'lit';
 import {
-  VaryGroups,
   generateColorVaries,
   generateGradientVaries,
   generateScaleVaries,
@@ -38,18 +37,18 @@ const styles = css`
   }
 
   /*
-   * [?pill]
+   * [mode=pill]
    */
 
-  .pill {
+  .mode-pill {
     border-radius: 1000px !important;
   }
 
   /*
-   * [?circle]
+   * [mode=circle]
    */
 
-  .circle {
+  .mode-circle {
     --circle-size: calc(var(--badge-scale) * 1.75);
     width: var(--circle-size);
     height: var(--circle-size);
@@ -59,18 +58,14 @@ const styles = css`
   }
 
   /*
-   * [scheme] & [color]
+   * [scheme]
    */
 
   ${generateColorVaries(
-    ({name, fullName, color, contrast}) => `
+    ({fullName, color, contrast}) => `
     .${fullName} {
       --badge-background: ${color};
       --badge-color: ${contrast};
-    }
-
-    .${VaryGroups.Color}-${name} {
-      --badge-color: ${color} !important;
     }
   `
   )}

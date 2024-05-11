@@ -26,7 +26,7 @@ export default class extends TiniElement {
   @property({type: Boolean, reflect: true}) readonly?: boolean;
   @property({type: String, reflect: true}) scheme?: Colors;
   @property({type: String, reflect: true}) scale?: Scales;
-  @property({type: String, reflect: true, attribute: 'focus:scheme'}) focusScheme?: this['scheme'];
+  @property({type: String, reflect: true}) focusScheme?: this['scheme'];
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {

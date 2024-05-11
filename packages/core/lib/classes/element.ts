@@ -5,7 +5,6 @@ import {
   adoptStyles,
   type PropertyValues,
   type CSSResultOrNative,
-  type TemplateResult,
 } from 'lit';
 import {property} from 'lit/decorators/property.js';
 import type {ClassInfo} from 'lit/directives/class-map.js';
@@ -19,6 +18,7 @@ import {
   processComponentStyles,
   type UIOptions,
   type UIButtonOptions,
+  type Templating,
   type Theming,
 } from './ui.js';
 
@@ -45,21 +45,23 @@ export interface ComponentMetadata {
 }
 
 export class TiniElement extends LitElement {
-  static readonly componentName: string = 'unnamed';
+  static readonly componentName: string = 'element';
   static readonly defaultTagName: string = 'tini-element';
   static readonly componentMetadata: ComponentMetadata = {};
 
+  static readonly templates?: Templating;
   static readonly theming?: Theming;
   static readonly components?: RegisterComponentsList;
 
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) styleDeep?: string;
+  @property({type: Object}) templates?: Templating;
+  @property() styleDeep?: string | Record<string, string>;
   @property({type: Object}) refers?: Record<string, Record<string, any>>;
   @property() events?: string | Array<string | EventForwarding>;
   /* eslint-enable prettier/prettier */
 
   protected rootClasses: ClassInfo = {root: true};
-  protected additionalParts: Record<string, TemplateResult> = {};
+  protected customTemplates: Templating = {};
 
   private _uiTracker = {
     extraStylesAdopted: false,
@@ -93,6 +95,10 @@ export class TiniElement extends LitElement {
   }
 
   protected willUpdate(changedProperties: PropertyValues<this>) {
+    this.customTemplates = {
+      ...(this.constructor as typeof TiniElement).templates,
+      ...this.templates,
+    };
     // re-style when deepStyle changed
     if (changedProperties.has('styleDeep')) {
       if (!this._uiTracker.extraStylesAdopted) {
@@ -208,14 +214,15 @@ export class TiniElement extends LitElement {
     // no theme
     if (!optionalUI?.activeTheme) return originalValue;
     // refers
+    const {themeId, familyId} = optionalUI.activeTheme;
     const camelName = name.replace(/-(\w)/g, (_, letter) =>
       letter.toUpperCase()
     );
     const referValue =
-      this.refers?.[optionalUI.activeTheme.themeId]?.[camelName] ||
-      this.refers?.[optionalUI.activeTheme.themeId]?.[name] ||
-      this.refers?.[optionalUI.activeTheme.familyId]?.[camelName] ||
-      this.refers?.[optionalUI.activeTheme.familyId]?.[name];
+      this.refers?.[themeId]?.[camelName] ||
+      this.refers?.[themeId]?.[name] ||
+      this.refers?.[familyId]?.[camelName] ||
+      this.refers?.[familyId]?.[name];
     if (referValue) return referValue;
     // refer gradient scheme
     if (
@@ -252,7 +259,19 @@ export class TiniElement extends LitElement {
     // element styles
     allStyles.push(...(this.constructor as typeof LitElement).elementStyles);
     // from styleDeep
-    if (this.styleDeep) allStyles.push(this.styleDeep);
+    if (this.styleDeep) {
+      if (typeof this.styleDeep === 'string') {
+        allStyles.push(this.styleDeep);
+      } else if (optionalUI) {
+        const {themeId, familyId} = optionalUI.activeTheme;
+        const styleDeepByTheme =
+          this.styleDeep?.[themeId] ||
+          this.styleDeep?.[familyId] ||
+          Object.values(this.styleDeep || {})[0] ||
+          '';
+        if (styleDeepByTheme) allStyles.push(styleDeepByTheme);
+      }
+    }
     // adopt all the styles
     const styleText = processComponentStyles(
       allStyles,

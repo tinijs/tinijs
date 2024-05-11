@@ -18,7 +18,7 @@ export interface CheckboxesItem {
   disabled?: boolean;
   scheme?: Colors;
   scale?: Scales;
-  'checked:scheme'?: Colors;
+  checkedScheme?: Colors;
 }
 
 export default class extends TiniElement {
@@ -62,7 +62,7 @@ export default class extends TiniElement {
     disabled,
     scheme,
     scale,
-    'checked:scheme': checkedScheme,
+    checkedScheme,
   }: CheckboxesItem) {
     const itemClasses: ClassInfo = {
       item: true,

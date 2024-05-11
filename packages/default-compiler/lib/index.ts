@@ -222,7 +222,7 @@ export class DefaultCompiler implements Compiler {
             );
           }
         } catch (error) {
-          // eslint-disable-next-line no-empty
+          if (!context.isDevelopment) throw error;
         }
       }
     }
@@ -255,7 +255,7 @@ export class DefaultCompiler implements Compiler {
           compiledValue
         );
       } catch (error) {
-        // eslint-disable-next-line no-empty
+        if (!context.isDevelopment) throw error;
       }
     }
   }

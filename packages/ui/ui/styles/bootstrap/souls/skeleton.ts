@@ -1,5 +1,5 @@
 import {css} from 'lit';
-import {generateColorVaries, generateBorderRadiusVaries} from '@tinijs/core';
+import {generateBorderRadiusVaries} from '@tinijs/core';
 
 export const styles = css`
   :host {
@@ -7,7 +7,6 @@ export const styles = css`
     --skeleton-height: 1rem;
     --skeleton-speed: 3s;
     --skeleton-border-radius: var(--size-radius);
-    --skeleton-background: var(--color-background);
   }
 
   /*
@@ -20,12 +19,12 @@ export const styles = css`
     height: var(--skeleton-height);
     position: relative;
     overflow: hidden;
-    background: color-mix(in oklab, var(--skeleton-background), black 10%);
+    background: color-mix(in oklab, var(--color-background), black 10%);
     border-radius: var(--skeleton-border-radius);
   }
 
   .root::after {
-    --background: color-mix(in oklab, var(--skeleton-background), white 10%);
+    --background: color-mix(in oklab, var(--color-background), white 10%);
     position: absolute;
     top: 0;
     right: 0;
@@ -48,18 +47,6 @@ export const styles = css`
       transform: translateX(100%);
     }
   }
-
-  /*
-   * [scheme]
-   */
-
-  ${generateColorVaries(
-    ({fullName, color}) => `
-    .${fullName} {
-      --skeleton-background: ${color};
-    }
-  `
-  )}
 
   /*
    * [borderRadius]

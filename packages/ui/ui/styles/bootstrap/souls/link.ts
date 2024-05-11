@@ -3,19 +3,11 @@ import {
   VaryGroups,
   generateColorVaries,
   generateGradientVaries,
-  generateFontTypeVaries,
-  generateFontSizeVaries,
-  generateFontWeightVaries,
-  generateTextTransformVaries,
 } from '@tinijs/core';
 
 export const styles = css`
   :host {
     --link-color: var(--color-primary);
-    --link-font-size: var(--size-text);
-    --link-font: var(--font-body);
-    --link-weight: normal;
-    --link-transform: none;
     --link-disabled-color: var(--color-medium);
     --link-disabled-opacity: 0.5;
   }
@@ -31,11 +23,7 @@ export const styles = css`
   a {
     position: relative;
     text-decoration: none;
-    font-family: var(--link-font);
     color: var(--link-color);
-    font-size: var(--link-font-size);
-    font-weight: var(--link-weight);
-    text-transform: var(--link-transform);
   }
 
   a:hover,
@@ -46,22 +34,6 @@ export const styles = css`
 
   a[target='_blank'] {
     cursor: alias;
-  }
-
-  /*
-   * [?italic]
-   */
-
-  .italic {
-    font-style: italic;
-  }
-
-  /*
-   * [?underline]
-   */
-
-  .underline {
-    text-decoration: underline;
   }
 
   /*
@@ -86,7 +58,7 @@ export const styles = css`
     }
 
     .${VaryGroups.Color}-${name}::after {
-      --underline-height: calc(var(--link-font-size) / 13);
+      --underline-height: calc(var(--size-text) / 13);
       visibility: hidden;
       content: '';
       position: absolute;
@@ -100,54 +72,6 @@ export const styles = css`
     .${VaryGroups.Color}-${name}:hover::after,
     .${VaryGroups.Color}-${name}.underline::after {
       visibility: visible;
-    }
-  `
-  )}
-
-  /*
-   * [font]
-   */
-
-  ${generateFontTypeVaries(
-    ({fullName, type}) => `
-    .${fullName} {
-      --link-font: ${type} !important;
-    }
-  `
-  )}
-
-  /*
-   * [fontSize]
-   */
-
-  ${generateFontSizeVaries(
-    ({fullName, size}) => `
-    .${fullName} {
-      --link-font-size: ${size};
-    }
-  `
-  )}
-
-  /*
-   * [weight]
-   */
-
-  ${generateFontWeightVaries(
-    ({fullName, weight}) => `
-    .${fullName} {
-      --link-weight: ${weight};
-    }
-  `
-  )}
-
-  /*
-   * [transform]
-   */
-
-  ${generateTextTransformVaries(
-    ({fullName, transform}) => `
-    .${fullName} {
-      --link-transform: ${transform};
     }
   `
   )}

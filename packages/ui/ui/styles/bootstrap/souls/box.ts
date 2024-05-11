@@ -4,7 +4,6 @@ import {
   generateColorVaries,
   generateGradientVaries,
   generateSpaceVaries,
-  generateFontSizeVaries,
   generateBorderWidthVaries,
   generateBorderStyleVaries,
   generateBorderRadiusVaries,
@@ -14,7 +13,6 @@ import {
 const styles = css`
   :host {
     --box-background: none;
-    --box-font-size: var(--size-text);
     --box-color: var(--color-foreground);
     --box-border: none;
     --box-border-radius: var(--size-radius);
@@ -30,7 +28,6 @@ const styles = css`
   .root {
     width: 100%;
     background: var(--box-background);
-    font-size: var(--box-font-size);
     color: var(--box-color);
     border: var(--box-border);
     border-radius: var(--box-border-radius);
@@ -38,18 +35,6 @@ const styles = css`
     margin: var(--box-margin);
     box-shadow: var(--box-shadow);
   }
-
-  /*
-   * [fontSize]
-   */
-
-  ${generateFontSizeVaries(
-    ({fullName, size}) => `
-    .${fullName} {
-      --box-font-size: ${size} !important;
-    }
-  `
-  )}
 
   /*
    * [border/width]
@@ -92,7 +77,7 @@ const styles = css`
   )}
 
   /*
-   * [scheme] & [color] & [border/color]
+   * [scheme] & [border/color]
    */
 
   ${generateColorVaries(
@@ -100,10 +85,6 @@ const styles = css`
     .${fullName} {
       --box-background: ${color};
       --box-color: ${contrast};
-    }
-
-    .${VaryGroups.Color}-${name} {
-      --box-color: ${color} !important;
     }
 
     .${VaryGroups.BorderColor}-${name} {

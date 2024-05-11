@@ -55,7 +55,7 @@ export default class extends TiniElement {
     disabled,
     scheme,
     scale,
-    'checked:scheme': checkedScheme,
+    checkedScheme,
   }: RadiosItem) {
     const itemClasses: ClassInfo = {
       item: true,

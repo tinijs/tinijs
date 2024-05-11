@@ -132,6 +132,16 @@ const componentLoader = createComponentLoader({
     import('../../ui/components/radios.js').then(m => m.TiniRadiosComponent),
   switch: () =>
     import('../../ui/components/switch.js').then(m => m.TiniSwitchComponent),
+  image: () =>
+    import('../../ui/components/image.js').then(m => m.TiniImageComponent),
+  figure: () =>
+    import('../../ui/components/figure.js').then(m => m.TiniFigureComponent),
+  embed: () =>
+    import('../../ui/components/embed.js').then(m => m.TiniEmbedComponent),
+  table: () =>
+    import('../../ui/components/table.js').then(m => m.TiniTableComponent),
+  code: () =>
+    import('../../ui/components/code.js').then(m => m.TiniCodeComponent),
 });
 
 @Component({

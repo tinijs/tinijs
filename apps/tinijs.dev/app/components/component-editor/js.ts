@@ -23,6 +23,7 @@ export class AppComponentEditorJSComponent
   static readonly defaultTagName = 'app-component-editor-js';
 
   @Input() label!: string;
+  @Input() placeholder?: string;
   @Input({type: Object}) value?: Record<string, any>;
   @Output() change!: EventEmitter<Record<string, any>>;
 
@@ -39,6 +40,7 @@ export class AppComponentEditorJSComponent
     return html`
       <tini-textarea
         .label=${this.label}
+        .placeholder=${this.placeholder}
         .value=${this.displayValue}
         events="change"
         @change=${({detail}: CustomEvent<InputEvent>) =>

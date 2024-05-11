@@ -9,10 +9,6 @@ import {
   VaryGroups,
   Colors,
   Gradients,
-  Factors,
-  FontTypes,
-  FontWeights,
-  TextTransforms,
 } from '@tinijs/core';
 
 export type LinkTargets = '_blank' | '_self' | '_parent' | '_top';
@@ -26,29 +22,15 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) rel?: string;
   @property({type: String, reflect: true}) target?: LinkTargets;
   @property({type: String, reflect: true}) active?: string;
-  @property({type: Boolean, reflect: true}) italic?: boolean;
-  @property({type: Boolean, reflect: true}) underline?: boolean;
   @property({type: String, reflect: true}) color?: Colors | Gradients;
-  @property({type: String, reflect: true}) fontType?: FontTypes;
-  @property({type: String, reflect: true}) fontSize?: Factors;
-  @property({type: String, reflect: true}) fontWeight?: FontWeights;
-  @property({type: String, reflect: true}) textTransform?: TextTransforms;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
     // root classes parts
     this.extendRootClasses({
-      raw: {
-        italic: !!this.italic,
-        underline: !!this.underline,
-      },
       overridable: {
         [VaryGroups.Color]: this.color,
-        [VaryGroups.FontType]: this.fontType,
-        [VaryGroups.FontSize]: this.fontSize,
-        [VaryGroups.FontWeight]: this.fontWeight,
-        [VaryGroups.TextTransform]: this.textTransform,
       },
     });
   }

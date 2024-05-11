@@ -4,7 +4,6 @@ import {
   generateColorVaries,
   generateGradientVaries,
   generateScaleVaries,
-  generateFontSizeVaries,
   generateJustifyContentVaries,
   generateBorderWidthVaries,
   generateBorderStyleVaries,
@@ -234,7 +233,7 @@ export const styles = css`
   )}
 
   /*
-   * [scheme] & [color] & [border/color]
+   * [scheme] & [border/color]
    */
 
   ${generateColorVaries(
@@ -263,11 +262,6 @@ export const styles = css`
       --button-color: ${color};
       --button-base-color: ${baseColor};
       ${!isContrast ? '' : `--button-text-color-contrast: ${baseContrast};`}
-    }
-
-    button.${VaryGroups.Color}-${name} {
-      --button-text-color: ${color} !important;
-      --button-text-color-specific: ${color} !important;
     }
 
     button.${VaryGroups.BorderColor}-${name} {
@@ -318,18 +312,6 @@ export const styles = css`
     button.${fullName} {
       --button-scale: ${scale};
       --button-focus-visible-shadow-size: var(--scale-${name}-0_3x);
-    }
-  `
-  )}
-
-  /*
-   * [fontSize]
-   */
-
-  ${generateFontSizeVaries(
-    ({fullName, size}) => `
-    button.${fullName} {
-      font-size: ${size} !important;
     }
   `
   )}

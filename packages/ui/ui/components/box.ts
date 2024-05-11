@@ -8,7 +8,6 @@ import {
   VaryGroups,
   Colors,
   Gradients,
-  Factors,
   BorderRadiuses,
   BoxShadows,
   factorsToClassInfo,
@@ -19,8 +18,6 @@ export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) tag?: string;
   @property({type: String, reflect: true}) scheme?: Colors | Gradients;
-  @property({type: String, reflect: true}) fontSize?: Factors;
-  @property({type: String, reflect: true}) color?: Colors;
   @property({type: String, reflect: true}) border?: string;
   @property({type: String, reflect: true}) borderRadius?: BorderRadiuses;
   @property({type: String, reflect: true}) padding?: string;
@@ -43,8 +40,6 @@ export default class extends TiniElement {
       },
       overridable: {
         [VaryGroups.Scheme]: this.scheme,
-        [VaryGroups.FontSize]: this.fontSize,
-        [VaryGroups.Color]: this.color,
         [VaryGroups.BorderRadius]: this.borderRadius,
         [VaryGroups.BoxShadow]: this.shadow,
       },

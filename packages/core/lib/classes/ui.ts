@@ -1,4 +1,4 @@
-import {adoptStyles, type CSSResultOrNative} from 'lit';
+import {adoptStyles, type CSSResultOrNative, type TemplateResult} from 'lit';
 
 import {GLOBAL_TINI} from '../consts/global.js';
 import {PACKAGE_PREFIX} from '../consts/common.js';
@@ -6,6 +6,8 @@ import {NO_UI_ERROR, DUPLICATED_UI_ERROR} from '../consts/error.js';
 
 import {listify} from '../utils/common.js';
 import {Breakpoints} from '../utils/vary.js';
+
+export type Templating = Record<string, (host: HTMLElement) => TemplateResult>;
 
 export type Theming = Record<
   string,

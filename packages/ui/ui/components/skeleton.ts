@@ -6,7 +6,6 @@ import {
   TiniElement,
   VaryGroups,
   partAttrMap,
-  Colors,
   BorderRadiuses,
 } from '@tinijs/core';
 
@@ -19,7 +18,6 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) width?: string;
   @property({type: String, reflect: true}) height?: string;
   @property({type: String, reflect: true}) speed?: string;
-  @property({type: String, reflect: true}) scheme?: Colors;
   @property({type: String, reflect: true}) borderRadius?: BorderRadiuses;
   /* eslint-enable prettier/prettier */
 
@@ -28,7 +26,6 @@ export default class extends TiniElement {
     // root classes parts
     this.extendRootClasses({
       overridable: {
-        [VaryGroups.Scheme]: this.scheme,
         [VaryGroups.BorderRadius]: this.borderRadius,
       },
     });

@@ -23,17 +23,12 @@ export interface BreadcrumbItem {
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: Array}) items?: BreadcrumbItem[];
-  @property({type: String, reflect: true}) linkColor?: Colors | Gradients;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
     // root classes parts
-    this.extendRootClasses({
-      overridable: {
-        [`link-${VaryGroups.Color}`]: this.linkColor,
-      },
-    });
+    this.extendRootClasses({});
   }
 
   protected render() {
@@ -57,10 +52,7 @@ export default class extends TiniElement {
         ${!item.href
           ? html`${item.label}`
           : html`
-              <tini-link
-                exportparts="root:link-root"
-                href=${item.href}
-                color=${ifDefined(this.linkColor)}
+              <tini-link exportparts="root:link-root" href=${item.href}
                 >${item.label}</tini-link
               >
             `}

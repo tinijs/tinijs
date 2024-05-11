@@ -1,9 +1,5 @@
 import {css} from 'lit';
-import {
-  VaryGroups,
-  generateColorVaries,
-  generateScaleVaries,
-} from '@tinijs/core';
+import {generateColorVaries, generateScaleVaries} from '@tinijs/core';
 
 export const styles = css`
   :host {
@@ -42,26 +38,22 @@ export const styles = css`
   }
 
   /*
-   * [?pill]
+   * [mode=pill]
    */
 
-  .pill {
+  .mode-pill {
     border-radius: 1000px !important;
   }
 
   /*
-   * [scheme] & [color]
+   * [scheme]
    */
 
   ${generateColorVaries(
-    ({name, fullName, isContrast, isSubtle, color, baseColor}) => `
+    ({fullName, isContrast, isSubtle, color, baseColor}) => `
     .${fullName} {
       --label-background: ${color};
       --label-text-color: ${isContrast || isSubtle ? baseColor : color};
-    }
-
-    .${VaryGroups.Color}-${name} {
-      --label-text-color: ${color} !important;
     }
   `
   )}

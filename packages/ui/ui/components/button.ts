@@ -9,7 +9,6 @@ import {
   Colors,
   Gradients,
   Scales,
-  Factors,
   JustifyContents,
   BorderRadiuses,
   BoxShadows,
@@ -29,13 +28,11 @@ export default class extends TiniElement {
   @property({type: Boolean, reflect: true}) disabled?: boolean;
   @property({type: String, reflect: true}) scheme?: Colors | Gradients;
   @property({type: String, reflect: true}) scale?: Scales;
-  @property({type: String, reflect: true}) color?: Colors;
-  @property({type: String, reflect: true}) fontSize?: Factors;
   @property({type: String, reflect: true}) justifyContent?: JustifyContents;
   @property({type: String, reflect: true}) border?: string;
   @property({type: String, reflect: true}) borderRadius?: BorderRadiuses;
   @property({type: String, reflect: true}) shadow?: BoxShadows;
-  @property({type: String, reflect: true, attribute: 'hover:scheme'}) hoverScheme?: this['scheme'];
+  @property({type: String, reflect: true}) hoverScheme?: this['scheme'];
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
@@ -56,8 +53,6 @@ export default class extends TiniElement {
         [VaryGroups.Mode]: this.mode,
         [VaryGroups.Scheme]: this.scheme,
         [VaryGroups.Scale]: this.scale,
-        [VaryGroups.Color]: this.color,
-        [VaryGroups.FontSize]: this.fontSize,
         [VaryGroups.JustifyContent]: this.justifyContent,
         [VaryGroups.BorderRadius]: this.borderRadius,
         [VaryGroups.BoxShadow]: this.shadow,

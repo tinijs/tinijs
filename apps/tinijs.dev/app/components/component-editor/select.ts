@@ -20,6 +20,11 @@ import {
   FontTypes,
   FontWeights,
   TextTransforms,
+  BoxShadows,
+  BorderWidths,
+  BorderStyles,
+  BorderRadiuses,
+  JustifyContents,
   type EventEmitter,
   type OnCreate,
 } from '@tinijs/core';
@@ -75,6 +80,11 @@ export class AppComponentEditorSelectComponent
     fontTypes: this.buildPresetItems(FontTypes),
     fontWeights: this.buildPresetItems(FontWeights),
     textTransforms: this.buildPresetItems(TextTransforms),
+    boxShadows: this.buildPresetItems(BoxShadows),
+    borderWidths: this.buildPresetItems(BorderWidths),
+    borderStyles: this.buildPresetItems(BorderStyles),
+    borderRadiuses: this.buildPresetItems(BorderRadiuses),
+    justifyContents: this.buildPresetItems(JustifyContents),
   };
 
   onCreate() {
