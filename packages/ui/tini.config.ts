@@ -29,7 +29,6 @@ const bootstrapBaseConfig: PrebuiltBaseConfig = {
   families: {
     bootstrap: true,
   },
-  // icons: ['./test-icons'],
 };
 
 export default defineTiniConfig({

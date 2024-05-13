@@ -13,6 +13,7 @@ export interface UIConfig {
         transformName?: (name: string) => string;
       }
   >;
+  outputIconsIndex?: string;
   manualSkinSelection?: true;
   framework?: 'react';
   transpile?: true;

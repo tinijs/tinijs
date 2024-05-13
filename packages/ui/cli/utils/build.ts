@@ -1,7 +1,8 @@
 import {readdir, readFile} from 'node:fs/promises';
-import {pathExistsSync, readJSON} from 'fs-extra/esm';
+import {pathExistsSync, readJSON, outputFile} from 'fs-extra/esm';
 import typescript from 'typescript';
 import {resolve, parse, relative} from 'pathe';
+import {execa} from 'execa';
 import {safeDestr} from 'destr';
 import type {PackageJson} from 'type-fest';
 import {genObjectFromRaw, genArrayFromRaw} from 'knitwork';
@@ -538,4 +539,53 @@ export async function transpileAndRemoveTSFiles(
   );
   // remove .ts files
   await removeFiles(tsFilePaths);
+}
+
+export async function buildBundled(
+  outDir: string,
+  {
+    setupResult,
+    skinResults,
+    componentResults,
+  }: {
+    setupResult: GenFileResult;
+    skinResults: GenFileResult[];
+    componentResults: GenFileResult[];
+  }
+) {
+  // setup.js
+  const setupFile = 'bundled/setup.js';
+  await outputFile(
+    resolve(outDir, setupFile),
+    [
+      ...skinResults
+        .filter(item => item.path.startsWith('skins/'))
+        .map(item => item.path),
+      setupResult.path,
+    ]
+      .map(path => `export * from '../${tsToJS(path)}';`)
+      .join('\n')
+  );
+  // components.js
+  const componentsFile = 'bundled/components.js';
+  await outputFile(
+    resolve(outDir, componentsFile),
+    componentResults
+      .map(({path}) => `export * from '../${tsToJS(path)}';`)
+      .join('\n')
+  );
+  // bundle
+  await execa(
+    'esbuild',
+    [
+      setupFile,
+      componentsFile,
+      '--outdir=bundled',
+      '--format=esm',
+      '--bundle',
+      '--minify',
+      '--allow-overwrite',
+    ],
+    {stdio: 'inherit', cwd: outDir}
+  );
 }

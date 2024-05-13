@@ -1,15 +1,14 @@
 import {resolve} from 'pathe';
 import {defu} from 'defu';
 import {
-  tsToJS,
   createCLICommand,
   outputGenFileResults,
   type GenFileResult,
 } from '@tinijs/cli';
 import {TINI_CONFIG_TS_FILE} from '@tinijs/project';
+import {outputJSON} from 'fs-extra/esm';
 import {consola} from 'consola';
 import {green, gray} from 'colorette';
-import {execa} from 'execa';
 import type {AsyncReturnType} from 'type-fest';
 
 import {
@@ -23,6 +22,7 @@ import {
   buildPublicAPI,
   buildPackageJSON,
   transpileAndRemoveTSFiles,
+  buildBundled,
 } from '../utils/build.js';
 import {buildIcons} from '../utils/icon.js';
 
@@ -109,7 +109,7 @@ export const uiBuildCommand = createCLICommand(
       results.push(...componentResults);
 
       // build icons
-      const iconResults = await buildIcons(config);
+      const {results: iconResults, index: iconIndex} = await buildIcons(config);
       results.push(...iconResults);
 
       // build setup
@@ -127,6 +127,10 @@ export const uiBuildCommand = createCLICommand(
 
       // output build results
       await outputGenFileResults(outDirPath, results);
+      // icons index
+      if (config.outputIconsIndex) {
+        await outputJSON(resolve(config.outputIconsIndex), iconIndex);
+      }
 
       // transpile & remove .ts files
       const tsPaths = results
@@ -139,20 +143,11 @@ export const uiBuildCommand = createCLICommand(
       // bundled
       if (config.bundled) {
         callbacks?.onBundle?.();
-        const jsPaths = tsPaths
-          .filter(path => !path.endsWith('/public-api.ts'))
-          .map(path => tsToJS(path.replace(`${outDirPath}/`, '')));
-        await execa(
-          'esbuild',
-          [
-            ...jsPaths,
-            '--outdir=bundled',
-            '--format=esm',
-            '--bundle',
-            '--minify',
-          ],
-          {stdio: 'inherit', cwd: outDirPath}
-        );
+        await buildBundled(outDirPath, {
+          setupResult,
+          skinResults,
+          componentResults,
+        });
       }
     }
     callbacks?.onEnd?.(packCount);

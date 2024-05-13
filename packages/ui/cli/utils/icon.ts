@@ -15,12 +15,16 @@ const {sanitize} = isomorphicDompurify;
 
 export async function buildIcons(config: UIConfig) {
   const results: GenFileResult[] = [];
+  const index = {
+    items: [] as Array<[string, string, string]>,
+  };
 
   const availableIcons = await loadAndProcessAvailableIcons(config.icons || []);
-  for (const {path, name} of availableIcons) {
-    const iconTS = createGenFile();
+  for (const {path, name, ext} of availableIcons) {
     const {tagName, className} = parseName(name);
     const dataURI = await fileToDataURI(path);
+
+    const iconTS = createGenFile();
     iconTS.addImport('../components/icon.js', ['TiniIconComponent']);
     iconTS.addBlock(
       `export class Icon${className}Component extends TiniIconComponent`,
@@ -29,7 +33,6 @@ static readonly defaultTagName = '${tagName}';
 static readonly src = \`${dataURI}\`;   
 }`
     );
-
     if (config.framework === 'react') {
       iconTS.addImport('react', 'React');
       iconTS.addImport('@lit/react', ['createComponent']);
@@ -42,11 +45,13 @@ tagName: Icon${className}Component.defaultTagName,
 })`
       );
     }
-
     results.push(iconTS.toResult(`icons/${name}.ts`));
+
+    // add to index
+    index.items.push([name, ext, dataURI.split('base64,')[1]]);
   }
 
-  return results;
+  return {results, index};
 }
 
 async function loadAndProcessAvailableIcons(
