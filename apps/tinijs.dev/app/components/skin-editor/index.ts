@@ -12,6 +12,10 @@ import {
 } from '@tinijs/core';
 import {Subscribe} from '@tinijs/store';
 
+import {
+  TiniSelectComponent,
+  type SelectOption,
+} from '../../ui/components/select.js';
 import {TiniCodeComponent} from '../../ui/components/code.js';
 import {TiniButtonComponent} from '../../ui/components/button.js';
 import {TiniModalComponent} from '../../ui/components/modal.js';
@@ -35,6 +39,7 @@ import {AppSkinEditorGradientPickerComponent} from './gradient-picker.js';
 
 @Component({
   components: [
+    TiniSelectComponent,
     TiniCodeComponent,
     TiniButtonComponent,
     TiniModalComponent,
@@ -171,7 +176,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
           <code>ui/styles/${familyId}/skins/some-name.ts</code>. You can edit
           the values further if you wish.
         </p>
-        <tini-code language="typescript" .content=${skinCode}></tini-code>
+        <tini-code language="javascript" .content=${skinCode}></tini-code>
         <div style="width: 100%; height: 2rem"></div>
       `,
       this.modalContentRef.value!
@@ -242,6 +247,14 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
     );
   }
 
+  private buildThemeOptions(familyId: string, items: SelectOption[]) {
+    return items.map(item => {
+      item.value = `${familyId}/${item.value}`;
+      if (item.value === this.ui.activeTheme.themeId) item.selected = true;
+      return item;
+    });
+  }
+
   protected render() {
     return html`
       <div class="head">
@@ -256,6 +269,27 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       </div>
 
       <div class="body">
+        <section style="padding: var(--size-space)">
+          <tini-select
+            wrap
+            block
+            label="Current theme"
+            events="change"
+            @change=${({detail}: CustomEvent<InputEvent>) =>
+              this.ui.setTheme(
+                (detail.target as HTMLInputElement).value as string
+              )}
+            .items=${[
+              {
+                label: 'Bootstrap',
+                children: this.buildThemeOptions('bootstrap', [
+                  {label: 'Light', value: 'light'},
+                  {label: 'Dark', value: 'dark'},
+                ]),
+              },
+            ]}
+          ></tini-select>
+        </section>
         <section class="properties">
           <ul class="content">
             ${repeat(

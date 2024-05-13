@@ -39,7 +39,7 @@ export function extractCSSVariables(
         value,
         valueDirect: value, // process later
         prefix,
-        title,
+        title: prefix !== 'scale' && prefix !== 'wide' ? title : title.toUpperCase(),
         description: (
           (!category ? description : description?.replace(category, '')) || ''
         ).trim(),

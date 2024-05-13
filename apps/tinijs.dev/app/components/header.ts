@@ -6,18 +6,12 @@ import {
   TiniComponent,
   Reactive,
   Colors,
-  UseUI,
-  type UI,
   type OnCreate,
   type OnDestroy,
 } from '@tinijs/core';
 import {ROUTE_CHANGE_EVENT} from '@tinijs/router';
 
 import {TiniLinkComponent} from '../ui/components/link.js';
-import {
-  TiniSwitchComponent,
-  type SwitchEventDetail,
-} from '../ui/components/switch.js';
 import {TiniIconComponent} from '../ui/components/icon.js';
 
 import {LOGO_URL} from '../consts/common.js';
@@ -28,21 +22,17 @@ import {IconGithubComponent} from '../icons/github.js';
 import {IconXComponent} from '../icons/x.js';
 import {IconDiscordComponent} from '../icons/discord.js';
 
+import {AppSkinEditorTogglerComponent} from './skin-editor/toggler.js';
 import {AppSkinEditorComponent} from '../components/skin-editor/index.js';
-
-enum Themes {
-  BootstrapLight = 'bootstrap/light',
-  BootstrapDark = 'bootstrap/dark',
-}
 
 @Component({
   components: [
     TiniLinkComponent,
-    TiniSwitchComponent,
     TiniIconComponent,
     IconGithubComponent,
     IconXComponent,
     IconDiscordComponent,
+    AppSkinEditorTogglerComponent,
     AppSkinEditorComponent,
   ],
 })
@@ -52,7 +42,6 @@ export class HeaderComponent
 {
   static readonly defaultTagName = 'app-header';
 
-  @UseUI() readonly ui!: UI;
   @Reactive() mobileMenuOpened = false;
 
   private _onRouteChange = () => (this.mobileMenuOpened = false);
@@ -142,17 +131,8 @@ export class HeaderComponent
             </nav>
 
             <div class="theme">
-              <span>Dark mode</span>
-              <tini-switch
-                scale="ml"
-                @change=${({detail}: CustomEvent<SwitchEventDetail>) =>
-                  this.ui.setTheme(
-                    detail.checked
-                      ? Themes.BootstrapDark
-                      : Themes.BootstrapLight
-                  )}
-                .checked=${this.ui.activeTheme.themeId === Themes.BootstrapDark}
-              ></tini-switch>
+              <span>Select theme</span>
+              <app-skin-editor-toggler></app-skin-editor-toggler>
             </div>
 
             <div class="social">
