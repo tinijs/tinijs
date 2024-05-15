@@ -14,25 +14,19 @@
     sections: [
       {
         section: 'input',
-        attrs: {
-          label: 'Label'
-        },
+        attrs: {label: 'Label'},
         target: 'label',
         value: 'Email'
       },
       {
         section: 'input',
-        attrs: {
-          label: 'Type'
-        },
+        attrs: {label: 'Type'},
         target: 'type',
         value: 'email'
       },
       {
         section: 'input',
-        attrs: {
-          label: 'Placeholder'
-        },
+        attrs: {label: 'Placeholder'},
         target: 'placeholder',
         value: 'name@example.com'
       },

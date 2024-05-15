@@ -37,11 +37,6 @@
         target: 'speed'
       },
       {
-        section: 'select',
-        attrs: {label: 'Border radius', preset: 'borderRadiuses'},
-        target: 'borderRadius'
-      },
-      {
         section: 'css',
         attrs: {
           label: 'Style deep',

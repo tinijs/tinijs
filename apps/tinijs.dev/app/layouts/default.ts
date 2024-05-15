@@ -38,7 +38,7 @@ export class AppLayoutDefault extends TiniComponent {
         <main
           style="
             grid-area: main;
-            background: var(--color-background-tint);
+            background: var(--color-back-tint);
             margin-top: var(--header-height);
           "
         >

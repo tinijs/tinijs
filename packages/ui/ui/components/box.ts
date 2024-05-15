@@ -5,24 +5,16 @@ import {html, unsafeStatic, type StaticValue} from 'lit/static-html.js';
 import {
   TiniElement,
   partAttrMap,
-  VaryGroups,
   Colors,
+  SubtleColors,
   Gradients,
-  BorderRadiuses,
-  BoxShadows,
-  factorsToClassInfo,
-  borderToClassInfo,
+  SubtleGradients,
 } from '@tinijs/core';
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) tag?: string;
-  @property({type: String, reflect: true}) scheme?: Colors | Gradients;
-  @property({type: String, reflect: true}) border?: string;
-  @property({type: String, reflect: true}) borderRadius?: BorderRadiuses;
-  @property({type: String, reflect: true}) padding?: string;
-  @property({type: String, reflect: true}) margin?: string;
-  @property({type: String, reflect: true}) shadow?: BoxShadows;
+  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
   /* eslint-enable prettier/prettier */
 
   private rootTag!: StaticValue;
@@ -30,33 +22,12 @@ export default class extends TiniElement {
     super.willUpdate(changedProperties);
     // root tag
     this.rootTag = unsafeStatic(this.tag || 'div');
-    // host classes
-    this.updateHostClasses();
     // root classes parts
     this.extendRootClasses({
-      raw: {
-        ...borderToClassInfo(this.border),
-        ...factorsToClassInfo(VaryGroups.Padding, this.padding),
-      },
       overridable: {
-        [VaryGroups.Scheme]: this.scheme,
-        [VaryGroups.BorderRadius]: this.borderRadius,
-        [VaryGroups.BoxShadow]: this.shadow,
+        scheme: this.scheme,
       },
     });
-  }
-
-  private updateHostClasses() {
-    if (this.margin) {
-      this.classList.add(
-        ...Object.keys(factorsToClassInfo(VaryGroups.Margin, this.margin))
-      );
-    } else {
-      this.classList.forEach(className => {
-        if (!className.startsWith(`${VaryGroups.Margin}-`)) return;
-        this.classList.remove(className);
-      });
-    }
   }
 
   protected render() {

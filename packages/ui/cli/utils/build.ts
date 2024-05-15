@@ -432,15 +432,15 @@ export async function buildSetup({manualSkinSelection}: UIConfig) {
 
   // imports
   setupTS
-    .addTypeImport('lit', ['CSSResultOrNative'])
     .addImport('defu', ['defu'])
     .addImport('@tinijs/core', [
       'listify',
       'initUI',
       'registerComponents',
+      'type RegisterComponentsList',
       'type UI',
       'type UIInit',
-      'type RegisterComponentsList',
+      'type CSSResultOrNativeOrRaw',
     ])
     .addImport('./global.js', ['availableGlobals'])
     .addImport('./base.js', ['availableBases']);
@@ -464,16 +464,16 @@ const ui = initUI({
   host,
   globals: [
     ...availableGlobals,
-    ...listify<CSSResultOrNative>(globals || [])
+    ...listify<CSSResultOrNativeOrRaw>(globals)
   ],
   skins: ${manualSkinSelection ? 'skins' : '{...availableSkins, ...skins}'},
   shares: defu(
     Object.entries(shares || {}).reduce(
       (result, [key, value]) => {
-        result[key] = listify<CSSResultOrNative>(value);
+        result[key] = listify<CSSResultOrNativeOrRaw>(value);
         return result;
       },
-      {} as Record<string, CSSResultOrNative[]>
+      {} as Record<string, CSSResultOrNativeOrRaw[]>
     ),
     availableBases,
   ),

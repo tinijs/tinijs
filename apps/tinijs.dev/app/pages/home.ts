@@ -1,6 +1,6 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent, Colors, CommonGradients} from '@tinijs/core';
+import {Page, TiniComponent, Colors, Gradients} from '@tinijs/core';
 import {UseRouter, Router} from '@tinijs/router';
 import {TiniTextComponent} from '../ui/components/text.js';
 import {TiniButtonComponent} from '../ui/components/button.js';
@@ -34,7 +34,7 @@ export class AppPageHome extends TiniComponent {
             <tini-text
               fontSize="3x"
               fontWeight="700"
-              color=${CommonGradients.KaleSalad}
+              color=${Gradients.KaleSalad}
               >Tini</tini-text
             ><br />A Javascript framework
           </h2>
@@ -172,7 +172,7 @@ export class AppPageHome extends TiniComponent {
 
         <div class="actions">
           <tini-button
-            scheme=${CommonGradients.DiscoClub}
+            scheme=${Gradients.DiscoClub}
             @click=${() =>
               open(
                 'mailto:hello@tinijs.dev?subject=Sponsor Tini&body=I want to sponsor the TiniJS project.',
@@ -188,7 +188,7 @@ export class AppPageHome extends TiniComponent {
   static styles = css`
     section {
       margin: auto;
-      max-width: var(--wide-sl);
+      max-width: var(--wide-lg);
     }
 
     .featured {
@@ -229,8 +229,8 @@ export class AppPageHome extends TiniComponent {
     .members li {
       padding: var(--size-space);
       border-radius: var(--size-radius);
-      background: var(--color-background);
-      border: 1px solid var(--color-background);
+      background: var(--color-back);
+      border: 1px solid var(--color-back);
       transition:
         box-shadow 0.3s,
         border-color 0.3s;
@@ -238,14 +238,14 @@ export class AppPageHome extends TiniComponent {
 
     .members li:hover {
       cursor: pointer;
-      box-shadow: var(--shadow-greater);
-      border-color: var(--color-background-shade);
+      box-shadow: var(--shadow-great);
+      border-color: var(--color-back-shade);
     }
 
     .members li .icon {
       font-size: 2rem;
       padding: var(--size-space-0_75x);
-      background: var(--color-background-shade);
+      background: var(--color-back-shade);
       width: 55px;
       height: 50px;
       line-height: 25px;
@@ -288,7 +288,7 @@ export class AppPageHome extends TiniComponent {
     }
 
     .special-sponsors .title {
-      background: var(--color-background);
+      background: var(--color-back);
       margin-bottom: var(--size-space-0_5x);
       padding: var(--size-space-0_5x) var(--size-space);
       border-radius: var(--size-radius) var(--size-radius) 0 0;
@@ -305,7 +305,7 @@ export class AppPageHome extends TiniComponent {
       gap: var(--size-space-0_5x);
     }
     .special-sponsors li {
-      background: var(--color-background);
+      background: var(--color-back);
     }
     .special-sponsors a {
       display: block;

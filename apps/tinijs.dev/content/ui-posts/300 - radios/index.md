@@ -34,6 +34,21 @@
         target: 'wrap'
       },
       {
+        section: 'select',
+        attrs: {label: 'Scheme', preset: 'colors'},
+        target: 'scheme'
+      },
+      {
+        section: 'select',
+        attrs: {label: 'Scheme (focus + checked)', preset: 'colors'},
+        target: 'checkedScheme'
+      },
+      {
+        section: 'select',
+        attrs: {label: 'Scale', preset: 'scales'},
+        target: 'scale'
+      },
+      {
         section: 'css',
         attrs: {
           label: 'Style deep',

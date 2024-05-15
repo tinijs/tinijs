@@ -12,19 +12,15 @@ import {
   Input,
   Output,
   Colors,
+  SubtleColors,
   Gradients,
-  CommonColors,
-  CommonGradients,
+  SubtleGradients,
   Scales,
-  Factors,
   FontTypes,
+  FontSizes,
   FontWeights,
+  TextAligns,
   TextTransforms,
-  BoxShadows,
-  BorderWidths,
-  BorderStyles,
-  BorderRadiuses,
-  JustifyContents,
   type EventEmitter,
   type OnCreate,
 } from '@tinijs/core';
@@ -53,22 +49,22 @@ export class AppComponentEditorSelectComponent
   };
   private colors: SelectOptgroup[] = [
     {
-      label: 'APP COLORS',
+      label: 'COLORS',
       children: this.buildPresetItems(Colors),
     },
     {
-      label: 'COMMON COLORS',
-      children: this.buildPresetItems(CommonColors),
+      label: 'SUBTLE COLORS',
+      children: this.buildPresetItems(SubtleColors),
     },
   ];
   private gradients: SelectOptgroup[] = [
     {
-      label: 'APP GREADIENTS',
+      label: 'GREADIENTS',
       children: this.buildPresetItems(Gradients),
     },
     {
-      label: 'COMMON GRADIENTS',
-      children: this.buildPresetItems(CommonGradients),
+      label: 'SUBTLE GRADIENTS',
+      children: this.buildPresetItems(SubtleGradients),
     },
   ];
   private presets: Record<string, Array<SelectOption | SelectOptgroup>> = {
@@ -76,15 +72,11 @@ export class AppComponentEditorSelectComponent
     gradients: this.gradients,
     colorsAndGradients: [...this.colors, ...this.gradients],
     scales: this.buildPresetItems(Scales, value => value.toUpperCase()),
-    factors: this.buildPresetItems(Factors, value => value),
     fontTypes: this.buildPresetItems(FontTypes),
+    fontSizes: this.buildPresetItems(FontSizes, value => value),
     fontWeights: this.buildPresetItems(FontWeights),
+    textAligns: this.buildPresetItems(TextAligns),
     textTransforms: this.buildPresetItems(TextTransforms),
-    boxShadows: this.buildPresetItems(BoxShadows),
-    borderWidths: this.buildPresetItems(BorderWidths),
-    borderStyles: this.buildPresetItems(BorderStyles),
-    borderRadiuses: this.buildPresetItems(BorderRadiuses),
-    justifyContents: this.buildPresetItems(JustifyContents),
   };
 
   onCreate() {
@@ -132,7 +124,7 @@ export class AppComponentEditorSelectComponent
     tini-select {
       &::part(label) {
         font-weight: bold;
-        font-size: var(--size-text-0_8x);
+        font-size: var(--size-text-0_75x);
         text-transform: uppercase;
       }
     }

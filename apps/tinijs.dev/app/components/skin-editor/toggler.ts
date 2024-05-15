@@ -34,14 +34,14 @@ export class AppSkinEditorTogglerComponent extends TiniComponent {
       align-items: center;
       justify-content: center;
       gap: var(--size-space-0_5x);
-      background: var(--color-background-tint);
-      border: 1px solid var(--color-background-shade);
+      background: var(--color-back-tint);
+      border: 1px solid var(--color-back-shade);
       border-radius: var(--size-radius);
-      font-size: var(--size-text-0_9x);
-      padding: var(--size-space-0_1x) var(--size-space-0_5x);
+      font-size: var(--size-text-0_85x);
+      padding: var(--size-space-0_25x) var(--size-space-0_5x);
 
       &:hover {
-        background: var(--color-background);
+        background: var(--color-back);
       }
     }
   `;

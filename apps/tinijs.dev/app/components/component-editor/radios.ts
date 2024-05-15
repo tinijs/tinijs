@@ -47,7 +47,7 @@ export class AppComponentEditorRadiosComponent extends TiniComponent {
     .label {
       display: block;
       font-weight: bold;
-      font-size: var(--size-text-0_8x);
+      font-size: var(--size-text-0_75x);
       text-transform: uppercase;
       margin-bottom: var(--size-space-0_5x);
     }

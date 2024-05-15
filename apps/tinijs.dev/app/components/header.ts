@@ -65,10 +65,10 @@ export class HeaderComponent
           justify-content: space-between;
           box-sizing: border-box;
           height: var(--header-height);
-          background: var(--color-background-tint);
+          background: var(--color-back-tint);
           padding: var(--size-space);
           padding-left: var(--size-space-1_5x);
-          border-bottom: 1px solid var(--color-background-shade);
+          border-bottom: 1px solid var(--color-back-shade);
         "
       >
         <div class="brand">
@@ -137,16 +137,13 @@ export class HeaderComponent
 
             <div class="social">
               <a href="https://github.com/tinijs/tinijs" target="_blank"
-                ><icon-github scheme=${Colors.Foreground}></icon-github
+                ><icon-github scheme=${Colors.Front}></icon-github
               ></a>
               <a href="https://twitter.com/tini_js" target="_blank"
-                ><icon-x scheme=${Colors.Foreground}></icon-x
+                ><icon-x scheme=${Colors.Front}></icon-x
               ></a>
               <a href="https://discord.gg/EABbZVbPAb" target="_blank"
-                ><icon-discord
-                  scheme=${Colors.Foreground}
-                  scale="ml"
-                ></icon-discord
+                ><icon-discord scheme=${Colors.Front} scale="ml"></icon-discord
               ></a>
             </div>
           </div>
@@ -156,7 +153,7 @@ export class HeaderComponent
             @click=${() => (this.mobileMenuOpened = !this.mobileMenuOpened)}
           >
             <tini-icon
-              scheme=${Colors.Foreground}
+              scheme=${Colors.Front}
               .src=${!this.mobileMenuOpened
                 ? IconMenuComponent.src
                 : IconCloseComponent.src}
@@ -181,7 +178,7 @@ export class HeaderComponent
       width: 100dvw;
       height: calc(100vh - var(--header-height));
       height: calc(100dvh - var(--header-height));
-      background: var(--color-background-tint);
+      background: var(--color-back-tint);
       padding: var(--size-space-1_5x);
 
       &.opened {
@@ -194,12 +191,12 @@ export class HeaderComponent
       flex-direction: column;
 
       tini-link {
-        border-bottom: 1px solid var(--color-background-shade);
+        border-bottom: 1px solid var(--color-back-shade);
 
         &::part(root) {
           display: block;
           padding: var(--size-space-0_75x) 0;
-          color: var(--color-foreground);
+          color: var(--color-front);
           text-decoration: none;
         }
       }
@@ -210,7 +207,7 @@ export class HeaderComponent
       justify-content: space-between;
       align-items: center;
       padding: var(--size-space);
-      background: var(--color-background);
+      background: var(--color-back);
       border-radius: var(--size-radius);
     }
 
@@ -263,10 +260,10 @@ export class HeaderComponent
             border-radius: var(--size-radius);
           }
           &:hover::part(root) {
-            background: var(--color-background);
+            background: var(--color-back);
           }
           &.active::part(root) {
-            background: var(--color-background-shade);
+            background: var(--color-back-shade);
           }
         }
       }
@@ -275,8 +272,8 @@ export class HeaderComponent
         background: none;
         border-radius: 0;
         padding: 0 var(--size-space);
-        border-left: 1px solid var(--color-background);
-        border-right: 1px solid var(--color-background);
+        border-left: 1px solid var(--color-back);
+        border-right: 1px solid var(--color-back);
 
         span {
           display: none;

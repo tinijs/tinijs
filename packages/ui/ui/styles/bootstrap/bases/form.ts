@@ -12,12 +12,12 @@ export default css`
   textarea {
     font-family: var(--font-body);
     font-size: var(--size-text);
-    color: var(--color-foreground);
+    color: var(--color-front);
   }
 
   input,
   select,
   textarea {
-    background: var(--color-background-tint);
+    background: var(--color-back-tint);
   }
 `;

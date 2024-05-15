@@ -1,29 +1,18 @@
 import {css} from 'lit';
-import {
-  VaryGroups,
-  generateColorVaries,
-  generateGradientVaries,
-} from '@tinijs/core';
+import {generateColorVaries, generateGradientVaries} from '@tinijs/core';
 
 export const styles = css`
   :host {
-    --link-color: var(--color-primary);
-    --link-disabled-color: var(--color-medium);
-    --link-disabled-opacity: 0.5;
-  }
-
-  :host {
+    --color: var(--color-primary);
+    --disabled-color: var(--color-medium);
+    --disabled-opacity: 0.5;
     display: inline;
   }
-
-  /*
-   * Root
-   */
 
   a {
     position: relative;
     text-decoration: none;
-    color: var(--link-color);
+    color: var(--color);
   }
 
   a:hover,
@@ -36,28 +25,24 @@ export const styles = css`
     cursor: alias;
   }
 
-  /*
-   * [color]
-   */
-
   ${generateColorVaries(
     ({name, color}) => `
-    .${VaryGroups.Color}-${name} {
-      --link-color: ${color};
+    .color-${name} {
+      --color: ${color};
     }
   `
   )}
 
   ${generateGradientVaries(
     ({name, gradient}) => `
-    .${VaryGroups.Color}-${name} {
+    .color-${name} {
       position: relative;
       background: ${gradient};
       -webkit-background-clip: text;
 	    -webkit-text-fill-color: transparent;
     }
 
-    .${VaryGroups.Color}-${name}::after {
+    .color-${name}::after {
       --underline-height: calc(var(--size-text) / 13);
       visibility: hidden;
       content: '';
@@ -69,14 +54,12 @@ export const styles = css`
       background: ${gradient};
     }
 
-    .${VaryGroups.Color}-${name}:hover::after,
-    .${VaryGroups.Color}-${name}.underline::after {
+    .color-${name}:hover::after,
+    .color-${name}.underline::after {
       visibility: visible;
     }
   `
   )}
 `;
 
-export const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};

@@ -1,47 +1,38 @@
 import {css} from 'lit';
 import {
-  VaryGroups,
   generateColorVaries,
   generateGradientVaries,
   generateFontTypeVaries,
   generateFontSizeVaries,
   generateFontWeightVaries,
+  generateTextAlignVaries,
   generateTextTransformVaries,
 } from '@tinijs/core';
 
 export const styles = css`
   :host {
-    --text-color: var(--color-foreground);
-    --text-font-size: var(--size-text);
-    --text-font: var(--font-body);
-    --text-weight: normal;
+    --color: var(--color-front);
+    --font-family: var(--font-body);
+    --font-size: var(--size-text);
+    --font-weight: normal;
+    --text-align: left;
     --text-transform: none;
-  }
-
-  :host {
     display: inline;
   }
 
-  /*
-   * Root
-   */
-
   .root {
     margin: 0;
-    color: var(--text-color);
+    color: var(--color);
+    text-align: var(--text-align);
     text-transform: var(--text-transform);
     display: inline;
   }
 
   span {
-    font-family: var(--text-font);
-    font-size: var(--text-font-size);
-    font-weight: var(--text-weight);
+    font-family: var(--font-family);
+    font-size: var(--font-size);
+    font-weight: var(--font-weight);
   }
-
-  /*
-   * Correct margin for paragraphs
-   */
 
   :host([tag='p']) {
     display: block;
@@ -50,45 +41,33 @@ export const styles = css`
     margin-block-end: 1em;
   }
 
-  /*
-   * [?italic]
-   */
-
   .italic {
     font-style: italic;
   }
-
-  /*
-   * [?underline]
-   */
 
   .underline {
     text-decoration: underline;
   }
 
-  /*
-   * [color]
-   */
-
   ${generateColorVaries(
     ({name, color}) => `
-    .${VaryGroups.Color}-${name} {
-      --text-color: ${color};
+    .color-${name} {
+      --color: ${color};
     }
   `
   )}
 
   ${generateGradientVaries(
     ({name, gradient}) => `
-    .${VaryGroups.Color}-${name} {
+    .color-${name} {
       position: relative;
       background: ${gradient};
       -webkit-background-clip: text;
 	    -webkit-text-fill-color: transparent;
     }
 
-    .${VaryGroups.Color}-${name}.underline::after {
-      --underline-height: calc(var(--text-font-size) / 13);
+    .color-${name}.underline::after {
+      --underline-height: calc(var(--font-size) / 13);
       content: '';
       position: absolute;
       left: 0;
@@ -100,58 +79,48 @@ export const styles = css`
   `
   )}
 
-  /*
-   * [font]
-   */
-
   ${generateFontTypeVaries(
-    ({fullName, type}) => `
+    ({fullName, fontType}) => `
     .${fullName} {
-      --text-font: ${type} !important;
-      font-family: var(--text-font);
+      --font: ${fontType} !important;
+      font-family: var(--font-family);
     }
   `
   )}
-
-  /*
-   * [fontSize]
-   */
 
   ${generateFontSizeVaries(
-    ({fullName, size}) => `
+    ({fullName, fontSize}) => `
     .${fullName} {
-      --text-font-size: ${size} !important;
-      font-size: var(--text-font-size);
+      --font-size: ${fontSize} !important;
+      font-size: var(--font-size);
     }
   `
   )}
-
-  /*
-   * [weight]
-   */
 
   ${generateFontWeightVaries(
-    ({fullName, weight}) => `
+    ({fullName, fontWeight}) => `
     .${fullName} {
-      --text-weight: ${weight} !important;
-      font-weight: var(--text-weight);
+      --font-weight: ${fontWeight} !important;
+      font-weight: var(--font-weight);
     }
   `
   )}
 
-  /*
-   * [transform]
-   */
+  ${generateTextAlignVaries(
+    ({fullName, textAlign}) => `
+    .${fullName} {
+      --text-align: ${textAlign};
+    }
+  `
+  )}
 
   ${generateTextTransformVaries(
-    ({fullName, transform}) => `
+    ({fullName, textTransform}) => `
     .${fullName} {
-      --text-transform: ${transform};
+      --text-transform: ${textTransform};
     }
   `
   )}
 `;
 
-export const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};

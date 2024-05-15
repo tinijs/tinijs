@@ -1,12 +1,6 @@
 import {css} from 'lit';
 
 const styles = css`
-  /* :host {} */
-
-  /*
-   * Root
-   */
-
   .root {
     list-style: none;
     padding: 0;
@@ -30,6 +24,4 @@ const styles = css`
   }
 `;
 
-const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};

@@ -1,30 +1,78 @@
-import {adoptStyles, type CSSResultOrNative, type TemplateResult} from 'lit';
+import {
+  adoptStyles,
+  unsafeCSS,
+  type PropertyValues,
+  type CSSResultOrNative,
+  type TemplateResult,
+} from 'lit';
 
 import {GLOBAL_TINI} from '../consts/global.js';
 import {PACKAGE_PREFIX} from '../consts/common.js';
 import {NO_UI_ERROR, DUPLICATED_UI_ERROR} from '../consts/error.js';
 
 import {listify} from '../utils/common.js';
-import {Breakpoints} from '../utils/vary.js';
 
-export type Templating = Record<string, (host: HTMLElement) => TemplateResult>;
+import type {TiniElement} from './element.js';
 
 export type Theming = Record<
   string,
   {
-    styles: CSSResultOrNative | CSSResultOrNative[];
-    scripts:
-      | undefined
+    templates?: ThemingTemplates;
+    styles: ThemingStyles;
+    scripts?:
       | ThemingScripts
-      | ((host: HTMLElement) => ThemingScripts);
+      | (<Host extends TiniElement>(host: Host) => ThemingScripts);
   }
 >;
 
+export type ThemingTemplates = Record<
+  string,
+  <Host extends TiniElement>(host: Host, context?: any) => TemplateResult
+>;
+
+export type CSSResultOrNativeOrRaw = CSSResultOrNative | string;
+
+export type ThemingStyles = CSSResultOrNativeOrRaw | CSSResultOrNativeOrRaw[];
+
+export type StyleDeepInput = string | Record<string, ThemingStyles>;
+
 export interface ThemingScripts {
-  willUpdate?(host: HTMLElement): void;
-  unscriptWillUpdate?(host: HTMLElement): void;
-  updated?(host: HTMLElement): void;
-  unscriptUpdated?(host: HTMLElement): void;
+  connectedCallback?<Host extends TiniElement>(
+    type: ThemingScriptTypes,
+    host: Host
+  ): void;
+  disconnectedCallback?<Host extends TiniElement>(
+    type: ThemingScriptTypes,
+    host: Host
+  ): void;
+  willUpdate?<Host extends TiniElement>(
+    type: ThemingScriptTypes,
+    host: Host,
+    changedProperties: PropertyValues<Host>
+  ): void;
+  firstUpdated?<Host extends TiniElement>(
+    type: ThemingScriptTypes,
+    host: Host,
+    changedProperties: PropertyValues<Host>
+  ): void;
+  updated?<Host extends TiniElement>(
+    type: ThemingScriptTypes,
+    host: Host,
+    changedProperties: PropertyValues<Host>
+  ): void;
+}
+
+export enum ThemingScriptTypes {
+  Script = 'script',
+  Unscript = 'unscript',
+}
+
+export enum Breakpoints {
+  XS = '320px',
+  SM = '576px',
+  MD = '768px',
+  LG = '1024px',
+  XL = '1440px',
 }
 
 export interface ActiveTheme {
@@ -38,7 +86,7 @@ export interface ActiveTheme {
 }
 
 export type UIIconOptions = {
-  resolve?(icon: string, provider?: string): string;
+  resolve?(name: string, provider?: string): string;
 };
 
 export type UIButtonOptions = {
@@ -69,39 +117,41 @@ export interface UIOptions<
 
 export interface UIInit {
   host?: HTMLElement;
-  globals?: CSSResultOrNative | CSSResultOrNative[];
-  skins: Record<string, CSSResultOrNative | CSSResultOrNative[]>;
-  shares?: Record<string, CSSResultOrNative | CSSResultOrNative[]>;
+  globals?: ThemingStyles;
+  skins: Record<string, ThemingStyles>;
+  shares?: Record<string, ThemingStyles>;
   options?: UIOptions;
 }
 
 export const THEME_LOCAL_STORAGE_KEY = `${PACKAGE_PREFIX}:local-theme-id`;
 export const THEME_CHANGE_EVENT = `${PACKAGE_PREFIX}:theme-change`;
 
+export function getTemplatesFromTheming(
+  theming: Theming | undefined,
+  {themeId, familyId}: ActiveTheme
+) {
+  return (theming?.[themeId] || theming?.[familyId])?.templates || {};
+}
+
 export function getStylesFromTheming(
   theming: Theming | undefined,
   {themeId, familyId}: ActiveTheme
 ) {
-  return listify<CSSResultOrNative>(
+  return listify<CSSResultOrNativeOrRaw>(
     (
       theming?.[themeId] ||
       theming?.[familyId] ||
-      Object.values(theming || {})[0] ||
-      {}
-    ).styles || []
+      Object.values(theming || {})[0]
+    )?.styles
   );
 }
 
 export function getScriptsFromTheming(
-  host: HTMLElement,
+  host: TiniElement,
   theming: Theming | undefined,
   {themeId, familyId, prevThemeId, prevFamilyId}: ActiveTheme
 ) {
-  const current = (
-    theming?.[themeId] ||
-    theming?.[familyId] ||
-    Object.values(theming || {})[0]
-  )?.scripts;
+  const current = (theming?.[themeId] || theming?.[familyId])?.scripts;
   const currentScripts = !current
     ? {}
     : typeof current !== 'function'
@@ -110,11 +160,7 @@ export function getScriptsFromTheming(
   const prev =
     prevThemeId === themeId
       ? undefined
-      : (
-          theming?.[prevThemeId] ||
-          theming?.[prevFamilyId] ||
-          Object.values(theming || {})[0]
-        )?.scripts;
+      : (theming?.[prevThemeId] || theming?.[prevFamilyId])?.scripts;
   const prevScripts = !prev
     ? {}
     : typeof prev !== 'function'
@@ -123,9 +169,15 @@ export function getScriptsFromTheming(
   return {prevScripts, currentScripts};
 }
 
-export function extractTextFromStyles(
-  styles: Array<string | CSSResultOrNative>
+export function convertThemingStylesToAdoptableStyles(
+  styles: ThemingStyles | undefined
 ) {
+  return listify<CSSResultOrNativeOrRaw>(styles).map(item =>
+    typeof item !== 'string' ? item : unsafeCSS(item)
+  );
+}
+
+export function extractTextFromStyles(styles: CSSResultOrNativeOrRaw[]) {
   return styles
     .map(style => {
       if (typeof style === 'string') {
@@ -144,7 +196,7 @@ export function extractTextFromStyles(
 }
 
 export function processComponentStyles(
-  allStyles: Array<string | CSSResultOrNative>,
+  allStyles: CSSResultOrNativeOrRaw[],
   activeTheme?: ActiveTheme,
   additionalProcess?: (styleText: string, activeTheme?: ActiveTheme) => string
 ) {
@@ -219,12 +271,15 @@ export class UI {
       // 2. adopt styles
       this._applyTheme(newFamilyId, newSkinId);
       // 3. dispatch a global event
+      const prevFamilyId = currentFamilyId || newFamilyId;
+      const prevSkinId = currentSkinId || newSkinId;
+      const prevThemeId = `${prevFamilyId}/${prevSkinId}`;
       dispatchEvent(
         new CustomEvent(THEME_CHANGE_EVENT, {
           detail: this._rebuildActiveTheme(newFamilyId, newSkinId, {
-            prevFamilyId: currentFamilyId || newFamilyId,
-            prevSkinId: currentSkinId || newSkinId,
-            prevThemeId: `${currentFamilyId}/${currentSkinId}`,
+            prevFamilyId,
+            prevSkinId,
+            prevThemeId,
           }),
         })
       );
@@ -235,12 +290,13 @@ export class UI {
   getStyles(familyId: string, skinId: string) {
     const themeId = `${familyId}/${skinId}`;
     const {skins, globals, shares} = this._init;
-    const globalStyles = listify<CSSResultOrNative>(globals || []);
-    const skinStyles = listify<CSSResultOrNative>(skins[themeId] || []);
-    const shareStyles = ([] as CSSResultOrNative[])
-      .concat(listify<CSSResultOrNative>(shares?.['*'] || []))
-      .concat(listify<CSSResultOrNative>(shares?.[familyId] || []))
-      .concat(listify<CSSResultOrNative>(shares?.[themeId] || []));
+    const globalStyles = convertThemingStylesToAdoptableStyles(globals);
+    const skinStyles = convertThemingStylesToAdoptableStyles(skins[themeId]);
+    const shareStyles = [
+      ...convertThemingStylesToAdoptableStyles(shares?.['*']),
+      ...convertThemingStylesToAdoptableStyles(shares?.[familyId]),
+      ...convertThemingStylesToAdoptableStyles(shares?.[themeId]),
+    ];
     return {globalStyles, skinStyles, shareStyles};
   }
 

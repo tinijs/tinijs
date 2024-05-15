@@ -44,13 +44,18 @@
       },
       {
         section: 'select',
-        attrs: {label: 'Font size', preset: 'factors'},
+        attrs: {label: 'Font size', preset: 'fontSizes'},
         target: 'fontSize'
       },
       {
         section: 'select',
         attrs: {label: 'Font weight', preset: 'fontWeights'},
         target: 'fontWeight'
+      },
+      {
+        section: 'select',
+        attrs: {label: 'Text align', preset: 'textAligns'},
+        target: 'textAlign'
       },
       {
         section: 'select',

@@ -7,53 +7,42 @@ import {
 
 export const styles = css`
   :host {
-    --icon-width: var(--scale-md-2x);
-    --icon-height: var(--scale-md-2x);
-    --icon-scheme: none;
-    --icon-image: url();
-  }
-
-  :host {
+    --width: calc(var(--scale-md) * 2);
+    --height: calc(var(--scale-md) * 2);
+    --scheme: none;
+    --image: url();
     display: inline;
     line-height: 0;
   }
-
-  /*
-   * Root
-   */
 
   i {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-image: var(--icon-image);
+    background-image: var(--image);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
-    width: var(--icon-width);
-    height: var(--icon-height);
+    width: var(--width);
+    height: var(--height);
   }
 
   .scheme {
-    background: var(--icon-scheme);
-    -webkit-mask-image: var(--icon-image);
-    -webkit-mask-size: var(--icon-width) var(--icon-height);
+    background: var(--scheme);
+    -webkit-mask-image: var(--image);
+    -webkit-mask-size: var(--width) var(--height);
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
-    mask-image: var(--icon-image);
-    mask-size: var(--icon-width) var(--icon-height);
+    mask-image: var(--image);
+    mask-size: var(--width) var(--height);
     mask-repeat: no-repeat;
     mask-position: center;
   }
 
-  /*
-   * [scheme]
-   */
-
   ${generateColorVaries(
     ({fullName, color}) => `
     .${fullName} {
-      --icon-scheme: ${color};
+      --scheme: ${color};
     }
   `
   )}
@@ -61,25 +50,19 @@ export const styles = css`
   ${generateGradientVaries(
     ({fullName, gradient}) => `
     .${fullName} {
-      --icon-scheme: ${gradient};
+      --scheme: ${gradient};
     }
   `
   )}
 
-  /*
-   * [scale]
-   */
-
   ${generateScaleVaries(
     ({name, fullName}) => `
     .${fullName} {
-      --icon-width: var(--scale-${name}-2x);
-      --icon-height: var(--scale-${name}-2x);
+      --width: calc(var(--scale-${name}) * 2);
+      --height: calc(var(--scale-${name}) * 2);
     }
   `
   )}
 `;
 
-export const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};

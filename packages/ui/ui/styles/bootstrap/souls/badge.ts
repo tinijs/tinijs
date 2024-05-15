@@ -7,65 +7,46 @@ import {
 
 const styles = css`
   :host {
-    --badge-background: var(--color-medium) /* Background color */;
-    --badge-scale: var(--scale-md) /* Base scale */;
-    --badge-color: var(--color-medium-contrast) /* Text color */;
-    --badge-radius: var(--size-radius) /* Border radius */;
-  }
-
-  :host {
+    --background: var(--color-medium);
+    --scale: var(--scale-md);
+    --color: var(--color-medium-contrast);
+    --border-radius: var(--size-radius);
     display: inline;
   }
-
-  /*
-   * Root
-   */
 
   .root {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: calc(var(--badge-scale) * 0.25);
-    padding-top: calc(var(--badge-scale) * 0.3);
-    background: var(--badge-background);
-    color: var(--badge-color);
-    font-size: calc(var(--badge-scale) * 0.95);
+    padding: calc(var(--scale) * 0.25);
+    padding-top: calc(var(--scale) * 0.3);
+    background: var(--background);
+    color: var(--color);
+    font-size: calc(var(--scale) * 0.95);
     border: none;
-    border-radius: var(--badge-radius);
+    border-radius: var(--border-radius);
     font-weight: bold;
     line-height: 1;
   }
-
-  /*
-   * [mode=pill]
-   */
 
   .mode-pill {
     border-radius: 1000px !important;
   }
 
-  /*
-   * [mode=circle]
-   */
-
   .mode-circle {
-    --circle-size: calc(var(--badge-scale) * 1.75);
+    --circle-size: calc(var(--scale) * 1.75);
     width: var(--circle-size);
     height: var(--circle-size);
-    font-size: calc(var(--badge-scale) * 0.8);
-    border-radius: 100% !important;
+    font-size: calc(var(--scale) * 0.75);
+    border-radius: 9999px !important;
     overflow: hidden;
   }
-
-  /*
-   * [scheme]
-   */
 
   ${generateColorVaries(
     ({fullName, color, contrast}) => `
     .${fullName} {
-      --badge-background: ${color};
-      --badge-color: ${contrast};
+      --background: ${color};
+      --color: ${contrast};
     }
   `
   )}
@@ -73,25 +54,19 @@ const styles = css`
   ${generateGradientVaries(
     ({fullName, gradient, contrast}) => `
     .${fullName} {
-      --badge-background: ${gradient};
-      --badge-color: ${contrast};
+      --background: ${gradient};
+      --color: ${contrast};
     }
   `
   )}
 
-  /*
-   * [scale]
-   */
-
   ${generateScaleVaries(
     ({fullName, scale}) => `
     .${fullName} {
-      --badge-scale: ${scale};
+      --scale: ${scale};
     }
   `
   )}
 `;
 
-const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};

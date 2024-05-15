@@ -24,11 +24,6 @@
         target: 'fluid'
       },
       {
-        section: 'select',
-        attrs: {label: 'Shadow', preset: 'boxShadows'},
-        target: 'shadow'
-      },
-      {
         section: 'css',
         attrs: {
           label: 'Style deep',

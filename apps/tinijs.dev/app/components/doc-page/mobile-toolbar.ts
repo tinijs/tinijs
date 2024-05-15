@@ -40,7 +40,7 @@ export class AppDocPageMobileToolbarComponent extends TiniComponent {
           class="menu-toggler"
           @click=${() => this.toggleMenu.emit()}
         >
-          <icon-menu scheme=${Colors.Foreground} scale=${Scales.SS}></icon-menu>
+          <icon-menu scheme=${Colors.Front} scale=${Scales.SM}></icon-menu>
           <span>Menu</span>
         </button>
 
@@ -51,8 +51,8 @@ export class AppDocPageMobileToolbarComponent extends TiniComponent {
         >
           <span>On this page</span>
           <tini-icon
-            scheme=${Colors.Foreground}
-            scale=${Scales.SS}
+            scheme=${Colors.Front}
+            scale=${Scales.SM}
             src=${!this.tocOpened ? IconDownComponent.src : IconUpComponent.src}
           ></tini-icon>
         </button>
@@ -68,10 +68,10 @@ export class AppDocPageMobileToolbarComponent extends TiniComponent {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid var(--color-background-shade);
+      border-bottom: 1px solid var(--color-back-shade);
       position: fixed;
       top: var(--header-height);
-      background: var(--color-background-tint);
+      background: var(--color-back-tint);
       padding: 0 var(--size-space);
       z-index: 700;
     }
@@ -82,7 +82,7 @@ export class AppDocPageMobileToolbarComponent extends TiniComponent {
       display: flex;
       align-items: center;
       gap: var(--size-space-0_5x);
-      font-size: var(--size-text-0_8x);
+      font-size: var(--size-text-0_75x);
       font-weight: bold;
       opacity: 0.7;
       cursor: pointer;

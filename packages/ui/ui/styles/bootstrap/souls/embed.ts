@@ -5,10 +5,6 @@ export const styles = css`
     display: block;
   }
 
-  /*
-   * Root
-   */
-
   .root {
     display: block;
     position: relative;
@@ -24,6 +20,4 @@ export const styles = css`
   }
 `;
 
-export const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};

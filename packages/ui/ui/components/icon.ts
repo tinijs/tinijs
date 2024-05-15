@@ -5,9 +5,10 @@ import {styleMap, type StyleInfo} from 'lit/directives/style-map.js';
 import {
   TiniElement,
   partAttrMap,
-  VaryGroups,
   Colors,
+  SubtleColors,
   Gradients,
+  SubtleGradients,
   Scales,
   type UIIconOptions,
 } from '@tinijs/core';
@@ -19,10 +20,10 @@ export default class extends TiniElement {
 
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) src?: string;
-  @property({type: String, reflect: true}) icon?: string;
+  @property({type: String, reflect: true}) name?: string;
   @property({type: String, reflect: true}) provider?: string;
+  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
   @property({type: String, reflect: true}) scale?: Scales;
-  @property({type: String, reflect: true}) scheme?: Colors | Gradients;
   /* eslint-enable prettier/prettier */
 
   private rootStyles: StyleInfo = {};
@@ -34,33 +35,33 @@ export default class extends TiniElement {
         scheme: !!this.scheme,
       },
       overridable: {
-        [VaryGroups.Scale]: this.scale,
-        [VaryGroups.Scheme]: this.scheme,
+        scheme: this.scheme,
+        scale: this.scale,
       },
     });
     // root styles
     const prebuiltSRC = (this.constructor as ComponentConstructor).src;
     if (prebuiltSRC) {
       this.rootStyles = {
-        '--icon-image': `url("${prebuiltSRC}")`,
+        '--image': `url("${prebuiltSRC}")`,
       };
-    } else if (changedProperties.has('src') || changedProperties.has('icon')) {
+    } else if (changedProperties.has('src') || changedProperties.has('name')) {
       const src = this.src || this.buildCustomSRC();
       this.rootStyles = {
-        '--icon-image': `url("${src}")`,
+        '--image': `url("${src}")`,
       };
     }
   }
 
   private buildCustomSRC() {
-    if (!this.icon)
+    if (!this.name)
       throw new Error(
-        'The "icon" attribute is required when "src" is not provided.'
+        'The "name" attribute is required when "src" is not provided.'
       );
     const {componentOptions} = this.getUIContext<UIIconOptions>();
     return !componentOptions?.resolve
-      ? `/icons/${this.icon}`
-      : componentOptions.resolve(this.icon, this.provider);
+      ? `/icons/${this.name}`
+      : componentOptions.resolve(this.name, this.provider);
   }
 
   protected render() {

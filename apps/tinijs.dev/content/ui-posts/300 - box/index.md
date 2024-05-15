@@ -24,16 +24,6 @@
         target: 'scheme'
       },
       {
-        section: 'select',
-        attrs: {label: 'Border radius', preset: 'borderRadiuses'},
-        target: 'borderRadius'
-      },
-      {
-        section: 'select',
-        attrs: {label: 'Shadow', preset: 'boxShadows'},
-        target: 'shadow'
-      },
-      {
         section: 'css',
         attrs: {
           label: 'Style deep',

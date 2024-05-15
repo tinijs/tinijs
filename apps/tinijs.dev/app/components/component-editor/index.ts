@@ -513,8 +513,8 @@ registerComponents([ ${constructorName} ]);`;
             @click=${() => this.changeCommonViewport(CommonViewports.Mobile)}
           >
             <icon-mobile
-              scheme=${Colors.Foreground}
-              scale=${Scales.SS}
+              scheme=${Colors.Front}
+              scale=${Scales.XS}
             ></icon-mobile>
           </button>
           <button
@@ -524,8 +524,8 @@ registerComponents([ ${constructorName} ]);`;
             @click=${() => this.changeCommonViewport(CommonViewports.Tablet)}
           >
             <icon-tablet
-              scheme=${Colors.Foreground}
-              scale=${Scales.SS}
+              scheme=${Colors.Front}
+              scale=${Scales.XS}
             ></icon-tablet>
           </button>
           <button
@@ -535,8 +535,8 @@ registerComponents([ ${constructorName} ]);`;
             @click=${() => this.changeCommonViewport(CommonViewports.Laptop)}
           >
             <icon-laptop
-              scheme=${Colors.Foreground}
-              scale=${Scales.SS}
+              scheme=${Colors.Front}
+              scale=${Scales.XS}
             ></icon-laptop>
           </button>
           <button
@@ -546,18 +546,18 @@ registerComponents([ ${constructorName} ]);`;
             @click=${() => this.changeCommonViewport(CommonViewports.Desktop)}
           >
             <icon-desktop
-              scheme=${Colors.Foreground}
-              scale=${Scales.SS}
+              scheme=${Colors.Front}
+              scale=${Scales.XS}
             ></icon-desktop>
           </button>
           <span class="separator"></span>
           <button @click=${this.toggleFullScreen}>
             <tini-icon
-              scheme=${Colors.Foreground}
+              scheme=${Colors.Front}
               src=${this.isFullscreen
                 ? IconCollapseComponent.src
                 : IconExpandComponent.src}
-              scale=${Scales.SS}
+              scale=${Scales.XS}
             ></tini-icon>
           </button>
         </div>
@@ -580,7 +580,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.Tini)}
         >
-          <icon-tini scale=${Scales.SS}></icon-tini>
+          <icon-tini scale=${Scales.XS}></icon-tini>
           <span>Tini</span>
         </button>
         <button
@@ -589,7 +589,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.Vue)}
         >
-          <icon-vue scale=${Scales.SS}></icon-vue>
+          <icon-vue scale=${Scales.XS}></icon-vue>
           <span>Vue</span>
         </button>
         <button
@@ -598,7 +598,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.React)}
         >
-          <icon-react scale=${Scales.SS}></icon-react>
+          <icon-react scale=${Scales.XS}></icon-react>
           <span>React</span>
         </button>
         <button
@@ -607,7 +607,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.Angular)}
         >
-          <icon-angular scale=${Scales.SS}></icon-angular>
+          <icon-angular scale=${Scales.XS}></icon-angular>
           <span>Angular</span>
         </button>
         <button
@@ -616,7 +616,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.Svelte)}
         >
-          <icon-svelte scale=${Scales.SS}></icon-svelte>
+          <icon-svelte scale=${Scales.XS}></icon-svelte>
           <span>Svelte</span>
         </button>
         <button
@@ -625,7 +625,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.Vanilla)}
         >
-          <icon-html scale=${Scales.SS}></icon-html>
+          <icon-html scale=${Scales.XS}></icon-html>
           <span>Vanilla</span>
         </button>
       </div>
@@ -665,7 +665,7 @@ registerComponents([ ${constructorName} ]);`;
       display: flex;
       flex-flow: column;
       gap: 1rem;
-      background: var(--color-background-tint);
+      background: var(--color-back-tint);
 
       &.fullscreen {
         padding: var(--size-space);
@@ -678,7 +678,7 @@ registerComponents([ ${constructorName} ]);`;
       --head-height: 40px;
       overflow: hidden;
       width: 100%;
-      border: 1px solid var(--color-background-shade);
+      border: 1px solid var(--color-back-shade);
       border-radius: var(--size-radius);
 
       .head {
@@ -688,7 +688,7 @@ registerComponents([ ${constructorName} ]);`;
         justify-content: space-between;
         height: var(--head-height);
         padding: var(--size-space-0_5x);
-        border-bottom: 1px solid var(--color-background-shade);
+        border-bottom: 1px solid var(--color-back-shade);
       }
 
       .body {
@@ -700,7 +700,7 @@ registerComponents([ ${constructorName} ]);`;
       .body {
         display: flex;
         flex-flow: column;
-        gap: var(--size-space-1_25x);
+        gap: var(--size-space-1_5x);
       }
     }
 
@@ -712,10 +712,10 @@ registerComponents([ ${constructorName} ]);`;
       .preview {
         --head-height: 40px;
         height: 480px;
-        background: var(--color-background);
+        background: var(--color-back);
 
         .head {
-          background: var(--color-background-tint);
+          background: var(--color-back-tint);
 
           .buttons {
             display: flex;
@@ -726,7 +726,7 @@ registerComponents([ ${constructorName} ]);`;
               display: block;
               width: 1px;
               height: 20px;
-              background: var(--color-background-shade);
+              background: var(--color-back-shade);
             }
 
             button {
@@ -740,11 +740,11 @@ registerComponents([ ${constructorName} ]);`;
               cursor: pointer;
 
               &:hover {
-                background: var(--color-background);
+                background: var(--color-back);
               }
 
               &.selected {
-                background: var(--color-background-shade);
+                background: var(--color-back-shade);
               }
             }
           }
@@ -757,7 +757,7 @@ registerComponents([ ${constructorName} ]);`;
           height: calc(100% - var(--head-height));
           min-width: 240px;
           min-height: 240px;
-          background: var(--color-background-tint);
+          background: var(--color-back-tint);
           overflow: scroll;
         }
 
@@ -767,14 +767,10 @@ registerComponents([ ${constructorName} ]);`;
           top: var(--size-space);
           right: var(--size-space);
           padding: var(--size-space-0_25x) var(--size-space-0_5x);
-          font-size: var(--size-text-0_9x);
+          font-size: var(--size-text-0_85x);
           border-radius: var(--size-radius);
-          background: color-mix(
-            in oklab,
-            var(--color-foreground),
-            transparent 30%
-          );
-          color: var(--color-background);
+          background: color-mix(in oklab, var(--color-front), transparent 30%);
+          color: var(--color-back);
 
           &.showed {
             display: block;
@@ -786,7 +782,7 @@ registerComponents([ ${constructorName} ]);`;
           content: '';
           position: absolute;
           border-radius: 1000rem;
-          background: var(--color-background-shade);
+          background: var(--color-back-shade);
         }
 
         .right-grip {
@@ -817,22 +813,22 @@ registerComponents([ ${constructorName} ]);`;
             align-items: center;
             justify-content: center;
             gap: var(--size-space-0_25x);
-            background: var(--color-background);
+            background: var(--color-back);
             border: none;
             padding: var(--size-space-0_5x) var(--size-space-0_75x);
             cursor: pointer;
             box-sizing: border-box;
             height: calc(var(--head-height) + 1px);
-            border-bottom: 1px solid var(--color-background-shade);
-            border-right: 1px solid var(--color-background-shade);
+            border-bottom: 1px solid var(--color-back-shade);
+            border-right: 1px solid var(--color-back-shade);
 
             &:hover {
-              background: var(--color-background-tint);
+              background: var(--color-back-tint);
             }
 
             &.selected {
-              background: var(--color-background-tint);
-              border-bottom-color: var(--color-background-tint);
+              background: var(--color-back-tint);
+              border-bottom-color: var(--color-back-tint);
             }
 
             span {

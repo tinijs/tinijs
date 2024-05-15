@@ -43,8 +43,8 @@ export default css`
 
   kbd {
     padding: 0.2rem 0.4rem;
-    color: var(--color-foreground-contrast);
-    background-color: var(--color-foreground);
+    color: var(--color-front-contrast);
+    background-color: var(--color-front);
     border-radius: 0.2rem;
   }
   kbd kbd {

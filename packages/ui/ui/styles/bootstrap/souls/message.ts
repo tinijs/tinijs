@@ -1,71 +1,37 @@
 import {css} from 'lit';
-import {
-  VaryGroups,
-  generateColorVaries,
-  generateFontSizeVaries,
-} from '@tinijs/core';
+import {generateColorVaries} from '@tinijs/core';
 
 export const styles = css`
   :host {
-    --message-background: var(--color-medium);
-    --message-text-color: var(--color-medium);
-    --message-font-size: var(--size-text);
-    --message-border: var(--size-border) solid var(--color-medium);
-    --message-radius: var(--size-radius);
-    --message-padding: var(--size-space);
-    --message-margin: 0;
+    --background: var(--color-medium);
+    --text-color: var(--color-medium);
+    --font-size: var(--size-text);
+    --border: var(--size-border) solid var(--color-medium);
+    --border-radius: var(--size-radius);
+    --padding: var(--size-space);
+    --margin: 0;
   }
-
-  /*
-   * Root
-   */
 
   .root {
     width: 100%;
-    background: color-mix(in oklab, var(--message-background), transparent 50%);
-    color: color-mix(
-      in oklab,
-      var(--message-text-color),
-      var(--color-foreground) 30%
-    );
-    font-size: var(--message-font-size);
-    border: var(--message-border);
-    border-radius: var(--message-radius);
-    padding: var(--message-padding);
-    margin: var(--message-margin);
+    background: color-mix(in oklab, var(--background), transparent 50%);
+    color: color-mix(in oklab, var(--text-color), var(--color-front) 30%);
+    font-size: var(--font-size);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: var(--padding);
+    margin: var(--margin);
   }
 
-  /*
-   * [fontSize]
-   */
-
-  ${generateFontSizeVaries(
-    ({fullName, size}) => `
-    .${fullName} {
-      --message-font-size: ${size} !important;
-    }
-  `
-  )}
-
-  /*
-   * [scheme] & [color]
-   */
-
   ${generateColorVaries(
-    ({name, fullName, isContrast, isSubtle, color, baseColor}) => `
+    ({fullName, isSubtle, color, baseColor}) => `
     .${fullName} {
-      --message-background: ${color};
-      --message-text-color: ${isContrast || isSubtle ? baseColor : color};
+      --background: ${color};
+      --text-color: ${isSubtle ? baseColor : color};
       border-color: ${color};
-    }
-
-    .${VaryGroups.Color}-${name} {
-      --message-text-color: ${color} !important;
     }
   `
   )}
 `;
 
-export const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};

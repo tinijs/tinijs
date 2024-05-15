@@ -3,26 +3,35 @@ import {
   unsafeCSS,
   getCompatibleStyle,
   adoptStyles,
+  html,
+  nothing,
   type PropertyValues,
-  type CSSResultOrNative,
+  type TemplateResult,
 } from 'lit';
 import {property} from 'lit/decorators/property.js';
 import type {ClassInfo} from 'lit/directives/class-map.js';
+import {cache} from 'lit/directives/cache.js';
 import {defu} from 'defu';
 
 import {
   THEME_CHANGE_EVENT,
   getOptionalUI,
+  getTemplatesFromTheming,
   getStylesFromTheming,
   getScriptsFromTheming,
   processComponentStyles,
+  ThemingScriptTypes,
   type UIOptions,
   type UIButtonOptions,
-  type Templating,
+  type ThemingTemplates,
+  type ThemingScripts,
   type Theming,
+  type StyleDeepInput,
+  type CSSResultOrNativeOrRaw,
 } from './ui.js';
 
-import {COMMON_COLORS_TO_COMMON_GRADIENTS, VaryGroups} from '../utils/vary.js';
+import {listify} from '../utils/common.js';
+import {COLORS_TO_GRADIENTS} from '../utils/vary.js';
 import {
   UnstableStates,
   registerComponents,
@@ -49,23 +58,22 @@ export class TiniElement extends LitElement {
   static readonly defaultTagName: string = 'tini-element';
   static readonly componentMetadata: ComponentMetadata = {};
 
-  static readonly templates?: Templating;
   static readonly theming?: Theming;
   static readonly components?: RegisterComponentsList;
 
   /* eslint-disable prettier/prettier */
-  @property({type: Object}) templates?: Templating;
-  @property() styleDeep?: string | Record<string, string>;
+  @property({type: Object}) templates?: ThemingTemplates;
   @property({type: Object}) refers?: Record<string, Record<string, any>>;
+  @property() styleDeep?: StyleDeepInput;
   @property() events?: string | Array<string | EventForwarding>;
   /* eslint-enable prettier/prettier */
 
   protected rootClasses: ClassInfo = {root: true};
-  protected customTemplates: Templating = {};
+  protected customTemplates: ThemingTemplates = {};
 
   private _uiTracker = {
-    extraStylesAdopted: false,
-    pendingScriptsAdoption: this.getScripts(),
+    styleDeepAdopted: false,
+    scripts: this.getScripts(),
   };
 
   protected createRenderRoot() {
@@ -79,51 +87,54 @@ export class TiniElement extends LitElement {
   }
 
   private onThemeChange = () => {
-    this._uiTracker.pendingScriptsAdoption = this.getScripts();
+    this._uiTracker.scripts = this.getScripts();
     return this.requestUpdate();
   };
 
   connectedCallback() {
-    this.registerComponents();
+    // register components
+    const components = (this.constructor as typeof TiniElement).components;
+    if (components) registerComponents(components);
+    // continue connectedCallback
     super.connectedCallback();
     addEventListener(THEME_CHANGE_EVENT, this.onThemeChange);
+    // adopt scripts
+    this.adoptScripts('connectedCallback');
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     removeEventListener(THEME_CHANGE_EVENT, this.onThemeChange);
+    // adopt scripts
+    this.adoptScripts('disconnectedCallback');
   }
 
   protected willUpdate(changedProperties: PropertyValues<this>) {
-    this.customTemplates = {
-      ...(this.constructor as typeof TiniElement).templates,
-      ...this.templates,
-    };
+    // process templates
+    if (changedProperties.has('templates')) {
+      this.customTemplates = this.getTemplates();
+    }
     // re-style when deepStyle changed
     if (changedProperties.has('styleDeep')) {
-      if (!this._uiTracker.extraStylesAdopted) {
-        this._uiTracker.extraStylesAdopted = true; // skip the first time, already adopted in createRenderRoot()
+      if (!this._uiTracker.styleDeepAdopted) {
+        this._uiTracker.styleDeepAdopted = true; // skip the first time, already adopted in createRenderRoot()
       } else {
         this.customAdoptStyles(this.shadowRoot || this);
       }
     }
     // adopt scripts
-    const {prevScripts, currentScripts} =
-      this._uiTracker.pendingScriptsAdoption;
-    prevScripts?.unscriptWillUpdate?.(this);
-    currentScripts?.willUpdate?.(this);
+    this.adoptScripts('willUpdate', changedProperties);
   }
 
   protected firstUpdated(changedProperties: PropertyValues<this>) {
     if (this.events) forwardEvents(this, this.events);
+    // adopt scripts
+    this.adoptScripts('firstUpdated', changedProperties);
   }
 
   protected updated(changedProperties: PropertyValues<this>) {
     // adopt scripts
-    const {prevScripts, currentScripts} =
-      this._uiTracker.pendingScriptsAdoption;
-    prevScripts?.unscriptUpdated?.(this);
-    currentScripts?.updated?.(this);
+    this.adoptScripts('updated', changedProperties);
   }
 
   protected getUIContext<
@@ -182,17 +193,14 @@ export class TiniElement extends LitElement {
     // other info:
     // + refer gradient scheme on hover
     const otherInfo = {} as Record<string, boolean>;
-    const schemeValue = overridableFinalValues[VaryGroups.Scheme];
+    const schemeValue = overridableFinalValues['scheme'];
     if (
       componentOptions.referGradientSchemeOnHover &&
       schemeValue &&
       !~schemeValue.indexOf('gradient')
     ) {
-      const hoverScheme =
-        (COMMON_COLORS_TO_COMMON_GRADIENTS as Record<string, string>)[
-          schemeValue
-        ] || `gradient-${schemeValue}`;
-      otherInfo[`${VaryGroups.Scheme}-${hoverScheme}-hover`] = true;
+      const hoverScheme = COLORS_TO_GRADIENTS[schemeValue];
+      otherInfo[`scheme-${hoverScheme}-hover`] = true;
     }
     // result
     return (this.rootClasses = {
@@ -202,11 +210,6 @@ export class TiniElement extends LitElement {
       ...overridableInfo,
       ...otherInfo,
     });
-  }
-
-  private registerComponents() {
-    const components = (this.constructor as typeof TiniElement).components;
-    if (components) registerComponents(components);
   }
 
   private calculatePropertyValue(name: string, originalValue: string) {
@@ -228,22 +231,59 @@ export class TiniElement extends LitElement {
     if (
       !(this.constructor as typeof TiniElement).componentMetadata
         ?.colorOnlyScheme &&
-      name === VaryGroups.Scheme &&
+      name === 'scheme' &&
       themeOptions.referGradientScheme
     ) {
       return ~originalValue.indexOf('gradient')
         ? originalValue
-        : (COMMON_COLORS_TO_COMMON_GRADIENTS as Record<string, string>)[
-            originalValue
-          ] || `gradient-${originalValue}`;
+        : COLORS_TO_GRADIENTS[originalValue];
     }
     // default value
     return originalValue;
   }
 
+  private getTemplates() {
+    const optionalUI = getOptionalUI();
+    return {
+      ...(!optionalUI
+        ? {}
+        : getTemplatesFromTheming(
+            (this.constructor as typeof TiniElement).theming,
+            optionalUI.activeTheme
+          )),
+      ...this.templates,
+    };
+  }
+
+  renderPart(
+    name: string,
+    defaultTemplate?: () => typeof nothing | TemplateResult,
+    context?: {
+      before?: any;
+      main?: any;
+      after?: any;
+    }
+  ) {
+    return cache(
+      this.customTemplates[name]
+        ? this.customTemplates[name](this, context?.main)
+        : !defaultTemplate
+          ? nothing
+          : html`
+              ${!this.customTemplates[`${name}:before`]
+                ? nothing
+                : this.customTemplates[`${name}:before`](this, context?.before)}
+              ${defaultTemplate()}
+              ${!this.customTemplates[`${name}:after`]
+                ? nothing
+                : this.customTemplates[`${name}:after`](this, context?.after)}
+            `
+    );
+  }
+
   private customAdoptStyles(renderRoot: HTMLElement | DocumentFragment) {
     const optionalUI = getOptionalUI();
-    const allStyles = [] as Array<string | CSSResultOrNative>;
+    const allStyles: CSSResultOrNativeOrRaw[] = [];
     // theme styles
     if (optionalUI) {
       const {familyId, skinId} = optionalUI.activeTheme;
@@ -264,12 +304,12 @@ export class TiniElement extends LitElement {
         allStyles.push(this.styleDeep);
       } else if (optionalUI) {
         const {themeId, familyId} = optionalUI.activeTheme;
-        const styleDeepByTheme =
+        const styleDeepStyles = listify<CSSResultOrNativeOrRaw>(
           this.styleDeep?.[themeId] ||
-          this.styleDeep?.[familyId] ||
-          Object.values(this.styleDeep || {})[0] ||
-          '';
-        if (styleDeepByTheme) allStyles.push(styleDeepByTheme);
+            this.styleDeep?.[familyId] ||
+            this.styleDeep?.['*']
+        );
+        if (styleDeepStyles?.length) allStyles.push(...styleDeepStyles);
       }
     }
     // adopt all the styles
@@ -286,13 +326,65 @@ export class TiniElement extends LitElement {
     const optionalUI = getOptionalUI();
     return !optionalUI
       ? {
-          prevScripts: undefined,
-          currentScripts: undefined,
+          prevScripts: {},
+          currentScripts: {},
         }
       : getScriptsFromTheming(
           this,
           (this.constructor as typeof TiniElement).theming,
           optionalUI.activeTheme
         );
+  }
+
+  private adoptScripts(
+    hookName: keyof ThemingScripts,
+    changedProperties?: PropertyValues<this>
+  ) {
+    const {prevScripts, currentScripts} = this._uiTracker.scripts;
+    if (hookName === 'connectedCallback') {
+      prevScripts.connectedCallback?.(ThemingScriptTypes.Unscript, this);
+      currentScripts.connectedCallback?.(ThemingScriptTypes.Script, this);
+      delete this._uiTracker.scripts.prevScripts.connectedCallback;
+    } else if (hookName === 'disconnectedCallback') {
+      prevScripts.disconnectedCallback?.(ThemingScriptTypes.Unscript, this);
+      currentScripts.disconnectedCallback?.(ThemingScriptTypes.Script, this);
+      delete this._uiTracker.scripts.prevScripts.disconnectedCallback;
+    } else if (hookName === 'willUpdate' && changedProperties) {
+      prevScripts.willUpdate?.(
+        ThemingScriptTypes.Unscript,
+        this,
+        changedProperties
+      );
+      currentScripts.willUpdate?.(
+        ThemingScriptTypes.Script,
+        this,
+        changedProperties
+      );
+      delete this._uiTracker.scripts.prevScripts.willUpdate;
+    } else if (hookName === 'firstUpdated' && changedProperties) {
+      prevScripts.firstUpdated?.(
+        ThemingScriptTypes.Unscript,
+        this,
+        changedProperties
+      );
+      currentScripts.firstUpdated?.(
+        ThemingScriptTypes.Script,
+        this,
+        changedProperties
+      );
+      delete this._uiTracker.scripts.prevScripts.firstUpdated;
+    } else if (hookName === 'updated' && changedProperties) {
+      prevScripts.updated?.(
+        ThemingScriptTypes.Unscript,
+        this,
+        changedProperties
+      );
+      currentScripts.updated?.(
+        ThemingScriptTypes.Script,
+        this,
+        changedProperties
+      );
+      delete this._uiTracker.scripts.prevScripts.updated;
+    }
   }
 }

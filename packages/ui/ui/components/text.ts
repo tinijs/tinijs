@@ -5,12 +5,14 @@ import {html, unsafeStatic, type StaticValue} from 'lit/static-html.js';
 import {
   TiniElement,
   partAttrMap,
-  VaryGroups,
   Colors,
+  SubtleColors,
   Gradients,
-  Factors,
+  SubtleGradients,
   FontTypes,
+  FontSizes,
   FontWeights,
+  TextAligns,
   TextTransforms,
 } from '@tinijs/core';
 
@@ -24,13 +26,14 @@ export enum TextTags {
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) tag?: TextTags;
+  @property({type: String, reflect: true}) color?: Colors | SubtleColors | Gradients | SubtleGradients;
+  @property({type: String, reflect: true}) fontType?: FontTypes;
+  @property({type: String, reflect: true}) fontSize?: FontSizes;
+  @property({type: String, reflect: true}) fontWeight?: FontWeights;
+  @property({type: String, reflect: true}) textAlign?: TextAligns;
+  @property({type: String, reflect: true}) textTransform?: TextTransforms;
   @property({type: Boolean, reflect: true}) italic?: boolean;
   @property({type: Boolean, reflect: true}) underline?: boolean;
-  @property({type: String, reflect: true}) color?: Colors | Gradients;
-  @property({type: String, reflect: true}) fontType?: FontTypes;
-  @property({type: String, reflect: true}) fontSize?: Factors;
-  @property({type: String, reflect: true}) fontWeight?: FontWeights;
-  @property({type: String, reflect: true}) textTransform?: TextTransforms;
   /* eslint-enable prettier/prettier */
 
   private rootTag!: StaticValue;
@@ -45,11 +48,12 @@ export default class extends TiniElement {
         underline: !!this.underline,
       },
       overridable: {
-        [VaryGroups.Color]: this.color,
-        [VaryGroups.FontType]: this.fontType,
-        [VaryGroups.FontSize]: this.fontSize,
-        [VaryGroups.FontWeight]: this.fontWeight,
-        [VaryGroups.TextTransform]: this.textTransform,
+        color: this.color,
+        'font-type': this.fontType,
+        'font-size': this.fontSize,
+        'font-weight': this.fontWeight,
+        'text-align': this.textAlign,
+        'text-transform': this.textTransform,
       },
     });
   }

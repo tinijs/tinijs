@@ -48,7 +48,7 @@ export class AppComponentEditorInputComponent
     tini-input {
       &::part(label) {
         font-weight: bold;
-        font-size: var(--size-text-0_8x);
+        font-size: var(--size-text-0_75x);
         text-transform: uppercase;
       }
     }

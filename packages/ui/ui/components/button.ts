@@ -4,20 +4,16 @@ import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,
   partAttrMap,
-  borderToClassInfo,
-  VaryGroups,
   Colors,
+  SubtleColors,
   Gradients,
+  SubtleGradients,
   Scales,
-  JustifyContents,
-  BorderRadiuses,
-  BoxShadows,
 } from '@tinijs/core';
 
 export enum ButtonModes {
   Filled = 'filled',
   Outline = 'outline',
-  Bordered = 'bordered',
   Clear = 'clear',
 }
 
@@ -26,13 +22,9 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) mode?: ButtonModes;
   @property({type: Boolean, reflect: true}) block?: boolean;
   @property({type: Boolean, reflect: true}) disabled?: boolean;
-  @property({type: String, reflect: true}) scheme?: Colors | Gradients;
-  @property({type: String, reflect: true}) scale?: Scales;
-  @property({type: String, reflect: true}) justifyContent?: JustifyContents;
-  @property({type: String, reflect: true}) border?: string;
-  @property({type: String, reflect: true}) borderRadius?: BorderRadiuses;
-  @property({type: String, reflect: true}) shadow?: BoxShadows;
+  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
   @property({type: String, reflect: true}) hoverScheme?: this['scheme'];
+  @property({type: String, reflect: true}) scale?: Scales;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
@@ -42,31 +34,32 @@ export default class extends TiniElement {
       raw: {
         block: !!this.block,
         disabled: !!this.disabled,
-        ...borderToClassInfo(this.border),
+      },
+      overridable: {
+        mode: this.mode,
+        scheme: this.scheme,
+        scale: this.scale,
       },
       pseudo: {
         hover: {
-          [VaryGroups.Scheme]: this.hoverScheme,
+          scheme: this.hoverScheme,
         },
-      },
-      overridable: {
-        [VaryGroups.Mode]: this.mode,
-        [VaryGroups.Scheme]: this.scheme,
-        [VaryGroups.Scale]: this.scale,
-        [VaryGroups.JustifyContent]: this.justifyContent,
-        [VaryGroups.BorderRadius]: this.borderRadius,
-        [VaryGroups.BoxShadow]: this.shadow,
       },
     });
   }
 
   protected render() {
-    return html`<button
-      class=${classMap(this.rootClasses)}
-      part=${partAttrMap(this.rootClasses)}
-      ?disabled=${this.disabled}
-    >
-      <slot></slot>
-    </button>`;
+    return this.renderPart(
+      'root',
+      () => html`
+        <button
+          class=${classMap(this.rootClasses)}
+          part=${partAttrMap(this.rootClasses)}
+          ?disabled=${this.disabled}
+        >
+          <slot></slot>
+        </button>
+      `
+    );
   }
 }

@@ -2,19 +2,12 @@ import {css} from 'lit';
 import {generateColorVaries, generateScaleVaries} from '@tinijs/core';
 
 export const styles = css`
-  :host {
-  }
-
-  /*
-   * Root
-   */
-
   table {
     border-collapse: collapse;
     width: 100%;
     text-align: left;
-    background: var(--color-background);
-    color: var(--color-foreground);
+    background: var(--color-back);
+    color: var(--color-front);
   }
 
   table tr {
@@ -29,16 +22,12 @@ export const styles = css`
   table th,
   table td {
     padding: var(--size-space-0_5x);
-    border-bottom: var(--size-border) solid var(--color-background-shade);
+    border-bottom: var(--size-border) solid var(--color-back-shade);
   }
 
   table thead th {
-    border-bottom: var(--size-border) solid var(--color-foreground);
+    border-bottom: var(--size-border) solid var(--color-front);
   }
-
-  /*
-   * [scheme]
-   */
 
   ${generateColorVaries(
     ({fullName, color}) => `
@@ -47,10 +36,6 @@ export const styles = css`
     }
   `
   )}
-
-  /*
-   * [scale]
-   */
 
   ${generateScaleVaries(
     ({fullName, scale}) => `
@@ -61,6 +46,4 @@ export const styles = css`
   )}
 `;
 
-export const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};

@@ -2,7 +2,7 @@ import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ref, createRef} from 'lit/directives/ref.js';
-import {TiniElement, partAttrMap, VaryGroups, BoxShadows} from '@tinijs/core';
+import {TiniElement, partAttrMap} from '@tinijs/core';
 
 import type {DialogButton, DialogResult} from './dialog.js';
 
@@ -23,7 +23,6 @@ export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) titleText?: string;
   @property({type: Boolean, reflect: true}) backdropClosed?: boolean;
-  @property({type: String, reflect: true}) shadow?: BoxShadows;
   @property({type: Object}) noButton?: ModalButton;
   @property({type: Object}) yesButton?: ModalButton;
   /* eslint-enable prettier/prettier */
@@ -37,9 +36,6 @@ export default class extends TiniElement {
     this.extendRootClasses({
       raw: {
         [this.BACKDROP_CLOSED]: !!this.backdropClosed,
-      },
-      overridable: {
-        [VaryGroups.BoxShadow]: this.shadow,
       },
     });
   }

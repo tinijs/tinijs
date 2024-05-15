@@ -5,10 +5,10 @@ import {ref, createRef} from 'lit/directives/ref.js';
 import {
   TiniElement,
   partAttrMap,
-  VaryGroups,
   Colors,
+  SubtleColors,
   Gradients,
-  BoxShadows,
+  SubtleGradients,
 } from '@tinijs/core';
 
 export enum DialogTypes {
@@ -19,7 +19,7 @@ export enum DialogTypes {
 
 export interface DialogButton {
   text?: string;
-  scheme?: Colors | Gradients;
+  scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
 }
 
 export interface DialogResult<Context> {
@@ -43,7 +43,6 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) type = DialogTypes.Alert;
   @property({type: String, reflect: true}) titleText?: string;
   @property({type: Boolean, reflect: true}) backdropClosed?: boolean;
-  @property({type: String, reflect: true}) shadow?: BoxShadows;
   @property({type: Object}) noButton?: DialogButton;
   @property({type: Object}) yesButton?: DialogButton;
   /* eslint-enable prettier/prettier */
@@ -58,9 +57,6 @@ export default class extends TiniElement {
       raw: {
         [this.type]: true,
         [this.BACKDROP_CLOSED]: !!this.backdropClosed,
-      },
-      overridable: {
-        [VaryGroups.BoxShadow]: this.shadow,
       },
     });
   }

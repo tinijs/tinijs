@@ -5,8 +5,8 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
   partAttrMap,
-  VaryGroups,
   Colors,
+  SubtleColors,
   Scales,
 } from '@tinijs/core';
 
@@ -39,9 +39,9 @@ export default class extends TiniElement {
   @property({type: Boolean, reflect: true}) disabled?: boolean;
   @property({type: Boolean, reflect: true}) wrap?: boolean;
   @property({type: Boolean, reflect: true}) block?: boolean;
-  @property({type: String, reflect: true}) scheme?: Colors;
-  @property({type: String, reflect: true}) scale?: Scales;
+  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
   @property({type: String, reflect: true}) focusScheme?: this['scheme'];
+  @property({type: String, reflect: true}) scale?: Scales;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
@@ -60,14 +60,14 @@ export default class extends TiniElement {
         wrap: !!this.wrap,
         disabled: !!this.disabled,
       },
+      overridable: {
+        scheme: this.scheme,
+        scale: this.scale,
+      },
       pseudo: {
         focus: {
-          [VaryGroups.Scheme]: this.focusScheme,
+          scheme: this.focusScheme,
         },
-      },
-      overridable: {
-        [VaryGroups.Scheme]: this.scheme,
-        [VaryGroups.Scale]: this.scale,
       },
     });
   }

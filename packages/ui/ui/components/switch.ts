@@ -5,9 +5,10 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
   partAttrMap,
-  VaryGroups,
   Colors,
+  SubtleColors,
   Gradients,
+  SubtleGradients,
   Scales,
 } from '@tinijs/core';
 
@@ -23,7 +24,7 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) name?: string;
   @property({type: Boolean, reflect: true}) checked?: boolean;
   @property({type: Boolean, reflect: true}) disabled?: boolean;
-  @property({type: String, reflect: true}) scheme?: Colors | Gradients;
+  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
   @property({type: String, reflect: true}) scale?: Scales;
   /* eslint-enable prettier/prettier */
 
@@ -36,8 +37,8 @@ export default class extends TiniElement {
         disabled: !!this.disabled,
       },
       overridable: {
-        [VaryGroups.Scheme]: this.scheme,
-        [VaryGroups.Scale]: this.scale,
+        scheme: this.scheme,
+        scale: this.scale,
       },
     });
   }

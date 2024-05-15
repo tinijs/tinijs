@@ -9,7 +9,6 @@ import {
   Output,
   EventEmitter,
   sectionRender,
-  Scales,
   Colors,
   type SectionRenderData,
 } from '@tinijs/core';
@@ -51,7 +50,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
           href=${this.context.path}
           @click=${() => this.selectItem.emit()}
         >
-          <icon-home scheme=${Colors.Foreground} scale=${Scales.SM}></icon-home>
+          <icon-home scheme=${Colors.Front}></icon-home>
           <span>${this.context.name}</span>
         </a>
         ${sectionRender([this.menuItems], {
@@ -90,8 +89,8 @@ export class AppDocPageMenuComponent extends TiniComponent {
       width: 250px;
       height: calc(100vh - var(--header-height));
       height: calc(100dvh - var(--header-height));
-      background: var(--color-background-tint);
-      border-right: 1px solid var(--color-background-shade);
+      background: var(--color-back-tint);
+      border-right: 1px solid var(--color-back-shade);
       overflow-y: scroll;
       opacity: 0;
       transform: translateX(-100%);
@@ -122,7 +121,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
 
       &:hover {
         text-decoration: none;
-        color: var(--color-tertiary);
+        color: var(--color-primary);
       }
     }
 
@@ -130,7 +129,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
       list-style: none;
       padding: 0;
       margin: 0;
-      border-top: 1px solid var(--color-background-shade);
+      border-top: 1px solid var(--color-back-shade);
       padding: var(--size-space);
       display: flex;
       flex-flow: column;
@@ -143,7 +142,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
           padding-top: var(--size-space);
           padding-bottom: var(--size-space-0_25x);
           font-size: 1.1rem;
-          border-top: 1px solid var(--color-background-shade);
+          border-top: 1px solid var(--color-back-shade);
         }
 
         &:first-child strong {
@@ -175,7 +174,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
         transform: none;
         opacity: 1;
         left: 0;
-        background: var(--color-background);
+        background: var(--color-back);
         border-right: none;
         padding-bottom: var(--footer-height);
       }

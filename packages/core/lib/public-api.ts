@@ -21,7 +21,6 @@ export * from './directives/render.js';
 export * from './directives/style-deep.js';
 
 export * from './utils/app.js';
-export * from './utils/classes.js';
 export * from './utils/color.js';
 export * from './utils/common.js';
 export * from './utils/component.js';

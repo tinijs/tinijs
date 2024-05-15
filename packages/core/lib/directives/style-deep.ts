@@ -11,14 +11,16 @@ import {
   getOptionalUI,
   THEME_CHANGE_EVENT,
   processComponentStyles,
+  convertThemingStylesToAdoptableStyles,
   type ActiveTheme,
+  type StyleDeepInput,
 } from '../classes/ui.js';
 
 class StyleDeepDirective extends AsyncDirective {
   private readonly INTERNAL_ID = `_${nanoid(6)}`;
 
   private part!: ElementPart;
-  private textOrStyling?: string | Record<string, string>;
+  private styleDeep?: StyleDeepInput;
   private removeThemeListener: (() => void) | undefined;
 
   private onThemeChange = (e: Event) => {
@@ -42,10 +44,10 @@ class StyleDeepDirective extends AsyncDirective {
     this.addThemeListener();
   }
 
-  render(textOrStyling: string | Record<string, string>) {
-    if (this.checkForChanges(textOrStyling)) {
+  render(styleDeep: StyleDeepInput) {
+    if (this.checkForChanges(styleDeep)) {
       this.removeThemeListener?.();
-      this.textOrStyling = textOrStyling;
+      this.styleDeep = styleDeep;
       if (this.isConnected) {
         this.addThemeListener();
       }
@@ -60,17 +62,17 @@ class StyleDeepDirective extends AsyncDirective {
     return this.injectStyle();
   }
 
-  private checkForChanges(textOrStyling: string | Record<string, string>) {
-    const currentTextOrStyling = this.textOrStyling || '';
-    if (typeof textOrStyling !== typeof currentTextOrStyling) {
+  private checkForChanges(styleDeep: StyleDeepInput) {
+    const currentStyleDeep = this.styleDeep || '';
+    if (typeof styleDeep !== typeof currentStyleDeep) {
       return true;
-    } else if (typeof textOrStyling === 'string') {
-      return textOrStyling !== currentTextOrStyling;
+    } else if (typeof styleDeep === 'string') {
+      return styleDeep !== currentStyleDeep;
     } else {
-      return Object.keys(textOrStyling).some(
+      return Object.keys(styleDeep).some(
         key =>
-          textOrStyling[key] !==
-          (currentTextOrStyling as Record<string, string>)[key]
+          styleDeep[key] !==
+          (currentStyleDeep as Exclude<StyleDeepInput, string>)[key]
       );
     }
   }
@@ -80,18 +82,16 @@ class StyleDeepDirective extends AsyncDirective {
     const {host} = this.part?.options || {};
     const element = this.part?.element;
     if (!host || !element || !optionalUI) return;
-    const renderRoot =
-      (((host as HTMLElement).shadowRoot || host) as ShadowRoot) || HTMLElement;
+    const renderRoot = ((host as HTMLElement).shadowRoot || host) as ShadowRoot;
     const {familyId, themeId} = optionalUI.activeTheme;
-    const rawStyleText = !this.textOrStyling
-      ? ''
-      : typeof this.textOrStyling === 'string'
-        ? this.textOrStyling
-        : this.textOrStyling[themeId] ||
-          this.textOrStyling[familyId] ||
-          Object.values(this.textOrStyling)[0];
     const styleText = processComponentStyles(
-      [rawStyleText],
+      convertThemingStylesToAdoptableStyles(
+        typeof this.styleDeep === 'string'
+          ? this.styleDeep
+          : this.styleDeep?.[themeId] ||
+              this.styleDeep?.[familyId] ||
+              this.styleDeep?.['*']
+      ),
       optionalUI.activeTheme,
       content => content.replace(/\.root/g, `.${this.INTERNAL_ID}`)
     );

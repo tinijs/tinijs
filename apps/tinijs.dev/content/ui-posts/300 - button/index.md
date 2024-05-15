@@ -58,11 +58,6 @@ Use buttons to trigger actions.
         target: 'scale'
       },
       {
-        section: 'select',
-        attrs: {label: 'Justify Content', preset: 'justifyContents'},
-        target: 'justifyContent'
-      },
-      {
         section: 'css',
         attrs: {
           label: 'Style deep',

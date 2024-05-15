@@ -3,14 +3,7 @@ import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 
-import {
-  TiniElement,
-  partAttrMap,
-  VaryGroups,
-  BoxShadows,
-  BorderRadiuses,
-  borderToClassInfo,
-} from '@tinijs/core';
+import {TiniElement, partAttrMap} from '@tinijs/core';
 
 export interface Source {
   srcset: string;
@@ -34,13 +27,8 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) fetchpriority?: string;
   @property({type: String, reflect: true}) crossorigin?: string;
   @property({type: String, reflect: true}) referrerpolicy?: string;
-
   @property({type: Array}) sources?: Source[];
-
   @property({type: Boolean, reflect: true}) fluid?: boolean;
-  @property({type: String, reflect: true}) border?: string;
-  @property({type: String, reflect: true}) borderRadius?: BorderRadiuses;
-  @property({type: String, reflect: true}) shadow?: BoxShadows;
   /* eslint-enable prettier/prettier */
 
   private validateProperties() {
@@ -57,11 +45,6 @@ export default class extends TiniElement {
     this.extendRootClasses({
       raw: {
         fluid: !!this.fluid,
-        ...borderToClassInfo(this.border),
-      },
-      overridable: {
-        [VaryGroups.BorderRadius]: this.borderRadius,
-        [VaryGroups.BoxShadow]: this.shadow,
       },
     });
   }

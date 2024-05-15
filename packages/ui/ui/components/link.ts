@@ -6,9 +6,10 @@ import {ref, createRef} from 'lit/directives/ref.js';
 import {
   TiniElement,
   partAttrMap,
-  VaryGroups,
   Colors,
+  SubtleColors,
   Gradients,
+  SubtleGradients,
 } from '@tinijs/core';
 
 export type LinkTargets = '_blank' | '_self' | '_parent' | '_top';
@@ -22,7 +23,7 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) rel?: string;
   @property({type: String, reflect: true}) target?: LinkTargets;
   @property({type: String, reflect: true}) active?: string;
-  @property({type: String, reflect: true}) color?: Colors | Gradients;
+  @property({type: String, reflect: true}) color?: Colors | SubtleColors | Gradients | SubtleGradients;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
@@ -30,7 +31,7 @@ export default class extends TiniElement {
     // root classes parts
     this.extendRootClasses({
       overridable: {
-        [VaryGroups.Color]: this.color,
+        color: this.color,
       },
     });
   }

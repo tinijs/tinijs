@@ -111,7 +111,7 @@ export class AppDocPageContentComponent
         <div class="content">${unsafeHTML(post.content)}</div>
 
         <a class="suggest-edit" href=${this.editOnGithubUrl} target="_blank">
-          <icon-edit scheme=${Colors.Primary} scale=${Scales.SS}></icon-edit>
+          <icon-edit scheme=${Colors.Primary} scale=${Scales.SM}></icon-edit>
           <span>Suggest changes to this page</span>
         </a>
       </div>
@@ -131,7 +131,7 @@ export class AppDocPageContentComponent
       }
 
       .doc .content {
-        border-top: var(--size-border) solid var(--color-background-shade);
+        border-top: var(--size-border) solid var(--color-back-shade);
         padding-top: var(--size-space);
       }
 
@@ -159,21 +159,21 @@ export class AppDocPageContentComponent
       }
 
       tini-message::part(root) {
-        font-size: var(--size-text-0_8x);
+        font-size: var(--size-text-0_75x);
         padding: var(--size-space-0_5x);
       }
 
       tini-figure::part(caption-bottom) {
         color: var(--color-medium);
-        font-size: var(--size-text-0_8x);
+        font-size: var(--size-text-0_75x);
       }
 
       table {
         border-collapse: collapse;
         width: 100%;
         text-align: left;
-        background: var(--color-background);
-        color: var(--color-foreground);
+        background: var(--color-back);
+        color: var(--color-front);
       }
       table tr {
         margin: 0;
@@ -181,15 +181,15 @@ export class AppDocPageContentComponent
       }
       table th {
         font-weight: 700;
-        background: var(--color-background);
+        background: var(--color-back);
       }
       table th,
       table td {
         padding: var(--size-space-0_5x);
-        border-bottom: var(--size-border) solid var(--color-background-shade);
+        border-bottom: var(--size-border) solid var(--color-back-shade);
       }
       table td {
-        background: var(--color-background-tint);
+        background: var(--color-back-tint);
       }
 
       .suggest-edit {

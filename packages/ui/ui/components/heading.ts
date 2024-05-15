@@ -6,15 +6,16 @@ import {html, unsafeStatic, type StaticValue} from 'lit/static-html.js';
 import {
   TiniElement,
   partAttrMap,
-  VaryGroups,
   Colors,
+  SubtleColors,
   Gradients,
+  SubtleGradients,
 } from '@tinijs/core';
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: Number, reflect: true}) level?: number;
-  @property({type: String, reflect: true}) color?: Colors | Gradients;
+  @property({type: String, reflect: true}) color?: Colors | SubtleColors | Gradients | SubtleGradients;
   /* eslint-enable prettier/prettier */
 
   private rootTag!: StaticValue;
@@ -27,7 +28,7 @@ export default class extends TiniElement {
     // root classes parts
     this.extendRootClasses({
       overridable: {
-        [VaryGroups.Color]: this.color,
+        color: this.color,
       },
     });
   }

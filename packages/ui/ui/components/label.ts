@@ -4,8 +4,8 @@ import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,
   partAttrMap,
-  VaryGroups,
   Colors,
+  SubtleColors,
   Scales,
 } from '@tinijs/core';
 
@@ -21,7 +21,7 @@ export default class extends TiniElement {
 
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) mode?: LabelModes;
-  @property({type: String, reflect: true}) scheme?: Colors;
+  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
   @property({type: String, reflect: true}) scale?: Scales;
   /* eslint-enable prettier/prettier */
 
@@ -30,9 +30,9 @@ export default class extends TiniElement {
     // root classes parts
     this.extendRootClasses({
       overridable: {
-        [VaryGroups.Mode]: this.mode,
-        [VaryGroups.Scheme]: this.scheme,
-        [VaryGroups.Scale]: this.scale,
+        mode: this.mode,
+        scheme: this.scheme,
+        scale: this.scale,
       },
     });
   }

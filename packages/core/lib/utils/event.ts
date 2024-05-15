@@ -10,7 +10,7 @@ export interface EventForwarding {
 }
 
 export function forwardEvents(
-  host: HTMLElement,
+  host: TiniElement,
   events: string | Array<string | EventForwarding>
 ) {
   const renderRoot = host.shadowRoot || host;

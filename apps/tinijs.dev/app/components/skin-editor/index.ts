@@ -1,4 +1,4 @@
-import {html, css, render, nothing, type CSSResultOrNative} from 'lit';
+import {html, css, render, nothing} from 'lit';
 import {queryAll} from 'lit/decorators.js';
 import {repeat} from 'lit/directives/repeat.js';
 import {ref, createRef} from 'lit/directives/ref.js';
@@ -9,6 +9,7 @@ import {
   listify,
   extractTextFromStyles,
   type UI,
+  type ThemingStyles,
 } from '@tinijs/core';
 import {Subscribe} from '@tinijs/store';
 
@@ -118,7 +119,7 @@ export class AppSkinEditorComponent extends TiniComponent {
   private fetchSkinVariables() {
     const availableSkins = (this.ui as any)._init.skins as Record<
       string,
-      CSSResultOrNative | CSSResultOrNative[]
+      ThemingStyles
     >;
     const skinText = extractTextFromStyles(
       listify(availableSkins[this.ui.activeTheme.themeId])
@@ -410,7 +411,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       display: none;
       box-sizing: border-box;
       position: fixed;
-      background: var(--color-background-tint);
+      background: var(--color-back-tint);
       width: 100vw;
       width: 100dvw;
       height: 50vh;
@@ -424,7 +425,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       align-items: center;
       height: var(--head-height);
       padding: var(--size-space-0_75x);
-      border-bottom: var(--size-border) solid var(--color-background-shade);
+      border-bottom: var(--size-border) solid var(--color-back-shade);
 
       .title {
         flex: 1;
@@ -434,17 +435,17 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         cursor: pointer;
         display: flex;
         align-items: center;
-        padding: var(--size-space-0_4x) var(--size-space-0_8x);
+        padding: var(--size-space-0_5x) var(--size-space-0_75x);
         margin-right: var(--size-space-2x);
-        background: var(--color-background-tint);
-        color: var(--color-foreground);
-        border: var(--size-border) solid var(--color-foreground);
+        background: var(--color-back-tint);
+        color: var(--color-front);
+        border: var(--size-border) solid var(--color-front);
         border-radius: var(--size-radius);
-        font-size: var(--size-text-0_9x);
+        font-size: var(--size-text-0_85x);
         line-height: 1;
 
         &:hover {
-          background: var(--color-background);
+          background: var(--color-back);
         }
       }
 
@@ -453,7 +454,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--color-background-tint);
+        background: var(--color-back-tint);
         border: none;
         opacity: 0.5;
 
@@ -499,13 +500,12 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
               margin-right: var(--size-space-0_5x);
               margin-bottom: var(--size-space-0_5x);
               padding: var(--size-space-0_25x) 0 var(--size-space-0_75x);
-              border-bottom: var(--size-border) solid
-                var(--color-background-shade);
+              border-bottom: var(--size-border) solid var(--color-back-shade);
 
               .value {
                 input,
                 select {
-                  background: var(--color-background-tint);
+                  background: var(--color-back-tint);
                   border: var(--size-border) solid var(--color-medium);
                   border-radius: var(--size-radius);
                   padding: var(--size-space-0_25x) var(--size-space-0_5x);
@@ -544,7 +544,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       position: absolute;
       bottom: 0;
       left: 0;
-      border-top: var(--size-border) solid var(--color-background-shade);
+      border-top: var(--size-border) solid var(--color-back-shade);
       padding: var(--size-space-0_5x);
 
       tini-button.show-code {
@@ -567,7 +567,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
     }
 
     tini-modal::part(root) {
-      background: var(--color-background-tint);
+      background: var(--color-back-tint);
     }
 
     .modal-body {
@@ -584,8 +584,8 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         width: 310px;
         height: calc(100vh - var(--header-height) + 1px);
         height: calc(100dvh - var(--header-height) + 1px);
-        border: var(--size-border) solid var(--color-background-shade);
-        box-shadow: var(--shadow-normal);
+        border: var(--size-border) solid var(--color-back-shade);
+        box-shadow: var(--shadow-main);
       }
     }
   `;

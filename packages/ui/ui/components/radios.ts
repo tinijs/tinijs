@@ -2,7 +2,13 @@ import {html, nothing, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {TiniElement, partAttrMap, VaryGroups} from '@tinijs/core';
+import {
+  TiniElement,
+  partAttrMap,
+  Colors,
+  SubtleColors,
+  Scales,
+} from '@tinijs/core';
 
 import type {CheckboxesItem} from './checkboxes.js';
 
@@ -17,6 +23,9 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) name!: string;
   @property({type: Array}) items?: RadiosItem[];
   @property({type: Boolean, reflect: true}) wrap?: boolean;
+  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
+  @property({type: String, reflect: true}) checkedScheme?: this['scheme'];
+  @property({type: String, reflect: true}) scale?: Scales;
   /* eslint-enable prettier/prettier */
 
   private validateProperties() {
@@ -31,6 +40,15 @@ export default class extends TiniElement {
     this.extendRootClasses({
       raw: {
         wrap: !!this.wrap,
+      },
+      overridable: {
+        scheme: this.scheme,
+        scale: this.scale,
+      },
+      pseudo: {
+        checked: {
+          scheme: this.checkedScheme,
+        },
       },
     });
   }
@@ -48,21 +66,10 @@ export default class extends TiniElement {
         `;
   }
 
-  private renderItem({
-    label,
-    value,
-    checked,
-    disabled,
-    scheme,
-    scale,
-    checkedScheme,
-  }: RadiosItem) {
+  private renderItem({label, value, checked, disabled}: RadiosItem) {
     const itemClasses: ClassInfo = {
       item: true,
       disabled: !!disabled,
-      [`${VaryGroups.Scheme}-${scheme}`]: !!scheme,
-      [`${VaryGroups.Scheme}-${checkedScheme}-checked`]: !!checkedScheme,
-      [`${VaryGroups.Scale}-${scale}`]: !!scale,
     };
     return html`
       <label class=${classMap(itemClasses)} part=${partAttrMap(itemClasses)}>

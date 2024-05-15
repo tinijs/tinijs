@@ -3,74 +3,49 @@ import {generateColorVaries, generateScaleVaries} from '@tinijs/core';
 
 export const styles = css`
   :host {
-    --label-background: var(--color-medium) /* Background color */;
-    --label-scale: var(--scale-md);
-    --label-text-color: var(--color-medium) /* Text color */;
-    --label-border: none;
-    --label-radius: var(--size-radius);
-  }
-
-  :host {
+    --background: var(--color-medium);
+    --scale: var(--scale-md);
+    --text-color: var(--color-medium);
+    --border: none;
+    --border-radius: var(--size-radius);
     display: inline;
   }
-
-  /*
-   * Root
-   */
 
   .root {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: calc(var(--label-scale) * 0.5);
-    border: var(--label-border);
-    border-radius: var(--label-radius);
-    background: color-mix(in oklab, var(--label-background), transparent 50%);
-    color: color-mix(
-      in oklab,
-      var(--label-text-color),
-      var(--color-foreground) 30%
-    );
-    font-size: var(--label-scale);
+    padding: calc(var(--scale) * 0.5);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    background: color-mix(in oklab, var(--background), transparent 50%);
+    color: color-mix(in oklab, var(--text-color), var(--color-front) 30%);
+    font-size: var(--scale);
     font-weight: normal;
     line-height: 1;
     text-transform: uppercase;
   }
 
-  /*
-   * [mode=pill]
-   */
-
   .mode-pill {
     border-radius: 1000px !important;
   }
 
-  /*
-   * [scheme]
-   */
-
   ${generateColorVaries(
-    ({fullName, isContrast, isSubtle, color, baseColor}) => `
+    ({fullName, isSubtle, color, baseColor}) => `
     .${fullName} {
-      --label-background: ${color};
-      --label-text-color: ${isContrast || isSubtle ? baseColor : color};
+      --background: ${color};
+      --text-color: ${isSubtle ? baseColor : color};
     }
   `
   )}
 
-  /*
-   * [scale]
-   */
-
   ${generateScaleVaries(
     ({fullName, scale}) => `
     .${fullName} {
-      --label-scale: ${scale};
+      --scale: ${scale};
     }
   `
   )}
 `;
 
-export const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};
