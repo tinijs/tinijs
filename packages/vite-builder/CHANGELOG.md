@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.19.0](https://github.com/tinijs/tinijs/compare/v0.18.0...v0.19.0) (2024-05-16)
+
+
+### Bug Fixes
+
+* **vite-builder:** includes default config ([#19](https://github.com/tinijs/tinijs/issues/19)) ([93220ed](https://github.com/tinijs/tinijs/commit/93220ede1ac18676995e14d5035dd965f1cb4ee2))
+
+
+
+
+
 # [0.18.0](https://github.com/tinijs/tinijs/compare/v0.17.0...v0.18.0) (2024-05-01)
 
 

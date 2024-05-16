@@ -1,6 +1,6 @@
 {
   "name": "@tinijs/default-compiler",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "description": "Compile TiniJS apps using the default strategy.",
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",
@@ -34,8 +34,8 @@
     "url": "https://github.com/tinijs/tinijs/issues"
   },
   "dependencies": {
-    "@tinijs/cli": "^0.18.0",
-    "@tinijs/project": "^0.18.0",
+    "@tinijs/cli": "^0.19.0",
+    "@tinijs/project": "^0.19.0",
     "fs-extra": "^11.2.0",
     "minify-html-literals": "^1.3.5",
     "pathe": "^1.1.2",
