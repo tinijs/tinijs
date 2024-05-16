@@ -5,13 +5,16 @@ import {
   outputGenFileResults,
   type GenFileResult,
 } from '@tinijs/cli';
+import {TINI_CONFIG_TS_FILE} from '@tinijs/project';
+import {outputJSON} from 'fs-extra/esm';
 import {consola} from 'consola';
+import {green, gray} from 'colorette';
 import type {AsyncReturnType} from 'type-fest';
 
 import {
   listAvailableComponents,
   listAvailableThemeFamilies,
-  buildGlobal,
+  buildGlobals,
   buildSkins,
   buildBases,
   buildComponents,
@@ -19,24 +22,29 @@ import {
   buildPublicAPI,
   buildPackageJSON,
   transpileAndRemoveTSFiles,
+  buildBundled,
 } from '../utils/build.js';
 import {buildIcons} from '../utils/icon.js';
 
-import cliExpansion from '../expand.js';
+import cliExpansion from '../expansion.js';
 
 export const uiBuildCommand = createCLICommand(
   {
     meta: {
       name: 'build',
-      description: 'Build the UI package.',
+      description: 'Build UI packages.',
     },
   },
-  async () => {
+  async (args, callbacks) => {
     const {
       context: {tiniProject},
     } = cliExpansion;
     const uiConfig = tiniProject.config.ui;
-    if (!uiConfig) return consola.error('No UI configuration found.');
+    if (!uiConfig) {
+      return consola.error(
+        `No UI configuration found in ${TINI_CONFIG_TS_FILE}.`
+      );
+    }
     const cachedAvailable = {} as Record<
       string,
       {
@@ -51,11 +59,18 @@ export const uiBuildCommand = createCLICommand(
             pack.extends === false ? pack : defu(pack, uiConfig)
           )
     );
+    let packCount = 0;
     for (const config of packConfigs) {
       if (!config.sources?.length || !config.families) continue;
+      const outDir = config.outDir || 'app/ui';
+      const results: GenFileResult[] = [];
+
+      // start building
+      packCount++;
+      callbacks?.onStartPack?.(outDir);
 
       // load available components and theme families
-      const outDirPath = resolve(config.outDir || '.ui');
+      const outDirPath = resolve(outDir);
       const {
         components: availableComponents,
         themeFamilies: availableThemeFamilies,
@@ -64,10 +79,8 @@ export const uiBuildCommand = createCLICommand(
         themeFamilies: await listAvailableThemeFamilies(config.sources),
       });
 
-      const results: GenFileResult[] = [];
-
-      // build global styles
-      const globalResults = await buildGlobal();
+      // build globals
+      const globalResults = await buildGlobals();
       results.push(...globalResults);
 
       // build skins
@@ -96,7 +109,7 @@ export const uiBuildCommand = createCLICommand(
       results.push(...componentResults);
 
       // build icons
-      const iconResults = await buildIcons(config);
+      const {results: iconResults, index: iconIndex} = await buildIcons(config);
       results.push(...iconResults);
 
       // build setup
@@ -105,12 +118,7 @@ export const uiBuildCommand = createCLICommand(
 
       // build public api & package.json
       if (config.packageJSON) {
-        const publicAPIResult = await buildPublicAPI([
-          setupResult,
-          ...globalResults,
-          ...skinResults,
-          ...baseResults,
-        ]);
+        const publicAPIResult = await buildPublicAPI([setupResult]);
         results.push(publicAPIResult);
 
         const packageJSONResult = await buildPackageJSON(config.packageJSON);
@@ -119,17 +127,42 @@ export const uiBuildCommand = createCLICommand(
 
       // output build results
       await outputGenFileResults(outDirPath, results);
+      // icons index
+      if (config.outputIconsIndex) {
+        await outputJSON(resolve(config.outputIconsIndex), iconIndex);
+      }
 
       // transpile & remove .ts files
-      if (config.transpile) {
-        await transpileAndRemoveTSFiles(
-          outDirPath,
-          results
-            .map(result => resolve(outDirPath, result.path))
-            .filter(path => path.endsWith('.ts'))
-        );
+      const tsPaths = results
+        .map(result => resolve(outDirPath, result.path))
+        .filter(path => path.endsWith('.ts'));
+      if (config.transpile || config.bundled) {
+        await transpileAndRemoveTSFiles(outDirPath, tsPaths);
+      }
+
+      // bundled
+      if (config.bundled) {
+        callbacks?.onBundle?.();
+        await buildBundled(outDirPath, {
+          setupResult,
+          skinResults,
+          componentResults,
+        });
       }
     }
+    callbacks?.onEnd?.(packCount);
+  },
+  {
+    onStartPack: (outDir: string) => {
+      console.log();
+      consola.info(`Build package to ${gray(outDir)}.`);
+    },
+    onBundle: () => consola.info('Bundle for CDN usage.'),
+    onEnd: (packCount: number) => {
+      console.log();
+      consola.success(`Built ${green(packCount)} UI packages successfully!`);
+      console.log();
+    },
   }
 );
 

@@ -5,19 +5,17 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
   partAttrMap,
-  VaryGroups,
   Colors,
+  SubtleColors,
   Scales,
 } from '@tinijs/core';
 
 export interface CheckboxesItem {
   name?: string;
   label?: string;
+  value?: string;
   checked?: boolean;
   disabled?: boolean;
-  scheme?: Colors;
-  scale?: Scales;
-  'checked:scheme'?: Colors;
 }
 
 export default class extends TiniElement {
@@ -28,6 +26,9 @@ export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: Array}) items?: CheckboxesItem[];
   @property({type: Boolean, reflect: true}) wrap?: boolean;
+  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
+  @property({type: String, reflect: true}) checkedScheme?: this['scheme'];
+  @property({type: String, reflect: true}) scale?: Scales;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
@@ -36,6 +37,15 @@ export default class extends TiniElement {
     this.extendRootClasses({
       raw: {
         wrap: !!this.wrap,
+      },
+      overridable: {
+        scheme: this.scheme,
+        scale: this.scale,
+      },
+      pseudo: {
+        checked: {
+          scheme: this.checkedScheme,
+        },
       },
     });
   }
@@ -53,21 +63,10 @@ export default class extends TiniElement {
         `;
   }
 
-  private renderItem({
-    name,
-    label,
-    checked,
-    disabled,
-    scheme,
-    scale,
-    'checked:scheme': checkedScheme,
-  }: CheckboxesItem) {
+  private renderItem({name, label, value, checked, disabled}: CheckboxesItem) {
     const itemClasses: ClassInfo = {
       item: true,
       'item-disabled': !!disabled,
-      [`${VaryGroups.Scheme}-${scheme}`]: !!scheme,
-      [`${VaryGroups.Scheme}-${checkedScheme}-checked`]: !!checkedScheme,
-      [`${VaryGroups.Scale}-${scale}`]: !!scale,
     };
     return html`
       <label class=${classMap(itemClasses)} part=${partAttrMap(itemClasses)}>
@@ -76,6 +75,7 @@ export default class extends TiniElement {
           part="input"
           type="checkbox"
           name=${ifDefined(name)}
+          value=${ifDefined(value)}
           ?checked=${checked}
           ?disabled=${disabled}
         />

@@ -6,8 +6,9 @@
     }]
   },
   "ignorePatterns": [
-    "**/dist",
-    "**/build",
-    "**/server/public"
+    "packages/*/dist",
+    "packages/*/build",
+    "apps/*/app/ui",
+    "apps/*/server/public"
   ]
 }

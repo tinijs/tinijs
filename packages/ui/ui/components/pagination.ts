@@ -4,9 +4,10 @@ import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
 import {
   TiniElement,
   partAttrMap,
-  VaryGroups,
   Colors,
+  SubtleColors,
   Gradients,
+  SubtleGradients,
   Scales,
 } from '@tinijs/core';
 
@@ -19,7 +20,7 @@ export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: Number, reflect: true}) totalPage!: number;
   @property({type: Number, reflect: true}) currentPage!: number;
-  @property({type: String, reflect: true}) scheme?: Colors | Gradients;
+  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
   @property({type: String, reflect: true}) scale?: Scales;
   @property({type: Object}) hrefBuilder?: (pageNum: number) => string;
   /* eslint-enable prettier/prettier */
@@ -48,8 +49,8 @@ export default class extends TiniElement {
     // root classes parts
     this.extendRootClasses({
       overridable: {
-        [VaryGroups.Scheme]: this.scheme,
-        [VaryGroups.Scale]: this.scale,
+        scheme: this.scheme,
+        scale: this.scale,
       },
     });
     // previous classes parts

@@ -1,7 +1,7 @@
 import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
-import {ref, createRef, type Ref} from 'lit/directives/ref.js';
+import {ref, createRef} from 'lit/directives/ref.js';
 
 import {
   TiniElement,
@@ -11,17 +11,17 @@ import {
 } from '@tinijs/core';
 
 export default class extends TiniElement {
-  static readonly componentMetadata = {
-    unstable: UnstableStates.Experimental,
-  };
+  // static readonly componentMetadata = {
+  //   unstable: UnstableStates.Experimental,
+  // };
 
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) language!: string;
   @property({type: String, reflect: true}) content!: string;
   /* eslint-enable prettier/prettier */
 
-  private readonly styleRef: Ref<HTMLStyleElement> = createRef();
-  private readonly codeRef: Ref<HTMLElement> = createRef();
+  private readonly styleRef = createRef<HTMLStyleElement>();
+  private readonly codeRef = createRef<HTMLElement>();
 
   private validateProperties() {
     if (!this.language) throw new Error('Property "language" is required.');
@@ -35,18 +35,20 @@ export default class extends TiniElement {
   };
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // default and validations
-    this.validateProperties();
-    // root classes parts
-    this.extendRootClasses({});
-    // code classes parts
-    this.componentOptions = this.getUIContext()
-      .componentOptions as UICodeOptions;
-    this.codeClasses = {
-      code: true,
+    const commonClasses = {
       [this.componentOptions.engine]: true,
       [`language-${this.language}`]: true,
     };
+    // default and validations
+    this.validateProperties();
+    // root classes parts
+    this.extendRootClasses({
+      raw: commonClasses,
+    });
+    // code classes parts
+    this.componentOptions = this.getUIContext()
+      .componentOptions as UICodeOptions;
+    this.codeClasses = {code: true, ...commonClasses};
   }
 
   async updated() {

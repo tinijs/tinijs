@@ -5,8 +5,8 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
   partAttrMap,
-  VaryGroups,
   Colors,
+  SubtleColors,
   Scales,
 } from '@tinijs/core';
 
@@ -32,33 +32,42 @@ export default class extends TiniElement {
   };
 
   /* eslint-disable prettier/prettier */
-  @property({type: String}) items?: SelectItem[];
+  @property({type: Array}) items?: SelectItem[];
   @property({type: String, reflect: true}) label?: string;
   @property({type: String, reflect: true}) name?: string;
   @property({type: String, reflect: true}) autocomplete?: string;
   @property({type: Boolean, reflect: true}) disabled?: boolean;
   @property({type: Boolean, reflect: true}) wrap?: boolean;
-  @property({type: String, reflect: true}) scheme?: Colors;
+  @property({type: Boolean, reflect: true}) block?: boolean;
+  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
+  @property({type: String, reflect: true}) focusScheme?: this['scheme'];
   @property({type: String, reflect: true}) scale?: Scales;
-  @property({type: String, reflect: true, attribute: 'focus:scheme'}) focusScheme?: this['scheme'];
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
+    // host block
+    if (changedProperties.has('block')) {
+      if (this.block) {
+        this.classList.add('block');
+      } else {
+        this.classList.remove('block');
+      }
+    }
     // root classes parts
     this.extendRootClasses({
       raw: {
         wrap: !!this.wrap,
         disabled: !!this.disabled,
       },
+      overridable: {
+        scheme: this.scheme,
+        scale: this.scale,
+      },
       pseudo: {
         focus: {
-          [VaryGroups.Scheme]: this.focusScheme,
+          scheme: this.focusScheme,
         },
-      },
-      overridable: {
-        [VaryGroups.Scheme]: this.scheme,
-        [VaryGroups.Scale]: this.scale,
       },
     });
   }

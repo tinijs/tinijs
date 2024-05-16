@@ -2,11 +2,11 @@ import {css} from 'lit';
 import {generateColorVaries, generateScaleVaries} from '@tinijs/core';
 
 export const styles = css`
-  /* :host {} */
-
-  /*
-   * Root
-   */
+  :host {
+    --scale: var(--scale-md);
+    --background: var(--color-primary);
+    --border-color: var(--color-medium);
+  }
 
   .root {
     display: flex;
@@ -15,23 +15,12 @@ export const styles = css`
     gap: var(--size-space);
   }
 
-  /*
-   * [wrap]
-   */
-
   .wrap {
     flex-flow: column;
     align-items: flex-start;
   }
 
-  /*
-   * Checkbox item
-   */
-
   .item {
-    --checkbox-scale: var(--scale-md);
-    --checkbox-background: var(--color-primary);
-    --checkbox-border-color: var(--color-medium);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -39,30 +28,26 @@ export const styles = css`
 
   input {
     cursor: pointer;
-    width: var(--checkbox-scale);
-    height: var(--checkbox-scale);
+    width: var(--scale);
+    height: var(--scale);
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: var(--color-background-tint);
+    background: var(--color-back-tint);
     background-image: none;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    border: var(--size-border) solid var(--checkbox-border-color);
+    border: var(--size-border) solid var(--border-color);
     border-radius: var(--size-radius);
     transition: all 0.15s ease-in-out;
   }
 
   input:focus {
-    border-color: color-mix(
-      in oklab,
-      var(--checkbox-background),
-      transparent 50%
-    );
+    border-color: color-mix(in oklab, var(--background), transparent 50%);
     outline: 0;
-    box-shadow: 0 0 0 calc(var(--checkbox-scale) / 4)
-      color-mix(in oklab, var(--checkbox-background), transparent 70%);
+    box-shadow: 0 0 0 calc(var(--scale) / 4)
+      color-mix(in oklab, var(--background), transparent 70%);
   }
 
   input:active {
@@ -70,19 +55,15 @@ export const styles = css`
   }
 
   input:checked {
-    border-color: var(--checkbox-background);
-    background: var(--checkbox-background);
+    border-color: var(--background);
+    background: var(--background);
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
   }
 
   span {
-    font-size: var(--checkbox-scale);
-    margin-left: calc(var(--checkbox-scale) / 3);
+    font-size: var(--scale);
+    margin-left: calc(var(--scale) / 3);
   }
-
-  /*
-   * [?disabled]
-   */
 
   .item-disabled {
     cursor: default;
@@ -94,34 +75,24 @@ export const styles = css`
     filter: none;
   }
 
-  /*
-   * [scheme]
-   */
-
   ${generateColorVaries(
     ({fullName, color}) => `
     .${fullName},
     .${fullName}-checked input:focus,
     .${fullName}-checked input:checked {
-      --checkbox-background: ${color};
-      --checkbox-border-color: ${color};
+      --background: ${color};
+      --border-color: ${color};
     }
   `
   )}
 
-  /*
-   * [scale]
-   */
-
   ${generateScaleVaries(
     ({fullName, scale}) => `
     .${fullName} {
-      --checkbox-scale: ${scale};
+      --scale: ${scale};
     }
   `
   )}
 `;
 
-export const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};

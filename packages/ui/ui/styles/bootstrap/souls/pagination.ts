@@ -7,16 +7,12 @@ import {
 
 export const styles = css`
   :host {
-    --pagination-background: none;
-    --pagination-scale: var(--scale-md);
-    --pagination-color: var(--color-primary);
-    --pagination-active-background: var(--color-primary);
-    --pagination-active-color: var(--color-primary-contrast);
+    --background: none;
+    --scale: var(--scale-md);
+    --color: var(--color-primary);
+    --active-background: var(--color-primary);
+    --active-color: var(--color-primary-contrast);
   }
-
-  /*
-   * Root
-   */
 
   .root {
     list-style: none;
@@ -28,14 +24,13 @@ export const styles = css`
 
   li a {
     display: block;
-    padding: calc(var(--pagination-scale) / 2.75)
-      calc(var(--pagination-scale) / 1.25);
+    padding: calc(var(--scale) / 2.75) calc(var(--scale) / 1.25);
     text-decoration: none;
-    background: var(--pagination-background);
-    color: var(--pagination-color);
-    border: var(--size-border) solid var(--color-background-shade);
+    background: var(--background);
+    color: var(--color);
+    border: var(--size-border) solid var(--color-back-shade);
     border-right-width: 0;
-    font-size: var(--pagination-scale);
+    font-size: var(--scale);
   }
 
   li:first-child a {
@@ -48,22 +43,14 @@ export const styles = css`
   }
 
   li a:hover {
-    background: color-mix(
-      in oklab,
-      var(--color-background-shade),
-      transparent 70%
-    );
+    background: color-mix(in oklab, var(--color-back-shade), transparent 70%);
   }
 
   li.item-active a {
     cursor: default;
-    background: var(--pagination-active-background);
-    color: var(--pagination-active-color);
+    background: var(--active-background);
+    color: var(--active-color);
   }
-
-  /*
-   * Previous & Next
-   */
 
   .previous a::before {
     content: 'Previous';
@@ -78,24 +65,16 @@ export const styles = css`
   .next-disabled a,
   .next-disabled a:hover {
     cursor: default;
-    background: color-mix(
-      in oklab,
-      var(--color-background-shade),
-      transparent 50%
-    );
+    background: color-mix(in oklab, var(--color-back-shade), transparent 50%);
     color: var(--color-medium);
   }
-
-  /*
-   * [scheme]
-   */
 
   ${generateColorVaries(
     ({fullName, color, contrast}) => `
     .${fullName} {
-      --pagination-color: ${color};
-      --pagination-active-background: ${color};
-      --pagination-active-color: ${contrast};
+      --color: ${color};
+      --active-background: ${color};
+      --active-color: ${contrast};
     }
   `
   )}
@@ -103,26 +82,20 @@ export const styles = css`
   ${generateGradientVaries(
     ({fullName, gradient, color, contrast}) => `
     .${fullName} {
-      --pagination-color: ${color};
-      --pagination-active-background: ${gradient};
-      --pagination-active-color: ${contrast};
+      --color: ${color};
+      --active-background: ${gradient};
+      --active-color: ${contrast};
     }
   `
   )}
 
-  /*
-   * [scale]
-   */
-
   ${generateScaleVaries(
     ({fullName, scale}) => `
     .${fullName} {
-      --pagination-scale: ${scale};
+      --scale: ${scale};
     }
   `
   )}
 `;
 
-export const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};

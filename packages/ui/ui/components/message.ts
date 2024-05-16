@@ -1,13 +1,7 @@
 import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
-import {
-  TiniElement,
-  partAttrMap,
-  VaryGroups,
-  Colors,
-  Factors,
-} from '@tinijs/core';
+import {TiniElement, partAttrMap, Colors, SubtleColors} from '@tinijs/core';
 
 export default class extends TiniElement {
   static readonly componentMetadata = {
@@ -15,9 +9,7 @@ export default class extends TiniElement {
   };
 
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) scheme?: Colors;
-  @property({type: String, reflect: true}) color?: Colors;
-  @property({type: String, reflect: true}) fontSize?: Factors;
+  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
@@ -25,9 +17,7 @@ export default class extends TiniElement {
     // root classes parts
     this.extendRootClasses({
       overridable: {
-        [VaryGroups.Scheme]: this.scheme,
-        [VaryGroups.Color]: this.color,
-        [VaryGroups.FontSize]: this.fontSize,
+        scheme: this.scheme,
       },
     });
   }

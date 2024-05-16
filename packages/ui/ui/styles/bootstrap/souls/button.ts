@@ -1,39 +1,24 @@
 import {css} from 'lit';
 import {
-  VaryGroups,
   generateColorVaries,
   generateGradientVaries,
   generateScaleVaries,
-  generateFontSizeVaries,
-  generateJustifyContentVaries,
-  generateBorderWidthVaries,
-  generateBorderStyleVaries,
-  generateBorderRadiusVaries,
-  generateBoxShadowVaries,
 } from '@tinijs/core';
 
 export const styles = css`
   :host {
-    --button-base-color: var(--color-medium);
-    --button-color: var(--color-medium);
-    --button-background: var(--color-medium) /* Background color */;
-    --button-scale: var(--scale-md) /* Base scale */;
-    --button-text-color: var(--color-medium-contrast) /* Text color */;
-    --button-border-size: var(--size-border) /* Border size */;
-    --button-border-radius: var(--size-radius) /* Border radius */;
-    --button-shadow: var(--shadow-none) /* Box shadow */;
-    --button-disabled-opacity: 0.5 /* Disabled opacity */;
-    --button-focus-visible-shadow-size: var(--scale-md-0_3x)
-      /* Focus visible shadow size */;
-  }
-
-  :host {
+    --base-color: var(--color-medium);
+    --color: var(--color-medium);
+    --background: var(--color-medium);
+    --scale: var(--scale-md);
+    --text-color: var(--color-medium-contrast);
+    --border-size: var(--size-border);
+    --border-radius: var(--size-radius);
+    --box-shadow: var(--shadow-main);
+    --disabled-opacity: 0.5;
+    --focus-visible-shadow-size: calc(var(--scale-md) * 0.3);
     display: inline;
   }
-
-  /*
-   * Root
-   */
 
   button {
     cursor: pointer;
@@ -43,16 +28,16 @@ export const styles = css`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: calc(var(--button-scale) * 0.5);
-    padding: calc(var(--button-scale) * 0.5) var(--button-scale);
-    background: var(--button-background);
-    color: var(--button-text-color);
+    gap: calc(var(--scale) * 0.5);
+    padding: calc(var(--scale) * 0.5) var(--scale);
+    background: var(--background);
+    color: var(--text-color);
     font-family: var(--font-body);
-    font-size: calc(var(--button-scale) * 1.1);
+    font-size: calc(var(--scale) * 1.1);
     line-height: 1.4;
-    border-radius: var(--button-border-radius);
+    border-radius: var(--border-radius);
     outline: 0 !important;
-    box-shadow: var(--button-shadow);
+    box-shadow: var(--box-shadow);
     transition: all 0.15s ease-in-out;
   }
 
@@ -65,8 +50,8 @@ export const styles = css`
   }
 
   button:focus-visible {
-    box-shadow: 0 0 0 var(--button-focus-visible-shadow-size)
-      color-mix(in oklab, var(--button-color), transparent 70%);
+    box-shadow: 0 0 0 var(--focus-visible-shadow-size)
+      color-mix(in oklab, var(--color), transparent 70%);
   }
 
   button:disabled,
@@ -76,13 +61,9 @@ export const styles = css`
     cursor: not-allowed;
     pointer-events: none;
     box-shadow: none;
-    background: var(--button-background);
-    opacity: var(--button-disabled-opacity);
+    background: var(--background);
+    opacity: var(--disabled-opacity);
   }
-
-  /*
-   * Slot util classes
-   */
 
   ::slotted(*) {
     pointer-events: none;
@@ -92,12 +73,8 @@ export const styles = css`
   ::slotted(.content-group) {
     display: inline-flex;
     align-items: center;
-    gap: calc(var(--button-scale) * 0.5);
+    gap: calc(var(--scale) * 0.5);
   }
-
-  /*
-   * [?block]
-   */
 
   :host([block]),
   .block {
@@ -106,17 +83,13 @@ export const styles = css`
     align-items: center;
   }
 
-  /*
-   * [mode=outline]
-   */
-
   button.mode-outline {
     background: none;
     color: var(
-      --button-text-color-specific,
-      var(--button-text-color-contrast, var(--button-base-color))
+      --text-color-specific,
+      var(--text-color-contrast, var(--base-color))
     );
-    border-radius: var(--button-border-radius);
+    border-radius: var(--border-radius);
   }
 
   button.mode-outline::before {
@@ -124,9 +97,9 @@ export const styles = css`
     content: '';
     position: absolute;
     inset: 0;
-    border: var(--button-border-size) solid transparent;
-    border-radius: var(--button-border-radius);
-    background: var(--button-background) border-box;
+    border: var(--border-size) solid transparent;
+    border-radius: var(--border-radius);
+    background: var(--background) border-box;
     -webkit-mask:
       linear-gradient(white 0 0) padding-box,
       linear-gradient(white 0 0);
@@ -135,8 +108,8 @@ export const styles = css`
   }
 
   button.mode-outline:hover {
-    background: var(--button-background);
-    color: var(--button-text-color);
+    background: var(--background);
+    color: var(--text-color);
     opacity: 1;
   }
 
@@ -144,44 +117,17 @@ export const styles = css`
     opacity: 0.9 !important;
   }
 
-  /*
-   * [mode=bordered]
-   */
-
-  button.mode-bordered {
-    background: none;
-    color: var(
-      --button-text-color-specific,
-      var(--button-text-color-contrast, var(--button-base-color))
-    );
-    border: var(--button-border-size) solid var(--button-color);
-  }
-
-  button.mode-bordered:hover {
-    background: var(--button-background);
-    color: var(--button-text-color);
-    opacity: 1;
-  }
-
-  button.mode-bordered:active {
-    opacity: 0.8;
-  }
-
-  /*
-   * [mode=clear]
-   */
-
   button.mode-clear {
     background: transparent;
     color: var(
-      --button-text-color-specific,
-      var(--button-text-color-contrast, var(--button-base-color))
+      --text-color-specific,
+      var(--text-color-contrast, var(--base-color))
     );
   }
 
   button.mode-clear:hover {
-    background: var(--button-background);
-    color: var(--button-text-color);
+    background: var(--background);
+    color: var(--text-color);
     opacity: 1;
   }
 
@@ -193,60 +139,8 @@ export const styles = css`
     opacity: 0.8;
   }
 
-  /*
-   * [border/width]
-   */
-
-  ${generateBorderWidthVaries(
-    ({fullName, width}) => `
-    button.${fullName} {
-      border-width: ${width} !important;
-      border-color: var(--button-color);
-      border-style: solid;
-    }
-  `
-  )}
-
-  /*
-   * [border/style]
-   */
-
-  ${generateBorderStyleVaries(
-    ({fullName, style}) => `
-    button.${fullName} {
-      border-style: ${style} !important;
-      border-width: var(--size-border);
-      border-color: var(--button-color);
-    }
-  `
-  )}
-
-  /*
-   * [borderRadius]
-   */
-
-  ${generateBorderRadiusVaries(
-    ({fullName, radius}) => `
-    button.${fullName} {
-      --button-border-radius: ${radius};
-    }
-  `
-  )}
-
-  /*
-   * [scheme] & [color] & [border/color]
-   */
-
   ${generateColorVaries(
-    ({
-      name,
-      fullName,
-      isContrast,
-      baseColor,
-      color,
-      baseContrast,
-      contrast,
-    }) => `
+    ({fullName, baseColor, color, contrast}) => `
     button.${fullName}-hover {
       transition: none;
       opacity: 1;
@@ -258,36 +152,16 @@ export const styles = css`
 
     button.${fullName},
     button.${fullName}-hover:hover {
-      --button-background: ${color};
-      --button-text-color: ${contrast};
-      --button-color: ${color};
-      --button-base-color: ${baseColor};
-      ${!isContrast ? '' : `--button-text-color-contrast: ${baseContrast};`}
-    }
-
-    button.${VaryGroups.Color}-${name} {
-      --button-text-color: ${color} !important;
-      --button-text-color-specific: ${color} !important;
-    }
-
-    button.${VaryGroups.BorderColor}-${name} {
-      border-color: ${color} !important;
-      border-width: var(--size-border);
-      border-style: solid;
+      --background: ${color};
+      --text-color: ${contrast};
+      --color: ${color};
+      --base-color: ${baseColor};
     }
   `
   )}
 
   ${generateGradientVaries(
-    ({
-      fullName,
-      isContrast,
-      gradient,
-      baseColor,
-      color,
-      baseContrast,
-      contrast,
-    }) => `
+    ({fullName, gradient, baseColor, color, contrast}) => `
     button.${fullName}.mode-outline,
     button.${fullName}-hover {
       opacity: 1;
@@ -300,65 +174,22 @@ export const styles = css`
 
     button.${fullName},
     button.${fullName}-hover:hover {
-      --button-background: ${gradient};
-      --button-text-color: ${contrast};
-      --button-color: ${color};
-      --button-base-color: ${baseColor};
-      ${!isContrast ? '' : `--button-text-color-contrast: ${baseContrast};`}
+      --background: ${gradient};
+      --text-color: ${contrast};
+      --color: ${color};
+      --base-color: ${baseColor};
     }
   `
   )}
-
-  /*
-   * [scale]
-   */
 
   ${generateScaleVaries(
     ({name, fullName, scale}) => `
     button.${fullName} {
-      --button-scale: ${scale};
-      --button-focus-visible-shadow-size: var(--scale-${name}-0_3x);
-    }
-  `
-  )}
-
-  /*
-   * [fontSize]
-   */
-
-  ${generateFontSizeVaries(
-    ({fullName, size}) => `
-    button.${fullName} {
-      font-size: ${size} !important;
-    }
-  `
-  )}
-
-  /*
-   * [justifyContent]
-   */
-
-  ${generateJustifyContentVaries(
-    ({fullName, justify}) => `
-    button.${fullName} {
-      justify-content: ${justify};
-    }
-  `
-  )}
-
-  /*
-   * [shadow]
-   */
-
-  ${generateBoxShadowVaries(
-    ({fullName, shadow}) => `
-    button.${fullName} {
-      --button-shadow: ${shadow};
+      --scale: ${scale};
+      --focus-visible-shadow-size: calc(var(--scale-${name}) * 0.3);
     }
   `
   )}
 `;
 
-export const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};

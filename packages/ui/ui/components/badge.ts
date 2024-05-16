@@ -4,33 +4,34 @@ import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,
   partAttrMap,
-  VaryGroups,
   Colors,
+  SubtleColors,
   Gradients,
+  SubtleGradients,
   Scales,
 } from '@tinijs/core';
 
+export enum BadgeModes {
+  Normal = 'normal',
+  Pill = 'pill',
+  Circle = 'circle',
+}
+
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: Boolean, reflect: true}) pill?: boolean;
-  @property({type: Boolean, reflect: true}) circle?: boolean;
-  @property({type: String, reflect: true}) scheme?: Colors | Gradients;
+  @property({type: String, reflect: true}) mode?: BadgeModes;
+  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
   @property({type: String, reflect: true}) scale?: Scales;
-  @property({type: String, reflect: true}) color?: Colors;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
     // root classes parts
     this.extendRootClasses({
-      raw: {
-        pill: !!this.pill,
-        circle: !!this.circle,
-      },
       overridable: {
-        [VaryGroups.Scheme]: this.scheme,
-        [VaryGroups.Scale]: this.scale,
-        [VaryGroups.Color]: this.color,
+        mode: this.mode,
+        scheme: this.scheme,
+        scale: this.scale,
       },
     });
   }

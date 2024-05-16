@@ -1,7 +1,8 @@
 import {readdir, readFile} from 'node:fs/promises';
-import {pathExistsSync, readJSON} from 'fs-extra/esm';
+import {pathExistsSync, readJSON, outputFile} from 'fs-extra/esm';
 import typescript from 'typescript';
 import {resolve, parse, relative} from 'pathe';
+import {execa} from 'execa';
 import {safeDestr} from 'destr';
 import type {PackageJson} from 'type-fest';
 import {genObjectFromRaw, genArrayFromRaw} from 'knitwork';
@@ -22,7 +23,7 @@ import {
   getCommonColors,
   getCommonGradients,
   getSkinUtils,
-  getDefaultGlobal,
+  getGeneralStyles,
 } from './global.js';
 
 const {ModuleKind, ScriptTarget} = typescript;
@@ -154,24 +155,71 @@ export async function listAvailableThemeFamilies(sourceDirs: string[]) {
   return result;
 }
 
-export async function buildGlobal() {
+export async function buildGlobals() {
   const results: GenFileResult[] = [];
 
-  const globalTS = createGenFile()
+  // common colors
+  const commonColorsExportName = 'commonColors';
+  const commonColorsFile = 'globals/common-colors.ts';
+  const commonColorsTS = createGenFile()
     .addImport('lit', ['css'])
     .addBlock(
-      'export const globalStyles =',
+      `export const ${commonColorsExportName} =`,
+      `css\`${getCommonColors()}\``
+    );
+  results.push(commonColorsTS.toResult(commonColorsFile));
+
+  // common gradients
+  const commonGradientsExportName = 'commonGradients';
+  const commonGradientsFile = 'globals/common-gradients.ts';
+  const commonGradientsTS = createGenFile()
+    .addImport('lit', ['css'])
+    .addBlock(
+      `export const ${commonGradientsExportName} =`,
+      `css\`${getCommonGradients()}\``
+    );
+  results.push(commonGradientsTS.toResult(commonGradientsFile));
+
+  // skin utils
+  const skinUtilsExportName = 'skinUtils';
+  const skinUtilsFile = 'globals/skin-utils.ts';
+  const skinUtilsTS = createGenFile()
+    .addImport('lit', ['css'])
+    .addBlock(
+      `export const ${skinUtilsExportName} =`,
+      `css\`${getSkinUtils()}\``
+    );
+  results.push(skinUtilsTS.toResult(skinUtilsFile));
+
+  // general styles
+  const generalStylesExportName = 'generalStyles';
+  const generalStylesFile = 'globals/general-styles.ts';
+  const generalStylesTS = createGenFile()
+    .addImport('lit', ['css'])
+    .addBlock(
+      `export const ${generalStylesExportName} =`,
+      `css\`${getGeneralStyles()}\``
+    );
+  results.push(generalStylesTS.toResult(generalStylesFile));
+
+  // index
+  const indexTS = createGenFile()
+    .addImport(`./${tsToJS(commonColorsFile)}`, [commonColorsExportName])
+    .addImport(`./${tsToJS(commonGradientsFile)}`, [commonGradientsExportName])
+    .addImport(`./${tsToJS(skinUtilsFile)}`, [skinUtilsExportName])
+    .addImport(`./${tsToJS(generalStylesFile)}`, [generalStylesExportName])
+    .addBlock(
+      'export const availableGlobals =',
       `[
-        css\`${[
-          getCommonColors(),
-          getCommonGradients(),
-          getSkinUtils(),
-          getDefaultGlobal(),
-        ].join('\n')}\`,
+        ${commonColorsExportName},
+        ${commonGradientsExportName},
+        ${skinUtilsExportName},
+        ${generalStylesExportName},
       ]`
     );
-  results.push(globalTS.toResult('styles/global.ts'));
+  results.push(indexTS.toResult('global.ts'));
 
+  // result
   return results;
 }
 
@@ -183,7 +231,6 @@ export async function buildSkins(
   const results: GenFileResult[] = [];
 
   const indexTS = createGenFile({
-    exportNames: [] as string[],
     mainExportValue: {} as Record<string, string>,
   });
   for (const [familyId, pickedSkins] of Object.entries(config.families || {})) {
@@ -195,6 +242,7 @@ export async function buildSkins(
         : Object.keys(family.skins)) {
         const availableSkin = family.skins[skinId];
         if (availableSkin) {
+          const skinTS = createGenFile();
           const skinNames = parseName(skinId);
           const importName = `${familyNames.varName}${skinNames.className}Skin`;
           const importPath = await rewriteImportPath(
@@ -202,17 +250,19 @@ export async function buildSkins(
             `${ourDir}/skins`,
             config.rewritePath
           );
-          indexTS.data.exportNames.push(importName);
-          indexTS.addImport(importPath, importName);
+          skinTS.addExport(importPath, [`default as ${importName}`]);
+          results.push(skinTS.toResult(`skins/${skinId}.ts`));
+          // add to index
+          indexTS.addImport(`./skins/${skinId}.js`, [importName]);
           indexTS.data.mainExportValue[`${familyId}/${skinId}`] = importName;
         }
       }
     }
   }
-  indexTS
-    .addBlock('export', `{ ${indexTS.data.exportNames.join(', ')} }`)
-    .addBlock('export const availableSkins =', [indexTS.data.mainExportValue]);
-  results.push(indexTS.toResult('styles/skin.ts'));
+  indexTS.addBlock('export const availableSkins =', [
+    indexTS.data.mainExportValue,
+  ]);
+  results.push(indexTS.toResult('skin.ts'));
 
   // result
   return results;
@@ -224,7 +274,6 @@ export async function buildBases(
   config: UIConfig
 ) {
   const results: GenFileResult[] = [];
-
   const allBases = Object.values(themeFamilies).reduce(
     (result, {bases}) => [...result, ...Object.keys(bases)],
     [] as string[]
@@ -234,9 +283,9 @@ export async function buildBases(
     mainExportValue: {} as Record<string, string>,
   });
   for (const [familyId] of Object.entries(config.families || {})) {
+    const familyTS = createGenFile();
     const familyNames = parseName(familyId);
     const familyTSExportNames: string[] = [];
-    const familyTSExportDefaultValue: string[] = [];
     for (const baseId of allBases) {
       const availableBase = themeFamilies[familyId]?.bases[baseId];
       if (availableBase) {
@@ -247,24 +296,27 @@ export async function buildBases(
           `${ourDir}/bases`,
           config.rewritePath
         );
-        indexTS.addImport(importPath, importName);
-        familyTSExportDefaultValue.push(importName);
+        familyTS.addImport(importPath, importName);
+        familyTSExportNames.push(importName);
       }
     }
+    const familyExportName = `${familyNames.varName}Bases`;
     if (familyTSExportNames.length) {
-      indexTS.addBlock('export', `{ ${familyTSExportNames.join(', ')} }`);
+      familyTS.addBlock('export', `{ ${familyTSExportNames.join(', ')} }`);
     }
-    indexTS.addBlock(`export const ${familyNames.varName}Base =`, [
-      familyTSExportDefaultValue,
+    familyTS.addBlock(`export const ${familyExportName} =`, [
+      familyTSExportNames,
     ]);
-
-    indexTS.data.mainExportValue[familyId] = `${familyNames.varName}Base`;
+    results.push(familyTS.toResult(`bases/${familyId}.ts`));
+    // add to index
+    indexTS.addImport(`./bases/${familyId}.js`, [familyExportName]);
+    indexTS.data.mainExportValue[familyId] = familyExportName;
   }
 
   indexTS.addBlock('export const availableBases =', [
     indexTS.data.mainExportValue,
   ]);
-  results.push(indexTS.toResult('styles/base.ts'));
+  results.push(indexTS.toResult('base.ts'));
 
   // result
   return results;
@@ -375,54 +427,62 @@ export async function buildComponents(
   return results;
 }
 
-export async function buildSetup(config: UIConfig) {
+export async function buildSetup({manualSkinSelection}: UIConfig) {
   const setupTS = createGenFile();
 
   // imports
   setupTS
-    .addTypeImport('lit', ['CSSResultOrNative'])
     .addImport('defu', ['defu'])
-    .addImport('@tinijs/core', ['listify', 'initUI', 'type UI', 'type UIInit'])
-    .addImport('./styles/global.js', ['globalStyles'])
-    .addImport('./styles/base.js', ['availableBases']);
-  if (!config.manualSkinSelection) {
-    setupTS.addImport('./styles/skin.js', ['availableSkins']);
+    .addImport('@tinijs/core', [
+      'listify',
+      'initUI',
+      'registerComponents',
+      'type RegisterComponentsList',
+      'type UI',
+      'type UIInit',
+      'type CSSResultOrNativeOrRaw',
+    ])
+    .addImport('./global.js', ['availableGlobals'])
+    .addImport('./base.js', ['availableBases']);
+  if (!manualSkinSelection) {
+    setupTS.addImport('./skin.js', ['availableSkins']);
   }
 
   // blocks
-  setupTS.addBlock('export interface AppWithUI', '{ui: UI}').addBlock(
-    `export function setupUI(
-    customConfig: Pick<
-      UIInit,
-      'host' | 'global' | 'skins' | 'shares' | 'options'
-    >${config.manualSkinSelection ? '' : ' = {}'}
-  )`,
-    `{
-return initUI({
-  host: customConfig.host,
-  global: [
-    ...globalStyles,
-    ...listify<CSSResultOrNative>(customConfig.global || [])
+  setupTS
+    .addBlock('export interface AppWithUI', '{ui: UI}')
+    .addBlock(
+      'export type UISetup = ',
+      manualSkinSelection ? 'UIInit' : 'Partial<UIInit>'
+    )
+    .addBlock(
+      `export function setupUI({host, globals, skins, shares, options}: UISetup${
+        manualSkinSelection ? '' : ' = {}'
+      }, components?: RegisterComponentsList)`,
+      `{
+const ui = initUI({
+  host,
+  globals: [
+    ...availableGlobals,
+    ...listify<CSSResultOrNativeOrRaw>(globals)
   ],
-  skins: ${
-    config.manualSkinSelection
-      ? 'customConfig.skins'
-      : '{...availableSkins, ...customConfig.skins}'
-  },
+  skins: ${manualSkinSelection ? 'skins' : '{...availableSkins, ...skins}'},
   shares: defu(
-    Object.entries(customConfig.shares || {}).reduce(
+    Object.entries(shares || {}).reduce(
       (result, [key, value]) => {
-        result[key] = listify<CSSResultOrNative>(value);
+        result[key] = listify<CSSResultOrNativeOrRaw>(value);
         return result;
       },
-      {} as Record<string, CSSResultOrNative[]>
+      {} as Record<string, CSSResultOrNativeOrRaw[]>
     ),
     availableBases,
   ),
-  options: customConfig.options,
+  options,
 });
+if (components?.length) registerComponents(components);
+return ui;
 }`
-  );
+    );
 
   // result
   return setupTS.toResult('setup.ts');
@@ -451,6 +511,12 @@ export async function buildPackageJSON(
     type: 'module',
     exports: {
       '.': './public-api.js',
+      './global': './global.js',
+      './globals/*': './globals/*',
+      './base': './base.js',
+      './bases/*': './bases/*',
+      './skin': './skin.js',
+      './skins/*': './skins/*',
       './components/*': './components/*',
       './icons/*': './icons/*',
     },
@@ -473,4 +539,53 @@ export async function transpileAndRemoveTSFiles(
   );
   // remove .ts files
   await removeFiles(tsFilePaths);
+}
+
+export async function buildBundled(
+  outDir: string,
+  {
+    setupResult,
+    skinResults,
+    componentResults,
+  }: {
+    setupResult: GenFileResult;
+    skinResults: GenFileResult[];
+    componentResults: GenFileResult[];
+  }
+) {
+  // setup.js
+  const setupFile = 'bundled/setup.js';
+  await outputFile(
+    resolve(outDir, setupFile),
+    [
+      ...skinResults
+        .filter(item => item.path.startsWith('skins/'))
+        .map(item => item.path),
+      setupResult.path,
+    ]
+      .map(path => `export * from '../${tsToJS(path)}';`)
+      .join('\n')
+  );
+  // components.js
+  const componentsFile = 'bundled/components.js';
+  await outputFile(
+    resolve(outDir, componentsFile),
+    componentResults
+      .map(({path}) => `export * from '../${tsToJS(path)}';`)
+      .join('\n')
+  );
+  // bundle
+  await execa(
+    'esbuild',
+    [
+      setupFile,
+      componentsFile,
+      '--outdir=bundled',
+      '--format=esm',
+      '--bundle',
+      '--minify',
+      '--allow-overwrite',
+    ],
+    {stdio: 'inherit', cwd: outDir}
+  );
 }

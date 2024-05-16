@@ -19,7 +19,7 @@ export default defineTiniConfig({
 
   cli: {
     // list of installed expansions
-    expand: [
+    expansions: [
       'some-name-1',
       'some-name-2'
     ],
@@ -49,9 +49,9 @@ You can create expansions for using in your own projects or distribute them to b
 You can either start a new expansion or add to an existing project.
 
 Examples:
-  - Tini Content CLI: <https://github.com/tinijs/tinijs/blob/main/packages/content/cli/expand.ts>
-  - Tini Server CLI: <https://github.com/tinijs/tinijs/blob/main/packages/server/cli/expand.ts>
-  - Tini UI CLI: <https://github.com/tinijs/tinijs/blob/main/packages/ui/cli/expand.ts>
+  - Tini Content CLI: <https://github.com/tinijs/tinijs/blob/main/packages/content/cli/expansion.ts>
+  - Tini Server CLI: <https://github.com/tinijs/tinijs/blob/main/packages/server/cli/expansion.ts>
+  - Tini UI CLI: <https://github.com/tinijs/tinijs/blob/main/packages/ui/cli/expansion.ts>
 
 #### Start a new expansion
 
@@ -67,7 +67,7 @@ Follow the `README.md` file to start the devlopement and publish the expansion t
 
 Use can also create an expansion in a exisiting package in 3 steps:
 
-- **Step 1**: Create `cli/expand.ts`:
+- **Step 1**: Create `cli/expansion.ts`:
 
 ```ts
 import {defineTiniCLIExpansion, resolveCommand} from '@tinijs/cli';
@@ -110,7 +110,7 @@ export default xxxCommand;
 ```json
 {
   "exports": {
-    "./cli-expansion": "./dist/cli/expand.js"
+    "./cli-expansion": "./dist/cli/expansion.js"
   },
 }
 ```

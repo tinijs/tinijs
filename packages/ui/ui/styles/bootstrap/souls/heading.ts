@@ -1,37 +1,17 @@
 import {css} from 'lit';
-import {
-  VaryGroups,
-  generateColorVaries,
-  generateGradientVaries,
-  generateFontTypeVaries,
-  generateFontSizeVaries,
-  generateFontWeightVaries,
-  generateTextTransformVaries,
-} from '@tinijs/core';
+import {generateColorVaries, generateGradientVaries} from '@tinijs/core';
 
 export const styles = css`
   :host {
-    --heading-color: var(--color-foreground);
-    --heading-font-size: var(--size-text);
-    --heading-font: var(--font-body);
-    --heading-weight: normal;
-    --heading-transform: none;
+    --color: var(--color-front);
   }
-
-  /*
-   * Root
-   */
 
   .root {
     margin: 0;
-    color: var(--heading-color);
-    text-transform: var(--heading-transform);
+    font-family: var(--font-head);
+    color: var(--color);
     display: inline;
   }
-
-  /*
-   * Correct margin
-   */
 
   :host,
   :host([level='1']) {
@@ -71,108 +51,35 @@ export const styles = css`
     margin-block-end: 2.33em;
   }
 
-  /*
-   * [?italic]
-   */
-
-  .italic {
-    font-style: italic;
-  }
-
-  /*
-   * [?underline]
-   */
-
-  .underline {
-    text-decoration: underline;
-  }
-
-  /*
-   * [color]
-   */
-
   ${generateColorVaries(
     ({name, color}) => `
-    .${VaryGroups.Color}-${name} {
-      --heading-color: ${color};
+    .color-${name} {
+      --color: ${color};
     }
   `
   )}
 
   ${generateGradientVaries(
     ({name, gradient}) => `
-    .${VaryGroups.Color}-${name} {
+    .color-${name} {
       position: relative;
       background: ${gradient};
       -webkit-background-clip: text;
 	    -webkit-text-fill-color: transparent;
     }
 
-    .${VaryGroups.Color}-${name}.underline::after {
-      --underline-height: calc(var(--heading-font-size) / 13);
+    .color-${name}.underline::after {
+      --underline-height: calc(var(--size-text) / 13);
       content: '';
       position: absolute;
-      left: 0;
-      bottom: var(--underline-height);
       width: 100%;
-      height: var(--underline-height);
+      left: 0;
       background: ${gradient};
-    }
-  `
-  )}
-
-  /*
-   * [font]
-   */
-
-  ${generateFontTypeVaries(
-    ({fullName, type}) => `
-    .${fullName} {
-      --heading-font: ${type} !important;
-      font-family: var(--heading-font);
-    }
-  `
-  )}
-
-  /*
-   * [fontSize]
-   */
-
-  ${generateFontSizeVaries(
-    ({fullName, size}) => `
-    .${fullName} {
-      --heading-font-size: ${size} !important;
-      font-size: var(--heading-font-size);
-    }
-  `
-  )}
-
-  /*
-   * [weight]
-   */
-
-  ${generateFontWeightVaries(
-    ({fullName, weight}) => `
-    .${fullName} {
-      --heading-weight: ${weight} !important;
-      font-weight: var(--heading-weight);
-    }
-  `
-  )}
-
-  /*
-   * [transform]
-   */
-
-  ${generateTextTransformVaries(
-    ({fullName, transform}) => `
-    .${fullName} {
-      --heading-transform: ${transform};
+      bottom: var(--underline-height);
+      height: var(--underline-height);
     }
   `
   )}
 `;
 
-export const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};

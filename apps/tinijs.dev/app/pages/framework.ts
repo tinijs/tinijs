@@ -1,8 +1,8 @@
-import {html, css} from 'lit';
+import {html} from 'lit';
 
-import {Page, TiniComponent, Colors} from '@tinijs/core';
-import {TiniMessageComponent} from '@tinijs/ui-bootstrap/components/message.js';
-import {TiniEmbedComponent} from '@tinijs/ui-bootstrap/components/embed.js';
+import {Page, TiniComponent, SubtleColors} from '@tinijs/core';
+import {TiniMessageComponent} from '../ui/components/message.js';
+import {TiniEmbedComponent} from '../ui/components/embed.js';
 
 import {GITHUB_CONTENT_PATH} from '../consts/common.js';
 
@@ -51,7 +51,7 @@ export class AppPageFramework extends TiniComponent {
         in Vietnamese - meaning something very small in an adorable way).
       </p>
       <tini-message
-        scheme=${Colors.PrimarySubtle}
+        scheme=${SubtleColors.Primary}
         styleDeep="
           .root {
             font-size: var(--size-text) !important;

@@ -2,11 +2,11 @@ import {css} from 'lit';
 import {generateColorVaries, generateScaleVaries} from '@tinijs/core';
 
 export const styles = css`
-  /* :host {} */
-
-  /*
-   * Root
-   */
+  :host {
+    --size: var(--scale-md);
+    --background: var(--color-primary);
+    --border-color: var(--color-medium);
+  }
 
   .root {
     display: flex;
@@ -15,23 +15,12 @@ export const styles = css`
     gap: var(--size-space);
   }
 
-  /*
-   * [wrap]
-   */
-
   .wrap {
     flex-flow: column;
     align-items: flex-start;
   }
 
-  /*
-   * Radio item
-   */
-
   .item {
-    --radio-size: var(--scale-md);
-    --radio-background: var(--color-primary);
-    --radio-border-color: var(--color-medium);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -39,27 +28,27 @@ export const styles = css`
 
   input {
     cursor: pointer;
-    width: var(--radio-size);
-    height: var(--radio-size);
-    margin-top: calc(var(--radio-size) / -10);
+    width: var(--size);
+    height: var(--size);
+    margin-top: calc(var(--size) / -10);
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: var(--color-background-tint);
+    background: var(--color-back-tint);
     background-image: none;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    border: var(--size-border) solid var(--radio-border-color);
+    border: var(--size-border) solid var(--border-color);
     border-radius: 100%;
     transition: all 0.15s ease-in-out;
   }
 
   input:focus {
-    border-color: color-mix(in oklab, var(--radio-background), transparent 50%);
+    border-color: color-mix(in oklab, var(--background), transparent 50%);
     outline: 0;
-    box-shadow: 0 0 0 calc(var(--radio-size) / 4)
-      color-mix(in oklab, var(--radio-background), transparent 70%);
+    box-shadow: 0 0 0 calc(var(--size) / 4)
+      color-mix(in oklab, var(--background), transparent 70%);
   }
 
   input:active {
@@ -67,19 +56,15 @@ export const styles = css`
   }
 
   input:checked {
-    border-color: var(--radio-background);
-    background: var(--radio-background);
+    border-color: var(--background);
+    background: var(--background);
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
   }
 
   span {
-    font-size: var(--radio-size);
-    margin-left: calc(var(--radio-size) / 3);
+    font-size: var(--size);
+    margin-left: calc(var(--size) / 3);
   }
-
-  /*
-   * [?disabled]
-   */
 
   .item.disabled {
     cursor: default;
@@ -91,34 +76,24 @@ export const styles = css`
     filter: none;
   }
 
-  /*
-   * [scheme]
-   */
-
   ${generateColorVaries(
     ({fullName, color}) => `
     .${fullName},
     .${fullName}-checked input:focus,
     .${fullName}-checked input:checked {
-      --radio-background: ${color};
-      --radio-border-color: ${color};
+      --background: ${color};
+      --border-color: ${color};
     }
   `
   )}
 
-  /*
-   * [scale]
-   */
-
   ${generateScaleVaries(
     ({fullName, scale}) => `
     .${fullName} {
-      --radio-size: ${scale};
+      --size: ${scale};
     }
   `
   )}
 `;
 
-export const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};

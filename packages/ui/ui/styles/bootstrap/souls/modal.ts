@@ -1,26 +1,21 @@
 import {css} from 'lit';
-import {generateBoxShadowVaries} from '@tinijs/core';
 
 export const styles = css`
   :host {
-    --modal-width: var(--wide-ml);
-    --modal-shadow: var(--shadow-none);
+    --width: var(--wide-lg);
+    --box-shadow: var(--shadow-main);
   }
-
-  /*
-   * Root
-   */
 
   dialog {
     position: fixed;
     padding: 0;
     width: calc(100% - var(--size-space-2x));
-    max-width: var(--modal-width);
+    max-width: var(--width);
     border: none;
     border-radius: var(--size-radius);
-    box-shadow: var(--modal-shadow);
-    background: var(--color-background);
-    color: var(--color-foreground);
+    box-shadow: var(--box-shadow);
+    background: var(--color-back);
+    color: var(--color-front);
   }
 
   dialog::backdrop {
@@ -43,13 +38,13 @@ export const styles = css`
   .head {
     justify-content: space-between;
     align-items: center;
-    border-bottom: var(--size-border) solid var(--color-background-shade);
+    border-bottom: var(--size-border) solid var(--color-back-shade);
     padding: var(--size-space);
   }
 
   .head strong {
     display: block;
-    font-size: var(--size-text-1_2x);
+    font-size: var(--size-text-1_25x);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -67,7 +62,7 @@ export const styles = css`
     opacity: 0.5;
     font-size: var(--size-text-1_5x);
     cursor: pointer;
-    color: var(--color-foreground);
+    color: var(--color-front);
   }
 
   .head button:hover {
@@ -87,22 +82,8 @@ export const styles = css`
     align-items: center;
     justify-content: space-between;
     padding: var(--size-space);
-    border-top: var(--size-border) solid var(--color-background-shade);
+    border-top: var(--size-border) solid var(--color-back-shade);
   }
-
-  /*
-   * [shadow]
-   */
-
-  ${generateBoxShadowVaries(
-    ({fullName, shadow}) => `
-    .${fullName} {
-      --modal-shadow: ${shadow};
-    }
-  `
-  )}
 `;
 
-export const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};

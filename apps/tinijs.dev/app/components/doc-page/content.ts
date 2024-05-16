@@ -1,7 +1,7 @@
-import {html, css, type TemplateResult} from 'lit';
+import {html, css, unsafeCSS} from 'lit';
 import {consume} from '@lit/context';
 import {unsafeHTML} from 'lit/directives/unsafe-html.js';
-import {ref, createRef, type Ref} from 'lit/directives/ref.js';
+import {ref, createRef} from 'lit/directives/ref.js';
 
 import {
   Component,
@@ -17,16 +17,18 @@ import {
 } from '@tinijs/core';
 import {UseRouter, type Router, type FragmentItem} from '@tinijs/router';
 
-import {TiniMessageComponent} from '@tinijs/ui-bootstrap/components/message.js';
-import {TiniCodeComponent} from '@tinijs/ui-bootstrap/components/code.js';
-import {TiniImageComponent} from '@tinijs/ui-bootstrap/components/image.js';
-import {TiniFigureComponent} from '@tinijs/ui-bootstrap/components/figure.js';
+import {TiniMessageComponent} from '../../ui/components/message.js';
+import {TiniCodeComponent} from '../../ui/components/code.js';
+import {TiniImageComponent} from '../../ui/components/image.js';
+import {TiniFigureComponent} from '../../ui/components/figure.js';
 
 import type {DocPostDetail} from '../../services/content.js';
 
 import {docPageContext, type DocPageContext} from '../../contexts/doc-page.js';
 
 import {IconEditComponent} from '../../icons/edit.js';
+
+import {prismThemeDark} from '../../utils/prism.js';
 
 @Component({
   components: [
@@ -52,7 +54,13 @@ export class AppDocPageContentComponent
 
   @Output() renewFragments!: EventEmitter<FragmentItem[]>;
 
-  private _articleRef: Ref<HTMLElement> = createRef();
+  private _articleRef = createRef<HTMLElement>();
+
+  private get editOnGithubUrl() {
+    return `${this.context.githubPath.replace('/tree/', '/edit/')}/${
+      !this.post?.order ? '' : `${!this.post?.order} - `
+    }${this.postSlug}/index.md`;
+  }
 
   onRenders() {
     const fragments = this.router
@@ -102,12 +110,8 @@ export class AppDocPageContentComponent
 
         <div class="content">${unsafeHTML(post.content)}</div>
 
-        <a
-          class="suggest-edit"
-          href=${`${this.context.githubPath}/${this.postSlug}`}
-          target="_blank"
-        >
-          <icon-edit scheme=${Colors.Primary} scale=${Scales.SS}></icon-edit>
+        <a class="suggest-edit" href=${this.editOnGithubUrl} target="_blank">
+          <icon-edit scheme=${Colors.Primary} scale=${Scales.SM}></icon-edit>
           <span>Suggest changes to this page</span>
         </a>
       </div>
@@ -127,7 +131,7 @@ export class AppDocPageContentComponent
       }
 
       .doc .content {
-        border-top: var(--size-border) solid var(--color-background-shade);
+        border-top: var(--size-border) solid var(--color-back-shade);
         padding-top: var(--size-space);
       }
 
@@ -155,21 +159,21 @@ export class AppDocPageContentComponent
       }
 
       tini-message::part(root) {
-        font-size: var(--size-text-0_8x);
+        font-size: var(--size-text-0_75x);
         padding: var(--size-space-0_5x);
       }
 
       tini-figure::part(caption-bottom) {
         color: var(--color-medium);
-        font-size: var(--size-text-0_8x);
+        font-size: var(--size-text-0_75x);
       }
 
       table {
         border-collapse: collapse;
         width: 100%;
         text-align: left;
-        background: var(--color-background);
-        color: var(--color-foreground);
+        background: var(--color-back);
+        color: var(--color-front);
       }
       table tr {
         margin: 0;
@@ -177,15 +181,15 @@ export class AppDocPageContentComponent
       }
       table th {
         font-weight: 700;
-        background: var(--color-background);
+        background: var(--color-back);
       }
       table th,
       table td {
         padding: var(--size-space-0_5x);
-        border-bottom: var(--size-border) solid var(--color-background-shade);
+        border-bottom: var(--size-border) solid var(--color-back-shade);
       }
       table td {
-        background: var(--color-background-tint);
+        background: var(--color-back-tint);
       }
 
       .suggest-edit {
@@ -202,133 +206,6 @@ export class AppDocPageContentComponent
         }
       }
     `,
-
-    // Prism theme
-    css`
-      code[class*='language-'],
-      pre[class*='language-'] {
-        color: #f8f8f2;
-        background: 0 0;
-        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-        text-align: left;
-        white-space: pre;
-        word-spacing: normal;
-        word-break: normal;
-        word-wrap: normal;
-        line-height: 1.5;
-        -moz-tab-size: 4;
-        -o-tab-size: 4;
-        tab-size: 4;
-        -webkit-hyphens: none;
-        -moz-hyphens: none;
-        -ms-hyphens: none;
-        hyphens: none;
-      }
-      pre[class*='language-'] {
-        padding: 1em;
-        margin: 0.5em 0;
-        overflow: auto;
-        border-radius: 0.3em;
-      }
-      :not(pre) > code[class*='language-'],
-      pre[class*='language-'] {
-        background: #2b2b2b;
-      }
-      :not(pre) > code[class*='language-'] {
-        padding: 0.1em;
-        border-radius: 0.3em;
-        white-space: normal;
-      }
-      .token.cdata,
-      .token.comment,
-      .token.doctype,
-      .token.prolog {
-        color: #d4d0ab;
-      }
-      .token.punctuation {
-        color: #fefefe;
-      }
-      .token.constant,
-      .token.deleted,
-      .token.property,
-      .token.symbol,
-      .token.tag {
-        color: #ffa07a;
-      }
-      .language-css .token.string,
-      .style .token.string,
-      .token.boolean,
-      .token.entity,
-      .token.keyword,
-      .token.number,
-      .token.operator,
-      .token.url,
-      .token.variable {
-        color: #00e0e0;
-      }
-      .token.attr-name,
-      .token.builtin,
-      .token.char,
-      .token.inserted,
-      .token.selector,
-      .token.string {
-        color: #abe338;
-      }
-      .token.atrule,
-      .token.attr-value,
-      .token.function,
-      .token.important,
-      .token.regex {
-        color: gold;
-      }
-      .token.bold,
-      .token.important {
-        font-weight: 700;
-      }
-      .token.italic {
-        font-style: italic;
-      }
-      .token.entity {
-        cursor: help;
-      }
-      @media screen and (-ms-high-contrast: active) {
-        code[class*='language-'],
-        pre[class*='language-'] {
-          color: windowText;
-          background: window;
-        }
-        :not(pre) > code[class*='language-'],
-        pre[class*='language-'] {
-          background: window;
-        }
-        .token.important {
-          background: highlight;
-          color: window;
-          font-weight: 400;
-        }
-        .token.atrule,
-        .token.attr-value,
-        .token.function,
-        .token.keyword,
-        .token.operator,
-        .token.selector {
-          font-weight: 700;
-        }
-        .token.attr-value,
-        .token.comment,
-        .token.doctype,
-        .token.function,
-        .token.keyword,
-        .token.operator,
-        .token.property,
-        .token.string {
-          color: highlight;
-        }
-        .token.attr-value,
-        .token.url {
-          font-weight: 400;
-        }
-      }
-    `,
+    unsafeCSS(prismThemeDark),
   ];
 }

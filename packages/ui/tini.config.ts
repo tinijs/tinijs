@@ -1,32 +1,56 @@
 import {defineTiniConfig, type UIConfig} from '@tinijs/project';
 
-const bootstrapUIPack: NonNullable<UIConfig['outPacks']>[0] = {
-  extends: false,
-  outDir: './build/bootstrap',
-  sources: ['./ui'],
+type PrebuiltConfig = NonNullable<UIConfig['outPacks']>[0];
+type PrebuiltBaseConfig = Omit<PrebuiltConfig, 'outDir'>;
+
+function prebuiltPackageJSON(name: string, uiVersion?: string) {
+  return {
+    name: `@tinijs/ui-${name}`,
+    version: uiVersion || '0.0.0',
+    dependencies: {
+      '@tinijs/ui': !uiVersion ? 'latest' : `^${uiVersion}`,
+    },
+  };
+}
+
+function prebuiltReactPackageJSON(name: string, uiVersion?: string) {
+  return {
+    name: `@tinijs/ui-${name}`,
+    version: uiVersion || '0.0.0',
+    dependencies: {
+      '@lit/react': '^1.0.4',
+      '@tinijs/ui': !uiVersion ? 'latest' : `^${uiVersion}`,
+      react: '^18.2.0',
+    },
+  };
+}
+
+const bootstrapBaseConfig: PrebuiltBaseConfig = {
   families: {
     bootstrap: true,
   },
-  manualSkinSelection: true,
-  transpile: true,
-  rewritePath: true,
-  packageJSON: ({name, version}) => ({
-    name: `${name}-bootstrap`,
-    version: `${version}`,
-    dependencies: {
-      [`${name}`]: `^${version}`,
-    },
-  }),
 };
 
 export default defineTiniConfig({
   ui: {
     sources: ['./ui'],
-    families: {
-      bootstrap: ['light', 'dark'],
-    },
-    outDir: '.ui',
-    // icons: ['./test-icons'],
-    outPacks: [bootstrapUIPack],
+    manualSkinSelection: true,
+    transpile: true,
+    bundled: true,
+    rewritePath: true,
+    outPacks: [
+      {
+        ...bootstrapBaseConfig,
+        outDir: './build/bootstrap',
+        packageJSON: ({version}) => prebuiltPackageJSON('bootstrap', version),
+      },
+      {
+        ...bootstrapBaseConfig,
+        framework: 'react',
+        outDir: './build/bootstrap-react',
+        packageJSON: ({version}) =>
+          prebuiltReactPackageJSON('bootstrap-react', version),
+      },
+    ],
   },
 });

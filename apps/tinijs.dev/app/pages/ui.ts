@@ -1,17 +1,22 @@
 import {html, css} from 'lit';
 
 import {Page, TiniComponent} from '@tinijs/core';
-import {TiniEmbedComponent} from '@tinijs/ui-bootstrap/components/embed.js';
+import {TiniEmbedComponent} from '../ui/components/embed.js';
 
 import {GITHUB_CONTENT_PATH} from '../consts/common.js';
 
 import {uiCategoryService, uiPostService} from '../services/content.js';
 
 import {AppDocPageComponent} from '../components/doc-page/index.js';
+import {AppComponentEditorComponent} from '../components/component-editor/index.js';
 
 @Page({
   name: 'app-page-ui',
-  components: [TiniEmbedComponent, AppDocPageComponent],
+  components: [
+    AppDocPageComponent,
+    AppComponentEditorComponent,
+    TiniEmbedComponent,
+  ],
 })
 export class AppPageUI extends TiniComponent {
   protected render() {

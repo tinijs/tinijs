@@ -3,19 +3,12 @@ import {generateColorVaries, generateScaleVaries} from '@tinijs/core';
 
 export const styles = css`
   :host {
-    --select-color: var(--color-primary);
-    --select-border-color: var(--color-medium);
-    --select-scale: var(--scale-md);
-    --select-radius: var(--size-radius);
-  }
-
-  :host {
+    --color: var(--color-primary);
+    --scale: var(--scale-md);
+    --border-color: var(--color-medium);
+    --border-radius: var(--size-radius);
     display: inline;
   }
-
-  /*
-   * Root
-   */
 
   .root {
     display: inline-flex;
@@ -24,35 +17,27 @@ export const styles = css`
   }
 
   select {
-    background: var(--color-background-tint);
-    color: var(--color-foreground);
-    border: var(--size-border) solid var(--select-border-color);
-    border-radius: var(--select-radius);
-    padding: calc(var(--select-scale) / 2) calc(var(--select-scale) / 1.5);
-    font-size: var(--select-scale);
+    background: var(--color-back-tint);
+    color: var(--color-front);
+    border: var(--size-border) solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: calc(var(--scale) / 2) calc(var(--scale) / 1.5);
+    font-size: var(--scale);
     transition: all 0.15s ease-in-out;
   }
 
   select:focus {
     outline: none;
-    border-color: color-mix(in oklab, var(--select-color), transparent 30%);
-    box-shadow: 0 0 0 calc(var(--select-scale) / 4)
-      color-mix(in oklab, var(--select-color), transparent 70%);
+    border-color: color-mix(in oklab, var(--color), transparent 30%);
+    box-shadow: 0 0 0 calc(var(--scale) / 4)
+      color-mix(in oklab, var(--color), transparent 70%);
   }
 
   select:disabled {
-    background: color-mix(
-      in oklab,
-      var(--color-background-shade),
-      transparent 50%
-    );
+    background: color-mix(in oklab, var(--color-back-shade), transparent 50%);
     opacity: 1;
     color: var(--color-medium);
   }
-
-  /*
-   * [wrap]
-   */
 
   .wrap {
     flex-flow: column;
@@ -60,33 +45,40 @@ export const styles = css`
     gap: var(--size-space-0_5x);
   }
 
-  /*
-   * [scheme]
-   */
+  :host(.block) {
+    display: block;
+    width: 100%;
+  }
+
+  :host(.block) .root {
+    display: flex;
+  }
+
+  :host(.block) select {
+    flex: 1;
+  }
+
+  :host(.block) .wrap select {
+    width: 100%;
+  }
 
   ${generateColorVaries(
     ({fullName, color}) => `
     .${fullName},
     .${fullName}-focus select:focus {
-      --select-color: ${color};
-      --select-border-color: ${color};
+      --color: ${color};
+      --border-color: ${color};
     }
   `
   )}
 
-  /*
-   * [scale]
-   */
-
   ${generateScaleVaries(
     ({fullName, scale}) => `
     .${fullName} {
-      --select-scale: ${scale};
+      --scale: ${scale};
     }
   `
   )}
 `;
 
-export const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};

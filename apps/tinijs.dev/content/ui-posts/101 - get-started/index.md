@@ -6,8 +6,6 @@
 }
 +++
 
-**NOTE**: I'm improving the architect of the UI system as the foundation for future development.
-
 TiniJS has a dedicated **UI library where I aim to provide every commonly used components and blocks and even whole pages**. Components are architected in a special way where they are custom elements to be used not only with TiniJS, but also with other frameworks or no framework.
 
 Working with reusable components is easy, usually in the form of passing props to the custom element tag. Customization can be done via props or CSS `::part()` or custom theme family or completely clone a component source, ...
@@ -28,6 +26,45 @@ With the theming concept in mind, any app can have these theming capabilities:
 - **Multiple** theme families - highly personalized apps may have multiple theme families with one or multiple skins from each family, a certain theme will be applied depends on user reference.
 
 ## Usage
+
+There are 3 main ways of using Tini UI:
+1. Via CDN
+2. Install prebuilt packages
+3. Build and manage UI using [Tini CLI](/cli)
+
+### Via CDN
+
+CDN is the simplest way to get started with Tini UI, just include the script tag in your HTML file.
+
+- Step 1: Setup the UI
+
+```html
+<script type="module">
+import {setupUI, bootstrapLightSkin, bootstrapDarkSkin} from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap/bundled/setup.js';
+import {TiniButtonComponent} from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap/bundled/components.js';
+
+const ui = setupUI(
+  {
+    skins: {
+      'bootstrap/light': bootstrapLightSkin,
+      'bootstrap/dark': bootstrapDarkSkin,
+    },
+  },
+  [
+    TiniButtonComponent,
+    // other components
+  ]
+);
+</script>
+```
+
+- Step 2: Use components
+
+```html
+<tini-button scheme="primary">A button</tini-button>
+```
+
+### Prebuilt packages
 
 Try an example, **To Do** app - [https://stackblitz.com/edit/try-tinijs-todo-app](https://stackblitz.com/edit/try-tinijs-todo-app?file=app%2Fapp.ts)
 
@@ -68,7 +105,6 @@ export class AppXXXPage extends TiniComponent {}
 <tini-button scheme="primary">A button</tini-button>
 ```
 
-## More detail
+### Using CLI
 
-For detail will come soon, in the mean time, you can use the legacy documentation at <https://ui.tinijs.dev/> for reference.
-
+TODO: add instructions

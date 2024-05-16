@@ -3,7 +3,7 @@ import type {TiniConfig} from '../classes/project.js';
 export type ProjectDirs = ReturnType<typeof getProjectDirs>;
 
 export const DEFAULT_SRC_DIR = 'app';
-export const DEFAULT_COMPILE_DIR = '.app';
+export const DEFAULT_COMPILE_DIR = '.tini/app';
 export const DEFAULT_OUT_DIR = '.output';
 
 export function getProjectDirs({

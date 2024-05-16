@@ -3,24 +3,17 @@ import {generateColorVaries, generateScaleVaries} from '@tinijs/core';
 
 export const styles = css`
   :host {
-    --spinner-color: var(--color-foreground);
-    --spinner-scale: var(--scale-md);
-  }
-
-  /*
-   * Root
-   */
-
-  .root {
-    --size: calc(var(--spinner-scale) * 2);
-    --border-width: calc(var(--spinner-scale) / 4);
+    --color: var(--color-front);
+    --scale: var(--scale-md);
   }
 
   .root {
+    --size: calc(var(--scale) * 2);
+    --border-width: calc(var(--scale) / 4);
     width: var(--size);
     height: var(--size);
-    border: var(--border-width) solid var(--color-background-shade);
-    border-top: var(--border-width) solid var(--spinner-color);
+    border: var(--border-width) solid var(--color-back-shade);
+    border-top: var(--border-width) solid var(--color);
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
@@ -34,31 +27,21 @@ export const styles = css`
     }
   }
 
-  /*
-   * [scheme]
-   */
-
   ${generateColorVaries(
     ({fullName, color}) => `
     .${fullName} {
-      --spinner-color: ${color};
+      --color: ${color};
     }
   `
   )}
 
-  /*
-   * [scale]
-   */
-
   ${generateScaleVaries(
     ({fullName, scale}) => `
     .${fullName} {
-      --spinner-scale: ${scale};
+      --scale: ${scale};
     }
   `
   )}
 `;
 
-export const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};

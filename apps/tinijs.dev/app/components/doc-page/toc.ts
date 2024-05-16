@@ -1,6 +1,5 @@
 import {html, css} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
-import {ref, createRef, type Ref} from 'lit/directives/ref.js';
 
 import {
   Component,
@@ -64,7 +63,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
       position: fixed;
       top: calc(var(--header-height) + var(--toolbar-height) - 10px);
       right: var(--size-space);
-      background: var(--color-background-tint);
+      background: var(--color-back-tint);
       border-radius: var(--size-radius);
       width: 100%;
       max-height: 80vh;
@@ -76,13 +75,13 @@ export class AppDocPageTOCComponent extends TiniComponent {
         opacity 0.2s ease,
         height 1s ease-out 1s;
       overflow-y: scroll;
-      box-shadow: var(--shadow-greater);
+      box-shadow: var(--shadow-great);
       width: calc(100% - var(--size-space-2x));
-      max-width: var(--wide-ss);
+      max-width: var(--wide-xs);
       z-index: 800;
 
       &.mobile-opened {
-        border: 1px solid var(--color-background-shade);
+        border: 1px solid var(--color-back-shade);
         height: auto;
         opacity: 1;
         transform: translateY(0);
@@ -95,7 +94,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
       border: none;
       width: 100%;
       padding: var(--size-space);
-      color: var(--color-tertiary);
+      color: var(--color-primary);
       cursor: pointer;
       text-align: left;
     }
@@ -108,7 +107,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
       list-style: none;
       padding: 0;
       margin: 0;
-      border-top: 1px solid var(--color-background-shade);
+      border-top: 1px solid var(--color-back-shade);
       padding: var(--size-space-0_5x) 0;
 
       li {
@@ -137,7 +136,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
 
     @media (min-width: 1200px) {
       :host {
-        border-left: 1px solid var(--color-background-shade);
+        border-left: 1px solid var(--color-back-shade);
       }
 
       .toc {

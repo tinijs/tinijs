@@ -18,7 +18,7 @@
     "./module": "./dist/module/public-api.js",
     "./module-loader": "./dist/module/index.js",
     "./cli": "./dist/cli/public-api.js",
-    "./cli-expansion": "./dist/cli/expand.js"
+    "./cli-expansion": "./dist/cli/expansion.js"
   },
   "files": [
     "11ty",

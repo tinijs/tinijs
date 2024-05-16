@@ -21,7 +21,7 @@ function ___checkForDIMissingDependencies(
   instance: any
 ) {
   const paramsMatchingArr = dependency
-    .toString()
+    .toString?.()
     .match(/(constructor\()([\s\S]*?)\)/);
   if (isClass(dependency) && paramsMatchingArr && paramsMatchingArr[2]) {
     const params = (paramsMatchingArr[2] as string)

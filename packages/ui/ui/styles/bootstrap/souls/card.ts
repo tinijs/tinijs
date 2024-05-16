@@ -1,28 +1,23 @@
 import {css} from 'lit';
-import {generateBoxShadowVaries} from '@tinijs/core';
 
 const styles = css`
   :host {
-    --card-width: var(--wide-xs);
-    --card-background: var(--color-background-tint);
-    --card-border: var(--size-border) solid var(--color-background-shade);
-    --card-radius: var(--size-radius);
-    --card-shadow: var(--shadow-none);
+    --width: var(--wide-xs);
+    --background: var(--color-back-tint);
+    --border: var(--size-border) solid var(--color-back-shade);
+    --border-radius: var(--size-radius);
+    --box-shadow: var(--shadow-main);
   }
-
-  /*
-   * Root
-   */
 
   .root {
     display: flex;
     flex-direction: column;
-    background-color: var(--card-background);
-    border: var(--card-border);
-    border-radius: var(--card-radius);
+    background-color: var(--background);
+    border: var(--border);
+    border-radius: var(--border-radius);
     overflow: hidden;
-    width: var(--card-width);
-    box-shadow: var(--card-shadow);
+    width: var(--width);
+    box-shadow: var(--box-shadow);
   }
 
   .head,
@@ -33,11 +28,7 @@ const styles = css`
   .head-populated,
   .foot-populated {
     padding: var(--size-space-0_5x) var(--size-space);
-    background: color-mix(
-      in oklab,
-      var(--color-background-shade),
-      transparent 75%
-    );
+    background: color-mix(in oklab, var(--color-back-shade), transparent 75%);
   }
 
   .head-populated,
@@ -50,7 +41,7 @@ const styles = css`
   }
 
   .head {
-    border-bottom: var(--card-border);
+    border-bottom: var(--border);
   }
 
   .body {
@@ -58,15 +49,11 @@ const styles = css`
   }
 
   .foot {
-    border-top: var(--card-border);
+    border-top: var(--border);
   }
 
-  /*
-   * Content
-   */
-
   ::slotted(.card-image) {
-    width: calc(100% + (var(--size-space) * 2));
+    width: calc(100% + var(--size-space-2x));
     margin: calc(var(--size-space) * -1);
     height: auto;
     margin-bottom: var(--size-space);
@@ -79,28 +66,9 @@ const styles = css`
     font-weight: bold;
   }
 
-  /*
-   * [?fluid]
-   */
-
   .fluid {
     width: 100%;
   }
-
-  /*
-   * [shadow]
-   */
-
-  ${generateBoxShadowVaries(
-    ({fullName, shadow}) => `
-    .${fullName} {
-      --card-shadow: ${shadow};
-      --card-border: none;
-    }
-  `
-  )}
 `;
 
-const scripts = undefined;
-
-export default {styles, scripts};
+export default {styles};

@@ -6,6 +6,7 @@ export * from './utils/format.js';
 export * from './utils/generate.js';
 export * from './utils/git.js';
 export * from './utils/message.js';
+export * from './utils/minify.js';
 export * from './utils/modify.js';
 export * from './utils/module.js';
 export * from './utils/name.js';

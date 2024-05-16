@@ -16,7 +16,7 @@ import {defu} from 'defu';
 import {getProjectDirs} from '@tinijs/project';
 import {cleanDir, listDir, createCLICommand} from '@tinijs/cli';
 
-import contentCLIExpansion from '../expand.js';
+import contentCLIExpansion from '../expansion.js';
 
 interface BuildOptions {
   collectTags?: false | {collection: string; field?: string};
@@ -118,7 +118,7 @@ export const contentBuildCommand = createCLICommand(
     }
     const {tiniProject} = contentCLIExpansion.context;
     const {srcDir, dirs} = getProjectDirs(tiniProject.config);
-    const stagingDir = args.stagingDir || '.content';
+    const stagingDir = args.stagingDir || '.tini/content';
     const stagingDirPath = resolve(stagingDir);
     const outDir = `${args.outDir || `${srcDir}/${dirs.public}`}/tini-content`;
     const outDirPath = resolve(outDir);

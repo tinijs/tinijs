@@ -71,7 +71,6 @@ export const watchCommand = createCLICommand(
             'COMPILE,WATCH',
             '--prefix-colors',
             'bgMagenta,bgBlue',
-            '--kill-others',
           ],
           !debugMode ? undefined : {stdio: 'inherit'}
         );

@@ -6,6 +6,7 @@ import {compileStringAsync, type StringOptions} from 'sass';
 import {
   TiniProject,
   getProjectDirs,
+  type ProjectDirs,
   type Compiler,
   type CompileFileHookContext,
   type CommonCompileOptions,
@@ -18,6 +19,7 @@ import {
 } from '@tinijs/cli';
 
 export interface CompileOptions extends CommonCompileOptions {
+  rewriteImports: false | ((item: ParsedImport) => string | null | undefined);
   compileTaggedHTML?:
     | false
     | {
@@ -26,18 +28,61 @@ export interface CompileOptions extends CommonCompileOptions {
   compileTaggedCSS?: false | Omit<StringOptions<'async'>, 'style'>;
 }
 
+export interface ParsedImport {
+  statement: string;
+  path: string;
+  rewriter: ImportRewriter;
+}
+
 export default function (options: CompileOptions, tiniProject: TiniProject) {
   return new DefaultCompiler(options, tiniProject);
 }
 
+export class ImportRewriter {
+  constructor(
+    private srcDir: string,
+    private deepLevel: number
+  ) {}
+
+  rewriteProjectPath(dir: string, path: string) {
+    if (!path.includes(`../${dir}/`)) return;
+    return path.replace(`../${dir}/`, `${'../'.repeat(this.deepLevel)}${dir}/`);
+  }
+
+  rewriteAppPath(dir: string, path: string) {
+    if (!path.includes(`./${dir}/`)) return;
+    if (path.startsWith('./')) {
+      return path.replace(
+        `./${dir}/`,
+        `${'../'.repeat(this.deepLevel)}${this.srcDir}/${dir}/`
+      );
+    } else {
+      return path.replace(
+        `../${dir}/`,
+        `${'../'.repeat(this.deepLevel + 1)}${this.srcDir}/${dir}/`
+      );
+    }
+  }
+}
+
 export class DefaultCompiler implements Compiler {
+  private projectDirs!: ProjectDirs;
+  private outputDeepLevel!: number;
+  private importRewriter!: ImportRewriter;
   constructor(
     public options: CompileOptions,
     private tiniProject: TiniProject
-  ) {}
-
-  private get projectDirs() {
-    return getProjectDirs(this.tiniProject.config);
+  ) {
+    this.projectDirs = getProjectDirs(this.tiniProject.config);
+    this.outputDeepLevel = this.projectDirs.compileDir.startsWith('../')
+      ? 1 // inside the current project only
+      : this.projectDirs.compileDir
+          .split('/')
+          .filter(item => item && item !== '.').length;
+    this.importRewriter = new ImportRewriter(
+      this.projectDirs.srcDir,
+      this.outputDeepLevel
+    );
   }
 
   async compile() {
@@ -82,7 +127,7 @@ export class DefaultCompiler implements Compiler {
 
   private async builtinFileCompile(context: CompileFileHookContext) {
     if (!context.content) return;
-    const {compileTaggedHTML, compileTaggedCSS} = this.options;
+    const {rewriteImports, compileTaggedHTML, compileTaggedCSS} = this.options;
     const {dirs} = this.projectDirs;
 
     // inject config envs & replace config imports
@@ -98,6 +143,8 @@ export class DefaultCompiler implements Compiler {
 
     // .ts, .js
     if (['.ts', '.js'].includes(context.ext)) {
+      if (rewriteImports !== false)
+        this.rewriteImports(context, rewriteImports);
       if (compileTaggedHTML !== false)
         await this.handleTaggedHTML(context, compileTaggedHTML);
       if (compileTaggedCSS !== false)
@@ -119,6 +166,42 @@ export class DefaultCompiler implements Compiler {
     });
   }
 
+  private rewriteImports(
+    context: CompileFileHookContext,
+    customRewrite: Exclude<CompileOptions['rewriteImports'], false>
+  ) {
+    const importMatchingArr = context.content!.match(
+      /import\s+(?:{[^{}]+}|.*?)\s*(?:from)?\s*['"].*?['"]|import\(.*?\)/g
+    );
+    if (!importMatchingArr?.length) return; // no imports
+    importMatchingArr.forEach(statement => {
+      const pathMatching = statement.match(/['"](.*?)['"]/);
+      if (!pathMatching) return;
+      const parsedImport: ParsedImport = {
+        statement,
+        path: pathMatching[1],
+        rewriter: this.importRewriter,
+      };
+      // custom
+      const potentialCustomStatement = customRewrite?.(parsedImport);
+      if (potentialCustomStatement) {
+        return (context.content = context.content!.replace(
+          statement,
+          potentialCustomStatement
+        ));
+      }
+      // built-in
+      const potentialBuiltinStatement = this.builtinRewrite(parsedImport);
+      if (potentialBuiltinStatement) {
+        return (context.content = context.content!.replace(
+          statement,
+          potentialBuiltinStatement
+        ));
+      }
+      return;
+    });
+  }
+
   private async handleTaggedHTML(
     context: CompileFileHookContext,
     options: Exclude<CompileOptions['compileTaggedHTML'], false>
@@ -130,12 +213,16 @@ export class DefaultCompiler implements Compiler {
     // minify template literals
     if (options?.minify !== false) {
       for (const matchedTemplate of templateMatchingArr) {
-        const result = minifyHTMLLiterals(matchedTemplate);
-        if (result) {
-          context.content = context.content!.replace(
-            matchedTemplate,
-            result.code
-          );
+        try {
+          const result = minifyHTMLLiterals(matchedTemplate);
+          if (result) {
+            context.content = context.content!.replace(
+              matchedTemplate,
+              result.code
+            );
+          }
+        } catch (error) {
+          if (!context.isDevelopment) throw error;
         }
       }
     }
@@ -168,8 +255,29 @@ export class DefaultCompiler implements Compiler {
           compiledValue
         );
       } catch (error) {
-        // eslint-disable-next-line no-empty
+        if (!context.isDevelopment) throw error;
       }
     }
+  }
+
+  private builtinRewrite({statement, path, rewriter}: ParsedImport) {
+    if (this.outputDeepLevel === 1) return;
+    // known paths
+    for (const [dir, isAppPath] of [
+      // root dirs
+      ['content'],
+      ['server'],
+      // app dirs
+      ['ui', true],
+    ] as Array<[string, boolean?]>) {
+      const potentialPath = !isAppPath
+        ? rewriter.rewriteProjectPath(dir, path)
+        : rewriter.rewriteAppPath(dir, path);
+      if (potentialPath) {
+        return statement.replace(path, potentialPath);
+      }
+    }
+    // else
+    return;
   }
 }

@@ -2,7 +2,7 @@ import {html} from 'lit';
 
 import {Page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata, PageMetadata} from '@tinijs/meta';
-import {TiniLinkComponent} from '@tinijs/ui-bootstrap/components/link.js';
+import {TiniLinkComponent} from '../ui/components/link.js';
 
 @Page({
   name: 'app-page-404',

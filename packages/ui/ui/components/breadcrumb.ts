@@ -1,14 +1,7 @@
 import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
-import {ifDefined} from 'lit/directives/if-defined.js';
-import {
-  TiniElement,
-  partAttrMap,
-  VaryGroups,
-  Colors,
-  Gradients,
-} from '@tinijs/core';
+import {TiniElement, partAttrMap} from '@tinijs/core';
 
 export interface BreadcrumbItem {
   label: string;
@@ -22,18 +15,13 @@ export interface BreadcrumbItem {
 ***/
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: String}) items?: BreadcrumbItem[];
-  @property({type: String, reflect: true}) linkColor?: Colors | Gradients;
+  @property({type: Array}) items?: BreadcrumbItem[];
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
     // root classes parts
-    this.extendRootClasses({
-      overridable: {
-        [`link-${VaryGroups.Color}`]: this.linkColor,
-      },
-    });
+    this.extendRootClasses({});
   }
 
   protected render() {
@@ -57,10 +45,7 @@ export default class extends TiniElement {
         ${!item.href
           ? html`${item.label}`
           : html`
-              <tini-link
-                exportparts="root:link-root"
-                href=${item.href}
-                color=${ifDefined(this.linkColor)}
+              <tini-link exportparts="root:link-root" href=${item.href}
                 >${item.label}</tini-link
               >
             `}

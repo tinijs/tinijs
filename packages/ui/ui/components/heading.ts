@@ -6,25 +6,16 @@ import {html, unsafeStatic, type StaticValue} from 'lit/static-html.js';
 import {
   TiniElement,
   partAttrMap,
-  VaryGroups,
   Colors,
+  SubtleColors,
   Gradients,
-  Factors,
-  FontTypes,
-  FontWeights,
-  TextTransforms,
+  SubtleGradients,
 } from '@tinijs/core';
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: Number, reflect: true}) level?: number;
-  @property({type: Boolean, reflect: true}) italic?: boolean;
-  @property({type: Boolean, reflect: true}) underline?: boolean;
-  @property({type: String, reflect: true}) color?: Colors | Gradients;
-  @property({type: String, reflect: true}) fontType?: FontTypes;
-  @property({type: String, reflect: true}) fontSize?: Factors;
-  @property({type: String, reflect: true}) fontWeight?: FontWeights;
-  @property({type: String, reflect: true}) textTransform?: TextTransforms;
+  @property({type: String, reflect: true}) color?: Colors | SubtleColors | Gradients | SubtleGradients;
   /* eslint-enable prettier/prettier */
 
   private rootTag!: StaticValue;
@@ -36,16 +27,8 @@ export default class extends TiniElement {
     this.rootTag = unsafeStatic(`h${this.level || 1}`);
     // root classes parts
     this.extendRootClasses({
-      raw: {
-        italic: !!this.italic,
-        underline: !!this.underline,
-      },
       overridable: {
-        [VaryGroups.Color]: this.color,
-        [VaryGroups.FontType]: this.fontType,
-        [VaryGroups.FontSize]: this.fontSize,
-        [VaryGroups.FontWeight]: this.fontWeight,
-        [VaryGroups.TextTransform]: this.textTransform,
+        color: this.color,
       },
     });
   }

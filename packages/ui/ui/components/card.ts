@@ -1,12 +1,11 @@
 import {html, type PropertyValues} from 'lit';
 import {property, state, queryAssignedElements} from 'lit/decorators.js';
 import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
-import {TiniElement, partAttrMap, VaryGroups, BoxShadows} from '@tinijs/core';
+import {TiniElement, partAttrMap} from '@tinijs/core';
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: Boolean, reflect: true}) fluid?: boolean;
-  @property({type: String, reflect: true}) shadow?: BoxShadows;
   /* eslint-enable prettier/prettier */
 
   /* eslint-disable prettier/prettier */
@@ -25,9 +24,6 @@ export default class extends TiniElement {
     this.extendRootClasses({
       raw: {
         fluid: !!this.fluid,
-      },
-      overridable: {
-        [VaryGroups.BoxShadow]: this.shadow,
       },
     });
     // head classes parts

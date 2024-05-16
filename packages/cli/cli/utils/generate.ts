@@ -290,7 +290,7 @@ export class ${className} extends TiniComponent {
 function getComponentMainContent({className, tagName}: Names) {
   return `import {html, css} from 'lit';
 
-import {Component, TiniComponent, Input, Output, EventEmitter, type OnCreate} from '@tinijs/core';
+import {Component, TiniComponent, Input, Output, type EventEmitter, type OnCreate} from '@tinijs/core';
 
 @Component()
 export class ${className} extends TiniComponent implements OnCreate {
@@ -320,7 +320,7 @@ function getIconMainContent({className, tagName}: Names) {
 
 export class Icon${className}Component extends TiniIconComponent {
   static readonly defaultTagName = 'icon-${tagName}';
-  static readonly prebuiltSRC = "URL/URI";
+  static readonly src = "URL/URI";
 }\n`;
 }
 
