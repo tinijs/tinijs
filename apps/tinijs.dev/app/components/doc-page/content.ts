@@ -58,7 +58,7 @@ export class AppDocPageContentComponent
 
   private get editOnGithubUrl() {
     return `${this.context.githubPath.replace('/tree/', '/edit/')}/${
-      !this.post?.order ? '' : `${!this.post?.order} - `
+      !this.post?.order ? '' : `${this.post?.order} - `
     }${this.postSlug}/index.md`;
   }
 
@@ -122,17 +122,17 @@ export class AppDocPageContentComponent
     css`
       article {
         margin-top: var(--toolbar-height);
-        padding: var(--size-space-2x);
+        padding: var(--space-xl);
       }
 
       h1 {
         margin-top: 0;
-        margin-bottom: var(--size-space);
+        margin-bottom: var(--space-md);
       }
 
       .doc .content {
-        border-top: var(--size-border) solid var(--color-back-shade);
-        padding-top: var(--size-space);
+        border-top: var(--border-md) solid var(--color-back-shade);
+        padding-top: var(--space-md);
       }
 
       .doc h1,
@@ -141,7 +141,7 @@ export class AppDocPageContentComponent
       .doc h4 {
         display: flex;
         align-items: center;
-        gap: var(--size-space-0_5x);
+        gap: var(--space-xs);
         transform: translateX(-0.8em);
       }
       .doc h1 .header-anchor,
@@ -159,13 +159,13 @@ export class AppDocPageContentComponent
       }
 
       tini-message::part(root) {
-        font-size: var(--size-text-0_75x);
-        padding: var(--size-space-0_5x);
+        font-size: var(--text-xs);
+        padding: var(--space-xs);
       }
 
       tini-figure::part(caption-bottom) {
         color: var(--color-medium);
-        font-size: var(--size-text-0_75x);
+        font-size: var(--text-xs);
       }
 
       table {
@@ -185,8 +185,8 @@ export class AppDocPageContentComponent
       }
       table th,
       table td {
-        padding: var(--size-space-0_5x);
-        border-bottom: var(--size-border) solid var(--color-back-shade);
+        padding: var(--space-xs);
+        border-bottom: var(--border-md) solid var(--color-back-shade);
       }
       table td {
         background: var(--color-back-tint);
@@ -195,14 +195,14 @@ export class AppDocPageContentComponent
       .suggest-edit {
         display: flex;
         align-items: center;
-        gap: var(--size-space-0_25x);
-        margin-top: var(--size-space-2x);
+        gap: var(--space-2xs);
+        margin-top: var(--space-xl);
       }
 
       @media (min-width: 1200px) {
         article {
           margin-top: 0;
-          padding: var(--size-space-4x);
+          padding: var(--space-4xl);
         }
       }
     `,

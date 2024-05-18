@@ -66,8 +66,8 @@ export class HeaderComponent
           box-sizing: border-box;
           height: var(--header-height);
           background: var(--color-back-tint);
-          padding: var(--size-space);
-          padding-left: var(--size-space-1_5x);
+          padding: var(--space-md);
+          padding-left: var(--space-lg);
           border-bottom: 1px solid var(--color-back-shade);
         "
       >
@@ -79,7 +79,7 @@ export class HeaderComponent
               align-items: center;
               text-decoration: none;
               color: var(--color-text);
-              gap: var(--size-space-0_75x);
+              gap: var(--space-sm);
             "
           >
             <img src=${LOGO_URL} alt="TiniJS" style="height: 28px;" />
@@ -143,7 +143,7 @@ export class HeaderComponent
                 ><icon-x scheme=${Colors.Front}></icon-x
               ></a>
               <a href="https://discord.gg/EABbZVbPAb" target="_blank"
-                ><icon-discord scheme=${Colors.Front} scale="ml"></icon-discord
+                ><icon-discord scheme=${Colors.Front} scale="lg"></icon-discord
               ></a>
             </div>
           </div>
@@ -171,7 +171,7 @@ export class HeaderComponent
       position: fixed;
       display: none;
       flex-direction: column;
-      gap: var(--size-space-2x);
+      gap: var(--space-xl);
       top: var(--header-height);
       right: 0;
       width: 100vw;
@@ -179,7 +179,7 @@ export class HeaderComponent
       height: calc(100vh - var(--header-height));
       height: calc(100dvh - var(--header-height));
       background: var(--color-back-tint);
-      padding: var(--size-space-1_5x);
+      padding: var(--space-lg);
 
       &.opened {
         display: flex;
@@ -195,7 +195,7 @@ export class HeaderComponent
 
         &::part(root) {
           display: block;
-          padding: var(--size-space-0_75x) 0;
+          padding: var(--space-sm) 0;
           color: var(--color-front);
           text-decoration: none;
         }
@@ -206,14 +206,14 @@ export class HeaderComponent
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: var(--size-space);
+      padding: var(--space-md);
       background: var(--color-back);
-      border-radius: var(--size-radius);
+      border-radius: var(--radius-md);
     }
 
     .social {
       display: flex;
-      gap: var(--size-space-1_5x);
+      gap: var(--space-lg);
       align-items: center;
       justify-content: center;
 
@@ -230,7 +230,7 @@ export class HeaderComponent
       justify-content: center;
       border: none;
       background: none;
-      padding: var(--size-space-0_5x);
+      padding: var(--space-xs);
       cursor: pointer;
     }
 
@@ -239,7 +239,7 @@ export class HeaderComponent
         display: flex;
         position: initial;
         flex-direction: row;
-        gap: var(--size-space);
+        gap: var(--space-md);
         top: initial;
         right: initial;
         width: initial;
@@ -250,14 +250,14 @@ export class HeaderComponent
       .menu {
         flex-direction: row;
         align-items: center;
-        gap: var(--size-space-0_25x);
+        gap: var(--space-2xs);
 
         tini-link {
           border-bottom: none;
 
           &::part(root) {
-            padding: var(--size-space-0_25x) var(--size-space);
-            border-radius: var(--size-radius);
+            padding: var(--space-2xs) var(--space-md);
+            border-radius: var(--radius-md);
           }
           &:hover::part(root) {
             background: var(--color-back);
@@ -271,7 +271,7 @@ export class HeaderComponent
       .theme {
         background: none;
         border-radius: 0;
-        padding: 0 var(--size-space);
+        padding: 0 var(--space-md);
         border-left: 1px solid var(--color-back);
         border-right: 1px solid var(--color-back);
 
@@ -281,7 +281,7 @@ export class HeaderComponent
       }
 
       .social {
-        gap: var(--size-space);
+        gap: var(--space-md);
       }
 
       .mobile-toggler {

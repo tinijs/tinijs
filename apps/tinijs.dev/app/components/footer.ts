@@ -13,7 +13,7 @@ export class FooterComponent extends TiniComponent {
           box-sizing: border-box;
           height: var(--footer-height);
           background: var(--color-back-tint);
-          padding: var(--size-space);
+          padding: var(--space-md);
           border-top: 1px solid var(--color-back-shade);
           text-align: center;
         "

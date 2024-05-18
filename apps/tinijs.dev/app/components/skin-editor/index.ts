@@ -75,8 +75,6 @@ export class AppSkinEditorComponent extends TiniComponent {
       {name: 'Colors', items: []},
       {name: 'Gradients', items: []},
       {name: 'Sizes', items: []},
-      {name: 'Scales', items: []},
-      {name: 'Wides', items: []},
       {name: 'Shadows', items: []},
     ] as Array<{name: string; items: VariableDef[]}>;
     // group variables
@@ -102,14 +100,10 @@ export class AppSkinEditorComponent extends TiniComponent {
         ) {
           result[2].items.push(def);
         }
-      } else if (key.startsWith('--size')) {
+      } else if (key.slice(-3) === '-md') {
         result[3].items.push(def);
-      } else if (key.startsWith('--scale')) {
-        result[4].items.push(def);
-      } else if (key.startsWith('--wide')) {
-        result[5].items.push(def);
       } else if (key.startsWith('--shadow')) {
-        result[6].items.push(def);
+        result[4].items.push(def);
       }
     }
     // result
@@ -270,7 +264,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       </div>
 
       <div class="body">
-        <section style="padding: var(--size-space)">
+        <section style="padding: var(--space-md)">
           <tini-select
             wrap
             block
@@ -388,7 +382,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
           scheme="primary"
           @click=${this.showModal}
         >
-          <icon-code scheme="primary-contrast" scale="sm"></icon-code>
+          <icon-code scheme="white" scale="sm"></icon-code>
           <span>Show code</span>
         </tini-button>
       </div>
@@ -424,8 +418,8 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       display: flex;
       align-items: center;
       height: var(--head-height);
-      padding: var(--size-space-0_75x);
-      border-bottom: var(--size-border) solid var(--color-back-shade);
+      padding: var(--space-sm);
+      border-bottom: var(--border-md) solid var(--color-back-shade);
 
       .title {
         flex: 1;
@@ -435,13 +429,13 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         cursor: pointer;
         display: flex;
         align-items: center;
-        padding: var(--size-space-0_5x) var(--size-space-0_75x);
-        margin-right: var(--size-space-2x);
+        padding: var(--space-xs) var(--space-sm);
+        margin-right: var(--space-xl);
         background: var(--color-back-tint);
         color: var(--color-front);
-        border: var(--size-border) solid var(--color-front);
-        border-radius: var(--size-radius);
-        font-size: var(--size-text-0_85x);
+        border: var(--border-md) solid var(--color-front);
+        border-radius: var(--radius-md);
+        font-size: var(--text-sm);
         line-height: 1;
 
         &:hover {
@@ -473,15 +467,15 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
 
       section {
         .content {
-          padding: var(--size-space-0_5x);
+          padding: var(--space-xs);
           margin-bottom: 0;
         }
       }
 
       .properties {
         .group {
-          padding: var(--size-space-0_5x);
-          margin-bottom: var(--size-space);
+          padding: var(--space-xs);
+          margin-bottom: var(--space-md);
 
           .group-title {
             color: var(--color-medium);
@@ -491,24 +485,24 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
           ul {
             list-style: none;
             padding: 0;
-            margin: var(--size-space) 0 0;
+            margin: var(--space-md) 0 0;
 
             li {
               display: flex;
               align-items: center;
               justify-content: space-between;
-              margin-right: var(--size-space-0_5x);
-              margin-bottom: var(--size-space-0_5x);
-              padding: var(--size-space-0_25x) 0 var(--size-space-0_75x);
-              border-bottom: var(--size-border) solid var(--color-back-shade);
+              margin-right: var(--space-xs);
+              margin-bottom: var(--space-xs);
+              padding: var(--space-2xs) 0 var(--space-sm);
+              border-bottom: var(--border-md) solid var(--color-back-shade);
 
               .value {
                 input,
                 select {
                   background: var(--color-back-tint);
-                  border: var(--size-border) solid var(--color-medium);
-                  border-radius: var(--size-radius);
-                  padding: var(--size-space-0_25x) var(--size-space-0_5x);
+                  border: var(--border-md) solid var(--color-medium);
+                  border-radius: var(--radius-md);
+                  padding: var(--space-2xs) var(--space-xs);
                 }
 
                 input {
@@ -544,8 +538,8 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       position: absolute;
       bottom: 0;
       left: 0;
-      border-top: var(--size-border) solid var(--color-back-shade);
-      padding: var(--size-space-0_5x);
+      border-top: var(--border-md) solid var(--color-back-shade);
+      padding: var(--space-xs);
 
       tini-button.show-code {
         max-width: 480px;
@@ -561,7 +555,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         }
 
         span {
-          margin-left: var(--size-space-0_5x);
+          margin-left: var(--space-xs);
         }
       }
     }
@@ -584,8 +578,8 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         width: 310px;
         height: calc(100vh - var(--header-height) + 1px);
         height: calc(100dvh - var(--header-height) + 1px);
-        border: var(--size-border) solid var(--color-back-shade);
-        box-shadow: var(--shadow-main);
+        border: var(--border-md) solid var(--color-back-shade);
+        box-shadow: var(--shadow-huge);
       }
     }
   `;

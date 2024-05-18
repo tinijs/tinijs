@@ -5,10 +5,10 @@ export const styles = css`
   :host {
     --background: none;
     --border: none;
-    --border-radius: var(--size-radius);
+    --border-radius: var(--radius-md);
     --padding: 0;
     --margin: 0;
-    --box-shadow: var(--shadow-main);
+    --box-shadow: none;
   }
 
   .root {

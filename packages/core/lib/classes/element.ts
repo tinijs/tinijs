@@ -10,7 +10,6 @@ import {
 } from 'lit';
 import {property} from 'lit/decorators/property.js';
 import type {ClassInfo} from 'lit/directives/class-map.js';
-import {cache} from 'lit/directives/cache.js';
 import {defu} from 'defu';
 
 import {
@@ -257,28 +256,30 @@ export class TiniElement extends LitElement {
 
   renderPart(
     name: string,
-    defaultTemplate?: () => typeof nothing | TemplateResult,
+    defaultTemplate?: (
+      child: () => typeof nothing | TemplateResult
+    ) => typeof nothing | TemplateResult,
     context?: {
-      before?: any;
       main?: any;
-      after?: any;
+      sibling?: any;
+      child?: any;
     }
   ) {
-    return cache(
-      this.customTemplates[name]
-        ? this.customTemplates[name](this, context?.main)
-        : !defaultTemplate
-          ? nothing
-          : html`
-              ${!this.customTemplates[`${name}:before`]
-                ? nothing
-                : this.customTemplates[`${name}:before`](this, context?.before)}
-              ${defaultTemplate()}
-              ${!this.customTemplates[`${name}:after`]
-                ? nothing
-                : this.customTemplates[`${name}:after`](this, context?.after)}
-            `
-    );
+    const mainTemplate = this.customTemplates[name];
+    const siblingTemplate = this.customTemplates[`${name}:sibling`];
+    const childTemplate = this.customTemplates[`${name}:child`];
+    return mainTemplate
+      ? mainTemplate(this, context?.main)
+      : !defaultTemplate
+        ? nothing
+        : html`
+            ${defaultTemplate(() =>
+              !childTemplate ? nothing : childTemplate(this, context?.child)
+            )}
+            ${!siblingTemplate
+              ? nothing
+              : siblingTemplate(this, context?.sibling)}
+          `;
   }
 
   private customAdoptStyles(renderRoot: HTMLElement | DocumentFragment) {

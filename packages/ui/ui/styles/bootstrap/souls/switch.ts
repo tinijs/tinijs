@@ -87,7 +87,7 @@ export const styles = css`
   }
 
   .root > span {
-    margin-left: var(--size-space-0_5x);
+    margin-left: var(--space-xs);
   }
 
   ${generateColorVaries(

@@ -6,10 +6,10 @@ const styles = css`
     --background: none;
     --color: var(--color-front);
     --border: none;
-    --border-radius: var(--size-radius);
-    --padding: var(--size-space);
+    --border-radius: var(--radius-md);
+    --padding: var(--space-md);
     --margin: 0;
-    --box-shadow: var(--shadow-main);
+    --box-shadow: none;
   }
 
   .root {

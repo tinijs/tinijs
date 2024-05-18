@@ -10,7 +10,7 @@ const styles = css`
     --background: var(--color-medium);
     --scale: var(--scale-md);
     --color: var(--color-medium-contrast);
-    --border-radius: var(--size-radius);
+    --border-radius: var(--radius-md);
     display: inline;
   }
 

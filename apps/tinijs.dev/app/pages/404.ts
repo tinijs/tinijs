@@ -25,7 +25,7 @@ export class AppPage404 extends TiniComponent implements PageWithMetadata {
           align-items: center;
           text-align: center;
           justify-content: center;
-          padding: var(--size-space);
+          padding: var(--space-md);
         "
       >
         <img

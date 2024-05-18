@@ -46,14 +46,14 @@ export class AppComponentEditorCSSComponent
     tini-textarea {
       &::part(label) {
         font-weight: bold;
-        font-size: var(--size-text-0_75x);
+        font-size: var(--text-xs);
         text-transform: uppercase;
       }
 
       &::part(textarea) {
         height: 120px;
         font-family: var(--font-code);
-        font-size: var(--size-text-0_85x);
+        font-size: var(--text-sm);
       }
     }
   `;

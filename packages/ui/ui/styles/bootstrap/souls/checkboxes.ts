@@ -12,7 +12,7 @@ export const styles = css`
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: var(--size-space);
+    gap: var(--space-md);
   }
 
   .wrap {
@@ -38,8 +38,8 @@ export const styles = css`
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    border: var(--size-border) solid var(--border-color);
-    border-radius: var(--size-radius);
+    border: var(--border-md) solid var(--border-color);
+    border-radius: var(--radius-md);
     transition: all 0.15s ease-in-out;
   }
 

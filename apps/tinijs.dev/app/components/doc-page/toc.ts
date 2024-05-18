@@ -62,9 +62,9 @@ export class AppDocPageTOCComponent extends TiniComponent {
     .toc {
       position: fixed;
       top: calc(var(--header-height) + var(--toolbar-height) - 10px);
-      right: var(--size-space);
+      right: var(--space-md);
       background: var(--color-back-tint);
-      border-radius: var(--size-radius);
+      border-radius: var(--radius-md);
       width: 100%;
       max-height: 80vh;
       height: 0;
@@ -75,8 +75,8 @@ export class AppDocPageTOCComponent extends TiniComponent {
         opacity 0.2s ease,
         height 1s ease-out 1s;
       overflow-y: scroll;
-      box-shadow: var(--shadow-great);
-      width: calc(100% - var(--size-space-2x));
+      box-shadow: var(--shadow-big);
+      width: calc(100% - var(--space-xl));
       max-width: var(--wide-xs);
       z-index: 800;
 
@@ -93,7 +93,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
       background: none;
       border: none;
       width: 100%;
-      padding: var(--size-space);
+      padding: var(--space-md);
       color: var(--color-primary);
       cursor: pointer;
       text-align: left;
@@ -108,22 +108,22 @@ export class AppDocPageTOCComponent extends TiniComponent {
       padding: 0;
       margin: 0;
       border-top: 1px solid var(--color-back-shade);
-      padding: var(--size-space-0_5x) 0;
+      padding: var(--space-xs) 0;
 
       li {
         &.level-3 {
-          padding-left: var(--size-space);
+          padding-left: var(--space-md);
         }
         &.level-4 {
-          padding-left: var(--size-space-2x);
+          padding-left: var(--space-xl);
         }
         &.level-5 {
-          padding-left: var(--size-space-3x);
+          padding-left: var(--space-3xl);
         }
 
         a {
           display: block;
-          padding: var(--size-space-0_25x) var(--size-space);
+          padding: var(--space-2xs) var(--space-md);
           color: var(--color-medium);
 
           &:hover {
@@ -160,7 +160,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
 
       .desktop-title {
         display: block;
-        padding: var(--size-space) var(--size-space) 0;
+        padding: var(--space-md) var(--space-md) 0;
         font-weight: bold;
       }
 

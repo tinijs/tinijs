@@ -73,7 +73,7 @@ export class AppComponentEditorSelectComponent
     colorsAndGradients: [...this.colors, ...this.gradients],
     scales: this.buildPresetItems(Scales, value => value.toUpperCase()),
     fontTypes: this.buildPresetItems(FontTypes),
-    fontSizes: this.buildPresetItems(FontSizes, value => value),
+    fontSizes: this.buildPresetItems(FontSizes, value => value.toUpperCase()),
     fontWeights: this.buildPresetItems(FontWeights),
     textAligns: this.buildPresetItems(TextAligns),
     textTransforms: this.buildPresetItems(TextTransforms),
@@ -124,7 +124,7 @@ export class AppComponentEditorSelectComponent
     tini-select {
       &::part(label) {
         font-weight: bold;
-        font-size: var(--size-text-0_75x);
+        font-size: var(--text-xs);
         text-transform: uppercase;
       }
     }

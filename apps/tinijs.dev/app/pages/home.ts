@@ -32,7 +32,7 @@ export class AppPageHome extends TiniComponent {
         <div class="headline">
           <h2 style="margin-bottom: 0">
             <tini-text
-              fontSize="3x"
+              fontSize="3xl"
               fontWeight="700"
               color=${Gradients.KaleSalad}
               >Tini</tini-text
@@ -195,7 +195,7 @@ export class AppPageHome extends TiniComponent {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: var(--size-space-2x) var(--size-space);
+      padding: var(--space-xl) var(--space-md);
     }
 
     .logo img {
@@ -208,13 +208,13 @@ export class AppPageHome extends TiniComponent {
 
     .actions {
       display: flex;
-      gap: var(--size-space);
-      margin-top: var(--size-space);
+      gap: var(--space-md);
+      margin-top: var(--space-md);
       justify-content: center;
     }
 
     .members {
-      padding: var(--size-space-2x);
+      padding: var(--space-xl);
     }
 
     .members ul {
@@ -223,12 +223,12 @@ export class AppPageHome extends TiniComponent {
       padding: 0;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: var(--size-space);
+      gap: var(--space-md);
     }
 
     .members li {
-      padding: var(--size-space);
-      border-radius: var(--size-radius);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
       background: var(--color-back);
       border: 1px solid var(--color-back);
       transition:
@@ -238,22 +238,22 @@ export class AppPageHome extends TiniComponent {
 
     .members li:hover {
       cursor: pointer;
-      box-shadow: var(--shadow-great);
+      box-shadow: var(--shadow-big);
       border-color: var(--color-back-shade);
     }
 
     .members li .icon {
       font-size: 2rem;
-      padding: var(--size-space-0_75x);
+      padding: var(--space-sm);
       background: var(--color-back-shade);
       width: 55px;
       height: 50px;
       line-height: 25px;
-      border-radius: var(--size-radius);
+      border-radius: var(--radius-md);
     }
 
     .members li h3 {
-      margin: var(--size-space) 0 0;
+      margin: var(--space-md) 0 0;
       font-size: 1.5rem;
     }
 
@@ -263,7 +263,7 @@ export class AppPageHome extends TiniComponent {
     }
 
     .try {
-      padding: var(--size-space-2x);
+      padding: var(--space-xl);
     }
 
     .try .title h1 {
@@ -271,12 +271,12 @@ export class AppPageHome extends TiniComponent {
     }
 
     .try .title p {
-      margin-bottom: var(--size-space-2x);
+      margin-bottom: var(--space-xl);
     }
 
     .sponsors {
-      padding: var(--size-space-2x);
-      margin: var(--size-space-2x) auto;
+      padding: var(--space-xl);
+      margin: var(--space-xl) auto;
     }
 
     .sponsors .foreword {
@@ -284,14 +284,14 @@ export class AppPageHome extends TiniComponent {
       flex-direction: column;
       align-items: center;
       text-align: center;
-      margin-bottom: var(--size-space-2x);
+      margin-bottom: var(--space-xl);
     }
 
     .special-sponsors .title {
       background: var(--color-back);
-      margin-bottom: var(--size-space-0_5x);
-      padding: var(--size-space-0_5x) var(--size-space);
-      border-radius: var(--size-radius) var(--size-radius) 0 0;
+      margin-bottom: var(--space-xs);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
       text-align: center;
       font-weight: 700;
       color: var(--color-medium);
@@ -302,7 +302,7 @@ export class AppPageHome extends TiniComponent {
       margin: 0;
       padding: 0;
       display: grid;
-      gap: var(--size-space-0_5x);
+      gap: var(--space-xs);
     }
     .special-sponsors li {
       background: var(--color-back);
@@ -312,21 +312,21 @@ export class AppPageHome extends TiniComponent {
       color: var(--color-medium);
       text-decoration: none;
       font-size: 1.5rem;
-      padding: var(--size-space-2x);
+      padding: var(--space-xl);
       width: 100%;
       text-align: center;
     }
 
     .sponsors .actions {
       display: flex;
-      gap: var(--size-space);
-      margin-top: var(--size-space-2x);
+      gap: var(--space-md);
+      margin-top: var(--space-xl);
       justify-content: center;
     }
 
     @media (min-width: 768px) {
       .featured {
-        padding: var(--size-space-3x) var(--size-space-2x);
+        padding: var(--space-3xl) var(--space-xl);
         flex-direction: row;
       }
 

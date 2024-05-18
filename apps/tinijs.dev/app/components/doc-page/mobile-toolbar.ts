@@ -72,7 +72,7 @@ export class AppDocPageMobileToolbarComponent extends TiniComponent {
       position: fixed;
       top: var(--header-height);
       background: var(--color-back-tint);
-      padding: 0 var(--size-space);
+      padding: 0 var(--space-md);
       z-index: 700;
     }
 
@@ -81,8 +81,8 @@ export class AppDocPageMobileToolbarComponent extends TiniComponent {
       border: none;
       display: flex;
       align-items: center;
-      gap: var(--size-space-0_5x);
-      font-size: var(--size-text-0_75x);
+      gap: var(--space-xs);
+      font-size: var(--text-xs);
       font-weight: bold;
       opacity: 0.7;
       cursor: pointer;

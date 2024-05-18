@@ -1,13 +1,133 @@
 import {minifyCSS} from '@tinijs/cli';
 
-function generateSizeVars(key: string, factors: number[]) {
-  return factors
+function generateScaleVars() {
+  const items: [string, number][] = [
+    ['xs', 0.5],
+    ['sm', 0.75],
+    // md = 1
+    ['lg', 1.25],
+    ['xl', 1.5],
+  ];
+  return items
     .map(
-      factor =>
-        `${key}-${factor
-          .toString()
-          .replace(/\.|,/g, '_')}x: calc(var(${key}) * ${factor});`
+      ([name, value]) => `--scale-${name}: calc(var(--scale-md) * ${value});`
     )
+    .join('\n  ');
+}
+
+function generateTextVars() {
+  const items: [string, number][] = [
+    ['3xs', 0.5],
+    ['2xs', 0.625],
+    ['xs', 0.75],
+    ['sm', 0.875],
+    // md = 1
+    ['lg', 1.25],
+    ['xl', 1.5],
+    ['2xl', 2.25],
+    ['3xl', 3],
+    ['4xl', 4.5],
+    ['5xl', 6],
+  ];
+  return items
+    .map(([name, value]) => `--text-${name}: calc(var(--text-md) * ${value});`)
+    .join('\n  ');
+}
+
+function generateSpaceVars() {
+  const items: [string, number][] = [
+    ['3xs', 0.125],
+    ['2xs', 0.25],
+    ['xs', 0.5],
+    ['sm', 0.75],
+    // md = 1
+    ['lg', 1.25],
+    ['xl', 1.75],
+    ['2xl', 2.25],
+    ['3xl', 3],
+    ['4xl', 4.5],
+    ['5xl', 6],
+  ];
+  return items
+    .map(
+      ([name, value]) => `--space-${name}: calc(var(--space-md) * ${value});`
+    )
+    .join('\n  ');
+}
+
+function generateOutlineVars() {
+  const items: [string, number][] = [
+    ['xs', 0.5],
+    ['sm', 0.75],
+    // md = 1
+    ['lg', 1.25],
+    ['xl', 2],
+    ['2xl', 3],
+    ['3xl', 4],
+  ];
+  return items
+    .map(
+      ([name, value]) =>
+        `--outline-${name}: calc(var(--outline-md) * ${value});`
+    )
+    .join('\n  ');
+}
+
+function generateBorderVars() {
+  const items: [string, number][] = [
+    ['xs', 0.5],
+    ['sm', 0.75],
+    // md = 1
+    ['lg', 1.25],
+    ['xl', 2],
+    ['2xl', 3],
+    ['3xl', 4],
+  ];
+  return items
+    .map(
+      ([name, value]) => `--border-${name}: calc(var(--border-md) * ${value});`
+    )
+    .join('\n  ');
+}
+
+function generateRadiusVars() {
+  const items: [string, string | number][] = [
+    ['xs', 0.5],
+    ['sm', 0.75],
+    // md = 1
+    ['lg', 2],
+    ['xl', 4],
+    ['circle', '50%'],
+    ['pill', '9999px'],
+  ];
+  return items
+    .map(
+      ([name, value]) =>
+        `--radius-${name}: ${
+          typeof value === 'string'
+            ? value
+            : `calc(var(--radius-md) * ${value})`
+        };`
+    )
+    .join('\n  ');
+}
+
+function generateWideVars() {
+  const items: [string, number][] = [
+    ['3xs', 150],
+    ['2xs', 320],
+    ['xs', 480],
+    ['sm', 576],
+    ['md', 768],
+    ['lg', 992],
+    ['xl', 1024],
+    ['2xl', 1200],
+    ['3xl', 1440],
+    ['4xl', 2560],
+    ['5xl', 3840],
+  ];
+  return items
+    .map(([name, value]) => `--wide-${name}: ${value}px;`)
     .join('\n  ');
 }
 
@@ -336,18 +456,22 @@ export function getCommonGradients() {
 }
 
 export function getSkinUtils() {
-  const textSizes = generateSizeVars(
-    '--size-text',
-    [0.25, 0.5, 0.75, 0.85, 1.25, 1.5, 1.75, 2, 3, 4, 5]
-  );
-  const spaceSizes = generateSizeVars(
-    '--size-space',
-    [0.25, 0.5, 0.75, 1.5, 2, 3, 4, 5]
-  );
+  const scaleSizes = generateScaleVars();
+  const textSizes = generateTextVars();
+  const spaceSizes = generateSpaceVars();
+  const outlineSizes = generateOutlineVars();
+  const borderSizes = generateBorderVars();
+  const radiusSizes = generateRadiusVars();
+  const wideSizes = generateWideVars();
   return minifyCSS(`
 :root {
+  ${scaleSizes}
   ${textSizes}
   ${spaceSizes}
+  ${outlineSizes}
+  ${borderSizes}
+  ${radiusSizes}
+  ${wideSizes}
 }
 `);
 }
@@ -366,7 +490,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
   font-family: var(--font-body);
-  font-size: var(--size-text);
+  font-size: var(--text-md);
   background: var(--color-back);
   color: var(--color-front);
 }

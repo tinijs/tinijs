@@ -266,13 +266,11 @@ export const COLORS_TO_GRADIENTS = [
 );
 
 export enum Scales {
-  XXS = 'xxs',
   XS = 'xs',
   SM = 'sm',
   MD = 'md',
   LG = 'lg',
   XL = 'xl',
-  XXL = 'xxl',
 }
 export const SCALES = Object.values(Scales);
 
@@ -285,17 +283,17 @@ export enum FontTypes {
 export const FONT_TYPES = Object.values(FontTypes);
 
 export enum FontSizes {
-  X0_25 = '0_25x',
-  X0_5 = '0_5x',
-  X0_75 = '0_75x',
-  X0_85 = '0_85x',
-  X1_25 = '1_25x',
-  X1_5 = '1_5x',
-  X1_75 = '1_75x',
-  X2 = '2x',
-  X3 = '3x',
-  X4 = '4x',
-  X5 = '5x',
+  '3XS' = '3xs',
+  '2XS' = '2xs',
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+  '2XL' = '2xl',
+  '3XL' = '3xl',
+  '4XL' = '4xl',
+  '5XL' = '5xl',
 }
 export const FONT_SIZES = Object.values(FontSizes);
 
@@ -453,7 +451,7 @@ export function generateFontSizeVaries(render: FontSizeVaryRender) {
     FONT_SIZES.map(name => {
       const prefixName = 'font-size';
       const fullName = `${prefixName}-${name}`;
-      const fontSize = `var(--size-text-${name})`;
+      const fontSize = `var(--text-${name})`;
       return render({
         name,
         prefixName,

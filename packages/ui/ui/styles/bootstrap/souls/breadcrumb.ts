@@ -15,7 +15,7 @@ const styles = css`
 
   .item::before {
     content: '/';
-    margin: 0 var(--size-space-0_5x);
+    margin: 0 var(--space-xs);
     color: var(--color-medium);
   }
 

@@ -21,12 +21,12 @@ export const styles = css`
 
   table th,
   table td {
-    padding: var(--size-space-0_5x);
-    border-bottom: var(--size-border) solid var(--color-back-shade);
+    padding: var(--space-xs);
+    border-bottom: var(--border-md) solid var(--color-back-shade);
   }
 
   table thead th {
-    border-bottom: var(--size-border) solid var(--color-front);
+    border-bottom: var(--border-md) solid var(--color-front);
   }
 
   ${generateColorVaries(

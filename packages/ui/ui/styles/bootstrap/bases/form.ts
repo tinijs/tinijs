@@ -11,7 +11,7 @@ export default css`
   optgroup,
   textarea {
     font-family: var(--font-body);
-    font-size: var(--size-text);
+    font-size: var(--text-md);
     color: var(--color-front);
   }
 

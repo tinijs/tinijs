@@ -12,9 +12,9 @@ export const styles = css`
     --background: var(--color-medium);
     --scale: var(--scale-md);
     --text-color: var(--color-medium-contrast);
-    --border-size: var(--size-border);
-    --border-radius: var(--size-radius);
-    --box-shadow: var(--shadow-main);
+    --border-size: var(--border-md);
+    --border-radius: var(--radius-md);
+    --box-shadow: none;
     --disabled-opacity: 0.5;
     --focus-visible-shadow-size: calc(var(--scale-md) * 0.3);
     display: inline;

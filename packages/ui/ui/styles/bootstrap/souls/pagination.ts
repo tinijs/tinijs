@@ -28,18 +28,18 @@ export const styles = css`
     text-decoration: none;
     background: var(--background);
     color: var(--color);
-    border: var(--size-border) solid var(--color-back-shade);
+    border: var(--border-md) solid var(--color-back-shade);
     border-right-width: 0;
     font-size: var(--scale);
   }
 
   li:first-child a {
-    border-radius: var(--size-radius) 0 0 var(--size-radius);
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
   }
 
   li:last-child a {
-    border-right-width: var(--size-border);
-    border-radius: 0 var(--size-radius) var(--size-radius) 0;
+    border-right-width: var(--border-md);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
   }
 
   li a:hover {

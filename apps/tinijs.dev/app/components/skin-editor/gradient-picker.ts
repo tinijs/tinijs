@@ -221,9 +221,9 @@ export class AppSkinEditorGradientPickerComponent extends TiniComponent {
       cursor: pointer;
       width: 50px;
       height: 27px;
-      outline: var(--size-border) solid var(--color-medium);
+      outline: var(--border-md) solid var(--color-medium);
       border: 4px solid var(--color-back-tint);
-      border-radius: var(--size-radius);
+      border-radius: var(--radius-md);
     }
 
     .picker-container {
@@ -235,7 +235,7 @@ export class AppSkinEditorGradientPickerComponent extends TiniComponent {
       background: var(--color-black);
       width: 230px;
       border: 1px solid var(--color-white);
-      border-radius: var(--size-border);
+      border-radius: var(--border-md);
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
       z-index: 101;
 
@@ -257,9 +257,9 @@ export class AppSkinEditorGradientPickerComponent extends TiniComponent {
         select {
           max-width: calc(50% - 0.5rem);
           background: var(--color-back-tint);
-          border: var(--size-border) solid var(--color-medium);
-          border-radius: var(--size-radius);
-          padding: var(--size-space-0_25x) var(--size-space-0_5x);
+          border: var(--border-md) solid var(--color-medium);
+          border-radius: var(--radius-md);
+          padding: var(--space-2xs) var(--space-xs);
         }
       }
     }

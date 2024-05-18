@@ -7,7 +7,7 @@ export const styles = css`
     --scale: var(--scale-md);
     --text-color: var(--color-medium);
     --border: none;
-    --border-radius: var(--size-radius);
+    --border-radius: var(--radius-md);
     display: inline;
   }
 

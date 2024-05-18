@@ -5,10 +5,10 @@ export const styles = css`
   :host {
     --background: var(--color-medium);
     --text-color: var(--color-medium);
-    --font-size: var(--size-text);
-    --border: var(--size-border) solid var(--color-medium);
-    --border-radius: var(--size-radius);
-    --padding: var(--size-space);
+    --font-size: var(--text-md);
+    --border: var(--border-md) solid var(--color-medium);
+    --border-radius: var(--radius-md);
+    --padding: var(--space-md);
     --margin: 0;
   }
 

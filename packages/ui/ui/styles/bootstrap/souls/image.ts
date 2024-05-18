@@ -3,8 +3,8 @@ import {css} from 'lit';
 export const styles = css`
   :host {
     --border: none;
-    --border-radius: var(--size-radius);
-    --box-shadow: var(--shadow-main);
+    --border-radius: var(--radius-md);
+    --box-shadow: none;
     display: inline;
   }
 

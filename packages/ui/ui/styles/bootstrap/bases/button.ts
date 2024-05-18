@@ -6,7 +6,7 @@ export default css`
   input[type='reset'],
   input[type='submit'] {
     font-family: var(--font-body);
-    font-size: var(--size-text);
+    font-size: var(--text-md);
     background: var(--color-back);
     color: var(--color-front);
   }

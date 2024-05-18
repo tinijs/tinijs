@@ -668,7 +668,7 @@ registerComponents([ ${constructorName} ]);`;
       background: var(--color-back-tint);
 
       &.fullscreen {
-        padding: var(--size-space);
+        padding: var(--space-md);
       }
     }
 
@@ -679,7 +679,7 @@ registerComponents([ ${constructorName} ]);`;
       overflow: hidden;
       width: 100%;
       border: 1px solid var(--color-back-shade);
-      border-radius: var(--size-radius);
+      border-radius: var(--radius-md);
 
       .head {
         display: flex;
@@ -687,12 +687,12 @@ registerComponents([ ${constructorName} ]);`;
         align-items: center;
         justify-content: space-between;
         height: var(--head-height);
-        padding: var(--size-space-0_5x);
+        padding: var(--space-xs);
         border-bottom: 1px solid var(--color-back-shade);
       }
 
       .body {
-        padding: var(--size-space);
+        padding: var(--space-md);
       }
     }
 
@@ -700,7 +700,7 @@ registerComponents([ ${constructorName} ]);`;
       .body {
         display: flex;
         flex-flow: column;
-        gap: var(--size-space-1_5x);
+        gap: var(--space-lg);
       }
     }
 
@@ -720,7 +720,7 @@ registerComponents([ ${constructorName} ]);`;
           .buttons {
             display: flex;
             align-items: center;
-            gap: var(--size-space-0_5x);
+            gap: var(--space-xs);
 
             .separator {
               display: block;
@@ -735,8 +735,8 @@ registerComponents([ ${constructorName} ]);`;
               justify-content: center;
               background: none;
               border: none;
-              border-radius: var(--size-radius);
-              padding: var(--size-space-0_25x);
+              border-radius: var(--radius-md);
+              padding: var(--space-2xs);
               cursor: pointer;
 
               &:hover {
@@ -764,11 +764,11 @@ registerComponents([ ${constructorName} ]);`;
         .viewport-size {
           display: none;
           position: absolute;
-          top: var(--size-space);
-          right: var(--size-space);
-          padding: var(--size-space-0_25x) var(--size-space-0_5x);
-          font-size: var(--size-text-0_85x);
-          border-radius: var(--size-radius);
+          top: var(--space-md);
+          right: var(--space-md);
+          padding: var(--space-2xs) var(--space-xs);
+          font-size: var(--text-sm);
+          border-radius: var(--radius-md);
           background: color-mix(in oklab, var(--color-front), transparent 30%);
           color: var(--color-back);
 
@@ -812,10 +812,10 @@ registerComponents([ ${constructorName} ]);`;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: var(--size-space-0_25x);
+            gap: var(--space-2xs);
             background: var(--color-back);
             border: none;
-            padding: var(--size-space-0_5x) var(--size-space-0_75x);
+            padding: var(--space-xs) var(--space-sm);
             cursor: pointer;
             box-sizing: border-box;
             height: calc(var(--head-height) + 1px);

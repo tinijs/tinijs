@@ -31,16 +31,20 @@ export function extractCSSVariables(
       const [category] = description?.match(/\[[a-zA-Z0-9_]+\]/) || [];
       const keyArr = key.split('-').filter(item => item);
       const prefix = keyArr.shift() as string;
-      const title = !keyArr.length
+      const potentialTitle = !keyArr.length
         ? '-'
-        : keyArr.map(item => item[0].toUpperCase() + item.slice(1)).join(' ');
+        : keyArr
+            .map(item => item.replace(/^\w/, c => c.toUpperCase()))
+            .join('');
       result[key] = {
         key,
         value,
         valueDirect: value, // process later
         prefix,
         title:
-          prefix !== 'scale' && prefix !== 'wide' ? title : title.toUpperCase(),
+          potentialTitle === 'Md'
+            ? prefix.replace(/^\w/, c => c.toUpperCase())
+            : potentialTitle,
         description: (
           (!category ? description : description?.replace(category, '')) || ''
         ).trim(),

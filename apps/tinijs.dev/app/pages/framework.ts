@@ -54,8 +54,8 @@ export class AppPageFramework extends TiniComponent {
         scheme=${SubtleColors.Primary}
         styleDeep="
           .root {
-            font-size: var(--size-text) !important;
-            padding: var(--size-space) !important;
+            font-size: var(--text-md) !important;
+            padding: var(--space-md) !important;
           }
         "
         >Want to know <strong>Why bother creating TiniJS Framework?</strong

@@ -6,21 +6,21 @@ export const styles = css`
     --color: var(--color-primary);
     --scale: var(--scale-md);
     --border-color: var(--color-medium);
-    --border-radius: var(--size-radius);
+    --border-radius: var(--radius-md);
   }
 
   .root {
     display: flex;
     flex-flow: column;
     align-items: flex-start;
-    gap: var(--size-space-0_5x);
+    gap: var(--space-xs);
   }
 
   textarea {
     width: 100%;
     background: var(--color-back-tint);
     color: var(--color-front);
-    border: var(--size-border) solid var(--border-color);
+    border: var(--border-md) solid var(--border-color);
     border-radius: var(--border-radius);
     padding: calc(var(--scale) / 2) calc(var(--scale) / 1.5);
     font-family: var(--font-body);

@@ -66,16 +66,16 @@ export class AppDocPageSurroundComponent extends TiniComponent {
       display: flex;
       flex-flow: column;
       border-top: 1px solid var(--color-back-shade);
-      padding: var(--size-space-2x);
-      gap: var(--size-space);
+      padding: var(--space-xl);
+      gap: var(--space-md);
     }
 
     a {
       display: flex;
       flex-flow: column;
       border: 1px solid var(--color-back-shade);
-      border-radius: var(--size-radius);
-      padding: var(--size-space);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
       text-decoration: none !important;
       transition:
         border-color 0.2s ease,
@@ -84,11 +84,11 @@ export class AppDocPageSurroundComponent extends TiniComponent {
     a:hover {
       text-decoration: none;
       border-color: var(--color-medium-tint);
-      box-shadow: var(--shadow-less);
+      box-shadow: var(--shadow-medium);
     }
     a span {
       color: var(--color-medium);
-      font-size: var(--size-text-0_85x);
+      font-size: var(--text-sm);
     }
 
     .prev-button {
@@ -101,18 +101,18 @@ export class AppDocPageSurroundComponent extends TiniComponent {
     @media (min-width: 992px) {
       .container {
         flex-flow: row;
-        gap: var(--size-space-2x);
+        gap: var(--space-xl);
       }
 
       .container > * {
         flex: 1;
-        width: calc(50% - var(--size-space-2x));
+        width: calc(50% - var(--space-xl));
       }
     }
 
     @media (min-width: 1200px) {
       .container {
-        padding: var(--size-space-2x) var(--size-space-4x);
+        padding: var(--space-xl) var(--space-4xl);
       }
     }
   `;

@@ -5,7 +5,7 @@ export const styles = css`
     --width: 100%;
     --height: 1rem;
     --speed: 3s;
-    --border-radius: var(--size-radius);
+    --border-radius: var(--radius-md);
   }
 
   .root {

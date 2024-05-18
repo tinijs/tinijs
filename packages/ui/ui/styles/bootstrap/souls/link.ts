@@ -43,7 +43,7 @@ export const styles = css`
     }
 
     .color-${name}::after {
-      --underline-height: calc(var(--size-text) / 13);
+      --underline-height: calc(var(--text-md) / 13);
       visibility: hidden;
       content: '';
       position: absolute;

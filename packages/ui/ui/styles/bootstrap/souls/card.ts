@@ -4,9 +4,9 @@ const styles = css`
   :host {
     --width: var(--wide-xs);
     --background: var(--color-back-tint);
-    --border: var(--size-border) solid var(--color-back-shade);
-    --border-radius: var(--size-radius);
-    --box-shadow: var(--shadow-main);
+    --border: var(--border-md) solid var(--color-back-shade);
+    --border-radius: var(--radius-md);
+    --box-shadow: none;
   }
 
   .root {
@@ -27,7 +27,7 @@ const styles = css`
 
   .head-populated,
   .foot-populated {
-    padding: var(--size-space-0_5x) var(--size-space);
+    padding: var(--space-xs) var(--space-md);
     background: color-mix(in oklab, var(--color-back-shade), transparent 75%);
   }
 
@@ -45,7 +45,7 @@ const styles = css`
   }
 
   .body {
-    padding: var(--size-space);
+    padding: var(--space-md);
   }
 
   .foot {
@@ -53,16 +53,16 @@ const styles = css`
   }
 
   ::slotted(.card-image) {
-    width: calc(100% + var(--size-space-2x));
-    margin: calc(var(--size-space) * -1);
+    width: calc(100% + var(--space-xl));
+    margin: calc(var(--space-md) * -1);
     height: auto;
-    margin-bottom: var(--size-space);
+    margin-bottom: var(--space-md);
   }
 
   ::slotted(.card-title) {
     display: block;
     margin: 0;
-    font-size: var(--size-text-1_25x);
+    font-size: var(--text-lg);
     font-weight: bold;
   }
 

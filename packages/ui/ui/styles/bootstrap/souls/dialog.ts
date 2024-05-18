@@ -3,16 +3,16 @@ import {css} from 'lit';
 export const styles = css`
   :host {
     --width: var(--wide-xs);
-    --box-shadow: var(--shadow-main);
+    --box-shadow: none;
   }
 
   dialog {
     position: fixed;
     padding: 0;
-    width: calc(100% - var(--size-space-2x));
+    width: calc(100% - var(--space-xl));
     max-width: var(--width);
     border: none;
-    border-radius: var(--size-radius);
+    border-radius: var(--radius-md);
     box-shadow: var(--box-shadow);
     background: var(--color-back);
     color: var(--color-front);
@@ -38,13 +38,13 @@ export const styles = css`
   .head {
     justify-content: space-between;
     align-items: center;
-    border-bottom: var(--size-border) solid var(--color-back-shade);
-    padding: var(--size-space);
+    border-bottom: var(--border-md) solid var(--color-back-shade);
+    padding: var(--space-md);
   }
 
   .head strong {
     display: block;
-    font-size: var(--size-text-1_25x);
+    font-size: var(--text-lg);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -54,13 +54,13 @@ export const styles = css`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: var(--size-space-2x);
-    height: var(--size-space-2x);
+    width: var(--space-xl);
+    height: var(--space-xl);
     padding: 0;
     background: none;
     border: none;
     opacity: 0.5;
-    font-size: var(--size-text-1_5x);
+    font-size: var(--text-xl);
     cursor: pointer;
     color: var(--color-front);
   }
@@ -71,7 +71,7 @@ export const styles = css`
 
   .body {
     flex-flow: column;
-    padding: var(--size-space-1_5x);
+    padding: var(--space-lg);
     overflow-x: hidden;
     overflow-y: auto;
     max-height: 75vh;
@@ -81,8 +81,8 @@ export const styles = css`
   .foot {
     align-items: center;
     justify-content: space-between;
-    padding: var(--size-space);
-    border-top: var(--size-border) solid var(--color-back-shade);
+    padding: var(--space-md);
+    border-top: var(--border-md) solid var(--color-back-shade);
   }
 `;
 
