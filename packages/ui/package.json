@@ -24,7 +24,7 @@
     "!**/*.spec.*"
   ],
   "scripts": {
-    "tini": "../cli/dist/cli/index.js",
+    "tini": "node ../cli/dist/cli/index.js",
     "build": "rimraf ./dist && tsc && npm run tini -- ui build",
     "lint": "gts lint",
     "fix": "gts fix"

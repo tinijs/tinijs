@@ -11,7 +11,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "tini": "../../packages/cli/dist/cli/index.js",
+    "tini": "node ../../packages/cli/dist/cli/index.js",
     "dev": "npm run tini -- dev",
     "build": "npm run tini -- ui build && npm run tini -- build",
     "preview": "npm run tini -- preview",

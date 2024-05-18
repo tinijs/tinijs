@@ -43,7 +43,7 @@ export async function cleanDir(dirPath: string) {
 }
 
 export async function listDir(dirPath: string, ignores?: string[]) {
-  return recursiveReaddir(dirPath, ignores);
+  return (await recursiveReaddir(dirPath, ignores)).map(path => resolve(path));
 }
 
 export function tsToJS(filePath: string) {
