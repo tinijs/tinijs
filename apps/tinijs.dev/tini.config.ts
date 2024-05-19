@@ -16,7 +16,16 @@ export default defineTiniConfig({
   ui: {
     sources: ['../../packages/ui/ui'],
     families: {
+      alpha: ['light', 'dark'],
       bootstrap: ['light', 'dark'],
+      material: ['light', 'dark'],
+      fluent: ['light', 'dark'],
+      apple: ['light', 'dark'],
+      nuxt: ['light', 'dark'],
+      next: ['light', 'dark'],
+      horizon: ['light', 'dark'],
+      spectrum: ['light', 'dark'],
+      line: ['light', 'dark'],
     },
     outDir: './app/ui',
     rewritePath: path => path.replace(uiPackagePath, '@tinijs/ui/dist'),

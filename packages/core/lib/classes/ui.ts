@@ -21,13 +21,13 @@ export type Theming = Record<
     styles: ThemingStyles;
     scripts?:
       | ThemingScripts
-      | (<Host extends TiniElement>(host: Host) => ThemingScripts);
+      | (<Elem extends TiniElement>(elem: Elem) => ThemingScripts);
   }
 >;
 
 export type ThemingTemplates = Record<
   string,
-  <Host extends TiniElement>(host: Host, context?: any) => TemplateResult
+  <Elem extends TiniElement>(elem: Elem, context?: any) => TemplateResult
 >;
 
 export type CSSResultOrNativeOrRaw = CSSResultOrNative | string;
@@ -37,28 +37,28 @@ export type ThemingStyles = CSSResultOrNativeOrRaw | CSSResultOrNativeOrRaw[];
 export type StyleDeepInput = string | Record<string, ThemingStyles>;
 
 export interface ThemingScripts {
-  connectedCallback?<Host extends TiniElement>(
+  connectedCallback?<Elem extends TiniElement>(
     type: ThemingScriptTypes,
-    host: Host
+    elem: Elem
   ): void;
-  disconnectedCallback?<Host extends TiniElement>(
+  disconnectedCallback?<Elem extends TiniElement>(
     type: ThemingScriptTypes,
-    host: Host
+    elem: Elem
   ): void;
-  willUpdate?<Host extends TiniElement>(
+  willUpdate?<Elem extends TiniElement>(
     type: ThemingScriptTypes,
-    host: Host,
-    changedProperties: PropertyValues<Host>
+    elem: Elem,
+    changedProperties: PropertyValues<Elem>
   ): void;
-  firstUpdated?<Host extends TiniElement>(
+  firstUpdated?<Elem extends TiniElement>(
     type: ThemingScriptTypes,
-    host: Host,
-    changedProperties: PropertyValues<Host>
+    elem: Elem,
+    changedProperties: PropertyValues<Elem>
   ): void;
-  updated?<Host extends TiniElement>(
+  updated?<Elem extends TiniElement>(
     type: ThemingScriptTypes,
-    host: Host,
-    changedProperties: PropertyValues<Host>
+    elem: Elem,
+    changedProperties: PropertyValues<Elem>
   ): void;
 }
 
@@ -147,7 +147,7 @@ export function getStylesFromTheming(
 }
 
 export function getScriptsFromTheming(
-  host: TiniElement,
+  elem: TiniElement,
   theming: Theming | undefined,
   {themeId, familyId, prevThemeId, prevFamilyId}: ActiveTheme
 ) {
@@ -156,7 +156,7 @@ export function getScriptsFromTheming(
     ? {}
     : typeof current !== 'function'
       ? current
-      : current(host);
+      : current(elem);
   const prev =
     prevThemeId === themeId
       ? undefined
@@ -165,7 +165,7 @@ export function getScriptsFromTheming(
     ? {}
     : typeof prev !== 'function'
       ? prev
-      : prev(host);
+      : prev(elem);
   return {prevScripts, currentScripts};
 }
 

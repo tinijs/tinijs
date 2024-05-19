@@ -276,8 +276,71 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
               )}
             .items=${[
               {
+                label: 'Alpha',
+                children: this.buildThemeOptions('alpha', [
+                  {label: 'Light', value: 'light'},
+                  {label: 'Dark', value: 'dark'},
+                ]),
+              },
+              {
                 label: 'Bootstrap',
                 children: this.buildThemeOptions('bootstrap', [
+                  {label: 'Light', value: 'light'},
+                  {label: 'Dark', value: 'dark'},
+                ]),
+              },
+              {
+                label: 'Material',
+                children: this.buildThemeOptions('material', [
+                  {label: 'Light', value: 'light'},
+                  {label: 'Dark', value: 'dark'},
+                ]),
+              },
+              {
+                label: 'Fluent',
+                children: this.buildThemeOptions('fluent', [
+                  {label: 'Light', value: 'light'},
+                  {label: 'Dark', value: 'dark'},
+                ]),
+              },
+              {
+                label: 'Apple',
+                children: this.buildThemeOptions('apple', [
+                  {label: 'Light', value: 'light'},
+                  {label: 'Dark', value: 'dark'},
+                ]),
+              },
+              {
+                label: 'Nuxt',
+                children: this.buildThemeOptions('nuxt', [
+                  {label: 'Light', value: 'light'},
+                  {label: 'Dark', value: 'dark'},
+                ]),
+              },
+              {
+                label: 'Next',
+                children: this.buildThemeOptions('next', [
+                  {label: 'Light', value: 'light'},
+                  {label: 'Dark', value: 'dark'},
+                ]),
+              },
+              {
+                label: 'Horizon',
+                children: this.buildThemeOptions('horizon', [
+                  {label: 'Light', value: 'light'},
+                  {label: 'Dark', value: 'dark'},
+                ]),
+              },
+              {
+                label: 'Spectrum',
+                children: this.buildThemeOptions('spectrum', [
+                  {label: 'Light', value: 'light'},
+                  {label: 'Dark', value: 'dark'},
+                ]),
+              },
+              {
+                label: 'Line',
+                children: this.buildThemeOptions('line', [
                   {label: 'Light', value: 'light'},
                   {label: 'Dark', value: 'dark'},
                 ]),

@@ -251,9 +251,9 @@ export async function buildSkins(
             config.rewritePath
           );
           skinTS.addExport(importPath, [`default as ${importName}`]);
-          results.push(skinTS.toResult(`skins/${skinId}.ts`));
+          results.push(skinTS.toResult(`skins/${familyId}-${skinId}.ts`));
           // add to index
-          indexTS.addImport(`./skins/${skinId}.js`, [importName]);
+          indexTS.addImport(`./skins/${familyId}-${skinId}.js`, [importName]);
           indexTS.data.mainExportValue[`${familyId}/${skinId}`] = importName;
         }
       }
@@ -274,15 +274,21 @@ export async function buildBases(
   config: UIConfig
 ) {
   const results: GenFileResult[] = [];
-  const allBases = Object.values(themeFamilies).reduce(
-    (result, {bases}) => [...result, ...Object.keys(bases)],
-    [] as string[]
+
+  const pickedFamilies = config.families || {};
+  const allBases = Array.from(
+    Object.keys(pickedFamilies).reduce((result, familyId) => {
+      for (const baseId of Object.keys(themeFamilies[familyId]?.bases || {})) {
+        result.add(baseId);
+      }
+      return result;
+    }, new Set<string>())
   );
 
   const indexTS = createGenFile({
     mainExportValue: {} as Record<string, string>,
   });
-  for (const [familyId] of Object.entries(config.families || {})) {
+  for (const [familyId] of Object.entries(pickedFamilies)) {
     const familyTS = createGenFile();
     const familyNames = parseName(familyId);
     const familyTSExportNames: string[] = [];

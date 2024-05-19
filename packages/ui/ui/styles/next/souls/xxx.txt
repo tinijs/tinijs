@@ -1,0 +1,26 @@
+import {css} from 'lit';
+import {generateColorVaries, generateScaleVaries} from '@tinijs/core';
+
+export const styles = css`
+  .root {
+    
+  }
+
+  ${generateColorVaries(
+    ({fullName, color}) => `
+    .${fullName} {
+      
+    }
+  `
+  )}
+
+  ${generateScaleVaries(
+    ({fullName, scale}) => `
+    .${fullName} {
+      
+    }
+  `
+  )}
+`;
+
+export default {styles};
