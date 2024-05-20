@@ -2,7 +2,7 @@
 
 For more detail and usage, please visit <https://tinijs.dev>
 
-## Theme Families
+## Families
 
 ### Alpha
 
@@ -51,9 +51,22 @@ For more detail and usage, please visit <https://tinijs.dev>
 
 ### Spectrum
 
+- https://s2.spectrum.adobe.com/
 - https://spectrum.adobe.com/
 
 ### Line
 
 - https://io.google/2024/
 - https://posthog.com/
+
+## Resources
+
+### Gradient
+
+- 30 iOS 7 Gradients: https://dribbble.com/shots/1631052/attachments/254371?mode=media
+- iOS 7 Color Swatches: https://dribbble.com/shots/1186156-iOS-7-Color-Swatches/attachments/1186156-iOS-7-Color-Swatches?mode=media
+- https://gradienthunt.com/popular
+- https://cssgradient.io/gradient-backgrounds/
+- https://www.grabient.com/
+- https://gradientbuttons.colorion.co/
+- https://www.colorzilla.com/gradient-editor/

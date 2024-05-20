@@ -55,18 +55,25 @@ function generateSpaceVars() {
     .join('\n  ');
 }
 
-function generateRingVars() {
-  const items: [string, number][] = [
+function generateRadiusVars() {
+  const items: [string, string | number][] = [
     ['xs', 0.5],
     ['sm', 0.75],
     // md = 1
-    ['lg', 1.25],
-    ['xl', 2],
-    ['2xl', 3],
-    ['3xl', 4],
+    ['lg', 2],
+    ['xl', 4],
+    ['circle', '50%'],
+    ['pill', '9999px'],
   ];
   return items
-    .map(([name, value]) => `--ring-${name}: calc(var(--ring-md) * ${value});`)
+    .map(
+      ([name, value]) =>
+        `--radius-${name}: ${
+          typeof value === 'string'
+            ? value
+            : `calc(var(--radius-md) * ${value})`
+        };`
+    )
     .join('\n  ');
 }
 
@@ -87,25 +94,44 @@ function generateBorderVars() {
     .join('\n  ');
 }
 
-function generateRadiusVars() {
-  const items: [string, string | number][] = [
+function generateRingVars() {
+  const items: [string, number][] = [
     ['xs', 0.5],
     ['sm', 0.75],
     // md = 1
-    ['lg', 2],
-    ['xl', 4],
-    ['circle', '50%'],
-    ['pill', '9999px'],
+    ['lg', 1.25],
+    ['xl', 2],
+    ['2xl', 3],
+    ['3xl', 4],
   ];
   return items
-    .map(
-      ([name, value]) =>
-        `--radius-${name}: ${
-          typeof value === 'string'
-            ? value
-            : `calc(var(--radius-md) * ${value})`
-        };`
-    )
+    .map(([name, value]) => `--ring-${name}: calc(var(--ring-md) * ${value});`)
+    .join('\n  ');
+}
+
+function generateLineVars() {
+  const items: [string, number][] = [
+    ['xs', 1],
+    ['sm', 1.4],
+    // md = 1.8
+    ['lg', 2.2],
+    ['xl', 2.6],
+  ];
+  return items
+    .map(([name, value]) => `--line-${name}: ${value};`)
+    .join('\n  ');
+}
+
+function generateLetterVars() {
+  const items: [string, string][] = [
+    ['xs', '-0.03em'],
+    ['sm', '-0.015em'],
+    // md = normal
+    ['lg', '0.075em'],
+    ['xl', '0.15em'],
+  ];
+  return items
+    .map(([name, value]) => `--letter-${name}: ${value};`)
     .join('\n  ');
 }
 
@@ -456,18 +482,22 @@ export function getSkinUtils() {
   const scaleSizes = generateScaleVars();
   const textSizes = generateTextVars();
   const spaceSizes = generateSpaceVars();
-  const ringSizes = generateRingVars();
-  const borderSizes = generateBorderVars();
   const radiusSizes = generateRadiusVars();
+  const borderSizes = generateBorderVars();
+  const ringSizes = generateRingVars();
+  const lineSizes = generateLineVars();
+  const letterSizes = generateLetterVars();
   const wideSizes = generateWideVars();
   return minifyCSS(`
 :root {
   ${scaleSizes}
   ${textSizes}
   ${spaceSizes}
-  ${ringSizes}
-  ${borderSizes}
   ${radiusSizes}
+  ${borderSizes}
+  ${ringSizes}
+  ${lineSizes}
+  ${letterSizes}
   ${wideSizes}
 }
 `);
@@ -483,13 +513,14 @@ export function getGeneralStyles() {
 
 body {
   margin: 0;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-size-adjust: 100%;
-  font-family: var(--font-body);
-  font-size: var(--text-md);
   background: var(--color-back);
   color: var(--color-front);
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: var(--line-md);
+  letter-spacing: var(--letter-md);
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
 }
 `);
 }

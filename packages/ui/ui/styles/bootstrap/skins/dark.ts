@@ -3,10 +3,10 @@ import {css} from 'lit';
 /* eslint-disable prettier/prettier */
 export default css`:root {
   /* fonts */
-  --font-head: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --font-body: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --font-quote: 'Times New Roman', Georgia, Baskerville, serif;
-  --font-code: Monaco, Consolas, "Courier New", monospace;
+  --font-head: Helvetica, sans-serif;
+  --font-body: Helvetica, sans-serif;
+  --font-quote: Helvetica, sans-serif;
+  --font-code: Monaco, monospace;
   /* colors */
   --color-back: #212428;
   --color-back-subtle: #21242833;
@@ -106,6 +106,8 @@ export default css`:root {
   --radius-md: 4px;
   --border-md: 1px;
   --ring-md: 1px;
+  --line-md: 1.8;
+  --letter-md: normal;
   /* shadows */
   --shadow-scarcity: 0 0 0 1px #00000026;
   --shadow-tiny: 0 1px 2px 0 #00000026;
