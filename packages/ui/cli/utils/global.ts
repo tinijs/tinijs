@@ -55,7 +55,7 @@ function generateSpaceVars() {
     .join('\n  ');
 }
 
-function generateOutlineVars() {
+function generateRingVars() {
   const items: [string, number][] = [
     ['xs', 0.5],
     ['sm', 0.75],
@@ -66,10 +66,7 @@ function generateOutlineVars() {
     ['3xl', 4],
   ];
   return items
-    .map(
-      ([name, value]) =>
-        `--outline-${name}: calc(var(--outline-md) * ${value});`
-    )
+    .map(([name, value]) => `--ring-${name}: calc(var(--ring-md) * ${value});`)
     .join('\n  ');
 }
 
@@ -459,7 +456,7 @@ export function getSkinUtils() {
   const scaleSizes = generateScaleVars();
   const textSizes = generateTextVars();
   const spaceSizes = generateSpaceVars();
-  const outlineSizes = generateOutlineVars();
+  const ringSizes = generateRingVars();
   const borderSizes = generateBorderVars();
   const radiusSizes = generateRadiusVars();
   const wideSizes = generateWideVars();
@@ -468,7 +465,7 @@ export function getSkinUtils() {
   ${scaleSizes}
   ${textSizes}
   ${spaceSizes}
-  ${outlineSizes}
+  ${ringSizes}
   ${borderSizes}
   ${radiusSizes}
   ${wideSizes}

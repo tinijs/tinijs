@@ -103,9 +103,9 @@ export default css`:root {
   --scale-md: 15px;
   --text-md: 16px;
   --space-md: 1rem;
-  --outline-md: 1px;
-  --border-md: 1px;
   --radius-md: 4px;
+  --border-md: 1px;
+  --ring-md: 1px;
   /* shadows */
   --shadow-scarcity: 0 0 0 1px #0000000d;
   --shadow-tiny: 0 1px 2px 0 #0000000d;
