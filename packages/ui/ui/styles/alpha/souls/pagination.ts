@@ -66,7 +66,7 @@ export const styles = css`
   .next-disabled a:hover {
     cursor: default;
     background: color-mix(in oklab, var(--color-back-shade), transparent 50%);
-    color: var(--color-medium);
+    color: var(--color-middle);
   }
 
   ${generateColorVaries(

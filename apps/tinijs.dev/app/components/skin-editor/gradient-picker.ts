@@ -221,7 +221,7 @@ export class AppSkinEditorGradientPickerComponent extends TiniComponent {
       cursor: pointer;
       width: 50px;
       height: 27px;
-      outline: var(--border-md) solid var(--color-medium);
+      outline: var(--border-md) solid var(--color-middle);
       border: 4px solid var(--color-back-tint);
       border-radius: var(--radius-md);
     }
@@ -257,7 +257,7 @@ export class AppSkinEditorGradientPickerComponent extends TiniComponent {
         select {
           max-width: calc(50% - 0.5rem);
           background: var(--color-back-tint);
-          border: var(--border-md) solid var(--color-medium);
+          border: var(--border-md) solid var(--color-middle);
           border-radius: var(--radius-md);
           padding: var(--space-2xs) var(--space-xs);
         }

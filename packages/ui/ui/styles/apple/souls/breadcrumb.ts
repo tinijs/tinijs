@@ -10,13 +10,13 @@ const styles = css`
   }
 
   .item {
-    color: var(--color-medium);
+    color: var(--color-middle);
   }
 
   .item::before {
     content: '/';
     margin: 0 var(--space-xs);
-    color: var(--color-medium);
+    color: var(--color-middle);
   }
 
   .item:first-child::before {

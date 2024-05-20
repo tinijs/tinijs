@@ -124,7 +124,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
         a {
           display: block;
           padding: var(--space-2xs) var(--space-md);
-          color: var(--color-medium);
+          color: var(--color-middle);
 
           &:hover {
             text-decoration: none;

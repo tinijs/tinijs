@@ -35,7 +35,7 @@ export class AppPage404 extends TiniComponent implements PageWithMetadata {
         <h2 style="margin-bottom: 0.5rem; font-size: 1.5rem;">
           You broke an egg!
         </h2>
-        <p style="margin-top: 0; color: var(--color-medium);">
+        <p style="margin-top: 0; color: var(--color-middle);">
           The page you are looking is not available, please head
           <tini-link href="/">home</tini-link>.
         </p>

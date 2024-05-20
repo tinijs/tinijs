@@ -83,11 +83,11 @@ export class AppDocPageSurroundComponent extends TiniComponent {
     }
     a:hover {
       text-decoration: none;
-      border-color: var(--color-medium-tint);
+      border-color: var(--color-middle-tint);
       box-shadow: var(--shadow-medium);
     }
     a span {
-      color: var(--color-medium);
+      color: var(--color-middle);
       font-size: var(--text-sm);
     }
 

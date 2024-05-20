@@ -164,7 +164,7 @@ export class AppDocPageContentComponent
       }
 
       tini-figure::part(caption-bottom) {
-        color: var(--color-medium);
+        color: var(--color-middle);
         font-size: var(--text-xs);
       }
 

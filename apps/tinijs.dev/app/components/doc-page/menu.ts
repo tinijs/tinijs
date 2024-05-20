@@ -152,7 +152,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
         }
 
         tini-link::part(root) {
-          color: var(--color-medium);
+          color: var(--color-middle);
           text-decoration: none;
         }
 

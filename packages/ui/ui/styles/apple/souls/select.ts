@@ -5,7 +5,7 @@ export const styles = css`
   :host {
     --color: var(--color-primary);
     --scale: var(--scale-md);
-    --border-color: var(--color-medium);
+    --border-color: var(--color-middle);
     --border-radius: var(--radius-md);
     display: inline;
   }
@@ -36,7 +36,7 @@ export const styles = css`
   select:disabled {
     background: color-mix(in oklab, var(--color-back-shade), transparent 50%);
     opacity: 1;
-    color: var(--color-medium);
+    color: var(--color-middle);
   }
 
   .wrap {

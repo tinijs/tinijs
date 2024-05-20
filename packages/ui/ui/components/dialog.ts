@@ -123,7 +123,7 @@ export default class extends TiniElement {
                 ? nothing
                 : html`
                     <tini-button
-                      scheme=${this.noButton?.scheme || 'medium'}
+                      scheme=${this.noButton?.scheme || Colors.Middle}
                       @click=${this.clickNo}
                     >
                       ${this.noButton?.text ||

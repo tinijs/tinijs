@@ -8,7 +8,7 @@ import {
 export const styles = css`
   :host {
     --scale: var(--scale-md);
-    --background: var(--color-medium);
+    --background: var(--color-middle);
     --color: var(--color-white);
     --hover-shadow: var(--color-primary);
     --active-background: var(--color-primary);
@@ -103,7 +103,7 @@ export const styles = css`
   ${generateGradientVaries(
     ({fullName, gradient, color, contrast}) => `
     .${fullName} {
-      --background: var(--gradient-medium);
+      --background: var(--gradient-middle);
       --hover-shadow: ${color};
       --active-background: ${gradient};
       --active-color: ${contrast};

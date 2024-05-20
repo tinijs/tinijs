@@ -541,7 +541,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
           margin-bottom: var(--space-md);
 
           .group-title {
-            color: var(--color-medium);
+            color: var(--color-middle);
             text-transform: uppercase;
           }
 
@@ -563,7 +563,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
                 input,
                 select {
                   background: var(--color-back-tint);
-                  border: var(--border-md) solid var(--color-medium);
+                  border: var(--border-md) solid var(--color-middle);
                   border-radius: var(--radius-md);
                   padding: var(--space-2xs) var(--space-xs);
                 }

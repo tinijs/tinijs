@@ -3,9 +3,9 @@ import {generateColorVaries, generateScaleVaries} from '@tinijs/core';
 
 export const styles = css`
   :host {
-    --background: var(--color-medium);
+    --background: var(--color-middle);
     --scale: var(--scale-md);
-    --text-color: var(--color-medium);
+    --text-color: var(--color-middle);
     --border: none;
     --border-radius: var(--radius-md);
     display: inline;

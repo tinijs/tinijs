@@ -3,10 +3,10 @@ import {generateColorVaries} from '@tinijs/core';
 
 export const styles = css`
   :host {
-    --background: var(--color-medium);
-    --text-color: var(--color-medium);
+    --background: var(--color-middle);
+    --text-color: var(--color-middle);
     --font-size: var(--text-md);
-    --border: var(--border-md) solid var(--color-medium);
+    --border: var(--border-md) solid var(--color-middle);
     --border-radius: var(--radius-md);
     --padding: var(--space-md);
     --margin: 0;

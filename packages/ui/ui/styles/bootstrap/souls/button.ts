@@ -7,11 +7,11 @@ import {
 
 export const styles = css`
   :host {
-    --base-color: var(--color-medium);
-    --color: var(--color-medium);
-    --background: var(--color-medium);
+    --base-color: var(--color-middle);
+    --color: var(--color-middle);
+    --background: var(--color-middle);
     --scale: var(--scale-md);
-    --text-color: var(--color-medium-contrast);
+    --text-color: var(--color-middle-contrast);
     --border-size: var(--border-md);
     --border-radius: var(--radius-md);
     --box-shadow: none;

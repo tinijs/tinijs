@@ -7,9 +7,9 @@ import {
 
 const styles = css`
   :host {
-    --background: var(--color-medium);
+    --background: var(--color-middle);
     --scale: var(--scale-md);
-    --color: var(--color-medium-contrast);
+    --color: var(--color-middle-contrast);
     --border-radius: var(--radius-md);
     display: inline;
   }

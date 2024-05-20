@@ -2,7 +2,7 @@ import {html, type PropertyValues} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ref, createRef} from 'lit/directives/ref.js';
-import {TiniElement, partAttrMap} from '@tinijs/core';
+import {TiniElement, partAttrMap, Colors} from '@tinijs/core';
 
 import type {DialogButton, DialogResult} from './dialog.js';
 
@@ -97,7 +97,7 @@ export default class extends TiniElement {
           <slot name="foot">
             <div class="foot-first" part="foot-first">
               <tini-button
-                scheme=${this.noButton?.scheme || 'medium'}
+                scheme=${this.noButton?.scheme || Colors.Middle}
                 @click=${this.clickNo}
               >
                 ${this.noButton?.text || 'Cancel'}

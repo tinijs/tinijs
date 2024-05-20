@@ -58,8 +58,8 @@ export type TextTransformVaryRender = (
 
 export enum Colors {
   Back = 'back',
+  Middle = 'middle',
   Front = 'front',
-  Medium = 'medium',
   Primary = 'primary',
   Secondary = 'secondary',
   Info = 'info',
@@ -92,8 +92,8 @@ export enum Colors {
 }
 export enum SubtleColors {
   Back = 'back-subtle',
+  Middle = 'middle-subtle',
   Front = 'front-subtle',
-  Medium = 'medium-subtle',
   Primary = 'primary-subtle',
   Secondary = 'secondary-subtle',
   Info = 'info-subtle',
@@ -130,8 +130,8 @@ export const ALL_COLORS = [...COLORS, ...SUBTLE_COLORS];
 
 export enum Gradients {
   Back = 'gradient-back',
+  Middle = 'gradient-middle',
   Front = 'gradient-front',
-  Medium = 'gradient-medium',
   Primary = 'gradient-primary',
   Secondary = 'gradient-secondary',
   Info = 'gradient-info',
@@ -158,8 +158,8 @@ export enum Gradients {
 }
 export enum SubtleGradients {
   Back = 'gradient-back-subtle',
+  Middle = 'gradient-middle-subtle',
   Front = 'gradient-front-subtle',
-  Medium = 'gradient-medium-subtle',
   Primary = 'gradient-primary-subtle',
   Secondary = 'gradient-secondary-subtle',
   Info = 'gradient-info-subtle',
@@ -190,8 +190,8 @@ export const ALL_GRADIENTS = [...GRADIENTS, ...SUBTLE_GRADIENTS];
 
 export const GRADIENTS_TO_COLORS = [
   [Gradients.Back, Colors.Back],
+  [Gradients.Middle, Colors.Middle],
   [Gradients.Front, Colors.Front],
-  [Gradients.Medium, Colors.Medium],
   [Gradients.Primary, Colors.Primary],
   [Gradients.Secondary, Colors.Secondary],
   [Gradients.Info, Colors.Info],
@@ -225,8 +225,8 @@ export const GRADIENTS_TO_COLORS = [
 );
 export const COLORS_TO_GRADIENTS = [
   [Colors.Back, Gradients.Back],
+  [Colors.Middle, Gradients.Middle],
   [Colors.Front, Gradients.Front],
-  [Colors.Medium, Gradients.Medium],
   [Colors.Primary, Gradients.Primary],
   [Colors.Secondary, Gradients.Secondary],
   [Colors.Info, Gradients.Info],

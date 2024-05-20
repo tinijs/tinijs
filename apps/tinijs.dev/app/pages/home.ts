@@ -51,7 +51,7 @@ export class AppPageHome extends TiniComponent {
               >Get started</tini-button
             >
             <tini-button
-              scheme=${Colors.Medium}
+              scheme=${Colors.Middle}
               @click=${() =>
                 open('https://github.com/tinijs/tinijs', '_blank')?.focus()}
               >View on Github</tini-button
@@ -259,7 +259,7 @@ export class AppPageHome extends TiniComponent {
 
     .members li p {
       margin: 0;
-      color: var(--color-medium);
+      color: var(--color-middle);
     }
 
     .try {
@@ -294,7 +294,7 @@ export class AppPageHome extends TiniComponent {
       border-radius: var(--radius-md) var(--radius-md) 0 0;
       text-align: center;
       font-weight: 700;
-      color: var(--color-medium);
+      color: var(--color-middle);
       font-size: 0.9rem;
     }
     .special-sponsors ul {
@@ -309,7 +309,7 @@ export class AppPageHome extends TiniComponent {
     }
     .special-sponsors a {
       display: block;
-      color: var(--color-medium);
+      color: var(--color-middle);
       text-decoration: none;
       font-size: 1.5rem;
       padding: var(--space-xl);

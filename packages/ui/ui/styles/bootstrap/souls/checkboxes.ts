@@ -5,7 +5,7 @@ export const styles = css`
   :host {
     --scale: var(--scale-md);
     --background: var(--color-primary);
-    --border-color: var(--color-medium);
+    --border-color: var(--color-middle);
   }
 
   .root {

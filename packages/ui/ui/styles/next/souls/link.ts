@@ -4,7 +4,7 @@ import {generateColorVaries, generateGradientVaries} from '@tinijs/core';
 export const styles = css`
   :host {
     --color: var(--color-primary);
-    --disabled-color: var(--color-medium);
+    --disabled-color: var(--color-middle);
     --disabled-opacity: 0.5;
     display: inline;
   }
