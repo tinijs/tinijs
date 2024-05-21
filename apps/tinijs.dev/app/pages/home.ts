@@ -196,162 +196,177 @@ export class AppPageHome extends TiniComponent {
       flex-direction: column;
       align-items: center;
       padding: var(--space-xl) var(--space-md);
-    }
 
-    .logo img {
-      width: 150px;
-    }
+      .logo img {
+        width: 150px;
+      }
 
-    .headline {
-      text-align: center;
-    }
+      .headline {
+        text-align: center;
 
-    .actions {
-      display: flex;
-      gap: var(--space-md);
-      margin-top: var(--space-md);
-      justify-content: center;
+        h2 {
+          padding-bottom: 1rem;
+          border-bottom: none;
+        }
+
+        .actions {
+          display: flex;
+          gap: var(--space-md);
+          margin-top: var(--space-md);
+          justify-content: center;
+        }
+      }
     }
 
     .members {
       padding: var(--space-xl);
-    }
 
-    .members ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: var(--space-md);
-    }
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: var(--space-md);
 
-    .members li {
-      padding: var(--space-md);
-      border-radius: var(--radius-md);
-      background: var(--color-back);
-      border: 1px solid var(--color-back);
-      transition:
-        box-shadow 0.3s,
-        border-color 0.3s;
-    }
+        li {
+          padding: var(--space-md);
+          border-radius: var(--radius-md);
+          background: var(--color-back);
+          border: 1px solid var(--color-back);
+          transition:
+            box-shadow 0.3s,
+            border-color 0.3s;
 
-    .members li:hover {
-      cursor: pointer;
-      box-shadow: var(--shadow-big);
-      border-color: var(--color-back-shade);
-    }
+          &:hover {
+            cursor: pointer;
+            box-shadow: var(--shadow-big);
+            border-color: var(--color-back-shade);
+          }
 
-    .members li .icon {
-      font-size: 2rem;
-      padding: var(--space-sm);
-      background: var(--color-back-shade);
-      width: 55px;
-      height: 50px;
-      line-height: 25px;
-      border-radius: var(--radius-md);
-    }
+          .icon {
+            font-size: 2rem;
+            padding: var(--space-sm);
+            background: var(--color-back-shade);
+            width: 55px;
+            height: 50px;
+            line-height: 25px;
+            border-radius: var(--radius-md);
+          }
 
-    .members li h3 {
-      margin: var(--space-md) 0 0;
-      font-size: 1.5rem;
-    }
+          h3 {
+            margin: var(--space-md) 0;
+            font-size: 1.5rem;
+          }
 
-    .members li p {
-      margin: 0;
-      color: var(--color-middle);
+          p {
+            margin: 0;
+            color: var(--color-middle);
+          }
+        }
+      }
     }
 
     .try {
       padding: var(--space-xl);
-    }
 
-    .try .title h1 {
-      margin-bottom: 0;
-    }
+      .title {
+        h2 {
+          border-bottom: none;
+          padding-bottom: 1rem;
+        }
 
-    .try .title p {
-      margin-bottom: var(--space-xl);
+        p {
+          margin-bottom: var(--space-xl);
+        }
+      }
     }
 
     .sponsors {
       padding: var(--space-xl);
       margin: var(--space-xl) auto;
-    }
 
-    .sponsors .foreword {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      margin-bottom: var(--space-xl);
-    }
+      .foreword {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: var(--space-xl);
+      }
 
-    .special-sponsors .title {
-      background: var(--color-back);
-      margin-bottom: var(--space-xs);
-      padding: var(--space-xs) var(--space-md);
-      border-radius: var(--radius-md) var(--radius-md) 0 0;
-      text-align: center;
-      font-weight: 700;
-      color: var(--color-middle);
-      font-size: 0.9rem;
-    }
-    .special-sponsors ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      gap: var(--space-xs);
-    }
-    .special-sponsors li {
-      background: var(--color-back);
-    }
-    .special-sponsors a {
-      display: block;
-      color: var(--color-middle);
-      text-decoration: none;
-      font-size: 1.5rem;
-      padding: var(--space-xl);
-      width: 100%;
-      text-align: center;
-    }
+      .special-sponsors {
+        .title {
+          background: var(--color-back);
+          margin-bottom: var(--space-xs);
+          padding: var(--space-xs) var(--space-md);
+          border-radius: var(--radius-md) var(--radius-md) 0 0;
+          text-align: center;
+          font-weight: 700;
+          color: var(--color-middle);
+          font-size: 0.9rem;
+        }
 
-    .sponsors .actions {
-      display: flex;
-      gap: var(--space-md);
-      margin-top: var(--space-xl);
-      justify-content: center;
+        ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: grid;
+          gap: var(--space-xs);
+
+          li {
+            background: var(--color-back);
+
+            a {
+              display: block;
+              color: var(--color-middle);
+              text-decoration: none;
+              font-size: 1.5rem;
+              padding: var(--space-xl);
+              width: 100%;
+              text-align: center;
+            }
+          }
+        }
+      }
+
+      .actions {
+        display: flex;
+        gap: var(--space-md);
+        margin-top: var(--space-xl);
+        justify-content: center;
+      }
     }
 
     @media (min-width: 768px) {
       .featured {
         padding: var(--space-3xl) var(--space-xl);
         flex-direction: row;
+
+        .logo {
+          width: 40%;
+          text-align: right;
+
+          img {
+            width: 200px;
+          }
+        }
+
+        .headline {
+          order: -1;
+          text-align: left;
+
+          h2 {
+            font-size: 2.5rem;
+            margin-top: 0;
+          }
+
+          .actions {
+            justify-content: flex-start;
+          }
+        }
       }
 
-      .logo {
-        width: 40%;
-        text-align: right;
-      }
-      .logo img {
-        width: 200px;
-      }
-
-      .headline {
-        order: -1;
-        text-align: left;
-      }
-      .headline h2 {
-        font-size: 2.5rem;
-        margin-top: 0;
-      }
-
-      .actions {
-        justify-content: flex-start;
-      }
-
-      .special-sponsors ul {
+      .sponsors .special-sponsors ul {
         grid-template-columns: repeat(3, 1fr);
       }
     }

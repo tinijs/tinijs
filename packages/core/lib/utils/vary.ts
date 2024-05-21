@@ -24,11 +24,6 @@ export interface GradientRenderValues extends ColorRenderValues {
 }
 export type GradientVaryRender = (values: GradientRenderValues) => string;
 
-export interface ScaleRenderValues extends RenderValues {
-  scale: string;
-}
-export type ScaleVaryRender = (values: ScaleRenderValues) => string;
-
 export interface FontTypeRenderValues extends RenderValues {
   fontType: string;
 }
@@ -55,6 +50,11 @@ export interface TextTransformRenderValues extends RenderValues {
 export type TextTransformVaryRender = (
   values: TextTransformRenderValues
 ) => string;
+
+export interface ScaleRenderValues extends RenderValues {
+  scale: string;
+}
+export type ScaleVaryRender = (values: ScaleRenderValues) => string;
 
 export enum Colors {
   Back = 'back',
@@ -265,15 +265,6 @@ export const COLORS_TO_GRADIENTS = [
   {} as Record<string, string>
 );
 
-export enum Scales {
-  XS = 'xs',
-  SM = 'sm',
-  MD = 'md',
-  LG = 'lg',
-  XL = 'xl',
-}
-export const SCALES = Object.values(Scales);
-
 export enum FontTypes {
   Head = 'head',
   Body = 'body',
@@ -325,6 +316,116 @@ export enum TextTransforms {
   Uppercase = 'uppercase',
 }
 export const TEXT_TRANSFORMS = Object.values(TextTransforms);
+
+export enum Scales {
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+}
+export const SCALES = Object.values(Scales);
+
+export enum Texts {
+  '3XS' = '3xs',
+  '2XS' = '2xs',
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+  '2XL' = '2xl',
+  '3XL' = '3xl',
+  '4XL' = '4xl',
+  '5XL' = '5xl',
+}
+export const TEXTS = Object.values(Texts);
+
+export enum Spaces {
+  '3XS' = '3xs',
+  '2XS' = '2xs',
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+  '2XL' = '2xl',
+  '3XL' = '3xl',
+  '4XL' = '4xl',
+  '5XL' = '5xl',
+}
+export const SPACES = Object.values(Spaces);
+
+export enum Radiuses {
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+  Circle = 'circle',
+  Pill = 'pill',
+}
+export const RADIUSES = Object.values(Radiuses);
+
+export enum Borders {
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+}
+export const BORDERS = Object.values(Borders);
+
+export enum Rings {
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+}
+export const RINGS = Object.values(Rings);
+
+export enum Lines {
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+}
+export const LINES = Object.values(Lines);
+
+export enum Letters {
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+}
+export const LETTERS = Object.values(Letters);
+
+export enum Wides {
+  '3XS' = '3xs',
+  '2XS' = '2xs',
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+  '2XL' = '2xl',
+  '3XL' = '3xl',
+  '4XL' = '4xl',
+  '5XL' = '5xl',
+}
+export const WIDES = Object.values(Wides);
+
+export enum Shadows {
+  Scarcity = 'scarcity',
+  Tiny = 'tiny',
+  Small = 'small',
+  Medium = 'medium',
+  Big = 'big',
+  Huge = 'huge',
+  Excess = 'excess',
+}
+export const SHADOWS = Object.values(Shadows);
 
 export function generateColorVaries(
   render: ColorVaryRender,
@@ -414,22 +515,6 @@ export function generateGradientVaries(
   );
 }
 
-export function generateScaleVaries(render: ScaleVaryRender) {
-  return unsafeCSS(
-    SCALES.map(name => {
-      const prefixName = 'scale';
-      const fullName = `${prefixName}-${name}`;
-      const scale = `var(--scale-${name})`;
-      return render({
-        name,
-        prefixName,
-        fullName,
-        scale,
-      });
-    }).join('')
-  );
-}
-
 export function generateFontTypeVaries(render: FontTypeVaryRender) {
   return unsafeCSS(
     FONT_TYPES.map(name => {
@@ -505,6 +590,22 @@ export function generateTextTransformVaries(render: TextTransformVaryRender) {
         prefixName,
         fullName,
         textTransform,
+      });
+    }).join('')
+  );
+}
+
+export function generateScaleVaries(render: ScaleVaryRender) {
+  return unsafeCSS(
+    SCALES.map(name => {
+      const prefixName = 'scale';
+      const fullName = `${prefixName}-${name}`;
+      const scale = `var(--scale-${name})`;
+      return render({
+        name,
+        prefixName,
+        fullName,
+        scale,
       });
     }).join('')
   );

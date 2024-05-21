@@ -43,9 +43,14 @@ import {AppDocPageSurroundComponent} from './surround.js';
 
 import {docPageContext, type DocPageContext} from '../../contexts/doc-page.js';
 
-const componentLoader = createComponentLoader({
-  ...UI_POST_COMPONENT_REGISTRY,
-});
+const componentLoader = createComponentLoader(
+  {
+    ...UI_POST_COMPONENT_REGISTRY,
+  },
+  {
+    prefixes: [UI_POST_COMPONENT_PREFIX],
+  }
+);
 
 @Component({
   components: [
@@ -229,9 +234,7 @@ export class AppDocPageComponent
       } else {
         post = await this.postService.getDetail(postSlug);
         if (post?.content) {
-          await componentLoader.extractAndLoad([post.content], {
-            prefixes: [UI_POST_COMPONENT_PREFIX],
-          });
+          await componentLoader.extractAndLoad([post.content]);
         }
       }
     } catch (error) {
@@ -299,6 +302,7 @@ export class AppDocPageComponent
 
     .content {
       width: 100vw;
+      background: var(--color-back);
     }
 
     @media (min-width: 992px) {

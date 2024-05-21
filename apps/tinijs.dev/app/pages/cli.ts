@@ -31,22 +31,24 @@ export class AppPageCLI extends TiniComponent {
 
   private _getHomeTemplate() {
     return html`
-      <h1>Tini CLI</h1>
-      <p>The TiniJS official CLI tool.</p>
-      <p>
-        <tini-embed>
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/Hq492p9siSs?si=_i9gf3GFm7c0u7hH"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen
-          ></iframe>
-        </tini-embed>
-      </p>
+      <article>
+        <h1>Tini CLI</h1>
+        <p>The TiniJS official CLI tool.</p>
+        <p>
+          <tini-embed>
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/Hq492p9siSs?si=_i9gf3GFm7c0u7hH"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </tini-embed>
+        </p>
+      </article>
     `;
   }
 

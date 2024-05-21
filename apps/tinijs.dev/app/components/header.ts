@@ -78,7 +78,7 @@ export class HeaderComponent
               display: flex;
               align-items: center;
               text-decoration: none;
-              color: var(--color-text);
+              color: var(--color-front);
               gap: var(--space-sm);
             "
           >
@@ -198,6 +198,7 @@ export class HeaderComponent
           padding: var(--space-sm) 0;
           color: var(--color-front);
           text-decoration: none;
+          font-weight: 500;
         }
       }
     }

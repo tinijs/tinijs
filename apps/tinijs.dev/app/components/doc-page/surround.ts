@@ -73,6 +73,7 @@ export class AppDocPageSurroundComponent extends TiniComponent {
     a {
       display: flex;
       flex-flow: column;
+      background: var(--color-back-tint);
       border: 1px solid var(--color-back-shade);
       border-radius: var(--radius-md);
       padding: var(--space-md);

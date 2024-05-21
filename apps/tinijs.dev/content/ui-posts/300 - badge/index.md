@@ -21,14 +21,15 @@
       {
         section: 'radios',
         attrs: {
-          label: 'Mode',
+          label: 'Shape',
           items: [
             {label: 'Default', value: '_default', checked: true},
+            {label: 'Normal', value: 'normal'},
             {label: 'Pill', value: 'pill'},
             {label: 'Circle', value: 'circle'}
           ]
         },
-        target: 'mode'
+        target: 'shape'
       },
       {
         section: 'select',

@@ -23,7 +23,7 @@ import {
   getCommonColors,
   getCommonGradients,
   getSkinUtils,
-  getGeneralStyles,
+  getCommonStyles,
 } from './global.js';
 
 const {ModuleKind, ScriptTarget} = typescript;
@@ -43,6 +43,13 @@ export interface ComponentBuildInstructions {
   reactAnyProp?: boolean;
 }
 
+export interface AvailableComponentsAndThemeFamilies {
+  components: Record<string, AvailableComponent>;
+  themeFamilies: Record<string, AvailableThemeFamily>;
+}
+
+export const DEFAULT_OUT_DIR = './app/ui';
+
 export const TS_CONFIG = {
   declaration: true,
   sourceMap: true,
@@ -56,7 +63,7 @@ export const TS_CONFIG = {
   skipLibCheck: true,
 };
 
-function resolveSourceDir(sourceDir: string) {
+export function resolveSourceDir(sourceDir: string) {
   return /^\.\.?(\/|\\)/.test(sourceDir)
     ? resolve(sourceDir)
     : resolve('node_modules', sourceDir, 'dist', 'ui');
@@ -191,30 +198,30 @@ export async function buildGlobals() {
     );
   results.push(skinUtilsTS.toResult(skinUtilsFile));
 
-  // general styles
-  const generalStylesExportName = 'generalStyles';
-  const generalStylesFile = 'globals/general-styles.ts';
-  const generalStylesTS = createGenFile()
+  // common styles
+  const commonStylesExportName = 'commonStyles';
+  const commonStylesFile = 'globals/common-styles.ts';
+  const commonStylesTS = createGenFile()
     .addImport('lit', ['css'])
     .addBlock(
-      `export const ${generalStylesExportName} =`,
-      `css\`${getGeneralStyles()}\``
+      `export const ${commonStylesExportName} =`,
+      `css\`${getCommonStyles()}\``
     );
-  results.push(generalStylesTS.toResult(generalStylesFile));
+  results.push(commonStylesTS.toResult(commonStylesFile));
 
   // index
   const indexTS = createGenFile()
     .addImport(`./${tsToJS(commonColorsFile)}`, [commonColorsExportName])
     .addImport(`./${tsToJS(commonGradientsFile)}`, [commonGradientsExportName])
     .addImport(`./${tsToJS(skinUtilsFile)}`, [skinUtilsExportName])
-    .addImport(`./${tsToJS(generalStylesFile)}`, [generalStylesExportName])
+    .addImport(`./${tsToJS(commonStylesFile)}`, [commonStylesExportName])
     .addBlock(
       'export const availableGlobals =',
       `[
         ${commonColorsExportName},
         ${commonGradientsExportName},
         ${skinUtilsExportName},
-        ${generalStylesExportName},
+        ${commonStylesExportName},
       ]`
     );
   results.push(indexTS.toResult('global.ts'));

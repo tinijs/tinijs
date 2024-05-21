@@ -109,11 +109,12 @@ export class AppDocPageMenuComponent extends TiniComponent {
       display: flex;
       align-items: center;
       width: 100%;
-      color: var(--color-text);
+      color: var(--color-front);
       padding: 6px var(--space-md);
       gap: var(--space-md);
       font-weight: bold;
       font-size: 1.2rem;
+      text-decoration: none;
 
       icon-home {
         transform: translateY(-2px);
@@ -136,6 +137,8 @@ export class AppDocPageMenuComponent extends TiniComponent {
       gap: var(--space-2xs);
 
       li {
+        padding-left: 0;
+
         strong {
           display: block;
           margin-top: var(--space-lg);
@@ -154,14 +157,17 @@ export class AppDocPageMenuComponent extends TiniComponent {
         tini-link::part(root) {
           color: var(--color-middle);
           text-decoration: none;
+          font-weight: normal;
+          font-size: var(--text-sm);
         }
 
         tini-link:hover::part(root) {
-          color: var(--color-text);
+          text-decoration: none;
+          color: var(--color-front);
         }
 
         tini-link::part(active) {
-          color: var(--color-text);
+          color: var(--color-front);
           cursor: default;
           pointer-events: none;
         }
@@ -174,7 +180,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
         transform: none;
         opacity: 1;
         left: 0;
-        background: var(--color-back);
+        background: var(--color-back-shade);
         border-right: none;
         padding-bottom: var(--footer-height);
       }

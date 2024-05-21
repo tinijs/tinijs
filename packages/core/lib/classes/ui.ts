@@ -1,4 +1,5 @@
 import {
+  getCompatibleStyle,
   adoptStyles,
   unsafeCSS,
   type PropertyValues,
@@ -68,11 +69,14 @@ export enum ThemingScriptTypes {
 }
 
 export enum Breakpoints {
-  XS = '320px',
+  '2XS' = '320px',
+  XS = '480px',
   SM = '576px',
   MD = '768px',
-  LG = '1024px',
-  XL = '1440px',
+  LG = '992px',
+  XL = '1024px',
+  '2XL' = '1200px',
+  '3XL' = '1440px',
 }
 
 export interface ActiveTheme {
@@ -266,38 +270,45 @@ export class UI {
     const {familyId: currentFamilyId, skinId: currentSkinId} =
       this._activeTheme || {};
     if (newFamilyId !== currentFamilyId || newSkinId !== currentSkinId) {
+      const prevFamilyId = currentFamilyId || newFamilyId;
+      const prevSkinId = currentSkinId || newSkinId;
+      const prevThemeId = `${prevFamilyId}/${prevSkinId}`;
+      const activeTheme = this._rebuildActiveTheme(newFamilyId, newSkinId, {
+        prevFamilyId,
+        prevSkinId,
+        prevThemeId,
+      });
       // 1. update local storage
       localStorage.setItem(THEME_LOCAL_STORAGE_KEY, themeId);
       // 2. adopt styles
       this._applyTheme(newFamilyId, newSkinId);
       // 3. dispatch a global event
-      const prevFamilyId = currentFamilyId || newFamilyId;
-      const prevSkinId = currentSkinId || newSkinId;
-      const prevThemeId = `${prevFamilyId}/${prevSkinId}`;
-      dispatchEvent(
-        new CustomEvent(THEME_CHANGE_EVENT, {
-          detail: this._rebuildActiveTheme(newFamilyId, newSkinId, {
-            prevFamilyId,
-            prevSkinId,
-            prevThemeId,
-          }),
-        })
-      );
+      dispatchEvent(new CustomEvent(THEME_CHANGE_EVENT, {detail: activeTheme}));
     }
     return this.activeTheme;
   }
 
-  getStyles(familyId: string, skinId: string) {
-    const themeId = `${familyId}/${skinId}`;
-    const {skins, globals, shares} = this._init;
-    const globalStyles = convertThemingStylesToAdoptableStyles(globals);
-    const skinStyles = convertThemingStylesToAdoptableStyles(skins[themeId]);
-    const shareStyles = [
+  getGlobalStyles() {
+    const {globals} = this._init;
+    return convertThemingStylesToAdoptableStyles(globals);
+  }
+
+  getSkinStyles(familyId: string, skinId: string) {
+    const {skins} = this._init;
+    return convertThemingStylesToAdoptableStyles(
+      skins[`${familyId}/${skinId}`]
+    );
+  }
+
+  getShareStyles(familyId: string, skinId: string) {
+    const {shares} = this._init;
+    return [
       ...convertThemingStylesToAdoptableStyles(shares?.['*']),
       ...convertThemingStylesToAdoptableStyles(shares?.[familyId]),
-      ...convertThemingStylesToAdoptableStyles(shares?.[themeId]),
+      ...convertThemingStylesToAdoptableStyles(
+        shares?.[`${familyId}/${skinId}`]
+      ),
     ];
-    return {globalStyles, skinStyles, shareStyles};
   }
 
   private _rebuildActiveTheme(
@@ -307,14 +318,14 @@ export class UI {
   ) {
     const themeId = `${familyId}/${skinId}`;
     // breakpoints
-    const computedStyle = getComputedStyle(document.body);
+    const skinText = extractTextFromStyles(listify(this._init.skins[themeId]));
     const breakpoints = Object.entries(Breakpoints).reduce(
       (result, [enumKey, defaultValue]) => {
         const key = enumKey.toLowerCase() as Lowercase<
           keyof typeof Breakpoints
         >;
-        const value = computedStyle.getPropertyValue(`--wide-${key}`);
-        result[key] = value || defaultValue;
+        const matching = skinText.match(new RegExp(`--wide-${key}: ?([^;]+);`));
+        result[key] = matching?.[1] || defaultValue;
         return result;
       },
       {} as Record<Lowercase<keyof typeof Breakpoints>, string>
@@ -333,13 +344,16 @@ export class UI {
 
   private _applyTheme(familyId: string, skinId: string) {
     const host = this._init.host || document;
-    const {globalStyles, skinStyles, shareStyles} = this.getStyles(
-      familyId,
-      skinId
+    const globalStyles = this.getGlobalStyles();
+    const skinStyles = this.getSkinStyles(familyId, skinId);
+    const shareStyles = this.getShareStyles(familyId, skinId);
+    const styleText = processComponentStyles(
+      [...skinStyles, ...globalStyles, ...shareStyles],
+      this._activeTheme
     );
     return adoptStyles(
       ((host as HTMLElement).shadowRoot || host) as ShadowRoot,
-      [...skinStyles, ...globalStyles, ...shareStyles]
+      [getCompatibleStyle(unsafeCSS(styleText))]
     );
   }
 }

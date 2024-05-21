@@ -25,12 +25,6 @@ function prebuiltReactPackageJSON(name: string, uiVersion?: string) {
   };
 }
 
-const alphaBaseConfig: PrebuiltBaseConfig = {
-  families: {
-    alpha: true,
-  },
-};
-
 const bootstrapBaseConfig: PrebuiltBaseConfig = {
   families: {
     bootstrap: true,
@@ -49,27 +43,9 @@ const fluentBaseConfig: PrebuiltBaseConfig = {
   },
 };
 
-const appleBaseConfig: PrebuiltBaseConfig = {
+const iosBaseConfig: PrebuiltBaseConfig = {
   families: {
-    apple: true,
-  },
-};
-
-const nuxtBaseConfig: PrebuiltBaseConfig = {
-  families: {
-    nuxt: true,
-  },
-};
-
-const nextBaseConfig: PrebuiltBaseConfig = {
-  families: {
-    next: true,
-  },
-};
-
-const horizonBaseConfig: PrebuiltBaseConfig = {
-  families: {
-    horizon: true,
+    ios: true,
   },
 };
 
@@ -79,9 +55,21 @@ const spectrumBaseConfig: PrebuiltBaseConfig = {
   },
 };
 
-const lineBaseConfig: PrebuiltBaseConfig = {
+const shadcnBaseConfig: PrebuiltBaseConfig = {
   families: {
-    line: true,
+    shadcn: true,
+  },
+};
+
+const tailwindBaseConfig: PrebuiltBaseConfig = {
+  families: {
+    tailwind: true,
+  },
+};
+
+const chakraBaseConfig: PrebuiltBaseConfig = {
+  families: {
+    chakra: true,
   },
 };
 
@@ -93,19 +81,6 @@ export default defineTiniConfig({
     bundled: true,
     rewritePath: true,
     outPacks: [
-      // alpha
-      {
-        ...alphaBaseConfig,
-        outDir: './build/alpha',
-        packageJSON: ({version}) => prebuiltPackageJSON('alpha', version),
-      },
-      {
-        ...alphaBaseConfig,
-        framework: 'react',
-        outDir: './build/alpha-react',
-        packageJSON: ({version}) =>
-          prebuiltReactPackageJSON('alpha-react', version),
-      },
       // bootstrap
       {
         ...bootstrapBaseConfig,
@@ -145,57 +120,18 @@ export default defineTiniConfig({
         packageJSON: ({version}) =>
           prebuiltReactPackageJSON('fluent-react', version),
       },
-      // apple
+      // ios
       {
-        ...appleBaseConfig,
-        outDir: './build/apple',
-        packageJSON: ({version}) => prebuiltPackageJSON('apple', version),
+        ...iosBaseConfig,
+        outDir: './build/ios',
+        packageJSON: ({version}) => prebuiltPackageJSON('ios', version),
       },
       {
-        ...appleBaseConfig,
+        ...iosBaseConfig,
         framework: 'react',
-        outDir: './build/apple-react',
+        outDir: './build/ios-react',
         packageJSON: ({version}) =>
-          prebuiltReactPackageJSON('apple-react', version),
-      },
-      // nuxt
-      {
-        ...nuxtBaseConfig,
-        outDir: './build/nuxt',
-        packageJSON: ({version}) => prebuiltPackageJSON('nuxt', version),
-      },
-      {
-        ...nuxtBaseConfig,
-        framework: 'react',
-        outDir: './build/nuxt-react',
-        packageJSON: ({version}) =>
-          prebuiltReactPackageJSON('nuxt-react', version),
-      },
-      // next
-      {
-        ...nextBaseConfig,
-        outDir: './build/next',
-        packageJSON: ({version}) => prebuiltPackageJSON('next', version),
-      },
-      {
-        ...nextBaseConfig,
-        framework: 'react',
-        outDir: './build/next-react',
-        packageJSON: ({version}) =>
-          prebuiltReactPackageJSON('next-react', version),
-      },
-      // horizon
-      {
-        ...horizonBaseConfig,
-        outDir: './build/horizon',
-        packageJSON: ({version}) => prebuiltPackageJSON('horizon', version),
-      },
-      {
-        ...horizonBaseConfig,
-        framework: 'react',
-        outDir: './build/horizon-react',
-        packageJSON: ({version}) =>
-          prebuiltReactPackageJSON('horizon-react', version),
+          prebuiltReactPackageJSON('ios-react', version),
       },
       // spectrum
       {
@@ -210,18 +146,44 @@ export default defineTiniConfig({
         packageJSON: ({version}) =>
           prebuiltReactPackageJSON('spectrum-react', version),
       },
-      // line
+      // shadcn
       {
-        ...lineBaseConfig,
-        outDir: './build/line',
-        packageJSON: ({version}) => prebuiltPackageJSON('line', version),
+        ...shadcnBaseConfig,
+        outDir: './build/shadcn',
+        packageJSON: ({version}) => prebuiltPackageJSON('shadcn', version),
       },
       {
-        ...lineBaseConfig,
+        ...shadcnBaseConfig,
         framework: 'react',
-        outDir: './build/line-react',
+        outDir: './build/shadcn-react',
         packageJSON: ({version}) =>
-          prebuiltReactPackageJSON('line-react', version),
+          prebuiltReactPackageJSON('shadcn-react', version),
+      },
+      // tailwind
+      {
+        ...tailwindBaseConfig,
+        outDir: './build/tailwind',
+        packageJSON: ({version}) => prebuiltPackageJSON('tailwind', version),
+      },
+      {
+        ...tailwindBaseConfig,
+        framework: 'react',
+        outDir: './build/tailwind-react',
+        packageJSON: ({version}) =>
+          prebuiltReactPackageJSON('tailwind-react', version),
+      },
+      // chakra
+      {
+        ...chakraBaseConfig,
+        outDir: './build/chakra',
+        packageJSON: ({version}) => prebuiltPackageJSON('chakra', version),
+      },
+      {
+        ...chakraBaseConfig,
+        framework: 'react',
+        outDir: './build/chakra-react',
+        packageJSON: ({version}) =>
+          prebuiltReactPackageJSON('chakra-react', version),
       },
     ],
   },

@@ -71,7 +71,7 @@ export class AppDocPageContentComponent
 
   protected render() {
     return html`
-      <article ${ref(this._articleRef)}>
+      <div class="root" ${ref(this._articleRef)}>
         ${!this.postSlug
           ? this.context.homeTemplate
           : sectionRender([this.post], {
@@ -80,7 +80,7 @@ export class AppDocPageContentComponent
               error: () => this._getErrorTemplate(),
               main: ([post]) => this._getMainTemplate(post!),
             })}
-      </article>
+      </div>
     `;
   }
 
@@ -120,89 +120,81 @@ export class AppDocPageContentComponent
 
   static styles = [
     css`
-      article {
+      .root {
         margin-top: var(--toolbar-height);
         padding: var(--space-xl);
-      }
 
-      h1 {
-        margin-top: 0;
-        margin-bottom: var(--space-md);
-      }
-
-      .doc .content {
-        border-top: var(--border-md) solid var(--color-back-shade);
-        padding-top: var(--space-md);
-      }
-
-      .doc h1,
-      .doc h2,
-      .doc h3,
-      .doc h4 {
-        display: flex;
-        align-items: center;
-        gap: var(--space-xs);
-        transform: translateX(-0.8em);
-      }
-      .doc h1 .header-anchor,
-      .doc h2 .header-anchor,
-      .doc h3 .header-anchor,
-      .doc h4 .header-anchor {
-        visibility: hidden;
-        font-size: 0.8em;
-      }
-      .doc h1:hover .header-anchor,
-      .doc h2:hover .header-anchor,
-      .doc h3:hover .header-anchor,
-      .doc h4:hover .header-anchor {
-        visibility: visible;
-      }
-
-      tini-message::part(root) {
-        font-size: var(--text-xs);
-        padding: var(--space-xs);
-      }
-
-      tini-figure::part(caption-bottom) {
-        color: var(--color-middle);
-        font-size: var(--text-xs);
-      }
-
-      table {
-        border-collapse: collapse;
-        width: 100%;
-        text-align: left;
-        background: var(--color-back);
-        color: var(--color-front);
-      }
-      table tr {
-        margin: 0;
-        padding: 0;
-      }
-      table th {
-        font-weight: 700;
-        background: var(--color-back);
-      }
-      table th,
-      table td {
-        padding: var(--space-xs);
-        border-bottom: var(--border-md) solid var(--color-back-shade);
-      }
-      table td {
-        background: var(--color-back-tint);
-      }
-
-      .suggest-edit {
-        display: flex;
-        align-items: center;
-        gap: var(--space-2xs);
-        margin-top: var(--space-xl);
-      }
-
-      @media (min-width: 1200px) {
-        article {
+        @media (min-width: 1200px) {
           margin-top: 0;
           padding: var(--space-4xl);
+        }
+      }
+
+      .doc {
+        & > h1 {
+          transform: translateX(-0.75em);
+
+          .header-anchor {
+            visibility: hidden;
+            font-size: 0.85em;
+          }
+
+          &:hover .header-anchor {
+            visibility: visible;
+          }
+        }
+
+        .content {
+          border-top: 1px solid var(--color-back-shade);
+          margin-top: var(--space-md);
+          padding-top: var(--space-md);
+
+          & > h1,
+          & > h2,
+          & > h3,
+          & > h4,
+          & > h5,
+          & > h6 {
+            margin: 0.75em 0 0.5em;
+            padding-bottom: 0;
+            border-bottom: none;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            transform: translateX(-0.75em);
+
+            .header-anchor {
+              visibility: hidden;
+              font-size: 0.85em;
+            }
+
+            &:hover .header-anchor {
+              visibility: visible;
+            }
+          }
+
+          p,
+          ul,
+          ol {
+            margin: 1em 0;
+          }
+
+          tini-message::part(root) {
+            font-size: var(--text-xs);
+            padding: var(--space-xs);
+          }
+
+          tini-figure::part(caption-bottom) {
+            color: var(--color-middle);
+            font-size: var(--text-xs);
+          }
+        }
+
+        .suggest-edit {
+          display: flex;
+          align-items: center;
+          gap: var(--space-2xs);
+          margin-top: var(--space-xl);
         }
       }
     `,

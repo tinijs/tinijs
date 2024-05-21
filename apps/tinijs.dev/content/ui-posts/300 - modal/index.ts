@@ -9,8 +9,8 @@ import {TiniModalComponent} from '../../../app/ui/components/modal.js';
 @Component({
   components: [TiniButtonComponent, TiniModalComponent],
 })
-export class ContentUIPostModalUsageComponent extends TiniComponent {
-  static readonly defaultTagName = 'content-ui-post-modal-usage';
+export class ContentUIPostModalComponent extends TiniComponent {
+  static readonly defaultTagName = 'content-ui-post-modal';
 
   private readonly modalRef = createRef<TiniModalComponent>();
 

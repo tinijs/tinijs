@@ -26,6 +26,7 @@ Use buttons to trigger actions.
           label: 'Mode',
           items: [
             {label: 'Default', value: '_default', checked: true},
+            {label: 'Normal', value: 'normal'},
             {label: 'Outline', value: 'outline'},
             {label: 'Clear', value: 'clear'}
           ]

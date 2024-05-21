@@ -8,7 +8,7 @@
 
 ## Usage
 
-<content-ui-post-modal-usage></content-ui-post-modal-usage>
+<content-ui-post-modal></content-ui-post-modal>
 
 ```ts
 import {ref, createRef} from 'lit/directives/ref.js';

@@ -9,7 +9,7 @@ import {
   Scales,
 } from '@tinijs/core';
 
-export enum LabelModes {
+export enum LabelShapes {
   Normal = 'normal',
   Pill = 'pill',
 }
@@ -20,7 +20,7 @@ export default class extends TiniElement {
   };
 
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) mode?: LabelModes;
+  @property({type: String, reflect: true}) shape?: LabelShapes;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
   @property({type: String, reflect: true}) scale?: Scales;
   /* eslint-enable prettier/prettier */
@@ -30,7 +30,7 @@ export default class extends TiniElement {
     // root classes parts
     this.extendRootClasses({
       overridable: {
-        mode: this.mode,
+        shape: this.shape,
         scheme: this.scheme,
         scale: this.scale,
       },

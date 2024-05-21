@@ -26,7 +26,7 @@ export const styles = css`
     text-transform: uppercase;
   }
 
-  .mode-pill {
+  .shape-pill {
     border-radius: 1000px !important;
   }
 

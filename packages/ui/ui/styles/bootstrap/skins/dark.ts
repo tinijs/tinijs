@@ -3,9 +3,9 @@ import {css} from 'lit';
 /* eslint-disable prettier/prettier */
 export default css`:root {
   /* fonts */
-  --font-head: Helvetica, sans-serif;
-  --font-body: Helvetica, sans-serif;
-  --font-quote: Helvetica, sans-serif;
+  --font-head: Arial, sans-serif;
+  --font-body: Arial, sans-serif;
+  --font-quote: Arial, sans-serif;
   --font-code: Monaco, monospace;
   /* colors */
   --color-back: #212428;
@@ -106,7 +106,7 @@ export default css`:root {
   --radius-md: 4px;
   --border-md: 1px;
   --ring-md: 1px;
-  --line-md: 1.8;
+  --line-md: 1.5;
   --letter-md: normal;
   /* shadows */
   --shadow-scarcity: 0 0 0 1px #00000026;

@@ -9,8 +9,8 @@ import {TiniDialogComponent} from '../../../app/ui/components/dialog.js';
 @Component({
   components: [TiniButtonComponent, TiniDialogComponent],
 })
-export class ContentUIPostDialogUsageComponent extends TiniComponent {
-  static readonly defaultTagName = 'content-ui-post-dialog-usage';
+export class ContentUIPostDialogComponent extends TiniComponent {
+  static readonly defaultTagName = 'content-ui-post-dialog';
 
   private readonly alertDialogRef = createRef<TiniDialogComponent>();
 

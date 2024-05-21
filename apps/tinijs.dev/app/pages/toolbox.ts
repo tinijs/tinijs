@@ -33,8 +33,10 @@ export class AppPageToolbox extends TiniComponent {
 
   private _getHomeTemplate() {
     return html`
-      <h1>Tini Toolbox</h1>
-      <p>Commonly used utils and services for building web apps.</p>
+      <article>
+        <h1>Tini Toolbox</h1>
+        <p>Commonly used utils and services for building web apps.</p>
+      </article>
     `;
   }
 

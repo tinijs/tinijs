@@ -106,7 +106,7 @@ export default css`:root {
   --radius-md: 4px;
   --border-md: 1px;
   --ring-md: 1px;
-  --line-md: 1.8;
+  --line-md: 1.5;
   --letter-md: normal;
   /* shadows */
   --shadow-scarcity: 0 0 0 1px #1c1b1d0d;

@@ -4,13 +4,11 @@ For more detail and usage, please visit <https://tinijs.dev>
 
 ## Families
 
-### Alpha
-
-- https://ui.shadcn.com/
-
 ### Bootstrap
 
 - https://getbootstrap.com/
+
+TODO:
 - https://shoelace.style/
 - https://semantic-ui.com/
 
@@ -22,40 +20,45 @@ For more detail and usage, please visit <https://tinijs.dev>
 
 - https://fluent2.microsoft.design/
 
-### Apple
+### iOS
 
 - https://developer.apple.com/design/
 
-### Nuxt
+### Spectrum
 
-- https://ui.nuxt.com/
+- https://spectrum.adobe.com/
+- https://s2.spectrum.adobe.com/
+
+### Shadcn
+
+- https://ui.shadcn.com/
+
+### Tailwind
+
 - https://tailwindui.com/
+
+TODO:
+- https://ui.nuxt.com/
 - https://ant.design/
 - https://element-plus.org/en-US/
 - https://atlassian.design/
 - https://primeng.org/
 - https://primer.style/
 
-### Next
+### Chakra
 
-- https://nextui.org/
-- https://turbo.build/repo
+- https://v2.chakra-ui.com/
 
-### Horizon
-
+TODO:
 - https://horizon-ui.com/documentation/docs/introduction
 - https://designsystem.raksul.com/731d8c745/p/28c69a-styles
-- https://v2.chakra-ui.com/
 - https://ui.vuestic.dev/
 - https://system.design.orange.com/0c1af118d/p/0127c5-the-orange-design-system
 
-### Spectrum
+### Others
 
-- https://s2.spectrum.adobe.com/
-- https://spectrum.adobe.com/
-
-### Line
-
+- https://nextui.org/
+- https://turbo.build/repo
 - https://io.google/2024/
 - https://posthog.com/
 

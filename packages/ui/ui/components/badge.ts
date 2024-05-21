@@ -11,7 +11,7 @@ import {
   Scales,
 } from '@tinijs/core';
 
-export enum BadgeModes {
+export enum BadgeShapes {
   Normal = 'normal',
   Pill = 'pill',
   Circle = 'circle',
@@ -19,7 +19,7 @@ export enum BadgeModes {
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) mode?: BadgeModes;
+  @property({type: String, reflect: true}) shape?: BadgeShapes;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
   @property({type: String, reflect: true}) scale?: Scales;
   /* eslint-enable prettier/prettier */
@@ -29,7 +29,7 @@ export default class extends TiniElement {
     // root classes parts
     this.extendRootClasses({
       overridable: {
-        mode: this.mode,
+        shape: this.shape,
         scheme: this.scheme,
         scale: this.scale,
       },

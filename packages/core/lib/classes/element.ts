@@ -113,13 +113,20 @@ export class TiniElement extends LitElement {
     if (changedProperties.has('templates')) {
       this.customTemplates = this.getTemplates();
     }
-    // re-style when deepStyle changed
-    if (changedProperties.has('styleDeep')) {
-      if (!this._uiTracker.styleDeepAdopted) {
-        this._uiTracker.styleDeepAdopted = true; // skip the first time, already adopted in createRenderRoot()
-      } else {
-        this.customAdoptStyles(this.shadowRoot || this);
-      }
+    // adopt styles
+    const optionalUI = getOptionalUI();
+    if (
+      // styleDeep changed but not the first time
+      (changedProperties.has('styleDeep') &&
+        this._uiTracker.styleDeepAdopted) ||
+      // theme family changed, re-adopt share styles
+      optionalUI?.activeTheme.prevFamilyId !== optionalUI?.activeTheme.familyId
+    ) {
+      this.customAdoptStyles(this.shadowRoot || this);
+    }
+    if (!this._uiTracker.styleDeepAdopted) {
+      // mark styleDeep already adopted in createRenderRoot()
+      this._uiTracker.styleDeepAdopted = true;
     }
     // adopt scripts
     this.adoptScripts('willUpdate', changedProperties);
@@ -288,9 +295,8 @@ export class TiniElement extends LitElement {
     // theme styles
     if (optionalUI) {
       const {familyId, skinId} = optionalUI.activeTheme;
-      const {shareStyles} = optionalUI.getStyles(familyId, skinId);
       allStyles.push(
-        ...shareStyles,
+        ...optionalUI.getShareStyles(familyId, skinId),
         ...getStylesFromTheming(
           (this.constructor as typeof TiniElement).theming,
           optionalUI.activeTheme

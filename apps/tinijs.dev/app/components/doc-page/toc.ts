@@ -95,6 +95,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
       width: 100%;
       padding: var(--space-md);
       color: var(--color-primary);
+      font-size: var(--text-md);
       cursor: pointer;
       text-align: left;
     }
@@ -111,6 +112,8 @@ export class AppDocPageTOCComponent extends TiniComponent {
       padding: var(--space-xs) 0;
 
       li {
+        padding-left: 0;
+
         &.level-3 {
           padding-left: var(--space-md);
         }
@@ -125,10 +128,13 @@ export class AppDocPageTOCComponent extends TiniComponent {
           display: block;
           padding: var(--space-2xs) var(--space-md);
           color: var(--color-middle);
+          text-decoration: none;
+          font-weight: normal;
+          font-size: var(--text-sm);
 
           &:hover {
             text-decoration: none;
-            color: var(--color-text);
+            color: var(--color-front);
           }
         }
       }

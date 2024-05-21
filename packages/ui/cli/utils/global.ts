@@ -79,13 +79,10 @@ function generateRadiusVars() {
 
 function generateBorderVars() {
   const items: [string, number][] = [
-    ['xs', 0.5],
-    ['sm', 0.75],
+    ['sm', 0.5],
     // md = 1
-    ['lg', 1.25],
-    ['xl', 2],
-    ['2xl', 3],
-    ['3xl', 4],
+    ['lg', 2],
+    ['xl', 3],
   ];
   return items
     .map(
@@ -96,13 +93,10 @@ function generateBorderVars() {
 
 function generateRingVars() {
   const items: [string, number][] = [
-    ['xs', 0.5],
-    ['sm', 0.75],
+    ['sm', 0.5],
     // md = 1
-    ['lg', 1.25],
-    ['xl', 2],
-    ['2xl', 3],
-    ['3xl', 4],
+    ['lg', 2],
+    ['xl', 3],
   ];
   return items
     .map(([name, value]) => `--ring-${name}: calc(var(--ring-md) * ${value});`)
@@ -117,9 +111,7 @@ function generateLineVars() {
     ['lg', 2.2],
     ['xl', 2.6],
   ];
-  return items
-    .map(([name, value]) => `--line-${name}: ${value};`)
-    .join('\n  ');
+  return items.map(([name, value]) => `--line-${name}: ${value};`).join('\n  ');
 }
 
 function generateLetterVars() {
@@ -323,7 +315,9 @@ function generateCommonColorVars() {
       const color = COMMON_COLORS[name as keyof typeof COMMON_COLORS];
       return `--color-${name}: ${color.base};
   --color-${name}-subtle: ${color.subtle};
-  --color-${name}-contrast: ${color.contrast};`;
+  --color-${name}-contrast: ${color.contrast};
+  --color-${name}-shade: ${color.shade};
+  --color-${name}-tint: ${color.tint};`;
     })
     .join('\n  ');
 }
@@ -455,7 +449,9 @@ function generateCommonGradientVars() {
       const gradient = COMMON_GRADIENTS[name as keyof typeof COMMON_GRADIENTS];
       return `--gradient-${name}: ${gradient.base};
   --gradient-${name}-subtle: ${gradient.subtle};
-  --gradient-${name}-contrast: ${gradient.contrast};`;
+  --gradient-${name}-contrast: ${gradient.contrast};
+  --gradient-${name}-shade: ${gradient.shade};
+  --gradient-${name}-tint: ${gradient.tint};`;
     })
     .join('\n  ');
 }
@@ -503,16 +499,17 @@ export function getSkinUtils() {
 `);
 }
 
-export function getGeneralStyles() {
+export function getCommonStyles() {
   return minifyCSS(`
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
-body {
+* {
   margin: 0;
+}
+
+body {
   background: var(--color-back);
   color: var(--color-front);
   font-family: var(--font-body);
@@ -521,6 +518,26 @@ body {
   letter-spacing: var(--letter-md);
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  overflow-wrap: break-word;
+}
+
+app-root {
+  isolation: isolate;
 }
 `);
 }

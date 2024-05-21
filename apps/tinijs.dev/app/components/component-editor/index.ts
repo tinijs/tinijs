@@ -78,71 +78,40 @@ export enum CommonViewports {
   Desktop = 'desktop',
 }
 
-const componentLoader = createComponentLoader({
-  heading: () =>
-    import('../../ui/components/heading.js').then(m => m.TiniHeadingComponent),
-  text: () =>
-    import('../../ui/components/text.js').then(m => m.TiniTextComponent),
-  link: () =>
-    import('../../ui/components/link.js').then(m => m.TiniLinkComponent),
-  box: () => import('../../ui/components/box.js').then(m => m.TiniBoxComponent),
-  skeleton: () =>
-    import('../../ui/components/skeleton.js').then(
-      m => m.TiniSkeletonComponent
-    ),
-  icon: () =>
-    import('../../ui/components/icon.js').then(m => m.TiniIconComponent),
-  button: () =>
-    import('../../ui/components/button.js').then(m => m.TiniButtonComponent),
-  badge: () =>
-    import('../../ui/components/badge.js').then(m => m.TiniBadgeComponent),
-  label: () =>
-    import('../../ui/components/label.js').then(m => m.TiniLabelComponent),
-  message: () =>
-    import('../../ui/components/message.js').then(m => m.TiniMessageComponent),
-  spinner: () =>
-    import('../../ui/components/spinner.js').then(m => m.TiniSpinnerComponent),
-  card: () =>
-    import('../../ui/components/card.js').then(m => m.TiniCardComponent),
-  breadcrumb: () =>
-    import('../../ui/components/breadcrumb.js').then(
-      m => m.TiniBreadcrumbComponent
-    ),
-  pagination: () =>
-    import('../../ui/components/pagination.js').then(
-      m => m.TiniPaginationComponent
-    ),
-  dialog: () =>
-    import('../../ui/components/dialog.js').then(m => m.TiniDialogComponent),
-  modal: () =>
-    import('../../ui/components/modal.js').then(m => m.TiniModalComponent),
-  input: () =>
-    import('../../ui/components/input.js').then(m => m.TiniInputComponent),
-  textarea: () =>
-    import('../../ui/components/textarea.js').then(
-      m => m.TiniTextareaComponent
-    ),
-  select: () =>
-    import('../../ui/components/select.js').then(m => m.TiniSelectComponent),
-  checkboxes: () =>
-    import('../../ui/components/checkboxes.js').then(
-      m => m.TiniCheckboxesComponent
-    ),
-  radios: () =>
-    import('../../ui/components/radios.js').then(m => m.TiniRadiosComponent),
-  switch: () =>
-    import('../../ui/components/switch.js').then(m => m.TiniSwitchComponent),
-  image: () =>
-    import('../../ui/components/image.js').then(m => m.TiniImageComponent),
-  figure: () =>
-    import('../../ui/components/figure.js').then(m => m.TiniFigureComponent),
-  embed: () =>
-    import('../../ui/components/embed.js').then(m => m.TiniEmbedComponent),
-  table: () =>
-    import('../../ui/components/table.js').then(m => m.TiniTableComponent),
-  code: () =>
-    import('../../ui/components/code.js').then(m => m.TiniCodeComponent),
-});
+const componentLoader = createComponentLoader(
+  {
+    heading: () => import('../../ui/components/heading.js'),
+    text: () => import('../../ui/components/text.js'),
+    link: () => import('../../ui/components/link.js'),
+    box: () => import('../../ui/components/box.js'),
+    skeleton: () => import('../../ui/components/skeleton.js'),
+    icon: () => import('../../ui/components/icon.js'),
+    button: () => import('../../ui/components/button.js'),
+    badge: () => import('../../ui/components/badge.js'),
+    label: () => import('../../ui/components/label.js'),
+    message: () => import('../../ui/components/message.js'),
+    spinner: () => import('../../ui/components/spinner.js'),
+    card: () => import('../../ui/components/card.js'),
+    breadcrumb: () => import('../../ui/components/breadcrumb.js'),
+    pagination: () => import('../../ui/components/pagination.js'),
+    dialog: () => import('../../ui/components/dialog.js'),
+    modal: () => import('../../ui/components/modal.js'),
+    input: () => import('../../ui/components/input.js'),
+    textarea: () => import('../../ui/components/textarea.js'),
+    select: () => import('../../ui/components/select.js'),
+    checkboxes: () => import('../../ui/components/checkboxes.js'),
+    radios: () => import('../../ui/components/radios.js'),
+    switch: () => import('../../ui/components/switch.js'),
+    image: () => import('../../ui/components/image.js'),
+    figure: () => import('../../ui/components/figure.js'),
+    embed: () => import('../../ui/components/embed.js'),
+    table: () => import('../../ui/components/table.js'),
+    code: () => import('../../ui/components/code.js'),
+  },
+  {
+    prefixes: ['tini'],
+  }
+);
 
 @Component({
   components: [
@@ -218,9 +187,7 @@ export class AppComponentEditorComponent
     if (!this.data?.inner) {
       componentLoader.load([this.name]);
     } else {
-      componentLoader.extractAndLoad([[this.name], this.data?.inner], {
-        prefixes: ['tini'],
-      });
+      componentLoader.extractAndLoad([[this.name], this.data?.inner]);
     }
     // build codes
     this.importCode = this.buildImportCode();
@@ -665,7 +632,7 @@ registerComponents([ ${constructorName} ]);`;
       display: flex;
       flex-flow: column;
       gap: 1rem;
-      background: var(--color-back-tint);
+      background: var(--color-back);
 
       &.fullscreen {
         padding: var(--space-md);
@@ -712,10 +679,10 @@ registerComponents([ ${constructorName} ]);`;
       .preview {
         --head-height: 40px;
         height: 480px;
-        background: var(--color-back);
+        background: var(--color-back-shade);
 
         .head {
-          background: var(--color-back-tint);
+          background: var(--color-back);
 
           .buttons {
             display: flex;
@@ -740,7 +707,11 @@ registerComponents([ ${constructorName} ]);`;
               cursor: pointer;
 
               &:hover {
-                background: var(--color-back);
+                background: color-mix(
+                  in oklab,
+                  var(--color-back),
+                  var(--color-front) 5%
+                );
               }
 
               &.selected {
@@ -757,7 +728,7 @@ registerComponents([ ${constructorName} ]);`;
           height: calc(100% - var(--head-height));
           min-width: 240px;
           min-height: 240px;
-          background: var(--color-back-tint);
+          background: var(--color-back);
           overflow: scroll;
         }
 
@@ -821,14 +792,19 @@ registerComponents([ ${constructorName} ]);`;
             height: calc(var(--head-height) + 1px);
             border-bottom: 1px solid var(--color-back-shade);
             border-right: 1px solid var(--color-back-shade);
+            background: color-mix(
+              in oklab,
+              var(--color-back),
+              var(--color-front) 5%
+            );
 
             &:hover {
-              background: var(--color-back-tint);
+              background: var(--color-back);
             }
 
             &.selected {
-              background: var(--color-back-tint);
-              border-bottom-color: var(--color-back-tint);
+              background: var(--color-back);
+              border-bottom-color: var(--color-back);
             }
 
             span {

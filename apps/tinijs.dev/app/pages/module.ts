@@ -30,26 +30,28 @@ export class AppPageModule extends TiniComponent {
 
   private _getHomeTemplate() {
     return html`
-      <h1>Tini Modules</h1>
-      <p>Installable modules to extend functionalities.</p>
+      <article>
+        <h1>Tini Modules</h1>
+        <p>Installable modules to extend functionalities.</p>
 
-      <h2>Official modules</h2>
-      <ul>
-        <li>
-          <a href="/module/content">Content</a> - file-based content management
-          system
-        </li>
-        <li><a href="/module/pwa">PWA</a> - turn a TiniJS app into a PWA</li>
-      </ul>
+        <h2>Official modules</h2>
+        <ul>
+          <li>
+            <a href="/module/content">Content</a> - file-based content
+            management system
+          </li>
+          <li><a href="/module/pwa">PWA</a> - turn a TiniJS app into a PWA</li>
+        </ul>
 
-      <h2>Community/local modules</h2>
-      <ul>
-        <li>Add your shared module here</li>
-      </ul>
-      <p>
-        Please see the <a href="/module/author-guide">Author Guide</a> for how
-        to create a module.
-      </p>
+        <h2>Community modules</h2>
+        <ul>
+          <li>Add your shared module here</li>
+        </ul>
+        <p>
+          Please see the <a href="/module/author-guide">Author Guide</a> for how
+          to create a module.
+        </p>
+      </article>
     `;
   }
 

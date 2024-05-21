@@ -29,11 +29,11 @@ const styles = css`
     line-height: 1;
   }
 
-  .mode-pill {
+  .shape-pill {
     border-radius: 1000px !important;
   }
 
-  .mode-circle {
+  .shape-circle {
     --circle-size: calc(var(--scale) * 1.75);
     width: var(--circle-size);
     height: var(--circle-size);

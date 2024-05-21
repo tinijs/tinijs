@@ -276,13 +276,6 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
               )}
             .items=${[
               {
-                label: 'Alpha',
-                children: this.buildThemeOptions('alpha', [
-                  {label: 'Alpha Light', value: 'light'},
-                  {label: 'Alpha Dark', value: 'dark'},
-                ]),
-              },
-              {
                 label: 'Bootstrap',
                 children: this.buildThemeOptions('bootstrap', [
                   {label: 'Bootstrap Light', value: 'light'},
@@ -304,31 +297,10 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
                 ]),
               },
               {
-                label: 'Apple',
-                children: this.buildThemeOptions('apple', [
-                  {label: 'Apple Light', value: 'light'},
-                  {label: 'Apple Dark', value: 'dark'},
-                ]),
-              },
-              {
-                label: 'Nuxt',
-                children: this.buildThemeOptions('nuxt', [
-                  {label: 'Nuxt Light', value: 'light'},
-                  {label: 'Nuxt Dark', value: 'dark'},
-                ]),
-              },
-              {
-                label: 'Next',
-                children: this.buildThemeOptions('next', [
-                  {label: 'Next Light', value: 'light'},
-                  {label: 'Next Dark', value: 'dark'},
-                ]),
-              },
-              {
-                label: 'Horizon',
-                children: this.buildThemeOptions('horizon', [
-                  {label: 'Horizon Light', value: 'light'},
-                  {label: 'Horizon Dark', value: 'dark'},
+                label: 'iOS',
+                children: this.buildThemeOptions('ios', [
+                  {label: 'iOS Light', value: 'light'},
+                  {label: 'iOS Dark', value: 'dark'},
                 ]),
               },
               {
@@ -339,10 +311,24 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
                 ]),
               },
               {
-                label: 'Line',
-                children: this.buildThemeOptions('line', [
-                  {label: 'Line Light', value: 'light'},
-                  {label: 'Line Dark', value: 'dark'},
+                label: 'Shadcn',
+                children: this.buildThemeOptions('shadcn', [
+                  {label: 'Shadcn Light', value: 'light'},
+                  {label: 'Shadcn Dark', value: 'dark'},
+                ]),
+              },
+              {
+                label: 'Tailwind',
+                children: this.buildThemeOptions('tailwind', [
+                  {label: 'Tailwind Light', value: 'light'},
+                  {label: 'Tailwind Dark', value: 'dark'},
+                ]),
+              },
+              {
+                label: 'Chakra',
+                children: this.buildThemeOptions('chakra', [
+                  {label: 'Chakra Light', value: 'light'},
+                  {label: 'Chakra Dark', value: 'dark'},
                 ]),
               },
             ]}

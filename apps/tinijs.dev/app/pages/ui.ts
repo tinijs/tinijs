@@ -36,25 +36,27 @@ export class AppPageUI extends TiniComponent {
 
   private _getHomeTemplate() {
     return html`
-      <h1>Tini UI</h1>
-      <p>
-        An UI system with a collection of ready-to-use components, pages,
-        layouts to be used with TiniJS and other frameworks or no framework.
-      </p>
-      <p>
-        <tini-embed>
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/0jNuKfP5100?si=e7HvgCcy3IjUAxjZ"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen
-          ></iframe>
-        </tini-embed>
-      </p>
+      <article>
+        <h1>Tini UI</h1>
+        <p>
+          An UI system with a collection of ready-to-use components, pages,
+          layouts to be used with TiniJS and other frameworks or no framework.
+        </p>
+        <p>
+          <tini-embed>
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/0jNuKfP5100?si=e7HvgCcy3IjUAxjZ"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </tini-embed>
+        </p>
+      </article>
     `;
   }
 

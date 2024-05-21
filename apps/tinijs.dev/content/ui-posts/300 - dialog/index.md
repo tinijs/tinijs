@@ -8,7 +8,7 @@
 
 ## Usage
 
-<content-ui-post-dialog-usage></content-ui-post-dialog-usage>
+<content-ui-post-dialog></content-ui-post-dialog>
 
 ```ts
 import {ref, createRef} from 'lit/directives/ref.js';
