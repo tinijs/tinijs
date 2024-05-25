@@ -53,12 +53,11 @@ export default css`
   }
 
   blockquote {
-    margin: 0;
-    font-family: var(--font-quote);
     padding-left: var(--space-2xl);
-    font-size: 0.8rem;
   }
-  blockquote > * {
+  blockquote,
+  blockquote * {
+    font-family: var(--font-quote);
     font-size: 0.85rem;
   }
 

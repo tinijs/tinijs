@@ -53,14 +53,16 @@ export default css`
   }
 
   blockquote {
-    margin: 0;
-    font-family: var(--font-quote);
     background: var(--color-primary-subtle);
     padding: var(--space-lg);
     border-radius: 1rem;
   }
-  blockquote > * {
+  blockquote * {
     margin: 0 !important;
+  }
+  blockquote,
+  blockquote * {
+    font-family: var(--font-quote);
     font-size: 1.05em;
   }
 

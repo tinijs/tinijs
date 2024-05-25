@@ -12,19 +12,19 @@ import {PACKAGE_PREFIX} from '../consts/common.js';
 import {NO_UI_ERROR, DUPLICATED_UI_ERROR} from '../consts/error.js';
 
 import {listify} from '../utils/common.js';
+import {StyleBuilder} from '../utils/style.js';
 
 import type {TiniElement} from './element.js';
 
-export type Theming = Record<
-  string,
-  {
-    templates?: ThemingTemplates;
-    styles: ThemingStyles;
-    scripts?:
-      | ThemingScripts
-      | (<Elem extends TiniElement>(elem: Elem) => ThemingScripts);
-  }
->;
+export type ThemingEntry = {
+  templates?: ThemingTemplates;
+  styles: ThemingStyles;
+  scripts?:
+    | ThemingScripts
+    | (<Elem extends TiniElement>(elem: Elem) => ThemingScripts);
+};
+
+export type Theming = Record<string, ThemingEntry>;
 
 export type ThemingTemplates = Record<
   string,
@@ -129,6 +129,19 @@ export interface UIInit {
 
 export const THEME_LOCAL_STORAGE_KEY = `${PACKAGE_PREFIX}:local-theme-id`;
 export const THEME_CHANGE_EVENT = `${PACKAGE_PREFIX}:theme-change`;
+
+export function processThemingEntry(
+  entry: ThemingEntry & {
+    styles: ThemingStyles | StyleBuilder<any>;
+  }
+): ThemingEntry {
+  return !(entry.styles instanceof StyleBuilder)
+    ? entry
+    : {
+        ...entry,
+        styles: entry.styles.toResult(),
+      };
+}
 
 export function getTemplatesFromTheming(
   theming: Theming | undefined,

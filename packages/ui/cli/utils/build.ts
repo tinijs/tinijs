@@ -351,6 +351,8 @@ export async function buildComponents(
       themingValue: {} as Record<string, string>,
     });
 
+    componentTS.addImport('@tinijs/core', ['processThemingEntry']);
+
     const buildInstructions: ComponentBuildInstructions = safeDestr(
       (await readFile(componentPath, 'utf8')).match(
         /\/\*\*\*([\s\S]*?)\*\*\*\//
@@ -387,7 +389,8 @@ export async function buildComponents(
           config.rewritePath
         );
         componentTS.addImport(soulImportPath, soulImportName);
-        componentTS.data.themingValue[familyId] = soulImportName;
+        componentTS.data.themingValue[familyId] =
+          `processThemingEntry(${soulImportName})`;
       }
     }
 

@@ -52,11 +52,9 @@ export default css`
     border-bottom: 1px solid var(--color-back-shade);
   }
 
-  blockquote {
-    margin: 0;
+  blockquote,
+  blockquote * {
     font-family: var(--font-quote);
-  }
-  blockquote > * {
     font-size: 1.15em;
   }
 

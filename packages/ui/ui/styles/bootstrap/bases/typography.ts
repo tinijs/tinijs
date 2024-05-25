@@ -55,7 +55,6 @@ export default css`
 
   blockquote,
   blockquote * {
-    margin: 0;
     font-family: var(--font-quote);
     font-size: 1.25rem;
   }

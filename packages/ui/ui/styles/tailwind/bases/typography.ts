@@ -54,11 +54,13 @@ export default css`
   }
 
   blockquote {
-    margin: 0;
-    font-family: var(--font-quote);
-    font-style: italic;
     padding-left: var(--space-md);
     border-left: 4px solid var(--color-back-shade);
+  }
+  blockquote,
+  blockquote * {
+    font-family: var(--font-quote);
+    font-style: italic;
     font-weight: 500;
   }
 

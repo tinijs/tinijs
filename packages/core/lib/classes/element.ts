@@ -30,7 +30,7 @@ import {
 } from './ui.js';
 
 import {listify} from '../utils/common.js';
-import {COLORS_TO_GRADIENTS} from '../utils/vary.js';
+import {isGradient, colorToGradient} from '../utils/vary.js';
 import {
   UnstableStates,
   registerComponents,
@@ -203,9 +203,9 @@ export class TiniElement extends LitElement {
     if (
       componentOptions.referGradientSchemeOnHover &&
       schemeValue &&
-      !~schemeValue.indexOf('gradient')
+      !isGradient(schemeValue)
     ) {
-      const hoverScheme = COLORS_TO_GRADIENTS[schemeValue];
+      const hoverScheme = colorToGradient(schemeValue);
       otherInfo[`scheme-${hoverScheme}-hover`] = true;
     }
     // result
@@ -240,9 +240,9 @@ export class TiniElement extends LitElement {
       name === 'scheme' &&
       themeOptions.referGradientScheme
     ) {
-      return ~originalValue.indexOf('gradient')
+      return isGradient(originalValue)
         ? originalValue
-        : COLORS_TO_GRADIENTS[originalValue];
+        : colorToGradient(originalValue);
     }
     // default value
     return originalValue;

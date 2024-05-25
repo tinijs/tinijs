@@ -1,5 +1,21 @@
 import {unsafeCSS} from 'lit';
 
+export function isGradient(name: string | undefined) {
+  return !!name?.startsWith('gradient-');
+}
+
+export function isSubtle(name: string | undefined) {
+  return name?.slice(-6) === '-subtle';
+}
+
+export function colorToGradient(name: string) {
+  return COLORS_TO_GRADIENTS[name];
+}
+
+export function gradientToColor(name: string) {
+  return GRADIENTS_TO_COLORS[name];
+}
+
 export interface RenderValues {
   name: string;
   prefixName: string;
@@ -427,91 +443,81 @@ export enum Shadows {
 }
 export const SHADOWS = Object.values(Shadows);
 
-export function generateColorVaries(
-  render: ColorVaryRender,
-  excludeCommon = false
-) {
+export function generateColorVaries(render: ColorVaryRender) {
   return unsafeCSS(
-    (excludeCommon ? COLORS : ALL_COLORS)
-      .map(name => {
-        const nameArr = name.split('-');
-        const isSubtle = nameArr[nameArr.length - 1] === 'subtle';
-        const prefixName = 'scheme';
-        const fullName = `${prefixName}-${name}`;
-        const baseName = nameArr
-          .slice(0, !isSubtle ? nameArr.length : nameArr.length - 1)
-          .join('-');
-        // colors
-        const color = `var(--color-${name})`;
-        const baseColor = `var(--color-${baseName})`;
-        const baseContrast = `var(--color-${baseName}-contrast)`;
-        const contrast = isSubtle ? 'var(--color-front)' : baseContrast;
-        // render
-        return render({
-          name,
-          isSubtle,
-          prefixName,
-          fullName,
-          baseName,
-          baseColor,
-          baseContrast,
-          color,
-          contrast,
-        });
-      })
-      .join('')
+    ALL_COLORS.map(name => {
+      const nameArr = name.split('-');
+      const isSubtle = nameArr[nameArr.length - 1] === 'subtle';
+      const prefixName = 'scheme';
+      const fullName = `${prefixName}-${name}`;
+      const baseName = nameArr
+        .slice(0, !isSubtle ? nameArr.length : nameArr.length - 1)
+        .join('-');
+      // colors
+      const color = `var(--color-${name})`;
+      const baseColor = `var(--color-${baseName})`;
+      const baseContrast = `var(--color-${baseName}-contrast)`;
+      const contrast = isSubtle ? 'var(--color-front)' : baseContrast;
+      // render
+      return render({
+        name,
+        isSubtle,
+        prefixName,
+        fullName,
+        baseName,
+        baseColor,
+        baseContrast,
+        color,
+        contrast,
+      });
+    }).join('')
   );
 }
-export function generateGradientVaries(
-  render: GradientVaryRender,
-  excludeCommon = false
-) {
+export function generateGradientVaries(render: GradientVaryRender) {
   return unsafeCSS(
-    (excludeCommon ? GRADIENTS : ALL_GRADIENTS)
-      .map(name => {
-        const nameArr = name.replace('gradient-', '').split('-');
-        const isSubtle = nameArr[nameArr.length - 1] === 'subtle';
-        const prefixName = 'scheme';
-        const fullName = `${prefixName}-${name}`;
-        const baseName = nameArr
-          .slice(0, !isSubtle ? nameArr.length : nameArr.length - 1)
-          .join('-');
-        // colors
-        const colorName = (GRADIENTS_TO_COLORS as Record<string, string>)[
-          `gradient-${baseName}`
-        ];
-        const color = isSubtle
-          ? `var(--color-${colorName}-subtle)`
-          : `var(--color-${colorName})`;
-        const baseColor = `var(--color-${colorName})`;
-        const baseContrast = `var(--color-${colorName}-contrast)`;
-        const contrast = isSubtle ? 'var(--color-front)' : baseContrast;
-        // gradients
-        const gradient = `var(--${name})`;
-        const baseGradient = `var(--${name})`;
-        const baseGradientContrast = `var(--${name}-contrast)`;
-        const gradientContrast = isSubtle
-          ? 'var(--gradient-front)'
-          : baseGradientContrast;
-        // render
-        return render({
-          name,
-          isSubtle,
-          prefixName,
-          fullName,
-          baseName,
-          colorName,
-          baseColor,
-          baseContrast,
-          color,
-          contrast,
-          baseGradient,
-          baseGradientContrast,
-          gradient,
-          gradientContrast,
-        });
-      })
-      .join('')
+    ALL_GRADIENTS.map(name => {
+      const nameArr = name.replace('gradient-', '').split('-');
+      const isSubtle = nameArr[nameArr.length - 1] === 'subtle';
+      const prefixName = 'scheme';
+      const fullName = `${prefixName}-${name}`;
+      const baseName = nameArr
+        .slice(0, !isSubtle ? nameArr.length : nameArr.length - 1)
+        .join('-');
+      // colors
+      const colorName = (GRADIENTS_TO_COLORS as Record<string, string>)[
+        `gradient-${baseName}`
+      ];
+      const color = isSubtle
+        ? `var(--color-${colorName}-subtle)`
+        : `var(--color-${colorName})`;
+      const baseColor = `var(--color-${colorName})`;
+      const baseContrast = `var(--color-${colorName}-contrast)`;
+      const contrast = isSubtle ? 'var(--color-front)' : baseContrast;
+      // gradients
+      const gradient = `var(--${name})`;
+      const baseGradient = `var(--${name})`;
+      const baseGradientContrast = `var(--${name}-contrast)`;
+      const gradientContrast = isSubtle
+        ? 'var(--gradient-front)'
+        : baseGradientContrast;
+      // render
+      return render({
+        name,
+        isSubtle,
+        prefixName,
+        fullName,
+        baseName,
+        colorName,
+        baseColor,
+        baseContrast,
+        color,
+        contrast,
+        baseGradient,
+        baseGradientContrast,
+        gradient,
+        gradientContrast,
+      });
+    }).join('')
   );
 }
 

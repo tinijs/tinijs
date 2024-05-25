@@ -23,7 +23,7 @@ import {IconXComponent} from '../icons/x.js';
 import {IconDiscordComponent} from '../icons/discord.js';
 
 import {AppSkinEditorTogglerComponent} from './skin-editor/toggler.js';
-import {AppSkinEditorComponent} from '../components/skin-editor/index.js';
+import {AppSkinEditorComponent} from './skin-editor/index.js';
 
 @Component({
   components: [
