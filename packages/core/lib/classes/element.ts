@@ -52,6 +52,10 @@ export interface ComponentMetadata {
   unstableMessage?: string;
 }
 
+export enum ElementParts {
+  Root = 'root',
+}
+
 export class TiniElement extends LitElement {
   static readonly componentName: string = 'element';
   static readonly defaultTagName: string = 'tini-element';
@@ -67,7 +71,7 @@ export class TiniElement extends LitElement {
   @property() events?: string | Array<string | EventForwarding>;
   /* eslint-enable prettier/prettier */
 
-  protected rootClasses: ClassInfo = {root: true};
+  protected rootClasses: ClassInfo = {[ElementParts.Root]: true};
   protected customTemplates: ThemingTemplates = {};
 
   private _uiTracker = {

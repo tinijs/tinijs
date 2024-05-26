@@ -40,7 +40,6 @@ export class StyleBuilder<Inputs extends StyleBuilderInputs> {
   }
 
   toResult() {
-    const start = performance.now();
     const outputs = Object.entries(this.inputsRegistry).reduce(
       (result, [key, items]) => {
         if (items[0] instanceof Function) {
@@ -58,8 +57,6 @@ export class StyleBuilder<Inputs extends StyleBuilderInputs> {
       },
       {} as any
     );
-    const end = performance.now();
-    console.log('toResult -> ', end - start);
     return listify(this.buildResult(outputs, this));
   }
 }

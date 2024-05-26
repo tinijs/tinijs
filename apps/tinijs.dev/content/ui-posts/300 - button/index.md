@@ -45,12 +45,12 @@ Use buttons to trigger actions.
       },
       {
         section: 'select',
-        attrs: {label: 'Scheme', preset: 'colorsAndGradients'},
+        attrs: {label: 'Scheme', preset: 'allColorsAndAllGradients'},
         target: 'scheme'
       },
       {
         section: 'select',
-        attrs: {label: 'Scheme (hover)', preset: 'colorsAndGradients'},
+        attrs: {label: 'Scheme (hover)', preset: 'allColorsAndAllGradients'},
         target: 'hoverScheme'
       },
       {

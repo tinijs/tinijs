@@ -3,6 +3,7 @@ import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,
+  ElementParts,
   partAttrMap,
   Colors,
   SubtleColors,
@@ -10,6 +11,10 @@ import {
   SubtleGradients,
   Scales,
 } from '@tinijs/core';
+
+export enum ButtonParts {
+  Root = ElementParts.Root,
+}
 
 export enum ButtonModes {
   Filled = 'filled',
@@ -50,7 +55,7 @@ export default class extends TiniElement {
 
   protected render() {
     return this.renderPart(
-      'root',
+      ButtonParts.Root,
       rootChild => html`
         <button
           class=${classMap(this.rootClasses)}

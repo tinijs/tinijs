@@ -742,6 +742,7 @@ registerComponents([ ${constructorName} ]);`;
           border-radius: var(--radius-md);
           background: color-mix(in oklab, var(--color-front), transparent 30%);
           color: var(--color-back);
+          user-select: none;
 
           &.showed {
             display: block;

@@ -19,8 +19,6 @@ import {
   FontTypes,
   FontSizes,
   FontWeights,
-  TextAligns,
-  TextTransforms,
   type EventEmitter,
   type OnCreate,
 } from '@tinijs/core';
@@ -42,41 +40,66 @@ export class AppComponentEditorSelectComponent
   @Input() value?: string;
   @Output() change!: EventEmitter<string>;
 
-  private presetDefaultItem: SelectOption = {
-    label: 'Default',
-    value: '_default',
-    selected: true,
-  };
   private colors: SelectOptgroup[] = [
     {
       label: 'COLORS',
       children: this.buildPresetItems(Colors),
     },
+  ];
+  private subtleColors: SelectOptgroup[] = [
     {
       label: 'SUBTLE COLORS',
       children: this.buildPresetItems(SubtleColors),
     },
   ];
+  private allColors = [this.colors[0], this.subtleColors[0]];
+
   private gradients: SelectOptgroup[] = [
     {
-      label: 'GREADIENTS',
+      label: 'GRADIENTS',
       children: this.buildPresetItems(Gradients),
     },
+  ];
+  private subtleGradients: SelectOptgroup[] = [
     {
       label: 'SUBTLE GRADIENTS',
       children: this.buildPresetItems(SubtleGradients),
     },
   ];
+  private allGradients = [this.gradients[0], this.subtleGradients[0]];
+
+  private colorsAndGradients: SelectOptgroup[] = [
+    this.colors[0],
+    this.gradients[0],
+  ];
+  private subtleColorsAndSubtleGradients: SelectOptgroup[] = [
+    this.subtleColors[0],
+    this.subtleGradients[0],
+  ];
+  private allColorsAndAllGradients: SelectOptgroup[] = [
+    ...this.allColors,
+    ...this.allGradients,
+  ];
+
+  private presetDefaultItem: SelectOption = {
+    label: 'Default',
+    value: '_default',
+    selected: true,
+  };
   private presets: Record<string, Array<SelectOption | SelectOptgroup>> = {
     colors: this.colors,
+    subtleColors: this.subtleColors,
+    allColors: this.allColors,
     gradients: this.gradients,
-    colorsAndGradients: [...this.colors, ...this.gradients],
+    subtleGradients: this.subtleGradients,
+    allGradients: this.allGradients,
+    colorsAndGradients: this.colorsAndGradients,
+    subtleColorsAndSubtleGradients: this.subtleColorsAndSubtleGradients,
+    allColorsAndAllGradients: this.allColorsAndAllGradients,
     scales: this.buildPresetItems(Scales, value => value.toUpperCase()),
     fontTypes: this.buildPresetItems(FontTypes),
     fontSizes: this.buildPresetItems(FontSizes, value => value.toUpperCase()),
     fontWeights: this.buildPresetItems(FontWeights),
-    textAligns: this.buildPresetItems(TextAligns),
-    textTransforms: this.buildPresetItems(TextTransforms),
   };
 
   onCreate() {

@@ -7,10 +7,6 @@ export default css`
     box-sizing: border-box;
   }
 
-  * {
-    margin: 0;
-  }
-
   img,
   picture,
   video,

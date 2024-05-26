@@ -36,7 +36,7 @@
       },
       {
         section: 'select',
-        attrs: {label: 'Color', preset: 'colorsAndGradients'},
+        attrs: {label: 'Color', preset: 'allColorsAndAllGradients'},
         target: 'color'
       },
       {

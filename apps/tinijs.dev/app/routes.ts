@@ -16,6 +16,11 @@ export const routes: Route[] = [
         action: () => import('./pages/framework.js'),
       },
       {
+        path: 'ui/:slug/dev',
+        component: 'app-page-ui-dev',
+        action: () => import('./pages/ui-dev/index.js'),
+      },
+      {
         path: 'ui/:slug?',
         component: 'app-page-ui',
         action: () => import('./pages/ui.js'),

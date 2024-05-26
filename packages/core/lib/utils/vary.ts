@@ -55,18 +55,6 @@ export interface FontWeightRenderValues extends RenderValues {
 }
 export type FontWeightVaryRender = (values: FontWeightRenderValues) => string;
 
-export interface TextAlignRenderValues extends RenderValues {
-  textAlign: string;
-}
-export type TextAlignVaryRender = (values: TextAlignRenderValues) => string;
-
-export interface TextTransformRenderValues extends RenderValues {
-  textTransform: string;
-}
-export type TextTransformVaryRender = (
-  values: TextTransformRenderValues
-) => string;
-
 export interface ScaleRenderValues extends RenderValues {
   scale: string;
 }
@@ -314,25 +302,6 @@ export enum FontWeights {
 }
 export const FONT_WEIGHTS = Object.values(FontWeights);
 
-export enum TextAligns {
-  Start = 'start',
-  End = 'end',
-  Left = 'left',
-  Right = 'right',
-  Center = 'center',
-  Justify = 'justify',
-  JustifyAll = 'justify-all',
-  MatchParent = 'match-parent',
-}
-export const TEXT_ALIGNS = Object.values(TextAligns);
-
-export enum TextTransforms {
-  Capitalize = 'capitalize',
-  Lowercase = 'lowercase',
-  Uppercase = 'uppercase',
-}
-export const TEXT_TRANSFORMS = Object.values(TextTransforms);
-
 export enum Scales {
   XS = 'xs',
   SM = 'sm',
@@ -443,81 +412,110 @@ export enum Shadows {
 }
 export const SHADOWS = Object.values(Shadows);
 
+function generateColorVary(
+  render: ColorVaryRender,
+  name: Colors | SubtleColors
+) {
+  const nameArr = name.split('-');
+  const isSubtle = nameArr[nameArr.length - 1] === 'subtle';
+  const prefixName = 'scheme';
+  const fullName = `${prefixName}-${name}`;
+  const baseName = nameArr
+    .slice(0, !isSubtle ? nameArr.length : nameArr.length - 1)
+    .join('-');
+  // colors
+  const color = `var(--color-${name})`;
+  const baseColor = `var(--color-${baseName})`;
+  const baseContrast = `var(--color-${baseName}-contrast)`;
+  const contrast = isSubtle ? 'var(--color-front)' : baseContrast;
+  // render
+  return render({
+    name,
+    isSubtle,
+    prefixName,
+    fullName,
+    baseName,
+    baseColor,
+    baseContrast,
+    color,
+    contrast,
+  });
+}
 export function generateColorVaries(render: ColorVaryRender) {
   return unsafeCSS(
-    ALL_COLORS.map(name => {
-      const nameArr = name.split('-');
-      const isSubtle = nameArr[nameArr.length - 1] === 'subtle';
-      const prefixName = 'scheme';
-      const fullName = `${prefixName}-${name}`;
-      const baseName = nameArr
-        .slice(0, !isSubtle ? nameArr.length : nameArr.length - 1)
-        .join('-');
-      // colors
-      const color = `var(--color-${name})`;
-      const baseColor = `var(--color-${baseName})`;
-      const baseContrast = `var(--color-${baseName}-contrast)`;
-      const contrast = isSubtle ? 'var(--color-front)' : baseContrast;
-      // render
-      return render({
-        name,
-        isSubtle,
-        prefixName,
-        fullName,
-        baseName,
-        baseColor,
-        baseContrast,
-        color,
-        contrast,
-      });
-    }).join('')
+    COLORS.map(name => generateColorVary(render, name)).join('')
   );
+}
+export function generateSubtleColorVaries(render: ColorVaryRender) {
+  return unsafeCSS(
+    SUBTLE_COLORS.map(name => generateColorVary(render, name)).join('')
+  );
+}
+export function generateAllColorVaries(render: ColorVaryRender) {
+  return unsafeCSS(
+    ALL_COLORS.map(name => generateColorVary(render, name)).join('')
+  );
+}
+
+function generateGradientVary(
+  render: GradientVaryRender,
+  name: Gradients | SubtleGradients
+) {
+  const nameArr = name.replace('gradient-', '').split('-');
+  const isSubtle = nameArr[nameArr.length - 1] === 'subtle';
+  const prefixName = 'scheme';
+  const fullName = `${prefixName}-${name}`;
+  const baseName = nameArr
+    .slice(0, !isSubtle ? nameArr.length : nameArr.length - 1)
+    .join('-');
+  // colors
+  const colorName = (GRADIENTS_TO_COLORS as Record<string, string>)[
+    `gradient-${baseName}`
+  ];
+  const color = isSubtle
+    ? `var(--color-${colorName}-subtle)`
+    : `var(--color-${colorName})`;
+  const baseColor = `var(--color-${colorName})`;
+  const baseContrast = `var(--color-${colorName}-contrast)`;
+  const contrast = isSubtle ? 'var(--color-front)' : baseContrast;
+  // gradients
+  const gradient = `var(--${name})`;
+  const baseGradient = `var(--${name})`;
+  const baseGradientContrast = `var(--${name}-contrast)`;
+  const gradientContrast = isSubtle
+    ? 'var(--gradient-front)'
+    : baseGradientContrast;
+  // render
+  return render({
+    name,
+    isSubtle,
+    prefixName,
+    fullName,
+    baseName,
+    colorName,
+    baseColor,
+    baseContrast,
+    color,
+    contrast,
+    baseGradient,
+    baseGradientContrast,
+    gradient,
+    gradientContrast,
+  });
 }
 export function generateGradientVaries(render: GradientVaryRender) {
   return unsafeCSS(
-    ALL_GRADIENTS.map(name => {
-      const nameArr = name.replace('gradient-', '').split('-');
-      const isSubtle = nameArr[nameArr.length - 1] === 'subtle';
-      const prefixName = 'scheme';
-      const fullName = `${prefixName}-${name}`;
-      const baseName = nameArr
-        .slice(0, !isSubtle ? nameArr.length : nameArr.length - 1)
-        .join('-');
-      // colors
-      const colorName = (GRADIENTS_TO_COLORS as Record<string, string>)[
-        `gradient-${baseName}`
-      ];
-      const color = isSubtle
-        ? `var(--color-${colorName}-subtle)`
-        : `var(--color-${colorName})`;
-      const baseColor = `var(--color-${colorName})`;
-      const baseContrast = `var(--color-${colorName}-contrast)`;
-      const contrast = isSubtle ? 'var(--color-front)' : baseContrast;
-      // gradients
-      const gradient = `var(--${name})`;
-      const baseGradient = `var(--${name})`;
-      const baseGradientContrast = `var(--${name}-contrast)`;
-      const gradientContrast = isSubtle
-        ? 'var(--gradient-front)'
-        : baseGradientContrast;
-      // render
-      return render({
-        name,
-        isSubtle,
-        prefixName,
-        fullName,
-        baseName,
-        colorName,
-        baseColor,
-        baseContrast,
-        color,
-        contrast,
-        baseGradient,
-        baseGradientContrast,
-        gradient,
-        gradientContrast,
-      });
-    }).join('')
+    GRADIENTS.map(name => generateGradientVary(render, name)).join('')
+  );
+}
+export function generateSubtleGradientVaries(render: GradientVaryRender) {
+  return unsafeCSS(
+    SUBTLE_GRADIENTS.map(name => generateGradientVary(render, name)).join('')
+  );
+}
+export function generateAllGradientVaries(render: GradientVaryRender) {
+  return unsafeCSS(
+    ALL_GRADIENTS.map(name => generateGradientVary(render, name)).join('')
   );
 }
 
@@ -564,38 +562,6 @@ export function generateFontWeightVaries(render: FontWeightVaryRender) {
         prefixName,
         fullName,
         fontWeight,
-      });
-    }).join('')
-  );
-}
-
-export function generateTextAlignVaries(render: TextAlignVaryRender) {
-  return unsafeCSS(
-    TEXT_ALIGNS.map(name => {
-      const prefixName = 'text-align';
-      const fullName = `${prefixName}-${name}`;
-      const textAlign = name;
-      return render({
-        name,
-        prefixName,
-        fullName,
-        textAlign,
-      });
-    }).join('')
-  );
-}
-
-export function generateTextTransformVaries(render: TextTransformVaryRender) {
-  return unsafeCSS(
-    TEXT_TRANSFORMS.map(name => {
-      const prefixName = 'text-transform';
-      const fullName = `${prefixName}-${name}`;
-      const textTransform = name;
-      return render({
-        name,
-        prefixName,
-        fullName,
-        textTransform,
       });
     }).join('')
   );

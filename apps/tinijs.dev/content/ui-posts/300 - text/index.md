@@ -53,16 +53,6 @@
         target: 'fontWeight'
       },
       {
-        section: 'select',
-        attrs: {label: 'Text align', preset: 'textAligns'},
-        target: 'textAlign'
-      },
-      {
-        section: 'select',
-        attrs: {label: 'Text transform', preset: 'textTransforms'},
-        target: 'textTransform'
-      },
-      {
         section: 'switch',
         attrs: {label: 'Italic'},
         target: 'italic'

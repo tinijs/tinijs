@@ -20,7 +20,7 @@
       },
       {
         section: 'select',
-        attrs: {label: 'Scheme', preset: 'colorsAndGradients'},
+        attrs: {label: 'Scheme', preset: 'allColorsAndAllGradients'},
         target: 'scheme'
       },
       {

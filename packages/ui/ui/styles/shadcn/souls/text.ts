@@ -9,8 +9,6 @@ export const styles = defaultStyles.extends({
   fontTypeGen: () => '',
   fontSizeGen: () => '',
   fontWeightGen: () => '',
-  textAlignGen: () => '',
-  textTransformGen: () => '',
 });
 
 export default {styles};

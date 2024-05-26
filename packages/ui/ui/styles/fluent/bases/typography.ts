@@ -48,7 +48,7 @@ export default css`
     border-bottom: 1px solid var(--color-back-shade);
   }
 
-  blockquote ,
+  blockquote,
   blockquote * {
     font-family: var(--font-quote);
     font-size: 1.15em;
