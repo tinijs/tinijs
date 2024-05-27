@@ -505,6 +505,10 @@ export function getCommonStyles() {
   box-sizing: border-box;
 }
 
+* {
+  margin: 0;
+}
+
 body {
   background: var(--color-back);
   color: var(--color-front);
