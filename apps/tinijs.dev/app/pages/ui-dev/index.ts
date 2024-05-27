@@ -15,6 +15,7 @@ import {UseParams} from '@tinijs/router';
 const componentLoader = createComponentLoader({
   text: () => import('./text.js'),
   link: () => import('./link.js'),
+  icon: () => import('./icon.js'),
 });
 
 @Component()
