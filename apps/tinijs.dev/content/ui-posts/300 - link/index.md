@@ -30,15 +30,42 @@
           label: 'Target',
           items: [
             {label: 'Default', value: '_default', selected: true},
-            {label: '_blank', value: '_blank'}
+            {label: '_blank', value: '_blank'},
+            {label: '_parent', value: '_parent'},
+            {label: '_top', value: '_top'}
           ]
         },
         target: 'target'
       },
       {
+        section: 'switch',
+        attrs: {label: 'Disabled'},
+        target: 'disabled'
+      },
+      {
         section: 'select',
         attrs: {label: 'Color', preset: 'colorsAndGradients'},
         target: 'color'
+      },
+      {
+        section: 'select',
+        attrs: {label: 'Font size', preset: 'fontSizes'},
+        target: 'fontSize'
+      },
+      {
+        section: 'select',
+        attrs: {label: 'Font weight', preset: 'fontWeights'},
+        target: 'fontWeight'
+      },
+      {
+        section: 'switch',
+        attrs: {label: 'Italic'},
+        target: 'italic'
+      },
+      {
+        section: 'switch',
+        attrs: {label: 'No underline'},
+        target: 'noUnderline'
       },
       {
         section: 'css',

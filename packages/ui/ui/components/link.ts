@@ -1,18 +1,34 @@
-import {html, type PropertyValues} from 'lit';
+import {html, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {ref, createRef} from 'lit/directives/ref.js';
 import {
   TiniElement,
+  ElementParts,
   partAttrMap,
+  createStyleBuilder,
+  isGradient,
   Colors,
-  SubtleColors,
   Gradients,
-  SubtleGradients,
+  FontSizes,
+  FontWeights,
+  generateColorVaries,
+  generateGradientVaries,
+  generateFontSizeVaries,
+  generateFontWeightVaries,
 } from '@tinijs/core';
 
-export type LinkTargets = '_blank' | '_self' | '_parent' | '_top';
+export enum LinkParts {
+  Root = ElementParts.Root,
+}
+
+export enum LinkTargets {
+  Self = '_self',
+  Blank = '_blank',
+  Parent = '_parent',
+  Top = '_top',
+}
 
 export default class extends TiniElement {
   private readonly ROUTER_CHANGE_EVENT = 'tini:route-change';
@@ -23,15 +39,28 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) rel?: string;
   @property({type: String, reflect: true}) target?: LinkTargets;
   @property({type: String, reflect: true}) active?: string;
-  @property({type: String, reflect: true}) color?: Colors | SubtleColors | Gradients | SubtleGradients;
+  @property({type: Boolean, reflect: true}) disabled?: boolean;
+  @property({type: String, reflect: true}) color?: Colors | Gradients;
+  @property({type: String, reflect: true}) fontSize?: FontSizes;
+  @property({type: String, reflect: true}) fontWeight?: FontWeights;
+  @property({type: Boolean, reflect: true}) italic?: boolean;
+  @property({type: Boolean, reflect: true}) noUnderline?: boolean;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
     // root classes parts
     this.extendRootClasses({
+      raw: {
+        gradient: isGradient(this.color),
+        disabled: !!this.disabled,
+        italic: !!this.italic,
+        'no-underline': !!this.noUnderline,
+      },
       overridable: {
         color: this.color,
+        'font-size': this.fontSize,
+        'font-weight': this.fontWeight,
       },
     });
   }
@@ -83,7 +112,11 @@ export default class extends TiniElement {
   };
 
   private clickLink(e: Event) {
-    if (!this.anchorRef.value) return;
+    if (
+      !this.anchorRef.value ||
+      (this.target && this.target !== LinkTargets.Self)
+    )
+      return;
     // navigate
     if (this.anchorRef.value.href !== window.location.href) {
       const url = new URL(this.anchorRef.value.href);
@@ -96,19 +129,124 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return html`
-      <a
-        router-ignore
-        ${ref(this.anchorRef)}
-        class=${classMap(this.rootClasses)}
-        part=${partAttrMap(this.rootClasses)}
-        href=${this.href || '/'}
-        target=${ifDefined(this.target)}
-        rel=${ifDefined(this.rel)}
-        @click=${this.clickLink}
-      >
-        <slot></slot>
-      </a>
-    `;
+    return this.renderPart(
+      LinkParts.Root,
+      rootChild => html`
+        <a
+          router-ignore
+          ${ref(this.anchorRef)}
+          class=${classMap(this.rootClasses)}
+          part=${partAttrMap(this.rootClasses)}
+          href=${this.href || '/'}
+          target=${ifDefined(this.target)}
+          rel=${ifDefined(this.rel)}
+          @click=${this.clickLink}
+        >
+          <slot></slot>
+          ${rootChild()}
+        </a>
+      `
+    );
   }
 }
+
+export const defaultStyles = createStyleBuilder<{
+  statics: CSSResult;
+  colorGen: Parameters<typeof generateColorVaries>[0];
+  gradientGen: Parameters<typeof generateGradientVaries>[0];
+  fontSizeGen: Parameters<typeof generateFontSizeVaries>[0];
+  fontWeightGen: Parameters<typeof generateFontWeightVaries>[0];
+}>(outputs => [
+  css`
+    :host {
+      --color: var(--color-primary);
+      --gradient: none;
+      --font-size: var(--text-md);
+      display: inline;
+    }
+
+    .root {
+      display: inline;
+      color: var(--color);
+      font-size: var(--font-size);
+    }
+
+    .gradient {
+      position: relative;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gradient::after {
+      visibility: hidden;
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background: var(--gradient);
+      height: 0.08em;
+    }
+
+    .disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .italic {
+      font-style: italic;
+    }
+
+    .no-underline {
+      text-decoration: none !important;
+    }
+
+    .no-underline.gradient::after {
+      visibility: hidden !important;
+    }
+  `,
+
+  outputs.statics,
+
+  generateColorVaries(values => {
+    const {name, color} = values;
+    return `
+      .color-${name} {
+        --color: ${color};
+      }
+      ${outputs.colorGen(values)}
+    `;
+  }),
+
+  generateGradientVaries(values => {
+    const {name, gradient} = values;
+    return `
+      .color-${name} {
+        --gradient: ${gradient};
+      }
+      ${outputs.gradientGen(values)}
+    `;
+  }),
+
+  generateFontSizeVaries(values => {
+    const {fullName, fontSize} = values;
+    return `
+      .${fullName} {
+        --font-size: ${fontSize};
+      }
+      ${outputs.fontSizeGen(values)}
+    `;
+  }),
+
+  generateFontWeightVaries(values => {
+    const {fullName, fontWeight} = values;
+    return `
+      .${fullName} {
+        font-weight: ${fontWeight};
+      }
+      ${outputs.fontWeightGen(values)}
+    `;
+  }),
+]);

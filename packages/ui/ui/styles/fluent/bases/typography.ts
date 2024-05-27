@@ -38,7 +38,10 @@ export default css`
   }
 
   a {
-    color: var(--color-text);
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+  a:hover {
     text-decoration: underline;
   }
 
