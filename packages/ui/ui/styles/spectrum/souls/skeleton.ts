@@ -1,47 +1,10 @@
 import {css} from 'lit';
 
-export const styles = css`
-  :host {
-    --width: 100%;
-    --height: 1rem;
-    --speed: 3s;
-    --border-radius: var(--radius-md);
-  }
+import {defaultStyles} from '../../../components/skeleton.js';
 
-  .root {
-    display: inline-block;
-    width: var(--width);
-    height: var(--height);
-    position: relative;
-    overflow: hidden;
-    background: color-mix(in oklab, var(--color-back), black 10%);
-    border-radius: var(--border-radius);
-  }
-
-  .root::after {
-    --background: color-mix(in oklab, var(--color-back), white 10%);
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    transform: translateX(-100%);
-    background-image: linear-gradient(
-      90deg,
-      color-mix(in oklab, var(--background), transparent 100%) 0,
-      color-mix(in oklab, var(--background), transparent 80%) 20%,
-      color-mix(in oklab, var(--background), transparent 50%) 60%,
-      color-mix(in oklab, var(--background), transparent 100%) 100%
-    );
-    animation: shimmer var(--speed) infinite;
-    content: '';
-  }
-
-  @keyframes shimmer {
-    100% {
-      transform: translateX(100%);
-    }
-  }
-`;
+export const styles = defaultStyles.extends({
+  statics: css``,
+  radiusGen: () => '',
+});
 
 export default {styles};

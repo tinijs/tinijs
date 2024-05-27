@@ -60,6 +60,11 @@ export interface ScaleRenderValues extends RenderValues {
 }
 export type ScaleVaryRender = (values: ScaleRenderValues) => string;
 
+export interface RadiusRenderValues extends RenderValues {
+  radius: string;
+}
+export type RadiusVaryRender = (values: RadiusRenderValues) => string;
+
 export enum Colors {
   Back = 'back',
   Middle = 'middle',
@@ -578,6 +583,22 @@ export function generateScaleVaries(render: ScaleVaryRender) {
         prefixName,
         fullName,
         scale,
+      });
+    }).join('')
+  );
+}
+
+export function generateRadiusVaries(render: RadiusVaryRender) {
+  return unsafeCSS(
+    RADIUSES.map(name => {
+      const prefixName = 'radius';
+      const fullName = `${prefixName}-${name}`;
+      const radius = `var(--radius-${name})`;
+      return render({
+        name,
+        prefixName,
+        fullName,
+        radius,
       });
     }).join('')
   );

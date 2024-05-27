@@ -16,6 +16,7 @@ const componentLoader = createComponentLoader({
   text: () => import('./text.js'),
   link: () => import('./link.js'),
   icon: () => import('./icon.js'),
+  skeleton: () => import('./skeleton.js'),
 });
 
 @Component()
