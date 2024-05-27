@@ -36,8 +36,18 @@
       },
       {
         section: 'select',
-        attrs: {label: 'Color', preset: 'allColorsAndAllGradients'},
+        attrs: {label: 'Color', preset: 'colorsAndGradients'},
         target: 'color'
+      },
+      {
+        section: 'switch',
+        attrs: {label: 'Italic'},
+        target: 'italic'
+      },
+      {
+        section: 'switch',
+        attrs: {label: 'Underline'},
+        target: 'underline'
       },
       {
         section: 'css',

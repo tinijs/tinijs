@@ -27,7 +27,6 @@ export default css`
   h5 {
     font-size: 1.15rem;
   }
-
   h6 {
     font-size: 1.1rem;
   }

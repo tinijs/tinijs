@@ -13,6 +13,7 @@ import {
 import {UseParams} from '@tinijs/router';
 
 const componentLoader = createComponentLoader({
+  heading: () => import('./heading.js'),
   text: () => import('./text.js'),
   link: () => import('./link.js'),
   icon: () => import('./icon.js'),
