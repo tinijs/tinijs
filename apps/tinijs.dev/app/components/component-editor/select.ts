@@ -19,6 +19,7 @@ import {
   FontTypes,
   FontSizes,
   FontWeights,
+  Radiuses,
   type EventEmitter,
   type OnCreate,
 } from '@tinijs/core';
@@ -100,6 +101,7 @@ export class AppComponentEditorSelectComponent
     fontTypes: this.buildPresetItems(FontTypes),
     fontSizes: this.buildPresetItems(FontSizes, value => value.toUpperCase()),
     fontWeights: this.buildPresetItems(FontWeights),
+    radiuses: this.buildPresetItems(Radiuses, value => value.toUpperCase()),
   };
 
   onCreate() {

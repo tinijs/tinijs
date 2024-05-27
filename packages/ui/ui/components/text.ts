@@ -94,11 +94,10 @@ export const defaultStyles = createStyleBuilder<{
       --font-family: var(--font-body);
       --font-size: var(--text-md);
       --font-weight: normal;
-      display: inline;
+      display: inline-block;
     }
 
     .root {
-      display: inline;
       color: var(--color);
       font-family: var(--font-family);
       font-size: var(--font-size);

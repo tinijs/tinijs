@@ -1,24 +1,11 @@
 import {css} from 'lit';
 
-export const styles = css`
-  :host {
-    --border: none;
-    --border-radius: var(--radius-md);
-    --box-shadow: none;
-    display: inline;
-  }
+import {defaultStyles} from '../../../components/image.js';
 
-  .root,
-  .root img {
-    border: var(--border);
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-  }
-
-  .fluid,
-  .fluid img {
-    width: 100%;
-  }
-`;
+export const styles = defaultStyles.extends({
+  statics: css``,
+  radiusGen: () => '',
+  shadowGen: () => '',
+});
 
 export default {styles};

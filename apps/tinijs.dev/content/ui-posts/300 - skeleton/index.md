@@ -37,6 +37,11 @@
         target: 'speed'
       },
       {
+        section: 'select',
+        attrs: {label: 'Radius', preset: 'radiuses'},
+        target: 'radius'
+      },
+      {
         section: 'css',
         attrs: {
           label: 'Style deep',

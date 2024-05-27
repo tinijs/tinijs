@@ -25,7 +25,8 @@ export class AppPageUIDevSkeletonComponent extends TiniComponent {
         <tini-skeleton
           width="10rem"
           height="10rem"
-          title="width=10rem height=10rem"
+          radius="xl"
+          title="width=10rem height=10rem radius=xl"
         ></tini-skeleton>
         <tini-skeleton
           width="100px"

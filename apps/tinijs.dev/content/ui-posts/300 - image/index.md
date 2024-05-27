@@ -16,13 +16,27 @@
         section: 'html',
         attrs: {label: 'SRC'},
         target: 'src',
-        value: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=250&q=80'
+        value: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=350&q=80'
       },
       {
         section: 'switch',
         attrs: {label: 'Fluid'},
-        target: 'fluid',
-        value: true
+        target: 'fluid'
+      },
+      {
+        section: 'input',
+        attrs: {label: 'Width', placeholder: '50px, 10rem, 50%'},
+        target: 'width'
+      },
+      {
+        section: 'input',
+        attrs: {label: 'Height', placeholder: '50px, 10rem, 50%'},
+        target: 'height'
+      },
+      {
+        section: 'select',
+        attrs: {label: 'Radius', preset: 'radiuses'},
+        target: 'radius'
       },
       {
         section: 'css',

@@ -162,11 +162,10 @@ export const defaultStyles = createStyleBuilder<{
       --color: var(--color-primary);
       --gradient: none;
       --font-size: var(--text-md);
-      display: inline;
+      display: inline-block;
     }
 
     .root {
-      display: inline;
       color: var(--color);
       font-size: var(--font-size);
     }

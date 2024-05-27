@@ -113,7 +113,7 @@ export const defaultStyles = createStyleBuilder<{
       --height: calc(var(--scale-md) * 2);
       --scheme: none;
       --image: url();
-      display: inline;
+      display: inline-block;
       line-height: 0;
     }
 

@@ -65,6 +65,11 @@ export interface RadiusRenderValues extends RenderValues {
 }
 export type RadiusVaryRender = (values: RadiusRenderValues) => string;
 
+export interface ShadowRenderValues extends RenderValues {
+  shadow: string;
+}
+export type ShadowVaryRender = (values: ShadowRenderValues) => string;
+
 export enum Colors {
   Back = 'back',
   Middle = 'middle',
@@ -599,6 +604,22 @@ export function generateRadiusVaries(render: RadiusVaryRender) {
         prefixName,
         fullName,
         radius,
+      });
+    }).join('')
+  );
+}
+
+export function generateShadowVaries(render: ShadowVaryRender) {
+  return unsafeCSS(
+    SHADOWS.map(name => {
+      const prefixName = 'shadow';
+      const fullName = `${prefixName}-${name}`;
+      const shadow = `var(--shadow-${name})`;
+      return render({
+        name,
+        prefixName,
+        fullName,
+        shadow,
       });
     }).join('')
   );
