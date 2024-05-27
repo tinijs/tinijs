@@ -20,7 +20,6 @@ import {UseRouter, type Router, type FragmentItem} from '@tinijs/router';
 import {TiniMessageComponent} from '../../ui/components/message.js';
 import {TiniCodeComponent} from '../../ui/components/code.js';
 import {TiniImageComponent} from '../../ui/components/image.js';
-import {TiniFigureComponent} from '../../ui/components/figure.js';
 
 import type {DocPostDetail} from '../../services/content.js';
 
@@ -35,7 +34,6 @@ import {prismThemeDark} from '../../utils/prism.js';
     TiniMessageComponent,
     TiniCodeComponent,
     TiniImageComponent,
-    TiniFigureComponent,
     IconEditComponent,
   ],
 })
@@ -182,11 +180,6 @@ export class AppDocPageContentComponent
           tini-message::part(root) {
             font-size: var(--text-xs);
             padding: var(--space-xs);
-          }
-
-          tini-figure::part(caption-bottom) {
-            color: var(--color-middle);
-            font-size: var(--text-xs);
           }
         }
 

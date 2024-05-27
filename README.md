@@ -35,7 +35,7 @@ I hope that I can reach some candidate versions in 2024 and release the 1.0 vers
 - UI:
   - Optimize the [@tinijs/ui](https://github.com/tinijs/tinijs/tree/main/packages/ui) implementation
   - Implement the UI and Icons builder
-  - Add some components: code, embed, table, image, figure, ...
+  - Add some components: code, embed, table, image, ...
   - Add Material V3 theme family
   - Add Fluent theme family (hopefully)
 

@@ -103,7 +103,6 @@ const componentLoader = createComponentLoader(
     radios: () => import('../../ui/components/radios.js'),
     switch: () => import('../../ui/components/switch.js'),
     image: () => import('../../ui/components/image.js'),
-    figure: () => import('../../ui/components/figure.js'),
     embed: () => import('../../ui/components/embed.js'),
     table: () => import('../../ui/components/table.js'),
     code: () => import('../../ui/components/code.js'),
