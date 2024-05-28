@@ -6,7 +6,7 @@
 }
 +++
 
-Bases is used to set the base styles for native elements like headings, paragraph, link, inputs, ... You can think of them as CSS reset.
+Bases is used to set the base styles for native elements like headings, text, link, ... You can think of them as CSS reset.
 
 ## h1
 
@@ -36,21 +36,47 @@ Bases is used to set the base styles for native elements like headings, paragrap
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel elit dapibus, finibus eros mollis, imperdiet lorem. Integer eget magna et nibh rutrum ultricies nec a neque.
 
-Mauris sed lorem elit. Nunc convallis porta tincidunt. **Nulla faucibus posuere elit nec hendrerit**. Curabitur vitae tortor purus. Donec in dui leo. _Nulla posuere lorem sit amet sem consequat, sit amet tempus leo sagittis_. Donec iaculis vitae arcu fringilla hendrerit.
+## strong
 
-## a
+**Mauris sed lorem elit.**
 
-[Lorem ipsum dolor sit amet](#)
+## em
+
+_Nunc convallis porta tincidunt._
+
+## u, ins
+
+<u>Nulla faucibus posuere elit nec hendrerit.</u>
+
+<ins>Nulla faucibus posuere elit nec hendrerit.</ins>
+
+## s, del
+
+<del>Nulla posuere lorem sit amet sem consequat.</del>
+
+<s>Nulla posuere lorem sit amet sem consequat.</s>
+
+## small
+
+<small>Sit amet tempus leo sagittis.</small>
+
+## mark
+
+Donec iaculis <mark>vitae arcu</mark> fringilla hendrerit.
 
 ## hr
 
 ---
 
+## a
+
+[Lorem ipsum dolor sit amet.](#)
+
 ## blockquote
 
 > "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel elit dapibus, finibus eros mollis, imperdiet lorem. Integer eget magna et nibh rutrum ultricies nec a neque."
 
-## ul, ol
+## ul, ol, dl
 
 - Lorem ipsum dolor sit amet
 - Aliquam vel elit dapibus, finibus eros mollis
@@ -59,6 +85,17 @@ Mauris sed lorem elit. Nunc convallis porta tincidunt. **Nulla faucibus posuere 
 1. Lorem ipsum dolor sit amet
 2. Aliquam vel elit dapibus, finibus eros mollis
 3. Integer eget magna et nibh rutrum ultricies nec a neque
+
+<dl>
+  <dt>Lorem ipsum</dt>
+  <dd>Dolor sit amet, consectetur adipiscing elit. Finibus eros mollis, imperdiet lorem.</dd>
+
+  <dt>Aliquam</dt>
+  <dd>Vel elit dapibus, finibus eros mollis.</dd>
+
+  <dt>Integer</dt>
+  <dd>Eget magna et nibh rutrum ultricies nec a neque.</dd>
+</dl>
 
 ## table
 
@@ -83,3 +120,38 @@ function foo() {
   return 123;
 }
 ```
+
+## img
+
+![Lorem ipsum](https://placehold.co/600x400?text=Image)
+
+## picture
+
+<picture>
+  <source srcset="https://placehold.co/800x600?text=Desktop" media="(min-width: 1024px)">
+  <source srcset="https://placehold.co/600x400?text=Tablet" media="(min-width: 768px)">
+  <img src="https://placehold.co/500x300?text=Mobile" alt="Lorem ipsum">
+</picture>
+
+## figure
+
+<figure>
+  <img src="https://placehold.co/600x400?text=Figure" alt="Lorem ipsum." />
+  <figcaption>Lorem ipsum dolor sit amet</figcaption>
+</figure>
+
+## fieldset
+
+<fieldset>
+  <legend>Lorem ipsum</legend>
+
+  <label>
+    <span>Text input</span>
+    <input type="text" placeholder="Text input" />
+  </label>
+
+  <label>
+    <span>Email input</span>
+    <input type="email" placeholder="test@example.com" />
+  </label>
+</fieldset>

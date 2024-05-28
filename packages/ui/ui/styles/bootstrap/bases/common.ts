@@ -18,8 +18,10 @@ export default css`
 
   input,
   button,
-  textarea,
-  select {
+  select,
+  optgroup,
+  textarea {
+    margin: 0;
     font: inherit;
     color: inherit;
     line-height: inherit;

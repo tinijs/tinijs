@@ -505,11 +505,8 @@ export function getCommonStyles() {
   box-sizing: border-box;
 }
 
-* {
-  margin: 0;
-}
-
 body {
+  margin: 0;
   background: var(--color-back);
   color: var(--color-front);
   font-family: var(--font-body);
@@ -525,7 +522,8 @@ img, picture, video, canvas, svg {
   max-width: 100%;
 }
 
-input, button, textarea, select {
+input, button, select, optgroup, textarea {
+  margin: 0;
   font: inherit;
   color: inherit;
   line-height: inherit;

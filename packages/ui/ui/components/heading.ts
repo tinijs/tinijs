@@ -72,7 +72,7 @@ export const defaultStyles = createStyleBuilder<{
     :host {
       --color: var(--color-front);
       --gradient: none;
-      line-height: 1;
+      line-height: 1.2;
     }
 
     .root {
