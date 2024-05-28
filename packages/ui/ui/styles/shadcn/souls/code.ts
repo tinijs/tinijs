@@ -1,9 +1,9 @@
 import {css} from 'lit';
 
-export const styles = css`
-  .root {
-    margin-bottom: 0;
-  }
-`;
+import {defaultStyles} from '../../../components/code.js';
+
+export const styles = defaultStyles.extends({
+  statics: css``,
+});
 
 export default {styles};

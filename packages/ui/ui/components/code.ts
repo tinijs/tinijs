@@ -1,4 +1,4 @@
-import {html, type PropertyValues} from 'lit';
+import {html, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
 import {ref, createRef} from 'lit/directives/ref.js';
@@ -6,15 +6,16 @@ import {ref, createRef} from 'lit/directives/ref.js';
 import {
   TiniElement,
   partAttrMap,
-  UnstableStates,
+  ElementParts,
+  createStyleBuilder,
   type UICodeOptions,
 } from '@tinijs/core';
 
-export default class extends TiniElement {
-  // static readonly componentMetadata = {
-  //   unstable: UnstableStates.Experimental,
-  // };
+export enum CodeParts {
+  Root = ElementParts.Root,
+}
 
+export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) language!: string;
   @property({type: String, reflect: true}) content!: string;
@@ -65,16 +66,30 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return html`
-      <style ${ref(this.styleRef)}></style>
-      <pre
-        class=${classMap(this.rootClasses)}
-        part=${partAttrMap(this.rootClasses)}
-      ><code
-          ${ref(this.codeRef)}
-          class=${classMap(this.codeClasses)}
-          part=${partAttrMap(this.codeClasses)}
-        ></code></pre>
-    `;
+    return this.renderPart(
+      CodeParts.Root,
+      () => html`
+        <pre
+          class=${classMap(this.rootClasses)}
+          part=${partAttrMap(this.rootClasses)}
+        ><code
+            ${ref(this.codeRef)}
+            class=${classMap(this.codeClasses)}
+            part=${partAttrMap(this.codeClasses)}
+          ></code></pre>
+        <style ${ref(this.styleRef)}></style>
+      `
+    );
   }
 }
+
+export const defaultStyles = createStyleBuilder<{
+  statics: CSSResult;
+}>(outputs => [
+  css`
+    .root {
+      margin-bottom: 0;
+    }
+  `,
+  outputs.statics,
+]);
