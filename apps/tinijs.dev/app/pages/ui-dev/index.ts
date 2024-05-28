@@ -20,6 +20,7 @@ const componentLoader = createComponentLoader({
   skeleton: () => import('./skeleton.js'),
   embed: () => import('./embed.js'),
   image: () => import('./image.js'),
+  box: () => import('./box.js'),
 });
 
 @Component()

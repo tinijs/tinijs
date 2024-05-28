@@ -220,7 +220,7 @@ export const GRADIENTS_TO_COLORS = [
   [Gradients.ShadyLane, Colors.Indigo],
   [Gradients.RetroWagon, Colors.Lime],
   [Gradients.FrescoCrush, Colors.Brown],
-  [Gradients.CucumberWater, Colors.Gray],
+  [Gradients.CucumberWater, Colors.White],
   [Gradients.SeaSalt, Colors.Navy],
   [Gradients.ParFour, Colors.Green],
   [Gradients.OoeyGooey, Colors.Blue],
