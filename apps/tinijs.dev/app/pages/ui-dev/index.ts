@@ -21,6 +21,7 @@ const componentLoader = createComponentLoader({
   embed: () => import('./embed.js'),
   image: () => import('./image.js'),
   box: () => import('./box.js'),
+  table: () => import('./table.js'),
 });
 
 @Component()

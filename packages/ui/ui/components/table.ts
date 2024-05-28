@@ -1,4 +1,10 @@
-import {html, type PropertyValues} from 'lit';
+import {
+  html,
+  css,
+  type PropertyValues,
+  type TemplateResult,
+  type CSSResult,
+} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
@@ -6,26 +12,30 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
   partAttrMap,
-  Colors,
-  Scales,
-  UnstableStates,
+  ElementParts,
+  createStyleBuilder,
 } from '@tinijs/core';
 
-export default class extends TiniElement {
-  // static readonly componentMetadata = {
-  //   unstable: UnstableStates.Experimental,
-  // };
+export enum TableParts {
+  Root = ElementParts.Root,
+}
 
+export type TableItem = string | TemplateResult | TableCell;
+
+export interface TableCell {
+  content: string | TemplateResult;
+  colspan?: number;
+  rowspan?: number;
+}
+
+export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: Object}) head!: any[];
-  @property({type: Object}) body!: any[][];
+  @property({type: Array}) items!: TableItem[][];
   /* eslint-enable prettier/prettier */
 
   private validateProperties() {
-    if (!this.head?.length)
-      throw new Error('Property "head" must be an array.');
-    if (!this.body?.length)
-      throw new Error('Property "body" must be a 2-dimensional array.');
+    if (!this.items?.length)
+      throw new Error('Property "items" must be a 2-dimensional array.');
   }
 
   willUpdate(changedProperties: PropertyValues<this>) {
@@ -36,47 +46,64 @@ export default class extends TiniElement {
     this.extendRootClasses({});
   }
 
-  private parseCell(cell: any) {
-    return cell instanceof Object ? cell : ({content: cell} as any);
+  private processCell(item: TableItem) {
+    return (
+      typeof item === 'string' || !(item as any).content
+        ? {content: item}
+        : item
+    ) as TableCell;
   }
 
   protected render() {
-    return html`
-      <table
-        class=${classMap(this.rootClasses)}
-        part=${partAttrMap(this.rootClasses)}
-      >
-        <thead>
-          ${this.renderHeadRow()}
-        </thead>
-        <tbody>
-          ${this.renderBodyRows()}
-        </tbody>
-      </table>
-    `;
-  }
-
-  private renderHeadRow() {
-    return html`
-      <tr>
-        ${this.head.map(cell => {
-          const {colspan, content} = this.parseCell(cell);
-          return html`<th colspan=${ifDefined(colspan)}>${content}</th>`;
-        })}
-      </tr>
-    `;
-  }
-
-  private renderBodyRows() {
-    return this.body.map(
-      row => html`
-        <tr>
-          ${row.map(cell => {
-            const {colspan, content} = this.parseCell(cell);
-            return html`<td colspan=${ifDefined(colspan)}>${content}</td>`;
-          })}
-        </tr>
+    return this.renderPart(
+      TableParts.Root,
+      rootChild => html`
+        <table
+          class=${classMap(this.rootClasses)}
+          part=${partAttrMap(this.rootClasses)}
+        >
+          ${this.renderTHead()} ${this.renderTBody()} ${rootChild()}
+        </table>
       `
     );
   }
+
+  private renderTHead() {
+    return html`
+      <thead>
+        <tr>
+          ${this.items[0].map(item => {
+            const {content, colspan} = this.processCell(item);
+            return html`<th colspan=${ifDefined(colspan)}>${content}</th>`;
+          })}
+        </tr>
+      </thead>
+    `;
+  }
+
+  private renderTBody() {
+    return html`
+      <tbody>
+        ${this.items.slice(1).map(
+          row => html`
+            <tr>
+              ${row.map(item => {
+                const {content, colspan, rowspan} = this.processCell(item);
+                return html`<td
+                  colspan=${ifDefined(colspan)}
+                  rowspan=${ifDefined(rowspan)}
+                >
+                  ${content}
+                </td>`;
+              })}
+            </tr>
+          `
+        )}
+      </tbody>
+    `;
+  }
 }
+
+export const defaultStyles = createStyleBuilder<{
+  statics: CSSResult;
+}>(outputs => [css``, outputs.statics]);
