@@ -7,7 +7,7 @@ import {
   partAttrMap,
   Colors,
   SubtleColors,
-  Scales,
+  Sizes,
 } from '@tinijs/core';
 
 export default class extends TiniElement {
@@ -26,7 +26,7 @@ export default class extends TiniElement {
   @property({type: Boolean, reflect: true}) readonly?: boolean;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
   @property({type: String, reflect: true}) focusScheme?: this['scheme'];
-  @property({type: String, reflect: true}) scale?: Scales;
+  @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
@@ -39,7 +39,7 @@ export default class extends TiniElement {
       },
       overridable: {
         scheme: this.scheme,
-        scale: this.scale,
+        size: this.size,
       },
       pseudo: {
         focus: {

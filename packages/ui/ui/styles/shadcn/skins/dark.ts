@@ -5,7 +5,7 @@ export default css`:root {
   /* fonts */
   --font-head: Geist, sans-serif;
   --font-body: Geist, sans-serif;
-  --font-quote: Geist, sans-serif;
+  --font-art: Geist, sans-serif;
   --font-code: "Geist Mono", monospace;
   /* colors */
   --color-back: #0a0a0b;
@@ -100,7 +100,7 @@ export default css`:root {
   --gradient-danger-shade: linear-gradient(90deg, #c00f3b 0%, #b00007 100%);
   --gradient-danger-tint: linear-gradient(90deg, #ff6c7b 0%, #ff5345 100%);
   /* sizes */
-  --scale-md: 14px;
+  --size-md: 14px;
   --text-md: 16px;
   --space-md: 1rem;
   --radius-md: 6px;

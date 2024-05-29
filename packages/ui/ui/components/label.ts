@@ -6,12 +6,12 @@ import {
   partAttrMap,
   Colors,
   SubtleColors,
-  Scales,
+  Sizes,
 } from '@tinijs/core';
 
 export enum LabelShapes {
-  Normal = 'normal',
   Pill = 'pill',
+  Circle = 'circle',
 }
 
 export default class extends TiniElement {
@@ -22,7 +22,7 @@ export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) shape?: LabelShapes;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
-  @property({type: String, reflect: true}) scale?: Scales;
+  @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
@@ -32,7 +32,7 @@ export default class extends TiniElement {
       overridable: {
         shape: this.shape,
         scheme: this.scheme,
-        scale: this.scale,
+        size: this.size,
       },
     });
   }

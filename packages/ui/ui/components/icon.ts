@@ -11,10 +11,10 @@ import {
   SubtleColors,
   Gradients,
   SubtleGradients,
-  Scales,
+  Sizes,
   generateAllColorVaries,
   generateAllGradientVaries,
-  generateScaleVaries,
+  generateSizeVaries,
   type UIIconOptions,
 } from '@tinijs/core';
 
@@ -32,8 +32,7 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) name?: string;
   @property({type: String, reflect: true}) provider?: string;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
-  @property({type: String, reflect: true}) scale?: Scales;
-  @property({type: String, reflect: true}) size?: string;
+  @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
   private rootStyles: StyleInfo = {};
@@ -46,7 +45,7 @@ export default class extends TiniElement {
       },
       overridable: {
         scheme: this.scheme,
-        scale: this.scale,
+        size: this.size,
       },
     });
     // root styles
@@ -60,17 +59,6 @@ export default class extends TiniElement {
       this.rootStyles = {
         '--image': `url("${src}")`,
       };
-    }
-    // size
-    if (changedProperties.has('size')) {
-      if (!this.size) {
-        delete this.rootStyles['--width'];
-        delete this.rootStyles['--height'];
-      } else {
-        const [width, height] = this.size.split(' ').map(value => value.trim());
-        this.rootStyles['--width'] = width;
-        this.rootStyles['--height'] = height || width;
-      }
     }
   }
 
@@ -105,12 +93,12 @@ export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
   colorGen: Parameters<typeof generateAllColorVaries>[0];
   gradientGen: Parameters<typeof generateAllGradientVaries>[0];
-  scaleGen: Parameters<typeof generateScaleVaries>[0];
+  sizeGen: Parameters<typeof generateSizeVaries>[0];
 }>(outputs => [
   css`
     :host {
-      --width: calc(var(--scale-md) * 2);
-      --height: calc(var(--scale-md) * 2);
+      --width: calc(var(--size-md) * 2);
+      --height: calc(var(--size-md) * 2);
       --scheme: none;
       --image: url();
       display: inline-block;
@@ -164,14 +152,14 @@ export const defaultStyles = createStyleBuilder<{
     `;
   }),
 
-  generateScaleVaries(values => {
+  generateSizeVaries(values => {
     const {name, fullName} = values;
     return `
       .${fullName} {
-        --width: calc(var(--scale-${name}) * 2);
-        --height: calc(var(--scale-${name}) * 2);
+        --width: calc(var(--size-${name}) * 2);
+        --height: calc(var(--size-${name}) * 2);
       }
-      ${outputs.scaleGen(values)}
+      ${outputs.sizeGen(values)}
     `;
   }),
 ]);

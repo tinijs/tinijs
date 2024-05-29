@@ -143,7 +143,7 @@ export class HeaderComponent
                 ><icon-x scheme=${Colors.Front}></icon-x
               ></a>
               <a href="https://discord.gg/EABbZVbPAb" target="_blank"
-                ><icon-discord scheme=${Colors.Front} scale="lg"></icon-discord
+                ><icon-discord scheme=${Colors.Front} size="lg"></icon-discord
               ></a>
             </div>
           </div>
@@ -251,13 +251,13 @@ export class HeaderComponent
       .menu {
         flex-direction: row;
         align-items: center;
-        gap: var(--space-2xs);
+        gap: var(--space-xs2);
 
         tini-link {
           border-bottom: none;
 
           &::part(root) {
-            padding: var(--space-2xs) var(--space-md);
+            padding: var(--space-xs2) var(--space-md);
             border-radius: var(--radius-md);
           }
           &:hover::part(root) {

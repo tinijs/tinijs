@@ -10,7 +10,7 @@ import {
   Output,
   EventEmitter,
   sectionRender,
-  Scales,
+  Sizes,
   Colors,
   type SectionRenderData,
   type OnRenders,
@@ -109,7 +109,7 @@ export class AppDocPageContentComponent
         <div class="content">${unsafeHTML(post.content)}</div>
 
         <a class="suggest-edit" href=${this.editOnGithubUrl} target="_blank">
-          <icon-edit scheme=${Colors.Primary} scale=${Scales.SM}></icon-edit>
+          <icon-edit scheme=${Colors.Primary} size=${Sizes.SM}></icon-edit>
           <span>Suggest changes to this page</span>
         </a>
       </div>
@@ -124,7 +124,7 @@ export class AppDocPageContentComponent
 
         @media (min-width: 1200px) {
           margin-top: 0;
-          padding: var(--space-4xl);
+          padding: var(--space-xl4);
         }
       }
 
@@ -186,7 +186,7 @@ export class AppDocPageContentComponent
         .suggest-edit {
           display: flex;
           align-items: center;
-          gap: var(--space-2xs);
+          gap: var(--space-xs2);
           margin-top: var(--space-xl);
         }
       }

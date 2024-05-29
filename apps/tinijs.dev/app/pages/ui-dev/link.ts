@@ -5,8 +5,8 @@ import {
   TiniComponent,
   Colors,
   Gradients,
-  FontSizes,
-  FontWeights,
+  Texts,
+  Weights,
 } from '@tinijs/core';
 
 import {TiniLinkComponent} from '../../ui/components/link.js';
@@ -44,7 +44,7 @@ export class AppPageUIDevLinkComponent extends TiniComponent {
       </ui-dev-section>
 
       <ui-dev-section titleText="Font sizes">
-        ${Object.values(FontSizes).map(
+        ${Object.values(Texts).map(
           fontSize => html`
             <tini-link href="#" fontSize=${fontSize}
               >Lorem ipsum (fontSize=${fontSize})</tini-link
@@ -55,7 +55,7 @@ export class AppPageUIDevLinkComponent extends TiniComponent {
       </ui-dev-section>
 
       <ui-dev-section titleText="Font weights">
-        ${Object.values(FontWeights).map(
+        ${Object.values(Weights).map(
           fontWeight => html`
             <tini-link href="#" fontWeight=${fontWeight}
               >Lorem ipsum (fontWeight=${fontWeight})</tini-link

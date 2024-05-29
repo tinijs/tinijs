@@ -1,7 +1,5 @@
 import {
   LitElement,
-  unsafeCSS,
-  getCompatibleStyle,
   adoptStyles,
   html,
   nothing,
@@ -15,10 +13,10 @@ import {defu} from 'defu';
 import {
   THEME_CHANGE_EVENT,
   getOptionalUI,
-  getTemplatesFromTheming,
-  getStylesFromTheming,
-  getScriptsFromTheming,
-  processComponentStyles,
+  extractTemplatesFromTheming,
+  extractStylesFromTheming,
+  extractScriptsFromTheming,
+  themingStylesToAdoptableStyles,
   ThemingScriptTypes,
   type UIOptions,
   type UIButtonOptions,
@@ -30,7 +28,7 @@ import {
 } from './ui.js';
 
 import {listify} from '../utils/common.js';
-import {isGradient, colorToGradient} from '../utils/vary.js';
+import {isGradient, colorToGradient} from '../utils/variant.js';
 import {
   UnstableStates,
   registerComponents,
@@ -257,7 +255,7 @@ export class TiniElement extends LitElement {
     return {
       ...(!optionalUI
         ? {}
-        : getTemplatesFromTheming(
+        : extractTemplatesFromTheming(
             (this.constructor as typeof TiniElement).theming,
             optionalUI.activeTheme
           )),
@@ -301,7 +299,7 @@ export class TiniElement extends LitElement {
       const {familyId, skinId} = optionalUI.activeTheme;
       allStyles.push(
         ...optionalUI.getShareStyles(familyId, skinId),
-        ...getStylesFromTheming(
+        ...extractStylesFromTheming(
           (this.constructor as typeof TiniElement).theming,
           optionalUI.activeTheme
         )
@@ -324,13 +322,10 @@ export class TiniElement extends LitElement {
       }
     }
     // adopt all the styles
-    const styleText = processComponentStyles(
-      allStyles,
-      optionalUI?.activeTheme
+    adoptStyles(
+      renderRoot as unknown as ShadowRoot,
+      themingStylesToAdoptableStyles(allStyles)
     );
-    adoptStyles(renderRoot as unknown as ShadowRoot, [
-      getCompatibleStyle(unsafeCSS(styleText)),
-    ]);
   }
 
   private getScripts() {
@@ -340,7 +335,7 @@ export class TiniElement extends LitElement {
           prevScripts: {},
           currentScripts: {},
         }
-      : getScriptsFromTheming(
+      : extractScriptsFromTheming(
           this,
           (this.constructor as typeof TiniElement).theming,
           optionalUI.activeTheme

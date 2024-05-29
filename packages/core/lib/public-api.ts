@@ -31,4 +31,4 @@ export * from './utils/generic.js';
 export * from './utils/hook.js';
 export * from './utils/splashscreen.js';
 export * from './utils/style.js';
-export * from './utils/vary.js';
+export * from './utils/variant.js';

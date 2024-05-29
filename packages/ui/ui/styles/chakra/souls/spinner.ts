@@ -1,15 +1,15 @@
 import {css} from 'lit';
-import {generateColorVaries, generateScaleVaries} from '@tinijs/core';
+import {generateColorVaries, generateSizeVaries} from '@tinijs/core';
 
 export const styles = css`
   :host {
     --color: var(--color-front);
-    --scale: var(--scale-md);
+    --size: var(--size-md);
   }
 
   .root {
-    --size: calc(var(--scale) * 2);
-    --border-width: calc(var(--scale) / 4);
+    --size: calc(var(--size) * 2);
+    --border-width: calc(var(--size) / 4);
     width: var(--size);
     height: var(--size);
     border: var(--border-width) solid var(--color-back-shade);
@@ -35,10 +35,10 @@ export const styles = css`
   `
   )}
 
-  ${generateScaleVaries(
-    ({fullName, scale}) => `
+  ${generateSizeVaries(
+    ({fullName, size}) => `
     .${fullName} {
-      --scale: ${scale};
+      --size: ${size};
     }
   `
   )}

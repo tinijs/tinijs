@@ -69,7 +69,6 @@ export const blockquote = css`
   blockquote,
   blockquote * {
     margin: 0 !important;
-    font-family: var(--font-quote);
     font-size: 1.05em;
   }
 `;

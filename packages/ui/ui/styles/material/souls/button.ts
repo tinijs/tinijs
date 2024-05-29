@@ -2,7 +2,7 @@ import {css} from 'lit';
 import {
   generateColorVaries,
   generateGradientVaries,
-  generateScaleVaries,
+  generateSizeVaries,
 } from '@tinijs/core';
 
 export const styles = css`
@@ -10,13 +10,13 @@ export const styles = css`
     --base-color: var(--color-middle);
     --color: var(--color-middle);
     --background: var(--color-middle);
-    --scale: var(--scale-md);
+    --size: var(--size-md);
     --text-color: var(--color-middle-contrast);
     --border-size: var(--border-md);
     --border-radius: var(--radius-md);
     --box-shadow: none;
     --disabled-opacity: 0.5;
-    --focus-visible-shadow-size: calc(var(--scale-md) * 0.3);
+    --focus-visible-shadow-size: calc(var(--size-md) * 0.3);
     display: inline;
   }
 
@@ -28,12 +28,12 @@ export const styles = css`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: calc(var(--scale) * 0.5);
-    padding: calc(var(--scale) * 0.5) var(--scale);
+    gap: calc(var(--size) * 0.5);
+    padding: calc(var(--size) * 0.5) var(--size);
     background: var(--background);
     color: var(--text-color);
     font-family: var(--font-body);
-    font-size: calc(var(--scale) * 1.1);
+    font-size: calc(var(--size) * 1.1);
     line-height: 1.4;
     border-radius: var(--border-radius);
     outline: 0 !important;
@@ -73,7 +73,7 @@ export const styles = css`
   ::slotted(.content-group) {
     display: inline-flex;
     align-items: center;
-    gap: calc(var(--scale) * 0.5);
+    gap: calc(var(--size) * 0.5);
   }
 
   :host([block]),
@@ -182,11 +182,11 @@ export const styles = css`
   `
   )}
 
-  ${generateScaleVaries(
-    ({name, fullName, scale}) => `
+  ${generateSizeVaries(
+    ({name, fullName, size}) => `
     button.${fullName} {
-      --scale: ${scale};
-      --focus-visible-shadow-size: calc(var(--scale-${name}) * 0.3);
+      --size: ${size};
+      --focus-visible-shadow-size: calc(var(--size-${name}) * 0.3);
     }
   `
   )}

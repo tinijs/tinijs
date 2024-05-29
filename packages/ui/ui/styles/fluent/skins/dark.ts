@@ -5,7 +5,7 @@ export default css`:root {
   /* fonts */
   --font-head: Roboto, sans-serif;
   --font-body: Roboto, sans-serif;
-  --font-quote: Roboto, sans-serif;
+  --font-art: Roboto, sans-serif;
   --font-code: "Roboto Mono", monospace;
   /* colors */
   --color-back: #202020;
@@ -100,7 +100,7 @@ export default css`:root {
   --gradient-danger-shade: linear-gradient(180deg, #93002a 0%, #c71e64 100%);
   --gradient-danger-tint: linear-gradient(180deg, #e64868 0%, #ff75a9 100%);
   /* sizes */
-  --scale-md: 13px;
+  --size-md: 13px;
   --text-md: 16px;
   --space-md: 1rem;
   --radius-md: 4px;

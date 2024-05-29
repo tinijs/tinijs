@@ -2,13 +2,13 @@ import {css} from 'lit';
 import {
   generateColorVaries,
   generateGradientVaries,
-  generateScaleVaries,
+  generateSizeVaries,
 } from '@tinijs/core';
 
 const styles = css`
   :host {
     --background: var(--color-middle);
-    --scale: var(--scale-md);
+    --size: var(--size-md);
     --color: var(--color-middle-contrast);
     --border-radius: var(--radius-md);
     display: inline;
@@ -18,11 +18,11 @@ const styles = css`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: calc(var(--scale) * 0.25);
-    padding-top: calc(var(--scale) * 0.3);
+    padding: calc(var(--size) * 0.25);
+    padding-top: calc(var(--size) * 0.3);
     background: var(--background);
     color: var(--color);
-    font-size: calc(var(--scale) * 0.95);
+    font-size: calc(var(--size) * 0.95);
     border: none;
     border-radius: var(--border-radius);
     font-weight: bold;
@@ -34,10 +34,10 @@ const styles = css`
   }
 
   .shape-circle {
-    --circle-size: calc(var(--scale) * 1.75);
+    --circle-size: calc(var(--size) * 1.75);
     width: var(--circle-size);
     height: var(--circle-size);
-    font-size: calc(var(--scale) * 0.75);
+    font-size: calc(var(--size) * 0.75);
     border-radius: 9999px !important;
     overflow: hidden;
   }
@@ -60,10 +60,10 @@ const styles = css`
   `
   )}
 
-  ${generateScaleVaries(
-    ({fullName, scale}) => `
+  ${generateSizeVaries(
+    ({fullName, size}) => `
     .${fullName} {
-      --scale: ${scale};
+      --size: ${size};
     }
   `
   )}

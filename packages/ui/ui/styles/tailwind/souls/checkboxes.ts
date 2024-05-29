@@ -1,9 +1,9 @@
 import {css} from 'lit';
-import {generateColorVaries, generateScaleVaries} from '@tinijs/core';
+import {generateColorVaries, generateSizeVaries} from '@tinijs/core';
 
 export const styles = css`
   :host {
-    --scale: var(--scale-md);
+    --size: var(--size-md);
     --background: var(--color-primary);
     --border-color: var(--color-middle);
   }
@@ -28,8 +28,8 @@ export const styles = css`
 
   input {
     cursor: pointer;
-    width: var(--scale);
-    height: var(--scale);
+    width: var(--size);
+    height: var(--size);
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -46,7 +46,7 @@ export const styles = css`
   input:focus {
     border-color: color-mix(in oklab, var(--background), transparent 50%);
     outline: 0;
-    box-shadow: 0 0 0 calc(var(--scale) / 4)
+    box-shadow: 0 0 0 calc(var(--size) / 4)
       color-mix(in oklab, var(--background), transparent 70%);
   }
 
@@ -61,8 +61,8 @@ export const styles = css`
   }
 
   span {
-    font-size: var(--scale);
-    margin-left: calc(var(--scale) / 3);
+    font-size: var(--size);
+    margin-left: calc(var(--size) / 3);
   }
 
   .item-disabled {
@@ -86,10 +86,10 @@ export const styles = css`
   `
   )}
 
-  ${generateScaleVaries(
-    ({fullName, scale}) => `
+  ${generateSizeVaries(
+    ({fullName, size}) => `
     .${fullName} {
-      --scale: ${scale};
+      --size: ${size};
     }
   `
   )}

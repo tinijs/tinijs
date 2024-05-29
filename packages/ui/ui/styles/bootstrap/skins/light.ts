@@ -5,7 +5,7 @@ export default css`:root {
   /* fonts */
   --font-head: Arial, sans-serif;
   --font-body: Arial, sans-serif;
-  --font-quote: Arial, sans-serif;
+  --font-art: Arial, sans-serif;
   --font-code: Monaco, monospace;
   /* colors */
   --color-back: #f8f9fa;
@@ -100,7 +100,7 @@ export default css`:root {
   --gradient-danger-shade: linear-gradient(180deg, #d0193e 0%, #750000 100%);
   --gradient-danger-tint: linear-gradient(180deg, #ff737e 0%, #c83b36 100%);
   /* sizes */
-  --scale-md: 15px;
+  --size-md: 15px;
   --text-md: 16px;
   --space-md: 1rem;
   --radius-md: 4px;

@@ -7,7 +7,7 @@ import {
   TiniComponent,
   UseUI,
   listify,
-  extractTextFromStyles,
+  themingStylesToText,
   type UI,
   type ThemingStyles,
 } from '@tinijs/core';
@@ -115,7 +115,7 @@ export class AppSkinEditorComponent extends TiniComponent {
       string,
       ThemingStyles
     >;
-    const skinText = extractTextFromStyles(
+    const skinText = themingStylesToText(
       listify(availableSkins[this.ui.activeTheme.themeId])
     );
     return extractCSSVariables(skinText);
@@ -431,7 +431,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
           scheme="primary"
           @click=${this.showModal}
         >
-          <icon-code scheme="white" scale="sm"></icon-code>
+          <icon-code scheme="white" size="sm"></icon-code>
           <span>Show code</span>
         </tini-button>
       </div>
@@ -542,7 +542,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
               justify-content: space-between;
               margin-right: var(--space-xs);
               margin-bottom: var(--space-xs);
-              padding: var(--space-2xs) 0 var(--space-sm);
+              padding: var(--space-xs2) 0 var(--space-sm);
               border-bottom: var(--border-md) solid var(--color-back-shade);
 
               .value {
@@ -551,7 +551,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
                   background: var(--color-back-tint);
                   border: var(--border-md) solid var(--color-middle);
                   border-radius: var(--radius-md);
-                  padding: var(--space-2xs) var(--space-xs);
+                  padding: var(--space-xs2) var(--space-xs);
                 }
 
                 input {

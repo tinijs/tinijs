@@ -11,12 +11,12 @@ import {
   isGradient,
   Colors,
   Gradients,
-  FontSizes,
-  FontWeights,
+  Texts,
+  Weights,
   generateColorVaries,
   generateGradientVaries,
-  generateFontSizeVaries,
-  generateFontWeightVaries,
+  generateTextVaries,
+  generateWeightVaries,
 } from '@tinijs/core';
 
 export enum LinkParts {
@@ -41,8 +41,8 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) active?: string;
   @property({type: Boolean, reflect: true}) disabled?: boolean;
   @property({type: String, reflect: true}) color?: Colors | Gradients;
-  @property({type: String, reflect: true}) fontSize?: FontSizes;
-  @property({type: String, reflect: true}) fontWeight?: FontWeights;
+  @property({type: String, reflect: true}) fontSize?:Texts;
+  @property({type: String, reflect: true}) fontWeight?: Weights;
   @property({type: Boolean, reflect: true}) italic?: boolean;
   @property({type: Boolean, reflect: true}) noUnderline?: boolean;
   /* eslint-enable prettier/prettier */
@@ -59,8 +59,8 @@ export default class extends TiniElement {
       },
       overridable: {
         color: this.color,
-        'font-size': this.fontSize,
-        'font-weight': this.fontWeight,
+        text: this.fontSize,
+        weight: this.fontWeight,
       },
     });
   }
@@ -154,8 +154,8 @@ export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
   colorGen: Parameters<typeof generateColorVaries>[0];
   gradientGen: Parameters<typeof generateGradientVaries>[0];
-  fontSizeGen: Parameters<typeof generateFontSizeVaries>[0];
-  fontWeightGen: Parameters<typeof generateFontWeightVaries>[0];
+  fontSizeGen: Parameters<typeof generateTextVaries>[0];
+  fontWeightGen: Parameters<typeof generateWeightVaries>[0];
 }>(outputs => [
   css`
     :host {
@@ -229,21 +229,21 @@ export const defaultStyles = createStyleBuilder<{
     `;
   }),
 
-  generateFontSizeVaries(values => {
-    const {fullName, fontSize} = values;
+  generateTextVaries(values => {
+    const {fullName, text} = values;
     return `
       .${fullName} {
-        --font-size: ${fontSize};
+        --font-size: ${text};
       }
       ${outputs.fontSizeGen(values)}
     `;
   }),
 
-  generateFontWeightVaries(values => {
-    const {fullName, fontWeight} = values;
+  generateWeightVaries(values => {
+    const {fullName, weight} = values;
     return `
       .${fullName} {
-        font-weight: ${fontWeight};
+        font-weight: ${weight};
       }
       ${outputs.fontWeightGen(values)}
     `;

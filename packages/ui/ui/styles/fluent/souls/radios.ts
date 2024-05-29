@@ -1,9 +1,9 @@
 import {css} from 'lit';
-import {generateColorVaries, generateScaleVaries} from '@tinijs/core';
+import {generateColorVaries, generateSizeVaries} from '@tinijs/core';
 
 export const styles = css`
   :host {
-    --size: var(--scale-md);
+    --size: var(--size-md);
     --background: var(--color-primary);
     --border-color: var(--color-middle);
   }
@@ -87,10 +87,10 @@ export const styles = css`
   `
   )}
 
-  ${generateScaleVaries(
-    ({fullName, scale}) => `
+  ${generateSizeVaries(
+    ({fullName, size}) => `
     .${fullName} {
-      --size: ${scale};
+      --size: ${size};
     }
   `
   )}

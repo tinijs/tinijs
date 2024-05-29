@@ -7,7 +7,7 @@ import {
   SubtleColors,
   Gradients,
   SubtleGradients,
-  Scales,
+  Sizes,
 } from '@tinijs/core';
 
 import {TiniIconComponent} from '../../ui/components/icon.js';
@@ -78,27 +78,15 @@ export class AppPageUIDevIconComponent extends TiniComponent {
         )}
       </ui-dev-section>
 
-      <ui-dev-section titleText="Scales">
-        ${Object.values(Scales).map(
-          scale =>
+      <ui-dev-section titleText="Sizes">
+        ${Object.values(Sizes).map(
+          size =>
             html`<tini-icon
               src=${URI}
-              scale=${scale}
-              title=${`scale=${scale}`}
+              size=${size}
+              title=${`size=${size}`}
             ></tini-icon>`
         )}
-      </ui-dev-section>
-
-      <ui-dev-section
-        titleText="Custom sizes"
-        description="Must display 2 icons"
-      >
-        <tini-icon src=${URI} size="10px" title="size=10px"></tini-icon>
-        <tini-icon
-          src=${URI}
-          size="10rem 5rem"
-          title='size="10rem 5rem"'
-        ></tini-icon>
       </ui-dev-section>
     `;
   }

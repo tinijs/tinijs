@@ -1,10 +1,10 @@
 import {css} from 'lit';
-import {generateColorVaries, generateScaleVaries} from '@tinijs/core';
+import {generateColorVaries, generateSizeVaries} from '@tinijs/core';
 
 export const styles = css`
   :host {
     --color: var(--color-primary);
-    --scale: var(--scale-md);
+    --size: var(--size-md);
     --border-color: var(--color-middle);
     --border-radius: var(--radius-md);
     display: inline;
@@ -21,8 +21,8 @@ export const styles = css`
     color: var(--color-front);
     border: var(--border-md) solid var(--border-color);
     border-radius: var(--border-radius);
-    padding: calc(var(--scale) / 2) calc(var(--scale) / 1.5);
-    font-size: var(--scale);
+    padding: calc(var(--size) / 2) calc(var(--size) / 1.5);
+    font-size: var(--size);
     transition: all 0.15s ease-in-out;
   }
 
@@ -34,7 +34,7 @@ export const styles = css`
   input:focus {
     outline: none;
     border-color: color-mix(in oklab, var(--color), transparent 30%);
-    box-shadow: 0 0 0 calc(var(--scale) / 4)
+    box-shadow: 0 0 0 calc(var(--size) / 4)
       color-mix(in oklab, var(--color), transparent 70%);
   }
 
@@ -77,10 +77,10 @@ export const styles = css`
   `
   )}
 
-  ${generateScaleVaries(
-    ({fullName, scale}) => `
+  ${generateSizeVaries(
+    ({fullName, size}) => `
     .${fullName} {
-      --scale: ${scale};
+      --size: ${size};
     }
   `
   )}

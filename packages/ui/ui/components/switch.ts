@@ -9,7 +9,7 @@ import {
   SubtleColors,
   Gradients,
   SubtleGradients,
-  Scales,
+  Sizes,
 } from '@tinijs/core';
 
 export interface SwitchEventDetail {
@@ -25,7 +25,7 @@ export default class extends TiniElement {
   @property({type: Boolean, reflect: true}) checked?: boolean;
   @property({type: Boolean, reflect: true}) disabled?: boolean;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
-  @property({type: String, reflect: true}) scale?: Scales;
+  @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
@@ -38,7 +38,7 @@ export default class extends TiniElement {
       },
       overridable: {
         scheme: this.scheme,
-        scale: this.scale,
+        size: this.size,
       },
     });
   }

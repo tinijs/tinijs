@@ -12,6 +12,7 @@
     "packages/*/dist",
     "packages/*/build",
     "apps/*/app/ui",
+    "apps/*/app/public/sw.js",
     "apps/*/server/public"
   ]
 }

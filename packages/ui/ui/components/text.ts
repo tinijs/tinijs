@@ -1,7 +1,6 @@
-import {css, type PropertyValues, type CSSResult} from 'lit';
+import {html, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
-import {html, unsafeStatic, type StaticValue} from 'lit/static-html.js';
 import {
   TiniElement,
   ElementParts,
@@ -10,14 +9,14 @@ import {
   isGradient,
   Colors,
   Gradients,
-  FontTypes,
-  FontSizes,
-  FontWeights,
+  Fonts,
+  Texts,
+  Weights,
   generateColorVaries,
   generateGradientVaries,
-  generateFontTypeVaries,
-  generateFontSizeVaries,
-  generateFontWeightVaries,
+  generateFontVaries,
+  generateTextVaries,
+  generateWeightVaries,
 } from '@tinijs/core';
 
 export enum TextParts {
@@ -33,32 +32,30 @@ export enum TextTags {
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) tag?: TextTags;
+  @property({type: Boolean, reflect: true}) block?: boolean;
   @property({type: String, reflect: true}) color?: Colors | Gradients;
-  @property({type: String, reflect: true}) fontType?: FontTypes;
-  @property({type: String, reflect: true}) fontSize?: FontSizes;
-  @property({type: String, reflect: true}) fontWeight?: FontWeights;
+  @property({type: String, reflect: true}) fontType?:Fonts;
+  @property({type: String, reflect: true}) fontSize?:Texts;
+  @property({type: String, reflect: true}) fontWeight?: Weights;
   @property({type: Boolean, reflect: true}) italic?: boolean;
   @property({type: Boolean, reflect: true}) underline?: boolean;
   /* eslint-enable prettier/prettier */
 
-  private rootTag!: StaticValue;
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root tag
-    this.rootTag = unsafeStatic(this.tag || TextTags.Span);
     // root classes parts
     this.extendRootClasses({
       raw: {
         gradient: isGradient(this.color),
+        block: !!this.block,
         italic: !!this.italic,
         underline: !!this.underline,
       },
       overridable: {
         color: this.color,
-        'font-type': this.fontType,
-        'font-size': this.fontSize,
-        'font-weight': this.fontWeight,
+        font: this.fontType,
+        text: this.fontSize,
+        weight: this.fontWeight,
       },
     });
   }
@@ -67,13 +64,13 @@ export default class extends TiniElement {
     return this.renderPart(
       TextParts.Root,
       rootChild => html`
-        <${this.rootTag}
+        <span
           class=${classMap(this.rootClasses)}
           part=${partAttrMap(this.rootClasses)}
         >
           <slot></slot>
           ${rootChild()}
-        </${this.rootTag}>
+        </span>
       `
     );
   }
@@ -83,9 +80,9 @@ export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
   colorGen: Parameters<typeof generateColorVaries>[0];
   gradientGen: Parameters<typeof generateGradientVaries>[0];
-  fontTypeGen: Parameters<typeof generateFontTypeVaries>[0];
-  fontSizeGen: Parameters<typeof generateFontSizeVaries>[0];
-  fontWeightGen: Parameters<typeof generateFontWeightVaries>[0];
+  fontTypeGen: Parameters<typeof generateFontVaries>[0];
+  fontSizeGen: Parameters<typeof generateTextVaries>[0];
+  fontWeightGen: Parameters<typeof generateWeightVaries>[0];
 }>(outputs => [
   css`
     :host {
@@ -104,12 +101,8 @@ export const defaultStyles = createStyleBuilder<{
       font-weight: var(--font-weight);
     }
 
-    :host([tag='p']) {
+    :host([block]) {
       display: block;
-    }
-
-    strong.root {
-      --font-weight: bold;
     }
 
     .gradient {
@@ -160,31 +153,31 @@ export const defaultStyles = createStyleBuilder<{
     `;
   }),
 
-  generateFontTypeVaries(values => {
-    const {fullName, fontType} = values;
+  generateFontVaries(values => {
+    const {fullName, font} = values;
     return `
       .${fullName} {
-        --font-family: ${fontType};
+        --font-family: ${font};
       }
       ${outputs.fontTypeGen(values)}
     `;
   }),
 
-  generateFontSizeVaries(values => {
-    const {fullName, fontSize} = values;
+  generateTextVaries(values => {
+    const {fullName, text} = values;
     return `
       .${fullName} {
-        --font-size: ${fontSize};
+        --font-size: ${text};
       }
       ${outputs.fontSizeGen(values)}
     `;
   }),
 
-  generateFontWeightVaries(values => {
-    const {fullName, fontWeight} = values;
+  generateWeightVaries(values => {
+    const {fullName, weight} = values;
     return `
       .${fullName} {
-        --font-weight: ${fontWeight};
+        --font-weight: ${weight};
       }
       ${outputs.fontWeightGen(values)}
     `;

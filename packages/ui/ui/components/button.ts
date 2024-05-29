@@ -9,7 +9,7 @@ import {
   SubtleColors,
   Gradients,
   SubtleGradients,
-  Scales,
+  Sizes,
 } from '@tinijs/core';
 
 export enum ButtonParts {
@@ -29,7 +29,7 @@ export default class extends TiniElement {
   @property({type: Boolean, reflect: true}) disabled?: boolean;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
   @property({type: String, reflect: true}) hoverScheme?: this['scheme'];
-  @property({type: String, reflect: true}) scale?: Scales;
+  @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
@@ -43,7 +43,7 @@ export default class extends TiniElement {
       overridable: {
         mode: this.mode,
         scheme: this.scheme,
-        scale: this.scale,
+        size: this.size,
       },
       pseudo: {
         hover: {

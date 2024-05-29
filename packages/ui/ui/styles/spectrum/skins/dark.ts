@@ -5,7 +5,7 @@ export default css`:root {
   /* fonts */
   --font-head: "Ubuntu Sans", sans-serif;
   --font-body: "Ubuntu Sans", sans-serif;
-  --font-quote: "Ubuntu Sans", sans-serif;
+  --font-art: "Ubuntu Sans", sans-serif;
   --font-code: "Ubuntu Sans Mono", monospace;
   /* colors */
   --color-back: #0f0f0f;
@@ -100,7 +100,7 @@ export default css`:root {
   --gradient-danger-shade: linear-gradient(180deg, #d0193e 0%, #750000 100%);
   --gradient-danger-tint: linear-gradient(180deg, #ff737e 0%, #c83b36 100%);
   /* sizes */
-  --scale-md: 13px;
+  --size-md: 13px;
   --text-md: 16px;
   --space-md: 1rem;
   --radius-md: 3px;

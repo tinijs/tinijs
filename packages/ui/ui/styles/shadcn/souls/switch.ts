@@ -2,12 +2,12 @@ import {css} from 'lit';
 import {
   generateColorVaries,
   generateGradientVaries,
-  generateScaleVaries,
+  generateSizeVaries,
 } from '@tinijs/core';
 
 export const styles = css`
   :host {
-    --scale: var(--scale-md);
+    --size: var(--size-md);
     --background: var(--color-middle);
     --color: var(--color-white);
     --hover-shadow: var(--color-primary);
@@ -20,7 +20,7 @@ export const styles = css`
   }
 
   .root {
-    --wrapper-size: calc(var(--scale) * 2);
+    --wrapper-size: calc(var(--size) * 2);
     --slider-outer-size: calc((var(--wrapper-size) / 2) + var(--space));
     --slider-size: calc((var(--wrapper-size) / 2) - var(--space));
   }
@@ -71,7 +71,7 @@ export const styles = css`
   input:focus + .slider {
     outline: none;
     border-color: color-mix(in oklab, var(--hover-shadow), transparent 30%);
-    box-shadow: 0 0 0 calc(var(--scale) / 4)
+    box-shadow: 0 0 0 calc(var(--size) / 4)
       color-mix(in oklab, var(--hover-shadow), transparent 70%);
   }
 
@@ -111,10 +111,10 @@ export const styles = css`
   `
   )}
 
-  ${generateScaleVaries(
-    ({fullName, scale}) => `
+  ${generateSizeVaries(
+    ({fullName, size}) => `
     .${fullName} {
-      --scale: ${scale};
+      --size: ${size};
     }
   `
   )}

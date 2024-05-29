@@ -1,5 +1,5 @@
 import {css} from 'lit';
-import {generateColorVaries, generateScaleVaries} from '@tinijs/core';
+import {generateColorVaries, generateSizeVaries} from '@tinijs/core';
 
 export const styles = css`
   .root {
@@ -14,8 +14,8 @@ export const styles = css`
   `
   )}
 
-  ${generateScaleVaries(
-    ({fullName, scale}) => `
+  ${generateSizeVaries(
+    ({fullName, size}) => `
     .${fullName} {
       
     }

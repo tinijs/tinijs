@@ -7,7 +7,7 @@ import {
   Input,
   Output,
   EventEmitter,
-  Scales,
+  Sizes,
   Colors,
 } from '@tinijs/core';
 
@@ -40,7 +40,7 @@ export class AppDocPageMobileToolbarComponent extends TiniComponent {
           class="menu-toggler"
           @click=${() => this.toggleMenu.emit()}
         >
-          <icon-menu scheme=${Colors.Front} scale=${Scales.SM}></icon-menu>
+          <icon-menu scheme=${Colors.Front} size=${Sizes.SM}></icon-menu>
           <span>Menu</span>
         </button>
 
@@ -52,7 +52,7 @@ export class AppDocPageMobileToolbarComponent extends TiniComponent {
           <span>On this page</span>
           <tini-icon
             scheme=${Colors.Front}
-            scale=${Scales.SM}
+            size=${Sizes.SM}
             src=${!this.tocOpened ? IconDownComponent.src : IconUpComponent.src}
           ></tini-icon>
         </button>

@@ -32,8 +32,8 @@ export class AppPageHome extends TiniComponent {
         <div class="headline">
           <h2 style="margin-bottom: 0">
             <tini-text
-              fontSize="3xl"
-              fontWeight="700"
+              fontSize="xl3"
+              fontWeight="bold"
               color=${Gradients.KaleSalad}
               >Tini</tini-text
             ><br />A Javascript framework
@@ -339,7 +339,7 @@ export class AppPageHome extends TiniComponent {
 
     @media (min-width: 768px) {
       .featured {
-        padding: var(--space-3xl) var(--space-xl);
+        padding: var(--space-xl3) var(--space-xl);
         flex-direction: row;
 
         .logo {

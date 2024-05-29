@@ -10,8 +10,7 @@ import {nanoid} from 'nanoid';
 import {
   getOptionalUI,
   THEME_CHANGE_EVENT,
-  processComponentStyles,
-  convertThemingStylesToAdoptableStyles,
+  themingStylesToText,
   type ActiveTheme,
   type StyleDeepInput,
 } from '../classes/ui.js';
@@ -84,17 +83,13 @@ class StyleDeepDirective extends AsyncDirective {
     if (!host || !element || !optionalUI) return;
     const renderRoot = ((host as HTMLElement).shadowRoot || host) as ShadowRoot;
     const {familyId, themeId} = optionalUI.activeTheme;
-    const styleText = processComponentStyles(
-      convertThemingStylesToAdoptableStyles(
-        typeof this.styleDeep === 'string'
-          ? this.styleDeep
-          : this.styleDeep?.[themeId] ||
-              this.styleDeep?.[familyId] ||
-              this.styleDeep?.['*']
-      ),
-      optionalUI.activeTheme,
-      content => content.replace(/\.root/g, `.${this.INTERNAL_ID}`)
-    );
+    const styleText = themingStylesToText(
+      typeof this.styleDeep === 'string'
+        ? this.styleDeep
+        : this.styleDeep?.[themeId] ||
+            this.styleDeep?.[familyId] ||
+            this.styleDeep?.['*']
+    ).replace(/\.root/g, `.${this.INTERNAL_ID}`);
     // apply styles
     const currentStyleElement = renderRoot.getElementById(this.INTERNAL_ID);
     const styleElement = currentStyleElement || document.createElement('style');

@@ -6,10 +6,6 @@
 }
 +++
 
-## Fonts
-
-<content-ui-post-token block="font"></content-ui-post-token>
-
 ## Colors
 
 <content-ui-post-token block="color"></content-ui-post-token>
@@ -18,15 +14,33 @@
 
 <content-ui-post-token block="gradient"></content-ui-post-token>
 
-## Sizes
+## Typography
 
-### Scales
+### Font families
 
-<content-ui-post-token block="scale"></content-ui-post-token>
+<content-ui-post-token block="font"></content-ui-post-token>
 
-### Texts
+### Font sizes
 
 <content-ui-post-token block="text"></content-ui-post-token>
+
+### Font weights
+
+<content-ui-post-token block="weight"></content-ui-post-token>
+
+### Line heights
+
+<content-ui-post-token block="line"></content-ui-post-token>
+
+### Letter spacings
+
+<content-ui-post-token block="letter"></content-ui-post-token>
+
+## Sizes
+
+### Variant sizes
+
+<content-ui-post-token block="size"></content-ui-post-token>
 
 ### Spaces
 
@@ -44,18 +58,14 @@
 
 <content-ui-post-token block="ring"></content-ui-post-token>
 
-### Line heights
+## Shadows
 
-<content-ui-post-token block="line"></content-ui-post-token>
-
-### Letter spacings
-
-<content-ui-post-token block="letter"></content-ui-post-token>
+<content-ui-post-token block="shadow"></content-ui-post-token>
 
 ## Wides
 
 <content-ui-post-token block="wide"></content-ui-post-token>
 
-## Shadows
+## Breakpoints
 
-<content-ui-post-token block="shadow"></content-ui-post-token>
+<content-ui-post-token block="breakpoint"></content-ui-post-token>

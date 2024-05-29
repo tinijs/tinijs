@@ -15,10 +15,10 @@ import {
   SubtleColors,
   Gradients,
   SubtleGradients,
-  Scales,
-  FontTypes,
-  FontSizes,
-  FontWeights,
+  Sizes,
+  Fonts,
+  Texts,
+  Weights,
   Radiuses,
   type EventEmitter,
   type OnCreate,
@@ -36,9 +36,10 @@ export class AppComponentEditorSelectComponent
   static readonly defaultTagName = 'app-component-editor-select';
 
   @Input() label!: string;
+  @Input() value?: string;
   @Input() preset?: string;
   @Input({type: Object}) items?: Array<SelectOption | SelectOptgroup>;
-  @Input() value?: string;
+
   @Output() change!: EventEmitter<string>;
 
   private colors: SelectOptgroup[] = [
@@ -97,10 +98,10 @@ export class AppComponentEditorSelectComponent
     colorsAndGradients: this.colorsAndGradients,
     subtleColorsAndSubtleGradients: this.subtleColorsAndSubtleGradients,
     allColorsAndAllGradients: this.allColorsAndAllGradients,
-    scales: this.buildPresetItems(Scales, value => value.toUpperCase()),
-    fontTypes: this.buildPresetItems(FontTypes),
-    fontSizes: this.buildPresetItems(FontSizes, value => value.toUpperCase()),
-    fontWeights: this.buildPresetItems(FontWeights),
+    sizes: this.buildPresetItems(Sizes, value => value.toUpperCase()),
+    fonts: this.buildPresetItems(Fonts),
+    texts: this.buildPresetItems(Texts, value => value.toUpperCase()),
+    weights: this.buildPresetItems(Weights),
     radiuses: this.buildPresetItems(Radiuses, value => value.toUpperCase()),
   };
 

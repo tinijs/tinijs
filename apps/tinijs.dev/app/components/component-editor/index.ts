@@ -18,7 +18,7 @@ import {
   createComponentLoader,
   UseUI,
   Colors,
-  Scales,
+  Sizes,
   type UI,
   type OnCreate,
   type OnChanges,
@@ -40,7 +40,7 @@ import {IconExpandComponent} from '../../icons/expand.js';
 import {IconCollapseComponent} from '../../icons/collapse.js';
 import {IconMobileComponent} from '../../icons/mobile.js';
 import {IconTabletComponent} from '../../icons/tablet.js';
-import {IconLaptopComponent} from '../../icons/laptop.js';
+import {IconTVComponent} from '../../icons/tv.js';
 import {IconDesktopComponent} from '../../icons/desktop.js';
 import {IconTiniComponent} from '../../icons/tini.js';
 import {IconVueComponent} from '../../icons/vue.js';
@@ -74,8 +74,8 @@ export interface ComponentData {
 export enum CommonViewports {
   Mobile = 'mobile',
   Tablet = 'tablet',
-  Laptop = 'laptop',
   Desktop = 'desktop',
+  TV = 'tv',
 }
 
 const componentLoader = createComponentLoader(
@@ -119,7 +119,7 @@ const componentLoader = createComponentLoader(
     TiniCodeComponent,
     IconMobileComponent,
     IconTabletComponent,
-    IconLaptopComponent,
+    IconTVComponent,
     IconDesktopComponent,
     IconTiniComponent,
     IconVueComponent,
@@ -360,8 +360,8 @@ registerComponents([ ${constructorName} ]);`;
       const targetWidth = {
         [CommonViewports.Mobile]: 320,
         [CommonViewports.Tablet]: 768,
-        [CommonViewports.Laptop]: 1024,
-        [CommonViewports.Desktop]: 1440,
+        [CommonViewports.Desktop]: 992,
+        [CommonViewports.TV]: 1400,
       }[viewport];
       this.commonViewport = viewport;
       this._resizableRef.value!.style.width = `${
@@ -478,10 +478,7 @@ registerComponents([ ${constructorName} ]);`;
             })}
             @click=${() => this.changeCommonViewport(CommonViewports.Mobile)}
           >
-            <icon-mobile
-              scheme=${Colors.Front}
-              scale=${Scales.XS}
-            ></icon-mobile>
+            <icon-mobile scheme=${Colors.Front} size=${Sizes.XS}></icon-mobile>
           </button>
           <button
             class=${classMap({
@@ -489,21 +486,7 @@ registerComponents([ ${constructorName} ]);`;
             })}
             @click=${() => this.changeCommonViewport(CommonViewports.Tablet)}
           >
-            <icon-tablet
-              scheme=${Colors.Front}
-              scale=${Scales.XS}
-            ></icon-tablet>
-          </button>
-          <button
-            class=${classMap({
-              selected: this.commonViewport === CommonViewports.Laptop,
-            })}
-            @click=${() => this.changeCommonViewport(CommonViewports.Laptop)}
-          >
-            <icon-laptop
-              scheme=${Colors.Front}
-              scale=${Scales.XS}
-            ></icon-laptop>
+            <icon-tablet scheme=${Colors.Front} size=${Sizes.XS}></icon-tablet>
           </button>
           <button
             class=${classMap({
@@ -513,8 +496,16 @@ registerComponents([ ${constructorName} ]);`;
           >
             <icon-desktop
               scheme=${Colors.Front}
-              scale=${Scales.XS}
+              size=${Sizes.XS}
             ></icon-desktop>
+          </button>
+          <button
+            class=${classMap({
+              selected: this.commonViewport === CommonViewports.TV,
+            })}
+            @click=${() => this.changeCommonViewport(CommonViewports.TV)}
+          >
+            <icon-tv scheme=${Colors.Front} size=${Sizes.XS}></icon-tv>
           </button>
           <span class="separator"></span>
           <button @click=${this.toggleFullScreen}>
@@ -523,7 +514,7 @@ registerComponents([ ${constructorName} ]);`;
               src=${this.isFullscreen
                 ? IconCollapseComponent.src
                 : IconExpandComponent.src}
-              scale=${Scales.XS}
+              size=${Sizes.XS}
             ></tini-icon>
           </button>
         </div>
@@ -546,7 +537,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.Tini)}
         >
-          <icon-tini scale=${Scales.XS}></icon-tini>
+          <icon-tini size=${Sizes.XS}></icon-tini>
           <span>Tini</span>
         </button>
         <button
@@ -555,7 +546,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.Vue)}
         >
-          <icon-vue scale=${Scales.XS}></icon-vue>
+          <icon-vue size=${Sizes.XS}></icon-vue>
           <span>Vue</span>
         </button>
         <button
@@ -564,7 +555,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.React)}
         >
-          <icon-react scale=${Scales.XS}></icon-react>
+          <icon-react size=${Sizes.XS}></icon-react>
           <span>React</span>
         </button>
         <button
@@ -573,7 +564,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.Angular)}
         >
-          <icon-angular scale=${Scales.XS}></icon-angular>
+          <icon-angular size=${Sizes.XS}></icon-angular>
           <span>Angular</span>
         </button>
         <button
@@ -582,7 +573,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.Svelte)}
         >
-          <icon-svelte scale=${Scales.XS}></icon-svelte>
+          <icon-svelte size=${Sizes.XS}></icon-svelte>
           <span>Svelte</span>
         </button>
         <button
@@ -591,7 +582,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.Vanilla)}
         >
-          <icon-html scale=${Scales.XS}></icon-html>
+          <icon-html size=${Sizes.XS}></icon-html>
           <span>Vanilla</span>
         </button>
       </div>
@@ -702,7 +693,7 @@ registerComponents([ ${constructorName} ]);`;
               background: none;
               border: none;
               border-radius: var(--radius-md);
-              padding: var(--space-2xs);
+              padding: var(--space-xs2);
               cursor: pointer;
 
               &:hover {
@@ -736,7 +727,7 @@ registerComponents([ ${constructorName} ]);`;
           position: absolute;
           top: var(--space-md);
           right: var(--space-md);
-          padding: var(--space-2xs) var(--space-xs);
+          padding: var(--space-xs2) var(--space-xs);
           font-size: var(--text-sm);
           border-radius: var(--radius-md);
           background: color-mix(in oklab, var(--color-front), transparent 30%);
@@ -783,7 +774,7 @@ registerComponents([ ${constructorName} ]);`;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: var(--space-2xs);
+            gap: var(--space-xs2);
             background: var(--color-back);
             border: none;
             padding: var(--space-xs) var(--space-sm);

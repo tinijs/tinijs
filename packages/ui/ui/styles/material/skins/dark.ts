@@ -5,7 +5,7 @@ export default css`:root {
   /* fonts */
   --font-head: "Noto Sans", sans-serif;
   --font-body: "Noto Sans", sans-serif;
-  --font-quote: "Noto Sans", sans-serif;
+  --font-art: "Noto Sans", sans-serif;
   --font-code: "Noto Sans Mono", monospace;
   /* colors */
   --color-back: #141218;
@@ -100,7 +100,7 @@ export default css`:root {
   --gradient-danger-shade: linear-gradient(135deg, #cb9490 0%, #660000 100%);
   --gradient-danger-tint: linear-gradient(135deg, #ffded9 0%, #b64235 100%);
   /* sizes */
-  --scale-md: 15px;
+  --size-md: 15px;
   --text-md: 16px;
   --space-md: 1rem;
   --radius-md: 4px;

@@ -121,12 +121,12 @@ export class AppDocPageTOCComponent extends TiniComponent {
           padding-left: var(--space-xl);
         }
         &.level-5 {
-          padding-left: var(--space-3xl);
+          padding-left: var(--space-xl3);
         }
 
         a {
           display: block;
-          padding: var(--space-2xs) var(--space-md);
+          padding: var(--space-xs2) var(--space-md);
           color: var(--color-middle);
           text-decoration: none;
           font-weight: normal;

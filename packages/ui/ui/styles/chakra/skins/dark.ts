@@ -5,7 +5,7 @@ export default css`:root {
   /* fonts */
   --font-head: Helvetica, sans-serif;
   --font-body: Helvetica, sans-serif;
-  --font-quote: Helvetica, sans-serif;
+  --font-art: Helvetica, sans-serif;
   --font-code: Monaco, monospace;
   /* colors */
   --color-back: #1a202c;
@@ -100,7 +100,7 @@ export default css`:root {
   --gradient-danger-shade: linear-gradient(180deg, #d0193e 0%, #750000 100%);
   --gradient-danger-tint: linear-gradient(180deg, #ff737e 0%, #c83b36 100%);
   /* sizes */
-  --scale-md: 16px;
+  --size-md: 16px;
   --text-md: 16px;
   --space-md: 1rem;
   --radius-md: 12px;

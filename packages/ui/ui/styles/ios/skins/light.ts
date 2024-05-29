@@ -5,7 +5,7 @@ export default css`:root {
   /* fonts */
   --font-head: "Helvetica Neue", sans-serif;
   --font-body: "Helvetica Neue", sans-serif;
-  --font-quote: "Helvetica Neue", sans-serif;
+  --font-art: "Helvetica Neue", sans-serif;
   --font-code: Lucida, monospace;
   /* colors */
   --color-back: #fbfafb;
@@ -100,7 +100,7 @@ export default css`:root {
   --gradient-danger-shade: linear-gradient(180deg, #d0193e 0%, #750000 100%);
   --gradient-danger-tint: linear-gradient(180deg, #ff737e 0%, #c83b36 100%);
   /* sizes */
-  --scale-md: 12px;
+  --size-md: 12px;
   --text-md: 16px;
   --space-md: 1rem;
   --radius-md: 6px;

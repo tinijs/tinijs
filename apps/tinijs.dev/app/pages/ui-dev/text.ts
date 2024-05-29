@@ -5,9 +5,9 @@ import {
   TiniComponent,
   Colors,
   Gradients,
-  FontTypes,
-  FontSizes,
-  FontWeights,
+  Fonts,
+  Texts,
+  Weights,
 } from '@tinijs/core';
 
 import {TiniTextComponent, TextTags} from '../../ui/components/text.js';
@@ -47,7 +47,7 @@ export class AppPageUIDevTextComponent extends TiniComponent {
       </ui-dev-section>
 
       <ui-dev-section titleText="Font types">
-        ${Object.values(FontTypes).map(
+        ${Object.values(Fonts).map(
           fontType => html`
             <tini-text fontType=${fontType}
               >Lorem ipsum (fontType=${fontType})</tini-text
@@ -58,7 +58,7 @@ export class AppPageUIDevTextComponent extends TiniComponent {
       </ui-dev-section>
 
       <ui-dev-section titleText="Font sizes">
-        ${Object.values(FontSizes).map(
+        ${Object.values(Texts).map(
           fontSize => html`
             <tini-text fontSize=${fontSize}
               >Lorem ipsum (fontSize=${fontSize})</tini-text
@@ -69,7 +69,7 @@ export class AppPageUIDevTextComponent extends TiniComponent {
       </ui-dev-section>
 
       <ui-dev-section titleText="Font weights">
-        ${Object.values(FontWeights).map(
+        ${Object.values(Weights).map(
           fontWeight => html`
             <tini-text fontWeight=${fontWeight}
               >Lorem ipsum (fontWeight=${fontWeight})</tini-text

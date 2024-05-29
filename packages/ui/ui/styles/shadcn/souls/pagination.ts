@@ -2,13 +2,13 @@ import {css} from 'lit';
 import {
   generateColorVaries,
   generateGradientVaries,
-  generateScaleVaries,
+  generateSizeVaries,
 } from '@tinijs/core';
 
 export const styles = css`
   :host {
     --background: none;
-    --scale: var(--scale-md);
+    --size: var(--size-md);
     --color: var(--color-primary);
     --active-background: var(--color-primary);
     --active-color: var(--color-primary-contrast);
@@ -24,13 +24,13 @@ export const styles = css`
 
   li a {
     display: block;
-    padding: calc(var(--scale) / 2.75) calc(var(--scale) / 1.25);
+    padding: calc(var(--size) / 2.75) calc(var(--size) / 1.25);
     text-decoration: none;
     background: var(--background);
     color: var(--color);
     border: var(--border-md) solid var(--color-back-shade);
     border-right-width: 0;
-    font-size: var(--scale);
+    font-size: var(--size);
   }
 
   li:first-child a {
@@ -89,10 +89,10 @@ export const styles = css`
   `
   )}
 
-  ${generateScaleVaries(
-    ({fullName, scale}) => `
+  ${generateSizeVaries(
+    ({fullName, size}) => `
     .${fullName} {
-      --scale: ${scale};
+      --size: ${size};
     }
   `
   )}

@@ -1,6 +1,6 @@
 import {html, css, nothing} from 'lit';
 
-import {Component, TiniComponent, Input, Scales} from '@tinijs/core';
+import {Component, TiniComponent, Input, Sizes} from '@tinijs/core';
 
 import {mainStore} from '../../stores/main.js';
 
@@ -21,7 +21,7 @@ export class AppSkinEditorTogglerComponent extends TiniComponent {
   protected render() {
     return html`
       <button @click=${this._toggleSkinEditor}>
-        <icon-theme scale=${Scales.SM}></icon-theme>
+        <icon-theme size=${Sizes.SM}></icon-theme>
         ${!this.showText ? nothing : html`<span>Skin Editor</span>`}
       </button>
     `;
@@ -38,7 +38,7 @@ export class AppSkinEditorTogglerComponent extends TiniComponent {
       border: 1px solid var(--color-back-shade);
       border-radius: var(--radius-md);
       font-size: var(--text-sm);
-      padding: var(--space-2xs) var(--space-xs);
+      padding: var(--space-xs2) var(--space-xs);
 
       &:hover {
         background: var(--color-back);

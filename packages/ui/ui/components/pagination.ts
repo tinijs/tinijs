@@ -8,7 +8,7 @@ import {
   SubtleColors,
   Gradients,
   SubtleGradients,
-  Scales,
+  Sizes,
 } from '@tinijs/core';
 
 export interface PaginationItem {
@@ -21,7 +21,7 @@ export default class extends TiniElement {
   @property({type: Number, reflect: true}) totalPage!: number;
   @property({type: Number, reflect: true}) currentPage!: number;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
-  @property({type: String, reflect: true}) scale?: Scales;
+  @property({type: String, reflect: true}) size?: Sizes;
   @property({type: Object}) hrefBuilder?: (pageNum: number) => string;
   /* eslint-enable prettier/prettier */
 
@@ -50,7 +50,7 @@ export default class extends TiniElement {
     this.extendRootClasses({
       overridable: {
         scheme: this.scheme,
-        scale: this.scale,
+        size: this.size,
       },
     });
     // previous classes parts

@@ -2,7 +2,7 @@ import {html, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 
-import {TiniElement, ElementParts, partAttrMap, createStyleBuilder, Colors, Scales} from '@tinijs/core';
+import {TiniElement, ElementParts, partAttrMap, createStyleBuilder, Colors, Sizes} from '@tinijs/core';
 
 export enum XXXParts {
   Root = ElementParts.Root,

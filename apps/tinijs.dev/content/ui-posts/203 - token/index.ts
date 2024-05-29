@@ -7,9 +7,10 @@ import {
   Input,
   Colors,
   Gradients,
-  FontTypes,
-  Scales,
+  Fonts,
   Texts,
+  Weights,
+  Sizes,
   Spaces,
   Radiuses,
   Borders,
@@ -38,16 +39,22 @@ export class ContentUIPostTokenComponent
 
   protected render() {
     switch (this.block) {
-      case 'font':
-        return this.renderFontBlock();
       case 'color':
         return this.renderColorBlock();
       case 'gradient':
         return this.renderGradientBlock();
-      case 'scale':
-        return this.renderScaleBlock();
+      case 'font':
+        return this.renderFontBlock();
       case 'text':
         return this.renderTextBlock();
+      case 'weight':
+        return this.renderWeightBlock();
+      case 'line':
+        return this.renderLineBlock();
+      case 'letter':
+        return this.renderLetterBlock();
+      case 'size':
+        return this.renderSizeBlock();
       case 'space':
         return this.renderSpaceBlock();
       case 'radius':
@@ -56,47 +63,15 @@ export class ContentUIPostTokenComponent
         return this.renderBorderBlock();
       case 'ring':
         return this.renderRingBlock();
-      case 'line':
-        return this.renderLineBlock();
-      case 'letter':
-        return this.renderLetterBlock();
-      case 'wide':
-        return this.renderWideBlock();
       case 'shadow':
         return this.renderShadowBlock();
+      case 'wide':
+        return this.renderWideBlock();
+      case 'breakpoint':
+        return this.renderBreakpointBlock();
       default:
         return nothing;
     }
-  }
-
-  private renderFontBlock() {
-    return html`
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Key</th>
-          <th>Value</th>
-          <th>Preview</th>
-        </tr>
-
-        ${Object.entries(FontTypes).map(([name, value]) => {
-          const varName = `--font-${value}`;
-          const varValue = computedStyle.getPropertyValue(varName);
-          return html`
-            <tr>
-              <td><strong>${name}</strong></td>
-              <td><code>${varName}</code></td>
-              <td><code>${varValue}</code></td>
-              <td>
-                <span style=${styleMap({'font-family': `var(${varName})`})}
-                  >This is a text</span
-                >
-              </td>
-            </tr>
-          `;
-        })}
-      </table>
-    `;
   }
 
   private renderColorBlock() {
@@ -163,7 +138,7 @@ export class ContentUIPostTokenComponent
     `;
   }
 
-  private renderScaleBlock() {
+  private renderFontBlock() {
     return html`
       <table>
         <tr>
@@ -173,8 +148,8 @@ export class ContentUIPostTokenComponent
           <th>Preview</th>
         </tr>
 
-        ${Object.entries(Scales).map(([name, value]) => {
-          const varName = `--scale-${value}`;
+        ${Object.entries(Fonts).map(([name, value]) => {
+          const varName = `--font-${value}`;
           const varValue = computedStyle.getPropertyValue(varName);
           return html`
             <tr>
@@ -182,14 +157,9 @@ export class ContentUIPostTokenComponent
               <td><code>${varName}</code></td>
               <td><code>${varValue}</code></td>
               <td>
-                <span
-                  style=${styleMap({
-                    width: `var(${varName})`,
-                    height: `var(${varName})`,
-                    display: 'inline-block',
-                    background: 'var(--color-blue)',
-                  })}
-                ></span>
+                <span style=${styleMap({'font-family': `var(${varName})`})}
+                  >The quick brown fox jumped over the lazy dog.</span
+                >
               </td>
             </tr>
           `;
@@ -218,9 +188,128 @@ export class ContentUIPostTokenComponent
               <td><code>${varValue}</code></td>
               <td>
                 <span style=${styleMap({'font-size': `var(${varName})`})}
-                  >A text</span
+                  >Aa</span
                 >
               </td>
+            </tr>
+          `;
+        })}
+      </table>
+    `;
+  }
+
+  private renderWeightBlock() {
+    return html`
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Key</th>
+          <th>Value</th>
+          <th>Preview</th>
+        </tr>
+
+        ${Object.entries(Weights).map(([name, value]) => {
+          const varName = `--weight-${value}`;
+          const varValue = computedStyle.getPropertyValue(varName);
+          return html`
+            <tr>
+              <td><strong>${name}</strong></td>
+              <td><code>${varName}</code></td>
+              <td><code>${varValue}</code></td>
+              <td>
+                <span style=${styleMap({'font-weight': `var(${varName})`})}
+                  >The quick brown fox jumped over the lazy dog.</span
+                >
+              </td>
+            </tr>
+          `;
+        })}
+      </table>
+    `;
+  }
+
+  private renderLineBlock() {
+    return html`
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Key</th>
+          <th>Value</th>
+          <th>Preview</th>
+        </tr>
+
+        ${Object.entries(Lines).map(([name, value]) => {
+          const varName = `--line-${value}`;
+          const varValue = computedStyle.getPropertyValue(varName);
+          return html`
+            <tr>
+              <td><strong>${name}</strong></td>
+              <td><code>${varName}</code></td>
+              <td><code>${varValue}</code></td>
+              <td>
+                <span
+                  style=${styleMap({
+                    'line-height': `var(${varName})`,
+                    display: 'inline-block',
+                    width: '100px',
+                  })}
+                  >The quick brown fox jumped over the lazy dog.</span
+                >
+              </td>
+            </tr>
+          `;
+        })}
+      </table>
+    `;
+  }
+
+  private renderLetterBlock() {
+    return html`
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Key</th>
+          <th>Value</th>
+          <th>Preview</th>
+        </tr>
+
+        ${Object.entries(Letters).map(([name, value]) => {
+          const varName = `--letter-${value}`;
+          const varValue = computedStyle.getPropertyValue(varName);
+          return html`
+            <tr>
+              <td><strong>${name}</strong></td>
+              <td><code>${varName}</code></td>
+              <td><code>${varValue}</code></td>
+              <td>
+                <span style=${styleMap({'letter-spacing': `var(${varName})`})}
+                  >The quick brown fox jumped over the lazy dog.</span
+                >
+              </td>
+            </tr>
+          `;
+        })}
+      </table>
+    `;
+  }
+
+  private renderSizeBlock() {
+    return html`
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Key</th>
+          <th>Value</th>
+        </tr>
+
+        ${Object.entries(Sizes).map(([name, value]) => {
+          const varName = `--size-${value}`;
+          const varValue = computedStyle.getPropertyValue(varName);
+          return html`
+            <tr>
+              <td><strong>${name}</strong></td>
+              <td><code>${varName}</code></td>
+              <td><code>${varValue}</code></td>
             </tr>
           `;
         })}
@@ -371,63 +460,33 @@ export class ContentUIPostTokenComponent
     `;
   }
 
-  private renderLineBlock() {
+  private renderShadowBlock() {
     return html`
       <table>
         <tr>
           <th>Name</th>
           <th>Key</th>
-          <th>Value</th>
+          <th style="width: 350px">Value</th>
           <th>Preview</th>
         </tr>
 
-        ${Object.entries(Lines).map(([name, value]) => {
-          const varName = `--line-${value}`;
+        ${Object.entries(Shadows).map(([name, value]) => {
+          const varName = `--shadow-${value}`;
           const varValue = computedStyle.getPropertyValue(varName);
           return html`
             <tr>
               <td><strong>${name}</strong></td>
               <td><code>${varName}</code></td>
               <td><code>${varValue}</code></td>
-              <td>
+              <td style="padding: 1rem">
                 <span
                   style=${styleMap({
-                    'line-height': `var(${varName})`,
+                    'box-shadow': `var(${varName})`,
                     display: 'inline-block',
-                    width: '50px',
+                    width: '100px',
+                    height: '100px',
                   })}
-                  >This is a text</span
-                >
-              </td>
-            </tr>
-          `;
-        })}
-      </table>
-    `;
-  }
-
-  private renderLetterBlock() {
-    return html`
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Key</th>
-          <th>Value</th>
-          <th>Preview</th>
-        </tr>
-
-        ${Object.entries(Letters).map(([name, value]) => {
-          const varName = `--letter-${value}`;
-          const varValue = computedStyle.getPropertyValue(varName);
-          return html`
-            <tr>
-              <td><strong>${name}</strong></td>
-              <td><code>${varName}</code></td>
-              <td><code>${varValue}</code></td>
-              <td>
-                <span style=${styleMap({'letter-spacing': `var(${varName})`})}
-                  >This is a text</span
-                >
+                ></span>
               </td>
             </tr>
           `;
@@ -460,34 +519,26 @@ export class ContentUIPostTokenComponent
     `;
   }
 
-  private renderShadowBlock() {
+  private renderBreakpointBlock() {
     return html`
       <table>
         <tr>
-          <th>Name</th>
-          <th>Key</th>
-          <th style="width: 350px">Value</th>
-          <th>Preview</th>
+          <th>Viewport</th>
+          <th>Media query</th>
         </tr>
 
-        ${Object.entries(Shadows).map(([name, value]) => {
-          const varName = `--shadow-${value}`;
-          const varValue = computedStyle.getPropertyValue(varName);
+        ${[
+          ['X-Small devices (portrait phones)', 'default, no media query'],
+          ['Small devices (landscape phones)', '(min-width: 576px)'],
+          ['Medium devices (tablets)', 'min-width: 768px'],
+          ['Large devices (desktops)', '(min-width: 992px)'],
+          ['X-Large devices (large desktops)', '(min-width: 1200px)'],
+          ['XX-Large devices (larger desktops)', '(min-width: 1400px)'],
+        ].map(([viewport, query]) => {
           return html`
             <tr>
-              <td><strong>${name}</strong></td>
-              <td><code>${varName}</code></td>
-              <td><code>${varValue}</code></td>
-              <td style="padding: 1rem">
-                <span
-                  style=${styleMap({
-                    'box-shadow': `var(${varName})`,
-                    display: 'inline-block',
-                    width: '100px',
-                    height: '100px',
-                  })}
-                ></span>
-              </td>
+              <td><strong>${viewport}</strong></td>
+              <td><code>${query}</code></td>
             </tr>
           `;
         })}

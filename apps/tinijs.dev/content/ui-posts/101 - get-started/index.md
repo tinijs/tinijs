@@ -77,7 +77,9 @@ npm i @tinijs/ui-bootstrap
 - Step 2: Setup the UI at the app level.
 
 ```ts
-import { setupUI, bootstrapLightSkin, bootstrapDarkSkin } from '@tinijs/ui-bootstrap';
+import { setupUI } from '@tinijs/ui-bootstrap';
+import { bootstrapLightSkin } from '@tinijs/ui-bootstrap/skins/light.js';
+import { bootstrapDarkSkin } from '@tinijs/ui-bootstrap/skins/dark.js';
 
 @App({})
 export class AppRoot extends TiniComponent {

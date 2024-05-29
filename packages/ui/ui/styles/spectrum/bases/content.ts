@@ -61,13 +61,12 @@ export const link = css`
 
 export const blockquote = css`
   blockquote {
-    padding-left: var(--space-2xl);
+    padding-left: var(--space-xl2);
   }
 
   blockquote,
   blockquote * {
     margin: 0;
-    font-family: var(--font-quote);
     font-size: 0.85rem;
   }
 `;
