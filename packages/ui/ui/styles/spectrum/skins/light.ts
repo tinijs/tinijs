@@ -5,7 +5,7 @@ export default css`:root {
   /* fonts */
   --font-head: "Ubuntu Sans", sans-serif;
   --font-body: "Ubuntu Sans", sans-serif;
-  --font-art: "Ubuntu Sans", sans-serif;
+  --font-art: 'Brush Script MT', cursive;
   --font-code: "Ubuntu Sans Mono", monospace;
   /* colors */
   --color-back: #e7e7e7;

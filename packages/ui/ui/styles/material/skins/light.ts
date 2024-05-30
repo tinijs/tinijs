@@ -5,7 +5,7 @@ export default css`:root {
   /* fonts */
   --font-head: "Noto Sans", sans-serif;
   --font-body: "Noto Sans", sans-serif;
-  --font-art: "Noto Sans", sans-serif;
+  --font-art: 'Brush Script MT', cursive;
   --font-code: "Noto Sans Mono", monospace;
   /* colors */
   --color-back: #fef7ff;

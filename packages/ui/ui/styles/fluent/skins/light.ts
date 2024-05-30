@@ -5,7 +5,7 @@ export default css`:root {
   /* fonts */
   --font-head: Roboto, sans-serif;
   --font-body: Roboto, sans-serif;
-  --font-art: Roboto, sans-serif;
+  --font-art: 'Brush Script MT', cursive;
   --font-code: "Roboto Mono", monospace;
   /* colors */
   --color-back: #fafafa;

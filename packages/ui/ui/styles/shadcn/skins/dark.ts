@@ -5,7 +5,7 @@ export default css`:root {
   /* fonts */
   --font-head: Geist, sans-serif;
   --font-body: Geist, sans-serif;
-  --font-art: Geist, sans-serif;
+  --font-art: 'Brush Script MT', cursive;
   --font-code: "Geist Mono", monospace;
   /* colors */
   --color-back: #0a0a0b;

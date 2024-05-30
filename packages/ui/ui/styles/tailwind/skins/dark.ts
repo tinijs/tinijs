@@ -5,7 +5,7 @@ export default css`:root {
   /* fonts */
   --font-head: Inter, sans-serif;
   --font-body: Inter, sans-serif;
-  --font-art: Inter, sans-serif;
+  --font-art: 'Brush Script MT', cursive;
   --font-code: Menlo, monospace;
   /* colors */
   --color-back: #2a2a2a;

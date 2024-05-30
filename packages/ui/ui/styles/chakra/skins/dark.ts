@@ -5,7 +5,7 @@ export default css`:root {
   /* fonts */
   --font-head: Helvetica, sans-serif;
   --font-body: Helvetica, sans-serif;
-  --font-art: Helvetica, sans-serif;
+  --font-art: 'Brush Script MT', cursive;
   --font-code: Monaco, monospace;
   /* colors */
   --color-back: #1a202c;

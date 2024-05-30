@@ -5,7 +5,7 @@ export default css`:root {
   /* fonts */
   --font-head: "Helvetica Neue", sans-serif;
   --font-body: "Helvetica Neue", sans-serif;
-  --font-art: "Helvetica Neue", sans-serif;
+  --font-art: 'Brush Script MT', cursive;
   --font-code: Lucida, monospace;
   /* colors */
   --color-back: #fbfafb;
