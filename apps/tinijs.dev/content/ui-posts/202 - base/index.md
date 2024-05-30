@@ -128,7 +128,7 @@ function foo() {
 ## picture
 
 <picture>
-  <source srcset="https://placehold.co/800x600?text=Desktop" media="(min-width: 1024px)">
+  <source srcset="https://placehold.co/800x600?text=Desktop" media="(min-width: 992px)">
   <source srcset="https://placehold.co/600x400?text=Tablet" media="(min-width: 768px)">
   <img src="https://placehold.co/500x300?text=Mobile" alt="Lorem ipsum">
 </picture>

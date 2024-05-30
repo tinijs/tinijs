@@ -816,7 +816,7 @@ registerComponents([ ${constructorName} ]);`;
       }
     }
 
-    @media (min-width: 1440px) {
+    @media (min-width: 1400px) {
       .root {
         flex-flow: row;
 

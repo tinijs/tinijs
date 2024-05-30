@@ -109,10 +109,10 @@ export interface UIOptions<
 }
 
 export interface UIInit {
-  host?: HTMLElement;
-  globals?: ThemingStyles;
   skins: Record<string, ThemingStyles>;
+  globals?: ThemingStyles;
   shares?: Record<string, ThemingStyles>;
+  host?: HTMLElement;
   options?: UIOptions;
 }
 
@@ -162,9 +162,11 @@ export function mergeThemingStylesRecords(
   ...records: (Record<string, ThemingStyles> | null | undefined)[]
 ) {
   const processedRecords: Record<string, CSSResultOrNativeOrRaw[]>[] = [];
-  for (let i = records.length - 1; i > 0; i--) {
+  for (let i = records.length - 1; i >= 0; i--) {
+    const record = records[i];
+    if (!record) continue;
     processedRecords.push(
-      Object.entries(records[i] || {}).reduce(
+      Object.entries(record).reduce(
         (result, [key, value]) => {
           result[key] = listify<CSSResultOrNativeOrRaw>(value);
           return result;

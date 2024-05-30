@@ -530,7 +530,7 @@ export class ContentUIPostTokenComponent
         ${[
           ['X-Small devices (portrait phones)', 'default, no media query'],
           ['Small devices (landscape phones)', '(min-width: 576px)'],
-          ['Medium devices (tablets)', 'min-width: 768px'],
+          ['Medium devices (tablets)', '(min-width: 768px)'],
           ['Large devices (desktops)', '(min-width: 992px)'],
           ['X-Large devices (large desktops)', '(min-width: 1200px)'],
           ['XX-Large devices (larger desktops)', '(min-width: 1400px)'],

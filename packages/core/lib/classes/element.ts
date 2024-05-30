@@ -63,9 +63,9 @@ export class TiniElement extends LitElement {
   static readonly components?: RegisterComponentsList;
 
   /* eslint-disable prettier/prettier */
-  @property({type: Object}) templates?: ThemingTemplates;
-  @property({type: Object}) refers?: Record<string, Record<string, any>>;
   @property() styleDeep?: StyleDeepInput;
+  @property({type: Object}) refers?: Record<string, Record<string, any>>;
+  @property({type: Object}) templates?: ThemingTemplates;
   @property() events?: string | Array<string | EventForwarding>;
   /* eslint-enable prettier/prettier */
 
@@ -74,6 +74,7 @@ export class TiniElement extends LitElement {
 
   private _uiTracker = {
     styleDeepAdopted: false,
+    readoptStylesRequired: false,
     scripts: this.getScripts(),
   };
 
@@ -88,6 +89,7 @@ export class TiniElement extends LitElement {
   }
 
   private onThemeChange = () => {
+    this._uiTracker.readoptStylesRequired = true;
     this._uiTracker.scripts = this.getScripts();
     return this.requestUpdate();
   };
@@ -116,18 +118,18 @@ export class TiniElement extends LitElement {
       this.customTemplates = this.getTemplates();
     }
     // adopt styles
-    const optionalUI = getOptionalUI();
     if (
       // styleDeep changed but not the first time
       (changedProperties.has('styleDeep') &&
         this._uiTracker.styleDeepAdopted) ||
-      // theme family changed, re-adopt share styles
-      optionalUI?.activeTheme.prevFamilyId !== optionalUI?.activeTheme.familyId
+      // theme changed, re-adopt share styles
+      this._uiTracker.readoptStylesRequired
     ) {
       this.customAdoptStyles(this.shadowRoot || this);
+      this._uiTracker.readoptStylesRequired = false;
     }
+    // mark styleDeep already adopted in createRenderRoot()
     if (!this._uiTracker.styleDeepAdopted) {
-      // mark styleDeep already adopted in createRenderRoot()
       this._uiTracker.styleDeepAdopted = true;
     }
     // adopt scripts
