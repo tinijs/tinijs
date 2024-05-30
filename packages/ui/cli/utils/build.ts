@@ -216,6 +216,15 @@ export async function buildGlobals() {
     .addImport(`./${tsToJS(skinUtilsFile)}`, [skinUtilsExportName])
     .addImport(`./${tsToJS(commonStylesFile)}`, [commonStylesExportName])
     .addBlock(
+      'export',
+      `{ ${[
+        commonColorsExportName,
+        commonGradientsExportName,
+        skinUtilsExportName,
+        commonStylesExportName,
+      ].join(', ')} }`
+    )
+    .addBlock(
       'export const availableGlobals =',
       `[
         ${commonColorsExportName},
@@ -266,9 +275,12 @@ export async function buildSkins(
       }
     }
   }
-  indexTS.addBlock('export const availableSkins =', [
-    indexTS.data.mainExportValue,
-  ]);
+  indexTS
+    .addBlock(
+      'export',
+      `{ ${Object.values(indexTS.data.mainExportValue).join(', ')} }`
+    )
+    .addBlock('export const availableSkins =', [indexTS.data.mainExportValue]);
   results.push(indexTS.toResult('skin.ts'));
 
   // result
@@ -326,9 +338,12 @@ export async function buildBases(
     indexTS.data.mainExportValue[familyId] = familyExportName;
   }
 
-  indexTS.addBlock('export const availableBases =', [
-    indexTS.data.mainExportValue,
-  ]);
+  indexTS
+    .addBlock(
+      'export',
+      `{ ${Object.values(indexTS.data.mainExportValue).join(', ')} }`
+    )
+    .addBlock('export const availableBases =', [indexTS.data.mainExportValue]);
   results.push(indexTS.toResult('base.ts'));
 
   // result
@@ -443,16 +458,19 @@ export async function buildComponents(
   return results;
 }
 
-export async function buildSetup({manualSkinSelection}: UIConfig) {
+export async function buildSetup(
+  {manualSkinSelection}: UIConfig,
+  skinResults: GenFileResult[]
+) {
   const setupTS = createGenFile();
 
   // imports
   setupTS
-    .addImport('defu', ['defu'])
     .addImport('@tinijs/core', [
       'listify',
       'initUI',
       'registerComponents',
+      'mergeThemingStylesRecords',
       'type RegisterComponentsList',
       'type UI',
       'type UIInit',
@@ -463,6 +481,11 @@ export async function buildSetup({manualSkinSelection}: UIConfig) {
   if (!manualSkinSelection) {
     setupTS.addImport('./skin.js', ['availableSkins']);
   }
+
+  // exports
+  skinResults
+    .filter(item => item.path.startsWith('skins/'))
+    .forEach(item => setupTS.addExport(`./${tsToJS(item.path)}`, '*'));
 
   // blocks
   setupTS
@@ -482,17 +505,12 @@ const ui = initUI({
     ...availableGlobals,
     ...listify<CSSResultOrNativeOrRaw>(globals)
   ],
-  skins: ${manualSkinSelection ? 'skins' : '{...availableSkins, ...skins}'},
-  shares: defu(
-    Object.entries(shares || {}).reduce(
-      (result, [key, value]) => {
-        result[key] = listify<CSSResultOrNativeOrRaw>(value);
-        return result;
-      },
-      {} as Record<string, CSSResultOrNativeOrRaw[]>
-    ),
-    availableBases,
-  ),
+  skins: ${
+    manualSkinSelection
+      ? 'skins'
+      : 'mergeThemingStylesRecords(availableSkins, skins)'
+  },
+  shares: mergeThemingStylesRecords(availableBases, shares),
   options,
 });
 if (components?.length) registerComponents(components);
@@ -504,17 +522,9 @@ return ui;
   return setupTS.toResult('setup.ts');
 }
 
-export async function buildPublicAPI(results: GenFileResult[]) {
-  return {
-    path: 'public-api.ts',
-    content: results
-      .map(({path}) => `export * from './${tsToJS(path)}';`)
-      .join('\n'),
-  } as GenFileResult;
-}
-
 export async function buildPackageJSON(
-  packageJSON: NonNullable<UIConfig['packageJSON']>
+  packageJSON: NonNullable<UIConfig['packageJSON']>,
+  withIcons: boolean
 ) {
   const jsonContent: PackageJson = {
     ...(packageJSON === true
@@ -526,15 +536,16 @@ export async function buildPackageJSON(
           : packageJSON),
     type: 'module',
     exports: {
-      '.': './public-api.js',
-      './global': './global.js',
+      '.': './setup.js',
+      './setup.js': './setup.js',
+      './global.js': './global.js',
       './globals/*': './globals/*',
-      './base': './base.js',
+      './base.js': './base.js',
       './bases/*': './bases/*',
-      './skin': './skin.js',
+      './skin.js': './skin.js',
       './skins/*': './skins/*',
       './components/*': './components/*',
-      './icons/*': './icons/*',
+      ...(!withIcons ? {} : {'./icons/*': './icons/*'}),
     },
     files: ['*'],
   };

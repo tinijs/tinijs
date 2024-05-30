@@ -18,7 +18,6 @@ import {
   buildBases,
   buildComponents,
   buildSetup,
-  buildPublicAPI,
   buildPackageJSON,
   transpileAndRemoveTSFiles,
   buildBundled,
@@ -107,15 +106,15 @@ export const uiBuildCommand = createCLICommand(
       results.push(...iconResults);
 
       // build setup
-      const setupResult = await buildSetup(config);
+      const setupResult = await buildSetup(config, skinResults);
       results.push(setupResult);
 
-      // build public api & package.json
+      // build package.json
       if (config.packageJSON) {
-        const publicAPIResult = await buildPublicAPI([setupResult]);
-        results.push(publicAPIResult);
-
-        const packageJSONResult = await buildPackageJSON(config.packageJSON);
+        const packageJSONResult = await buildPackageJSON(
+          config.packageJSON,
+          !!config.icons?.length
+        );
         results.push(packageJSONResult);
       }
 

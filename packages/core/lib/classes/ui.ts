@@ -6,6 +6,7 @@ import {
   type CSSResultOrNative,
   type TemplateResult,
 } from 'lit';
+import {defu} from 'defu';
 
 import {GLOBAL_TINI} from '../consts/global.js';
 import {PACKAGE_PREFIX} from '../consts/common.js';
@@ -155,6 +156,27 @@ export function themingStylesToText(styles: ThemingStyles | undefined) {
       }
     })
     .join('');
+}
+
+export function mergeThemingStylesRecords(
+  ...records: (Record<string, ThemingStyles> | null | undefined)[]
+) {
+  const processedRecords: Record<string, CSSResultOrNativeOrRaw[]>[] = [];
+  for (let i = records.length - 1; i > 0; i--) {
+    processedRecords.push(
+      Object.entries(records[i] || {}).reduce(
+        (result, [key, value]) => {
+          result[key] = listify<CSSResultOrNativeOrRaw>(value);
+          return result;
+        },
+        {} as Record<string, CSSResultOrNativeOrRaw[]>
+      )
+    );
+  }
+  return defu(
+    {} as Record<string, CSSResultOrNativeOrRaw[]>,
+    ...processedRecords
+  );
 }
 
 export function extractTemplatesFromTheming(

@@ -41,7 +41,7 @@ CDN is the simplest way to get started with Tini UI, just include the script tag
 ```html
 <script type="module">
 import {setupUI, bootstrapLightSkin, bootstrapDarkSkin} from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap/bundled/setup.js';
-import {TiniButtonComponent} from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap/bundled/components.js';
+import {TiniTextComponent, TiniButtonComponent} from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap/bundled/components.js';
 
 const ui = setupUI(
   {
@@ -51,6 +51,7 @@ const ui = setupUI(
     },
   },
   [
+    TiniTextComponent,
     TiniButtonComponent,
     // other components
   ]
@@ -61,6 +62,7 @@ const ui = setupUI(
 - Step 2: Use components
 
 ```html
+<tini-text>Lorem ipsum</tini-text>
 <tini-button scheme="primary">A button</tini-button>
 ```
 
@@ -77,9 +79,7 @@ npm i @tinijs/ui-bootstrap
 - Step 2: Setup the UI at the app level.
 
 ```ts
-import { setupUI } from '@tinijs/ui-bootstrap';
-import { bootstrapLightSkin } from '@tinijs/ui-bootstrap/skins/light.js';
-import { bootstrapDarkSkin } from '@tinijs/ui-bootstrap/skins/dark.js';
+import { setupUI, bootstrapLightSkin, bootstrapDarkSkin } from '@tinijs/ui-bootstrap/setup.js';
 
 @App({})
 export class AppRoot extends TiniComponent {
@@ -95,15 +95,17 @@ export class AppRoot extends TiniComponent {
 - Step 3: Use components.
 
 ```ts
+import {TiniTextComponent} from '@tinijs/ui-bootstrap/components/text.js';
 import {TiniButtonComponent} from '@tinijs/ui-bootstrap/components/button.js';
 
 @Page({
-  components: [TiniButtonComponent], // register the component
+  components: [TiniTextComponent, TiniButtonComponent], // register the components
 })
 export class AppXXXPage extends TiniComponent {}
 ```
 
 ```html
+<tini-text>Lorem ipsum</tini-text>
 <tini-button scheme="primary">A button</tini-button>
 ```
 
