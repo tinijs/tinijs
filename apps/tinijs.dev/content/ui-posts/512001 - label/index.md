@@ -25,7 +25,7 @@
           items: [
             {label: 'Default', value: '_default', checked: true},
             {label: 'Pill', value: 'pill'},
-            {label: 'Circle', value: 'circle'},
+            {label: 'Circle', value: 'circle'}
           ]
         },
         target: 'shape'
