@@ -6,9 +6,9 @@ export const styles = defaultStyles.extends({
   statics: css``,
   colorGen: () => '',
   gradientGen: () => '',
-  fontTypeGen: () => '',
-  fontSizeGen: () => '',
-  fontWeightGen: () => '',
+  fontGen: () => '',
+  textGen: () => '',
+  weightGen: () => '',
 });
 
 export default {styles};

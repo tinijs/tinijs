@@ -3,8 +3,8 @@ import {css} from 'lit';
 /* eslint-disable prettier/prettier */
 export default css`:root {
   /* fonts */
-  --font-head: "Helvetica Neue", sans-serif;
-  --font-body: "Helvetica Neue", sans-serif;
+  --font-title: "Helvetica Neue", sans-serif;
+  --font-content: "Helvetica Neue", sans-serif;
   --font-art: 'Brush Script MT', cursive;
   --font-code: Lucida, monospace;
   /* colors */
@@ -100,8 +100,8 @@ export default css`:root {
   --gradient-danger-shade: linear-gradient(180deg, #d20010 0%, #a30000 100%);
   --gradient-danger-tint: linear-gradient(180deg, #ff6650 0%, #fa4d33 100%);
   /* sizes */
-  --size-md: 12px;
   --text-md: 16px;
+  --size-md: 1rem;
   --space-md: 1rem;
   --radius-md: 6px;
   --border-md: 1px;
@@ -109,12 +109,11 @@ export default css`:root {
   --line-md: 1.5;
   --letter-md: normal;
   /* shadows */
-  --shadow-scarcity: 0 0 0 1px #0000000d;
-  --shadow-tiny: 0 1px 2px 0 #0000000d;
+  --shadow-tiny: 0 0 0 1px #0000000d;
   --shadow-small: 0 1px 3px 0 #0000001a, 0 1px 2px 0 #0000000f;
   --shadow-medium: 0 4px 6px -1px #0000001a, 0 2px 4px -1px #0000000f;
-  --shadow-big: 0 10px 15px -3px #0000001a, 0 4px 6px -2px #0000000d;
-  --shadow-huge: 0 20px 25px -5px #0000001a, 0 10px 10px -5px #0000000a;
-  --shadow-excess: 0px 0px 0px 1px #0000001a, 0px 5px 10px #00000033, 0px 15px 40px #00000066;
+  --shadow-big: 0 20px 25px -5px #0000001a, 0 10px 10px -5px #0000000a;
+  --shadow-huge: 0px 0px 0px 1px #0000001a, 0px 5px 10px #00000033, 0px 15px 40px #00000066;
+  --shadow-inset: inset 0 2px 4px 0 #0000000d;
 }`;
 /* eslint-enable prettier/prettier */

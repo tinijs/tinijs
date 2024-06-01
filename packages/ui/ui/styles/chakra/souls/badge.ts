@@ -1,72 +1,53 @@
 import {css} from 'lit';
-import {
-  generateColorVaries,
-  generateGradientVaries,
-  generateSizeVaries,
-} from '@tinijs/core';
 
-const styles = css`
-  :host {
-    --background: var(--color-middle);
-    --size: var(--size-md);
-    --color: var(--color-middle-contrast);
-    --border-radius: var(--radius-md);
-    display: inline;
-  }
+import {defaultStyles} from '../../../components/badge.js';
 
-  .root {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: calc(var(--size) * 0.25);
-    padding-top: calc(var(--size) * 0.3);
-    background: var(--background);
-    color: var(--color);
-    font-size: calc(var(--size) * 0.95);
-    border: none;
-    border-radius: var(--border-radius);
-    font-weight: bold;
-    line-height: 1;
-  }
-
-  .shape-pill {
-    border-radius: 1000px !important;
-  }
-
-  .shape-circle {
-    --circle-size: calc(var(--size) * 1.75);
-    width: var(--circle-size);
-    height: var(--circle-size);
-    font-size: calc(var(--size) * 0.75);
-    border-radius: 9999px !important;
-    overflow: hidden;
-  }
-
-  ${generateColorVaries(
-    ({fullName, color, contrast}) => `
-    .${fullName} {
-      --background: ${color};
-      --color: ${contrast};
+export const styles = defaultStyles.extends({
+  statics: css`
+    :host {
+      --background: color-mix(
+        in oklab,
+        var(--color-middle),
+        var(--color-back) 50%
+      );
+      --color: color-mix(in oklab, var(--color-middle), var(--color-front) 50%);
+      border-radius: calc(var(--size) * 0.15);
+      min-height: calc(var(--size) * 1.15);
     }
-  `
-  )}
 
-  ${generateGradientVaries(
-    ({fullName, gradient, contrast}) => `
-    .${fullName} {
-      --background: ${gradient};
-      --color: ${contrast};
+    .bg {
+      filter: brightness(1.15);
     }
-  `
-  )}
 
-  ${generateSizeVaries(
-    ({fullName, size}) => `
-    .${fullName} {
-      --size: ${size};
+    .main {
+      font-weight: var(--weight-bold);
+      text-transform: uppercase;
+      font-size: calc(var(--size) * 0.75);
     }
-  `
-  )}
-`;
+
+    :host([shape='circle']) {
+      width: calc(var(--size) * 1.25);
+      height: calc(var(--size) * 1.25);
+    }
+  `,
+  colorGen: ({hostSelector, isSubtle, baseColor, color}) => `
+    ${hostSelector} {
+      --background: color-mix(in oklab, ${color}, var(--color-back) ${
+        isSubtle ? '25%' : '50%'
+      });
+      --color: color-mix(in oklab, ${baseColor}, var(--color-front) 50%);
+    }
+  `,
+  gradientGen: ({hostSelector, isSubtle, baseColor}) => `
+    ${hostSelector} {
+      --color: color-mix(in oklab, ${baseColor}, var(--color-front) 50%);
+    }
+
+    ${hostSelector} .bg {
+      opacity: ${isSubtle ? 0.6 : 0.4};
+    }
+  `,
+  sizeGen: () => '',
+});
 
 export default {styles};

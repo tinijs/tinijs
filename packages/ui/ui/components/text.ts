@@ -12,39 +12,32 @@ import {
   Fonts,
   Texts,
   Weights,
-  generateColorVaries,
-  generateGradientVaries,
-  generateFontVaries,
-  generateTextVaries,
-  generateWeightVaries,
+  generateColorVariants,
+  generateGradientVariants,
+  generateFontVariants,
+  generateTextVariants,
+  generateWeightVariants,
 } from '@tinijs/core';
 
 export enum TextParts {
-  Root = ElementParts.Root,
-}
-
-export enum TextTags {
-  P = 'p',
-  Strong = 'strong',
-  Em = 'em',
-  Span = 'span',
+  Main = ElementParts.Main,
 }
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: Boolean, reflect: true}) block?: boolean;
   @property({type: String, reflect: true}) color?: Colors | Gradients;
-  @property({type: String, reflect: true}) fontType?:Fonts;
-  @property({type: String, reflect: true}) fontSize?:Texts;
-  @property({type: String, reflect: true}) fontWeight?: Weights;
+  @property({type: String, reflect: true}) font?: Fonts;
+  @property({type: String, reflect: true}) size?: Texts;
+  @property({type: String, reflect: true}) weight?: Weights;
   @property({type: Boolean, reflect: true}) italic?: boolean;
   @property({type: Boolean, reflect: true}) underline?: boolean;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root classes parts
-    this.extendRootClasses({
+    // main classes parts
+    this.extendMainClasses({
       raw: {
         gradient: isGradient(this.color),
         block: !!this.block,
@@ -53,23 +46,23 @@ export default class extends TiniElement {
       },
       overridable: {
         color: this.color,
-        font: this.fontType,
-        text: this.fontSize,
-        weight: this.fontWeight,
+        font: this.font,
+        text: this.size,
+        weight: this.weight,
       },
     });
   }
 
   protected render() {
     return this.renderPart(
-      TextParts.Root,
-      rootChild => html`
+      TextParts.Main,
+      mainChild => html`
         <span
-          class=${classMap(this.rootClasses)}
-          part=${partAttrMap(this.rootClasses)}
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
         >
           <slot></slot>
-          ${rootChild()}
+          ${mainChild()}
         </span>
       `
     );
@@ -78,27 +71,27 @@ export default class extends TiniElement {
 
 export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
-  colorGen: Parameters<typeof generateColorVaries>[0];
-  gradientGen: Parameters<typeof generateGradientVaries>[0];
-  fontTypeGen: Parameters<typeof generateFontVaries>[0];
-  fontSizeGen: Parameters<typeof generateTextVaries>[0];
-  fontWeightGen: Parameters<typeof generateWeightVaries>[0];
+  colorGen: Parameters<typeof generateColorVariants>[0];
+  gradientGen: Parameters<typeof generateGradientVariants>[0];
+  fontGen: Parameters<typeof generateFontVariants>[0];
+  textGen: Parameters<typeof generateTextVariants>[0];
+  weightGen: Parameters<typeof generateWeightVariants>[0];
 }>(outputs => [
   css`
     :host {
       --color: var(--color-front);
       --gradient: none;
-      --font-family: var(--font-body);
-      --font-size: var(--text-md);
-      --font-weight: normal;
+      --font: var(--font-content);
+      --size: var(--text-md);
+      --weight: normal;
       display: inline-block;
     }
 
-    .root {
+    .main {
       color: var(--color);
-      font-family: var(--font-family);
-      font-size: var(--font-size);
-      font-weight: var(--font-weight);
+      font-family: var(--font);
+      font-size: var(--size);
+      font-weight: var(--weight);
     }
 
     :host([block]) {
@@ -133,53 +126,53 @@ export const defaultStyles = createStyleBuilder<{
 
   outputs.statics,
 
-  generateColorVaries(values => {
-    const {name, color} = values;
+  generateColorVariants(values => {
+    const {hostSelector, color} = values;
     return `
-      .color-${name} {
+      ${hostSelector} {
         --color: ${color};
       }
       ${outputs.colorGen(values)}
     `;
-  }),
+  }, 'color'),
 
-  generateGradientVaries(values => {
-    const {name, gradient} = values;
+  generateGradientVariants(values => {
+    const {hostSelector, gradient} = values;
     return `
-      .color-${name} {
+      ${hostSelector} {
         --gradient: ${gradient};
       }
       ${outputs.gradientGen(values)}
     `;
-  }),
+  }, 'color'),
 
-  generateFontVaries(values => {
-    const {fullName, font} = values;
+  generateFontVariants(values => {
+    const {hostSelector, font} = values;
     return `
-      .${fullName} {
-        --font-family: ${font};
+      ${hostSelector} {
+        --font: ${font};
       }
-      ${outputs.fontTypeGen(values)}
+      ${outputs.fontGen(values)}
     `;
   }),
 
-  generateTextVaries(values => {
-    const {fullName, text} = values;
+  generateTextVariants(values => {
+    const {hostSelector, text} = values;
     return `
-      .${fullName} {
-        --font-size: ${text};
+      ${hostSelector} {
+        --size: ${text};
       }
-      ${outputs.fontSizeGen(values)}
+      ${outputs.textGen(values)}
     `;
-  }),
+  }, 'size'),
 
-  generateWeightVaries(values => {
-    const {fullName, weight} = values;
+  generateWeightVariants(values => {
+    const {hostSelector, weight} = values;
     return `
-      .${fullName} {
-        --font-weight: ${weight};
+      ${hostSelector} {
+        --weight: ${weight};
       }
-      ${outputs.fontWeightGen(values)}
+      ${outputs.weightGen(values)}
     `;
   }),
 ]);

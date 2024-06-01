@@ -13,14 +13,14 @@ import {
   Gradients,
   Texts,
   Weights,
-  generateColorVaries,
-  generateGradientVaries,
-  generateTextVaries,
-  generateWeightVaries,
+  generateColorVariants,
+  generateGradientVariants,
+  generateTextVariants,
+  generateWeightVariants,
 } from '@tinijs/core';
 
 export enum LinkParts {
-  Root = ElementParts.Root,
+  Main = ElementParts.Main,
 }
 
 export enum LinkTargets {
@@ -41,16 +41,16 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) active?: string;
   @property({type: Boolean, reflect: true}) disabled?: boolean;
   @property({type: String, reflect: true}) color?: Colors | Gradients;
-  @property({type: String, reflect: true}) fontSize?:Texts;
-  @property({type: String, reflect: true}) fontWeight?: Weights;
+  @property({type: String, reflect: true}) size?: Texts;
+  @property({type: String, reflect: true}) weight?: Weights;
   @property({type: Boolean, reflect: true}) italic?: boolean;
   @property({type: Boolean, reflect: true}) noUnderline?: boolean;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root classes parts
-    this.extendRootClasses({
+    // main classes parts
+    this.extendMainClasses({
       raw: {
         gradient: isGradient(this.color),
         disabled: !!this.disabled,
@@ -59,8 +59,8 @@ export default class extends TiniElement {
       },
       overridable: {
         color: this.color,
-        text: this.fontSize,
-        weight: this.fontWeight,
+        text: this.size,
+        weight: this.weight,
       },
     });
   }
@@ -130,20 +130,20 @@ export default class extends TiniElement {
 
   protected render() {
     return this.renderPart(
-      LinkParts.Root,
-      rootChild => html`
+      LinkParts.Main,
+      mainChild => html`
         <a
           router-ignore
           ${ref(this.anchorRef)}
-          class=${classMap(this.rootClasses)}
-          part=${partAttrMap(this.rootClasses)}
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
           href=${this.href || '/'}
           target=${ifDefined(this.target)}
           rel=${ifDefined(this.rel)}
           @click=${this.clickLink}
         >
           <slot></slot>
-          ${rootChild()}
+          ${mainChild()}
         </a>
       `
     );
@@ -152,22 +152,22 @@ export default class extends TiniElement {
 
 export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
-  colorGen: Parameters<typeof generateColorVaries>[0];
-  gradientGen: Parameters<typeof generateGradientVaries>[0];
-  fontSizeGen: Parameters<typeof generateTextVaries>[0];
-  fontWeightGen: Parameters<typeof generateWeightVaries>[0];
+  colorGen: Parameters<typeof generateColorVariants>[0];
+  gradientGen: Parameters<typeof generateGradientVariants>[0];
+  textGen: Parameters<typeof generateTextVariants>[0];
+  weightGen: Parameters<typeof generateWeightVariants>[0];
 }>(outputs => [
   css`
     :host {
       --color: var(--color-primary);
       --gradient: none;
-      --font-size: var(--text-md);
+      --size: var(--text-md);
       display: inline-block;
     }
 
-    .root {
+    .main {
       color: var(--color);
-      font-size: var(--font-size);
+      font-size: var(--size);
     }
 
     .gradient {
@@ -209,43 +209,43 @@ export const defaultStyles = createStyleBuilder<{
 
   outputs.statics,
 
-  generateColorVaries(values => {
-    const {name, color} = values;
+  generateColorVariants(values => {
+    const {hostSelector, color} = values;
     return `
-      .color-${name} {
+      ${hostSelector} {
         --color: ${color};
       }
       ${outputs.colorGen(values)}
     `;
-  }),
+  }, 'color'),
 
-  generateGradientVaries(values => {
-    const {name, gradient} = values;
+  generateGradientVariants(values => {
+    const {hostSelector, gradient} = values;
     return `
-      .color-${name} {
+      ${hostSelector} {
         --gradient: ${gradient};
       }
       ${outputs.gradientGen(values)}
     `;
-  }),
+  }, 'color'),
 
-  generateTextVaries(values => {
-    const {fullName, text} = values;
+  generateTextVariants(values => {
+    const {hostSelector, text} = values;
     return `
-      .${fullName} {
-        --font-size: ${text};
+      ${hostSelector} {
+        --size: ${text};
       }
-      ${outputs.fontSizeGen(values)}
+      ${outputs.textGen(values)}
     `;
-  }),
+  }, 'size'),
 
-  generateWeightVaries(values => {
-    const {fullName, weight} = values;
+  generateWeightVariants(values => {
+    const {hostSelector, weight} = values;
     return `
-      .${fullName} {
+      ${hostSelector} .main {
         font-weight: ${weight};
       }
-      ${outputs.fontWeightGen(values)}
+      ${outputs.weightGen(values)}
     `;
   }),
 ]);

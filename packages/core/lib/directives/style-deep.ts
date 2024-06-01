@@ -89,7 +89,7 @@ class StyleDeepDirective extends AsyncDirective {
         : this.styleDeep?.[themeId] ||
             this.styleDeep?.[familyId] ||
             this.styleDeep?.['*']
-    ).replace(/\.root/g, `.${this.INTERNAL_ID}`);
+    ).replace(/\.main/g, `.${this.INTERNAL_ID}`);
     // apply styles
     const currentStyleElement = renderRoot.getElementById(this.INTERNAL_ID);
     const styleElement = currentStyleElement || document.createElement('style');

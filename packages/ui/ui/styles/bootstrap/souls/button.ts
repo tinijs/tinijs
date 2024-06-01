@@ -1,8 +1,8 @@
 import {css} from 'lit';
 import {
-  generateColorVaries,
-  generateGradientVaries,
-  generateSizeVaries,
+  generateColorVariants,
+  generateGradientVariants,
+  generateSizeVariants,
 } from '@tinijs/core';
 
 export const styles = css`
@@ -13,7 +13,7 @@ export const styles = css`
     --size: var(--size-md);
     --text-color: var(--color-middle-contrast);
     --border-size: var(--border-md);
-    --border-radius: var(--radius-md);
+    --radius: var(--radius-md);
     --box-shadow: none;
     --disabled-opacity: 0.5;
     --focus-visible-shadow-size: calc(var(--size-md) * 0.3);
@@ -32,10 +32,10 @@ export const styles = css`
     padding: calc(var(--size) * 0.5) var(--size);
     background: var(--background);
     color: var(--text-color);
-    font-family: var(--font-body);
+    font-family: var(--font-content);
     font-size: calc(var(--size) * 1.1);
     line-height: 1.4;
-    border-radius: var(--border-radius);
+    border-radius: var(--radius);
     outline: 0 !important;
     box-shadow: var(--box-shadow);
     transition: all 0.15s ease-in-out;
@@ -89,7 +89,7 @@ export const styles = css`
       --text-color-specific,
       var(--text-color-contrast, var(--base-color))
     );
-    border-radius: var(--border-radius);
+    border-radius: var(--radius);
   }
 
   button.mode-outline::before {
@@ -98,7 +98,7 @@ export const styles = css`
     position: absolute;
     inset: 0;
     border: var(--border-size) solid transparent;
-    border-radius: var(--border-radius);
+    border-radius: var(--radius);
     background: var(--background) border-box;
     -webkit-mask:
       linear-gradient(white 0 0) padding-box,
@@ -139,7 +139,7 @@ export const styles = css`
     opacity: 0.8;
   }
 
-  ${generateColorVaries(
+  ${generateColorVariants(
     ({fullName, baseColor, color, contrast}) => `
     button.${fullName}-hover {
       transition: none;
@@ -160,7 +160,7 @@ export const styles = css`
   `
   )}
 
-  ${generateGradientVaries(
+  ${generateGradientVariants(
     ({fullName, gradient, baseColor, color, contrast}) => `
     button.${fullName}.mode-outline,
     button.${fullName}-hover {
@@ -182,7 +182,7 @@ export const styles = css`
   `
   )}
 
-  ${generateSizeVaries(
+  ${generateSizeVariants(
     ({name, fullName, size}) => `
     button.${fullName} {
       --size: ${size};

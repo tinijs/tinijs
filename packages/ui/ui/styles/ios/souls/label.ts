@@ -1,5 +1,5 @@
 import {css} from 'lit';
-import {generateColorVaries, generateSizeVaries} from '@tinijs/core';
+import {generateColorVariants, generateSizeVariants} from '@tinijs/core';
 
 export const styles = css`
   :host {
@@ -7,17 +7,17 @@ export const styles = css`
     --size: var(--size-md);
     --text-color: var(--color-middle);
     --border: none;
-    --border-radius: var(--radius-md);
+    --radius: var(--radius-md);
     display: inline;
   }
 
-  .root {
+  .main {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: calc(var(--size) * 0.5);
     border: var(--border);
-    border-radius: var(--border-radius);
+    border-radius: var(--radius);
     background: color-mix(in oklab, var(--background), transparent 50%);
     color: color-mix(in oklab, var(--text-color), var(--color-front) 30%);
     font-size: var(--size);
@@ -30,7 +30,7 @@ export const styles = css`
     border-radius: 1000px !important;
   }
 
-  ${generateColorVaries(
+  ${generateColorVariants(
     ({fullName, isSubtle, color, baseColor}) => `
     .${fullName} {
       --background: ${color};
@@ -39,7 +39,7 @@ export const styles = css`
   `
   )}
 
-  ${generateSizeVaries(
+  ${generateSizeVariants(
     ({fullName, size}) => `
     .${fullName} {
       --size: ${size};

@@ -5,7 +5,7 @@ import {Component, TiniComponent, Shadows} from '@tinijs/core';
 import {TiniImageComponent} from '../../ui/components/image.js';
 
 const SRC =
-  'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=768&q=80';
+  'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1024&q=80';
 
 @Component({
   components: [TiniImageComponent],
@@ -19,35 +19,37 @@ export class AppPageUIDevImageComponent extends TiniComponent {
         <img src=${SRC} />
       </ui-dev-section>
 
-      <ui-dev-section titleText="Img">
+      <ui-dev-section titleText="Default">
         <tini-image src=${SRC}></tini-image>
       </ui-dev-section>
 
-      <ui-dev-section titleText="Fluid">
-        <tini-image fluid src=${SRC}></tini-image>
-      </ui-dev-section>
-
       <ui-dev-section titleText="Width, height, radius">
+        <tini-image
+          width="500px"
+          radius="none"
+          src=${SRC}
+          title="width=500px"
+        ></tini-image>
         <tini-image width="350px" src=${SRC} title="width=350px"></tini-image>
         <tini-image
-          height="150px"
           radius="xl"
+          width="250px"
           src=${SRC}
-          title="height=150px, radius=xl"
+          title="height=250px, radius=xl"
         ></tini-image>
         <tini-image
-          width="100px"
-          height="100px"
-          radius="circle"
+          width="150px"
+          height="150px"
+          radius="half"
           src=${SRC}
-          title="width=100px, height=100px, radius=circle"
+          title="width=150px, height=150px, radius=half"
         ></tini-image>
         <tini-image
-          width="100px"
-          height="35px"
-          radius="pill"
+          width="150px"
+          height="50px"
+          radius="full"
           src=${SRC}
-          title="width=100px, height=35px, radius=pill"
+          title="width=150px, height=50px, radius=full"
         ></tini-image>
       </ui-dev-section>
 

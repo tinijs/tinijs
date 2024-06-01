@@ -460,7 +460,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       height: 50vh;
       height: 50dvh;
       bottom: 0;
-      box-shadow: var(--shadow-excess);
+      box-shadow: var(--shadow-huge);
     }
 
     .head {
@@ -595,7 +595,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         margin: 0 auto;
 
         &,
-        &::part(root) {
+        &::part(main) {
           width: 100%;
         }
 
@@ -609,7 +609,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       }
     }
 
-    tini-modal::part(root) {
+    tini-modal::part(main) {
       background: var(--color-back-tint);
     }
 
@@ -628,7 +628,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         height: calc(100vh - var(--header-height) + 1px);
         height: calc(100dvh - var(--header-height) + 1px);
         border: var(--border-md) solid var(--color-back-shade);
-        box-shadow: var(--shadow-huge);
+        box-shadow: var(--shadow-big);
       }
     }
   `;

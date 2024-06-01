@@ -154,7 +154,7 @@ export class AppComponentEditorComponent
   @Reactive() isFullscreen = false;
   @Reactive() data?: ComponentData;
 
-  private readonly _rootRef = createRef<HTMLDivElement>();
+  private readonly _mainRef = createRef<HTMLDivElement>();
   private readonly _previewRef = createRef<HTMLDivElement>();
   private readonly _resizableRef = createRef<HTMLDivElement>();
   private readonly _viewportSizeRef = createRef<HTMLDivElement>();
@@ -382,7 +382,7 @@ registerComponents([ ${constructorName} ]);`;
       screenfull.exit();
       this.isFullscreen = false;
     } else {
-      screenfull.request(this._rootRef.value!);
+      screenfull.request(this._mainRef.value!);
       this.isFullscreen = true;
     }
   }
@@ -390,8 +390,8 @@ registerComponents([ ${constructorName} ]);`;
   protected render() {
     return html`
       <div
-        ${ref(this._rootRef)}
-        class=${classMap({root: true, fullscreen: this.isFullscreen})}
+        ${ref(this._mainRef)}
+        class=${classMap({main: true, fullscreen: this.isFullscreen})}
       >
         <aside class="edit">${this.getEditTemplate()}</aside>
 
@@ -618,7 +618,7 @@ registerComponents([ ${constructorName} ]);`;
   }
 
   static styles = css`
-    .root {
+    .main {
       display: flex;
       flex-flow: column;
       gap: 1rem;
@@ -817,7 +817,7 @@ registerComponents([ ${constructorName} ]);`;
     }
 
     @media (min-width: 1400px) {
-      .root {
+      .main {
         flex-flow: row;
 
         .edit {

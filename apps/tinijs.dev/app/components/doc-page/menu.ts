@@ -154,14 +154,14 @@ export class AppDocPageMenuComponent extends TiniComponent {
           padding-top: 0;
         }
 
-        tini-link::part(root) {
+        tini-link::part(main) {
           color: var(--color-middle);
           text-decoration: none;
           font-weight: normal;
           font-size: var(--text-sm);
         }
 
-        tini-link:hover::part(root) {
+        tini-link:hover::part(main) {
           text-decoration: none;
           color: var(--color-front);
         }

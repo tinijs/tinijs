@@ -1,16 +1,16 @@
 import {css} from 'lit';
-import {generateColorVaries, generateSizeVaries} from '@tinijs/core';
+import {generateColorVariants, generateSizeVariants} from '@tinijs/core';
 
 export const styles = css`
   :host {
     --color: var(--color-primary);
     --size: var(--size-md);
     --border-color: var(--color-middle);
-    --border-radius: var(--radius-md);
+    --radius: var(--radius-md);
     display: inline;
   }
 
-  .root {
+  .main {
     display: inline-flex;
     align-items: center;
     gap: var(--space-xs);
@@ -20,7 +20,7 @@ export const styles = css`
     background: var(--color-back-tint);
     color: var(--color-front);
     border: var(--border-md) solid var(--border-color);
-    border-radius: var(--border-radius);
+    border-radius: var(--radius);
     padding: calc(var(--size) / 2) calc(var(--size) / 1.5);
     font-size: var(--size);
     transition: all 0.15s ease-in-out;
@@ -55,7 +55,7 @@ export const styles = css`
     width: 100%;
   }
 
-  :host(.block) .root {
+  :host(.block) .main {
     display: flex;
   }
 
@@ -67,7 +67,7 @@ export const styles = css`
     width: 100%;
   }
 
-  ${generateColorVaries(
+  ${generateColorVariants(
     ({fullName, color}) => `
     .${fullName},
     .${fullName}-focus input:focus {
@@ -77,7 +77,7 @@ export const styles = css`
   `
   )}
 
-  ${generateSizeVaries(
+  ${generateSizeVariants(
     ({fullName, size}) => `
     .${fullName} {
       --size: ${size};

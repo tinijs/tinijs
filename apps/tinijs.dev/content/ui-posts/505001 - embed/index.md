@@ -23,8 +23,7 @@
         attrs: {
           label: 'Ratio',
           items: [
-            {label: 'Default', value: '_default', selected: true},
-            {label: '16/9', value: '16/9'},
+            {label: 'Default (16/9)', value: '_default', selected: true},
             {label: '4/3', value: '4/3'},
             {label: '1/1', value: '1/1'},
             {label: '9/16', value: '9/16'}
@@ -36,7 +35,7 @@
         section: 'css',
         attrs: {
           label: 'Style deep',
-          placeholder: ':host, .root, .any { ... }'
+          placeholder: ':host, .main, .any { ... }'
         },
         target: 'styleDeep'
       }

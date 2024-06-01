@@ -31,10 +31,7 @@ export class AppPageHome extends TiniComponent {
 
         <div class="headline">
           <h2 style="margin-bottom: 0">
-            <tini-text
-              fontSize="xl3"
-              fontWeight="bold"
-              color=${Gradients.KaleSalad}
+            <tini-text size="xl3" weight="bold" color=${Gradients.KaleSalad}
               >Tini</tini-text
             ><br />A Javascript framework
           </h2>

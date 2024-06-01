@@ -1,29 +1,29 @@
 import {css} from 'lit';
-import {generateColorVaries} from '@tinijs/core';
+import {generateColorVariants} from '@tinijs/core';
 
 export const styles = css`
   :host {
     --background: var(--color-middle);
     --text-color: var(--color-middle);
-    --font-size: var(--text-md);
+    --size: var(--text-md);
     --border: var(--border-md) solid var(--color-middle);
-    --border-radius: var(--radius-md);
+    --radius: var(--radius-md);
     --padding: var(--space-md);
     --margin: 0;
   }
 
-  .root {
+  .main {
     width: 100%;
     background: color-mix(in oklab, var(--background), transparent 50%);
     color: color-mix(in oklab, var(--text-color), var(--color-front) 30%);
-    font-size: var(--font-size);
+    font-size: var(--size);
     border: var(--border);
-    border-radius: var(--border-radius);
+    border-radius: var(--radius);
     padding: var(--padding);
     margin: var(--margin);
   }
 
-  ${generateColorVaries(
+  ${generateColorVariants(
     ({fullName, isSubtle, color, baseColor}) => `
     .${fullName} {
       --background: ${color};

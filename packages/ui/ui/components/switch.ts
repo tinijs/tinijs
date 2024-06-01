@@ -30,8 +30,8 @@ export default class extends TiniElement {
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root classes parts
-    this.extendRootClasses({
+    // main classes parts
+    this.extendMainClasses({
       raw: {
         checked: !!this.checked,
         disabled: !!this.disabled,
@@ -60,8 +60,8 @@ export default class extends TiniElement {
   protected render() {
     return html`
       <label
-        class=${classMap(this.rootClasses)}
-        part=${partAttrMap(this.rootClasses)}
+        class=${classMap(this.mainClasses)}
+        part=${partAttrMap(this.mainClasses)}
       >
         <div class="switch">
           <input

@@ -5,16 +5,16 @@ const styles = css`
     --width: var(--wide-xs);
     --background: var(--color-back-tint);
     --border: var(--border-md) solid var(--color-back-shade);
-    --border-radius: var(--radius-md);
+    --radius: var(--radius-md);
     --box-shadow: none;
   }
 
-  .root {
+  .main {
     display: flex;
     flex-direction: column;
     background-color: var(--background);
     border: var(--border);
-    border-radius: var(--border-radius);
+    border-radius: var(--radius);
     overflow: hidden;
     width: var(--width);
     box-shadow: var(--box-shadow);

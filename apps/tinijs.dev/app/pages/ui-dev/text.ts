@@ -10,7 +10,7 @@ import {
   Weights,
 } from '@tinijs/core';
 
-import {TiniTextComponent, TextTags} from '../../ui/components/text.js';
+import {TiniTextComponent} from '../../ui/components/text.js';
 
 @Component({
   components: [TiniTextComponent],
@@ -28,13 +28,10 @@ export class AppPageUIDevTextComponent extends TiniComponent {
       </ui-dev-section>
 
       <ui-dev-section titleText="Defaults">
-        <tini-text>Lorem ipsum</tini-text><br />
-        ${Object.values(TextTags).map(
-          tag => html`
-            <tini-text tag=${tag}>Lorem ipsum (tag=${tag})</tini-text>
-            ${tag === 'p' ? nothing : html`<br />`}
-          `
-        )}
+        <tini-text block>Lorem ipsum (block)</tini-text>
+        <tini-text weight="bold">Lorem ipsum (weight=bold)</tini-text><br />
+        <tini-text italic>Lorem ipsum (italic)</tini-text><br />
+        <tini-text>Lorem ipsum (default)</tini-text>
       </ui-dev-section>
 
       <ui-dev-section titleText="Colors">
@@ -48,10 +45,8 @@ export class AppPageUIDevTextComponent extends TiniComponent {
 
       <ui-dev-section titleText="Font types">
         ${Object.values(Fonts).map(
-          fontType => html`
-            <tini-text fontType=${fontType}
-              >Lorem ipsum (fontType=${fontType})</tini-text
-            >
+          font => html`
+            <tini-text font=${font}>Lorem ipsum (font=${font})</tini-text>
             <br />
           `
         )}
@@ -59,10 +54,8 @@ export class AppPageUIDevTextComponent extends TiniComponent {
 
       <ui-dev-section titleText="Font sizes">
         ${Object.values(Texts).map(
-          fontSize => html`
-            <tini-text fontSize=${fontSize}
-              >Lorem ipsum (fontSize=${fontSize})</tini-text
-            >
+          size => html`
+            <tini-text size=${size}>Lorem ipsum (size=${size})</tini-text>
             <br />
           `
         )}
@@ -70,9 +63,9 @@ export class AppPageUIDevTextComponent extends TiniComponent {
 
       <ui-dev-section titleText="Font weights">
         ${Object.values(Weights).map(
-          fontWeight => html`
-            <tini-text fontWeight=${fontWeight}
-              >Lorem ipsum (fontWeight=${fontWeight})</tini-text
+          weight => html`
+            <tini-text weight=${weight}
+              >Lorem ipsum (weight=${weight})</tini-text
             >
             <br />
           `

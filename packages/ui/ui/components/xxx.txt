@@ -5,7 +5,7 @@ import {classMap} from 'lit/directives/class-map.js';
 import {TiniElement, ElementParts, partAttrMap, createStyleBuilder, Colors, Sizes} from '@tinijs/core';
 
 export enum XXXParts {
-  Root = ElementParts.Root,
+  Main = ElementParts.Main,
 }
 
 type ComponentConstructor = typeof import('./xxx.js').default;
@@ -19,19 +19,19 @@ export default class extends TiniElement {
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root classes parts
-    this.extendRootClasses({});
+    // main classes parts
+    this.extendMainClasses({});
   }
 
   protected render() {
     return this.renderPart(
-      XXXParts.Root,
-      rootChild => html`
+      XXXParts.Main,
+      mainChild => html`
         <xxx
-          class=${classMap(this.rootClasses)}
-          part=${partAttrMap(this.rootClasses)}
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
         >
-          ${rootChild()}
+          ${mainChild()}
         </xxx>
       `
     );
@@ -46,7 +46,7 @@ export const defaultStyles = createStyleBuilder<{
 
     }
 
-    .root {
+    .main {
 
     }
   `,

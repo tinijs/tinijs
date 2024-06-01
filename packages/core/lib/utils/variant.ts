@@ -20,6 +20,8 @@ export interface RenderValues {
   name: string;
   prefixName: string;
   fullName: string;
+  hostSelector: string;
+  mainSelector: string;
 }
 
 export interface ColorRenderValues extends RenderValues {
@@ -280,8 +282,8 @@ export const COLORS_TO_GRADIENTS = [
 );
 
 export enum Fonts {
-  Head = 'head',
-  Body = 'body',
+  Title = 'title',
+  Content = 'content',
   Art = 'art',
   Code = 'code',
 }
@@ -325,6 +327,7 @@ export enum Sizes {
 export const SIZES = Object.values(Sizes);
 
 export enum Spaces {
+  None = 'none',
   XS3 = 'xs3',
   XS2 = 'xs2',
   XS = 'xs',
@@ -341,17 +344,21 @@ export enum Spaces {
 export const SPACES = Object.values(Spaces);
 
 export enum Radiuses {
+  None = 'none',
   XS = 'xs',
   SM = 'sm',
   MD = 'md',
   LG = 'lg',
   XL = 'xl',
-  Circle = 'circle',
-  Pill = 'pill',
+  Quarter = 'quarter',
+  Third = 'third',
+  Half = 'half',
+  Full = 'full',
 }
 export const RADIUSES = Object.values(Radiuses);
 
 export enum Borders {
+  None = 'none',
   SM = 'sm',
   MD = 'md',
   LG = 'lg',
@@ -360,6 +367,7 @@ export enum Borders {
 export const BORDERS = Object.values(Borders);
 
 export enum Rings {
+  None = 'none',
   SM = 'sm',
   MD = 'md',
   LG = 'lg',
@@ -386,6 +394,9 @@ export enum Letters {
 export const LETTERS = Object.values(Letters);
 
 export enum Wides {
+  XS6 = 'xs6',
+  XS5 = 'xs5',
+  XS4 = 'xs4',
   XS3 = 'xs3',
   XS2 = 'xs2',
   XS = 'xs',
@@ -402,24 +413,31 @@ export enum Wides {
 export const WIDES = Object.values(Wides);
 
 export enum Shadows {
-  Scarcity = 'scarcity',
+  None = 'none',
   Tiny = 'tiny',
   Small = 'small',
   Medium = 'medium',
   Big = 'big',
   Huge = 'huge',
-  Excess = 'excess',
+  Inset = 'inset',
 }
 export const SHADOWS = Object.values(Shadows);
 
+function buildNamesAndSelectors(prefixName: string, name: string) {
+  const fullName = `${prefixName}-${name}`;
+  const hostSelector = `:host([${prefixName}='${name}'])`;
+  const mainSelector = `.${fullName}`;
+  return {prefixName, fullName, hostSelector, mainSelector};
+}
+
 function generateColorVariant(
   render: ColorVariantRender,
-  name: Colors | SubtleColors
+  name: Colors | SubtleColors,
+  prefixName?: string
 ) {
+  prefixName ||= 'scheme';
   const nameArr = name.split('-');
   const isSubtle = nameArr[nameArr.length - 1] === 'subtle';
-  const prefixName = 'scheme';
-  const fullName = `${prefixName}-${name}`;
   const baseName = nameArr
     .slice(0, !isSubtle ? nameArr.length : nameArr.length - 1)
     .join('-');
@@ -428,43 +446,63 @@ function generateColorVariant(
   const baseColor = `var(--color-${baseName})`;
   const baseContrast = `var(--color-${baseName}-contrast)`;
   const contrast = isSubtle ? 'var(--color-front)' : baseContrast;
+  // names and selectors
+  const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
+    prefixName,
+    name
+  );
   // render
   return render({
     name,
-    isSubtle,
     prefixName,
-    fullName,
     baseName,
+    isSubtle,
     baseColor,
     baseContrast,
     color,
     contrast,
+    fullName,
+    hostSelector,
+    mainSelector,
   });
 }
-export function generateColorVaries(render: ColorVariantRender) {
+export function generateColorVariants(
+  render: ColorVariantRender,
+  prefixName?: string
+) {
   return unsafeCSS(
-    COLORS.map(name => generateColorVariant(render, name)).join('')
+    COLORS.map(name => generateColorVariant(render, name, prefixName)).join('')
   );
 }
-export function generateSubtleColorVaries(render: ColorVariantRender) {
+export function generateSubtleColorVariants(
+  render: ColorVariantRender,
+  prefixName?: string
+) {
   return unsafeCSS(
-    SUBTLE_COLORS.map(name => generateColorVariant(render, name)).join('')
+    SUBTLE_COLORS.map(name =>
+      generateColorVariant(render, name, prefixName)
+    ).join('')
   );
 }
-export function generateAllColorVaries(render: ColorVariantRender) {
+export function generateAllColorVariants(
+  render: ColorVariantRender,
+  prefixName?: string
+) {
   return unsafeCSS(
-    ALL_COLORS.map(name => generateColorVariant(render, name)).join('')
+    ALL_COLORS.map(name => generateColorVariant(render, name, prefixName)).join(
+      ''
+    )
   );
 }
 
 function generateGradientVariant(
   render: GradientVariantRender,
-  name: Gradients | SubtleGradients
+  name: Gradients | SubtleGradients,
+  prefixName?: string
 ) {
+  prefixName ||= 'scheme';
   const nameArr = name.replace('gradient-', '').split('-');
   const isSubtle = nameArr[nameArr.length - 1] === 'subtle';
-  const prefixName = 'scheme';
-  const fullName = `${prefixName}-${name}`;
   const baseName = nameArr
     .slice(0, !isSubtle ? nameArr.length : nameArr.length - 1)
     .join('-');
@@ -485,13 +523,17 @@ function generateGradientVariant(
   const gradientContrast = isSubtle
     ? 'var(--gradient-front)'
     : baseGradientContrast;
+  // names and selectors
+  const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
+    prefixName,
+    name
+  );
   // render
   return render({
     name,
-    isSubtle,
     prefixName,
-    fullName,
     baseName,
+    isSubtle,
     colorName,
     baseColor,
     baseContrast,
@@ -501,115 +543,181 @@ function generateGradientVariant(
     baseGradientContrast,
     gradient,
     gradientContrast,
+    fullName,
+    hostSelector,
+    mainSelector,
   });
 }
-export function generateGradientVaries(render: GradientVariantRender) {
+export function generateGradientVariants(
+  render: GradientVariantRender,
+  prefixName?: string
+) {
   return unsafeCSS(
-    GRADIENTS.map(name => generateGradientVariant(render, name)).join('')
+    GRADIENTS.map(name =>
+      generateGradientVariant(render, name, prefixName)
+    ).join('')
   );
 }
-export function generateSubtleGradientVaries(render: GradientVariantRender) {
+export function generateSubtleGradientVariants(
+  render: GradientVariantRender,
+  prefixName?: string
+) {
   return unsafeCSS(
-    SUBTLE_GRADIENTS.map(name => generateGradientVariant(render, name)).join('')
+    SUBTLE_GRADIENTS.map(name =>
+      generateGradientVariant(render, name, prefixName)
+    ).join('')
   );
 }
-export function generateAllGradientVaries(render: GradientVariantRender) {
+export function generateAllGradientVariants(
+  render: GradientVariantRender,
+  prefixName?: string
+) {
   return unsafeCSS(
-    ALL_GRADIENTS.map(name => generateGradientVariant(render, name)).join('')
+    ALL_GRADIENTS.map(name =>
+      generateGradientVariant(render, name, prefixName)
+    ).join('')
   );
 }
 
-export function generateFontVaries(render: FontVariantRender) {
+export function generateFontVariants(
+  render: FontVariantRender,
+  prefixName?: string
+) {
   return unsafeCSS(
     FONT_TYPES.map(name => {
-      const prefixName = 'font';
-      const fullName = `${prefixName}-${name}`;
+      prefixName ||= 'font';
       const font = `var(--font-${name})`;
+      const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
+        prefixName,
+        name
+      );
       return render({
         name,
         prefixName,
-        fullName,
         font,
+        fullName,
+        hostSelector,
+        mainSelector,
       });
     }).join('')
   );
 }
 
-export function generateTextVaries(render: TextVariantRender) {
+export function generateTextVariants(
+  render: TextVariantRender,
+  prefixName?: string
+) {
   return unsafeCSS(
     TEXTS.map(name => {
-      const prefixName = 'text';
-      const fullName = `${prefixName}-${name}`;
+      prefixName ||= 'text';
       const text = `var(--text-${name})`;
+      const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
+        prefixName,
+        name
+      );
       return render({
         name,
         prefixName,
-        fullName,
         text,
+        fullName,
+        hostSelector,
+        mainSelector,
       });
     }).join('')
   );
 }
 
-export function generateWeightVaries(render: WeightVariantRender) {
+export function generateWeightVariants(
+  render: WeightVariantRender,
+  prefixName?: string
+) {
   return unsafeCSS(
     FONT_WEIGHTS.map(name => {
-      const prefixName = 'weight';
-      const fullName = `${prefixName}-${name}`;
+      prefixName ||= 'weight';
       const weight = `var(--weight-${name})`;
+      const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
+        prefixName,
+        name
+      );
       return render({
         name,
         prefixName,
-        fullName,
         weight,
+        fullName,
+        hostSelector,
+        mainSelector,
       });
     }).join('')
   );
 }
 
-export function generateSizeVaries(render: SizeVariantRender) {
+export function generateSizeVariants(
+  render: SizeVariantRender,
+  prefixName?: string
+) {
   return unsafeCSS(
     SIZES.map(name => {
-      const prefixName = 'size';
-      const fullName = `${prefixName}-${name}`;
+      prefixName ||= 'size';
       const size = `var(--size-${name})`;
+      const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
+        prefixName,
+        name
+      );
       return render({
         name,
         prefixName,
-        fullName,
         size,
+        fullName,
+        hostSelector,
+        mainSelector,
       });
     }).join('')
   );
 }
 
-export function generateRadiusVaries(render: RadiusVariantRender) {
+export function generateRadiusVariants(
+  render: RadiusVariantRender,
+  prefixName?: string
+) {
   return unsafeCSS(
     RADIUSES.map(name => {
-      const prefixName = 'radius';
-      const fullName = `${prefixName}-${name}`;
+      prefixName ||= 'radius';
       const radius = `var(--radius-${name})`;
+      const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
+        prefixName,
+        name
+      );
       return render({
         name,
         prefixName,
-        fullName,
         radius,
+        fullName,
+        hostSelector,
+        mainSelector,
       });
     }).join('')
   );
 }
 
-export function generateShadowVaries(render: ShadowVariantRender) {
+export function generateShadowVariants(
+  render: ShadowVariantRender,
+  prefixName?: string
+) {
   return unsafeCSS(
     SHADOWS.map(name => {
-      const prefixName = 'shadow';
-      const fullName = `${prefixName}-${name}`;
+      prefixName ||= 'shadow';
       const shadow = `var(--shadow-${name})`;
+      const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
+        prefixName,
+        name
+      );
       return render({
         name,
         prefixName,
-        fullName,
         shadow,
+        fullName,
+        hostSelector,
+        mainSelector,
       });
     }).join('')
   );

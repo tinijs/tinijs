@@ -17,7 +17,7 @@ import {
 } from '@tinijs/core';
 
 export enum TableParts {
-  Root = ElementParts.Root,
+  Main = ElementParts.Main,
 }
 
 export type TableItem = string | TemplateResult | TableCell;
@@ -42,8 +42,8 @@ export default class extends TiniElement {
     super.willUpdate(changedProperties);
     // default and validations
     this.validateProperties();
-    // root classes parts
-    this.extendRootClasses({});
+    // main classes parts
+    this.extendMainClasses({});
   }
 
   private processCell(item: TableItem) {
@@ -56,13 +56,13 @@ export default class extends TiniElement {
 
   protected render() {
     return this.renderPart(
-      TableParts.Root,
-      rootChild => html`
+      TableParts.Main,
+      mainChild => html`
         <table
-          class=${classMap(this.rootClasses)}
-          part=${partAttrMap(this.rootClasses)}
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
         >
-          ${this.renderTHead()} ${this.renderTBody()} ${rootChild()}
+          ${this.renderTHead()} ${this.renderTBody()} ${mainChild()}
         </table>
       `
     );

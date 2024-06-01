@@ -12,14 +12,15 @@ import {
   SubtleGradients,
   Radiuses,
   Shadows,
-  generateAllColorVaries,
-  generateAllGradientVaries,
-  generateRadiusVaries,
-  generateShadowVaries,
+  generateAllColorVariants,
+  generateAllGradientVariants,
+  generateRadiusVariants,
+  generateShadowVariants,
 } from '@tinijs/core';
 
 export enum BoxParts {
-  Root = ElementParts.Root,
+  BG = ElementParts.BG,
+  Main = ElementParts.Main,
 }
 
 export default class extends TiniElement {
@@ -31,8 +32,8 @@ export default class extends TiniElement {
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root classes parts
-    this.extendRootClasses({
+    // main classes parts
+    this.extendMainClasses({
       overridable: {
         scheme: this.scheme,
         radius: this.radius,
@@ -43,14 +44,18 @@ export default class extends TiniElement {
 
   protected render() {
     return this.renderPart(
-      BoxParts.Root,
-      rootChild => html`
+      BoxParts.Main,
+      mainChild => html`
         <div
-          class=${classMap(this.rootClasses)}
-          part=${partAttrMap(this.rootClasses)}
+          class=${classMap(this.bgClasses)}
+          part=${partAttrMap(this.bgClasses)}
+        ></div>
+        <div
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
         >
           <slot></slot>
-          ${rootChild()}
+          ${mainChild()}
         </div>
       `
     );
@@ -59,35 +64,45 @@ export default class extends TiniElement {
 
 export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
-  colorGen: Parameters<typeof generateAllColorVaries>[0];
-  gradientGen: Parameters<typeof generateAllGradientVaries>[0];
-  radiusGen: Parameters<typeof generateRadiusVaries>[0];
-  shadowGen: Parameters<typeof generateShadowVaries>[0];
+  colorGen: Parameters<typeof generateAllColorVariants>[0];
+  gradientGen: Parameters<typeof generateAllGradientVariants>[0];
+  radiusGen: Parameters<typeof generateRadiusVariants>[0];
+  shadowGen: Parameters<typeof generateShadowVariants>[0];
 }>(outputs => [
   css`
     :host {
       --background: none;
       --color: var(--color-front);
-      --border-radius: var(--radius-md);
+      --radius: var(--radius-md);
       --padding: var(--space-md);
       --box-shadow: none;
+      position: relative;
+      overflow: hidden;
+      z-index: 0;
+      border-radius: var(--radius);
+      box-shadow: var(--box-shadow);
     }
 
-    .root {
+    .bg {
+      position: absolute;
+      inset: 0;
       background: var(--background);
+    }
+
+    .main {
+      position: relative;
+      z-index: 1;
       color: var(--color);
-      border-radius: var(--border-radius);
       padding: var(--padding);
-      box-shadow: var(--box-shadow);
     }
   `,
 
   outputs.statics,
 
-  generateAllColorVaries(values => {
-    const {fullName, color, contrast} = values;
+  generateAllColorVariants(values => {
+    const {hostSelector, color, contrast} = values;
     return `
-      .${fullName} {
+      ${hostSelector} {
         --background: ${color};
         --color: ${contrast};
       }
@@ -95,10 +110,10 @@ export const defaultStyles = createStyleBuilder<{
     `;
   }),
 
-  generateAllGradientVaries(values => {
-    const {fullName, gradient, contrast} = values;
+  generateAllGradientVariants(values => {
+    const {hostSelector, gradient, contrast} = values;
     return `
-      .${fullName} {
+      ${hostSelector} {
         --background: ${gradient};
         --color: ${contrast};
       }
@@ -106,20 +121,20 @@ export const defaultStyles = createStyleBuilder<{
     `;
   }),
 
-  generateRadiusVaries(values => {
-    const {fullName, radius} = values;
+  generateRadiusVariants(values => {
+    const {hostSelector, radius} = values;
     return `
-      .${fullName} {
-        --border-radius: ${radius};
+      ${hostSelector} {
+        --radius: ${radius};
       }
       ${outputs.radiusGen(values)}
     `;
   }),
 
-  generateShadowVaries(values => {
-    const {fullName, shadow} = values;
+  generateShadowVariants(values => {
+    const {hostSelector, shadow} = values;
     return `
-      .${fullName} {
+      ${hostSelector} {
         --box-shadow: ${shadow};
       }
       ${outputs.shadowGen(values)}

@@ -11,7 +11,7 @@ import {
 } from '@tinijs/core';
 
 export enum EmbedParts {
-  Root = ElementParts.Root,
+  Main = ElementParts.Main,
 }
 
 export default class extends TiniElement {
@@ -19,14 +19,14 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) ratio?: string;
   /* eslint-enable prettier/prettier */
 
-  private rootStyles: StyleInfo = {};
+  private mainStyles: StyleInfo = {};
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root classes parts
-    this.extendRootClasses({});
-    // root styles
+    // main classes parts
+    this.extendMainClasses({});
+    // main styles
     if (!this.ratio) {
-      this.rootStyles = {paddingBottom: '56.25%'};
+      this.mainStyles = {paddingBottom: '56.25%'};
     } else {
       let ratio = '';
       if (~this.ratio.indexOf('%')) {
@@ -35,21 +35,21 @@ export default class extends TiniElement {
         const [width, height] = this.ratio.replace(/\/|x/, ':').split(':');
         ratio = `${(Number(height) / Number(width)) * 100}%`;
       }
-      this.rootStyles = {paddingBottom: ratio};
+      this.mainStyles = {paddingBottom: ratio};
     }
   }
 
   protected render() {
     return this.renderPart(
-      EmbedParts.Root,
-      rootChild => html`
+      EmbedParts.Main,
+      mainChild => html`
         <div
-          class=${classMap(this.rootClasses)}
-          part=${partAttrMap(this.rootClasses)}
-          style=${styleMap(this.rootStyles)}
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
+          style=${styleMap(this.mainStyles)}
         >
           <slot></slot>
-          ${rootChild()}
+          ${mainChild()}
         </div>
       `
     );
@@ -60,7 +60,7 @@ export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
 }>(outputs => [
   css`
-    .root {
+    .main {
       position: relative;
       height: 0;
     }

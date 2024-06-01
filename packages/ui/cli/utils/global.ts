@@ -374,11 +374,14 @@ function generateSpaceVars() {
     ['xl5', 6],
     ['xl6', 8],
   ];
-  return items
-    .map(
-      ([name, value]) => `--space-${name}: calc(var(--space-md) * ${value});`
-    )
-    .join('\n  ');
+  return (
+    '--space-none: 0;\n  ' +
+    items
+      .map(
+        ([name, value]) => `--space-${name}: calc(var(--space-md) * ${value});`
+      )
+      .join('\n  ')
+  );
 }
 
 function generateRadiusVars() {
@@ -388,19 +391,24 @@ function generateRadiusVars() {
     // md = 1
     ['lg', 2],
     ['xl', 4],
-    ['circle', '50%'],
-    ['pill', '9999px'],
+    ['quarter', '25%'],
+    ['third', '33.33%'],
+    ['half', '50%'],
+    ['full', '9999px'],
   ];
-  return items
-    .map(
-      ([name, value]) =>
-        `--radius-${name}: ${
-          typeof value === 'string'
-            ? value
-            : `calc(var(--radius-md) * ${value})`
-        };`
-    )
-    .join('\n  ');
+  return (
+    '--radius-none: none;\n  ' +
+    items
+      .map(
+        ([name, value]) =>
+          `--radius-${name}: ${
+            typeof value === 'string'
+              ? value
+              : `calc(var(--radius-md) * ${value})`
+          };`
+      )
+      .join('\n  ')
+  );
 }
 
 function generateBorderVars() {
@@ -410,11 +418,15 @@ function generateBorderVars() {
     ['lg', 2],
     ['xl', 3],
   ];
-  return items
-    .map(
-      ([name, value]) => `--border-${name}: calc(var(--border-md) * ${value});`
-    )
-    .join('\n  ');
+  return (
+    '--border-none: 0;\n  ' +
+    items
+      .map(
+        ([name, value]) =>
+          `--border-${name}: calc(var(--border-md) * ${value});`
+      )
+      .join('\n  ')
+  );
 }
 
 function generateRingVars() {
@@ -424,9 +436,14 @@ function generateRingVars() {
     ['lg', 2],
     ['xl', 3],
   ];
-  return items
-    .map(([name, value]) => `--ring-${name}: calc(var(--ring-md) * ${value});`)
-    .join('\n  ');
+  return (
+    '--ring-none: 0;\n  ' +
+    items
+      .map(
+        ([name, value]) => `--ring-${name}: calc(var(--ring-md) * ${value});`
+      )
+      .join('\n  ')
+  );
 }
 
 function generateLineVars() {
@@ -457,6 +474,9 @@ function generateLetterVars() {
 
 function generateWideVars() {
   const items: [string, number][] = [
+    ['xs6', 48],
+    ['xs5', 72],
+    ['xs4', 96],
     ['xs3', 150],
     ['xs2', 320],
     ['xs', 480],
@@ -473,6 +493,10 @@ function generateWideVars() {
   return items
     .map(([name, value]) => `--wide-${name}: ${value}px;`)
     .join('\n  ');
+}
+
+function generateShadowVars() {
+  return '--shadow-none: none;';
 }
 
 export function getCommonColors() {
@@ -504,6 +528,7 @@ export function getSkinUtils() {
   const lineVars = generateLineVars();
   const letterVars = generateLetterVars();
   const wideVars = generateWideVars();
+  const shadowVars = generateShadowVars();
   return minifyCSS(`
 :root {
   ${textVars}
@@ -516,6 +541,7 @@ export function getSkinUtils() {
   ${lineVars}
   ${letterVars}
   ${wideVars}
+  ${shadowVars}
 }
 `);
 }
@@ -530,7 +556,7 @@ body {
   margin: 0;
   background: var(--color-back);
   color: var(--color-front);
-  font-family: var(--font-body);
+  font-family: var(--font-content);
   font-size: var(--text-md);
   line-height: var(--line-md);
   letter-spacing: var(--letter-md);

@@ -1,7 +1,6 @@
 import {html, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
-import {styleMap, type StyleInfo} from 'lit/directives/style-map.js';
 import {
   TiniElement,
   ElementParts,
@@ -12,14 +11,15 @@ import {
   Gradients,
   SubtleGradients,
   Sizes,
-  generateAllColorVaries,
-  generateAllGradientVaries,
-  generateSizeVaries,
+  generateAllColorVariants,
+  generateAllGradientVariants,
+  generateSizeVariants,
   type UIIconOptions,
 } from '@tinijs/core';
 
 export enum IconParts {
-  Root = ElementParts.Root,
+  BG = ElementParts.BG,
+  Main = ElementParts.Main,
 }
 
 type ComponentConstructor = typeof import('./icon.js').default;
@@ -35,11 +35,10 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
-  private rootStyles: StyleInfo = {};
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root classes parts
-    this.extendRootClasses({
+    // main classes parts
+    this.extendMainClasses({
       raw: {
         scheme: !!this.scheme,
       },
@@ -48,17 +47,17 @@ export default class extends TiniElement {
         size: this.size,
       },
     });
-    // root styles
+    // main styles
     const prebuiltSRC = (this.constructor as ComponentConstructor).src;
     if (prebuiltSRC) {
-      this.rootStyles = {
+      this.setHostStyles({
         '--image': `url("${prebuiltSRC}")`,
-      };
+      });
     } else if (changedProperties.has('src') || changedProperties.has('name')) {
       const src = this.src || this.buildCustomSRC();
-      this.rootStyles = {
+      this.setHostStyles({
         '--image': `url("${src}")`,
-      };
+      });
     }
   }
 
@@ -75,15 +74,18 @@ export default class extends TiniElement {
 
   protected render() {
     return this.renderPart(
-      IconParts.Root,
-      rootChild => html`
-        <i
-          class=${classMap(this.rootClasses)}
-          part=${partAttrMap(this.rootClasses)}
-          style=${styleMap(this.rootStyles)}
+      IconParts.Main,
+      mainChild => html`
+        <div
+          class=${classMap(this.bgClasses)}
+          part=${partAttrMap(this.bgClasses)}
+        ></div>
+        <div
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
         >
-          ${rootChild()}
-        </i>
+          ${mainChild()}
+        </div>
       `
     );
   }
@@ -91,9 +93,9 @@ export default class extends TiniElement {
 
 export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
-  colorGen: Parameters<typeof generateAllColorVaries>[0];
-  gradientGen: Parameters<typeof generateAllGradientVaries>[0];
-  sizeGen: Parameters<typeof generateSizeVaries>[0];
+  colorGen: Parameters<typeof generateAllColorVariants>[0];
+  gradientGen: Parameters<typeof generateAllGradientVariants>[0];
+  sizeGen: Parameters<typeof generateSizeVariants>[0];
 }>(outputs => [
   css`
     :host {
@@ -101,30 +103,44 @@ export const defaultStyles = createStyleBuilder<{
       --height: calc(var(--size-md) * 2);
       --scheme: none;
       --image: url();
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       line-height: 0;
+      position: relative;
+      overflow: hidden;
+      z-index: 0;
+      width: var(--width);
+      height: var(--height);
     }
 
-    i {
-      display: inline-flex;
+    .bg {
+      position: absolute;
+      inset: 0;
+    }
+
+    .main {
+      position: relative;
+      z-index: 1;
+      display: flex;
       align-items: center;
       justify-content: center;
       background-image: var(--image);
       background-repeat: no-repeat;
       background-size: contain;
       background-position: center;
-      width: var(--width);
-      height: var(--height);
+      width: 100%;
+      height: 100%;
     }
 
     .scheme {
       background: var(--scheme);
       -webkit-mask-image: var(--image);
-      -webkit-mask-size: var(--width) var(--height);
+      -webkit-mask-size: 100% 100%;
       -webkit-mask-repeat: no-repeat;
       -webkit-mask-position: center;
       mask-image: var(--image);
-      mask-size: var(--width) var(--height);
+      mask-size: 100% 100%;
       mask-repeat: no-repeat;
       mask-position: center;
     }
@@ -132,30 +148,30 @@ export const defaultStyles = createStyleBuilder<{
 
   outputs.statics,
 
-  generateAllColorVaries(values => {
-    const {fullName, color} = values;
+  generateAllColorVariants(values => {
+    const {hostSelector, color} = values;
     return `
-      .${fullName} {
+      ${hostSelector} {
         --scheme: ${color};
       }
       ${outputs.colorGen(values)}
     `;
   }),
 
-  generateAllGradientVaries(values => {
-    const {fullName, gradient} = values;
+  generateAllGradientVariants(values => {
+    const {hostSelector, gradient} = values;
     return `
-      .${fullName} {
+      ${hostSelector} {
         --scheme: ${gradient};
       }
       ${outputs.gradientGen(values)}
     `;
   }),
 
-  generateSizeVaries(values => {
-    const {name, fullName} = values;
+  generateSizeVariants(values => {
+    const {hostSelector, name} = values;
     return `
-      .${fullName} {
+      ${hostSelector} {
         --width: calc(var(--size-${name}) * 2);
         --height: calc(var(--size-${name}) * 2);
       }

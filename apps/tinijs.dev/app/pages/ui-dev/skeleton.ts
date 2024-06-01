@@ -18,6 +18,12 @@ export class AppPageUIDevSkeletonComponent extends TiniComponent {
 
       <ui-dev-section titleText="Width, height, radius">
         <tini-skeleton
+          width="500px"
+          height="300px"
+          title="width=500px height=300px radius=none"
+          radius="none"
+        ></tini-skeleton>
+        <tini-skeleton
           width="300px"
           height="200px"
           title="width=300px height=200px"
@@ -31,14 +37,14 @@ export class AppPageUIDevSkeletonComponent extends TiniComponent {
         <tini-skeleton
           width="100px"
           height="100px"
-          radius="circle"
-          title="width=100px height=100px radius=circle"
+          radius="half"
+          title="width=100px height=100px radius=half"
         ></tini-skeleton>
         <tini-skeleton
           width="100px"
           height="35px"
-          radius="pill"
-          title="width=100px height=35px radius=pill"
+          radius="full"
+          title="width=100px height=35px radius=full"
         ></tini-skeleton>
       </ui-dev-section>
 

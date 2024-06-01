@@ -20,8 +20,8 @@ export default class extends TiniElement {
   private footClasses: ClassInfo = {};
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root classes parts
-    this.extendRootClasses({
+    // main classes parts
+    this.extendMainClasses({
       raw: {
         fluid: !!this.fluid,
       },
@@ -45,8 +45,8 @@ export default class extends TiniElement {
   protected render() {
     return html`
       <div
-        class=${classMap(this.rootClasses)}
-        part=${partAttrMap(this.rootClasses)}
+        class=${classMap(this.mainClasses)}
+        part=${partAttrMap(this.mainClasses)}
       >
         <div
           class=${classMap(this.headClasses)}

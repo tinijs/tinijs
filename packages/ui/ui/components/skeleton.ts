@@ -9,11 +9,11 @@ import {
   partAttrMap,
   createStyleBuilder,
   Radiuses,
-  generateRadiusVaries,
+  generateRadiusVariants,
 } from '@tinijs/core';
 
 export enum SkeletonParts {
-  Root = ElementParts.Root,
+  Main = ElementParts.Main,
 }
 
 export default class extends TiniElement {
@@ -24,37 +24,43 @@ export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) width?: string;
   @property({type: String, reflect: true}) height?: string;
-  @property({type: String, reflect: true}) speed?: string;
   @property({type: String, reflect: true}) radius?: Radiuses;
+  @property({type: String, reflect: true}) speed?: string;
   /* eslint-enable prettier/prettier */
 
-  private rootStyles: StyleInfo = {};
+  private mainStyles: StyleInfo = {};
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root classes parts
-    this.extendRootClasses({
+    // main classes parts
+    this.extendMainClasses({
       overridable: {
         radius: this.radius,
       },
     });
-    // root styles
-    this.rootStyles = {
-      '--width': this.width,
-      '--height': this.height,
-      '--speed': this.speed,
-    };
+    // main styles
+    if (
+      changedProperties.has('width') ||
+      changedProperties.has('height') ||
+      changedProperties.has('speed')
+    ) {
+      this.setHostStyles({
+        '--width': this.width,
+        '--height': this.height,
+        '--speed': this.speed,
+      });
+    }
   }
 
   protected render() {
     return this.renderPart(
-      SkeletonParts.Root,
-      rootChild => html`
+      SkeletonParts.Main,
+      mainChild => html`
         <div
-          class=${classMap(this.rootClasses)}
-          part=${partAttrMap(this.rootClasses)}
-          style=${styleMap(this.rootStyles)}
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
+          style=${styleMap(this.mainStyles)}
         >
-          ${rootChild()}
+          ${mainChild()}
         </div>
       `
     );
@@ -63,33 +69,31 @@ export default class extends TiniElement {
 
 export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
-  radiusGen: Parameters<typeof generateRadiusVaries>[0];
+  radiusGen: Parameters<typeof generateRadiusVariants>[0];
 }>(outputs => [
   css`
     :host {
       --width: 100%;
       --height: 1rem;
       --speed: 3s;
-      --border-radius: var(--radius-md);
-    }
-
-    .root {
-      display: inline-block;
+      --radius: var(--radius-md);
+      overflow: hidden;
+      border-radius: var(--radius);
       width: var(--width);
       height: var(--height);
-      position: relative;
-      overflow: hidden;
-      background: color-mix(in oklab, var(--color-back), black 10%);
-      border-radius: var(--border-radius);
     }
 
-    .root::after {
+    .main {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background: color-mix(in oklab, var(--color-back), black 10%);
+    }
+
+    .main::after {
       --background: color-mix(in oklab, var(--color-back), white 10%);
       position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
+      inset: 0;
       transform: translateX(-100%);
       background-image: linear-gradient(
         90deg,
@@ -111,11 +115,11 @@ export const defaultStyles = createStyleBuilder<{
 
   outputs.statics,
 
-  generateRadiusVaries(values => {
-    const {fullName, radius} = values;
+  generateRadiusVariants(values => {
+    const {hostSelector, radius} = values;
     return `
-      .${fullName} {
-        --border-radius: ${radius};
+      ${hostSelector} {
+        --radius: ${radius};
       }
       ${outputs.radiusGen(values)}
     `;

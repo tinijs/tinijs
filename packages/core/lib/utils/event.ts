@@ -30,11 +30,11 @@ export function forwardEvents(
             })();
     const {name, rename, keepPropagation, preventDefault, dispatchOptions} =
       forwarding;
-    const mainNonRootSelector = (elem.constructor as typeof TiniElement)
-      .componentMetadata.mainNonRootSelector as undefined | string;
+    const customMainSelector = (elem.constructor as typeof TiniElement)
+      .componentMetadata.customMainSelector as undefined | string;
     const target =
-      !forwarding.target && mainNonRootSelector
-        ? mainNonRootSelector
+      !forwarding.target && customMainSelector
+        ? customMainSelector
         : forwarding.target;
     const targetNodes = !target
       ? [renderRoot.firstElementChild]

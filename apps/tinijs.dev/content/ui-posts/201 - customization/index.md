@@ -24,7 +24,7 @@ There are several ways to customize Tini UI components:
 Write any CSS to target any element inside a component shadow DOM.
 
 ```html
-<tini-button styleDeep=".root { color: aqua; }">A button</tini-button>
+<tini-button styleDeep=".main { color: aqua; }">A button</tini-button>
 ```
 
 ### Use parts
@@ -32,7 +32,7 @@ Write any CSS to target any element inside a component shadow DOM.
 Use `::part()` to target a specific part of a component.
 
 ```cs
-tini-button::part(root) {
+tini-button::part(main) {
   color: aqua;
 }
 ```

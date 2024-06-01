@@ -3,8 +3,8 @@ import {css} from 'lit';
 /* eslint-disable prettier/prettier */
 export default css`:root {
   /* fonts */
-  --font-head: Helvetica, sans-serif;
-  --font-body: Helvetica, sans-serif;
+  --font-title: Helvetica, sans-serif;
+  --font-content: Helvetica, sans-serif;
   --font-art: 'Brush Script MT', cursive;
   --font-code: Monaco, monospace;
   /* colors */
@@ -100,8 +100,8 @@ export default css`:root {
   --gradient-danger-shade: linear-gradient(180deg, #d0193e 0%, #750000 100%);
   --gradient-danger-tint: linear-gradient(180deg, #ff737e 0%, #c83b36 100%);
   /* sizes */
-  --size-md: 16px;
   --text-md: 16px;
+  --size-md: 1rem;
   --space-md: 1rem;
   --radius-md: 12px;
   --border-md: 1px;
@@ -109,12 +109,11 @@ export default css`:root {
   --line-md: 1.7;
   --letter-md: normal;
   /* shadows */
-  --shadow-scarcity: 0 0 0 1px #1a202c26;
-  --shadow-tiny: 0 1px 2px 0 #1a202c26;
+  --shadow-tiny: 0 0 0 1px #1a202c26;
   --shadow-small: 0 1px 3px 0 #1a202c33, 0 1px 2px 0 #1a202c29;
   --shadow-medium: 0 4px 6px -1px #1a202c33, 0 2px 4px -1px #1a202c29;
-  --shadow-big: 0 10px 15px -3px #1a202c33, 0 4px 6px -2px #1a202c26;
-  --shadow-huge: 0 20px 25px -5px #1a202c33, 0 10px 10px -5px #1a202c24;
-  --shadow-excess: 0px 0px 0px 1px #1a202c33, 0px 5px 10px #1a202c4d, 0px 15px 40px #1a202c80;
+  --shadow-big: 0 20px 25px -5px #1a202c33, 0 10px 10px -5px #1a202c24;
+  --shadow-huge: 0px 0px 0px 1px #1a202c33, 0px 5px 10px #1a202c4d, 0px 15px 40px #1a202c80;
+  --shadow-inset: inset 0 2px 4px 0 #1a202c26;
 }`;
 /* eslint-enable prettier/prettier */

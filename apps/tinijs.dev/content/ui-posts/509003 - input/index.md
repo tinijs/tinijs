@@ -64,7 +64,7 @@
         section: 'css',
         attrs: {
           label: 'Style deep',
-          placeholder: ':host, .root, .any { ... }'
+          placeholder: ':host, .main, .any { ... }'
         },
         target: 'styleDeep'
       }

@@ -1,15 +1,15 @@
 import {css} from 'lit';
-import {generateColorVaries, generateSizeVaries} from '@tinijs/core';
+import {generateColorVariants, generateSizeVariants} from '@tinijs/core';
 
 export const styles = css`
   :host {
     --color: var(--color-primary);
     --size: var(--size-md);
     --border-color: var(--color-middle);
-    --border-radius: var(--radius-md);
+    --radius: var(--radius-md);
   }
 
-  .root {
+  .main {
     display: flex;
     flex-flow: column;
     align-items: flex-start;
@@ -21,9 +21,9 @@ export const styles = css`
     background: var(--color-back-tint);
     color: var(--color-front);
     border: var(--border-md) solid var(--border-color);
-    border-radius: var(--border-radius);
+    border-radius: var(--radius);
     padding: calc(var(--size) / 2) calc(var(--size) / 1.5);
-    font-family: var(--font-body);
+    font-family: var(--font-content);
     font-size: var(--size);
     transition: all 0.15s ease-in-out;
   }
@@ -46,7 +46,7 @@ export const styles = css`
     color: var(--color-middle);
   }
 
-  ${generateColorVaries(
+  ${generateColorVariants(
     ({fullName, color}) => `
     .${fullName},
     .${fullName}-focus textarea:focus {
@@ -56,7 +56,7 @@ export const styles = css`
   `
   )}
 
-  ${generateSizeVaries(
+  ${generateSizeVariants(
     ({fullName, size}) => `
     .${fullName} {
       --size: ${size};

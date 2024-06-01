@@ -27,8 +27,8 @@ export default class extends TiniElement {
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root classes parts
-    this.extendRootClasses({
+    // main classes parts
+    this.extendMainClasses({
       overridable: {
         shape: this.shape,
         scheme: this.scheme,
@@ -40,8 +40,8 @@ export default class extends TiniElement {
   protected render() {
     return html`
       <span
-        class=${classMap(this.rootClasses)}
-        part=${partAttrMap(this.rootClasses)}
+        class=${classMap(this.mainClasses)}
+        part=${partAttrMap(this.mainClasses)}
       >
         <slot></slot>
       </span>

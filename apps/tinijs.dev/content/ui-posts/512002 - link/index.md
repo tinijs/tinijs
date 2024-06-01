@@ -50,12 +50,12 @@
       {
         section: 'select',
         attrs: {label: 'Font size', preset: 'texts'},
-        target: 'fontSize'
+        target: 'size'
       },
       {
         section: 'select',
         attrs: {label: 'Font weight', preset: 'weights'},
-        target: 'fontWeight'
+        target: 'weight'
       },
       {
         section: 'switch',
@@ -71,7 +71,7 @@
         section: 'css',
         attrs: {
           label: 'Style deep',
-          placeholder: ':host, .root, .any { ... }'
+          placeholder: ':host, .main, .any { ... }'
         },
         target: 'styleDeep'
       }

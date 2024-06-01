@@ -1,7 +1,7 @@
 import {css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
-import {html, unsafeStatic, type StaticValue} from 'lit/static-html.js';
+import {html, unsafeStatic} from 'lit/static-html.js';
 
 import {
   TiniElement,
@@ -11,31 +11,33 @@ import {
   isGradient,
   Colors,
   Gradients,
-  generateColorVaries,
-  generateGradientVaries,
+  generateColorVariants,
+  generateGradientVariants,
 } from '@tinijs/core';
 
 export enum HeadingParts {
-  Root = ElementParts.Root,
+  Main = ElementParts.Main,
 }
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: Number, reflect: true}) level?: number;
+  @property({type: String, reflect: true}) level?: string;
   @property({type: String, reflect: true}) color?: Colors | Gradients;
   @property({type: Boolean, reflect: true}) italic?: boolean;
   @property({type: Boolean, reflect: true}) underline?: boolean;
   /* eslint-enable prettier/prettier */
 
-  private rootTag!: StaticValue;
+  private readonly mainTag = unsafeStatic(`h${this.level || '1'}`);
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.setAttribute('role', 'heading');
+  }
+
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // set role
-    this.setAttribute('role', 'heading');
-    // root tag
-    this.rootTag = unsafeStatic(`h${this.level || 1}`);
-    // root classes parts
-    this.extendRootClasses({
+    // main classes parts
+    this.extendMainClasses({
       raw: {
         gradient: isGradient(this.color),
         italic: !!this.italic,
@@ -49,15 +51,15 @@ export default class extends TiniElement {
 
   protected render() {
     return this.renderPart(
-      HeadingParts.Root,
-      rootChild => html`
-        <${this.rootTag}
-          class=${classMap(this.rootClasses)}
-          part=${partAttrMap(this.rootClasses)}
+      HeadingParts.Main,
+      mainChild => html`
+        <${this.mainTag}
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
         >
           <slot></slot>
-          ${rootChild()}
-        </${this.rootTag}>
+          ${mainChild()}
+        </${this.mainTag}>
       `
     );
   }
@@ -65,8 +67,8 @@ export default class extends TiniElement {
 
 export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
-  colorGen: Parameters<typeof generateColorVaries>[0];
-  gradientGen: Parameters<typeof generateGradientVaries>[0];
+  colorGen: Parameters<typeof generateColorVariants>[0];
+  gradientGen: Parameters<typeof generateGradientVariants>[0];
 }>(outputs => [
   css`
     :host {
@@ -75,7 +77,7 @@ export const defaultStyles = createStyleBuilder<{
       line-height: 1.2;
     }
 
-    .root {
+    .main {
       display: inline;
       color: var(--color);
       font-size: inherit;
@@ -110,23 +112,23 @@ export const defaultStyles = createStyleBuilder<{
 
   outputs.statics,
 
-  generateColorVaries(values => {
-    const {name, color} = values;
+  generateColorVariants(values => {
+    const {hostSelector, color} = values;
     return `
-      .color-${name} {
+      ${hostSelector} {
         --color: ${color};
       }
       ${outputs.colorGen(values)}
     `;
-  }),
+  }, 'color'),
 
-  generateGradientVaries(values => {
-    const {name, gradient} = values;
+  generateGradientVariants(values => {
+    const {hostSelector, gradient} = values;
     return `
-      .color-${name} {
+      ${hostSelector} {
         --gradient: ${gradient};
       }
       ${outputs.gradientGen(values)}
     `;
-  }),
+  }, 'color'),
 ]);

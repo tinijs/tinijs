@@ -16,7 +16,7 @@ export type RadiosItem = Omit<CheckboxesItem, 'name'>;
 
 export default class extends TiniElement {
   static readonly componentMetadata = {
-    mainNonRootSelector: '.input',
+    customMainSelector: '.input',
   };
 
   /* eslint-disable prettier/prettier */
@@ -36,8 +36,8 @@ export default class extends TiniElement {
     super.willUpdate(changedProperties);
     // default and validations
     this.validateProperties();
-    // root classes parts
-    this.extendRootClasses({
+    // main classes parts
+    this.extendMainClasses({
       raw: {
         wrap: !!this.wrap,
       },
@@ -58,8 +58,8 @@ export default class extends TiniElement {
       ? nothing
       : html`
           <div
-            class=${classMap(this.rootClasses)}
-            part=${partAttrMap(this.rootClasses)}
+            class=${classMap(this.mainClasses)}
+            part=${partAttrMap(this.mainClasses)}
           >
             ${this.items.map(item => this.renderItem(item))}
           </div>

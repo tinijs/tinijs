@@ -1,8 +1,8 @@
 import {css} from 'lit';
 import {
-  generateColorVaries,
-  generateGradientVaries,
-  generateSizeVaries,
+  generateColorVariants,
+  generateGradientVariants,
+  generateSizeVariants,
 } from '@tinijs/core';
 
 export const styles = css`
@@ -14,7 +14,7 @@ export const styles = css`
     --active-color: var(--color-primary-contrast);
   }
 
-  .root {
+  .main {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -69,7 +69,7 @@ export const styles = css`
     color: var(--color-middle);
   }
 
-  ${generateColorVaries(
+  ${generateColorVariants(
     ({fullName, color, contrast}) => `
     .${fullName} {
       --color: ${color};
@@ -79,7 +79,7 @@ export const styles = css`
   `
   )}
 
-  ${generateGradientVaries(
+  ${generateGradientVariants(
     ({fullName, gradient, color, contrast}) => `
     .${fullName} {
       --color: ${color};
@@ -89,7 +89,7 @@ export const styles = css`
   `
   )}
 
-  ${generateSizeVaries(
+  ${generateSizeVariants(
     ({fullName, size}) => `
     .${fullName} {
       --size: ${size};

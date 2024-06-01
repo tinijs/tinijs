@@ -11,18 +11,20 @@ import {
   Gradients,
   SubtleGradients,
   Sizes,
-  generateAllColorVaries,
-  generateAllGradientVaries,
-  generateSizeVaries,
+  generateAllColorVariants,
+  generateAllGradientVariants,
+  generateSizeVariants,
 } from '@tinijs/core';
 
 export enum BadgeParts {
-  Root = ElementParts.Root,
+  BG = ElementParts.BG,
+  Main = ElementParts.Main,
 }
 
 export enum BadgeShapes {
   Pill = 'pill',
   Circle = 'circle',
+  Dot = 'dot',
 }
 
 export default class extends TiniElement {
@@ -34,8 +36,8 @@ export default class extends TiniElement {
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root classes parts
-    this.extendRootClasses({
+    // main classes parts
+    this.extendMainClasses({
       overridable: {
         shape: this.shape,
         scheme: this.scheme,
@@ -46,15 +48,19 @@ export default class extends TiniElement {
 
   protected render() {
     return this.renderPart(
-      BadgeParts.Root,
-      rootChild => html`
-        <span
-          class=${classMap(this.rootClasses)}
-          part=${partAttrMap(this.rootClasses)}
+      BadgeParts.Main,
+      mainChild => html`
+        <div
+          class=${classMap(this.bgClasses)}
+          part=${partAttrMap(this.bgClasses)}
+        ></div>
+        <div
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
         >
           <slot></slot>
-          ${rootChild()}
-        </span>
+          ${mainChild()}
+        </div>
       `
     );
   }
@@ -62,76 +68,97 @@ export default class extends TiniElement {
 
 export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
-  colorGen: Parameters<typeof generateAllColorVaries>[0];
-  gradientGen: Parameters<typeof generateAllGradientVaries>[0];
-  sizeGen: Parameters<typeof generateSizeVaries>[0];
+  colorGen: Parameters<typeof generateAllColorVariants>[0];
+  gradientGen: Parameters<typeof generateAllGradientVariants>[0];
+  sizeGen: Parameters<typeof generateSizeVariants>[0];
 }>(outputs => [
   css`
     :host {
       --background: var(--color-middle);
       --color: var(--color-middle-contrast);
       --size: var(--size-md);
-      --border-radius: var(--radius-md);
-      display: inline-block;
-    }
-
-    .root {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: calc(var(--size) * 0.25);
-      padding-top: calc(var(--size) * 0.3);
-      background: var(--background);
-      color: var(--color);
-      font-size: calc(var(--size) * 0.95);
-      border: none;
-      border-radius: var(--border-radius);
-      font-weight: bold;
-      line-height: 1;
-    }
-
-    .shape-pill {
-      border-radius: 1000px !important;
-    }
-
-    .shape-circle {
-      --circle-size: calc(var(--size) * 1.75);
-      width: var(--circle-size);
-      height: var(--circle-size);
-      font-size: calc(var(--size) * 0.75);
-      border-radius: 9999px !important;
+      position: relative;
       overflow: hidden;
+      z-index: 0;
+      line-height: 0;
+      background: var(--color-back);
+      border-radius: var(--radius-md);
+      min-width: calc(var(--size) * 1.5);
+      min-height: calc(var(--size) * 1.25);
+    }
+
+    .bg {
+      position: absolute;
+      inset: 0;
+      background: var(--background);
+    }
+
+    .main {
+      position: relative;
+      z-index: 1;
+      line-height: 0;
+      color: var(--color);
+      font-size: calc(var(--size) * 0.85);
+      padding: 0 calc(var(--size) * 0.25);
+    }
+
+    :host([shape='pill']) {
+      border-radius: var(--radius-full);
+    }
+
+    :host([shape='circle']) {
+      padding: 0;
+      border-radius: var(--radius-half);
+      min-width: auto;
+      min-height: auto;
+      width: calc(var(--size) * 1.35);
+      height: calc(var(--size) * 1.35);
+    }
+
+    :host([shape='dot']) {
+      padding: 0;
+      border-radius: var(--radius-full);
+      min-width: auto;
+      min-height: auto;
+      width: calc(var(--size) * 0.5);
+      height: calc(var(--size) * 0.5);
+    }
+    .shape-dot {
+      font-size: 0;
     }
   `,
 
   outputs.statics,
 
-  generateAllColorVaries(values => {
-    const {fullName, color, contrast} = values;
+  generateAllColorVariants(values => {
+    const {hostSelector, color, baseColor, contrast, isSubtle} = values;
     return `
-      .${fullName} {
+      ${hostSelector} {
         --background: ${color};
-        --color: ${contrast};
+        --color: ${isSubtle ? baseColor : contrast};
       }
       ${outputs.colorGen(values)}
     `;
   }),
 
-  generateAllGradientVaries(values => {
-    const {fullName, gradient, contrast} = values;
+  generateAllGradientVariants(values => {
+    const {hostSelector, gradient, baseColor, contrast, isSubtle} = values;
     return `
-      .${fullName} {
+      ${hostSelector} {
         --background: ${gradient};
-        --color: ${contrast};
+        --color: ${isSubtle ? baseColor : contrast};
       }
       ${outputs.gradientGen(values)}
     `;
   }),
 
-  generateSizeVaries(values => {
-    const {fullName, size} = values;
+  generateSizeVariants(values => {
+    const {hostSelector, size} = values;
     return `
-      .${fullName} {
+      ${hostSelector} {
         --size: ${size};
       }
       ${outputs.sizeGen(values)}

@@ -46,8 +46,8 @@ export default class extends TiniElement {
     super.willUpdate(changedProperties);
     // default and validations
     this.validateProperties();
-    // root classes parts
-    this.extendRootClasses({
+    // main classes parts
+    this.extendMainClasses({
       overridable: {
         scheme: this.scheme,
         size: this.size,
@@ -99,8 +99,8 @@ export default class extends TiniElement {
   protected render() {
     return html`
       <ul
-        class=${classMap(this.rootClasses)}
-        part=${partAttrMap(this.rootClasses)}
+        class=${classMap(this.mainClasses)}
+        part=${partAttrMap(this.mainClasses)}
       >
         ${this.renderPrevious()} ${this.renderItems()} ${this.renderNext()}
       </ul>

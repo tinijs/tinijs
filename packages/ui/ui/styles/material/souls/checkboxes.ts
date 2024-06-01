@@ -1,5 +1,5 @@
 import {css} from 'lit';
-import {generateColorVaries, generateSizeVaries} from '@tinijs/core';
+import {generateColorVariants, generateSizeVariants} from '@tinijs/core';
 
 export const styles = css`
   :host {
@@ -8,7 +8,7 @@ export const styles = css`
     --border-color: var(--color-middle);
   }
 
-  .root {
+  .main {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -75,7 +75,7 @@ export const styles = css`
     filter: none;
   }
 
-  ${generateColorVaries(
+  ${generateColorVariants(
     ({fullName, color}) => `
     .${fullName},
     .${fullName}-checked input:focus,
@@ -86,7 +86,7 @@ export const styles = css`
   `
   )}
 
-  ${generateSizeVaries(
+  ${generateSizeVariants(
     ({fullName, size}) => `
     .${fullName} {
       --size: ${size};

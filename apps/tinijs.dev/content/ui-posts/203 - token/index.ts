@@ -1,4 +1,4 @@
-import {html, nothing} from 'lit';
+import {html, css, nothing} from 'lit';
 import {styleMap} from 'lit/directives/style-map.js';
 
 import {
@@ -371,15 +371,14 @@ export class ContentUIPostTokenComponent
               <td><code>${varName}</code></td>
               <td><code>${varValue}</code></td>
               <td>
-                <span
-                  style=${styleMap({
-                    'border-radius': `var(${varName})`,
-                    width: '100px',
-                    height: name === 'Pill' ? '35px' : '100px',
-                    display: 'inline-block',
-                    background: 'var(--color-blue)',
-                  })}
-                ></span>
+                <div class="radius-preview">
+                  <span
+                    style=${styleMap({'border-radius': `var(${varName})`})}
+                  ></span>
+                  <span
+                    style=${styleMap({'border-radius': `var(${varName})`})}
+                  ></span>
+                </div>
               </td>
             </tr>
           `;
@@ -559,4 +558,22 @@ export class ContentUIPostTokenComponent
       ></span>
     `;
   }
+
+  static styles = css`
+    .radius-preview {
+      display: flex;
+      gap: 1rem;
+    }
+    .radius-preview span:first-child {
+      width: 80px;
+      height: 80px;
+    }
+    .radius-preview span:last-child {
+      width: 160px;
+      height: 80px;
+    }
+    .radius-preview span {
+      background: var(--color-blue);
+    }
+  `;
 }

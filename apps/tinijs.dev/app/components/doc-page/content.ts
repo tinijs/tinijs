@@ -69,7 +69,7 @@ export class AppDocPageContentComponent
 
   protected render() {
     return html`
-      <div class="root" ${ref(this._articleRef)}>
+      <div class="main" ${ref(this._articleRef)}>
         ${!this.postSlug
           ? this.context.homeTemplate
           : sectionRender([this.post], {
@@ -118,7 +118,7 @@ export class AppDocPageContentComponent
 
   static styles = [
     css`
-      .root {
+      .main {
         margin-top: var(--toolbar-height);
         padding: var(--space-xl);
 
@@ -177,7 +177,7 @@ export class AppDocPageContentComponent
             margin: 1em 0;
           }
 
-          tini-message::part(root) {
+          tini-message::part(main) {
             font-size: var(--text-xs);
             padding: var(--space-xs);
           }

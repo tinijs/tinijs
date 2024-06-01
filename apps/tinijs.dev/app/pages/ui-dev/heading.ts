@@ -22,7 +22,7 @@ export class AppPageUIDevHeadingComponent extends TiniComponent {
       </ui-dev-section>
 
       <ui-dev-section titleText="Defaults">
-        <tini-heading>Lorem ipsum</tini-heading>
+        <tini-heading>Lorem ipsum (default)</tini-heading>
         ${[1, 2, 3, 4, 5, 6].map(
           level => html`
             <tini-heading level=${level}

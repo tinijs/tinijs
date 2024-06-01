@@ -19,8 +19,8 @@ export const styles = defaultStyles.extends({
       --gradient: var(--gradient-${baseName}-shade);
     }
   `,
-  fontSizeGen: () => '',
-  fontWeightGen: () => '',
+  textGen: () => '',
+  weightGen: () => '',
 });
 
 export default {styles};

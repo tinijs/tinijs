@@ -24,7 +24,6 @@
           label: 'Level',
           items: [
             {label: 'Default', value: '_default', selected: true},
-            {label: '1', value: '1'},
             {label: '2', value: '2'},
             {label: '3', value: '3'},
             {label: '4', value: '4'},
@@ -53,7 +52,7 @@
         section: 'css',
         attrs: {
           label: 'Style deep',
-          placeholder: ':host, .root, .any { ... }'
+          placeholder: ':host, .main, .any { ... }'
         },
         target: 'styleDeep'
       }

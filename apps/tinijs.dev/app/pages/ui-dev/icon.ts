@@ -80,12 +80,19 @@ export class AppPageUIDevIconComponent extends TiniComponent {
 
       <ui-dev-section titleText="Sizes">
         ${Object.values(Sizes).map(
-          size =>
-            html`<tini-icon
+          size => html`
+            <tini-icon
               src=${URI}
               size=${size}
               title=${`size=${size}`}
-            ></tini-icon>`
+            ></tini-icon>
+            <tini-icon
+              scheme="primary"
+              src=${URI}
+              size=${size}
+              title=${`size=${size}`}
+            ></tini-icon>
+          `
         )}
       </ui-dev-section>
     `;

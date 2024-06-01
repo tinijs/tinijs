@@ -13,7 +13,7 @@ import {
 } from '@tinijs/core';
 
 export enum ButtonParts {
-  Root = ElementParts.Root,
+  Main = ElementParts.Main,
 }
 
 export enum ButtonModes {
@@ -34,8 +34,8 @@ export default class extends TiniElement {
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root classes parts
-    this.extendRootClasses({
+    // main classes parts
+    this.extendMainClasses({
       raw: {
         block: !!this.block,
         disabled: !!this.disabled,
@@ -55,15 +55,15 @@ export default class extends TiniElement {
 
   protected render() {
     return this.renderPart(
-      ButtonParts.Root,
-      rootChild => html`
+      ButtonParts.Main,
+      mainChild => html`
         <button
-          class=${classMap(this.rootClasses)}
-          part=${partAttrMap(this.rootClasses)}
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
           ?disabled=${this.disabled}
         >
           <slot></slot>
-          ${rootChild()}
+          ${mainChild()}
         </button>
       `
     );

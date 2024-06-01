@@ -1,8 +1,8 @@
 import {css} from 'lit';
 import {
-  generateColorVaries,
-  generateGradientVaries,
-  generateSizeVaries,
+  generateColorVariants,
+  generateGradientVariants,
+  generateSizeVariants,
 } from '@tinijs/core';
 
 export const styles = css`
@@ -19,13 +19,13 @@ export const styles = css`
     line-height: 1;
   }
 
-  .root {
+  .main {
     --wrapper-size: calc(var(--size) * 2);
     --slider-outer-size: calc((var(--wrapper-size) / 2) + var(--space));
     --slider-size: calc((var(--wrapper-size) / 2) - var(--space));
   }
 
-  .root {
+  .main {
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -86,11 +86,11 @@ export const styles = css`
     transform: translateX(var(--slider-size));
   }
 
-  .root > span {
+  .main > span {
     margin-left: var(--space-xs);
   }
 
-  ${generateColorVaries(
+  ${generateColorVariants(
     ({fullName, color, contrast}) => `
     .${fullName} {
       --active-background: ${color};
@@ -100,7 +100,7 @@ export const styles = css`
   `
   )}
 
-  ${generateGradientVaries(
+  ${generateGradientVariants(
     ({fullName, gradient, color, contrast}) => `
     .${fullName} {
       --background: var(--gradient-middle);
@@ -111,7 +111,7 @@ export const styles = css`
   `
   )}
 
-  ${generateSizeVaries(
+  ${generateSizeVariants(
     ({fullName, size}) => `
     .${fullName} {
       --size: ${size};

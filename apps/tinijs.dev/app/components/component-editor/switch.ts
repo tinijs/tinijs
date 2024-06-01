@@ -33,7 +33,7 @@ export class AppComponentEditorSwitchComponent
 
   protected render() {
     return html`
-      <div class="root">
+      <div class="main">
         <span class="label">${this.label}</span>
         <tini-switch
           ?checked=${this.checked}
@@ -45,7 +45,7 @@ export class AppComponentEditorSwitchComponent
   }
 
   static styles = css`
-    .root {
+    .main {
       display: flex;
       align-items: center;
       justify-content: space-between;

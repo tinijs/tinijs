@@ -193,7 +193,7 @@ export class HeaderComponent
       tini-link {
         border-bottom: 1px solid var(--color-back-shade);
 
-        &::part(root) {
+        &::part(main) {
           display: block;
           padding: var(--space-sm) 0;
           color: var(--color-front);
@@ -256,14 +256,14 @@ export class HeaderComponent
         tini-link {
           border-bottom: none;
 
-          &::part(root) {
+          &::part(main) {
             padding: var(--space-xs2) var(--space-md);
             border-radius: var(--radius-md);
           }
-          &:hover::part(root) {
+          &:hover::part(main) {
             background: var(--color-back);
           }
-          &.active::part(root) {
+          &.active::part(main) {
             background: var(--color-back-shade);
           }
         }

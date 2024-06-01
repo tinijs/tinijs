@@ -54,7 +54,7 @@ export class AppPageFramework extends TiniComponent {
         <tini-message
           scheme=${SubtleColors.Primary}
           styleDeep="
-            .root {
+            .main {
               font-size: var(--text-md) !important;
               padding: var(--space-md) !important;
             }

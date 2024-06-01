@@ -4,7 +4,7 @@ import {defaultStyles} from '../../../components/heading.js';
 
 export const styles = defaultStyles.extends({
   statics: css`
-    h2.root {
+    h2.main {
       border-bottom: none;
     }
 

@@ -45,9 +45,9 @@ export class AppPageUIDevLinkComponent extends TiniComponent {
 
       <ui-dev-section titleText="Font sizes">
         ${Object.values(Texts).map(
-          fontSize => html`
-            <tini-link href="#" fontSize=${fontSize}
-              >Lorem ipsum (fontSize=${fontSize})</tini-link
+          size => html`
+            <tini-link href="#" size=${size}
+              >Lorem ipsum (size=${size})</tini-link
             >
             <br />
           `
@@ -56,9 +56,9 @@ export class AppPageUIDevLinkComponent extends TiniComponent {
 
       <ui-dev-section titleText="Font weights">
         ${Object.values(Weights).map(
-          fontWeight => html`
-            <tini-link href="#" fontWeight=${fontWeight}
-              >Lorem ipsum (fontWeight=${fontWeight})</tini-link
+          weight => html`
+            <tini-link href="#" weight=${weight}
+              >Lorem ipsum (weight=${weight})</tini-link
             >
             <br />
           `

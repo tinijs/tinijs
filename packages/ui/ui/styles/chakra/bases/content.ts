@@ -15,7 +15,7 @@ export const heading = css`
   h5,
   h6 {
     margin: 0;
-    font-family: var(--font-head);
+    font-family: var(--font-title);
     font-weight: 700;
     line-height: 1.2;
   }

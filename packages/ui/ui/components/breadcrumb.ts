@@ -20,15 +20,15 @@ export default class extends TiniElement {
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root classes parts
-    this.extendRootClasses({});
+    // main classes parts
+    this.extendMainClasses({});
   }
 
   protected render() {
     return html`
       <ol
-        class=${classMap(this.rootClasses)}
-        part=${partAttrMap(this.rootClasses)}
+        class=${classMap(this.mainClasses)}
+        part=${partAttrMap(this.mainClasses)}
       >
         ${this.items?.map(item => this.renderItem(item))}
       </ol>
@@ -45,7 +45,7 @@ export default class extends TiniElement {
         ${!item.href
           ? html`${item.label}`
           : html`
-              <tini-link exportparts="root:link-root" href=${item.href}
+              <tini-link exportparts="main:link-main" href=${item.href}
                 >${item.label}</tini-link
               >
             `}

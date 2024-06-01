@@ -30,7 +30,7 @@ export class AppComponentEditorRadiosComponent extends TiniComponent {
 
   protected render() {
     return html`
-      <div class="root">
+      <div class="main">
         <span class="label">${this.label}</span>
         <tini-radios
           name="radio-item"

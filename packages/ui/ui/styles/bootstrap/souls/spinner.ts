@@ -1,5 +1,5 @@
 import {css} from 'lit';
-import {generateColorVaries, generateSizeVaries} from '@tinijs/core';
+import {generateColorVariants, generateSizeVariants} from '@tinijs/core';
 
 export const styles = css`
   :host {
@@ -7,7 +7,7 @@ export const styles = css`
     --size: var(--size-md);
   }
 
-  .root {
+  .main {
     --size: calc(var(--size) * 2);
     --border-width: calc(var(--size) / 4);
     width: var(--size);
@@ -27,7 +27,7 @@ export const styles = css`
     }
   }
 
-  ${generateColorVaries(
+  ${generateColorVariants(
     ({fullName, color}) => `
     .${fullName} {
       --color: ${color};
@@ -35,7 +35,7 @@ export const styles = css`
   `
   )}
 
-  ${generateSizeVaries(
+  ${generateSizeVariants(
     ({fullName, size}) => `
     .${fullName} {
       --size: ${size};

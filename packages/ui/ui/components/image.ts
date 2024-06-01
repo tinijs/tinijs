@@ -1,7 +1,6 @@
 import {html, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
-import {styleMap, type StyleInfo} from 'lit/directives/style-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 
 import {
@@ -11,12 +10,12 @@ import {
   createStyleBuilder,
   Radiuses,
   Shadows,
-  generateRadiusVaries,
-  generateShadowVaries,
+  generateRadiusVariants,
+  generateShadowVariants,
 } from '@tinijs/core';
 
 export enum ImageParts {
-  Root = ElementParts.Root,
+  Main = ElementParts.Main,
 }
 
 export enum ImageLoading {
@@ -62,7 +61,6 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) fetchpriority?: ImageFetchPriority;
   @property({type: String, reflect: true}) crossorigin?: ImageCrossOrigin;
   @property({type: String, reflect: true}) referrerpolicy?: ImageReferrerPolicy;
-  @property({type: Boolean, reflect: true}) fluid?: boolean;
   @property({type: String, reflect: true}) width?: string;
   @property({type: String, reflect: true}) height?: string;
   @property({type: String, reflect: true}) radius?: Radiuses;
@@ -73,38 +71,38 @@ export default class extends TiniElement {
     if (!this.src) throw new Error('Property "src" is required.');
   }
 
-  private rootStyles: StyleInfo = {};
+  connectedCallback() {
+    super.connectedCallback();
+    this.setAttribute('role', 'img');
+  }
+
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
     // default and validations
     this.validateProperties();
-    // set role
-    this.setAttribute('role', 'img');
-    // root classes parts
-    this.extendRootClasses({
-      raw: {
-        fluid: !!this.fluid,
-      },
+    // main classes parts
+    this.extendMainClasses({
       overridable: {
         radius: this.radius,
         shadow: this.shadow,
       },
     });
-    // root styles
-    this.rootStyles = {
-      '--width': this.width,
-      '--height': this.height,
-    };
+    // host styles
+    if (changedProperties.has('width') || changedProperties.has('height')) {
+      this.setHostStyles({
+        '--width': this.width,
+        '--height': this.height,
+      });
+    }
   }
 
   protected render() {
     return this.renderPart(
-      ImageParts.Root,
+      ImageParts.Main,
       () => html`
         <img
-          class=${classMap(this.rootClasses)}
-          part=${partAttrMap(this.rootClasses)}
-          style=${styleMap(this.rootStyles)}
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
           src=${this.src}
           alt=${ifDefined(this.alt)}
           srcset=${ifDefined(this.srcset)}
@@ -122,47 +120,45 @@ export default class extends TiniElement {
 
 export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
-  radiusGen: Parameters<typeof generateRadiusVaries>[0];
-  shadowGen: Parameters<typeof generateShadowVaries>[0];
+  radiusGen: Parameters<typeof generateRadiusVariants>[0];
+  shadowGen: Parameters<typeof generateShadowVariants>[0];
 }>(outputs => [
   css`
     :host {
-      --width: auto;
+      --width: 100%;
       --height: auto;
-      --border-radius: var(--radius-md);
+      --radius: var(--radius-md);
       --box-shadow: none;
-    }
-
-    .root {
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+      border-radius: var(--radius);
       width: var(--width);
       height: var(--height);
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
     }
 
-    :host([fluid]),
-    .fluid {
+    .main {
       width: 100%;
-      height: auto;
+      height: 100%;
+      border-radius: 0;
     }
   `,
 
   outputs.statics,
 
-  generateRadiusVaries(values => {
-    const {fullName, radius} = values;
+  generateRadiusVariants(values => {
+    const {hostSelector, radius} = values;
     return `
-      .${fullName} {
-        --border-radius: ${radius};
+      ${hostSelector} {
+        --radius: ${radius};
       }
       ${outputs.radiusGen(values)}
     `;
   }),
 
-  generateShadowVaries(values => {
-    const {fullName, shadow} = values;
+  generateShadowVariants(values => {
+    const {hostSelector, shadow} = values;
     return `
-      .${fullName} {
+      ${hostSelector} {
         --box-shadow: ${shadow};
       }
       ${outputs.shadowGen(values)}

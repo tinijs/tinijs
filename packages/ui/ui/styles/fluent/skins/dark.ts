@@ -3,8 +3,8 @@ import {css} from 'lit';
 /* eslint-disable prettier/prettier */
 export default css`:root {
   /* fonts */
-  --font-head: Roboto, sans-serif;
-  --font-body: Roboto, sans-serif;
+  --font-title: Roboto, sans-serif;
+  --font-content: Roboto, sans-serif;
   --font-art: 'Brush Script MT', cursive;
   --font-code: "Roboto Mono", monospace;
   /* colors */
@@ -100,8 +100,8 @@ export default css`:root {
   --gradient-danger-shade: linear-gradient(180deg, #93002a 0%, #c71e64 100%);
   --gradient-danger-tint: linear-gradient(180deg, #e64868 0%, #ff75a9 100%);
   /* sizes */
-  --size-md: 13px;
   --text-md: 16px;
+  --size-md: 1rem;
   --space-md: 1rem;
   --radius-md: 4px;
   --border-md: 1px;
@@ -109,12 +109,12 @@ export default css`:root {
   --line-md: 1.5;
   --letter-md: normal;
   /* shadows */
-  --shadow-scarcity: 0 0 0 1px #20202026;
+  --shadow-tiny: 0 0 0 1px #20202026;
   --shadow-tiny: 0 1px 2px 0 #20202026;
   --shadow-small: 0 1px 3px 0 #20202033, 0 1px 2px 0 #20202029;
   --shadow-medium: 0 4px 6px -1px #20202033, 0 2px 4px -1px #20202029;
   --shadow-big: 0 10px 15px -3px #20202033, 0 4px 6px -2px #20202026;
-  --shadow-huge: 0 20px 25px -5px #20202033, 0 10px 10px -5px #20202024;
-  --shadow-excess: 0px 0px 0px 1px #20202033, 0px 5px 10px #2020204d, 0px 15px 40px #20202080;
+  --shadow-big: 0 20px 25px -5px #20202033, 0 10px 10px -5px #20202024;
+  --shadow-huge: 0px 0px 0px 1px #20202033, 0px 5px 10px #2020204d, 0px 15px 40px #20202080;
 }`;
 /* eslint-enable prettier/prettier */

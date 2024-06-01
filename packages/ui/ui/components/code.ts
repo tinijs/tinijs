@@ -12,7 +12,8 @@ import {
 } from '@tinijs/core';
 
 export enum CodeParts {
-  Root = ElementParts.Root,
+  Main = ElementParts.Main,
+  Code = 'code',
 }
 
 export default class extends TiniElement {
@@ -30,26 +31,20 @@ export default class extends TiniElement {
   }
 
   private codeClasses: ClassInfo = {};
-  private componentOptions: UICodeOptions = {
-    engine: 'none',
-    highlight: (_, code) => code,
-  };
+  private componentOptions!: UICodeOptions;
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
+    // get component options
+    this.getComponentOptions();
+    // default and validations
+    this.validateProperties();
+    // main and code classes parts
     const commonClasses = {
       [this.componentOptions.engine]: true,
       [`language-${this.language}`]: true,
     };
-    // default and validations
-    this.validateProperties();
-    // root classes parts
-    this.extendRootClasses({
-      raw: commonClasses,
-    });
-    // code classes parts
-    this.componentOptions = this.getUIContext()
-      .componentOptions as UICodeOptions;
-    this.codeClasses = {code: true, ...commonClasses};
+    this.extendMainClasses({raw: commonClasses});
+    this.codeClasses = {[CodeParts.Code]: true, ...commonClasses};
   }
 
   async updated() {
@@ -65,13 +60,22 @@ export default class extends TiniElement {
     }
   }
 
+  private getComponentOptions() {
+    const defaultOptions: UICodeOptions = {
+      engine: 'none',
+      highlight: (_, code) => code,
+    };
+    const options = this.getUIContext<UICodeOptions>().componentOptions;
+    return (this.componentOptions = options || defaultOptions);
+  }
+
   protected render() {
     return this.renderPart(
-      CodeParts.Root,
+      CodeParts.Main,
       () => html`
         <pre
-          class=${classMap(this.rootClasses)}
-          part=${partAttrMap(this.rootClasses)}
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
         ><code
             ${ref(this.codeRef)}
             class=${classMap(this.codeClasses)}
@@ -87,7 +91,7 @@ export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
 }>(outputs => [
   css`
-    .root {
+    .main {
       margin-bottom: 0;
     }
   `,

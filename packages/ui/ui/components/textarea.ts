@@ -13,7 +13,7 @@ import {
 export default class extends TiniElement {
   static readonly componentMetadata = {
     colorOnlyScheme: true,
-    mainNonRootSelector: '.textarea',
+    customMainSelector: '.textarea',
   };
 
   /* eslint-disable prettier/prettier */
@@ -31,8 +31,8 @@ export default class extends TiniElement {
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root classes parts
-    this.extendRootClasses({
+    // main classes parts
+    this.extendMainClasses({
       raw: {
         disabled: !!this.disabled,
         readonly: !!this.readonly,
@@ -52,8 +52,8 @@ export default class extends TiniElement {
   protected render() {
     return html`
       <label
-        class=${classMap(this.rootClasses)}
-        part=${partAttrMap(this.rootClasses)}
+        class=${classMap(this.mainClasses)}
+        part=${partAttrMap(this.mainClasses)}
       >
         ${!this.label
           ? nothing

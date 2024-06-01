@@ -1,7 +1,7 @@
 import {css} from 'lit';
 
 const styles = css`
-  .root {
+  .main {
     list-style: none;
     padding: 0;
     margin: 0;

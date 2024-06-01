@@ -36,7 +36,7 @@ import {
 } from '../utils/component.js';
 import {forwardEvents, type EventForwarding} from '../utils/event.js';
 
-export interface ExtendRootClassesInput {
+export interface ExtendMainClassesInput {
   raw?: ClassInfo;
   pseudo?: Record<string, Record<string, undefined | string>>;
   overridable?: Record<string, undefined | string>;
@@ -44,14 +44,15 @@ export interface ExtendRootClassesInput {
 
 export interface ComponentMetadata {
   colorOnlyScheme?: boolean;
-  mainNonRootSelector?: string;
+  customMainSelector?: string;
   // dev only
   unstable?: UnstableStates;
   unstableMessage?: string;
 }
 
 export enum ElementParts {
-  Root = 'root',
+  BG = 'bg',
+  Main = 'main',
 }
 
 export class TiniElement extends LitElement {
@@ -69,7 +70,8 @@ export class TiniElement extends LitElement {
   @property() events?: string | Array<string | EventForwarding>;
   /* eslint-enable prettier/prettier */
 
-  protected rootClasses: ClassInfo = {[ElementParts.Root]: true};
+  protected bgClasses: ClassInfo = {[ElementParts.BG]: true};
+  protected mainClasses: ClassInfo = {[ElementParts.Main]: true};
   protected customTemplates: ThemingTemplates = {};
 
   private _uiTracker = {
@@ -166,7 +168,22 @@ export class TiniElement extends LitElement {
     return {optionalUI, themeOptions, componentOptions};
   }
 
-  extendRootClasses(input: ExtendRootClassesInput) {
+  setHostStyles(styles: Record<string, string | undefined>) {
+    Object.entries(styles).forEach(([key, value]) => {
+      if (!key.startsWith('--')) {
+        this.style[key as any] = value || '';
+      } else {
+        if (value) {
+          this.style.setProperty(key, value);
+        } else {
+          this.style.removeProperty(key);
+        }
+      }
+    });
+    return this;
+  }
+
+  extendMainClasses(input: ExtendMainClassesInput) {
     const {raw = {}, pseudo = {}, overridable = {}} = input;
     const {componentOptions} = this.getUIContext<UIButtonOptions>();
     // build pseudo info
@@ -213,8 +230,8 @@ export class TiniElement extends LitElement {
       otherInfo[`scheme-${hoverScheme}-hover`] = true;
     }
     // result
-    return (this.rootClasses = {
-      ...this.rootClasses,
+    return (this.mainClasses = {
+      ...this.mainClasses,
       ...raw,
       ...pseudoInfo,
       ...overridableInfo,

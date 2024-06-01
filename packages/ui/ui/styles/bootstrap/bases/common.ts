@@ -42,9 +42,9 @@ export default css`
     display: block;
   }
 
-  .root {
+  .main {
     color: var(--color-front);
-    font-family: var(--font-body);
+    font-family: var(--font-content);
     font-size: var(--text-md);
     line-height: var(--line-md);
     letter-spacing: var(--letter-md);

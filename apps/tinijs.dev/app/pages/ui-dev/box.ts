@@ -39,9 +39,10 @@ export class AppPageUIDevBoxComponent extends TiniComponent {
 
       <ui-dev-section titleText="Radius">
         <div style="display: flex; flex-flow: column; gap: 1rem;">
+          <tini-box radius="none" scheme="primary">None</tini-box>
           <tini-box scheme="primary">Default</tini-box>
           <tini-box radius="xl" scheme="primary">XL</tini-box>
-          <tini-box radius="pill" scheme="primary">Pill</tini-box>
+          <tini-box radius="full" scheme="primary">Full</tini-box>
         </div>
       </ui-dev-section>
 
@@ -53,7 +54,7 @@ export class AppPageUIDevBoxComponent extends TiniComponent {
             shadow => html`
               <tini-box
                 shadow=${shadow}
-                styleDeep=".root {width: 250px; height: 200px;}"
+                styleDeep=".main {width: 250px; height: 200px;}"
                 >${shadow}</tini-box
               >
             `

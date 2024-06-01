@@ -25,7 +25,8 @@
           items: [
             {label: 'Default', value: '_default', checked: true},
             {label: 'Pill', value: 'pill'},
-            {label: 'Circle', value: 'circle'}
+            {label: 'Circle', value: 'circle'},
+            {label: 'Dot', value: 'dot'}
           ]
         },
         target: 'shape'
@@ -44,7 +45,7 @@
         section: 'css',
         attrs: {
           label: 'Style deep',
-          placeholder: ':host, .root, .any { ... }'
+          placeholder: ':host, .main, .any { ... }'
         },
         target: 'styleDeep'
       }

@@ -23,6 +23,7 @@ const componentLoader = createComponentLoader({
   box: () => import('./box.js'),
   table: () => import('./table.js'),
   code: () => import('./code.js'),
+  badge: () => import('./badge.js'),
 });
 
 @Component()

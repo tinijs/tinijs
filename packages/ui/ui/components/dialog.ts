@@ -52,8 +52,8 @@ export default class extends TiniElement {
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root classes parts
-    this.extendRootClasses({
+    // main classes parts
+    this.extendMainClasses({
       raw: {
         [this.type]: true,
         [this.BACKDROP_CLOSED]: !!this.backdropClosed,
@@ -101,8 +101,8 @@ export default class extends TiniElement {
     return html`
       <dialog
         ${ref(this.dialogRef)}
-        class=${classMap(this.rootClasses)}
-        part=${partAttrMap(this.rootClasses)}
+        class=${classMap(this.mainClasses)}
+        part=${partAttrMap(this.mainClasses)}
         @click=${this.clickDialog}
       >
         <div class="head" part="head">

@@ -13,7 +13,7 @@ import {
 export default class extends TiniElement {
   static readonly componentMetadata = {
     colorOnlyScheme: true,
-    mainNonRootSelector: '.input',
+    customMainSelector: '.input',
   };
 
   /* eslint-disable prettier/prettier */
@@ -43,8 +43,8 @@ export default class extends TiniElement {
         this.classList.remove('block');
       }
     }
-    // root classes parts
-    this.extendRootClasses({
+    // main classes parts
+    this.extendMainClasses({
       raw: {
         wrap: !!this.wrap,
         disabled: !!this.disabled,
@@ -65,8 +65,8 @@ export default class extends TiniElement {
   protected render() {
     return html`
       <label
-        class=${classMap(this.rootClasses)}
-        part=${partAttrMap(this.rootClasses)}
+        class=${classMap(this.mainClasses)}
+        part=${partAttrMap(this.mainClasses)}
       >
         ${!this.label
           ? nothing
