@@ -60,14 +60,14 @@ export default class extends TiniElement {
   protected render() {
     return this.renderPart(
       ButtonParts.Main,
-      mainChild => html`
+      mainChildren => html`
         <button
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}
           ?disabled=${this.disabled}
         >
           <slot></slot>
-          ${mainChild()}
+          ${mainChildren()}
         </button>
       `
     );

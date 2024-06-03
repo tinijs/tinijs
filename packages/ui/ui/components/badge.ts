@@ -49,7 +49,7 @@ export default class extends TiniElement {
   protected render() {
     return this.renderPart(
       BadgeParts.Main,
-      mainChild => html`
+      mainChildren => html`
         <div
           class=${classMap(this.bgClasses)}
           part=${partAttrMap(this.bgClasses)}
@@ -59,7 +59,7 @@ export default class extends TiniElement {
           part=${partAttrMap(this.mainClasses)}
         >
           <slot></slot>
-          ${mainChild()}
+          ${mainChildren()}
         </div>
       `
     );

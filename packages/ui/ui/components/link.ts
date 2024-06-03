@@ -131,7 +131,7 @@ export default class extends TiniElement {
   protected render() {
     return this.renderPart(
       LinkParts.Main,
-      mainChild => html`
+      mainChildren => html`
         <a
           router-ignore
           ${ref(this.anchorRef)}
@@ -143,7 +143,7 @@ export default class extends TiniElement {
           @click=${this.clickLink}
         >
           <slot></slot>
-          ${mainChild()}
+          ${mainChildren()}
         </a>
       `
     );

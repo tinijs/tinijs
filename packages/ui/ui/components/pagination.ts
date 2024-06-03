@@ -108,13 +108,13 @@ export default class extends TiniElement {
   protected render() {
     return this.renderPart(
       PaginationParts.Main,
-      mainChild => html`
+      mainChildren => html`
         <ul
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}
         >
           ${this.renderPrevious()} ${this.renderItems()} ${this.renderNext()}
-          ${mainChild()}
+          ${mainChildren()}
         </ul>
       `
     );

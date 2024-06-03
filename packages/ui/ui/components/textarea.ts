@@ -60,7 +60,7 @@ export default class extends TiniElement {
   protected render() {
     return this.renderPart(
       TextareaParts.Main,
-      mainChild => html`
+      mainChildren => html`
         <label
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}
@@ -79,7 +79,7 @@ export default class extends TiniElement {
             ?readonly=${this.readonly}
           ></textarea>
 
-          ${mainChild()}
+          ${mainChildren()}
         </label>
       `
     );

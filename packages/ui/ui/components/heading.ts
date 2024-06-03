@@ -52,13 +52,13 @@ export default class extends TiniElement {
   protected render() {
     return this.renderPart(
       HeadingParts.Main,
-      mainChild => html`
+      mainChildren => html`
         <${this.mainTag}
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}
         >
           <slot></slot>
-          ${mainChild()}
+          ${mainChildren()}
         </${this.mainTag}>
       `
     );

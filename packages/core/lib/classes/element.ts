@@ -285,28 +285,22 @@ export class TiniElement extends LitElement {
   renderPart(
     name: string,
     defaultTemplate?: (
-      child: () => typeof nothing | TemplateResult
+      children: () => typeof nothing | TemplateResult
     ) => typeof nothing | TemplateResult,
-    context?: {
-      main?: any;
-      sibling?: any;
-      child?: any;
-    }
+    context?: any
   ) {
-    const mainTemplate = this.customTemplates[name];
-    const siblingTemplate = this.customTemplates[`${name}:sibling`];
-    const childTemplate = this.customTemplates[`${name}:child`];
-    return mainTemplate
-      ? mainTemplate(this, context?.main)
+    const newTemplate = this.customTemplates[name];
+    const siblingsTemplate = this.customTemplates[`${name}:siblings`];
+    const childrenTemplate = this.customTemplates[`${name}:children`];
+    return newTemplate
+      ? newTemplate(this, context)
       : !defaultTemplate
         ? nothing
         : html`
             ${defaultTemplate(() =>
-              !childTemplate ? nothing : childTemplate(this, context?.child)
+              !childrenTemplate ? nothing : childrenTemplate(this, context)
             )}
-            ${!siblingTemplate
-              ? nothing
-              : siblingTemplate(this, context?.sibling)}
+            ${!siblingsTemplate ? nothing : siblingsTemplate(this, context)}
           `;
   }
 

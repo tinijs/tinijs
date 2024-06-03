@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Box",
-  "category": "component"
+  "category": "layout"
 }
 +++
 

@@ -90,7 +90,7 @@ export default class extends TiniElement {
   protected render() {
     return this.renderPart(
       ModalParts.Main,
-      mainChild => html`
+      mainChildren => html`
         <dialog
           ${ref(this.dialogRef)}
           class=${classMap(this.mainClasses)}
@@ -127,7 +127,7 @@ export default class extends TiniElement {
             </slot>
           </div>
 
-          ${mainChild()}
+          ${mainChildren()}
         </dialog>
       `
     );

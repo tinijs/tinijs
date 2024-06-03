@@ -10,6 +10,9 @@ import {
 
 export enum CardParts {
   Main = ElementParts.Main,
+  Head = 'head',
+  Body = 'body',
+  Foot = 'foot',
 }
 
 export default class extends TiniElement {
@@ -35,16 +38,14 @@ export default class extends TiniElement {
         fluid: !!this.fluid,
       },
     });
-    // head classes parts
+    // head, body, foot classes parts
     this.headClasses = {
       head: true,
       'head-populated': this.headSlotPopulated,
     };
-    // body classes parts
     this.bodyClasses = {
       body: true,
     };
-    // foot classes parts
     this.footClasses = {
       foot: true,
       'foot-populated': this.footSlotPopulated,
@@ -54,7 +55,7 @@ export default class extends TiniElement {
   protected render() {
     return this.renderPart(
       CardParts.Main,
-      mainChild => html`
+      mainChildren => html`
         <div
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}
@@ -88,7 +89,7 @@ export default class extends TiniElement {
             ></slot>
           </div>
 
-          ${mainChild()}
+          ${mainChildren()}
         </div>
       `
     );

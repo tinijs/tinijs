@@ -1,16 +1,17 @@
-import {html, css, nothing} from 'lit';
+import {html, css} from 'lit';
+
+import {Component, TiniComponent} from '@tinijs/core';
 
 import {
-  Component,
-  TiniComponent,
-  Colors,
-  SubtleColors,
-  Gradients,
-  SubtleGradients,
-  Sizes,
-} from '@tinijs/core';
+  TiniBreadcrumbsComponent,
+  type BreadcrumbsItem,
+} from '../../ui/components/breadcrumbs.js';
 
-import {TiniBreadcrumbsComponent} from '../../ui/components/breadcrumbs.js';
+const ITEMS: BreadcrumbsItem[] = [
+  {label: 'Home', href: '#home'},
+  {label: 'Library', href: '#library'},
+  {label: 'Data', href: '#data'},
+];
 
 @Component({
   components: [TiniBreadcrumbsComponent],
@@ -20,8 +21,10 @@ export class AppPageUIDevBreadcrumbsComponent extends TiniComponent {
 
   protected render() {
     return html`
-      <ui-dev-section titleText="-">
-        <tini-breadcrumbs></tini-breadcrumbs>
+      <ui-dev-section titleText="Defaults">
+        <tini-breadcrumbs .items=${[ITEMS[0]]}></tini-breadcrumbs>
+        <tini-breadcrumbs .items=${[ITEMS[0], ITEMS[1]]}></tini-breadcrumbs>
+        <tini-breadcrumbs .items=${ITEMS}></tini-breadcrumbs>
       </ui-dev-section>
     `;
   }

@@ -73,7 +73,7 @@ export default class extends TiniElement {
   protected render() {
     return this.renderPart(
       InputParts.Main,
-      mainChild => html`
+      mainChildren => html`
         <label
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}
@@ -94,7 +94,7 @@ export default class extends TiniElement {
             ?readonly=${this.readonly}
           />
 
-          ${mainChild()}
+          ${mainChildren()}
         </label>
       `
     );

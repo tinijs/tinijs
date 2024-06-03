@@ -15,17 +15,9 @@ Or, you can create a skin manually, see [an example](https://github.com/tinijs/t
 ## Customize components
 
 There are several ways to customize Tini UI components:
-1. Use `styleDeep` attribute
-2. Use parts
+1. Use parts
+2. Use `styleDeep` attribute
 3. Clone the component
-
-### Use `styleDeep` attribute
-
-Write any CSS to target any element inside a component shadow DOM.
-
-```html
-<tini-button styleDeep=".main { color: aqua; }">A button</tini-button>
-```
 
 ### Use parts
 
@@ -35,6 +27,14 @@ Use `::part()` to target a specific part of a component.
 tini-button::part(main) {
   color: aqua;
 }
+```
+
+### Use `styleDeep` attribute
+
+Write any CSS to target any element inside a component shadow DOM.
+
+```html
+<tini-button styleDeep=".main { color: aqua; }">A button</tini-button>
 ```
 
 ### Clone the component

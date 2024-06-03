@@ -67,12 +67,12 @@ export default class extends TiniElement {
   protected render() {
     return this.renderPart(
       CheckboxesParts.Main,
-      mainChild => html`
+      mainChildren => html`
         <div
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}
         >
-          ${this.items.map(item => this.renderItem(item))} ${mainChild()}
+          ${this.items.map(item => this.renderItem(item))} ${mainChildren()}
         </div>
       `
     );

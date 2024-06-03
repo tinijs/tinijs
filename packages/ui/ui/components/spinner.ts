@@ -41,12 +41,12 @@ export default class extends TiniElement {
   protected render() {
     return this.renderPart(
       SpinnerParts.Main,
-      mainChild => html`
+      mainChildren => html`
         <div
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}
         >
-          ${mainChild()}
+          ${mainChildren()}
         </div>
       `
     );

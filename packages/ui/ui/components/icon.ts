@@ -75,7 +75,7 @@ export default class extends TiniElement {
   protected render() {
     return this.renderPart(
       IconParts.Main,
-      mainChild => html`
+      mainChildren => html`
         <div
           class=${classMap(this.bgClasses)}
           part=${partAttrMap(this.bgClasses)}
@@ -84,7 +84,7 @@ export default class extends TiniElement {
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}
         >
-          ${mainChild()}
+          ${mainChildren()}
         </div>
       `
     );

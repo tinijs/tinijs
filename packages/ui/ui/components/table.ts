@@ -57,12 +57,12 @@ export default class extends TiniElement {
   protected render() {
     return this.renderPart(
       TableParts.Main,
-      mainChild => html`
+      mainChildren => html`
         <table
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}
         >
-          ${this.renderTHead()} ${this.renderTBody()} ${mainChild()}
+          ${this.renderTHead()} ${this.renderTBody()} ${mainChildren()}
         </table>
       `
     );
