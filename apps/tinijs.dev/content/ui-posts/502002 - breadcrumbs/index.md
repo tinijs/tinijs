@@ -1,7 +1,7 @@
 +++json
 {
   "status": "publish",
-  "title": "Breadcrumb",
+  "title": "Breadcrumbs",
   "category": "component"
 }
 +++
@@ -10,7 +10,7 @@
 
 {%
   app 'component-editor', {
-    name: 'breadcrumb',
+    name: 'breadcrumbs',
     sections: [
       {
         section: 'js',

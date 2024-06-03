@@ -1,7 +1,16 @@
-import {html, type PropertyValues} from 'lit';
+import {html, css, type PropertyValues, type CSSResult} from 'lit';
 import {property, state, queryAssignedElements} from 'lit/decorators.js';
 import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
-import {TiniElement, partAttrMap} from '@tinijs/core';
+import {
+  TiniElement,
+  ElementParts,
+  partAttrMap,
+  createStyleBuilder,
+} from '@tinijs/core';
+
+export enum CardParts {
+  Main = ElementParts.Main,
+}
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
@@ -43,40 +52,122 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return html`
-      <div
-        class=${classMap(this.mainClasses)}
-        part=${partAttrMap(this.mainClasses)}
-      >
+    return this.renderPart(
+      CardParts.Main,
+      mainChild => html`
         <div
-          class=${classMap(this.headClasses)}
-          part=${partAttrMap(this.headClasses)}
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
         >
-          <slot
-            name="head"
-            @slotchange=${() =>
-              (this.headSlotPopulated = !!this.headSlotElems?.length)}
-          ></slot>
-        </div>
+          <div
+            class=${classMap(this.headClasses)}
+            part=${partAttrMap(this.headClasses)}
+          >
+            <slot
+              name="head"
+              @slotchange=${() =>
+                (this.headSlotPopulated = !!this.headSlotElems?.length)}
+            ></slot>
+          </div>
 
-        <div
-          class=${classMap(this.bodyClasses)}
-          part=${partAttrMap(this.bodyClasses)}
-        >
-          <slot></slot>
-        </div>
+          <div
+            class=${classMap(this.bodyClasses)}
+            part=${partAttrMap(this.bodyClasses)}
+          >
+            <slot></slot>
+          </div>
 
-        <div
-          class=${classMap(this.footClasses)}
-          part=${partAttrMap(this.footClasses)}
-        >
-          <slot
-            name="foot"
-            @slotchange=${() =>
-              (this.footSlotPopulated = !!this.footSlotElems?.length)}
-          ></slot>
+          <div
+            class=${classMap(this.footClasses)}
+            part=${partAttrMap(this.footClasses)}
+          >
+            <slot
+              name="foot"
+              @slotchange=${() =>
+                (this.footSlotPopulated = !!this.footSlotElems?.length)}
+            ></slot>
+          </div>
+
+          ${mainChild()}
         </div>
-      </div>
-    `;
+      `
+    );
   }
 }
+
+export const defaultStyles = createStyleBuilder<{
+  statics: CSSResult;
+}>(outputs => [
+  css`
+    :host {
+      --width: var(--wide-xs);
+      --background: var(--color-back-tint);
+      --border: var(--border-md) solid var(--color-back-shade);
+      --radius: var(--radius-md);
+      --box-shadow: none;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      background-color: var(--background);
+      border: var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      width: var(--width);
+      box-shadow: var(--box-shadow);
+    }
+
+    .head,
+    .foot {
+      display: none;
+    }
+
+    .head-populated,
+    .foot-populated {
+      padding: var(--space-xs) var(--space-md);
+      background: color-mix(in oklab, var(--color-back-shade), transparent 75%);
+    }
+
+    .head-populated,
+    .head-populated > :first-child,
+    .foot-populated,
+    .foot-populated > :first-child {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .head {
+      border-bottom: var(--border);
+    }
+
+    .body {
+      padding: var(--space-md);
+    }
+
+    .foot {
+      border-top: var(--border);
+    }
+
+    ::slotted(.card-image) {
+      width: calc(100% + var(--space-xl));
+      margin: calc(var(--space-md) * -1);
+      height: auto;
+      margin-bottom: var(--space-md);
+    }
+
+    ::slotted(.card-title) {
+      display: block;
+      margin: 0;
+      font-size: var(--text-lg);
+      font-weight: bold;
+    }
+
+    .fluid {
+      width: 100%;
+    }
+  `,
+
+  outputs.statics,
+]);

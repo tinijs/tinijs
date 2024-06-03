@@ -1,13 +1,21 @@
-import {html, type PropertyValues} from 'lit';
+import {html, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,
+  ElementParts,
   partAttrMap,
+  createStyleBuilder,
   Colors,
   SubtleColors,
   Sizes,
+  generateAllColorVariants,
+  generateSizeVariants,
 } from '@tinijs/core';
+
+export enum LabelParts {
+  Main = ElementParts.Main,
+}
 
 export enum LabelShapes {
   Pill = 'pill',
@@ -38,13 +46,77 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return html`
-      <span
-        class=${classMap(this.mainClasses)}
-        part=${partAttrMap(this.mainClasses)}
-      >
-        <slot></slot>
-      </span>
-    `;
+    return this.renderPart(
+      LabelParts.Main,
+      mainChild => html`
+        <span
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
+        >
+          <slot></slot>
+
+          ${mainChild()}
+        </span>
+      `
+    );
   }
 }
+
+export const defaultStyles = createStyleBuilder<{
+  statics: CSSResult;
+  colorGen: Parameters<typeof generateAllColorVariants>[0];
+  sizeGen: Parameters<typeof generateSizeVariants>[0];
+}>(outputs => [
+  css`
+    :host {
+      --background: var(--color-middle);
+      --size: var(--size-md);
+      --text-color: var(--color-middle);
+      --border: none;
+      --radius: var(--radius-md);
+      display: inline;
+    }
+
+    .main {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: calc(var(--size) * 0.5);
+      border: var(--border);
+      border-radius: var(--radius);
+      background: color-mix(in oklab, var(--background), transparent 50%);
+      color: color-mix(in oklab, var(--text-color), var(--color-front) 30%);
+      font-size: var(--size);
+      font-weight: normal;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .shape-pill {
+      border-radius: 1000px !important;
+    }
+  `,
+
+  outputs.statics,
+
+  generateAllColorVariants(values => {
+    const {hostSelector, fullName, isSubtle, baseColor, color} = values;
+    return `
+      .${fullName} {
+        --background: ${color};
+        --text-color: ${isSubtle ? baseColor : color};
+      }
+      ${outputs.colorGen(values)}
+    `;
+  }),
+
+  generateSizeVariants(values => {
+    const {hostSelector, fullName, size} = values;
+    return `
+      .${fullName} {
+        --size: ${size};
+      }
+      ${outputs.sizeGen(values)}
+    `;
+  }),
+]);

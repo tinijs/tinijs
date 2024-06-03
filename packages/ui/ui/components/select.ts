@@ -1,13 +1,17 @@
-import {html, nothing, type PropertyValues} from 'lit';
+import {html, nothing, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
+  ElementParts,
   partAttrMap,
+  createStyleBuilder,
   Colors,
   SubtleColors,
   Sizes,
+  generateColorVariants,
+  generateSizeVariants,
 } from '@tinijs/core';
 
 export interface SelectItem extends SelectOption {
@@ -24,6 +28,10 @@ export interface SelectOption {
 export type SelectOptgroup = SelectOption & {
   children: SelectOption[];
 };
+
+export enum SelectParts {
+  Main = ElementParts.Main,
+}
 
 export default class extends TiniElement {
   static readonly componentMetadata = {
@@ -73,31 +81,36 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return html`
-      <label
-        class=${classMap(this.mainClasses)}
-        part=${partAttrMap(this.mainClasses)}
-      >
-        ${!this.label
-          ? nothing
-          : html`<span class="label" part="label">${this.label}</span>`}
-        <select
-          class="select"
-          part="select"
-          name=${ifDefined(this.name)}
-          autocomplete=${ifDefined(this.autocomplete) as any}
-          ?disabled=${this.disabled}
+    return this.renderPart(
+      SelectParts.Main,
+      mainChild => html`
+        <label
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
         >
-          ${!this.items?.length
+          ${!this.label
             ? nothing
-            : this.items.map(option =>
-                !option.children?.length
-                  ? this.renderOption(option as SelectOption)
-                  : this.renderOptgroup(option as SelectOptgroup)
-              )}
-        </select>
-      </label>
-    `;
+            : html`<span class="label" part="label">${this.label}</span>`}
+          <select
+            class="select"
+            part="select"
+            name=${ifDefined(this.name)}
+            autocomplete=${ifDefined(this.autocomplete) as any}
+            ?disabled=${this.disabled}
+          >
+            ${!this.items?.length
+              ? nothing
+              : this.items.map(option =>
+                  !option.children?.length
+                    ? this.renderOption(option as SelectOption)
+                    : this.renderOptgroup(option as SelectOptgroup)
+                )}
+          </select>
+
+          ${mainChild()}
+        </label>
+      `
+    );
   }
 
   private renderOptgroup({label, children}: SelectOptgroup) {
@@ -122,3 +135,95 @@ export default class extends TiniElement {
     `;
   }
 }
+
+export const defaultStyles = createStyleBuilder<{
+  statics: CSSResult;
+  colorGen: Parameters<typeof generateColorVariants>[0];
+  sizeGen: Parameters<typeof generateSizeVariants>[0];
+}>(outputs => [
+  css`
+    :host {
+      --color: var(--color-primary);
+      --size: var(--size-md);
+      --border-color: var(--color-middle);
+      --radius: var(--radius-md);
+      display: inline;
+    }
+
+    .main {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    select {
+      background: var(--color-back-tint);
+      color: var(--color-front);
+      border: var(--border-md) solid var(--border-color);
+      border-radius: var(--radius);
+      padding: calc(var(--size) / 2) calc(var(--size) / 1.5);
+      font-size: var(--size);
+      transition: all 0.15s ease-in-out;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: color-mix(in oklab, var(--color), transparent 30%);
+      box-shadow: 0 0 0 calc(var(--size) / 4)
+        color-mix(in oklab, var(--color), transparent 70%);
+    }
+
+    select:disabled {
+      background: color-mix(in oklab, var(--color-back-shade), transparent 50%);
+      opacity: 1;
+      color: var(--color-middle);
+    }
+
+    .wrap {
+      flex-flow: column;
+      align-items: flex-start;
+      gap: var(--space-xs);
+    }
+
+    :host(.block) {
+      display: block;
+      width: 100%;
+    }
+
+    :host(.block) .main {
+      display: flex;
+    }
+
+    :host(.block) select {
+      flex: 1;
+    }
+
+    :host(.block) .wrap select {
+      width: 100%;
+    }
+  `,
+
+  outputs.statics,
+
+  generateColorVariants(values => {
+    const {hostSelector, fullName, color} = values;
+    return `
+      .${fullName},
+      .${fullName}-focus select:focus {
+        --color: ${color};
+        --border-color: ${color};
+      }
+      ${outputs.colorGen(values)}
+    `;
+  }),
+
+  generateSizeVariants(values => {
+    const {hostSelector, fullName, size} = values;
+    return `
+      .${fullName} {
+        --size: ${size};
+      }
+      ${outputs.sizeGen(values)}
+    `;
+  }),
+]);
