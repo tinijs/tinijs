@@ -50,7 +50,7 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       HeadingParts.Main,
       mainChildren => html`
         <${this.mainTag}

@@ -18,20 +18,29 @@ import {
 } from '@tinijs/core';
 
 export interface SwitchEventDetail {
-  target: HTMLInputElement;
   name?: string;
-  checked?: boolean;
+  status: SwitchStatuses;
+  inputElement: HTMLInputElement;
 }
 
 export enum SwitchParts {
   Main = ElementParts.Main,
+  Label = 'label',
+  Switch = 'switch',
+  Input = 'input',
+  Slider = 'slider',
+}
+
+export enum SwitchStatuses {
+  On = 'on',
+  Off = 'off',
 }
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) label?: string;
   @property({type: String, reflect: true}) name?: string;
-  @property({type: Boolean, reflect: true}) checked?: boolean;
+  @property({type: String, reflect: true}) status?: SwitchStatuses;
   @property({type: Boolean, reflect: true}) disabled?: boolean;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
   @property({type: String, reflect: true}) size?: Sizes;
@@ -42,53 +51,55 @@ export default class extends TiniElement {
     // main classes parts
     this.extendMainClasses({
       raw: {
-        checked: !!this.checked,
         disabled: !!this.disabled,
       },
       overridable: {
+        status: this.status,
         scheme: this.scheme,
         size: this.size,
       },
     });
   }
 
-  private onChange(e: Event) {
+  private toggle(e: Event) {
     e.stopPropagation();
     const target = e.target as HTMLInputElement;
     return this.dispatchEvent(
-      new CustomEvent('change', {
+      new CustomEvent('toggle', {
         detail: {
-          target,
           name: target.name,
-          checked: target.checked,
+          status: target.checked ? SwitchStatuses.On : SwitchStatuses.Off,
+          inputElement: target,
         } as SwitchEventDetail,
       })
     );
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       SwitchParts.Main,
       mainChildren => html`
         <label
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}
         >
-          <div class="switch">
-            <input
-              class="input"
-              part="input"
-              type="checkbox"
-              name=${ifDefined(this.name)}
-              ?checked=${this.checked}
-              ?disabled=${this.disabled}
-              @change=${this.onChange}
-            />
-            <span class="slider" part="slider"></span>
-          </div>
           ${!this.label
             ? nothing
-            : html`<span class="label" part="label">${this.label}</span>`}
+            : html`<div class=${SwitchParts.Label} part=${SwitchParts.Label}>
+                ${this.label}
+              </div>`}
+          <div class=${SwitchParts.Switch} part=${SwitchParts.Switch}>
+            <input
+              class=${SwitchParts.Input}
+              part=${SwitchParts.Input}
+              type="checkbox"
+              name=${ifDefined(this.name)}
+              ?checked=${this.status === SwitchStatuses.On}
+              ?disabled=${!!this.disabled}
+              @change=${this.toggle}
+            />
+            <div class=${SwitchParts.Slider} part=${SwitchParts.Slider}></div>
+          </div>
           ${mainChildren()}
         </label>
       `

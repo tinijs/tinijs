@@ -1,6 +1,6 @@
 import {html, nothing, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
+import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
@@ -15,32 +15,37 @@ import {
 } from '@tinijs/core';
 
 export interface CheckboxesItem {
+  value: string;
   name?: string;
   label?: string;
-  value?: string;
   checked?: boolean;
   disabled?: boolean;
 }
 
 export enum CheckboxesParts {
   Main = ElementParts.Main,
+  Item = 'item',
+  Input = 'input',
+  Label = 'label',
 }
 
 export default class extends TiniElement {
   static readonly componentMetadata = {
-    customMainSelector: '.input',
+    customMainSelector: `.${CheckboxesParts.Input}`,
   };
 
   /* eslint-disable prettier/prettier */
   @property({type: Array}) items!: CheckboxesItem[];
   @property({type: Boolean, reflect: true}) wrap?: boolean;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
-  @property({type: String, reflect: true}) checkedScheme?: this['scheme'];
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
   private validateProperties() {
-    if (!this.items?.length) throw new Error('Property "items" is required.');
+    if (!this.items.length)
+      throw new Error(
+        'Property "items" is required and must contain at least 1 item.'
+      );
   }
 
   willUpdate(changedProperties: PropertyValues<this>) {
@@ -56,47 +61,53 @@ export default class extends TiniElement {
         scheme: this.scheme,
         size: this.size,
       },
-      pseudo: {
-        checked: {
-          scheme: this.checkedScheme,
-        },
-      },
     });
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       CheckboxesParts.Main,
       mainChildren => html`
         <div
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}
         >
-          ${this.items.map(item => this.renderItem(item))} ${mainChildren()}
+          ${this.items.map(item => this.renderItemPart(item))} ${mainChildren()}
         </div>
       `
     );
   }
 
-  private renderItem({name, label, value, checked, disabled}: CheckboxesItem) {
-    const itemClasses: ClassInfo = {
-      item: true,
-      'item-disabled': !!disabled,
-    };
+  private renderItemPart({
+    value,
+    name,
+    label,
+    checked = false,
+    disabled = false,
+  }: CheckboxesItem) {
+    const itemClasses = this.buildClassVariants(CheckboxesParts.Item, {
+      checked,
+      disabled,
+    });
     return html`
       <label class=${classMap(itemClasses)} part=${partAttrMap(itemClasses)}>
         <input
-          class="input"
-          part="input"
+          class=${CheckboxesParts.Input}
+          part=${CheckboxesParts.Input}
           type="checkbox"
-          name=${ifDefined(name)}
           value=${ifDefined(value)}
+          name=${ifDefined(name)}
           ?checked=${checked}
           ?disabled=${disabled}
         />
         ${!label
           ? nothing
-          : html`<span class="label" part="label">${label}</span>`}
+          : html`<div
+              class=${CheckboxesParts.Label}
+              part=${CheckboxesParts.Label}
+            >
+              ${label}
+            </div>`}
       </label>
     `;
   }

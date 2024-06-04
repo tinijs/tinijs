@@ -40,7 +40,7 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       EmbedParts.Main,
       mainChildren => html`
         <div

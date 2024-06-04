@@ -129,7 +129,7 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       LinkParts.Main,
       mainChildren => html`
         <a

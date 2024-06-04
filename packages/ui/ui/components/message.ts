@@ -12,6 +12,7 @@ import {
 } from '@tinijs/core';
 
 export enum MessageParts {
+  BG = ElementParts.BG,
   Main = ElementParts.Main,
 }
 
@@ -35,15 +36,15 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       MessageParts.Main,
       mainChildren => html`
+        <div class=${MessageParts.BG} part=${MessageParts.BG}></div>
         <div
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}
         >
           <slot></slot>
-
           ${mainChildren()}
         </div>
       `

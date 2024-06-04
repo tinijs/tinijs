@@ -277,58 +277,58 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
             .items=${[
               {
                 label: 'Bootstrap',
-                children: this.buildThemeOptions('bootstrap', [
-                  {label: 'Bootstrap Light', value: 'light'},
-                  {label: 'Bootstrap Dark', value: 'dark'},
+                options: this.buildThemeOptions('bootstrap', [
+                  {content: 'Bootstrap Light', value: 'light'},
+                  {content: 'Bootstrap Dark', value: 'dark'},
                 ]),
               },
               {
                 label: 'Material',
-                children: this.buildThemeOptions('material', [
-                  {label: 'Material Light', value: 'light'},
-                  {label: 'Material Dark', value: 'dark'},
+                options: this.buildThemeOptions('material', [
+                  {content: 'Material Light', value: 'light'},
+                  {content: 'Material Dark', value: 'dark'},
                 ]),
               },
               {
                 label: 'Fluent',
-                children: this.buildThemeOptions('fluent', [
-                  {label: 'Fluent Light', value: 'light'},
-                  {label: 'Fluent Dark', value: 'dark'},
+                options: this.buildThemeOptions('fluent', [
+                  {content: 'Fluent Light', value: 'light'},
+                  {content: 'Fluent Dark', value: 'dark'},
                 ]),
               },
               {
                 label: 'iOS',
-                children: this.buildThemeOptions('ios', [
-                  {label: 'iOS Light', value: 'light'},
-                  {label: 'iOS Dark', value: 'dark'},
+                options: this.buildThemeOptions('ios', [
+                  {content: 'iOS Light', value: 'light'},
+                  {content: 'iOS Dark', value: 'dark'},
                 ]),
               },
               {
                 label: 'Spectrum',
-                children: this.buildThemeOptions('spectrum', [
-                  {label: 'Spectrum Light', value: 'light'},
-                  {label: 'Spectrum Dark', value: 'dark'},
+                options: this.buildThemeOptions('spectrum', [
+                  {content: 'Spectrum Light', value: 'light'},
+                  {content: 'Spectrum Dark', value: 'dark'},
                 ]),
               },
               {
                 label: 'Shadcn',
-                children: this.buildThemeOptions('shadcn', [
-                  {label: 'Shadcn Light', value: 'light'},
-                  {label: 'Shadcn Dark', value: 'dark'},
+                options: this.buildThemeOptions('shadcn', [
+                  {content: 'Shadcn Light', value: 'light'},
+                  {content: 'Shadcn Dark', value: 'dark'},
                 ]),
               },
               {
                 label: 'Tailwind',
-                children: this.buildThemeOptions('tailwind', [
-                  {label: 'Tailwind Light', value: 'light'},
-                  {label: 'Tailwind Dark', value: 'dark'},
+                options: this.buildThemeOptions('tailwind', [
+                  {content: 'Tailwind Light', value: 'light'},
+                  {content: 'Tailwind Dark', value: 'dark'},
                 ]),
               },
               {
                 label: 'Chakra',
-                children: this.buildThemeOptions('chakra', [
-                  {label: 'Chakra Light', value: 'light'},
-                  {label: 'Chakra Dark', value: 'dark'},
+                options: this.buildThemeOptions('chakra', [
+                  {content: 'Chakra Light', value: 'light'},
+                  {content: 'Chakra Dark', value: 'dark'},
                 ]),
               },
             ]}

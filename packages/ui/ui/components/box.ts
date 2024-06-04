@@ -43,13 +43,10 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       BoxParts.Main,
       mainChildren => html`
-        <div
-          class=${classMap(this.bgClasses)}
-          part=${partAttrMap(this.bgClasses)}
-        ></div>
+        <div class=${BoxParts.BG} part=${BoxParts.BG}></div>
         <div
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}

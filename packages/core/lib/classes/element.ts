@@ -70,7 +70,6 @@ export class TiniElement extends LitElement {
   @property() events?: string | Array<string | EventForwarding>;
   /* eslint-enable prettier/prettier */
 
-  protected bgClasses: ClassInfo = {[ElementParts.BG]: true};
   protected mainClasses: ClassInfo = {[ElementParts.Main]: true};
   protected customTemplates: ThemingTemplates = {};
 
@@ -183,6 +182,14 @@ export class TiniElement extends LitElement {
     return this;
   }
 
+  buildClassVariants(name: string, variants: Record<string, any>): ClassInfo {
+    const result: Record<string, boolean> = {[name]: true};
+    for (const suffix of Object.keys(variants)) {
+      result[`${name}-${suffix}`] = !!variants[suffix];
+    }
+    return result;
+  }
+
   extendMainClasses(input: ExtendMainClassesInput) {
     const {raw = {}, pseudo = {}, overridable = {}} = input;
     const {componentOptions} = this.getUIContext<UIButtonOptions>();
@@ -282,7 +289,7 @@ export class TiniElement extends LitElement {
     };
   }
 
-  renderPart(
+  partRender(
     name: string,
     defaultTemplate?: (
       children: () => typeof nothing | TemplateResult

@@ -1,6 +1,12 @@
-import {html, css, type PropertyValues, type CSSResult} from 'lit';
+import {
+  html,
+  css,
+  type PropertyValues,
+  type CSSResult,
+  type TemplateResult,
+} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
+import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,
   ElementParts,
@@ -9,7 +15,7 @@ import {
 } from '@tinijs/core';
 
 export interface BreadcrumbsItem {
-  label: string;
+  content: string | TemplateResult;
   href: string;
 }
 
@@ -24,7 +30,10 @@ export default class extends TiniElement {
   /* eslint-enable prettier/prettier */
 
   private validateProperties() {
-    if (!this.items?.length) throw new Error('Property "items" is required and must contain at least 1 item.');
+    if (!this.items?.length)
+      throw new Error(
+        'Property "items" is required and must contain at least 1 item.'
+      );
   }
 
   willUpdate(changedProperties: PropertyValues<this>) {
@@ -36,14 +45,16 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       BreadcrumbsParts.Main,
       mainChildren => html`
         <div
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}
         >
-          ${this.items.map((item, i) => this.renderItemPart(item, i === this.items.length - 1))}
+          ${this.items.map((item, i) =>
+            this.renderItemPart(item, i === this.items.length - 1)
+          )}
           ${mainChildren()}
         </div>
       `
@@ -51,11 +62,10 @@ export default class extends TiniElement {
   }
 
   private renderItemPart(item: BreadcrumbsItem, active: boolean) {
-    const itemClasses: ClassInfo = {
-      [BreadcrumbsParts.Item]: true,
-      [`${BreadcrumbsParts.Item}-active`]: active,
-    };
-    return this.renderPart(
+    const itemClasses = this.buildClassVariants(BreadcrumbsParts.Item, {
+      active,
+    });
+    return this.partRender(
       BreadcrumbsParts.Item,
       itemChildren => html`
         <a
@@ -63,8 +73,7 @@ export default class extends TiniElement {
           part=${partAttrMap(itemClasses)}
           href=${item.href}
         >
-          <span>${item.label}</span>
-          ${itemChildren()}
+          ${item.content} ${itemChildren()}
         </a>
       `,
       item
@@ -85,7 +94,8 @@ export const defaultStyles = createStyleBuilder<{
       padding: 0.5em 1em;
     }
 
-    .main, .item {
+    .main,
+    .item {
       display: flex;
       align-items: center;
     }

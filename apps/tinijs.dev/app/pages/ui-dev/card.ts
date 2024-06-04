@@ -20,8 +20,18 @@ export class AppPageUIDevCardComponent extends TiniComponent {
 
   protected render() {
     return html`
-      <ui-dev-section titleText="-">
-        <tini-card></tini-card>
+      <ui-dev-section titleText="Defaults">
+        <tini-card>
+          <h3>Card title</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </tini-card>
+      </ui-dev-section>
+
+      <ui-dev-section titleText="Fluid">
+        <tini-card fluid>
+          <h3>Card title</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </tini-card>
       </ui-dev-section>
     `;
   }

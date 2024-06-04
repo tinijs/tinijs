@@ -19,9 +19,9 @@
         },
         target: 'items',
         value: [
-          {label: 'Home', href: '#'},
-          {label: 'Library', href: '#'},
-          {label: 'Data'}
+          {content: 'Home', href: '#'},
+          {content: 'Library', href: '#'},
+          {content: 'Data', href: '#'}
         ]
       },
       {

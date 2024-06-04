@@ -39,7 +39,7 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       SpinnerParts.Main,
       mainChildren => html`
         <div

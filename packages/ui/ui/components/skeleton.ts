@@ -28,7 +28,6 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) speed?: string;
   /* eslint-enable prettier/prettier */
 
-  private mainStyles: StyleInfo = {};
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
     // main classes parts
@@ -52,13 +51,12 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       SkeletonParts.Main,
       mainChildren => html`
         <div
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}
-          style=${styleMap(this.mainStyles)}
         >
           ${mainChildren()}
         </div>

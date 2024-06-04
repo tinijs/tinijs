@@ -1,6 +1,6 @@
 import {html, nothing, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
+import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
@@ -16,62 +16,63 @@ import {
 
 export enum InputParts {
   Main = ElementParts.Main,
+  Label = 'label',
+  Input = 'input',
+}
+
+export enum InputTypes {
+  Text = 'text',
+  Password = 'password',
+  Email = 'email',
+  Number = 'number',
+  Url = 'url',
+}
+
+export enum InputAutoCompletes {
+  On = 'on',
+  Off = 'off',
 }
 
 export default class extends TiniElement {
   static readonly componentMetadata = {
     colorOnlyScheme: true,
-    customMainSelector: '.input',
+    customMainSelector: `.${InputParts.Input}`,
   };
 
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) label?: string;
-  @property({type: String, reflect: true}) placeholder?: string;
-  @property({type: String, reflect: true}) type?: string;
+  @property({type: String, reflect: true}) type?: InputTypes;
   @property({type: String, reflect: true}) name?: string;
   @property({type: String, reflect: true}) value?: string;
+  @property({type: String, reflect: true}) placeholder?: string;
   @property({type: String, reflect: true}) inputmode?: string;
-  @property({type: String, reflect: true}) autocomplete?: string;
+  @property({type: String, reflect: true}) autocomplete?: InputAutoCompletes;
   @property({type: Boolean, reflect: true}) disabled?: boolean;
   @property({type: Boolean, reflect: true}) readonly?: boolean;
   @property({type: Boolean, reflect: true}) wrap?: boolean;
   @property({type: Boolean, reflect: true}) block?: boolean;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
-  @property({type: String, reflect: true}) focusScheme?: this['scheme'];
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // host block
-    if (changedProperties.has('block')) {
-      if (this.block) {
-        this.classList.add('block');
-      } else {
-        this.classList.remove('block');
-      }
-    }
     // main classes parts
     this.extendMainClasses({
       raw: {
-        wrap: !!this.wrap,
         disabled: !!this.disabled,
         readonly: !!this.readonly,
+        wrap: !!this.wrap,
       },
       overridable: {
         scheme: this.scheme,
         size: this.size,
       },
-      pseudo: {
-        focus: {
-          scheme: this.focusScheme,
-        },
-      },
     });
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       InputParts.Main,
       mainChildren => html`
         <label
@@ -80,20 +81,21 @@ export default class extends TiniElement {
         >
           ${!this.label
             ? nothing
-            : html`<span class="label" part="label">${this.label}</span>`}
+            : html`<div class=${InputParts.Label} part=${InputParts.Label}>
+                ${this.label}
+              </div>`}
           <input
-            class="input"
-            part="input"
+            class=${InputParts.Input}
+            part=${InputParts.Input}
             placeholder=${ifDefined(this.placeholder)}
-            type=${ifDefined(this.type) as any}
+            type=${ifDefined(this.type)}
             name=${ifDefined(this.name)}
             .value=${this.value || ''}
             inputmode=${ifDefined(this.inputmode)}
-            autocomplete=${ifDefined(this.autocomplete) as any}
-            ?disabled=${this.disabled}
-            ?readonly=${this.readonly}
+            autocomplete=${ifDefined(this.autocomplete)}
+            ?disabled=${!!this.disabled}
+            ?readonly=${!!this.readonly}
           />
-
           ${mainChildren()}
         </label>
       `

@@ -18,6 +18,11 @@ import {
 
 export enum TableParts {
   Main = ElementParts.Main,
+  THead = 'thead',
+  TBody = 'tbody',
+  TR = 'tr',
+  TH = 'th',
+  TD = 'td',
 }
 
 export type TableItem = string | TemplateResult | TableCell;
@@ -55,7 +60,7 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       TableParts.Main,
       mainChildren => html`
         <table
@@ -70,11 +75,17 @@ export default class extends TiniElement {
 
   private renderTHead() {
     return html`
-      <thead>
-        <tr>
+      <thead class=${TableParts.THead} part=${TableParts.THead}>
+        <tr class=${TableParts.TR} part=${TableParts.TR}>
           ${this.items[0].map(item => {
             const {content, colspan} = this.processCell(item);
-            return html`<th colspan=${ifDefined(colspan)}>${content}</th>`;
+            return html`<th
+              class=${TableParts.TH}
+              part=${TableParts.TH}
+              colspan=${ifDefined(colspan)}
+            >
+              ${content}
+            </th>`;
           })}
         </tr>
       </thead>
@@ -83,13 +94,15 @@ export default class extends TiniElement {
 
   private renderTBody() {
     return html`
-      <tbody>
+      <tbody class=${TableParts.TBody} part=${TableParts.TBody}>
         ${this.items.slice(1).map(
           row => html`
-            <tr>
+            <tr class=${TableParts.TR} part=${TableParts.TR}>
               ${row.map(item => {
                 const {content, colspan, rowspan} = this.processCell(item);
                 return html`<td
+                  class=${TableParts.TD}
+                  part=${TableParts.TD}
                   colspan=${ifDefined(colspan)}
                   rowspan=${ifDefined(rowspan)}
                 >

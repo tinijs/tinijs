@@ -54,7 +54,7 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       TextParts.Main,
       mainChildren => html`
         <span

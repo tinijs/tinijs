@@ -20,25 +20,30 @@ export type RadiosItem = Omit<CheckboxesItem, 'name'>;
 
 export enum RadiosParts {
   Main = ElementParts.Main,
+  Item = 'item',
+  Label = 'label',
+  Input = 'input',
 }
 
 export default class extends TiniElement {
   static readonly componentMetadata = {
-    customMainSelector: '.input',
+    customMainSelector: `.${RadiosParts.Input}`,
   };
 
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) name!: string;
   @property({type: Array}) items!: RadiosItem[];
+  @property({type: String, reflect: true}) name!: string;
   @property({type: Boolean, reflect: true}) wrap?: boolean;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
-  @property({type: String, reflect: true}) checkedScheme?: this['scheme'];
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
   private validateProperties() {
     if (!this.name) throw new Error('Property "name" is required.');
-    if (!this.items?.length) throw new Error('Property "items" is required.');
+    if (!this.items.length)
+      throw new Error(
+        'Property "items" is required  and must contain at least 1 item.'
+      );
   }
 
   willUpdate(changedProperties: PropertyValues<this>) {
@@ -54,38 +59,38 @@ export default class extends TiniElement {
         scheme: this.scheme,
         size: this.size,
       },
-      pseudo: {
-        checked: {
-          scheme: this.checkedScheme,
-        },
-      },
     });
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       RadiosParts.Main,
       mainChildren => html`
         <div
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}
         >
-          ${this.items.map(item => this.renderItem(item))} ${mainChildren()}
+          ${this.items.map(item => this.renderItemPart(item))} ${mainChildren()}
         </div>
       `
     );
   }
 
-  private renderItem({label, value, checked, disabled}: RadiosItem) {
-    const itemClasses: ClassInfo = {
-      item: true,
-      disabled: !!disabled,
-    };
+  private renderItemPart({
+    value,
+    label,
+    checked = false,
+    disabled = false,
+  }: RadiosItem) {
+    const itemClasses = this.buildClassVariants(RadiosParts.Item, {
+      checked,
+      disabled,
+    });
     return html`
       <label class=${classMap(itemClasses)} part=${partAttrMap(itemClasses)}>
         <input
-          class="input"
-          part="input"
+          class=${RadiosParts.Input}
+          part=${RadiosParts.Input}
           type="radio"
           name=${this.name}
           value=${ifDefined(value)}
@@ -94,7 +99,9 @@ export default class extends TiniElement {
         />
         ${!label
           ? nothing
-          : html`<span class="label" part="label">${label}</span>`}
+          : html`<div class=${RadiosParts.Label} part=${RadiosParts.Label}>
+              ${label}
+            </div>`}
       </label>
     `;
   }

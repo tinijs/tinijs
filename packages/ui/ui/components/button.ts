@@ -1,6 +1,7 @@
 import {html, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
   ElementParts,
@@ -16,7 +17,10 @@ import {
   generateSizeVariants,
 } from '@tinijs/core';
 
+import {LinkTargets} from './link.js';
+
 export enum ButtonParts {
+  BG = ElementParts.BG,
   Main = ElementParts.Main,
 }
 
@@ -31,8 +35,9 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) mode?: ButtonModes;
   @property({type: Boolean, reflect: true}) block?: boolean;
   @property({type: Boolean, reflect: true}) disabled?: boolean;
+  @property({type: String, reflect: true}) href?: boolean;
+  @property({type: String, reflect: true}) target?: LinkTargets;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
-  @property({type: String, reflect: true}) hoverScheme?: this['scheme'];
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
@@ -49,26 +54,36 @@ export default class extends TiniElement {
         scheme: this.scheme,
         size: this.size,
       },
-      pseudo: {
-        hover: {
-          scheme: this.hoverScheme,
-        },
-      },
     });
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       ButtonParts.Main,
       mainChildren => html`
-        <button
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-          ?disabled=${this.disabled}
-        >
-          <slot></slot>
-          ${mainChildren()}
-        </button>
+        <div class=${ButtonParts.BG} part=${ButtonParts.BG}></div>
+        ${this.href
+          ? html`
+              <a
+                class=${classMap(this.mainClasses)}
+                part=${partAttrMap(this.mainClasses)}
+                href=${this.href}
+                target=${ifDefined(this.target)}
+              >
+                <slot></slot>
+                ${mainChildren()}
+              </a>
+            `
+          : html`
+              <button
+                class=${classMap(this.mainClasses)}
+                part=${partAttrMap(this.mainClasses)}
+                ?disabled=${this.disabled}
+              >
+                <slot></slot>
+                ${mainChildren()}
+              </button>
+            `}
       `
     );
   }
@@ -82,195 +97,143 @@ export const defaultStyles = createStyleBuilder<{
 }>(outputs => [
   css`
     :host {
-      --base-color: var(--color-middle);
-      --color: var(--color-middle);
       --background: var(--color-middle);
+      --base-color: var(--color-middle);
+      --color: var(--color-middle-contrast);
       --size: var(--size-md);
-      --text-color: var(--color-middle-contrast);
-      --border-size: var(--border-md);
       --radius: var(--radius-md);
-      --box-shadow: none;
-      --disabled-opacity: 0.5;
-      --focus-visible-shadow-size: calc(var(--size-md) * 0.3);
-      display: inline;
-    }
-
-    button {
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      border: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: calc(var(--size) * 0.5);
-      padding: calc(var(--size) * 0.5) var(--size);
-      background: var(--background);
-      color: var(--text-color);
-      font-family: var(--font-content);
-      font-size: calc(var(--size) * 1.1);
-      line-height: 1.4;
-      border-radius: var(--radius);
-      outline: 0 !important;
-      box-shadow: var(--box-shadow);
-      transition: all 0.15s ease-in-out;
-    }
-
-    button:hover {
-      opacity: 0.8;
-    }
-
-    button:active {
-      opacity: 1;
-    }
-
-    button:focus-visible {
-      box-shadow: 0 0 0 var(--focus-visible-shadow-size)
-        color-mix(in oklab, var(--color), transparent 70%);
-    }
-
-    button:disabled,
-    button:disabled:hover,
-    button:disabled:active,
-    button:disabled:focus-visible {
-      cursor: not-allowed;
-      pointer-events: none;
-      box-shadow: none;
-      background: var(--background);
-      opacity: var(--disabled-opacity);
-    }
-
-    ::slotted(*) {
-      pointer-events: none;
-      line-height: 1.4 !important;
-    }
-
-    ::slotted(.content-group) {
-      display: inline-flex;
-      align-items: center;
-      gap: calc(var(--size) * 0.5);
-    }
-
-    :host([block]),
-    .block {
-      width: 100%;
-      display: flex;
-      align-items: center;
-    }
-
-    button.mode-outline {
-      background: none;
-      color: var(
-        --text-color-specific,
-        var(--text-color-contrast, var(--base-color))
-      );
+      position: relative;
+      overflow: hidden;
+      z-index: 0;
+      background: var(--color-back);
       border-radius: var(--radius);
     }
 
-    button.mode-outline::before {
-      pointer-events: none;
-      content: '';
+    .bg {
       position: absolute;
       inset: 0;
-      border: var(--border-size) solid transparent;
+      background: var(--background);
+    }
+
+    .main {
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      margin: 0;
+      padding: 0;
+      background: none;
+      border: none;
+      text-decoration: none;
+      color: var(--color);
+      font-size: var(--size);
+    }
+
+    a.main:hover {
+      color: var(--color);
+      text-decoration: none;
+    }
+
+    :host([block]) {
+      width: 100%;
+    }
+
+    :host([disabled]) {
+      cursor: not-allowed;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    /* Outline */
+
+    :host([mode='outline']) .bg {
+      background: none;
+    }
+
+    :host([mode='outline']) .bg::before {
+      pointer-events: none;
+      position: absolute;
+      content: '';
+      inset: 0;
+      border: var(--border-md) solid transparent;
       border-radius: var(--radius);
       background: var(--background) border-box;
+      -webkit-mask-composite: destination-out;
       -webkit-mask:
         linear-gradient(white 0 0) padding-box,
         linear-gradient(white 0 0);
       mask-composite: exclude;
-      -webkit-mask-composite: destination-out;
     }
 
-    button.mode-outline:hover {
+    :host([mode='outline']:hover) .bg {
       background: var(--background);
-      color: var(--text-color);
-      opacity: 1;
     }
 
-    button.mode-outline:active {
-      opacity: 0.9 !important;
+    :host([mode='outline']) .main {
+      color: var(--base-color);
     }
 
-    button.mode-clear {
+    :host([mode='outline']:hover) .main {
+      color: var(--color);
+    }
+
+    /* Clear */
+
+    :host([mode='clear']) .bg {
       background: transparent;
-      color: var(
-        --text-color-specific,
-        var(--text-color-contrast, var(--base-color))
-      );
     }
 
-    button.mode-clear:hover {
+    :host([mode='clear']:hover) .bg {
       background: var(--background);
-      color: var(--text-color);
-      opacity: 1;
     }
 
-    button.mode-clear:hover {
-      opacity: 1;
+    :host([mode='clear']) .main {
+      color: var(--base-color);
     }
 
-    button.mode-clear:active {
-      opacity: 0.8;
+    :host([mode='clear']:hover) .main {
+      color: var(--color);
     }
   `,
 
   outputs.statics,
 
   generateAllColorVariants(values => {
-    const {hostSelector, fullName, baseColor, color, contrast} = values;
+    const {hostSelector, isSubtle, baseColor, color, contrast} = values;
     return `
-      button.${fullName}-hover {
-        transition: none;
-        opacity: 1;
-      }
-
-      button.${fullName}-hover:active {
-        opacity: 0.9;
-      }
-
-      button.${fullName},
-      button.${fullName}-hover:hover {
+      ${hostSelector} {
         --background: ${color};
-        --text-color: ${contrast};
-        --color: ${color};
         --base-color: ${baseColor};
+        --color: ${isSubtle ? baseColor : contrast};
       }
       ${outputs.colorGen(values)}
     `;
   }),
 
   generateAllGradientVariants(values => {
-    const {hostSelector, fullName, baseColor, color, contrast, gradient} =
-      values;
+    const {hostSelector, isSubtle, baseColor, gradient, contrast} = values;
     return `
-      button.${fullName}.mode-outline,
-      button.${fullName}-hover {
-        opacity: 1;
-        transition: none;
-      }
-
-      button.${fullName}-hover:active {
-        opacity: 0.9;
-      }
-
-      button.${fullName},
-      button.${fullName}-hover:hover {
+      ${hostSelector} {
         --background: ${gradient};
-        --text-color: ${contrast};
-        --color: ${color};
         --base-color: ${baseColor};
+        --color: ${isSubtle ? baseColor : contrast};
       }
       ${outputs.gradientGen(values)}
     `;
   }),
 
   generateSizeVariants(values => {
-    const {hostSelector, fullName, size} = values;
+    const {hostSelector, size} = values;
     return `
-      button.${fullName} {
+      ${hostSelector} {
         --size: ${size};
-        --focus-visible-shadow-size: calc(var(--size-${name}) * 0.3);
       }
       ${outputs.sizeGen(values)}
     `;

@@ -10,85 +10,110 @@ import {
   Colors,
 } from '@tinijs/core';
 
-import type {DialogButton, DialogResult} from './dialog.js';
+import type {DialogButton} from './dialog.js';
 
 export type ModalButton = DialogButton;
 
-export type ModalResult<Context> = DialogResult<Context>;
-
 export enum ModalParts {
   Main = ElementParts.Main,
+  Head = 'head',
+  Body = 'body',
+  Foot = 'foot',
 }
+
+export enum ModalActions {
+  Dismiss = 'dismiss',
+  Deny = 'deny',
+  Accept = 'accept',
+}
+
+export const BACKDROP_DISMISSAL = 'backdrop-dismissal';
 
 /***
 {
   "reactEvents": {
-    "yes": "onYes",
-    "no": "onNo"
+    "action": "onAction"
   }
 }
 ***/
 export default class extends TiniElement {
-  private readonly BACKDROP_CLOSED = 'backdrop-closed';
-
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) titleText?: string;
-  @property({type: Boolean, reflect: true}) backdropClosed?: boolean;
-  @property({type: Object}) noButton?: ModalButton;
-  @property({type: Object}) yesButton?: ModalButton;
+  @property({type: Boolean, reflect: true}) backdropDismissal?: boolean;
+  @property({type: Boolean, reflect: true}) stayUponAccepted?: boolean;
+  @property({type: Object}) data?: Record<string, unknown>;
+  @property({type: Object}) denyButton?: DialogButton;
+  @property({type: Object}) acceptButton?: DialogButton;
   /* eslint-enable prettier/prettier */
 
-  private dialogRef = createRef<HTMLDialogElement>();
-  private context?: unknown;
+  private readonly dialogRef = createRef<HTMLDialogElement>();
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
     // main classes parts
     this.extendMainClasses({
       raw: {
-        [this.BACKDROP_CLOSED]: !!this.backdropClosed,
+        [BACKDROP_DISMISSAL]: !!this.backdropDismissal,
       },
     });
   }
 
-  get opened() {
-    return this.dialogRef.value?.open;
+  get dialogElement() {
+    return this.dialogRef.value!;
   }
 
-  get result(): DialogResult<unknown> {
-    return {
-      context: this.context,
-      dialog: this.dialogRef.value as HTMLDialogElement,
-    };
+  get isOpened() {
+    return !!this.dialogRef.value?.open;
   }
 
-  show<Context>(context?: Context) {
-    if (!this.dialogRef.value) return;
-    this.context = context;
-    this.dialogRef.value.showModal();
+  show<Data extends Record<string, unknown>>(data?: Data) {
+    this.data = data;
+    this.dialogRef.value!.showModal();
+    return this;
   }
 
   hide() {
-    if (!this.dialogRef.value) return;
-    this.dialogRef.value.close();
+    this.dialogRef.value!.close();
+    return this;
   }
 
   private clickDialog(e: MouseEvent) {
-    if (!this.backdropClosed) return;
-    const targetPart = (e.target as any)?.getAttribute('part');
-    if (targetPart && ~targetPart.indexOf(this.BACKDROP_CLOSED)) this.clickNo();
+    if (!this.backdropDismissal) return;
+    const targetPart = (e.target as any)?.getAttribute('part') || '';
+    if (
+      ~targetPart.indexOf(ModalParts.Main) &&
+      ~targetPart.indexOf(BACKDROP_DISMISSAL)
+    ) {
+      this.dismiss();
+    }
   }
 
-  private clickNo() {
-    this.dispatchEvent(new CustomEvent('no', {detail: this.result}));
+  private triggerAction(action: ModalActions) {
+    const detail = {
+      action,
+      data: this.data,
+      dialog: this,
+    };
+    return this.dispatchEvent(new CustomEvent('action', {detail}));
   }
 
-  private clickYes() {
-    this.dispatchEvent(new CustomEvent('yes', {detail: this.result}));
+  private dismiss() {
+    this.hide();
+    return this.triggerAction(ModalActions.Dismiss);
+  }
+
+  private deny() {
+    this.hide();
+    return this.triggerAction(ModalActions.Deny);
+  }
+
+  private accept() {
+    if (!this.stayUponAccepted) this.hide();
+    return this.triggerAction(ModalActions.Accept);
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       ModalParts.Main,
       mainChildren => html`
         <dialog
@@ -97,38 +122,61 @@ export default class extends TiniElement {
           part=${partAttrMap(this.mainClasses)}
           @click=${this.clickDialog}
         >
-          <div class="head" part="head">
-            <slot name="head">
-              <strong>${this.titleText || 'Untitled'}</strong>
-              <button @click=${this.clickNo}>✕</button>
-            </slot>
-          </div>
-          <div class="body" part="body">
-            <slot></slot>
-          </div>
-          <div class="foot" part="foot">
-            <slot name="foot">
-              <div class="foot-first" part="foot-first">
-                <tini-button
-                  scheme=${this.noButton?.scheme || Colors.Middle}
-                  @click=${this.clickNo}
-                >
-                  ${this.noButton?.text || 'Cancel'}
-                </tini-button>
-              </div>
-              <div class="foot-second" part="foot-second">
-                <tini-button
-                  scheme=${this.yesButton?.scheme || 'primary'}
-                  @click=${this.clickYes}
-                >
-                  ${this.yesButton?.text || 'OK'}
-                </tini-button>
-              </div>
-            </slot>
-          </div>
-
-          ${mainChildren()}
+          ${this.renderHeadPart()} ${this.renderBodyPart()}
+          ${this.renderFootPart()} ${mainChildren()}
         </dialog>
+      `
+    );
+  }
+
+  private renderHeadPart() {
+    return this.partRender(
+      ModalParts.Head,
+      headChildren => html`
+        <div class=${ModalParts.Head} part=${ModalParts.Head}>
+          <slot name=${ModalParts.Head}>
+            <strong>${this.titleText || 'Modal'}</strong>
+            <button @click=${this.dismiss}>✕</button>
+          </slot>
+          ${headChildren()}
+        </div>
+      `
+    );
+  }
+
+  private renderBodyPart() {
+    return this.partRender(
+      ModalParts.Body,
+      bodyChildren => html`
+        <div class=${ModalParts.Body} part=${ModalParts.Body}>
+          <slot></slot>
+          ${bodyChildren()}
+        </div>
+      `
+    );
+  }
+
+  private renderFootPart() {
+    return this.partRender(
+      ModalParts.Foot,
+      footChildren => html`
+        <div class=${ModalParts.Foot} part=${ModalParts.Foot}>
+          <slot name=${ModalParts.Foot}>
+            <tini-button
+              scheme=${this.denyButton?.scheme || Colors.Middle}
+              @click=${this.deny}
+            >
+              ${this.denyButton?.text || 'Cancel'}
+            </tini-button>
+            <tini-button
+              scheme=${this.acceptButton?.scheme || 'primary'}
+              @click=${this.accept}
+            >
+              ${this.acceptButton?.text || 'OK'}
+            </tini-button>
+          </slot>
+          ${footChildren()}
+        </div>
       `
     );
   }

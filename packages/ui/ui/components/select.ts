@@ -14,74 +14,79 @@ import {
   generateSizeVariants,
 } from '@tinijs/core';
 
-export interface SelectItem extends SelectOption {
-  children?: SelectOption[];
-}
+export type SelectItem = SelectOption | SelectOptgroup;
 
 export interface SelectOption {
-  label: string;
-  value?: string;
-  disabled?: boolean;
+  value: string;
+  content: string;
   selected?: boolean;
+  disabled?: boolean;
 }
 
-export type SelectOptgroup = SelectOption & {
-  children: SelectOption[];
-};
+export interface SelectOptgroup {
+  label: string;
+  options: SelectOption[];
+}
 
 export enum SelectParts {
   Main = ElementParts.Main,
+  Label = 'label',
+  Select = 'select',
+}
+
+export enum SelectAutoCompletes {
+  On = 'on',
+  Off = 'off',
 }
 
 export default class extends TiniElement {
   static readonly componentMetadata = {
     colorOnlyScheme: true,
-    customMainSelector: '.select',
+    customMainSelector: `.${SelectParts.Select}`,
   };
 
   /* eslint-disable prettier/prettier */
-  @property({type: Array}) items?: SelectItem[];
+  @property({type: Array}) items!: SelectItem[];
   @property({type: String, reflect: true}) label?: string;
   @property({type: String, reflect: true}) name?: string;
-  @property({type: String, reflect: true}) autocomplete?: string;
+  @property({type: String, reflect: true}) autocomplete?: SelectAutoCompletes;
   @property({type: Boolean, reflect: true}) disabled?: boolean;
   @property({type: Boolean, reflect: true}) wrap?: boolean;
   @property({type: Boolean, reflect: true}) block?: boolean;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
-  @property({type: String, reflect: true}) focusScheme?: this['scheme'];
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
+  private validateProperties() {
+    if (!this.items.length)
+      throw new Error(
+        'Property "items" is required  and must contain at least 1 item.'
+      );
+  }
+
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // host block
-    if (changedProperties.has('block')) {
-      if (this.block) {
-        this.classList.add('block');
-      } else {
-        this.classList.remove('block');
-      }
-    }
+    // default and validations
+    this.validateProperties();
     // main classes parts
     this.extendMainClasses({
       raw: {
-        wrap: !!this.wrap,
         disabled: !!this.disabled,
+        wrap: !!this.wrap,
       },
       overridable: {
         scheme: this.scheme,
         size: this.size,
       },
-      pseudo: {
-        focus: {
-          scheme: this.focusScheme,
-        },
-      },
     });
   }
 
+  private isOptgroup(item: SelectItem): item is SelectOptgroup {
+    return !!(item as any).options;
+  }
+
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       SelectParts.Main,
       mainChildren => html`
         <label
@@ -90,47 +95,47 @@ export default class extends TiniElement {
         >
           ${!this.label
             ? nothing
-            : html`<span class="label" part="label">${this.label}</span>`}
+            : html`<div class=${SelectParts.Label} part=${SelectParts.Label}>
+                ${this.label}
+              </div>`}
           <select
-            class="select"
-            part="select"
+            class=${SelectParts.Select}
+            part=${SelectParts.Select}
             name=${ifDefined(this.name)}
-            autocomplete=${ifDefined(this.autocomplete) as any}
+            autocomplete=${ifDefined(this.autocomplete)}
             ?disabled=${this.disabled}
           >
-            ${!this.items?.length
-              ? nothing
-              : this.items.map(option =>
-                  !option.children?.length
-                    ? this.renderOption(option as SelectOption)
-                    : this.renderOptgroup(option as SelectOptgroup)
-                )}
+            ${this.items.map(item =>
+              !this.isOptgroup(item)
+                ? this.getOptionTemplate(item)
+                : html`
+                    <optgroup label=${item.label}>
+                      ${item.options.map(option =>
+                        this.getOptionTemplate(option)
+                      )}
+                    </optgroup>
+                  `
+            )}
           </select>
-
           ${mainChildren()}
         </label>
       `
     );
   }
 
-  private renderOptgroup({label, children}: SelectOptgroup) {
-    return html`
-      <optgroup class="optgroup" part="optgroup" label=${label}>
-        ${children.map(option => this.renderOption(option))}
-      </optgroup>
-    `;
-  }
-
-  private renderOption({label, value, disabled, selected}: SelectOption) {
+  private getOptionTemplate({
+    value,
+    content,
+    selected = false,
+    disabled = false,
+  }: SelectOption) {
     return html`
       <option
-        part="option"
-        class="option"
         value=${ifDefined(value)}
-        ?disabled=${disabled}
         ?selected=${selected}
+        ?disabled=${disabled}
       >
-        ${label}
+        ${content}
       </option>
     `;
   }

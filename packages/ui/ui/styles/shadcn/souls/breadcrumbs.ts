@@ -14,7 +14,7 @@ export const styles = defaultStyles.extends({
       color: var(--color-middle);
       font-weight: var(--weight-normal);
     }
-    
+
     .item:hover,
     .item-active {
       color: var(--color-front);

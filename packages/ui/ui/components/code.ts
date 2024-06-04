@@ -70,7 +70,7 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       CodeParts.Main,
       () => html`
         <pre

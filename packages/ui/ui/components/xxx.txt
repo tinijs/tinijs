@@ -24,7 +24,7 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       XXXParts.Main,
       mainChildren => html`
         <xxx

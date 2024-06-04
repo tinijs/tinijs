@@ -16,24 +16,30 @@ import {
 
 export enum TextareaParts {
   Main = ElementParts.Main,
+  Label = 'label',
+  Textarea = 'textarea',
+}
+
+export enum TextareaAutoCompletes {
+  On = 'on',
+  Off = 'off',
 }
 
 export default class extends TiniElement {
   static readonly componentMetadata = {
     colorOnlyScheme: true,
-    customMainSelector: '.textarea',
+    customMainSelector: `.${TextareaParts.Textarea}`,
   };
 
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) label?: string;
-  @property({type: String, reflect: true}) placeholder?: string;
   @property({type: String, reflect: true}) name?: string;
   @property({type: String, reflect: true}) value?: string;
-  @property({type: String, reflect: true}) autocomplete?: string;
+  @property({type: String, reflect: true}) placeholder?: string;
+  @property({type: String, reflect: true}) autocomplete?: TextareaAutoCompletes;
   @property({type: Boolean, reflect: true}) disabled?: boolean;
   @property({type: Boolean, reflect: true}) readonly?: boolean;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
-  @property({type: String, reflect: true}) focusScheme?: this['scheme'];
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
@@ -49,16 +55,11 @@ export default class extends TiniElement {
         scheme: this.scheme,
         size: this.size,
       },
-      pseudo: {
-        focus: {
-          scheme: this.focusScheme,
-        },
-      },
     });
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       TextareaParts.Main,
       mainChildren => html`
         <label
@@ -67,18 +68,22 @@ export default class extends TiniElement {
         >
           ${!this.label
             ? nothing
-            : html`<span class="label" part="label">${this.label}</span>`}
+            : html`<div
+                class=${TextareaParts.Label}
+                part=${TextareaParts.Label}
+              >
+                ${this.label}
+              </div>`}
           <textarea
-            class="textarea"
-            part="textarea"
+            class=${TextareaParts.Textarea}
+            part=${TextareaParts.Textarea}
             placeholder=${ifDefined(this.placeholder)}
             name=${ifDefined(this.name)}
             .value=${this.value || ''}
-            autocomplete=${ifDefined(this.autocomplete) as any}
-            ?disabled=${this.disabled}
-            ?readonly=${this.readonly}
+            autocomplete=${ifDefined(this.autocomplete)}
+            ?disabled=${!!this.disabled}
+            ?readonly=${!!this.readonly}
           ></textarea>
-
           ${mainChildren()}
         </label>
       `

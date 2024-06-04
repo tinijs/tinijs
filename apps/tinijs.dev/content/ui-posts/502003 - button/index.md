@@ -26,9 +26,7 @@ Use buttons to trigger actions.
           label: 'Mode',
           items: [
             {label: 'Default', value: '_default', checked: true},
-            {label: 'Normal', value: 'normal'},
-            {label: 'Outline', value: 'outline'},
-            {label: 'Clear', value: 'clear'}
+            {label: 'Filled', value: 'filled'}
           ]
         },
         target: 'mode'
@@ -47,11 +45,6 @@ Use buttons to trigger actions.
         section: 'select',
         attrs: {label: 'Scheme', preset: 'allColorsAndAllGradients'},
         target: 'scheme'
-      },
-      {
-        section: 'select',
-        attrs: {label: 'Scheme (hover)', preset: 'allColorsAndAllGradients'},
-        target: 'hoverScheme'
       },
       {
         section: 'select',

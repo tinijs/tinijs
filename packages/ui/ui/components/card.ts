@@ -1,6 +1,6 @@
 import {html, css, type PropertyValues, type CSSResult} from 'lit';
-import {property, state, queryAssignedElements} from 'lit/decorators.js';
-import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
+import {property} from 'lit/decorators.js';
+import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,
   ElementParts,
@@ -20,16 +20,6 @@ export default class extends TiniElement {
   @property({type: Boolean, reflect: true}) fluid?: boolean;
   /* eslint-enable prettier/prettier */
 
-  /* eslint-disable prettier/prettier */
-  @queryAssignedElements({slot: 'head'}) private readonly headSlotElems?: HTMLElement[];
-  @queryAssignedElements({slot: 'foot'}) private readonly footSlotElems?: HTMLElement[];
-  /* eslint-enable prettier/prettier */
-  @state() private headSlotPopulated = false;
-  @state() private footSlotPopulated = false;
-
-  private headClasses: ClassInfo = {};
-  private bodyClasses: ClassInfo = {};
-  private footClasses: ClassInfo = {};
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
     // main classes parts
@@ -38,58 +28,54 @@ export default class extends TiniElement {
         fluid: !!this.fluid,
       },
     });
-    // head, body, foot classes parts
-    this.headClasses = {
-      head: true,
-      'head-populated': this.headSlotPopulated,
-    };
-    this.bodyClasses = {
-      body: true,
-    };
-    this.footClasses = {
-      foot: true,
-      'foot-populated': this.footSlotPopulated,
-    };
   }
 
   protected render() {
-    return this.renderPart(
+    return this.partRender(
       CardParts.Main,
       mainChildren => html`
         <div
           class=${classMap(this.mainClasses)}
           part=${partAttrMap(this.mainClasses)}
         >
-          <div
-            class=${classMap(this.headClasses)}
-            part=${partAttrMap(this.headClasses)}
-          >
-            <slot
-              name="head"
-              @slotchange=${() =>
-                (this.headSlotPopulated = !!this.headSlotElems?.length)}
-            ></slot>
-          </div>
+          ${this.renderHeadPart()} ${this.renderBodyPart()}
+          ${this.renderFootPart()} ${mainChildren()}
+        </div>
+      `
+    );
+  }
 
-          <div
-            class=${classMap(this.bodyClasses)}
-            part=${partAttrMap(this.bodyClasses)}
-          >
-            <slot></slot>
-          </div>
+  private renderHeadPart() {
+    return this.partRender(
+      CardParts.Head,
+      headChildren => html`
+        <div class=${CardParts.Head} part=${CardParts.Head}>
+          <slot name=${CardParts.Head}></slot>
+          ${headChildren()}
+        </div>
+      `
+    );
+  }
 
-          <div
-            class=${classMap(this.footClasses)}
-            part=${partAttrMap(this.footClasses)}
-          >
-            <slot
-              name="foot"
-              @slotchange=${() =>
-                (this.footSlotPopulated = !!this.footSlotElems?.length)}
-            ></slot>
-          </div>
+  private renderBodyPart() {
+    return this.partRender(
+      CardParts.Body,
+      bodyChildren => html`
+        <div class=${CardParts.Body} part=${CardParts.Body}>
+          <slot></slot>
+          ${bodyChildren()}
+        </div>
+      `
+    );
+  }
 
-          ${mainChildren()}
+  private renderFootPart() {
+    return this.partRender(
+      CardParts.Foot,
+      footChildren => html`
+        <div class=${CardParts.Foot} part=${CardParts.Foot}>
+          <slot name=${CardParts.Foot}></slot>
+          ${footChildren()}
         </div>
       `
     );
