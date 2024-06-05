@@ -82,7 +82,7 @@ export const defaultStyles = createStyleBuilder<{
       z-index: 0;
       line-height: 0;
       background: var(--color-back);
-      border-radius: var(--radius-md);
+      border-radius: calc(var(--size-radius) * var(--size));
       min-width: calc(var(--size) * 1.5);
       min-height: calc(var(--size) * 1.25);
     }

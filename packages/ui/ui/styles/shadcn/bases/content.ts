@@ -28,7 +28,7 @@ export const heading = css`
   h2 {
     font-size: 1.875rem;
     padding-bottom: 0.75rem;
-    border-bottom: var(--border-md) solid var(--color-back-shade);
+    border-bottom: var(--border-md) solid var(--color-back-dim);
   }
 
   h3 {
@@ -61,7 +61,7 @@ export const link = css`
 export const blockquote = css`
   blockquote {
     padding-left: var(--space-lg);
-    border-left: 2px solid var(--color-back-shade);
+    border-left: 2px solid var(--color-back-dim);
   }
 
   blockquote,
@@ -104,7 +104,7 @@ export const table = css`
   td {
     background: var(--color-back);
     padding: var(--space-xs) var(--space-sm);
-    border: var(--border-md) solid var(--color-back-shade);
+    border: var(--border-md) solid var(--color-back-dim);
   }
 
   th {
@@ -125,7 +125,7 @@ export const code = css`
     font-family: var(--font-code);
     font-size: 0.85em;
     padding: 0.2rem 0.4rem;
-    background: var(--color-back-shade);
+    background: var(--color-back-dim);
     word-wrap: break-word;
     border-radius: 0.25rem;
     font-weight: bold;

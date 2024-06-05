@@ -19,12 +19,7 @@ import {
 } from '@tinijs/cli';
 import type {UIConfig} from '@tinijs/project';
 
-import {
-  getCommonColors,
-  getCommonGradients,
-  getSkinUtils,
-  getCommonStyles,
-} from './global.js';
+import {getSkinUtils, getCommonStyles} from './global.js';
 
 const {ModuleKind, ScriptTarget} = typescript;
 
@@ -165,28 +160,6 @@ export async function listAvailableThemeFamilies(sourceDirs: string[]) {
 export async function buildGlobals() {
   const results: GenFileResult[] = [];
 
-  // common colors
-  const commonColorsExportName = 'commonColors';
-  const commonColorsFile = 'globals/common-colors.ts';
-  const commonColorsTS = createGenFile()
-    .addImport('lit', ['css'])
-    .addBlock(
-      `export const ${commonColorsExportName} =`,
-      `css\`${getCommonColors()}\``
-    );
-  results.push(commonColorsTS.toResult(commonColorsFile));
-
-  // common gradients
-  const commonGradientsExportName = 'commonGradients';
-  const commonGradientsFile = 'globals/common-gradients.ts';
-  const commonGradientsTS = createGenFile()
-    .addImport('lit', ['css'])
-    .addBlock(
-      `export const ${commonGradientsExportName} =`,
-      `css\`${getCommonGradients()}\``
-    );
-  results.push(commonGradientsTS.toResult(commonGradientsFile));
-
   // skin utils
   const skinUtilsExportName = 'skinUtils';
   const skinUtilsFile = 'globals/skin-utils.ts';
@@ -211,24 +184,15 @@ export async function buildGlobals() {
 
   // index
   const indexTS = createGenFile()
-    .addImport(`./${tsToJS(commonColorsFile)}`, [commonColorsExportName])
-    .addImport(`./${tsToJS(commonGradientsFile)}`, [commonGradientsExportName])
     .addImport(`./${tsToJS(skinUtilsFile)}`, [skinUtilsExportName])
     .addImport(`./${tsToJS(commonStylesFile)}`, [commonStylesExportName])
     .addBlock(
       'export',
-      `{ ${[
-        commonColorsExportName,
-        commonGradientsExportName,
-        skinUtilsExportName,
-        commonStylesExportName,
-      ].join(', ')} }`
+      `{ ${[skinUtilsExportName, commonStylesExportName].join(', ')} }`
     )
     .addBlock(
       'export const availableGlobals =',
       `[
-        ${commonColorsExportName},
-        ${commonGradientsExportName},
         ${skinUtilsExportName},
         ${commonStylesExportName},
       ]`

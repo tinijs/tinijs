@@ -635,7 +635,7 @@ registerComponents([ ${constructorName} ]);`;
       --head-height: 40px;
       overflow: hidden;
       width: 100%;
-      border: 1px solid var(--color-back-shade);
+      border: 1px solid var(--color-back-dim);
       border-radius: var(--radius-md);
 
       .head {
@@ -645,7 +645,7 @@ registerComponents([ ${constructorName} ]);`;
         justify-content: space-between;
         height: var(--head-height);
         padding: var(--space-xs);
-        border-bottom: 1px solid var(--color-back-shade);
+        border-bottom: 1px solid var(--color-back-dim);
       }
 
       .body {
@@ -669,7 +669,7 @@ registerComponents([ ${constructorName} ]);`;
       .preview {
         --head-height: 40px;
         height: 480px;
-        background: var(--color-back-shade);
+        background: var(--color-back);
 
         .head {
           background: var(--color-back);
@@ -683,7 +683,7 @@ registerComponents([ ${constructorName} ]);`;
               display: block;
               width: 1px;
               height: 20px;
-              background: var(--color-back-shade);
+              background: var(--color-back-dim);
             }
 
             button {
@@ -705,7 +705,7 @@ registerComponents([ ${constructorName} ]);`;
               }
 
               &.selected {
-                background: var(--color-back-shade);
+                background: var(--color-back-dim);
               }
             }
           }
@@ -744,7 +744,7 @@ registerComponents([ ${constructorName} ]);`;
           content: '';
           position: absolute;
           border-radius: 1000rem;
-          background: var(--color-back-shade);
+          background: var(--color-back-dim);
         }
 
         .right-grip {
@@ -781,8 +781,8 @@ registerComponents([ ${constructorName} ]);`;
             cursor: pointer;
             box-sizing: border-box;
             height: calc(var(--head-height) + 1px);
-            border-bottom: 1px solid var(--color-back-shade);
-            border-right: 1px solid var(--color-back-shade);
+            border-bottom: 1px solid var(--color-back-dim);
+            border-right: 1px solid var(--color-back-dim);
             background: color-mix(
               in oklab,
               var(--color-back),

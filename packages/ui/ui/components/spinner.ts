@@ -69,7 +69,7 @@ export const defaultStyles = createStyleBuilder<{
       --border-width: calc(var(--size) / 4);
       width: var(--size);
       height: var(--size);
-      border: var(--border-width) solid var(--color-back-shade);
+      border: var(--border-width) solid var(--color-back-dim);
       border-top: var(--border-width) solid var(--color);
       border-radius: 50%;
       animation: spin 1s linear infinite;

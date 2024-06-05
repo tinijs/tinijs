@@ -89,8 +89,8 @@ export class AppDocPageMenuComponent extends TiniComponent {
       width: 250px;
       height: calc(100vh - var(--header-height));
       height: calc(100dvh - var(--header-height));
-      background: var(--color-back-tint);
-      border-right: 1px solid var(--color-back-shade);
+      background: var(--color-back);
+      border-right: 1px solid var(--color-back-dim);
       overflow-y: scroll;
       opacity: 0;
       transform: translateX(-100%);
@@ -130,7 +130,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
       list-style: none;
       padding: 0;
       margin: 0;
-      border-top: 1px solid var(--color-back-shade);
+      border-top: 1px solid var(--color-back-dim);
       padding: var(--space-md);
       display: flex;
       flex-flow: column;
@@ -145,7 +145,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
           padding-top: var(--space-md);
           padding-bottom: var(--space-xs2);
           font-size: 1.1rem;
-          border-top: 1px solid var(--color-back-shade);
+          border-top: 1px solid var(--color-back-dim);
         }
 
         &:first-child strong {
@@ -180,7 +180,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
         transform: none;
         opacity: 1;
         left: 0;
-        background: var(--color-back-shade);
+        background: var(--color-back-dim);
         border-right: none;
         padding-bottom: var(--footer-height);
       }

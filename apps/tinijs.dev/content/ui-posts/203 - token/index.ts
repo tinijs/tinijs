@@ -94,7 +94,7 @@ export class ContentUIPostTokenComponent
               <td><code>${varValue}</code></td>
               <td>
                 ${this.getColorOrGradientPreviewTemplate(varName)}
-                ${['shade', 'tint', 'subtle', 'contrast'].map(variantName => {
+                ${['dim', 'subtle', 'contrast'].map(variantName => {
                   const varName = `--color-${value}-${variantName}`;
                   return this.getColorOrGradientPreviewTemplate(varName);
                 })}
@@ -126,7 +126,7 @@ export class ContentUIPostTokenComponent
               <td><code>${varValue}</code></td>
               <td>
                 ${this.getColorOrGradientPreviewTemplate(varName)}
-                ${['shade', 'tint', 'subtle', 'contrast'].map(variantName => {
+                ${['dim', 'subtle', 'contrast'].map(variantName => {
                   const varName = `--${value}-${variantName}`;
                   return this.getColorOrGradientPreviewTemplate(varName);
                 })}
@@ -341,7 +341,7 @@ export class ContentUIPostTokenComponent
                     width: `var(${varName})`,
                     height: `var(${varName})`,
                     display: 'inline-block',
-                    background: 'var(--color-blue)',
+                    background: '#3b82f6',
                   })}
                 ></span>
               </td>
@@ -408,7 +408,7 @@ export class ContentUIPostTokenComponent
               <td>
                 <span
                   style=${styleMap({
-                    border: `var(${varName}) solid var(--color-blue)`,
+                    border: `var(${varName}) solid #3b82f6`,
                     width: '100px',
                     height: '100px',
                     display: 'inline-block',
@@ -443,10 +443,10 @@ export class ContentUIPostTokenComponent
               <td style="padding: 0.25rem">
                 <span
                   style=${styleMap({
-                    outline: `var(${varName}) solid var(--color-blue)`,
+                    outline: `var(${varName}) solid #3b82f6`,
                     'outline-offset': '3px',
                     display: 'inline-block',
-                    background: 'var(--color-back-shade)',
+                    background: 'var(--color-back-dim)',
                     width: '95px',
                     height: '95px',
                   })}
@@ -573,7 +573,7 @@ export class ContentUIPostTokenComponent
       height: 80px;
     }
     .radius-preview span {
-      background: var(--color-blue);
+      background: #3b82f6;
     }
   `;
 }

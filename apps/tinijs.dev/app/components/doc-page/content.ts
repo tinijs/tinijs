@@ -143,7 +143,7 @@ export class AppDocPageContentComponent
         }
 
         .content {
-          border-top: 1px solid var(--color-back-shade);
+          border-top: 1px solid var(--color-back);
           margin-top: var(--space-md);
           padding-top: var(--space-md);
 

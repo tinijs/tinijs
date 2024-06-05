@@ -54,7 +54,7 @@ export const link = css`
   }
 
   a:hover {
-    color: var(--color-primary-shade);
+    color: var(--color-primary-dim);
     text-decoration: underline;
   }
 `;
@@ -108,7 +108,7 @@ export const table = css`
   td {
     background: var(--color-back);
     padding: var(--space-xs);
-    border-bottom: 1px solid var(--color-back-shade);
+    border-bottom: 1px solid var(--color-back-dim);
     font-size: 0.8rem;
   }
 

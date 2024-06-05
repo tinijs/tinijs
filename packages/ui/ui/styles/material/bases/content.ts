@@ -105,8 +105,8 @@ export const table = css`
 
   td,
   th {
-    border-block-start: 1px solid var(--color-back-shade);
-    border-inline-start: 1px solid var(--color-back-shade);
+    border-block-start: 1px solid var(--color-back-dim);
+    border-inline-start: 1px solid var(--color-back-dim);
     padding: var(--space-xs) var(--space-sm);
   }
 
@@ -118,12 +118,12 @@ export const table = css`
 
   tr:last-of-type td,
   tr:last-of-type th {
-    border-block-end: 1px solid var(--color-back-shade);
+    border-block-end: 1px solid var(--color-back-dim);
   }
 
   tr td:last-of-type,
   tr th:last-of-type {
-    border-inline-end: 1px solid var(--color-back-shade);
+    border-inline-end: 1px solid var(--color-back-dim);
   }
 
   tr th:first-of-type {

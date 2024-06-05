@@ -88,8 +88,8 @@ export const defaultStyles = createStyleBuilder<{
   css`
     :host {
       --width: var(--wide-xs);
-      --background: var(--color-back-tint);
-      --border: var(--border-md) solid var(--color-back-shade);
+      --background: var(--color-back-dim);
+      --border: var(--border-md) solid var(--color-back-dim);
       --radius: var(--radius-md);
       --box-shadow: none;
     }
@@ -113,7 +113,7 @@ export const defaultStyles = createStyleBuilder<{
     .head-populated,
     .foot-populated {
       padding: var(--space-xs) var(--space-md);
-      background: color-mix(in oklab, var(--color-back-shade), transparent 75%);
+      background: color-mix(in oklab, var(--color-back-dim), transparent 75%);
     }
 
     .head-populated,

@@ -63,7 +63,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
       position: fixed;
       top: calc(var(--header-height) + var(--toolbar-height) - 10px);
       right: var(--space-md);
-      background: var(--color-back-tint);
+      background: var(--color-back);
       border-radius: var(--radius-md);
       width: 100%;
       max-height: 80vh;
@@ -75,13 +75,13 @@ export class AppDocPageTOCComponent extends TiniComponent {
         opacity 0.2s ease,
         height 1s ease-out 1s;
       overflow-y: scroll;
-      box-shadow: var(--shadow-big);
+      box-shadow: var(--shadow-lg);
       width: calc(100% - var(--space-xl));
       max-width: var(--wide-xs);
       z-index: 800;
 
       &.mobile-opened {
-        border: 1px solid var(--color-back-shade);
+        border: 1px solid var(--color-back-dim);
         height: auto;
         opacity: 1;
         transform: translateY(0);
@@ -108,7 +108,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
       list-style: none;
       padding: 0;
       margin: 0;
-      border-top: 1px solid var(--color-back-shade);
+      border-top: 1px solid var(--color-back-dim);
       padding: var(--space-xs) 0;
 
       li {
@@ -142,7 +142,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
 
     @media (min-width: 1200px) {
       :host {
-        border-left: 1px solid var(--color-back-shade);
+        border-left: 1px solid var(--color-back-dim);
       }
 
       .toc {

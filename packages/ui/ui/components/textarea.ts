@@ -113,7 +113,7 @@ export const defaultStyles = createStyleBuilder<{
 
     textarea {
       width: 100%;
-      background: var(--color-back-tint);
+      background: var(--color-back-dim);
       color: var(--color-front);
       border: var(--border-md) solid var(--border-color);
       border-radius: var(--radius);
@@ -136,7 +136,7 @@ export const defaultStyles = createStyleBuilder<{
     }
 
     textarea:disabled {
-      background: color-mix(in oklab, var(--color-back-shade), transparent 50%);
+      background: color-mix(in oklab, var(--color-back-dim), transparent 50%);
       opacity: 1;
       color: var(--color-middle);
     }

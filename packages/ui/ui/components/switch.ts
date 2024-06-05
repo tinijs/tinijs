@@ -117,7 +117,7 @@ export const defaultStyles = createStyleBuilder<{
     :host {
       --size: var(--size-md);
       --background: var(--color-middle);
-      --color: var(--color-white);
+      --color: #ffffff;
       --hover-shadow: var(--color-primary);
       --active-background: var(--color-primary);
       --active-color: var(--color-primary-contrast);

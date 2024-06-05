@@ -84,23 +84,21 @@ export class AppSkinEditorComponent extends TiniComponent {
         result[0].items.push(def);
       } else if (key.startsWith('--color')) {
         if (
+          !~key.indexOf('-dim') &&
           !~key.indexOf('-subtle') &&
-          !~key.indexOf('-contrast') &&
-          !~key.indexOf('-shade') &&
-          !~key.indexOf('-tint')
+          !~key.indexOf('-contrast')
         ) {
           result[1].items.push(def);
         }
       } else if (key.startsWith('--gradient')) {
         if (
+          !~key.indexOf('-dim') &&
           !~key.indexOf('-subtle') &&
-          !~key.indexOf('-contrast') &&
-          !~key.indexOf('-shade') &&
-          !~key.indexOf('-tint')
+          !~key.indexOf('-contrast')
         ) {
           result[2].items.push(def);
         }
-      } else if (key.slice(-3) === '-md') {
+      } else if (key.startsWith('--size')) {
         result[3].items.push(def);
       } else if (key.startsWith('--shadow')) {
         result[4].items.push(def);
@@ -205,30 +203,31 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
     const key = input.name;
     const value = input.value;
     return debouncer('AppSkinEditorComponent:change_color', 100, () => {
-      const {base, contrast, subtle, shade, tint} = buildColorVariants(value);
+      console.log({value});
+
+      const {base, dim, subtle, contrast} = buildColorVariants(value);
       this.updateVariables([
         [key, base],
+        [`${key}-dim`, dim],
         [`${key}-subtle`, subtle],
         [`${key}-contrast`, contrast],
-        [`${key}-shade`, shade],
-        [`${key}-tint`, tint],
       ]);
     });
   }
 
   private changeGradient(e: CustomEvent<string>) {
-    const input = e.target as AppSkinEditorGradientPickerComponent;
+    const input = e.target as unknown as AppSkinEditorGradientPickerComponent;
     const key = input.name;
     const value = e.detail;
     return debouncer('AppSkinEditorComponent:change_gradient', 100, () => {
-      const {base, subtle, contrast, shade, tint} =
-        buildGradientVariants(value);
+      console.log({value});
+
+      const {base, dim, subtle, contrast} = buildGradientVariants(value);
       this.updateVariables([
         [key, base],
+        [`${key}-dim`, dim],
         [`${key}-subtle`, subtle],
         [`${key}-contrast`, contrast],
-        [`${key}-shade`, shade],
-        [`${key}-tint`, tint],
       ]);
     });
   }
@@ -454,13 +453,13 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       display: none;
       box-sizing: border-box;
       position: fixed;
-      background: var(--color-back-tint);
+      background: var(--color-back);
       width: 100vw;
       width: 100dvw;
       height: 50vh;
       height: 50dvh;
       bottom: 0;
-      box-shadow: var(--shadow-huge);
+      box-shadow: var(--shadow-xl);
     }
 
     .head {
@@ -468,7 +467,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       align-items: center;
       height: var(--head-height);
       padding: var(--space-sm);
-      border-bottom: var(--border-md) solid var(--color-back-shade);
+      border-bottom: var(--border-md) solid var(--color-back-dim);
 
       .title {
         flex: 1;
@@ -480,7 +479,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         align-items: center;
         padding: var(--space-xs) var(--space-sm);
         margin-right: var(--space-xl);
-        background: var(--color-back-tint);
+        background: var(--color-back);
         color: var(--color-front);
         border: var(--border-md) solid var(--color-front);
         border-radius: var(--radius-md);
@@ -497,7 +496,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--color-back-tint);
+        background: var(--color-back);
         border: none;
         opacity: 0.5;
 
@@ -543,12 +542,12 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
               margin-right: var(--space-xs);
               margin-bottom: var(--space-xs);
               padding: var(--space-xs2) 0 var(--space-sm);
-              border-bottom: var(--border-md) solid var(--color-back-shade);
+              border-bottom: var(--border-md) solid var(--color-back-dim);
 
               .value {
                 input,
                 select {
-                  background: var(--color-back-tint);
+                  background: var(--color-back);
                   border: var(--border-md) solid var(--color-middle);
                   border-radius: var(--radius-md);
                   padding: var(--space-xs2) var(--space-xs);
@@ -587,7 +586,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       position: absolute;
       bottom: 0;
       left: 0;
-      border-top: var(--border-md) solid var(--color-back-shade);
+      border-top: var(--border-md) solid var(--color-back-dim);
       padding: var(--space-xs);
 
       tini-button.show-code {
@@ -610,7 +609,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
     }
 
     tini-modal::part(main) {
-      background: var(--color-back-tint);
+      background: var(--color-back);
     }
 
     .modal-body {
@@ -627,8 +626,8 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         width: 310px;
         height: calc(100vh - var(--header-height) + 1px);
         height: calc(100dvh - var(--header-height) + 1px);
-        border: var(--border-md) solid var(--color-back-shade);
-        box-shadow: var(--shadow-big);
+        border: var(--border-md) solid var(--color-back-dim);
+        box-shadow: var(--shadow-lg);
       }
     }
   `;

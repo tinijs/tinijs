@@ -68,7 +68,7 @@ export class AppDocPageMobileToolbarComponent extends TiniComponent {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid var(--color-back-shade);
+      border-bottom: 1px solid var(--color-back-dim);
       position: fixed;
       top: var(--header-height);
       background: var(--color-back);

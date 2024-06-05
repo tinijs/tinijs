@@ -74,6 +74,7 @@ export default class extends TiniElement {
               <a
                 class=${classMap(this.mainClasses)}
                 part=${partAttrMap(this.mainClasses)}
+                tabindex="-1"
                 href=${this.href}
                 target=${ifDefined(this.target)}
               >
@@ -85,6 +86,7 @@ export default class extends TiniElement {
               <button
                 class=${classMap(this.mainClasses)}
                 part=${partAttrMap(this.mainClasses)}
+                tabindex="-1"
                 ?disabled=${this.disabled}
               >
                 <slot></slot>
@@ -109,7 +111,7 @@ export const defaultStyles = createStyleBuilder<{
       --color: var(--color-middle-contrast);
       --gradient: none;
       --size: var(--size-md);
-      --radius: calc(var(--size) * 0.25);
+      --radius: calc(var(--size-radius) * var(--size));
       z-index: 0;
       display: inline-flex;
       align-items: center;

@@ -65,10 +65,10 @@ export class HeaderComponent
           justify-content: space-between;
           box-sizing: border-box;
           height: var(--header-height);
-          background: var(--color-back-tint);
+          background: var(--color-back);
           padding: var(--space-md);
           padding-left: var(--space-lg);
-          border-bottom: 1px solid var(--color-back-shade);
+          border-bottom: 1px solid var(--color-back-dim);
         "
       >
         <div class="brand">
@@ -178,7 +178,7 @@ export class HeaderComponent
       width: 100dvw;
       height: calc(100vh - var(--header-height));
       height: calc(100dvh - var(--header-height));
-      background: var(--color-back-tint);
+      background: var(--color-back);
       padding: var(--space-lg);
 
       &.opened {
@@ -191,7 +191,7 @@ export class HeaderComponent
       flex-direction: column;
 
       tini-link {
-        border-bottom: 1px solid var(--color-back-shade);
+        border-bottom: 1px solid var(--color-back-dim);
 
         &::part(main) {
           display: block;
@@ -264,7 +264,7 @@ export class HeaderComponent
             background: var(--color-back);
           }
           &.active::part(main) {
-            background: var(--color-back-shade);
+            background: var(--color-back);
           }
         }
       }

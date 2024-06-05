@@ -145,7 +145,7 @@ export const defaultStyles = createStyleBuilder<{
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
-      background: var(--color-back-tint);
+      background: var(--color-back-dim);
       background-image: none;
       background-repeat: no-repeat;
       background-position: center;

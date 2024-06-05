@@ -31,7 +31,7 @@ export function extractCSSVariables(
       const [category] = description?.match(/\[[a-zA-Z0-9_]+\]/) || [];
       const keyArr = key.split('-').filter(item => item);
       const prefix = keyArr.shift() as string;
-      const potentialTitle = !keyArr.length
+      const title = !keyArr.length
         ? '-'
         : keyArr
             .map(item => item.replace(/^\w/, c => c.toUpperCase()))
@@ -41,10 +41,7 @@ export function extractCSSVariables(
         value,
         valueDirect: value, // process later
         prefix,
-        title:
-          potentialTitle === 'Md'
-            ? prefix.replace(/^\w/, c => c.toUpperCase())
-            : potentialTitle,
+        title: prefix !== 'shadow' ? title : title.toUpperCase(),
         description: (
           (!category ? description : description?.replace(category, '')) || ''
         ).trim(),

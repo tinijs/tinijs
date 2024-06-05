@@ -45,7 +45,7 @@ export const styles = defaultStyles.extends({
 
     :host(:focus-visible),
     :host(:hover) {
-      box-shadow: var(--shadow-medium);
+      box-shadow: var(--shadow-md);
     }
 
     :host(:active) {

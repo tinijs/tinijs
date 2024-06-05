@@ -55,7 +55,7 @@ export const link = css`
   }
 
   a:hover {
-    color: var(--color-primary-shade);
+    color: var(--color-primary-dim);
   }
 `;
 
@@ -110,7 +110,7 @@ export const table = css`
   }
 
   td {
-    border-block-start: var(--border-md) solid var(--color-back-shade);
+    border-block-start: var(--border-md) solid var(--color-back-dim);
   }
 `;
 

@@ -56,14 +56,14 @@ export const link = css`
   }
 
   a:hover {
-    color: var(--color-primary-tint);
+    color: var(--color-primary-dim);
   }
 `;
 
 export const blockquote = css`
   blockquote {
     padding-left: var(--space-md);
-    border-left: 4px solid var(--color-back-shade);
+    border-left: 4px solid var(--color-back-dim);
   }
 
   blockquote,
@@ -128,7 +128,7 @@ export const table = css`
   }
 
   td {
-    border-block-start: var(--border-md) solid var(--color-back-shade);
+    border-block-start: var(--border-md) solid var(--color-back-dim);
     color: var(--color-middle);
   }
 `;
@@ -143,7 +143,7 @@ export const code = css`
     font-size: 0.85em;
     padding: 0.25rem 0.75rem;
     background: color-mix(in oklab, var(--color-back), var(--color-front) 5%);
-    border: 1px solid var(--color-back-shade);
+    border: 1px solid var(--color-back-dim);
     word-wrap: break-word;
     border-radius: 0.25rem;
     font-weight: bold;

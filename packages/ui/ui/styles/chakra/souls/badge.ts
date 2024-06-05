@@ -11,7 +11,6 @@ export const styles = defaultStyles.extends({
         var(--color-back) 50%
       );
       --color: color-mix(in oklab, var(--color-middle), var(--color-front) 50%);
-      border-radius: calc(var(--size) * 0.15);
       min-height: calc(var(--size) * 1.15);
     }
 

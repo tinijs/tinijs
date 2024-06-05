@@ -79,7 +79,7 @@ export class AppPageUIDevLinkComponent extends TiniComponent {
 
       <ui-dev-section titleText="No Underlines">
         <tini-link href="#" noUnderline>Lorem ipsum</tini-link><br />
-        ${[Colors.Rose, Gradients.DiscoClub].map(
+        ${[Colors.Success, Gradients.Success].map(
           color => html`
             <tini-link href="#" noUnderline color=${color}
               >Lorem ipsum (color=${color})</tini-link

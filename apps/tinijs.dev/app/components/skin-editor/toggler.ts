@@ -34,8 +34,8 @@ export class AppSkinEditorTogglerComponent extends TiniComponent {
       align-items: center;
       justify-content: center;
       gap: var(--space-xs);
-      background: var(--color-back-tint);
-      border: 1px solid var(--color-back-shade);
+      background: var(--color-back-dim);
+      border: 1px solid var(--color-back-dim);
       border-radius: var(--radius-md);
       font-size: var(--text-sm);
       padding: var(--space-xs2) var(--space-xs);

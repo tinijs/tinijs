@@ -46,7 +46,7 @@ export const text = css`
   hr {
     margin: 0;
     border: 0;
-    border-bottom: 1px solid var(--color-back-shade);
+    border-bottom: 1px solid var(--color-back-dim);
   }
 `;
 
@@ -58,7 +58,7 @@ export const link = css`
   }
 
   a:hover {
-    color: var(--color-primary-shade);
+    color: var(--color-primary-dim);
   }
 `;
 
@@ -105,7 +105,7 @@ export const table = css`
   td {
     background: var(--color-back);
     padding: var(--space-xs);
-    border-bottom: var(--border-md) solid var(--color-back-shade);
+    border-bottom: var(--border-md) solid var(--color-back-dim);
   }
 
   th {

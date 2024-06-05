@@ -55,7 +55,7 @@ export class AppPageUIDevHeadingComponent extends TiniComponent {
 
       <ui-dev-section titleText="Underlines">
         <tini-heading underline level="3">Lorem ipsum</tini-heading>
-        ${[Colors.Rose, Gradients.DiscoClub].map(
+        ${[Colors.Success, Gradients.Success].map(
           color => html`
             <tini-heading underline level="3" color=${color}
               >Lorem ipsum (color=${color})</tini-heading

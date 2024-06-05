@@ -72,7 +72,7 @@ class UIDevSectionComponent extends TiniComponent implements OnCreate {
   static styles = css`
     :host {
       margin-top: 3rem;
-      border: 1px solid var(--color-zinc);
+      border: 1px solid #bac4c8;
     }
 
     .head {
@@ -80,8 +80,8 @@ class UIDevSectionComponent extends TiniComponent implements OnCreate {
       align-items: center;
       gap: 0.5rem;
       padding: 0.5rem 1rem;
-      color: var(--color-zinc);
-      border-bottom: 1px solid var(--color-zinc);
+      color: #bac4c8;
+      border-bottom: 1px solid #bac4c8;
 
       .title {
         text-transform: uppercase;

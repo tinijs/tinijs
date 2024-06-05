@@ -28,7 +28,7 @@ import {
 } from './ui.js';
 
 import {listify} from '../utils/common.js';
-import {isGradient, colorToGradient} from '../utils/variant.js';
+import {isGradient} from '../utils/variant.js';
 import {
   UnstableStates,
   registerComponents,
@@ -115,7 +115,6 @@ export class TiniElement extends LitElement {
     if (prevFamilyId !== familyId) {
       this._uiTracker.templates = this.getTemplates();
       this._uiTracker.scripts = this.getScripts();
-      console.log('Renew templates and scripts.');
     }
     return this.requestUpdate();
   };
@@ -245,8 +244,8 @@ export class TiniElement extends LitElement {
       schemeValue &&
       !isGradient(schemeValue)
     ) {
-      const hoverScheme = colorToGradient(schemeValue);
-      otherInfo[`scheme-${hoverScheme}-hover`] = true;
+      const hoverScheme = `gradient-${schemeValue}-hover`;
+      otherInfo[`scheme-${hoverScheme}`] = true;
     }
     // result
     return (this.mainClasses = {
@@ -282,7 +281,7 @@ export class TiniElement extends LitElement {
     ) {
       return isGradient(originalValue)
         ? originalValue
-        : colorToGradient(originalValue);
+        : `gradient-${originalValue}`;
     }
     // default value
     return originalValue;

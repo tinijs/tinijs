@@ -111,7 +111,7 @@ export const table = css`
 
   th {
     font-weight: bold;
-    border-bottom: var(--border-md) solid var(--color-back-shade);
+    border-bottom: var(--border-md) solid var(--color-back-dim);
   }
 
   tr:nth-child(2n) td {

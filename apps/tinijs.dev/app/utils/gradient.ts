@@ -1,6 +1,8 @@
 import {parse} from 'gradient-parser';
 import chroma from 'chroma-js';
 
+import {colorToHexString, BLACK_HEX, WHITE_HEX} from './color.js';
+
 export function parseGradient(value: string) {
   // parse
   const [gradientNode] = parse(value);
@@ -62,21 +64,29 @@ export function buildGradientVariants(baseGradient: string) {
   const parsedResult = parseGradient(baseGradient);
   // base
   const baseColors = parsedResult.colors.map(({color, position}) => ({
-    color: chroma(color as string).hex(),
+    color: colorToHexString(chroma(color as string)),
     position,
   }));
   const base = constructGradient({...parsedResult, colors: baseColors});
+  // dim
+  const dimColors = parsedResult.colors.map(({color, position}) => ({
+    color: colorToHexString(
+      chroma(color as string).luminance() > 0.5
+        ? chroma(color as string).darken(0.25)
+        : chroma(color as string).brighten(0.25)
+    ),
+    position,
+  }));
+  const dim = constructGradient({...parsedResult, colors: dimColors});
   // subtle
   const subtleColors = parsedResult.colors.map(({color, position}) => ({
-    color: chroma(color as string)
-      .alpha(0.2)
-      .hex(),
+    color: colorToHexString(chroma(color as string).alpha(0.25)),
     position,
   }));
   const subtle = constructGradient({...parsedResult, colors: subtleColors});
   // contrast
   const allContrastColors = parsedResult.colors.map(({color, position}) => ({
-    color: chroma(color as string).luminance() > 0.5 ? '#000000' : '#ffffff',
+    color: chroma(color as string).luminance() > 0.5 ? BLACK_HEX : WHITE_HEX,
     position,
   }));
   const contrastColors = allContrastColors.map(({position}, i) => {
@@ -85,31 +95,15 @@ export function buildGradientVariants(baseGradient: string) {
       return base;
     } else {
       const color = base.color;
-      const chromeColor = chroma(color);
+      const chromaColor = chroma(color);
       const offsetColor =
-        color === '#000000'
-          ? chromeColor.brighten(i + 1).hex()
-          : chromeColor.darken(i + 1).hex();
+        color === BLACK_HEX
+          ? colorToHexString(chromaColor.brighten(i + 1))
+          : colorToHexString(chromaColor.darken(i + 1));
       return {color: offsetColor, position};
     }
   });
   const contrast = constructGradient({...parsedResult, colors: contrastColors});
-  // shade
-  const shadeColors = parsedResult.colors.map(({color, position}) => ({
-    color: chroma(color as string)
-      .darken(0.75)
-      .hex(),
-    position,
-  }));
-  const shade = constructGradient({...parsedResult, colors: shadeColors});
-  // tint
-  const tintColors = parsedResult.colors.map(({color, position}) => ({
-    color: chroma(color as string)
-      .brighten(0.75)
-      .hex(),
-    position,
-  }));
-  const tint = constructGradient({...parsedResult, colors: tintColors});
   // result
-  return {base, subtle, contrast, shade, tint};
+  return {base, dim, subtle, contrast};
 }

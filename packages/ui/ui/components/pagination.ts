@@ -194,7 +194,7 @@ export const defaultStyles = createStyleBuilder<{
       text-decoration: none;
       background: var(--background);
       color: var(--color);
-      border: var(--border-md) solid var(--color-back-shade);
+      border: var(--border-md) solid var(--color-back-dim);
       border-right-width: 0;
       font-size: var(--size);
     }
@@ -209,7 +209,7 @@ export const defaultStyles = createStyleBuilder<{
     }
 
     li a:hover {
-      background: color-mix(in oklab, var(--color-back-shade), transparent 70%);
+      background: color-mix(in oklab, var(--color-back-dim), transparent 70%);
     }
 
     li.item-active a {
@@ -231,7 +231,7 @@ export const defaultStyles = createStyleBuilder<{
     .next-disabled a,
     .next-disabled a:hover {
       cursor: default;
-      background: color-mix(in oklab, var(--color-back-shade), transparent 50%);
+      background: color-mix(in oklab, var(--color-back-dim), transparent 50%);
       color: var(--color-middle);
     }
   `,

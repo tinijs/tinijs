@@ -11,16 +11,16 @@ export const styles = defaultStyles.extends({
     .item,
     .item-active {
       font-weight: var(--weight-medium);
-      color: var(--color-middle-tint);
+      color: var(--color-middle-dim);
       font-size: 0.9em;
     }
 
     .item:hover {
-      color: var(--color-middle-shade);
+      color: var(--color-middle-dim);
     }
 
     .item::before {
-      background: var(--color-back-shade);
+      background: var(--color-back-dim);
       transform: scale(1.75, 3);
       margin: 0 1.25em;
       opacity: 0.35;

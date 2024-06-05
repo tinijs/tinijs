@@ -31,7 +31,7 @@ export class AppPageHome extends TiniComponent {
 
         <div class="headline">
           <h2 style="margin-bottom: 0">
-            <tini-text size="xl3" weight="bold" color=${Gradients.KaleSalad}
+            <tini-text size="xl3" weight="bold" color=${Gradients.Success}
               >Tini</tini-text
             ><br />A Javascript framework
           </h2>
@@ -169,7 +169,7 @@ export class AppPageHome extends TiniComponent {
 
         <div class="actions">
           <tini-button
-            scheme=${Gradients.DiscoClub}
+            scheme=${Gradients.Success}
             @click=${() =>
               open(
                 'mailto:hello@tinijs.dev?subject=Sponsor Tini&body=I want to sponsor the TiniJS project.',
@@ -237,14 +237,14 @@ export class AppPageHome extends TiniComponent {
 
           &:hover {
             cursor: pointer;
-            box-shadow: var(--shadow-big);
-            border-color: var(--color-back-shade);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--color-back-dim);
           }
 
           .icon {
             font-size: 2rem;
             padding: var(--space-sm);
-            background: var(--color-back-shade);
+            background: var(--color-back-dim);
             width: 55px;
             height: 50px;
             line-height: 25px;
