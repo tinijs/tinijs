@@ -16,13 +16,13 @@ TODO:
 
 - https://m3.material.io/
 
-### Fluent
-
-- https://fluent2.microsoft.design/
-
 ### iOS
 
 - https://developer.apple.com/design/
+
+### Fluent
+
+- https://fluent2.microsoft.design/
 
 ### Spectrum
 
@@ -63,8 +63,6 @@ TODO:
 - https://posthog.com/
 
 ## Resources
-
-### Gradient
 
 - 30 iOS 7 Gradients: https://dribbble.com/shots/1631052/attachments/254371?mode=media
 - iOS 7 Color Swatches: https://dribbble.com/shots/1186156-iOS-7-Color-Swatches/attachments/1186156-iOS-7-Color-Swatches?mode=media

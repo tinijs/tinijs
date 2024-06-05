@@ -10,6 +10,7 @@ import {nanoid} from 'nanoid';
 import {
   getOptionalUI,
   THEME_CHANGE_EVENT,
+  isThemingStyles,
   themingStylesToText,
   type ActiveTheme,
   type StyleDeepInput,
@@ -63,17 +64,7 @@ class StyleDeepDirective extends AsyncDirective {
 
   private checkForChanges(styleDeep: StyleDeepInput) {
     const currentStyleDeep = this.styleDeep || '';
-    if (typeof styleDeep !== typeof currentStyleDeep) {
-      return true;
-    } else if (typeof styleDeep === 'string') {
-      return styleDeep !== currentStyleDeep;
-    } else {
-      return Object.keys(styleDeep).some(
-        key =>
-          styleDeep[key] !==
-          (currentStyleDeep as Exclude<StyleDeepInput, string>)[key]
-      );
-    }
+    return styleDeep !== currentStyleDeep;
   }
 
   private injectStyle() {
@@ -84,7 +75,7 @@ class StyleDeepDirective extends AsyncDirective {
     const renderRoot = ((host as HTMLElement).shadowRoot || host) as ShadowRoot;
     const {familyId, themeId} = optionalUI.activeTheme;
     const styleText = themingStylesToText(
-      typeof this.styleDeep === 'string'
+      isThemingStyles(this.styleDeep)
         ? this.styleDeep
         : this.styleDeep?.[themeId] ||
             this.styleDeep?.[familyId] ||

@@ -37,15 +37,15 @@ const materialBaseConfig: PrebuiltBaseConfig = {
   },
 };
 
-const fluentBaseConfig: PrebuiltBaseConfig = {
-  families: {
-    fluent: true,
-  },
-};
-
 const iosBaseConfig: PrebuiltBaseConfig = {
   families: {
     ios: true,
+  },
+};
+
+const fluentBaseConfig: PrebuiltBaseConfig = {
+  families: {
+    fluent: true,
   },
 };
 
@@ -107,19 +107,6 @@ export default defineTiniConfig({
         packageJSON: ({version}) =>
           prebuiltReactPackageJSON('material-react', version),
       },
-      // fluent
-      {
-        ...fluentBaseConfig,
-        outDir: './build/fluent',
-        packageJSON: ({version}) => prebuiltPackageJSON('fluent', version),
-      },
-      {
-        ...fluentBaseConfig,
-        framework: 'react',
-        outDir: './build/fluent-react',
-        packageJSON: ({version}) =>
-          prebuiltReactPackageJSON('fluent-react', version),
-      },
       // ios
       {
         ...iosBaseConfig,
@@ -132,6 +119,19 @@ export default defineTiniConfig({
         outDir: './build/ios-react',
         packageJSON: ({version}) =>
           prebuiltReactPackageJSON('ios-react', version),
+      },
+      // fluent
+      {
+        ...fluentBaseConfig,
+        outDir: './build/fluent',
+        packageJSON: ({version}) => prebuiltPackageJSON('fluent', version),
+      },
+      {
+        ...fluentBaseConfig,
+        framework: 'react',
+        outDir: './build/fluent-react',
+        packageJSON: ({version}) =>
+          prebuiltReactPackageJSON('fluent-react', version),
       },
       // spectrum
       {

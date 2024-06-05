@@ -290,17 +290,17 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
                 ]),
               },
               {
-                label: 'Fluent',
-                options: this.buildThemeOptions('fluent', [
-                  {content: 'Fluent Light', value: 'light'},
-                  {content: 'Fluent Dark', value: 'dark'},
-                ]),
-              },
-              {
                 label: 'iOS',
                 options: this.buildThemeOptions('ios', [
                   {content: 'iOS Light', value: 'light'},
                   {content: 'iOS Dark', value: 'dark'},
+                ]),
+              },
+              {
+                label: 'Fluent',
+                options: this.buildThemeOptions('fluent', [
+                  {content: 'Fluent Light', value: 'light'},
+                  {content: 'Fluent Dark', value: 'dark'},
                 ]),
               },
               {

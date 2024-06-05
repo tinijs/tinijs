@@ -7,6 +7,7 @@ import {
   ElementParts,
   partAttrMap,
   createStyleBuilder,
+  isGradient,
   Colors,
   SubtleColors,
   Gradients,
@@ -18,6 +19,8 @@ import {
 } from '@tinijs/core';
 
 import {LinkTargets} from './link.js';
+
+export type Component = import('./button.js').default;
 
 export enum ButtonParts {
   BG = ElementParts.BG,
@@ -43,9 +46,13 @@ export default class extends TiniElement {
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
+    // a11y
+    this.setAttribute('role', 'button');
+    this.setAttribute('tabindex', '0');
     // main classes parts
     this.extendMainClasses({
       raw: {
+        gradient: isGradient(this.scheme),
         block: !!this.block,
         disabled: !!this.disabled,
       },
@@ -97,17 +104,18 @@ export const defaultStyles = createStyleBuilder<{
 }>(outputs => [
   css`
     :host {
-      --background: var(--color-middle);
       --base-color: var(--color-middle);
+      --background: var(--color-middle);
       --color: var(--color-middle-contrast);
+      --gradient: none;
       --size: var(--size-md);
-      --radius: var(--radius-md);
+      --radius: calc(var(--size) * 0.25);
+      z-index: 0;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       position: relative;
       overflow: hidden;
-      z-index: 0;
       background: var(--color-back);
       border-radius: var(--radius);
     }
@@ -132,18 +140,30 @@ export const defaultStyles = createStyleBuilder<{
       background: none;
       border: none;
       text-decoration: none;
+      outline: none;
       color: var(--color);
       font-size: var(--size);
     }
 
     a.main:hover {
+      /* for link */
       color: var(--color);
       text-decoration: none;
     }
 
+    .gradient {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Block */
+
     :host([block]) {
       width: 100%;
     }
+
+    /* Disabled */
 
     :host([disabled]) {
       cursor: not-allowed;
@@ -206,24 +226,26 @@ export const defaultStyles = createStyleBuilder<{
   outputs.statics,
 
   generateAllColorVariants(values => {
-    const {hostSelector, isSubtle, baseColor, color, contrast} = values;
+    const {hostSelector, baseColor, color, contrast} = values;
     return `
       ${hostSelector} {
-        --background: ${color};
         --base-color: ${baseColor};
-        --color: ${isSubtle ? baseColor : contrast};
+        --background: ${color};
+        --color: ${contrast};
       }
       ${outputs.colorGen(values)}
     `;
   }),
 
   generateAllGradientVariants(values => {
-    const {hostSelector, isSubtle, baseColor, gradient, contrast} = values;
+    const {hostSelector, baseColor, gradient, contrast, gradientContrast} =
+      values;
     return `
       ${hostSelector} {
-        --background: ${gradient};
         --base-color: ${baseColor};
-        --color: ${isSubtle ? baseColor : contrast};
+        --background: ${gradient};
+        --color: ${contrast};
+        --gradient: ${gradientContrast};
       }
       ${outputs.gradientGen(values)}
     `;

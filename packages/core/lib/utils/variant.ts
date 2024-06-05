@@ -445,7 +445,7 @@ function generateColorVariant(
   const color = `var(--color-${name})`;
   const baseColor = `var(--color-${baseName})`;
   const baseContrast = `var(--color-${baseName}-contrast)`;
-  const contrast = isSubtle ? 'var(--color-front)' : baseContrast;
+  const contrast = isSubtle ? baseColor : baseContrast;
   // names and selectors
   const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
     prefixName,
@@ -510,19 +510,15 @@ function generateGradientVariant(
   const colorName = (GRADIENTS_TO_COLORS as Record<string, string>)[
     `gradient-${baseName}`
   ];
-  const color = isSubtle
-    ? `var(--color-${colorName}-subtle)`
-    : `var(--color-${colorName})`;
+  const color = `var(--color-${colorName}${!isSubtle ? '' : '-subtle'})`;
   const baseColor = `var(--color-${colorName})`;
   const baseContrast = `var(--color-${colorName}-contrast)`;
-  const contrast = isSubtle ? 'var(--color-front)' : baseContrast;
+  const contrast = isSubtle ? baseColor : baseContrast;
   // gradients
   const gradient = `var(--${name})`;
-  const baseGradient = `var(--${name})`;
-  const baseGradientContrast = `var(--${name}-contrast)`;
-  const gradientContrast = isSubtle
-    ? 'var(--gradient-front)'
-    : baseGradientContrast;
+  const baseGradient = `var(--gradient-${baseName})`;
+  const baseGradientContrast = `var(--gradient-${baseName}-contrast)`;
+  const gradientContrast = isSubtle ? baseGradient : baseGradientContrast;
   // names and selectors
   const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
     prefixName,

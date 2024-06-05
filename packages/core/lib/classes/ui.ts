@@ -20,9 +20,7 @@ import type {TiniElement} from './element.js';
 export type ThemingEntry = {
   templates?: ThemingTemplates;
   styles: ThemingStyles;
-  scripts?:
-    | ThemingScripts
-    | (<Elem extends TiniElement>(elem: Elem) => ThemingScripts);
+  scripts?: ThemingScripts;
 };
 
 export type Theming = Record<string, ThemingEntry>;
@@ -36,37 +34,11 @@ export type CSSResultOrNativeOrRaw = CSSResultOrNative | string;
 
 export type ThemingStyles = CSSResultOrNativeOrRaw | CSSResultOrNativeOrRaw[];
 
-export type StyleDeepInput = string | Record<string, ThemingStyles>;
+export type StyleDeepInput = ThemingStyles | Record<string, ThemingStyles>;
 
 export interface ThemingScripts {
-  connectedCallback?<Elem extends TiniElement>(
-    type: ThemingScriptTypes,
-    elem: Elem
-  ): void;
-  disconnectedCallback?<Elem extends TiniElement>(
-    type: ThemingScriptTypes,
-    elem: Elem
-  ): void;
-  willUpdate?<Elem extends TiniElement>(
-    type: ThemingScriptTypes,
-    elem: Elem,
-    changedProperties: PropertyValues<Elem>
-  ): void;
-  firstUpdated?<Elem extends TiniElement>(
-    type: ThemingScriptTypes,
-    elem: Elem,
-    changedProperties: PropertyValues<Elem>
-  ): void;
-  updated?<Elem extends TiniElement>(
-    type: ThemingScriptTypes,
-    elem: Elem,
-    changedProperties: PropertyValues<Elem>
-  ): void;
-}
-
-export enum ThemingScriptTypes {
-  Script = 'script',
-  Unscript = 'unscript',
+  activate?<Elem extends TiniElement>(elem: Elem): void;
+  deactivate?<Elem extends TiniElement>(elem: Elem): void;
 }
 
 export interface ActiveTheme {
@@ -132,15 +104,27 @@ export function processThemingEntry(
       };
 }
 
+export function isThemingStyles(
+  value: ThemingStyles | Record<string, ThemingStyles> | null | undefined
+): value is ThemingStyles | null | undefined {
+  return (
+    !value ||
+    typeof value === 'string' ||
+    value instanceof Array ||
+    value instanceof CSSStyleSheet ||
+    (value as any).toString instanceof Function
+  );
+}
+
 export function themingStylesToAdoptableStyles(
-  styles: ThemingStyles | undefined
+  styles: ThemingStyles | null | undefined
 ) {
   return listify<CSSResultOrNativeOrRaw>(styles).map(item =>
     getCompatibleStyle(typeof item !== 'string' ? item : unsafeCSS(item))
   );
 }
 
-export function themingStylesToText(styles: ThemingStyles | undefined) {
+export function themingStylesToText(styles: ThemingStyles | null | undefined) {
   return listify<CSSResultOrNativeOrRaw>(styles)
     .map(style => {
       if (typeof style === 'string') {
@@ -202,26 +186,15 @@ export function extractStylesFromTheming(
 }
 
 export function extractScriptsFromTheming(
-  elem: TiniElement,
   theming: Theming | undefined,
   {themeId, familyId, prevThemeId, prevFamilyId}: ActiveTheme
 ) {
   const current = (theming?.[themeId] || theming?.[familyId])?.scripts;
-  const currentScripts = !current
-    ? {}
-    : typeof current !== 'function'
-      ? current
-      : current(elem);
   const prev =
     prevThemeId === themeId
       ? undefined
       : (theming?.[prevThemeId] || theming?.[prevFamilyId])?.scripts;
-  const prevScripts = !prev
-    ? {}
-    : typeof prev !== 'function'
-      ? prev
-      : prev(elem);
-  return {prevScripts, currentScripts};
+  return {activate: current?.activate, deactivate: prev?.deactivate};
 }
 
 export function getOptionalUI() {

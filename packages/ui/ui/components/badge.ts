@@ -131,22 +131,22 @@ export const defaultStyles = createStyleBuilder<{
   outputs.statics,
 
   generateAllColorVariants(values => {
-    const {hostSelector, color, baseColor, contrast, isSubtle} = values;
+    const {hostSelector, color, contrast} = values;
     return `
       ${hostSelector} {
         --background: ${color};
-        --color: ${isSubtle ? baseColor : contrast};
+        --color: ${contrast};
       }
       ${outputs.colorGen(values)}
     `;
   }),
 
   generateAllGradientVariants(values => {
-    const {hostSelector, gradient, baseColor, contrast, isSubtle} = values;
+    const {hostSelector, gradient, contrast} = values;
     return `
       ${hostSelector} {
         --background: ${gradient};
-        --color: ${isSubtle ? baseColor : contrast};
+        --color: ${contrast};
       }
       ${outputs.gradientGen(values)}
     `;
