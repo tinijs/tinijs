@@ -1,4 +1,5 @@
 import {html, css, nothing} from 'lit';
+import {classMap} from 'lit/directives/class-map.js';
 import {styleMap} from 'lit/directives/style-map.js';
 
 import {
@@ -79,25 +80,36 @@ export class ContentUIPostTokenComponent
       <table>
         <tr>
           <th>Name</th>
-          <th>Key</th>
-          <th>Value</th>
-          <th style="width: 220px">Preview</th>
+          <th>Base key</th>
+          <th style="width: 60%">Preview</th>
         </tr>
 
         ${Object.entries(Colors).map(([name, value]) => {
           const varName = `--color-${value}`;
-          const varValue = computedStyle.getPropertyValue(varName);
           return html`
             <tr>
               <td><strong>${name}</strong></td>
               <td><code>${varName}</code></td>
-              <td><code>${varValue}</code></td>
               <td>
-                ${this.getColorOrGradientPreviewTemplate(varName)}
-                ${['dim', 'subtle', 'contrast'].map(variantName => {
-                  const varName = `--color-${value}-${variantName}`;
-                  return this.getColorOrGradientPreviewTemplate(varName);
-                })}
+                <div class="color-preview-container">
+                  ${[
+                    'more',
+                    '',
+                    'less',
+                    'semi',
+                    'subtle',
+                    'dull',
+                    'contrast',
+                  ].map(variantName => {
+                    const finalName = !variantName
+                      ? varName
+                      : `--color-${value}-${variantName}`;
+                    return this.getColorOrGradientPreviewTemplate(
+                      finalName,
+                      variantName
+                    );
+                  })}
+                </div>
               </td>
             </tr>
           `;
@@ -111,25 +123,36 @@ export class ContentUIPostTokenComponent
       <table>
         <tr>
           <th>Name</th>
-          <th>Key</th>
-          <th>Value</th>
-          <th style="width: 220px">Preview</th>
+          <th>Base key</th>
+          <th style="width: 60%">Preview</th>
         </tr>
 
         ${Object.entries(Gradients).map(([name, value]) => {
           const varName = `--${value}`;
-          const varValue = computedStyle.getPropertyValue(varName);
           return html`
             <tr>
               <td><strong>${name}</strong></td>
               <td><code>${varName}</code></td>
-              <td><code>${varValue}</code></td>
               <td>
-                ${this.getColorOrGradientPreviewTemplate(varName)}
-                ${['dim', 'subtle', 'contrast'].map(variantName => {
-                  const varName = `--${value}-${variantName}`;
-                  return this.getColorOrGradientPreviewTemplate(varName);
-                })}
+                <div class="color-preview-container">
+                  ${[
+                    'more',
+                    '',
+                    'less',
+                    'semi',
+                    'subtle',
+                    'dull',
+                    'contrast',
+                  ].map(variantName => {
+                    const finalName = !variantName
+                      ? varName
+                      : `--${value}-${variantName}`;
+                    return this.getColorOrGradientPreviewTemplate(
+                      finalName,
+                      variantName
+                    );
+                  })}
+                </div>
               </td>
             </tr>
           `;
@@ -446,7 +469,7 @@ export class ContentUIPostTokenComponent
                     outline: `var(${varName}) solid #3b82f6`,
                     'outline-offset': '3px',
                     display: 'inline-block',
-                    background: 'var(--color-back-dim)',
+                    background: '#ccc',
                     width: '95px',
                     height: '95px',
                   })}
@@ -545,21 +568,58 @@ export class ContentUIPostTokenComponent
     `;
   }
 
-  private getColorOrGradientPreviewTemplate(varName: string) {
+  private getColorOrGradientPreviewTemplate(
+    varName: string,
+    variantName: string
+  ) {
     return html`
-      <span
-        style=${styleMap({
-          background: `var(${varName})`,
-          display: 'inline-block',
-          border: '1px solid var(--color-middle)',
-          width: '35px',
-          height: '35px',
+      <div
+        class=${classMap({
+          'color-preview': true,
+          schemable: !~['more', 'less', 'semi', 'dull'].indexOf(variantName),
         })}
-      ></span>
+      >
+        <span style=${styleMap({background: `var(${varName})`})}></span>
+        <strong>${!variantName ? '(base)' : variantName}</strong>
+      </div>
     `;
   }
 
   static styles = css`
+    .color-preview-container {
+      display: flex;
+    }
+    .color-preview {
+      display: flex;
+      flex-direction: column;
+      width: calc(100% / 6);
+      gap: 3px;
+    }
+    .color-preview::before {
+      display: inline-block;
+      content: '-';
+      width: 100%;
+      text-align: center;
+      font-size: 10px;
+      visibility: hidden;
+      color: var(--color-medium);
+    }
+    .color-preview.schemable::before {
+      visibility: visible;
+      content: 'schemable';
+    }
+    .color-preview span {
+      display: inline-block;
+      border: 1px solid var(--color-body-less);
+      width: 100%;
+      height: 35px;
+    }
+    .color-preview strong {
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+    }
+
     .radius-preview {
       display: flex;
       gap: 1rem;

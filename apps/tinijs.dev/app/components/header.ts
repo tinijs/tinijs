@@ -5,7 +5,7 @@ import {
   Component,
   TiniComponent,
   Reactive,
-  Colors,
+  ContrastColors,
   type OnCreate,
   type OnDestroy,
 } from '@tinijs/core';
@@ -65,10 +65,10 @@ export class HeaderComponent
           justify-content: space-between;
           box-sizing: border-box;
           height: var(--header-height);
-          background: var(--color-back);
+          background: var(--color-body);
           padding: var(--space-md);
           padding-left: var(--space-lg);
-          border-bottom: 1px solid var(--color-back-dim);
+          border-bottom: 1px solid var(--color-body-semi);
         "
       >
         <div class="brand">
@@ -78,7 +78,7 @@ export class HeaderComponent
               display: flex;
               align-items: center;
               text-decoration: none;
-              color: var(--color-front);
+              color: var(--color-body-contrast);
               gap: var(--space-sm);
             "
           >
@@ -137,13 +137,16 @@ export class HeaderComponent
 
             <div class="social">
               <a href="https://github.com/tinijs/tinijs" target="_blank"
-                ><icon-github scheme=${Colors.Front}></icon-github
+                ><icon-github scheme=${ContrastColors.Body}></icon-github
               ></a>
               <a href="https://twitter.com/tini_js" target="_blank"
-                ><icon-x scheme=${Colors.Front}></icon-x
+                ><icon-x scheme=${ContrastColors.Body}></icon-x
               ></a>
               <a href="https://discord.gg/EABbZVbPAb" target="_blank"
-                ><icon-discord scheme=${Colors.Front} size="lg"></icon-discord
+                ><icon-discord
+                  scheme=${ContrastColors.Body}
+                  size="lg"
+                ></icon-discord
               ></a>
             </div>
           </div>
@@ -153,7 +156,7 @@ export class HeaderComponent
             @click=${() => (this.mobileMenuOpened = !this.mobileMenuOpened)}
           >
             <tini-icon
-              scheme=${Colors.Front}
+              scheme=${ContrastColors.Body}
               .src=${!this.mobileMenuOpened
                 ? IconMenuComponent.src
                 : IconCloseComponent.src}
@@ -178,7 +181,7 @@ export class HeaderComponent
       width: 100dvw;
       height: calc(100vh - var(--header-height));
       height: calc(100dvh - var(--header-height));
-      background: var(--color-back);
+      background: var(--color-body);
       padding: var(--space-lg);
 
       &.opened {
@@ -191,12 +194,12 @@ export class HeaderComponent
       flex-direction: column;
 
       tini-link {
-        border-bottom: 1px solid var(--color-back-dim);
+        border-bottom: 1px solid var(--color-body-semi);
 
         &::part(main) {
           display: block;
           padding: var(--space-sm) 0;
-          color: var(--color-front);
+          color: var(--color-body-contrast);
           text-decoration: none;
           font-weight: 500;
         }
@@ -208,7 +211,7 @@ export class HeaderComponent
       justify-content: space-between;
       align-items: center;
       padding: var(--space-md);
-      background: var(--color-back);
+      background: var(--color-body-less);
       border-radius: var(--radius-md);
     }
 
@@ -251,20 +254,20 @@ export class HeaderComponent
       .menu {
         flex-direction: row;
         align-items: center;
-        gap: var(--space-xs2);
+        gap: var(--space-xs-2);
 
         tini-link {
           border-bottom: none;
 
           &::part(main) {
-            padding: var(--space-xs2) var(--space-md);
+            padding: var(--space-xs-2) var(--space-md);
             border-radius: var(--radius-md);
           }
           &:hover::part(main) {
-            background: var(--color-back);
+            background: var(--color-body-less);
           }
           &.active::part(main) {
-            background: var(--color-back);
+            background: var(--color-body-semi);
           }
         }
       }
@@ -273,8 +276,8 @@ export class HeaderComponent
         background: none;
         border-radius: 0;
         padding: 0 var(--space-md);
-        border-left: 1px solid var(--color-back);
-        border-right: 1px solid var(--color-back);
+        border-left: 1px solid var(--color-body-less);
+        border-right: 1px solid var(--color-body-less);
 
         span {
           display: none;

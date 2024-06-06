@@ -55,7 +55,7 @@ export const link = css`
   }
 
   a:hover {
-    color: var(--color-primary-dim);
+    color: var(--color-primary-more);
   }
 `;
 
@@ -98,19 +98,19 @@ export const table = css`
 
   th,
   td {
-    background: var(--color-back);
+    background: var(--color-body);
     padding: var(--space-sm) var(--space-md);
   }
 
   th {
     font-weight: bold;
     text-transform: uppercase;
-    color: var(--color-middle);
+    color: var(--color-medium);
     font-size: 0.8rem;
   }
 
   td {
-    border-block-start: var(--border-md) solid var(--color-back-dim);
+    border-block-start: var(--border-md) solid var(--color-body-semi);
   }
 `;
 

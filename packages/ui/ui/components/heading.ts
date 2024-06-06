@@ -27,7 +27,7 @@ export default class extends TiniElement {
   @property({type: Boolean, reflect: true}) underline?: boolean;
   /* eslint-enable prettier/prettier */
 
-  private readonly mainTag = unsafeStatic(`h${this.level || '1'}`);
+  private readonly mainTag = this.buildMainTag();
 
   connectedCallback() {
     super.connectedCallback();
@@ -47,6 +47,12 @@ export default class extends TiniElement {
         color: this.color,
       },
     });
+  }
+
+  private buildMainTag() {
+    let level = Number(this.level?.replace(/^(h|H)/, ''));
+    if (isNaN(level) || level < 1 || level > 6) level = 1;
+    return unsafeStatic(`h${level}`);
   }
 
   protected render() {
@@ -72,7 +78,7 @@ export const defaultStyles = createStyleBuilder<{
 }>(outputs => [
   css`
     :host {
-      --color: var(--color-front);
+      --color: var(--color-body-contrast);
       --gradient: none;
       line-height: 1.2;
     }

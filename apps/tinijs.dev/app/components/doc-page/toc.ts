@@ -63,7 +63,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
       position: fixed;
       top: calc(var(--header-height) + var(--toolbar-height) - 10px);
       right: var(--space-md);
-      background: var(--color-back);
+      background: var(--color-body);
       border-radius: var(--radius-md);
       width: 100%;
       max-height: 80vh;
@@ -81,7 +81,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
       z-index: 800;
 
       &.mobile-opened {
-        border: 1px solid var(--color-back-dim);
+        border: 1px solid var(--color-body-semi);
         height: auto;
         opacity: 1;
         transform: translateY(0);
@@ -108,7 +108,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
       list-style: none;
       padding: 0;
       margin: 0;
-      border-top: 1px solid var(--color-back-dim);
+      border-top: 1px solid var(--color-body-semi);
       padding: var(--space-xs) 0;
 
       li {
@@ -121,20 +121,20 @@ export class AppDocPageTOCComponent extends TiniComponent {
           padding-left: var(--space-xl);
         }
         &.level-5 {
-          padding-left: var(--space-xl3);
+          padding-left: var(--space-xl-3);
         }
 
         a {
           display: block;
-          padding: var(--space-xs2) var(--space-md);
-          color: var(--color-middle);
+          padding: var(--space-xs-2) var(--space-md);
+          color: var(--color-medium);
           text-decoration: none;
           font-weight: normal;
           font-size: var(--text-sm);
 
           &:hover {
             text-decoration: none;
-            color: var(--color-front);
+            color: var(--color-body-contrast);
           }
         }
       }
@@ -142,7 +142,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
 
     @media (min-width: 1200px) {
       :host {
-        border-left: 1px solid var(--color-back-dim);
+        border-left: 1px solid var(--color-body-semi);
       }
 
       .toc {

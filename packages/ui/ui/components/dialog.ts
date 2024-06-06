@@ -179,7 +179,7 @@ export default class extends TiniElement {
               ? nothing
               : html`
                   <tini-button
-                    scheme=${this.denyButton?.scheme || Colors.Middle}
+                    scheme=${this.denyButton?.scheme || Colors.Medium}
                     @click=${this.deny}
                   >
                     ${this.denyButton?.text || 'Cancel'}
@@ -216,8 +216,8 @@ export const defaultStyles = createStyleBuilder<{
       border: none;
       border-radius: var(--radius-md);
       box-shadow: var(--box-shadow);
-      background: var(--color-back);
-      color: var(--color-front);
+      background: var(--color-body);
+      color: var(--color-body-contrast);
     }
 
     dialog::backdrop {
@@ -240,7 +240,7 @@ export const defaultStyles = createStyleBuilder<{
     .head {
       justify-content: space-between;
       align-items: center;
-      border-bottom: var(--border-md) solid var(--color-back-dim);
+      border-bottom: var(--border-md) solid var(--color-body);
       padding: var(--space-md);
     }
 
@@ -264,7 +264,7 @@ export const defaultStyles = createStyleBuilder<{
       opacity: 0.5;
       font-size: var(--text-xl);
       cursor: pointer;
-      color: var(--color-front);
+      color: var(--color-body-contrast);
     }
 
     .head button:hover {
@@ -284,7 +284,7 @@ export const defaultStyles = createStyleBuilder<{
       align-items: center;
       justify-content: space-between;
       padding: var(--space-md);
-      border-top: var(--border-md) solid var(--color-back-dim);
+      border-top: var(--border-md) solid var(--color-body);
     }
   `,
 

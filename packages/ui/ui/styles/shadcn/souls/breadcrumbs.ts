@@ -11,13 +11,13 @@ export const styles = defaultStyles.extends({
     .item {
       text-decoration: none;
       font-size: 0.85rem;
-      color: var(--color-middle);
+      color: var(--color-medium);
       font-weight: var(--weight-normal);
     }
 
     .item:hover,
     .item-active {
-      color: var(--color-front);
+      color: var(--color-body-contrast);
     }
 
     .item::before {

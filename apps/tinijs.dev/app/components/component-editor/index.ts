@@ -17,7 +17,7 @@ import {
   Reactive,
   createComponentLoader,
   UseUI,
-  Colors,
+  ContrastColors,
   Sizes,
   type UI,
   type OnCreate,
@@ -478,7 +478,10 @@ registerComponents([ ${constructorName} ]);`;
             })}
             @click=${() => this.changeCommonViewport(CommonViewports.Mobile)}
           >
-            <icon-mobile scheme=${Colors.Front} size=${Sizes.XS}></icon-mobile>
+            <icon-mobile
+              scheme=${ContrastColors.Body}
+              size=${Sizes.XS}
+            ></icon-mobile>
           </button>
           <button
             class=${classMap({
@@ -486,7 +489,10 @@ registerComponents([ ${constructorName} ]);`;
             })}
             @click=${() => this.changeCommonViewport(CommonViewports.Tablet)}
           >
-            <icon-tablet scheme=${Colors.Front} size=${Sizes.XS}></icon-tablet>
+            <icon-tablet
+              scheme=${ContrastColors.Body}
+              size=${Sizes.XS}
+            ></icon-tablet>
           </button>
           <button
             class=${classMap({
@@ -495,7 +501,7 @@ registerComponents([ ${constructorName} ]);`;
             @click=${() => this.changeCommonViewport(CommonViewports.Desktop)}
           >
             <icon-desktop
-              scheme=${Colors.Front}
+              scheme=${ContrastColors.Body}
               size=${Sizes.XS}
             ></icon-desktop>
           </button>
@@ -505,12 +511,12 @@ registerComponents([ ${constructorName} ]);`;
             })}
             @click=${() => this.changeCommonViewport(CommonViewports.TV)}
           >
-            <icon-tv scheme=${Colors.Front} size=${Sizes.XS}></icon-tv>
+            <icon-tv scheme=${ContrastColors.Body} size=${Sizes.XS}></icon-tv>
           </button>
           <span class="separator"></span>
           <button @click=${this.toggleFullScreen}>
             <tini-icon
-              scheme=${Colors.Front}
+              scheme=${ContrastColors.Body}
               src=${this.isFullscreen
                 ? IconCollapseComponent.src
                 : IconExpandComponent.src}
@@ -622,7 +628,7 @@ registerComponents([ ${constructorName} ]);`;
       display: flex;
       flex-flow: column;
       gap: 1rem;
-      background: var(--color-back);
+      background: var(--color-body);
 
       &.fullscreen {
         padding: var(--space-md);
@@ -635,7 +641,7 @@ registerComponents([ ${constructorName} ]);`;
       --head-height: 40px;
       overflow: hidden;
       width: 100%;
-      border: 1px solid var(--color-back-dim);
+      border: 1px solid var(--color-body-semi);
       border-radius: var(--radius-md);
 
       .head {
@@ -645,7 +651,7 @@ registerComponents([ ${constructorName} ]);`;
         justify-content: space-between;
         height: var(--head-height);
         padding: var(--space-xs);
-        border-bottom: 1px solid var(--color-back-dim);
+        border-bottom: 1px solid var(--color-body-semi);
       }
 
       .body {
@@ -669,10 +675,10 @@ registerComponents([ ${constructorName} ]);`;
       .preview {
         --head-height: 40px;
         height: 480px;
-        background: var(--color-back);
+        background: var(--color-body-less);
 
         .head {
-          background: var(--color-back);
+          background: var(--color-body);
 
           .buttons {
             display: flex;
@@ -683,7 +689,7 @@ registerComponents([ ${constructorName} ]);`;
               display: block;
               width: 1px;
               height: 20px;
-              background: var(--color-back-dim);
+              background: var(--color-body-semi);
             }
 
             button {
@@ -693,19 +699,15 @@ registerComponents([ ${constructorName} ]);`;
               background: none;
               border: none;
               border-radius: var(--radius-md);
-              padding: var(--space-xs2);
+              padding: var(--space-xs-2);
               cursor: pointer;
 
               &:hover {
-                background: color-mix(
-                  in oklab,
-                  var(--color-back),
-                  var(--color-front) 5%
-                );
+                background: var(--color-body-less);
               }
 
               &.selected {
-                background: var(--color-back-dim);
+                background: var(--color-body-semi);
               }
             }
           }
@@ -718,7 +720,7 @@ registerComponents([ ${constructorName} ]);`;
           height: calc(100% - var(--head-height));
           min-width: 240px;
           min-height: 240px;
-          background: var(--color-back);
+          background: var(--color-body);
           overflow: scroll;
         }
 
@@ -727,11 +729,15 @@ registerComponents([ ${constructorName} ]);`;
           position: absolute;
           top: var(--space-md);
           right: var(--space-md);
-          padding: var(--space-xs2) var(--space-xs);
+          padding: var(--space-xs-2) var(--space-xs);
           font-size: var(--text-sm);
           border-radius: var(--radius-md);
-          background: color-mix(in oklab, var(--color-front), transparent 30%);
-          color: var(--color-back);
+          background: color-mix(
+            in oklab,
+            var(--color-body-contrast),
+            transparent 30%
+          );
+          color: var(--color-body);
           user-select: none;
 
           &.showed {
@@ -744,7 +750,7 @@ registerComponents([ ${constructorName} ]);`;
           content: '';
           position: absolute;
           border-radius: 1000rem;
-          background: var(--color-back-dim);
+          background: var(--color-body-semi);
         }
 
         .right-grip {
@@ -774,28 +780,24 @@ registerComponents([ ${constructorName} ]);`;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: var(--space-xs2);
-            background: var(--color-back);
+            gap: var(--space-xs-2);
+            background: var(--color-body);
             border: none;
             padding: var(--space-xs) var(--space-sm);
             cursor: pointer;
             box-sizing: border-box;
             height: calc(var(--head-height) + 1px);
-            border-bottom: 1px solid var(--color-back-dim);
-            border-right: 1px solid var(--color-back-dim);
-            background: color-mix(
-              in oklab,
-              var(--color-back),
-              var(--color-front) 5%
-            );
+            border-bottom: 1px solid var(--color-body-semi);
+            border-right: 1px solid var(--color-body-semi);
+            background: var(--color-body-less);
 
             &:hover {
-              background: var(--color-back);
+              background: var(--color-body-semi);
             }
 
             &.selected {
-              background: var(--color-back);
-              border-bottom-color: var(--color-back);
+              background: var(--color-body);
+              border-bottom-color: var(--color-body);
             }
 
             span {

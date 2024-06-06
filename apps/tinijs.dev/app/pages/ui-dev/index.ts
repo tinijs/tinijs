@@ -100,7 +100,7 @@ class UIDevSectionComponent extends TiniComponent implements OnCreate {
       padding: 1rem;
 
       .content {
-        background: var(--color-back);
+        background: var(--color-body);
       }
     }
   `;

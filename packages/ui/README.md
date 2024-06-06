@@ -66,6 +66,7 @@ TODO:
 
 - 30 iOS 7 Gradients: https://dribbble.com/shots/1631052/attachments/254371?mode=media
 - iOS 7 Color Swatches: https://dribbble.com/shots/1186156-iOS-7-Color-Swatches/attachments/1186156-iOS-7-Color-Swatches?mode=media
+- https://gradient.style/
 - https://gradienthunt.com/popular
 - https://cssgradient.io/gradient-backgrounds/
 - https://www.grabient.com/

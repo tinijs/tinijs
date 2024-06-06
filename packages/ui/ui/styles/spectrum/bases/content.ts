@@ -54,14 +54,14 @@ export const link = css`
   }
 
   a:hover {
-    color: var(--color-primary-dim);
+    color: var(--color-primary-more);
     text-decoration: underline;
   }
 `;
 
 export const blockquote = css`
   blockquote {
-    padding-left: var(--space-xl2);
+    padding-left: var(--space-xl-2);
   }
 
   blockquote,
@@ -101,14 +101,14 @@ export const table = css`
     border-collapse: collapse;
     width: 100%;
     text-align: left;
-    color: var(--color-front);
+    color: var(--color-body-contrast);
   }
 
   th,
   td {
-    background: var(--color-back);
+    background: var(--color-body);
     padding: var(--space-xs);
-    border-bottom: 1px solid var(--color-back-dim);
+    border-bottom: 1px solid var(--color-body-semi);
     font-size: 0.8rem;
   }
 
@@ -117,7 +117,7 @@ export const table = css`
   }
 
   tr:hover td {
-    background: color-mix(in oklab, var(--color-back), var(--color-front) 3%);
+    background: var(--color-body-less);
   }
 `;
 

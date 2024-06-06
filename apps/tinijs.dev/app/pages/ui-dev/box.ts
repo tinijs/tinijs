@@ -4,9 +4,7 @@ import {
   Component,
   TiniComponent,
   Colors,
-  SubtleColors,
   Gradients,
-  SubtleGradients,
   Shadows,
 } from '@tinijs/core';
 
@@ -26,20 +24,34 @@ export class AppPageUIDevBoxComponent extends TiniComponent {
 
       <ui-dev-section titleText="Schemes">
         <div style="display: flex; flex-flow: column; gap: 1rem;">
-          ${[
-            ...Object.values(Colors),
-            ...Object.values(SubtleColors),
-            ...Object.values(Gradients),
-            ...Object.values(SubtleGradients),
-          ].map(
-            scheme => html`<tini-box scheme=${scheme}>${scheme}</tini-box>`
+          ${Object.values(Colors).map(
+            scheme => html`
+              <tini-box scheme=${scheme}>${scheme}</tini-box>
+              <tini-box scheme=${`${scheme}-subtle`}
+                >${`${scheme}-subtle`}</tini-box
+              >
+              <tini-box scheme=${`${scheme}-contrast`}
+                >${`${scheme}-contrast`}</tini-box
+              >
+            `
+          )}
+          ${Object.values(Gradients).map(
+            scheme => html`
+              <tini-box scheme=${scheme}>${scheme}</tini-box>
+              <tini-box scheme=${`${scheme}-subtle`}
+                >${`${scheme}-subtle`}</tini-box
+              >
+              <tini-box scheme=${`${scheme}-contrast`}
+                >${`${scheme}-contrast`}</tini-box
+              >
+            `
           )}
         </div>
       </ui-dev-section>
 
       <ui-dev-section titleText="Radius">
         <div style="display: flex; flex-flow: column; gap: 1rem;">
-          <tini-box radius="none" scheme="primary">None</tini-box>
+          <tini-box radius="zero" scheme="primary">None</tini-box>
           <tini-box scheme="primary">Default</tini-box>
           <tini-box radius="xl" scheme="primary">XL</tini-box>
           <tini-box radius="full" scheme="primary">Full</tini-box>

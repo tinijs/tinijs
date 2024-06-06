@@ -32,11 +32,8 @@ import {
 } from '../../utils/font.js';
 import {extractCSSVariables, type VariableDef} from '../../utils/css.js';
 import {buildColorVariants} from '../../utils/color.js';
-import {buildGradientVariants} from '../../utils/gradient.js';
 
 import {IconCodeComponent} from '../../icons/code.js';
-
-import {AppSkinEditorGradientPickerComponent} from './gradient-picker.js';
 
 @Component({
   components: [
@@ -45,7 +42,6 @@ import {AppSkinEditorGradientPickerComponent} from './gradient-picker.js';
     TiniButtonComponent,
     TiniModalComponent,
     IconCodeComponent,
-    AppSkinEditorGradientPickerComponent,
   ],
 })
 export class AppSkinEditorComponent extends TiniComponent {
@@ -73,9 +69,9 @@ export class AppSkinEditorComponent extends TiniComponent {
     const result = [
       {name: 'Fonts', items: []},
       {name: 'Colors', items: []},
-      {name: 'Gradients', items: []},
       {name: 'Sizes', items: []},
       {name: 'Shadows', items: []},
+      {name: 'Config', items: []},
     ] as Array<{name: string; items: VariableDef[]}>;
     // group variables
     for (const item of this.variablesMap) {
@@ -84,23 +80,19 @@ export class AppSkinEditorComponent extends TiniComponent {
         result[0].items.push(def);
       } else if (key.startsWith('--color')) {
         if (
-          !~key.indexOf('-dim') &&
+          !~key.indexOf('-more') &&
+          !~key.indexOf('-less') &&
+          !~key.indexOf('-semi') &&
           !~key.indexOf('-subtle') &&
           !~key.indexOf('-contrast')
         ) {
           result[1].items.push(def);
         }
-      } else if (key.startsWith('--gradient')) {
-        if (
-          !~key.indexOf('-dim') &&
-          !~key.indexOf('-subtle') &&
-          !~key.indexOf('-contrast')
-        ) {
-          result[2].items.push(def);
-        }
       } else if (key.startsWith('--size')) {
-        result[3].items.push(def);
+        result[2].items.push(def);
       } else if (key.startsWith('--shadow')) {
+        result[3].items.push(def);
+      } else if (key.startsWith('--config')) {
         result[4].items.push(def);
       }
     }
@@ -186,7 +178,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
   private updateVariables(values: Array<[string, string]>) {
     values.forEach(([key, value]) => {
       this.changedVariablesMap.set(key, value);
-      document.body.style.setProperty(key, value);
+      document.documentElement.style.setProperty(key, value);
     });
   }
 
@@ -203,30 +195,9 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
     const key = input.name;
     const value = input.value;
     return debouncer('AppSkinEditorComponent:change_color', 100, () => {
-      console.log({value});
-
-      const {base, dim, subtle, contrast} = buildColorVariants(value);
+      const {base, contrast} = buildColorVariants(value);
       this.updateVariables([
         [key, base],
-        [`${key}-dim`, dim],
-        [`${key}-subtle`, subtle],
-        [`${key}-contrast`, contrast],
-      ]);
-    });
-  }
-
-  private changeGradient(e: CustomEvent<string>) {
-    const input = e.target as unknown as AppSkinEditorGradientPickerComponent;
-    const key = input.name;
-    const value = e.detail;
-    return debouncer('AppSkinEditorComponent:change_gradient', 100, () => {
-      console.log({value});
-
-      const {base, dim, subtle, contrast} = buildGradientVariants(value);
-      this.updateVariables([
-        [key, base],
-        [`${key}-dim`, dim],
-        [`${key}-subtle`, subtle],
         [`${key}-contrast`, contrast],
       ]);
     });
@@ -397,20 +368,13 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
                                       .value=${item.valueDirect}
                                       @input=${this.changeColor}
                                     />`
-                                  : group.name === 'Gradients'
-                                    ? html`<app-skin-editor-gradient-picker
-                                        class="field"
-                                        name=${item.key}
-                                        .value=${item.valueDirect}
-                                        @change=${this.changeGradient}
-                                      ></app-skin-editor-gradient-picker>`
-                                    : html`<input
-                                        type="text"
-                                        class="field"
-                                        name=${item.key}
-                                        .value=${item.valueDirect}
-                                        @input=${this.changeValue}
-                                      />`}
+                                  : html`<input
+                                      type="text"
+                                      class="field"
+                                      name=${item.key}
+                                      .value=${item.valueDirect}
+                                      @input=${this.changeValue}
+                                    />`}
                             </div>
                           </li>
                         `;
@@ -453,7 +417,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       display: none;
       box-sizing: border-box;
       position: fixed;
-      background: var(--color-back);
+      background: var(--color-body);
       width: 100vw;
       width: 100dvw;
       height: 50vh;
@@ -467,7 +431,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       align-items: center;
       height: var(--head-height);
       padding: var(--space-sm);
-      border-bottom: var(--border-md) solid var(--color-back-dim);
+      border-bottom: var(--border-md) solid var(--color-body-semi);
 
       .title {
         flex: 1;
@@ -479,15 +443,15 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         align-items: center;
         padding: var(--space-xs) var(--space-sm);
         margin-right: var(--space-xl);
-        background: var(--color-back);
-        color: var(--color-front);
-        border: var(--border-md) solid var(--color-front);
+        background: var(--color-body);
+        color: var(--color-body-contrast);
+        border: var(--border-md) solid var(--color-body-contrast);
         border-radius: var(--radius-md);
         font-size: var(--text-sm);
         line-height: 1;
 
         &:hover {
-          background: var(--color-back);
+          background: var(--color-body-less);
         }
       }
 
@@ -496,7 +460,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--color-back);
+        background: var(--color-body);
         border: none;
         opacity: 0.5;
 
@@ -526,7 +490,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
           margin-bottom: var(--space-md);
 
           .group-title {
-            color: var(--color-middle);
+            color: var(--color-medium);
             text-transform: uppercase;
           }
 
@@ -541,16 +505,16 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
               justify-content: space-between;
               margin-right: var(--space-xs);
               margin-bottom: var(--space-xs);
-              padding: var(--space-xs2) 0 var(--space-sm);
-              border-bottom: var(--border-md) solid var(--color-back-dim);
+              padding: var(--space-xs-2) 0 var(--space-sm);
+              border-bottom: var(--border-md) solid var(--color-body-semi);
 
               .value {
                 input,
                 select {
-                  background: var(--color-back);
-                  border: var(--border-md) solid var(--color-middle);
+                  background: var(--color-body);
+                  border: var(--border-md) solid var(--color-medium);
                   border-radius: var(--radius-md);
-                  padding: var(--space-xs2) var(--space-xs);
+                  padding: var(--space-xs-2) var(--space-xs);
                 }
 
                 input {
@@ -586,7 +550,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       position: absolute;
       bottom: 0;
       left: 0;
-      border-top: var(--border-md) solid var(--color-back-dim);
+      border-top: var(--border-md) solid var(--color-body-semi);
       padding: var(--space-xs);
 
       tini-button.show-code {
@@ -609,7 +573,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
     }
 
     tini-modal::part(main) {
-      background: var(--color-back);
+      background: var(--color-body);
     }
 
     .modal-body {
@@ -626,7 +590,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         width: 310px;
         height: calc(100vh - var(--header-height) + 1px);
         height: calc(100dvh - var(--header-height) + 1px);
-        border: var(--border-md) solid var(--color-back-dim);
+        border: var(--border-md) solid var(--color-body-semi);
         box-shadow: var(--shadow-lg);
       }
     }

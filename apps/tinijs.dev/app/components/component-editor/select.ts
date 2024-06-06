@@ -13,8 +13,10 @@ import {
   Output,
   Colors,
   SubtleColors,
+  ContrastColors,
   Gradients,
   SubtleGradients,
+  ContrastGradients,
   Sizes,
   Fonts,
   Texts,
@@ -45,30 +47,50 @@ export class AppComponentEditorSelectComponent
   private colors: SelectOptgroup[] = [
     {
       label: 'COLORS',
-      children: this.buildPresetItems(Colors),
+      options: this.buildPresetItems(Colors),
     },
   ];
   private subtleColors: SelectOptgroup[] = [
     {
       label: 'SUBTLE COLORS',
-      children: this.buildPresetItems(SubtleColors),
+      options: this.buildPresetItems(SubtleColors),
     },
   ];
-  private allColors = [this.colors[0], this.subtleColors[0]];
+  private contrastColors: SelectOptgroup[] = [
+    {
+      label: 'CONTRAST COLORS',
+      options: this.buildPresetItems(ContrastColors),
+    },
+  ];
+  private allColors = [
+    this.colors[0],
+    this.subtleColors[0],
+    this.contrastColors[0],
+  ];
 
   private gradients: SelectOptgroup[] = [
     {
       label: 'GRADIENTS',
-      children: this.buildPresetItems(Gradients),
+      options: this.buildPresetItems(Gradients),
     },
   ];
   private subtleGradients: SelectOptgroup[] = [
     {
       label: 'SUBTLE GRADIENTS',
-      children: this.buildPresetItems(SubtleGradients),
+      options: this.buildPresetItems(SubtleGradients),
     },
   ];
-  private allGradients = [this.gradients[0], this.subtleGradients[0]];
+  private contrastGradients: SelectOptgroup[] = [
+    {
+      label: 'CONTRAST GRADIENTS',
+      options: this.buildPresetItems(ContrastGradients),
+    },
+  ];
+  private allGradients = [
+    this.gradients[0],
+    this.subtleGradients[0],
+    this.contrastGradients[0],
+  ];
 
   private colorsAndGradients: SelectOptgroup[] = [
     this.colors[0],
@@ -78,25 +100,32 @@ export class AppComponentEditorSelectComponent
     this.subtleColors[0],
     this.subtleGradients[0],
   ];
+  private contrastColorsAndContrastGradients: SelectOptgroup[] = [
+    this.contrastColors[0],
+    this.contrastGradients[0],
+  ];
   private allColorsAndAllGradients: SelectOptgroup[] = [
     ...this.allColors,
     ...this.allGradients,
   ];
 
   private presetDefaultItem: SelectOption = {
-    label: 'Default',
+    content: 'Default',
     value: '_default',
     selected: true,
   };
   private presets: Record<string, Array<SelectOption | SelectOptgroup>> = {
     colors: this.colors,
     subtleColors: this.subtleColors,
+    contrastColors: this.contrastColors,
     allColors: this.allColors,
     gradients: this.gradients,
     subtleGradients: this.subtleGradients,
+    contrastGradients: this.contrastGradients,
     allGradients: this.allGradients,
     colorsAndGradients: this.colorsAndGradients,
     subtleColorsAndSubtleGradients: this.subtleColorsAndSubtleGradients,
+    contrastColorsAndContrastGradients: this.contrastColorsAndContrastGradients,
     allColorsAndAllGradients: this.allColorsAndAllGradients,
     sizes: this.buildPresetItems(Sizes, value => value.toUpperCase()),
     fonts: this.buildPresetItems(Fonts),
@@ -113,17 +142,17 @@ export class AppComponentEditorSelectComponent
 
   private buildPresetItems(
     list: Record<string, string>,
-    labelBuilder?: (value: string) => string
+    contentBuilder?: (value: string) => string
   ) {
     return Object.values(list).map(value => {
-      const label = labelBuilder
-        ? labelBuilder(value)
+      const content = contentBuilder
+        ? contentBuilder(value)
         : parseName(value)
             .noCase.split(' ')
             .map(word => word.replace(/^\w/, c => c.toUpperCase()))
             .join(' ');
       return {
-        label,
+        content,
         value,
         selected: value === this.value,
       };

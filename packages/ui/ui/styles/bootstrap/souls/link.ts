@@ -11,12 +11,12 @@ export const styles = defaultStyles.extends({
   `,
   colorGen: ({name, baseName}) => `
     .color-${name}:hover {
-      color: var(--color-${baseName}-dim);
+      color: var(--color-${baseName}-more);
     }
   `,
   gradientGen: ({name, baseName}) => `
     .color-${name}:hover {
-      --gradient: var(--gradient-${baseName}-dim);
+      --gradient: var(--gradient-${baseName}-more);
     }
   `,
   textGen: () => '',

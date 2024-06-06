@@ -11,7 +11,7 @@ export const styles = defaultStyles.extends({
 
     :host(:focus-visible) {
       box-shadow: 0 0 0 calc(var(--size) * 0.25)
-        color-mix(in oklab, var(--outline-color), var(--color-back) 60%);
+        color-mix(in oklab, var(--outline-color), var(--color-body) 60%);
     }
 
     .bg {
@@ -20,11 +20,11 @@ export const styles = defaultStyles.extends({
 
     :host(:focus-visible) .bg,
     :host(:hover) .bg {
-      filter: brightness(85%);
+      filter: brightness(90%);
     }
 
     :host(:active) .bg {
-      filter: brightness(75%);
+      filter: brightness(80%);
     }
 
     .main {

@@ -105,17 +105,17 @@ export const table = css`
   th,
   td {
     font-size: 0.9rem;
-    background: var(--color-back);
+    background: var(--color-body);
     padding: var(--space-md) var(--space-sm);
   }
 
   th {
     font-weight: bold;
-    border-bottom: var(--border-md) solid var(--color-back-dim);
+    border-bottom: var(--border-md) solid var(--color-body-semi);
   }
 
   tr:nth-child(2n) td {
-    background: color-mix(in oklab, var(--color-back), var(--color-front) 3%);
+    background: var(--color-body-less);
   }
 `;
 

@@ -26,6 +26,9 @@ export class AppPageUIDevBadgeComponent extends TiniComponent {
             <tini-badge scheme=${`${scheme}-subtle`}
               >${`${scheme}-subtle`}</tini-badge
             >
+            <tini-badge scheme=${`${scheme}-contrast`}
+              >${`${scheme}-contrast`}</tini-badge
+            >
           `
         )}
         <br />
@@ -34,6 +37,9 @@ export class AppPageUIDevBadgeComponent extends TiniComponent {
             <tini-badge shape="pill" scheme=${scheme}>${scheme}</tini-badge>
             <tini-badge shape="pill" scheme=${`${scheme}-subtle`}
               >${`${scheme}-subtle`}</tini-badge
+            >
+            <tini-badge shape="pill" scheme=${`${scheme}-contrast`}
+              >${`${scheme}-contrast`}</tini-badge
             >
           `
         )}
@@ -44,6 +50,9 @@ export class AppPageUIDevBadgeComponent extends TiniComponent {
             <tini-badge shape="circle" scheme=${`${scheme}-subtle`}
               >9</tini-badge
             >
+            <tini-badge shape="circle" scheme=${`${scheme}-contrast`}
+              >9</tini-badge
+            >
           `
         )}
         <br />
@@ -51,6 +60,7 @@ export class AppPageUIDevBadgeComponent extends TiniComponent {
           scheme => html`
             <tini-badge shape="dot" scheme=${scheme}></tini-badge>
             <tini-badge shape="dot" scheme=${`${scheme}-subtle`}></tini-badge>
+            <tini-badge shape="dot" scheme=${`${scheme}-contrast`}></tini-badge>
           `
         )}
       </ui-dev-section>

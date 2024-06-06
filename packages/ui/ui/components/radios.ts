@@ -116,7 +116,7 @@ export const defaultStyles = createStyleBuilder<{
     :host {
       --size: var(--size-md);
       --background: var(--color-primary);
-      --border-color: var(--color-middle);
+      --border-color: var(--color-medium);
     }
 
     .main {
@@ -145,7 +145,7 @@ export const defaultStyles = createStyleBuilder<{
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
-      background: var(--color-back-dim);
+      background: var(--color-body);
       background-image: none;
       background-repeat: no-repeat;
       background-position: center;

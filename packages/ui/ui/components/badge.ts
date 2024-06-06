@@ -8,8 +8,10 @@ import {
   createStyleBuilder,
   Colors,
   SubtleColors,
+  ContrastColors,
   Gradients,
   SubtleGradients,
+  ContrastGradients,
   Sizes,
   generateAllColorVariants,
   generateAllGradientVariants,
@@ -30,7 +32,7 @@ export enum BadgeShapes {
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) shape?: BadgeShapes;
-  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
+  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | ContrastColors | Gradients | SubtleGradients | ContrastGradients;
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
@@ -71,8 +73,8 @@ export const defaultStyles = createStyleBuilder<{
 }>(outputs => [
   css`
     :host {
-      --background: var(--color-middle);
-      --color: var(--color-middle-contrast);
+      --background: var(--color-medium);
+      --color: var(--color-medium-contrast);
       --size: var(--size-md);
       display: inline-flex;
       align-items: center;
@@ -81,7 +83,7 @@ export const defaultStyles = createStyleBuilder<{
       overflow: hidden;
       z-index: 0;
       line-height: 0;
-      background: var(--color-back);
+      background: var(--color-body);
       border-radius: calc(var(--size-radius) * var(--size));
       min-width: calc(var(--size) * 1.5);
       min-height: calc(var(--size) * 1.25);

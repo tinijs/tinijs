@@ -85,11 +85,11 @@ export const defaultStyles = createStyleBuilder<{
       width: 100%;
       height: 100%;
       position: relative;
-      background: color-mix(in oklab, var(--color-back), black 10%);
+      background: var(--color-body-subtle);
     }
 
     .main::after {
-      --background: color-mix(in oklab, var(--color-back), white 10%);
+      --background: var(--color-body-more);
       position: absolute;
       inset: 0;
       transform: translateX(-100%);

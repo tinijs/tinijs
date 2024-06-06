@@ -8,8 +8,10 @@ import {
   createStyleBuilder,
   Colors,
   SubtleColors,
+  ContrastColors,
   Gradients,
   SubtleGradients,
+  ContrastGradients,
   Sizes,
   generateAllColorVariants,
   generateAllGradientVariants,
@@ -31,7 +33,7 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) src?: string;
   @property({type: String, reflect: true}) name?: string;
   @property({type: String, reflect: true}) provider?: string;
-  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
+  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | ContrastColors | Gradients | SubtleGradients | ContrastGradients;
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 

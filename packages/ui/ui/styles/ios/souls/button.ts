@@ -10,7 +10,7 @@ export const styles = defaultStyles.extends({
     }
 
     .main {
-      padding: calc(var(--size) * 0.75) var(--size);
+      padding: calc(var(--size) * 0.5) var(--size);
       font-size: calc(var(--size) * 1.1);
     }
 
@@ -20,7 +20,7 @@ export const styles = defaultStyles.extends({
     }
 
     :host(:active) .bg {
-      filter: brightness(80%);
+      filter: brightness(90%);
     }
   `,
   colorGen: () => '',

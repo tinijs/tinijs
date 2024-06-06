@@ -11,17 +11,17 @@ export const styles = defaultStyles.extends({
     .item {
       text-decoration: none;
       font-weight: var(--weight-medium);
-      color: var(--color-middle);
+      color: var(--color-medium);
     }
 
     .item:hover {
       text-decoration: none;
-      color: var(--color-middle-dim);
+      color: var(--color-medium-more);
     }
 
     .item-active {
       font-weight: var(--weight-bold);
-      color: var(--color-front);
+      color: var(--color-body-contrast);
     }
   `,
 });

@@ -79,7 +79,7 @@ export const defaultStyles = createStyleBuilder<{
 }>(outputs => [
   css`
     :host {
-      --color: var(--color-front);
+      --color: var(--color-body-contrast);
       --gradient: none;
       --font: var(--font-content);
       --size: var(--text-md);

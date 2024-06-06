@@ -31,15 +31,15 @@ export class AppPageHome extends TiniComponent {
 
         <div class="headline">
           <h2 style="margin-bottom: 0">
-            <tini-text size="xl3" weight="bold" color=${Gradients.Success}
+            <tini-text size="xl-3" weight="bold" color=${Gradients.Primary}
               >Tini</tini-text
             ><br />A Javascript framework
           </h2>
           <p>
             A small, fast and interoperable framework for building
-            <strong>Single Page Apps</strong> or
-            <strong>Progressive Web Apps</strong> or <strong>Desktop</strong> or
-            <strong>Mobile</strong> Apps.
+            <strong>Landing Page</strong>, <strong>SPA</strong>,
+            <strong>PWA</strong>, <strong>Desktop</strong> and
+            <strong>Mobile</strong> apps.
           </p>
           <div class="actions">
             <tini-button
@@ -48,7 +48,7 @@ export class AppPageHome extends TiniComponent {
               >Get started</tini-button
             >
             <tini-button
-              scheme=${Colors.Middle}
+              scheme=${Colors.Medium}
               @click=${() =>
                 open('https://github.com/tinijs/tinijs', '_blank')?.focus()}
               >View on Github</tini-button
@@ -169,7 +169,7 @@ export class AppPageHome extends TiniComponent {
 
         <div class="actions">
           <tini-button
-            scheme=${Gradients.Success}
+            scheme=${Gradients.Primary}
             @click=${() =>
               open(
                 'mailto:hello@tinijs.dev?subject=Sponsor Tini&body=I want to sponsor the TiniJS project.',
@@ -229,8 +229,8 @@ export class AppPageHome extends TiniComponent {
         li {
           padding: var(--space-md);
           border-radius: var(--radius-md);
-          background: var(--color-back);
-          border: 1px solid var(--color-back);
+          background: var(--color-body-less);
+          border: 1px solid var(--color-body-semi);
           transition:
             box-shadow 0.3s,
             border-color 0.3s;
@@ -238,13 +238,13 @@ export class AppPageHome extends TiniComponent {
           &:hover {
             cursor: pointer;
             box-shadow: var(--shadow-lg);
-            border-color: var(--color-back-dim);
+            border-color: var(--color-body-subtle);
           }
 
           .icon {
             font-size: 2rem;
             padding: var(--space-sm);
-            background: var(--color-back-dim);
+            background: var(--color-body-subtle);
             width: 55px;
             height: 50px;
             line-height: 25px;
@@ -258,7 +258,7 @@ export class AppPageHome extends TiniComponent {
 
           p {
             margin: 0;
-            color: var(--color-middle);
+            color: var(--color-medium);
           }
         }
       }
@@ -277,6 +277,10 @@ export class AppPageHome extends TiniComponent {
           margin-bottom: var(--space-xl);
         }
       }
+
+      p {
+        margin-top: var(--space-md);
+      }
     }
 
     .sponsors {
@@ -293,13 +297,13 @@ export class AppPageHome extends TiniComponent {
 
       .special-sponsors {
         .title {
-          background: var(--color-back);
+          background: var(--color-body-less);
           margin-bottom: var(--space-xs);
           padding: var(--space-xs) var(--space-md);
           border-radius: var(--radius-md) var(--radius-md) 0 0;
           text-align: center;
           font-weight: 700;
-          color: var(--color-middle);
+          color: var(--color-medium);
           font-size: 0.9rem;
         }
 
@@ -311,11 +315,11 @@ export class AppPageHome extends TiniComponent {
           gap: var(--space-xs);
 
           li {
-            background: var(--color-back);
+            background: var(--color-body-less);
 
             a {
               display: block;
-              color: var(--color-middle);
+              color: var(--color-medium);
               text-decoration: none;
               font-size: 1.5rem;
               padding: var(--space-xl);
@@ -336,12 +340,13 @@ export class AppPageHome extends TiniComponent {
 
     @media (min-width: 768px) {
       .featured {
-        padding: var(--space-xl3) var(--space-xl);
+        padding: var(--space-xl-3) var(--space-xl);
         flex-direction: row;
 
         .logo {
+          display: flex;
           width: 40%;
-          text-align: right;
+          justify-content: flex-end;
 
           img {
             width: 200px;

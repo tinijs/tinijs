@@ -100,7 +100,7 @@ export const defaultStyles = createStyleBuilder<{
     :host {
       --color: var(--color-primary);
       --size: var(--size-md);
-      --border-color: var(--color-middle);
+      --border-color: var(--color-medium);
       --radius: var(--radius-md);
     }
 
@@ -113,8 +113,8 @@ export const defaultStyles = createStyleBuilder<{
 
     textarea {
       width: 100%;
-      background: var(--color-back-dim);
-      color: var(--color-front);
+      background: var(--color-body);
+      color: var(--color-body-contrast);
       border: var(--border-md) solid var(--border-color);
       border-radius: var(--radius);
       padding: calc(var(--size) / 2) calc(var(--size) / 1.5);
@@ -124,7 +124,7 @@ export const defaultStyles = createStyleBuilder<{
     }
 
     textarea::placeholder {
-      color: var(--color-middle);
+      color: var(--color-medium);
       opacity: 0.75;
     }
 
@@ -136,9 +136,9 @@ export const defaultStyles = createStyleBuilder<{
     }
 
     textarea:disabled {
-      background: color-mix(in oklab, var(--color-back-dim), transparent 50%);
+      background: color-mix(in oklab, var(--color-body), transparent 50%);
       opacity: 1;
-      color: var(--color-middle);
+      color: var(--color-medium);
     }
   `,
 

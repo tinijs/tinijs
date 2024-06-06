@@ -58,10 +58,10 @@ export const defaultStyles = createStyleBuilder<{
 }>(outputs => [
   css`
     :host {
-      --background: var(--color-middle);
-      --text-color: var(--color-middle);
+      --background: var(--color-medium);
+      --color: var(--color-medium);
       --size: var(--text-md);
-      --border: var(--border-md) solid var(--color-middle);
+      --border: var(--border-md) solid var(--color-medium);
       --radius: var(--radius-md);
       --padding: var(--space-md);
       --margin: 0;
@@ -70,7 +70,7 @@ export const defaultStyles = createStyleBuilder<{
     .main {
       width: 100%;
       background: color-mix(in oklab, var(--background), transparent 50%);
-      color: color-mix(in oklab, var(--text-color), var(--color-front) 30%);
+      color: color-mix(in oklab, var(--color), var(--color-body-contrast) 30%);
       font-size: var(--size);
       border: var(--border);
       border-radius: var(--radius);
@@ -86,7 +86,7 @@ export const defaultStyles = createStyleBuilder<{
     return `
       .${fullName} {
         --background: ${color};
-        --text-color: ${isSubtle ? baseColor : color};
+        --color: ${isSubtle ? baseColor : color};
         border-color: ${color};
       }
       ${outputs.colorGen(values)}

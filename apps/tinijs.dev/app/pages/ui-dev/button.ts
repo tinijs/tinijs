@@ -30,16 +30,21 @@ export class AppPageUIDevButtonComponent extends TiniComponent {
       <ui-dev-section titleText="Schemes">
         ${Object.values(Colors).map(
           scheme =>
-            html`<tini-button scheme=${scheme}>${scheme}</tini-button
-              ><tini-button scheme=${`${scheme}-subtle`}
+            html`<tini-button scheme=${scheme}>${scheme}</tini-button>
+              <tini-button scheme=${`${scheme}-subtle`}
                 >${scheme}-subtle</tini-button
-              >`
+              >
+              <tini-button scheme=${`${scheme}-contrast`}
+                >${scheme}-contrast</tini-button
+              > `
         )}
         ${Object.values(Gradients).map(
           scheme =>
             html`<tini-button scheme=${scheme}>${scheme}</tini-button
               ><tini-button scheme=${`${scheme}-subtle`}
                 >${scheme}-subtle</tini-button
+              ><tini-button scheme=${`${scheme}-contrast`}
+                >${scheme}-contrast</tini-button
               >`
         )}
       </ui-dev-section>

@@ -46,7 +46,7 @@ export const text = css`
   hr {
     margin: 0;
     border: 0;
-    border-bottom: 1px solid var(--color-back-dim);
+    border-bottom: 1px solid var(--color-body-semi);
   }
 `;
 
@@ -58,7 +58,7 @@ export const link = css`
   }
 
   a:hover {
-    color: var(--color-primary-dim);
+    color: var(--color-primary-more);
   }
 `;
 
@@ -98,14 +98,14 @@ export const table = css`
     border-collapse: collapse;
     width: 100%;
     text-align: left;
-    color: var(--color-front);
+    color: var(--color-body-contrast);
   }
 
   th,
   td {
-    background: var(--color-back);
+    background: var(--color-body);
     padding: var(--space-xs);
-    border-bottom: var(--border-md) solid var(--color-back-dim);
+    border-bottom: var(--border-md) solid var(--color-body-semi);
   }
 
   th {
@@ -128,8 +128,8 @@ export const code = css`
   kbd {
     padding: 0.2rem 0.4rem;
     border-radius: 0.25rem;
-    background: var(--color-front);
-    color: var(--color-front-contrast);
+    background: var(--color-body-contrast);
+    color: var(--color-body);
   }
 `;
 
@@ -147,7 +147,7 @@ export const figure = css`
   }
 
   figcaption {
-    color: var(--color-middle);
+    color: var(--color-medium);
     margin: 0.5em 0;
     font-size: 0.9em;
   }

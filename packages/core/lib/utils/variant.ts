@@ -19,14 +19,25 @@ export interface RenderValues {
 export interface ColorRenderValues extends RenderValues {
   baseName: string;
   isSubtle: boolean;
+  isContrast: boolean;
   baseColor: string;
-  baseContrast: string;
+  baseColorMore: string;
+  baseColorLess: string;
+  baseColorSemi: string;
+  baseColorSubtle: string;
+  baseColorDull: string;
+  baseColorContrast: string;
   color: string;
   contrast: string;
 }
 export type ColorVariantRender = (values: ColorRenderValues) => string;
 export interface GradientRenderValues extends ColorRenderValues {
   baseGradient: string;
+  baseGradientMore: string;
+  baseGradientLess: string;
+  baseGradientSemi: string;
+  baseGradientSubtle: string;
+  baseGradientDull: string;
   baseGradientContrast: string;
   gradient: string;
   gradientContrast: string;
@@ -64,9 +75,8 @@ export interface ShadowRenderValues extends RenderValues {
 export type ShadowVariantRender = (values: ShadowRenderValues) => string;
 
 export enum Colors {
-  Back = 'back',
-  Middle = 'middle',
-  Front = 'front',
+  Body = 'body',
+  Medium = 'medium',
   Primary = 'primary',
   Secondary = 'secondary',
   Info = 'info',
@@ -75,9 +85,8 @@ export enum Colors {
   Danger = 'danger',
 }
 export enum SubtleColors {
-  Back = 'back-subtle',
-  Middle = 'middle-subtle',
-  Front = 'front-subtle',
+  Body = 'body-subtle',
+  Medium = 'medium-subtle',
   Primary = 'primary-subtle',
   Secondary = 'secondary-subtle',
   Info = 'info-subtle',
@@ -85,14 +94,24 @@ export enum SubtleColors {
   Warning = 'warning-subtle',
   Danger = 'danger-subtle',
 }
+export enum ContrastColors {
+  Body = 'body-contrast',
+  Medium = 'medium-contrast',
+  Primary = 'primary-contrast',
+  Secondary = 'secondary-contrast',
+  Info = 'info-contrast',
+  Success = 'success-contrast',
+  Warning = 'warning-contrast',
+  Danger = 'danger-contrast',
+}
 export const COLORS = Object.values(Colors);
 export const SUBTLE_COLORS = Object.values(SubtleColors);
-export const ALL_COLORS = [...COLORS, ...SUBTLE_COLORS];
+export const CONTRAST_COLORS = Object.values(ContrastColors);
+export const ALL_COLORS = [...COLORS, ...SUBTLE_COLORS, ...CONTRAST_COLORS];
 
 export enum Gradients {
-  Back = 'gradient-back',
-  Middle = 'gradient-middle',
-  Front = 'gradient-front',
+  Body = 'gradient-body',
+  Medium = 'gradient-medium',
   Primary = 'gradient-primary',
   Secondary = 'gradient-secondary',
   Info = 'gradient-info',
@@ -101,9 +120,8 @@ export enum Gradients {
   Danger = 'gradient-danger',
 }
 export enum SubtleGradients {
-  Back = 'gradient-back-subtle',
-  Middle = 'gradient-middle-subtle',
-  Front = 'gradient-front-subtle',
+  Body = 'gradient-body-subtle',
+  Medium = 'gradient-medium-subtle',
   Primary = 'gradient-primary-subtle',
   Secondary = 'gradient-secondary-subtle',
   Info = 'gradient-info-subtle',
@@ -111,31 +129,46 @@ export enum SubtleGradients {
   Warning = 'gradient-warning-subtle',
   Danger = 'gradient-danger-subtle',
 }
+export enum ContrastGradients {
+  Body = 'gradient-body-contrast',
+  Medium = 'gradient-medium-contrast',
+  Primary = 'gradient-primary-contrast',
+  Secondary = 'gradient-secondary-contrast',
+  Info = 'gradient-info-contrast',
+  Success = 'gradient-success-contrast',
+  Warning = 'gradient-warning-contrast',
+  Danger = 'gradient-danger-contrast',
+}
 export const GRADIENTS = Object.values(Gradients);
 export const SUBTLE_GRADIENTS = Object.values(SubtleGradients);
-export const ALL_GRADIENTS = [...GRADIENTS, ...SUBTLE_GRADIENTS];
+export const CONTRAST_GRADIENTS = Object.values(ContrastGradients);
+export const ALL_GRADIENTS = [
+  ...GRADIENTS,
+  ...SUBTLE_GRADIENTS,
+  ...CONTRAST_GRADIENTS,
+];
 
 export enum Fonts {
   Title = 'title',
   Content = 'content',
-  Art = 'art',
   Code = 'code',
+  Art = 'art',
 }
 export const FONTS = Object.values(Fonts);
 
 export enum Texts {
-  XS3 = 'xs3',
-  XS2 = 'xs2',
+  XS3 = 'xs-3',
+  XS2 = 'xs-2',
   XS = 'xs',
   SM = 'sm',
   MD = 'md',
   LG = 'lg',
   XL = 'xl',
-  XL2 = 'xl2',
-  XL3 = 'xl3',
-  XL4 = 'xl4',
-  XL5 = 'xl5',
-  XL6 = 'xl6',
+  XL2 = 'xl-2',
+  XL3 = 'xl-3',
+  XL4 = 'xl-4',
+  XL5 = 'xl-5',
+  XL6 = 'xl-6',
 }
 export const TEXTS = Object.values(Texts);
 
@@ -150,35 +183,33 @@ export enum Weights {
 export const WEIGHTS = Object.values(Weights);
 
 export enum Sizes {
-  XS2 = 'xs2',
   XS = 'xs',
   SM = 'sm',
   MD = 'md',
   LG = 'lg',
   XL = 'xl',
-  XL2 = 'xl2',
 }
 export const SIZES = Object.values(Sizes);
 
 export enum Spaces {
-  None = 'none',
-  XS3 = 'xs3',
-  XS2 = 'xs2',
+  Zero = 'zero',
+  XS3 = 'xs-3',
+  XS2 = 'xs-2',
   XS = 'xs',
   SM = 'sm',
   MD = 'md',
   LG = 'lg',
   XL = 'xl',
-  XL2 = 'xl2',
-  XL3 = 'xl3',
-  XL4 = 'xl4',
-  XL5 = 'xl5',
-  XL6 = 'xl6',
+  XL2 = 'xl-2',
+  XL3 = 'xl-3',
+  XL4 = 'xl-4',
+  XL5 = 'xl-5',
+  XL6 = 'xl-6',
 }
 export const SPACES = Object.values(Spaces);
 
 export enum Radiuses {
-  None = 'none',
+  Zero = 'zero',
   XS = 'xs',
   SM = 'sm',
   MD = 'md',
@@ -192,7 +223,7 @@ export enum Radiuses {
 export const RADIUSES = Object.values(Radiuses);
 
 export enum Borders {
-  None = 'none',
+  Zero = 'zero',
   SM = 'sm',
   MD = 'md',
   LG = 'lg',
@@ -201,7 +232,7 @@ export enum Borders {
 export const BORDERS = Object.values(Borders);
 
 export enum Rings {
-  None = 'none',
+  Zero = 'zero',
   SM = 'sm',
   MD = 'md',
   LG = 'lg',
@@ -228,21 +259,21 @@ export enum Letters {
 export const LETTERS = Object.values(Letters);
 
 export enum Wides {
-  XS6 = 'xs6',
-  XS5 = 'xs5',
-  XS4 = 'xs4',
-  XS3 = 'xs3',
-  XS2 = 'xs2',
+  XS6 = 'xs-6',
+  XS5 = 'xs-5',
+  XS4 = 'xs-4',
+  XS3 = 'xs-3',
+  XS2 = 'xs-2',
   XS = 'xs',
   SM = 'sm',
   MD = 'md',
   LG = 'lg',
   XL = 'xl',
-  XL2 = 'xl2',
-  XL3 = 'xl3',
-  XL4 = 'xl4',
-  XL5 = 'xl5',
-  XL6 = 'xl6',
+  XL2 = 'xl-2',
+  XL3 = 'xl-3',
+  XL4 = 'xl-4',
+  XL5 = 'xl-5',
+  XL6 = 'xl-6',
 }
 export const WIDES = Object.values(Wides);
 
@@ -266,20 +297,26 @@ function buildNamesAndSelectors(prefixName: string, name: string) {
 
 function generateColorVariant(
   render: ColorVariantRender,
-  name: Colors | SubtleColors,
+  name: Colors | SubtleColors | ContrastColors,
   prefixName?: string
 ) {
   prefixName ||= 'scheme';
   const nameArr = name.split('-');
   const isSubtle = nameArr[nameArr.length - 1] === 'subtle';
+  const isContrast = nameArr[nameArr.length - 1] === 'contrast';
   const baseName = nameArr
-    .slice(0, !isSubtle ? nameArr.length : nameArr.length - 1)
+    .slice(0, isSubtle || isContrast ? nameArr.length - 1 : nameArr.length)
     .join('-');
   // colors
-  const color = `var(--color-${name})`;
   const baseColor = `var(--color-${baseName})`;
-  const baseContrast = `var(--color-${baseName}-contrast)`;
-  const contrast = isSubtle ? baseColor : baseContrast;
+  const baseColorMore = `var(--color-${baseName}-more)`;
+  const baseColorLess = `var(--color-${baseName}-less)`;
+  const baseColorSemi = `var(--color-${baseName}-semi)`;
+  const baseColorSubtle = `var(--color-${baseName}-subtle)`;
+  const baseColorDull = `var(--color-${baseName}-dull)`;
+  const baseColorContrast = `var(--color-${baseName}-contrast)`;
+  const color = `var(--color-${name})`;
+  const contrast = isSubtle || isContrast ? baseColor : baseColorContrast;
   // names and selectors
   const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
     prefixName,
@@ -291,8 +328,14 @@ function generateColorVariant(
     prefixName,
     baseName,
     isSubtle,
+    isContrast,
     baseColor,
-    baseContrast,
+    baseColorMore,
+    baseColorLess,
+    baseColorSemi,
+    baseColorSubtle,
+    baseColorDull,
+    baseColorContrast,
     color,
     contrast,
     fullName,
@@ -318,6 +361,16 @@ export function generateSubtleColorVariants(
     ).join('')
   );
 }
+export function generateContrastColorVariants(
+  render: ColorVariantRender,
+  prefixName?: string
+) {
+  return unsafeCSS(
+    CONTRAST_COLORS.map(name =>
+      generateColorVariant(render, name, prefixName)
+    ).join('')
+  );
+}
 export function generateAllColorVariants(
   render: ColorVariantRender,
   prefixName?: string
@@ -331,25 +384,37 @@ export function generateAllColorVariants(
 
 function generateGradientVariant(
   render: GradientVariantRender,
-  name: Gradients | SubtleGradients,
+  name: Gradients | SubtleGradients | ContrastGradients,
   prefixName?: string
 ) {
   prefixName ||= 'scheme';
   const nameArr = name.replace('gradient-', '').split('-');
   const isSubtle = nameArr[nameArr.length - 1] === 'subtle';
+  const isContrast = nameArr[nameArr.length - 1] === 'contrast';
   const baseName = nameArr
-    .slice(0, !isSubtle ? nameArr.length : nameArr.length - 1)
+    .slice(0, isSubtle || isContrast ? nameArr.length - 1 : nameArr.length)
     .join('-');
   // colors
-  const color = `var(--color-${baseName}${!isSubtle ? '' : '-subtle'})`;
   const baseColor = `var(--color-${baseName})`;
-  const baseContrast = `var(--color-${baseName}-contrast)`;
-  const contrast = isSubtle ? baseColor : baseContrast;
+  const baseColorMore = `var(--color-${baseName}-more)`;
+  const baseColorLess = `var(--color-${baseName}-less)`;
+  const baseColorSemi = `var(--color-${baseName}-semi)`;
+  const baseColorSubtle = `var(--color-${baseName}-subtle)`;
+  const baseColorDull = `var(--color-${baseName}-dull)`;
+  const baseColorContrast = `var(--color-${baseName}-contrast)`;
+  const color = `var(--color-${baseName}${!isSubtle ? '' : '-subtle'})`;
+  const contrast = isSubtle || isContrast ? baseColor : baseColorContrast;
   // gradients
-  const gradient = `var(--${name})`;
   const baseGradient = `var(--gradient-${baseName})`;
+  const baseGradientMore = `var(--gradient-${baseName}-more)`;
+  const baseGradientLess = `var(--gradient-${baseName}-less)`;
+  const baseGradientSemi = `var(--gradient-${baseName}-semi)`;
+  const baseGradientSubtle = `var(--gradient-${baseName}-subtle)`;
+  const baseGradientDull = `var(--gradient-${baseName}-dull)`;
   const baseGradientContrast = `var(--gradient-${baseName}-contrast)`;
-  const gradientContrast = isSubtle ? baseGradient : baseGradientContrast;
+  const gradient = `var(--${name})`;
+  const gradientContrast =
+    isSubtle || isContrast ? baseGradient : baseGradientContrast;
   // names and selectors
   const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
     prefixName,
@@ -361,11 +426,22 @@ function generateGradientVariant(
     prefixName,
     baseName,
     isSubtle,
+    isContrast,
     baseColor,
-    baseContrast,
+    baseColorMore,
+    baseColorLess,
+    baseColorSemi,
+    baseColorSubtle,
+    baseColorDull,
+    baseColorContrast,
     color,
     contrast,
     baseGradient,
+    baseGradientMore,
+    baseGradientLess,
+    baseGradientSemi,
+    baseGradientSubtle,
+    baseGradientDull,
     baseGradientContrast,
     gradient,
     gradientContrast,
@@ -390,6 +466,16 @@ export function generateSubtleGradientVariants(
 ) {
   return unsafeCSS(
     SUBTLE_GRADIENTS.map(name =>
+      generateGradientVariant(render, name, prefixName)
+    ).join('')
+  );
+}
+export function generateContrastGradientVariants(
+  render: GradientVariantRender,
+  prefixName?: string
+) {
+  return unsafeCSS(
+    CONTRAST_GRADIENTS.map(name =>
       generateGradientVariant(render, name, prefixName)
     ).join('')
   );

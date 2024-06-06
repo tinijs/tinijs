@@ -60,7 +60,7 @@ export const defaultStyles = createStyleBuilder<{
 }>(outputs => [
   css`
     :host {
-      --color: var(--color-front);
+      --color: var(--color-body-contrast);
       --size: var(--size-md);
     }
 
@@ -69,7 +69,7 @@ export const defaultStyles = createStyleBuilder<{
       --border-width: calc(var(--size) / 4);
       width: var(--size);
       height: var(--size);
-      border: var(--border-width) solid var(--color-back-dim);
+      border: var(--border-width) solid var(--color-body);
       border-top: var(--border-width) solid var(--color);
       border-radius: 50%;
       animation: spin 1s linear infinite;

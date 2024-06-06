@@ -302,7 +302,7 @@ export class AppDocPageComponent
 
     .content {
       width: 100vw;
-      background: var(--color-back);
+      background: var(--color-body);
     }
 
     @media (min-width: 992px) {

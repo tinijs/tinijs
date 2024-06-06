@@ -124,7 +124,7 @@ export class AppDocPageContentComponent
 
         @media (min-width: 1200px) {
           margin-top: 0;
-          padding: var(--space-xl4);
+          padding: var(--space-xl-4);
         }
       }
 
@@ -143,7 +143,7 @@ export class AppDocPageContentComponent
         }
 
         .content {
-          border-top: 1px solid var(--color-back);
+          border-top: 1px solid var(--color-body);
           margin-top: var(--space-md);
           padding-top: var(--space-md);
 
@@ -186,7 +186,7 @@ export class AppDocPageContentComponent
         .suggest-edit {
           display: flex;
           align-items: center;
-          gap: var(--space-xs2);
+          gap: var(--space-xs-2);
           margin-top: var(--space-xl);
         }
       }

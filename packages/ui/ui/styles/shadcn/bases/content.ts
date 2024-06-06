@@ -28,7 +28,7 @@ export const heading = css`
   h2 {
     font-size: 1.875rem;
     padding-bottom: 0.75rem;
-    border-bottom: var(--border-md) solid var(--color-back-dim);
+    border-bottom: var(--border-md) solid var(--color-body-semi);
   }
 
   h3 {
@@ -61,7 +61,7 @@ export const link = css`
 export const blockquote = css`
   blockquote {
     padding-left: var(--space-lg);
-    border-left: 2px solid var(--color-back-dim);
+    border-left: 2px solid var(--color-body-semi);
   }
 
   blockquote,
@@ -102,9 +102,9 @@ export const table = css`
 
   th,
   td {
-    background: var(--color-back);
+    background: var(--color-body);
     padding: var(--space-xs) var(--space-sm);
-    border: var(--border-md) solid var(--color-back-dim);
+    border: var(--border-md) solid var(--color-body-semi);
   }
 
   th {
@@ -112,7 +112,7 @@ export const table = css`
   }
 
   tr:nth-child(2n) td {
-    background: color-mix(in oklab, var(--color-back), var(--color-front) 3%);
+    background: var(--color-body-less);
   }
 `;
 
@@ -125,7 +125,7 @@ export const code = css`
     font-family: var(--font-code);
     font-size: 0.85em;
     padding: 0.2rem 0.4rem;
-    background: var(--color-back-dim);
+    background: var(--color-body-semi);
     word-wrap: break-word;
     border-radius: 0.25rem;
     font-weight: bold;

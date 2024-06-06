@@ -26,7 +26,7 @@ export class AppPageUIDevImageComponent extends TiniComponent {
       <ui-dev-section titleText="Width, height, radius">
         <tini-image
           width="500px"
-          radius="none"
+          radius="zero"
           src=${SRC}
           title="width=500px"
         ></tini-image>

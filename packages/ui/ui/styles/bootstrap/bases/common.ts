@@ -43,7 +43,7 @@ export default css`
   }
 
   .main {
-    color: var(--color-front);
+    color: var(--color-body-contrast);
     font-family: var(--font-content);
     font-size: var(--text-md);
     line-height: var(--line-md);

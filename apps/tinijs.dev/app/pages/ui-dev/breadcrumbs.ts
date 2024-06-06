@@ -8,9 +8,9 @@ import {
 } from '../../ui/components/breadcrumbs.js';
 
 const ITEMS: BreadcrumbsItem[] = [
-  {label: 'Home', href: '#home'},
-  {label: 'Library', href: '#library'},
-  {label: 'Data', href: '#data'},
+  {content: 'Home', href: '#home'},
+  {content: 'Library', href: '#library'},
+  {content: 'Data', href: '#data'},
 ];
 
 @Component({

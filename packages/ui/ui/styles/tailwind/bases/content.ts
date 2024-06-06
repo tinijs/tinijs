@@ -56,14 +56,14 @@ export const link = css`
   }
 
   a:hover {
-    color: var(--color-primary-dim);
+    color: var(--color-primary-less);
   }
 `;
 
 export const blockquote = css`
   blockquote {
     padding-left: var(--space-md);
-    border-left: 4px solid var(--color-back-dim);
+    border-left: 4px solid var(--color-body-semi);
   }
 
   blockquote,
@@ -89,7 +89,7 @@ export const list = css`
 
   ul li::marker,
   ol li::marker {
-    color: var(--color-middle);
+    color: var(--color-medium);
   }
 
   dl {
@@ -118,7 +118,7 @@ export const table = css`
 
   th,
   td {
-    background: var(--color-back);
+    background: var(--color-body);
     padding: var(--space-sm);
     font-size: 0.9rem;
   }
@@ -128,8 +128,8 @@ export const table = css`
   }
 
   td {
-    border-block-start: var(--border-md) solid var(--color-back-dim);
-    color: var(--color-middle);
+    border-block-start: var(--border-md) solid var(--color-body-semi);
+    color: var(--color-medium);
   }
 `;
 
@@ -142,8 +142,8 @@ export const code = css`
     font-family: var(--font-code);
     font-size: 0.85em;
     padding: 0.25rem 0.75rem;
-    background: color-mix(in oklab, var(--color-back), var(--color-front) 5%);
-    border: 1px solid var(--color-back-dim);
+    background: var(--color-body-less);
+    border: 1px solid var(--color-body-semi);
     word-wrap: break-word;
     border-radius: 0.25rem;
     font-weight: bold;

@@ -8,7 +8,7 @@ import {
   Output,
   EventEmitter,
   Sizes,
-  Colors,
+  ContrastColors,
 } from '@tinijs/core';
 
 import {TiniIconComponent} from '../../ui/components/icon.js';
@@ -40,7 +40,7 @@ export class AppDocPageMobileToolbarComponent extends TiniComponent {
           class="menu-toggler"
           @click=${() => this.toggleMenu.emit()}
         >
-          <icon-menu scheme=${Colors.Front} size=${Sizes.SM}></icon-menu>
+          <icon-menu scheme=${ContrastColors.Body} size=${Sizes.SM}></icon-menu>
           <span>Menu</span>
         </button>
 
@@ -51,7 +51,7 @@ export class AppDocPageMobileToolbarComponent extends TiniComponent {
         >
           <span>On this page</span>
           <tini-icon
-            scheme=${Colors.Front}
+            scheme=${ContrastColors.Body}
             size=${Sizes.SM}
             src=${!this.tocOpened ? IconDownComponent.src : IconUpComponent.src}
           ></tini-icon>
@@ -68,10 +68,10 @@ export class AppDocPageMobileToolbarComponent extends TiniComponent {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid var(--color-back-dim);
+      border-bottom: 1px solid var(--color-body-semi);
       position: fixed;
       top: var(--header-height);
-      background: var(--color-back);
+      background: var(--color-body);
       padding: 0 var(--space-md);
       z-index: 700;
     }

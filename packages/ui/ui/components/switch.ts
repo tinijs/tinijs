@@ -116,7 +116,7 @@ export const defaultStyles = createStyleBuilder<{
   css`
     :host {
       --size: var(--size-md);
-      --background: var(--color-middle);
+      --background: var(--color-medium);
       --color: #ffffff;
       --hover-shadow: var(--color-primary);
       --active-background: var(--color-primary);
@@ -217,7 +217,7 @@ export const defaultStyles = createStyleBuilder<{
     const {hostSelector, fullName, color, contrast, gradient} = values;
     return `
       .${fullName} {
-        --background: var(--gradient-middle);
+        --background: var(--gradient-medium);
         --hover-shadow: ${color};
         --active-background: ${gradient};
         --active-color: ${contrast};

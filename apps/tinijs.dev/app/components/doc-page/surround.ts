@@ -65,7 +65,7 @@ export class AppDocPageSurroundComponent extends TiniComponent {
     .container {
       display: flex;
       flex-flow: column;
-      border-top: 1px solid var(--color-back-dim);
+      border-top: 1px solid var(--color-body-semi);
       padding: var(--space-xl);
       gap: var(--space-md);
     }
@@ -73,8 +73,8 @@ export class AppDocPageSurroundComponent extends TiniComponent {
     a {
       display: flex;
       flex-flow: column;
-      background: var(--color-back);
-      border: 1px solid var(--color-back-dim);
+      background: var(--color-body);
+      border: 1px solid var(--color-body-semi);
       border-radius: var(--radius-md);
       padding: var(--space-md);
       text-decoration: none !important;
@@ -84,11 +84,11 @@ export class AppDocPageSurroundComponent extends TiniComponent {
     }
     a:hover {
       text-decoration: none;
-      border-color: var(--color-middle-dim);
+      border-color: var(--color-body-subtle);
       box-shadow: var(--shadow-md);
     }
     a span {
-      color: var(--color-middle);
+      color: var(--color-medium);
       font-size: var(--text-sm);
     }
 
@@ -113,7 +113,7 @@ export class AppDocPageSurroundComponent extends TiniComponent {
 
     @media (min-width: 1200px) {
       .container {
-        padding: var(--space-xl) var(--space-xl4);
+        padding: var(--space-xl) var(--space-xl-4);
       }
     }
   `;

@@ -150,7 +150,7 @@ export const defaultStyles = createStyleBuilder<{
     :host {
       --color: var(--color-primary);
       --size: var(--size-md);
-      --border-color: var(--color-middle);
+      --border-color: var(--color-medium);
       --radius: var(--radius-md);
       display: inline;
     }
@@ -162,8 +162,8 @@ export const defaultStyles = createStyleBuilder<{
     }
 
     select {
-      background: var(--color-back-dim);
-      color: var(--color-front);
+      background: var(--color-body);
+      color: var(--color-body-contrast);
       border: var(--border-md) solid var(--border-color);
       border-radius: var(--radius);
       padding: calc(var(--size) / 2) calc(var(--size) / 1.5);
@@ -179,9 +179,9 @@ export const defaultStyles = createStyleBuilder<{
     }
 
     select:disabled {
-      background: color-mix(in oklab, var(--color-back-dim), transparent 50%);
+      background: color-mix(in oklab, var(--color-body), transparent 50%);
       opacity: 1;
-      color: var(--color-middle);
+      color: var(--color-medium);
     }
 
     .wrap {

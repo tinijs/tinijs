@@ -8,8 +8,10 @@ import {
   ElementParts,
   Colors,
   SubtleColors,
+  ContrastColors,
   Gradients,
   SubtleGradients,
+  ContrastGradients,
   Radiuses,
   Shadows,
   generateAllColorVariants,
@@ -25,7 +27,7 @@ export enum BoxParts {
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
+  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | ContrastColors | Gradients | SubtleGradients | ContrastColors;
   @property({type: String, reflect: true}) radius?: Radiuses;
   @property({type: String, reflect: true}) shadow?: Shadows;
   /* eslint-enable prettier/prettier */
@@ -69,7 +71,7 @@ export const defaultStyles = createStyleBuilder<{
   css`
     :host {
       --background: none;
-      --color: var(--color-front);
+      --color: var(--color-body-contrast);
       --radius: var(--radius-md);
       --padding: var(--space-md);
       --box-shadow: none;

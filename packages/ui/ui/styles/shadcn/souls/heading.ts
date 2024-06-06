@@ -16,7 +16,7 @@ export const styles = defaultStyles.extends({
     :host([level='2']) {
       font-size: 1.875rem;
       padding-bottom: 0.75rem;
-      border-bottom: var(--border-md) solid var(--color-back-dim);
+      border-bottom: var(--border-md) solid var(--color-body-semi);
     }
     :host([level='3']) {
       font-size: 1.5rem;

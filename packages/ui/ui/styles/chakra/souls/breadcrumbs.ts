@@ -7,7 +7,7 @@ export const styles = defaultStyles.extends({
     .item,
     .item-active,
     .item:hover {
-      color: var(--color-front);
+      color: var(--color-body-contrast);
     }
 
     .item {
@@ -20,7 +20,7 @@ export const styles = defaultStyles.extends({
     }
 
     .item::before {
-      background: var(--color-front);
+      background: var(--color-body-contrast);
       margin: 0 0.25em;
       transform: rotate(-15deg);
     }

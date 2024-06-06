@@ -1,14 +1,6 @@
 import {html, css} from 'lit';
 
-import {
-  Component,
-  TiniComponent,
-  Colors,
-  SubtleColors,
-  Gradients,
-  SubtleGradients,
-  Sizes,
-} from '@tinijs/core';
+import {Component, TiniComponent, Colors, Gradients, Sizes} from '@tinijs/core';
 
 import {TiniIconComponent} from '../../ui/components/icon.js';
 
@@ -58,12 +50,7 @@ export class AppPageUIDevIconComponent extends TiniComponent {
       </ui-dev-section>
 
       <ui-dev-section titleText="Schemes">
-        ${[
-          Object.values(Colors),
-          Object.values(SubtleColors),
-          Object.values(Gradients),
-          Object.values(SubtleGradients),
-        ].map(
+        ${[Object.values(Colors), Object.values(Gradients)].map(
           list => html`
             ${list.map(
               scheme =>
@@ -71,6 +58,14 @@ export class AppPageUIDevIconComponent extends TiniComponent {
                   src=${URI}
                   scheme=${scheme}
                   title=${`scheme=${scheme}`}
+                ></tini-icon><tini-icon
+                  src=${URI}
+                  scheme=${`${scheme}-subtle`}
+                  title=${`scheme=${scheme}-subtle`}
+                ></tini-icon></tini-icon><tini-icon
+                  src=${URI}
+                  scheme=${`${scheme}-contrast`}
+                  title=${`scheme=${scheme}-contrast`}
                 ></tini-icon>`
             )}
             <br />

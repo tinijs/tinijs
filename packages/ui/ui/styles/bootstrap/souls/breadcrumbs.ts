@@ -6,7 +6,7 @@ export const styles = defaultStyles.extends({
   statics: css`
     .item-active,
     .item::before {
-      color: var(--color-middle-dim);
+      color: var(--color-medium-more);
     }
 
     .item::before {

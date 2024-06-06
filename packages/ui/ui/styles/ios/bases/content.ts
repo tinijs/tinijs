@@ -96,18 +96,18 @@ export const table = css`
 
   th,
   td {
-    background: var(--color-back);
+    background: var(--color-body);
     padding: 0;
     font-size: 0.85rem;
   }
 
   th {
-    color: var(--color-front);
+    color: var(--color-body-contrast);
     font-weight: normal;
   }
 
   td {
-    color: var(--color-middle);
+    color: var(--color-medium);
   }
 `;
 

@@ -10,8 +10,10 @@ import {
   isGradient,
   Colors,
   SubtleColors,
+  ContrastColors,
   Gradients,
   SubtleGradients,
+  ContrastGradients,
   Sizes,
   generateAllColorVariants,
   generateAllGradientVariants,
@@ -40,7 +42,7 @@ export default class extends TiniElement {
   @property({type: Boolean, reflect: true}) disabled?: boolean;
   @property({type: String, reflect: true}) href?: boolean;
   @property({type: String, reflect: true}) target?: LinkTargets;
-  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
+  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | ContrastColors | Gradients | SubtleGradients | ContrastGradients;
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
@@ -106,9 +108,9 @@ export const defaultStyles = createStyleBuilder<{
 }>(outputs => [
   css`
     :host {
-      --base-color: var(--color-middle);
-      --background: var(--color-middle);
-      --color: var(--color-middle-contrast);
+      --base-color: var(--color-medium);
+      --background: var(--color-medium);
+      --color: var(--color-medium-contrast);
       --gradient: none;
       --size: var(--size-md);
       --radius: calc(var(--size-radius) * var(--size));
@@ -118,8 +120,12 @@ export const defaultStyles = createStyleBuilder<{
       justify-content: center;
       position: relative;
       overflow: hidden;
-      background: var(--color-back);
+      background: var(--color-body);
       border-radius: var(--radius);
+    }
+
+    ::slotted(*) {
+      pointer-events: none;
     }
 
     .bg {

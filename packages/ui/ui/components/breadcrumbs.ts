@@ -103,7 +103,7 @@ export const defaultStyles = createStyleBuilder<{
     .item-active {
       pointer-events: none;
       text-decoration: none;
-      color: var(--color-middle);
+      color: var(--color-medium);
       font-weight: var(--weight-normal);
     }
 
@@ -113,7 +113,7 @@ export const defaultStyles = createStyleBuilder<{
       width: 1em;
       height: 1em;
       margin: 0 0.25em;
-      background: var(--color-middle);
+      background: var(--color-medium);
       -webkit-mask-image: var(--separator);
       -webkit-mask-size: 100% 100%;
       -webkit-mask-repeat: no-repeat;
