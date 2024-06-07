@@ -31,7 +31,11 @@ export class AppPageHome extends TiniComponent {
 
         <div class="headline">
           <h2 style="margin-bottom: 0">
-            <tini-text size="xl-3" weight="bold" color=${Gradients.Primary}
+            <tini-text
+              size="xl-3"
+              weight="bold"
+              color=${Gradients.Body}
+              style="--gradient: linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%);"
               >Tini</tini-text
             ><br />A Javascript framework
           </h2>
@@ -49,8 +53,8 @@ export class AppPageHome extends TiniComponent {
             >
             <tini-button
               scheme=${Colors.Medium}
-              @click=${() =>
-                open('https://github.com/tinijs/tinijs', '_blank')?.focus()}
+              href="https://github.com/tinijs/tinijs"
+              target="_blank"
               >View on Github</tini-button
             >
           </div>
@@ -169,12 +173,12 @@ export class AppPageHome extends TiniComponent {
 
         <div class="actions">
           <tini-button
-            scheme=${Gradients.Primary}
-            @click=${() =>
-              open(
-                'mailto:hello@tinijs.dev?subject=Sponsor Tini&body=I want to sponsor the TiniJS project.',
-                '_blank'
-              )?.focus()}
+            scheme=${Gradients.Body}
+            style="
+              --background: linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%);
+              --gradient: white;
+            "
+            href="mailto:hello@tinijs.dev?subject=Sponsor Tini&body=I want to sponsor the TiniJS project."
             >Sponsor Tini</tini-button
           >
         </div>
@@ -200,6 +204,7 @@ export class AppPageHome extends TiniComponent {
 
       .headline {
         text-align: center;
+        margin-top: var(--space-lg);
 
         h2 {
           padding-bottom: 1rem;
@@ -225,6 +230,8 @@ export class AppPageHome extends TiniComponent {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: var(--space-md);
+        line-height: var(--line-md);
+        font-size: var(--text-md);
 
         li {
           padding: var(--space-md);
@@ -252,7 +259,7 @@ export class AppPageHome extends TiniComponent {
           }
 
           h3 {
-            margin: var(--space-md) 0;
+            margin: var(--space-md) 0 var(--space-xs);
             font-size: 1.5rem;
           }
 
@@ -293,6 +300,10 @@ export class AppPageHome extends TiniComponent {
         align-items: center;
         text-align: center;
         margin-bottom: var(--space-xl);
+
+        p {
+          margin-top: var(--space-md);
+        }
       }
 
       .special-sponsors {
@@ -313,6 +324,7 @@ export class AppPageHome extends TiniComponent {
           padding: 0;
           display: grid;
           gap: var(--space-xs);
+          line-height: var(--line-md);
 
           li {
             background: var(--color-body-less);
@@ -356,6 +368,7 @@ export class AppPageHome extends TiniComponent {
         .headline {
           order: -1;
           text-align: left;
+          margin-top: 0;
 
           h2 {
             font-size: 2.5rem;

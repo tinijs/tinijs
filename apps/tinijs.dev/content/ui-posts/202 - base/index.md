@@ -6,7 +6,13 @@
 }
 +++
 
-Bases is used to set the base styles for native elements like headings, text, link, ... You can think of them as CSS reset.
+Bases is used to set the base styles for native elements like **headings**, **text**, **link**, ... You can think of them as CSS reset, they help to enforce a consistent look across the application.
+
+Bases are defined in `ui/styles/[family]/bases/some-name.ts` file. Base styles can be provided in one or more files, upon building the UI package, all base files styles will be merged together.
+
+After `setupUI()`, base styles will be applied globally in the light DOM, and will also be available automatically in the shadow DOM for any component which extends `TiniElement` or `TiniComponent`.
+
+Below is the preview of the base styles of the current activated theme. You may want to switch to another theme of a some other family to see the differences using the **Skin Editor** panel.
 
 ## h1
 
@@ -128,9 +134,9 @@ function foo() {
 ## picture
 
 <picture>
-  <source srcset="https://placehold.co/800x600?text=Desktop" media="(min-width: 992px)">
-  <source srcset="https://placehold.co/600x400?text=Tablet" media="(min-width: 768px)">
-  <img src="https://placehold.co/500x300?text=Mobile" alt="Lorem ipsum">
+  <source srcset="https://placehold.co/800x600?text=srcset%3Ddesktop" media="(min-width: 992px)">
+  <source srcset="https://placehold.co/600x400?text=srcset%3Dtablet" media="(min-width: 768px)">
+  <img src="https://placehold.co/500x300?text=srcset%3Dmobile" alt="Lorem ipsum">
 </picture>
 
 ## figure

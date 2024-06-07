@@ -80,14 +80,12 @@ export const defaultStyles = createStyleBuilder<{
     :host {
       --color: var(--color-body-contrast);
       --gradient: none;
-      line-height: 1.2;
     }
 
     .main {
       display: inline;
       color: var(--color);
       font-size: inherit;
-      line-height: 1;
     }
 
     .gradient {

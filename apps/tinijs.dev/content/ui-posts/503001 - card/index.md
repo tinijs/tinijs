@@ -1,6 +1,6 @@
 +++json
 {
-  "status": "publish",
+  "status": "draft",
   "title": "Card",
   "category": "component"
 }

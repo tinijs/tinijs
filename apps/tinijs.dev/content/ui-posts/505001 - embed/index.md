@@ -23,10 +23,10 @@
         attrs: {
           label: 'Ratio',
           items: [
-            {label: 'Default (16/9)', value: '_default', selected: true},
-            {label: '4/3', value: '4/3'},
-            {label: '1/1', value: '1/1'},
-            {label: '9/16', value: '9/16'}
+            {content: 'Default (16/9)', value: '_default', selected: true},
+            {content: '4/3', value: '4/3'},
+            {content: '1/1', value: '1/1'},
+            {content: '9/16', value: '9/16'}
           ]
         },
         target: 'ratio'

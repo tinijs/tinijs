@@ -108,9 +108,9 @@ export const defaultStyles = createStyleBuilder<{
 }>(outputs => [
   css`
     :host {
-      --base-color: var(--color-medium);
-      --background: var(--color-medium);
-      --color: var(--color-medium-contrast);
+      --base-color: var(--color-primary);
+      --background: var(--color-primary);
+      --color: var(--color-primary-contrast);
       --gradient: none;
       --size: var(--size-md);
       --radius: calc(var(--size-radius) * var(--size));

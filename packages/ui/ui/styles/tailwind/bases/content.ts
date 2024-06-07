@@ -17,32 +17,30 @@ export const heading = css`
     margin: 0;
     font-family: var(--font-title);
     font-weight: 700;
-    line-height: 1.2;
   }
 
   h1 {
-    font-weight: 700;
-    font-size: 2.25rem;
+    font-size: 3rem;
   }
 
   h2 {
-    font-size: 1.75rem;
+    font-size: 1.875rem;
   }
 
   h3 {
-    font-size: 1.45rem;
+    font-size: 1.5rem;
   }
 
   h4 {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
   }
 
   h5 {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
   }
 
   h6 {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
   }
 `;
 

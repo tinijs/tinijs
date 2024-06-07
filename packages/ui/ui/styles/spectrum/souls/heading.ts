@@ -9,16 +9,16 @@ export const styles = defaultStyles.extends({
       font-size: 3rem;
     }
     :host([level='2']) {
-      font-size: 2.25rem;
+      font-size: 1.875rem;
     }
     :host([level='3']) {
-      font-size: 1.75rem;
-    }
-    :host([level='4']) {
       font-size: 1.5rem;
     }
-    :host([level='5']) {
+    :host([level='4']) {
       font-size: 1.25rem;
+    }
+    :host([level='5']) {
+      font-size: 1.15rem;
     }
     :host([level='6']) {
       font-size: 1.1rem;

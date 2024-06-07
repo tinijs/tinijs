@@ -73,8 +73,8 @@ export const defaultStyles = createStyleBuilder<{
 }>(outputs => [
   css`
     :host {
-      --background: var(--color-medium);
-      --color: var(--color-medium-contrast);
+      --background: var(--color-primary);
+      --color: var(--color-primary-contrast);
       --size: var(--size-md);
       display: inline-flex;
       align-items: center;
@@ -82,7 +82,6 @@ export const defaultStyles = createStyleBuilder<{
       position: relative;
       overflow: hidden;
       z-index: 0;
-      line-height: 0;
       background: var(--color-body);
       border-radius: calc(var(--size-radius) * var(--size));
       min-width: calc(var(--size) * 1.5);
@@ -98,7 +97,6 @@ export const defaultStyles = createStyleBuilder<{
     .main {
       position: relative;
       z-index: 1;
-      line-height: 0;
       color: var(--color);
       font-size: calc(var(--size) * 0.85);
       padding: 0 calc(var(--size) * 0.25);

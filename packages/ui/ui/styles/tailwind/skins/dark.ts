@@ -30,7 +30,7 @@ export default css`:root {
   --size-radius: .25;
   --size-border: 1px;
   --size-ring: 1px;
-  --size-line: 1.5;
+  --size-line: 1.8;
   --size-letter: normal;
   /* shadows */
   --shadow-xs: 0 0 0 1px #2a2a2a26;

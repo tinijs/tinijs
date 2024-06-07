@@ -124,7 +124,6 @@ export const defaultStyles = createStyleBuilder<{
       --transition: 0.3s;
       --space: 2px;
       display: inline;
-      line-height: 1;
     }
 
     .main {

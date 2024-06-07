@@ -223,7 +223,7 @@ export const defaultStyles = createStyleBuilder<{
     .head {
       justify-content: space-between;
       align-items: center;
-      border-bottom: var(--border-md) solid var(--color-body);
+      border-bottom: var(--border-md) solid var(--color-body-semi);
       padding: var(--space-md);
     }
 
@@ -267,7 +267,7 @@ export const defaultStyles = createStyleBuilder<{
       align-items: center;
       justify-content: space-between;
       padding: var(--space-md);
-      border-top: var(--border-md) solid var(--color-body);
+      border-top: var(--border-md) solid var(--color-body-semi);
     }
   `,
 

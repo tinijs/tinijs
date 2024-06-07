@@ -17,7 +17,6 @@ export const heading = css`
     margin: 0;
     font-family: var(--font-title);
     font-weight: 700;
-    line-height: 1.2;
   }
 
   h1 {
@@ -25,19 +24,19 @@ export const heading = css`
   }
 
   h2 {
-    font-size: 2.25rem;
+    font-size: 1.875rem;
   }
 
   h3 {
-    font-size: 1.75rem;
-  }
-
-  h4 {
     font-size: 1.5rem;
   }
 
-  h5 {
+  h4 {
     font-size: 1.25rem;
+  }
+
+  h5 {
+    font-size: 1.15rem;
   }
 
   h6 {

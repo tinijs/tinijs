@@ -190,20 +190,20 @@ export const defaultStyles = createStyleBuilder<{
       gap: var(--space-xs);
     }
 
-    :host(.block) {
+    :host([block]) {
       display: block;
       width: 100%;
     }
 
-    :host(.block) .main {
+    :host([block]) .main {
       display: flex;
     }
 
-    :host(.block) select {
+    :host([block]) select {
       flex: 1;
     }
 
-    :host(.block) .wrap select {
+    :host([block]) .wrap select {
       width: 100%;
     }
   `,

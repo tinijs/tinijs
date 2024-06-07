@@ -17,23 +17,22 @@ export const heading = css`
     margin: 0;
     font-family: var(--font-title);
     font-weight: 700;
-    line-height: 1.2;
   }
 
   h1 {
-    font-size: 5.5rem;
+    font-size: 3rem;
   }
 
   h2 {
-    font-size: 2rem;
+    font-size: 1.875rem;
   }
 
   h3 {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
   h4 {
-    font-size: 1.375rem;
+    font-size: 1.25rem;
   }
 
   h5 {
@@ -156,7 +155,7 @@ export const code = css`
     word-wrap: break-word;
     border-radius: 0.5rem;
     font-weight: bold;
-    line-height: 2.25em;
+    line-height: 2.25;
   }
 
   pre > code {

@@ -124,17 +124,20 @@ export class AppDocPageContentComponent
 
         @media (min-width: 1200px) {
           margin-top: 0;
-          padding: var(--space-xl-4);
+          padding: var(--space-xl-2) var(--space-xl-4) var(--space-xl-4);
         }
       }
 
       .doc {
         & > h1 {
-          transform: translateX(-0.75em);
+          transform: translateX(-0.4em);
+          display: flex;
+          align-items: center;
 
           .header-anchor {
             visibility: hidden;
-            font-size: 0.85em;
+            padding-right: 0.2em;
+            font-size: 0.6em;
           }
 
           &:hover .header-anchor {
@@ -143,7 +146,7 @@ export class AppDocPageContentComponent
         }
 
         .content {
-          border-top: 1px solid var(--color-body);
+          border-top: 1px solid var(--color-body-semi);
           margin-top: var(--space-md);
           padding-top: var(--space-md);
 
@@ -153,17 +156,19 @@ export class AppDocPageContentComponent
           & > h4,
           & > h5,
           & > h6 {
+            display: flex;
+            align-items: center;
             margin: 0.75em 0 0.5em;
             padding-bottom: 0;
             border-bottom: none;
             display: flex;
             align-items: center;
             gap: var(--space-xs);
-            transform: translateX(-0.75em);
+            transform: translateX(-0.6em);
 
             .header-anchor {
               visibility: hidden;
-              font-size: 0.85em;
+              font-size: 0.75em;
             }
 
             &:hover .header-anchor {

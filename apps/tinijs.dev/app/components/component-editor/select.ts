@@ -65,7 +65,7 @@ export class AppComponentEditorSelectComponent
   private allColors = [
     this.colors[0],
     this.subtleColors[0],
-    this.contrastColors[0],
+    // this.contrastColors[0],
   ];
 
   private gradients: SelectOptgroup[] = [
@@ -89,7 +89,7 @@ export class AppComponentEditorSelectComponent
   private allGradients = [
     this.gradients[0],
     this.subtleGradients[0],
-    this.contrastGradients[0],
+    // this.contrastGradients[0],
   ];
 
   private colorsAndGradients: SelectOptgroup[] = [

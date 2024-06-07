@@ -14,15 +14,10 @@
     sections: [
       {
         section: 'js',
-        attrs: {label: 'Head'},
-        target: 'head',
-        value: ['#', 'Name', 'Age']
-      },
-      {
-        section: 'js',
-        attrs: {label: 'Body'},
-        target: 'body',
+        attrs: {label: 'Items'},
+        target: 'items',
         value: [
+          ['#', 'Name', 'Age'],
           [1, 'Alex', 25],
           [2, 'Bob', 22],
           [3, 'Chris', 30]

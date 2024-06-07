@@ -105,7 +105,6 @@ export const defaultStyles = createStyleBuilder<{
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      line-height: 0;
       position: relative;
       overflow: hidden;
       z-index: 0;

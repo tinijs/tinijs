@@ -29,10 +29,10 @@
         attrs: {
           label: 'Target',
           items: [
-            {label: 'Default', value: '_default', selected: true},
-            {label: '_blank', value: '_blank'},
-            {label: '_parent', value: '_parent'},
-            {label: '_top', value: '_top'}
+            {content: 'Default', value: '_default', selected: true},
+            {content: '_blank', value: '_blank'},
+            {content: '_parent', value: '_parent'},
+            {content: '_top', value: '_top'}
           ]
         },
         target: 'target'

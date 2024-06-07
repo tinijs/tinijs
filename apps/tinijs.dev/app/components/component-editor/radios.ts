@@ -51,9 +51,5 @@ export class AppComponentEditorRadiosComponent extends TiniComponent {
       text-transform: uppercase;
       margin-bottom: var(--space-xs);
     }
-
-    tini-radios {
-      transform: translateX(-5px);
-    }
   `;
 }

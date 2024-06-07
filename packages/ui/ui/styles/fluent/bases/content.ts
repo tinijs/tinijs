@@ -17,15 +17,14 @@ export const heading = css`
     margin: 0;
     font-family: var(--font-title);
     font-weight: 700;
-    line-height: 1.2;
   }
 
   h1 {
-    font-size: 4.25rem;
+    font-size: 3rem;
   }
 
   h2 {
-    font-size: 2rem;
+    font-size: 1.875rem;
   }
 
   h3 {
@@ -33,15 +32,15 @@ export const heading = css`
   }
 
   h4 {
-    font-size: 1.125rem;
+    font-size: 1.25rem;
   }
 
   h5 {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
   }
 
   h6 {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
   }
 `;
 
@@ -63,7 +62,6 @@ export const blockquote = css`
   blockquote * {
     margin: 0;
     font-size: 1.15em;
-    line-height: 1.2;
   }
 `;
 

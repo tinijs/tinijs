@@ -95,8 +95,8 @@ Future improvements:
 
 For other frameworks, please see:
 
-- [Vanilla (no framework)](/module/content-no-framework) - use Tini Content without a framework
 - [Vue](/module/content-vue) - use Tini Content in Vue apps
 - [React](/module/content-react) - use Tini Content in React a
 - [Angular](/module/content-angular) - use Tini Content in Angular apps
 - [Svelte](/module/content-svelte) - use Tini Content in Svelte apps
+- [Vanilla (no framework)](/module/content-vanilla) - use Tini Content without a framework

@@ -6,7 +6,7 @@ export const styles = defaultStyles.extends({
   statics: css`
     :host,
     :host([level='1']) {
-      font-size: 2.5rem;
+      font-size: 3rem;
     }
     :host([level='2']) {
       font-size: 1.875rem;

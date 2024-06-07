@@ -11,6 +11,7 @@ import {
 
 import {
   TiniSwitchComponent,
+  SwitchStatuses,
   type SwitchEventDetail,
 } from '../../ui/components/switch.js';
 
@@ -37,8 +38,8 @@ export class AppComponentEditorSwitchComponent
         <span class="label">${this.label}</span>
         <tini-switch
           ?checked=${this.checked}
-          @change=${({detail}: CustomEvent<SwitchEventDetail>) =>
-            this.change.emit(detail.checked)}
+          @toggle=${({detail}: CustomEvent<SwitchEventDetail>) =>
+            this.change.emit(detail.status === SwitchStatuses.On)}
         ></tini-switch>
       </div>
     `;

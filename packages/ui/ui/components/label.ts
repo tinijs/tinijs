@@ -89,7 +89,6 @@ export const defaultStyles = createStyleBuilder<{
       color: color-mix(in oklab, var(--color), var(--color-body-contrast) 30%);
       font-size: var(--size);
       font-weight: normal;
-      line-height: 1;
       text-transform: uppercase;
     }
 

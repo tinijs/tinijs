@@ -110,6 +110,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
       margin: 0;
       border-top: 1px solid var(--color-body-semi);
       padding: var(--space-xs) 0;
+      line-height: var(--line-md);
 
       li {
         padding-left: 0;

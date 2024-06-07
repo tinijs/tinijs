@@ -65,6 +65,17 @@ export class AppSkinEditorComponent extends TiniComponent {
     this.style.display = this.skinEditorShown ? 'block' : 'none';
   }
 
+  private fetchSkinVariables() {
+    const availableSkins = (this.ui as any)._init.skins as Record<
+      string,
+      ThemingStyles
+    >;
+    const skinText = themingStylesToText(
+      listify(availableSkins[this.ui.activeTheme.themeId])
+    );
+    return extractCSSVariables(skinText);
+  }
+
   private buildGroupedSkinVariables() {
     const result = [
       {name: 'Fonts', items: []},
@@ -100,28 +111,7 @@ export class AppSkinEditorComponent extends TiniComponent {
     return result;
   }
 
-  private fetchSkinVariables() {
-    const availableSkins = (this.ui as any)._init.skins as Record<
-      string,
-      ThemingStyles
-    >;
-    const skinText = themingStylesToText(
-      listify(availableSkins[this.ui.activeTheme.themeId])
-    );
-    return extractCSSVariables(skinText);
-  }
-
-  private resetSkin() {
-    if (!confirm('All values will be reset?')) return;
-    document.body.style.cssText = '';
-    this.changedVariablesMap.clear();
-    this.allInputs.forEach(item => {
-      const input = item as HTMLInputElement;
-      input.value = this.variablesMap.get(input.name)?.valueDirect || '';
-    });
-  }
-
-  private showModal() {
+  private showCodeModal() {
     const {familyId} = this.ui.activeTheme;
     // extract google fonts and code
     const googleFonts: Array<{font: string}> = [];
@@ -159,7 +149,10 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         <p>
           Copy the code below and save as
           <code>ui/styles/${familyId}/skins/some-name.ts</code>. You can edit
-          the values further if you wish.
+          the values further if you wish or override
+          <a href="/ui/token" @click=${() => this.hideCodeModal()}
+            >auto-generated tokens</a
+          >.
         </p>
         <tini-code language="javascript" .content=${skinCode}></tini-code>
         <div style="width: 100%; height: 2rem"></div>
@@ -170,7 +163,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
     this.modalRef.value?.show();
   }
 
-  private hideModal() {
+  private hideCodeModal() {
     this.modalRef.value?.hide();
     render(nothing, this.modalContentRef.value!);
   }
@@ -179,6 +172,15 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
     values.forEach(([key, value]) => {
       this.changedVariablesMap.set(key, value);
       document.documentElement.style.setProperty(key, value);
+    });
+  }
+
+  private resetSkin() {
+    this.changedVariablesMap.clear();
+    document.documentElement.style.cssText = '';
+    this.allInputs.forEach(item => {
+      const input = item as HTMLInputElement;
+      input.value = this.variablesMap.get(input.name)?.valueDirect || '';
     });
   }
 
@@ -220,11 +222,25 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
     });
   }
 
+  private changeTheme({detail}: CustomEvent<InputEvent>) {
+    this.resetSkin();
+    this.ui.setTheme((detail.target as HTMLInputElement).value as string);
+  }
+
   protected render() {
     return html`
       <div class="head">
         <strong class="title">Skin Editor</strong>
-        <button class="reset" @click=${this.resetSkin}>Reset</button>
+        <button
+          class="reset"
+          @click=${() => {
+            if (confirm('All values will be reset?')) {
+              this.resetSkin();
+            }
+          }}
+        >
+          Reset
+        </button>
         <button
           class="close"
           @click=${() => mainStore.commit('skinEditorShown', false)}
@@ -240,10 +256,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
             block
             label="Current theme"
             events="change"
-            @change=${({detail}: CustomEvent<InputEvent>) =>
-              this.ui.setTheme(
-                (detail.target as HTMLInputElement).value as string
-              )}
+            @change=${this.changeTheme}
             .items=${[
               {
                 label: 'Bootstrap',
@@ -322,44 +335,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
                             <div class="key">${item.title}</div>
                             <div class="value">
                               ${group.name === 'Fonts'
-                                ? html`
-                                    <select
-                                      class="field"
-                                      name=${item.key}
-                                      @change=${this.changeFont}
-                                    >
-                                      <optgroup label="Classic Fonts">
-                                        ${FONTS.filter(
-                                          ([, webSafe]) => webSafe
-                                        ).map(
-                                          ([font]) => html`
-                                            <option
-                                              .value=${font}
-                                              .selected=${item.valueDirect ===
-                                              font}
-                                            >
-                                              ${font.replace(/'|"/g, '')}
-                                            </option>
-                                          `
-                                        )}
-                                      </optgroup>
-                                      <optgroup label="Google Fonts">
-                                        ${FONTS.filter(
-                                          ([, webSafe]) => !webSafe
-                                        ).map(
-                                          ([font]) => html`
-                                            <option
-                                              .value=${font}
-                                              .selected=${item.valueDirect ===
-                                              font}
-                                            >
-                                              ${font.replace(/'|"/g, '')}
-                                            </option>
-                                          `
-                                        )}
-                                      </optgroup>
-                                    </select>
-                                  `
+                                ? this.getFontSelectTemplate(item)
                                 : group.name === 'Colors'
                                   ? html`<input
                                       type="color"
@@ -392,9 +368,9 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         <tini-button
           class="show-code"
           scheme="primary"
-          @click=${this.showModal}
+          @click=${this.showCodeModal}
         >
-          <icon-code scheme="white" size="sm"></icon-code>
+          <icon-code scheme="primary-contrast" size="sm"></icon-code>
           <span>Show code</span>
         </tini-button>
       </div>
@@ -402,11 +378,48 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       <tini-modal
         ${ref(this.modalRef)}
         titleText="Custom skin code"
-        @yes=${this.hideModal}
-        @no=${this.hideModal}
+        @yes=${this.hideCodeModal}
+        @no=${this.hideCodeModal}
       >
         <div ${ref(this.modalContentRef)} class="modal-body"></div>
       </tini-modal>
+    `;
+  }
+
+  private getFontSelectTemplate(item: VariableDef) {
+    const activeFont = item.valueDirect;
+    const missingFont = FONTS.some(([font]) => font === activeFont)
+      ? undefined
+      : activeFont;
+    const buildLabel = (name: string) => name.replace(/'|"/g, '');
+    return html`
+      <select class="field" name=${item.key} @change=${this.changeFont}>
+        ${!missingFont
+          ? nothing
+          : html`
+              <option value=${missingFont} selected>
+                ${buildLabel(missingFont)}
+              </option>
+            `}
+        <optgroup label="Classic Fonts">
+          ${FONTS.filter(([, webSafe]) => webSafe).map(
+            ([font]) => html`
+              <option .value=${font} .selected=${activeFont === font}>
+                ${buildLabel(font)}
+              </option>
+            `
+          )}
+        </optgroup>
+        <optgroup label="Google Fonts">
+          ${FONTS.filter(([, webSafe]) => !webSafe).map(
+            ([font]) => html`
+              <option .value=${font} .selected=${activeFont === font}>
+                ${buildLabel(font)}
+              </option>
+            `
+          )}
+        </optgroup>
+      </select>
     `;
   }
 
@@ -431,7 +444,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       align-items: center;
       height: var(--head-height);
       padding: var(--space-sm);
-      border-bottom: var(--border-md) solid var(--color-body-semi);
+      border-bottom: 1px solid var(--color-body-semi);
 
       .title {
         flex: 1;
@@ -441,14 +454,13 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         cursor: pointer;
         display: flex;
         align-items: center;
-        padding: var(--space-xs) var(--space-sm);
+        padding: var(--space-xs-3) var(--space-sm);
         margin-right: var(--space-xl);
         background: var(--color-body);
         color: var(--color-body-contrast);
-        border: var(--border-md) solid var(--color-body-contrast);
+        border: 1px solid var(--color-body-contrast);
         border-radius: var(--radius-md);
         font-size: var(--text-sm);
-        line-height: 1;
 
         &:hover {
           background: var(--color-body-less);
@@ -498,6 +510,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
             list-style: none;
             padding: 0;
             margin: var(--space-md) 0 0;
+            line-height: var(--line-md);
 
             li {
               display: flex;
@@ -506,13 +519,13 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
               margin-right: var(--space-xs);
               margin-bottom: var(--space-xs);
               padding: var(--space-xs-2) 0 var(--space-sm);
-              border-bottom: var(--border-md) solid var(--color-body-semi);
+              border-bottom: 1px solid var(--color-body-semi);
 
               .value {
                 input,
                 select {
                   background: var(--color-body);
-                  border: var(--border-md) solid var(--color-medium);
+                  border: 1px solid var(--color-medium);
                   border-radius: var(--radius-md);
                   padding: var(--space-xs-2) var(--space-xs);
                 }
@@ -550,7 +563,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       position: absolute;
       bottom: 0;
       left: 0;
-      border-top: var(--border-md) solid var(--color-body-semi);
+      border-top: 1px solid var(--color-body-semi);
       padding: var(--space-xs);
 
       tini-button.show-code {
@@ -590,7 +603,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         width: 310px;
         height: calc(100vh - var(--header-height) + 1px);
         height: calc(100dvh - var(--header-height) + 1px);
-        border: var(--border-md) solid var(--color-body-semi);
+        border: 1px solid var(--color-body-semi);
         box-shadow: var(--shadow-lg);
       }
     }
