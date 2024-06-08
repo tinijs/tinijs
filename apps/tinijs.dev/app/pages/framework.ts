@@ -1,8 +1,7 @@
 import {html} from 'lit';
 
-import {Page, TiniComponent, SubtleColors} from '@tinijs/core';
+import {Page, TiniComponent, SubtleColors, Radiuses, Texts} from '@tinijs/core';
 import {TiniMessageComponent} from '../ui/components/message.js';
-import {TiniEmbedComponent} from '../ui/components/embed.js';
 
 import {GITHUB_CONTENT_PATH} from '../consts/common.js';
 
@@ -15,7 +14,7 @@ import {AppDocPageComponent} from '../components/doc-page/index.js';
 
 @Page({
   name: 'app-page-framework',
-  components: [TiniMessageComponent, TiniEmbedComponent, AppDocPageComponent],
+  components: [TiniMessageComponent, AppDocPageComponent],
 })
 export class AppPageFramework extends TiniComponent {
   protected render() {
@@ -35,13 +34,20 @@ export class AppPageFramework extends TiniComponent {
 
   private _getHomeTemplate() {
     return html`
-      <article>
-        <h1>TiniJS Framework</h1>
-        <p>
+      <tini-box
+        style="
+          padding: 0 var(--space-xl);
+          --background: var(--gradient-kale-salad-semi)
+        "
+        radius=${Radiuses.XL}
+      >
+        <tini-heading>Tini Framework</tini-heading>
+        <tini-text size=${Texts.LG}>
           A <strong>small</strong>, <strong>fast</strong> and
-          <strong>interoperable</strong> JavaScript framework based on
-          <a href="https://lit.dev/" target="_blank">Lit</a>.
-        </p>
+          <strong>interoperable</strong> web components framework.
+        </tini-text>
+      </tini-box>
+      <article style="margin-top: var(--space-xl)">
         <p>
           <strong>Tini</strong> (or
           <a
@@ -68,20 +74,6 @@ export class AppPageFramework extends TiniComponent {
           >
           on my blog.</tini-message
         >
-        <p>
-          <tini-embed>
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/u7F_gVpckq8?si=uLMQd86kHUrFJ17a"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
-          </tini-embed>
-        </p>
       </article>
     `;
   }

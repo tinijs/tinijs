@@ -12,6 +12,9 @@ import {createRouter, type AppWithRouter} from '@tinijs/router';
 import {initMeta, type AppWithMeta} from '@tinijs/meta';
 
 import {setupUI, type AppWithUI} from './ui/setup.js';
+import {TiniBoxComponent} from './ui/components/box.js';
+import {TiniHeadingComponent} from './ui/components/heading.js';
+import {TiniTextComponent} from './ui/components/text.js';
 import {TiniIconComponent} from './ui/components/icon.js';
 import {TiniCodeComponent} from './ui/components/code.js';
 
@@ -27,7 +30,16 @@ import {globalStyles} from './styles.js';
 
 import './layouts/default';
 
-@App({providers})
+@App({
+  providers,
+  components: [
+    TiniBoxComponent,
+    TiniHeadingComponent,
+    TiniTextComponent,
+    TiniIconComponent,
+    TiniCodeComponent,
+  ],
+})
 export class AppRoot
   extends TiniComponent
   implements AppWithConfig<AppConfig>, AppWithRouter, AppWithMeta, AppWithUI

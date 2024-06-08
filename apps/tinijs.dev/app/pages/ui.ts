@@ -1,7 +1,6 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent} from '@tinijs/core';
-import {TiniEmbedComponent} from '../ui/components/embed.js';
+import {Page, TiniComponent, Colors, Texts, Radiuses} from '@tinijs/core';
 
 import {GITHUB_CONTENT_PATH} from '../consts/common.js';
 
@@ -12,11 +11,7 @@ import {AppComponentEditorComponent} from '../components/component-editor/index.
 
 @Page({
   name: 'app-page-ui',
-  components: [
-    AppDocPageComponent,
-    AppComponentEditorComponent,
-    TiniEmbedComponent,
-  ],
+  components: [AppDocPageComponent, AppComponentEditorComponent],
 })
 export class AppPageUI extends TiniComponent {
   protected render() {
@@ -36,25 +31,22 @@ export class AppPageUI extends TiniComponent {
 
   private _getHomeTemplate() {
     return html`
-      <article>
-        <h1>Tini UI</h1>
+      <tini-box
+        style="
+          padding: 0 var(--space-xl);
+          --background: var(--gradient-disco-club-semi)
+        "
+        radius=${Radiuses.XL}
+      >
+        <tini-heading>Tini UI</tini-heading>
+        <tini-text size=${Texts.LG}>
+          Unified web UI experience. One platform, many design systems.
+        </tini-text>
+      </tini-box>
+      <article style="margin-top: var(--space-xl)">
         <p>
           An UI system with a collection of ready-to-use components, pages,
           layouts to be used with TiniJS and other frameworks or no framework.
-        </p>
-        <p>
-          <tini-embed>
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/0jNuKfP5100?si=e7HvgCcy3IjUAxjZ"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
-          </tini-embed>
         </p>
       </article>
     `;

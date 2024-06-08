@@ -6,24 +6,41 @@
 }
 +++
 
-## Create a skin
-
-You can use the **Skin Editor** to create a skin for a theme family.
-
-Or, you can create a skin manually, see [an example](https://github.com/tinijs/tinijs/blob/main/packages/ui/ui/styles/bootstrap/skins/light.ts).
-
-## Customize components
+## For consumers
 
 There are several ways to customize Tini UI components:
-1. Use parts
-2. Use `styleDeep` attribute
-3. Clone the component
+
+1. Override skin variables
+2. Use parts
+3. Use `styleDeep` attribute
+
+### Override skin variables
+
+At the setup step, you can override skin variables to customize the default look of a skin, see [Get started](/ui/get-started).
+
+```ts
+const customBootstrapLightSkin = css`
+  :root {
+    --color-primary: abc;
+    --color-success: xyz;
+  }
+`;
+
+const ui = setupUI({
+  skins: {
+    'bootstrap/light': [
+      bootstrapLightSkin,
+      customBootstrapLightSkin,
+    ],
+  },
+});
+```
 
 ### Use parts
 
-Use `::part()` to target a specific part of a component.
+Use `::part()` to target a specific part of a component. This is the standard way to customize custom elements.
 
-```cs
+```css
 tini-button::part(main) {
   color: aqua;
 }
@@ -33,16 +50,29 @@ tini-button::part(main) {
 
 Write any CSS to target any element inside a component shadow DOM.
 
+```ts
+class XXX {
+
+  render() {
+    return html`
+      <tini-button .styleDeep=${this.customStyle}>A button</tini-button>
+    `;
+  }
+
+  readonly customStyle = css`
+    .main {
+      color: aqua;
+    }
+  `;
+}
+```
+
+Or inline style:
+
 ```html
 <tini-button styleDeep=".main { color: aqua; }">A button</tini-button>
 ```
 
-### Clone the component
-
-When manage the UI using Tini CLI, you can clone a component source to customize it.
-
-TODO: add instructions
-
-## Create a theme family
+## For authors
 
 TODO: add instructions

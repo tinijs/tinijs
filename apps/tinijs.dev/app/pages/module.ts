@@ -1,6 +1,6 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent} from '@tinijs/core';
+import {Page, TiniComponent, Texts, Radiuses} from '@tinijs/core';
 
 import {GITHUB_CONTENT_PATH} from '../consts/common.js';
 
@@ -30,10 +30,19 @@ export class AppPageModule extends TiniComponent {
 
   private _getHomeTemplate() {
     return html`
+      <tini-box
+        style="
+          padding: 0 var(--space-xl);
+          --background: var(--gradient-mello-yellow-semi)
+        "
+        radius=${Radiuses.XL}
+      >
+        <tini-heading>Tini Modules</tini-heading>
+        <tini-text size=${Texts.LG}>
+          Installable modules to extend functionalities.
+        </tini-text>
+      </tini-box>
       <article>
-        <h1>Tini Modules</h1>
-        <p>Installable modules to extend functionalities.</p>
-
         <h2>Official modules</h2>
         <ul>
           <li>

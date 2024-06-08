@@ -9,7 +9,9 @@ import {
   Reactive,
   createComponentLoader,
   type OnCreate,
+  type OnChanges,
 } from '@tinijs/core';
+import {UseMeta, type Meta} from '@tinijs/meta';
 import {UseParams} from '@tinijs/router';
 
 const componentLoader = createComponentLoader({
@@ -110,8 +112,9 @@ class UIDevSectionComponent extends TiniComponent implements OnCreate {
   name: 'app-page-ui-dev',
   components: [UIDevSectionComponent],
 })
-export class AppPageUIDev extends TiniComponent implements OnCreate {
+export class AppPageUIDev extends TiniComponent implements OnCreate, OnChanges {
   @UseParams() readonly params!: {slug: string};
+  @UseMeta() readonly meta!: Meta;
 
   @Reactive() private componentName: string | null | undefined;
 
@@ -124,6 +127,13 @@ export class AppPageUIDev extends TiniComponent implements OnCreate {
       .catch(error => {
         this.componentName = null;
       });
+  }
+
+  onChanges() {
+    this.meta.setPageMetadata({
+      title: `Dev center for ${this.componentName} component`,
+      description: `Development center for the ${this.componentName} component.`,
+    });
   }
 
   protected render() {

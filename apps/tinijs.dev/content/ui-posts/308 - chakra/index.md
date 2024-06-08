@@ -6,4 +6,25 @@
 }
 +++
 
-Chakra theme family.
+Chakra-inspired theme family, homepage: https://v2.chakra-ui.com/
+
+## Install
+
+- CDN:
+
+```txt
+https://cdn.jsdelivr.net/npm/@tinijs/ui-chakra/bundled/setup.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-chakra/bundled/components.js
+```
+
+- NPM:
+
+```bash
+npm i @tinijs/ui-chakra
+```
+
+- React NPM:
+
+```bash
+npm i @tinijs/ui-chakra-react
+```

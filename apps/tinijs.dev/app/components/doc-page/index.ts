@@ -13,6 +13,7 @@ import {
   type OnInit,
   type OnDestroy,
 } from '@tinijs/core';
+import {UseMeta, type Meta} from '@tinijs/meta';
 import {
   UseRouter,
   UseParams,
@@ -68,6 +69,7 @@ export class AppDocPageComponent
   static readonly defaultTagName = 'app-doc-page';
   @UseRouter() readonly router!: Router;
   @UseParams() readonly params!: {slug?: string};
+  @UseMeta() readonly meta!: Meta;
 
   @provide({context: docPageContext})
   @Input()
@@ -136,6 +138,10 @@ export class AppDocPageComponent
       this.postPrev = postPrev;
       this.postNext = postNext;
     }
+    // update metadata
+    this.meta.setPageMetadata({
+      title: this.post ? this.post.title : this.context.name,
+    });
   }
 
   private _routeChangeHandler = (e: any) => {
