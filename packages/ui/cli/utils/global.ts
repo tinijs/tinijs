@@ -1,54 +1,6 @@
 import {minifyCSS} from '@tinijs/cli';
-import {Colors} from '@tinijs/core';
 
 const JOIN = '\n  ';
-
-function generateColorVars() {
-  return Object.values(Colors)
-    .map(name =>
-      [
-        `--color-${name}-more: ${
-          name === 'body'
-            ? 'var(--color-body)'
-            : `color-mix(in oklab, var(--color-${name}), var(--color-body-contrast) 15%)`
-        };`,
-        `--color-${name}-less: color-mix(in oklab, var(--color-${name}), ${
-          name === 'body'
-            ? 'var(--color-body-contrast) 3%'
-            : 'var(--color-body) 15%'
-        });`,
-        `--color-${name}-semi: color-mix(in oklab, var(--color-${name}), ${
-          name === 'body'
-            ? 'var(--color-body-contrast) 10%'
-            : 'var(--color-body) 40%'
-        });`,
-        `--color-${name}-subtle: color-mix(in oklab, var(--color-${name}), ${
-          name === 'body'
-            ? 'var(--color-body-contrast) 15%'
-            : 'var(--color-body) 80%'
-        });`,
-        `--color-${name}-dull: color-mix(in oklab, var(--color-${name}), ${
-          name === 'body'
-            ? 'var(--color-body-contrast) 25%'
-            : 'var(--color-body-semi) 90%'
-        });`,
-      ].join(JOIN)
-    )
-    .join(JOIN);
-}
-
-function generateGradientVars() {
-  return Object.values(Colors)
-    .map(name =>
-      ['more', '', 'less', 'semi', 'subtle', 'dull', 'contrast']
-        .map(suffix => {
-          const fullName = `${name}${!suffix ? '' : `-${suffix}`}`;
-          return `--gradient-${fullName}: linear-gradient(var(--config-gradir, 180deg), color-mix(in oklab, var(--color-${fullName}), white 15%), color-mix(in oklab, var(--color-${fullName}), black 15%));`;
-        })
-        .join(JOIN)
-    )
-    .join(JOIN);
-}
 
 function generateFontVars() {
   return "--font-art: 'Brush Script MT', cursive;";
@@ -244,8 +196,6 @@ function generateShadowVars() {
 }
 
 export function getSkinUtils() {
-  const colorVars = generateColorVars();
-  const gradientVars = generateGradientVars();
   const fontVars = generateFontVars();
   const textVars = generateTextVars();
   const weightVars = generateWeightVars();
@@ -258,10 +208,12 @@ export function getSkinUtils() {
   const letterVars = generateLetterVars();
   const wideVars = generateWideVars();
   const shadowVars = generateShadowVars();
-  return minifyCSS(`
-:root {
-  ${colorVars}
-  ${gradientVars}
+  return (
+    '${generateOfficialColorTokens()}' +
+    '\n' +
+    '${generateOfficialGradientTokens()}' +
+    '\n' +
+    minifyCSS(`:root {
   ${fontVars}
   ${textVars}
   ${weightVars}
@@ -274,8 +226,8 @@ export function getSkinUtils() {
   ${letterVars}
   ${wideVars}
   ${shadowVars}
-}
-`);
+}`)
+  );
 }
 
 export function getCommonStyles() {

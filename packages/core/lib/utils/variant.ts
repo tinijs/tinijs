@@ -1,4 +1,4 @@
-import {unsafeCSS} from 'lit';
+import {unsafeCSS, type CSSResult} from 'lit';
 
 export function isGradient(name: string | undefined) {
   return !!name?.startsWith('gradient-');
@@ -6,6 +6,10 @@ export function isGradient(name: string | undefined) {
 
 export function isSubtle(name: string | undefined) {
   return name?.slice(-6) === '-subtle';
+}
+
+export function isContrast(name: string | undefined) {
+  return name?.slice(-9) === '-contrast';
 }
 
 export interface RenderValues {
@@ -73,6 +77,16 @@ export interface ShadowRenderValues extends RenderValues {
   shadow: string;
 }
 export type ShadowVariantRender = (values: ShadowRenderValues) => string;
+
+export enum ColorSuffixes {
+  None = 'none',
+  More = 'more',
+  Less = 'less',
+  Semi = 'semi',
+  Subtle = 'subtle',
+  Dull = 'dull',
+  Contrast = 'contrast',
+}
 
 export enum Colors {
   Body = 'body',
@@ -633,4 +647,247 @@ export function generateShadowVariants(
       });
     }).join('')
   );
+}
+
+export type ColorTokenDef = [string, string];
+
+export interface GradientTokenDef {
+  start: ColorTokenDef;
+  end: ColorTokenDef;
+}
+
+const DECREASE_BODY_COLOR_STRENGTHS = {
+  [ColorSuffixes.Less]: '3%',
+  [ColorSuffixes.Semi]: '10%',
+  [ColorSuffixes.Subtle]: '15%',
+  [ColorSuffixes.Dull]: '25%',
+};
+
+export function deriveColorStrength(
+  target: Exclude<ColorSuffixes, 'none' | 'contrast'>,
+  color: string
+) {
+  switch (target) {
+    case ColorSuffixes.More:
+      return `color-mix(in oklab, ${color}, var(--color-body-contrast) 15%)`;
+    case ColorSuffixes.Less:
+      return `color-mix(in oklab, ${color}, var(--color-body) 15%)`;
+    case ColorSuffixes.Semi:
+      return `color-mix(in oklab, ${color}, var(--color-body) 40%)`;
+    case ColorSuffixes.Subtle:
+      return `color-mix(in oklab, ${color}, var(--color-body) 80%)`;
+    case ColorSuffixes.Dull:
+      return `color-mix(in oklab, ${color}, var(--color-body-semi) 90%)`;
+    default:
+      return color;
+  }
+}
+
+export function increaseColorStrength(color: string, pc: string) {
+  return !pc
+    ? color
+    : `color-mix(in oklab, ${color}, var(--color-body-contrast) ${pc})`;
+}
+
+export function decreaseColorStrength(color: string, pc: string) {
+  return !pc ? color : `color-mix(in oklab, ${color}, var(--color-body) ${pc})`;
+}
+
+function generateColorTokensAsString(
+  name: string,
+  [color, contrastColor]: ColorTokenDef,
+  excludeBaseAndContrast = false
+) {
+  const isBodyColor = name === 'body';
+  return [
+    excludeBaseAndContrast ? '' : `--color-${name}: ${color};`,
+    excludeBaseAndContrast ? '' : `--color-${name}-contrast: ${contrastColor};`,
+    `--color-${name}-more: ${
+      isBodyColor
+        ? 'var(--color-body)'
+        : deriveColorStrength(ColorSuffixes.More, color)
+    };`,
+    `--color-${name}-less: ${
+      isBodyColor
+        ? increaseColorStrength(color, DECREASE_BODY_COLOR_STRENGTHS.less)
+        : deriveColorStrength(ColorSuffixes.Less, color)
+    };`,
+    `--color-${name}-semi: ${
+      isBodyColor
+        ? increaseColorStrength(color, DECREASE_BODY_COLOR_STRENGTHS.semi)
+        : deriveColorStrength(ColorSuffixes.Semi, color)
+    };`,
+    `--color-${name}-subtle: ${
+      isBodyColor
+        ? increaseColorStrength(color, DECREASE_BODY_COLOR_STRENGTHS.subtle)
+        : deriveColorStrength(ColorSuffixes.Subtle, color)
+    };`,
+    `--color-${name}-dull: ${
+      isBodyColor
+        ? increaseColorStrength(color, DECREASE_BODY_COLOR_STRENGTHS.dull)
+        : deriveColorStrength(ColorSuffixes.Dull, color)
+    };`,
+  ].join('');
+}
+
+export function generateColorTokens(
+  name: string,
+  def: ColorTokenDef
+): CSSResult;
+export function generateColorTokens(
+  items: Record<string, ColorTokenDef>
+): CSSResult;
+export function generateColorTokens(
+  nameOrItems: string | Record<string, ColorTokenDef>,
+  def?: ColorTokenDef
+): CSSResult {
+  return unsafeCSS(`:root {
+    ${
+      nameOrItems instanceof Object
+        ? Object.entries(nameOrItems)
+            .map(([name, def]) => generateColorTokensAsString(name, def))
+            .join('')
+        : def
+          ? generateColorTokensAsString(nameOrItems, def)
+          : ''
+    }
+  }`);
+}
+
+export function generateOfficialColorTokens() {
+  const items = COLORS.reduce(
+    (result, name) => {
+      result[name] = [`var(--color-${name})`, ''];
+      return result;
+    },
+    {} as Record<string, ColorTokenDef>
+  );
+  return unsafeCSS(`:root {
+    ${Object.entries(items)
+      .map(([name, def]) => generateColorTokensAsString(name, def, true))
+      .join('')}
+  }`);
+}
+
+export function generateGradientTokens(
+  name: string,
+  def: GradientTokenDef
+): CSSResult;
+export function generateGradientTokens(
+  items: Record<string, GradientTokenDef>
+): CSSResult;
+export function generateGradientTokens(
+  nameOrItems: string | Record<string, GradientTokenDef>,
+  def?: GradientTokenDef
+): CSSResult {
+  const generate = (
+    name: string,
+    {
+      start: [startColor, contrastStartColor],
+      end: [endColor, contrastEndColor],
+    }: GradientTokenDef
+  ) => {
+    const direction = 'var(--gradient-direction, 180deg)';
+    return Object.values(ColorSuffixes)
+      .map(suffix => {
+        const isBase = suffix === ColorSuffixes.None;
+        const isContrast = suffix === ColorSuffixes.Contrast;
+        const fullName = `${name}${isBase ? '' : `-${suffix}`}`;
+        const colorStart = isBase
+          ? startColor
+          : isContrast
+            ? contrastStartColor
+            : deriveColorStrength(suffix, startColor);
+        const colorEnd = isBase
+          ? endColor
+          : isContrast
+            ? contrastEndColor
+            : deriveColorStrength(suffix, endColor);
+        return `--gradient-${fullName}: linear-gradient(${direction}, ${colorStart}, ${colorEnd});`;
+      })
+      .join('');
+  };
+  return unsafeCSS(`:root {
+    ${
+      nameOrItems instanceof Object
+        ? Object.entries(nameOrItems)
+            .map(([name, def]) => generate(name, def))
+            .join('')
+        : def
+          ? generate(nameOrItems, def)
+          : ''
+    }
+  }`);
+}
+
+export function generateOfficialGradientTokens() {
+  const direction = 'var(--gradient-direction, 180deg)';
+  const buildStartVarForBase = (name: string) =>
+    `--gradient-${name}-start: color-mix(in oklab, var(--color-${name}), white 15%);`;
+  const buildEndVarForBase = (name: string) =>
+    `--gradient-${name}-end: color-mix(in oklab, var(--color-${name}), black 15%);`;
+  const buildStartVarForContrast = (name: string) =>
+    `--gradient-${name}-contrast-start: color-mix(in oklab, var(--color-${name}-contrast), white 15%);`;
+  const buildEndVarForContrast = (name: string) =>
+    `--gradient-${name}-contrast-end: color-mix(in oklab, var(--color-${name}-contrast), black 15%);`;
+  const generate = (name: string, suffix: ColorSuffixes) => {
+    const isBase = suffix === ColorSuffixes.None;
+    const isContrast = suffix === ColorSuffixes.Contrast;
+    const fullName = `${name}${isBase ? '' : `-${suffix}`}`;
+    // start and end
+    let startVar = '';
+    let endVar = '';
+    if (name === 'body') {
+      startVar = isBase
+        ? buildStartVarForBase(name)
+        : isContrast
+          ? buildStartVarForContrast(name)
+          : suffix === ColorSuffixes.More
+            ? `--gradient-${name}-more-start: var(--gradient-${name}-start);`
+            : `--gradient-${fullName}-start: ${increaseColorStrength(
+                `var(--gradient-${name}-start)`,
+                DECREASE_BODY_COLOR_STRENGTHS[suffix]
+              )};`;
+      endVar = isBase
+        ? buildEndVarForBase(name)
+        : isContrast
+          ? buildEndVarForContrast(name)
+          : suffix === ColorSuffixes.More
+            ? `--gradient-${name}-more-end: var(--gradient-${name}-end);`
+            : `--gradient-${fullName}-end: ${increaseColorStrength(
+                `var(--gradient-${name}-end)`,
+                DECREASE_BODY_COLOR_STRENGTHS[suffix]
+              )};`;
+    } else {
+      startVar = isBase
+        ? buildStartVarForBase(name)
+        : isContrast
+          ? buildStartVarForContrast(name)
+          : `--gradient-${fullName}-start: ${deriveColorStrength(
+              suffix,
+              `var(--gradient-${name}-start)`
+            )};`;
+      endVar = isBase
+        ? buildEndVarForBase(name)
+        : isContrast
+          ? buildEndVarForContrast(name)
+          : `--gradient-${fullName}-end: ${deriveColorStrength(
+              suffix,
+              `var(--gradient-${name}-end)`
+            )};`;
+    }
+    // gradient
+    return [
+      startVar,
+      endVar,
+      `--gradient-${fullName}: linear-gradient(${direction}, var(--gradient-${fullName}-start), var(--gradient-${fullName}-end));`,
+    ].join('');
+  };
+  return unsafeCSS(`:root {
+    ${COLORS.map(name =>
+      Object.values(ColorSuffixes)
+        .map(suffix => generate(name, suffix))
+        .join('')
+    ).join('')}
+  }`);
 }

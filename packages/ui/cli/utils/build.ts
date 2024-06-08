@@ -165,6 +165,10 @@ export async function buildGlobals() {
   const skinUtilsFile = 'globals/skin-utils.ts';
   const skinUtilsTS = createGenFile()
     .addImport('lit', ['css'])
+    .addImport('@tinijs/core', [
+      'generateOfficialColorTokens',
+      'generateOfficialGradientTokens',
+    ])
     .addBlock(
       `export const ${skinUtilsExportName} =`,
       `css\`${getSkinUtils()}\``

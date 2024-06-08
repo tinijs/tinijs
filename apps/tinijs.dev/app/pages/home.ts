@@ -35,7 +35,7 @@ export class AppPageHome extends TiniComponent {
               size="xl-3"
               weight="bold"
               color=${Gradients.Body}
-              style="--gradient: linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%);"
+              style="--gradient: var(--gradient-kale-salad)"
               >Tini</tini-text
             ><br />A Javascript framework
           </h2>
@@ -175,8 +175,8 @@ export class AppPageHome extends TiniComponent {
           <tini-button
             scheme=${Gradients.Body}
             style="
-              --background: linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%);
-              --gradient: white;
+              --background: var(--gradient-disco-club);
+              --gradient: var(--gradient-disco-club-contrast);
             "
             href="mailto:hello@tinijs.dev?subject=Sponsor Tini&body=I want to sponsor the TiniJS project."
             >Sponsor Tini</tini-button

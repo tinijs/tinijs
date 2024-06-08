@@ -80,9 +80,9 @@ export class AppSkinEditorComponent extends TiniComponent {
     const result = [
       {name: 'Fonts', items: []},
       {name: 'Colors', items: []},
+      {name: 'Config gradients', items: []},
       {name: 'Sizes', items: []},
       {name: 'Shadows', items: []},
-      {name: 'Config', items: []},
     ] as Array<{name: string; items: VariableDef[]}>;
     // group variables
     for (const item of this.variablesMap) {
@@ -99,11 +99,13 @@ export class AppSkinEditorComponent extends TiniComponent {
         ) {
           result[1].items.push(def);
         }
+      } else if (key.startsWith('--gradient')) {
+        if (~key.indexOf('-direction')) {
+          result[2].items.push(def);
+        }
       } else if (key.startsWith('--size')) {
-        result[2].items.push(def);
-      } else if (key.startsWith('--shadow')) {
         result[3].items.push(def);
-      } else if (key.startsWith('--config')) {
+      } else if (key.startsWith('--shadow')) {
         result[4].items.push(def);
       }
     }

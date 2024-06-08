@@ -23,6 +23,8 @@ export default css`:root {
   --color-warning-contrast: #f4f5f8;
   --color-danger: #ff3b30;
   --color-danger-contrast: #f4f5f8;
+  /* gradients */
+  --gradient-direction: 90deg;
   /* sizes */
   --size-base: 16px;
   --size-text: 1;
@@ -39,7 +41,5 @@ export default css`:root {
   --shadow-lg: 0 20px 25px -5px #1c1c1e33, 0 10px 10px -5px #1c1c1e24;
   --shadow-xl: 0px 0px 0px 1px #1c1c1e33, 0px 5px 10px #1c1c1e4d, 0px 15px 40px #1c1c1e80;
   --shadow-inset: inset 0 2px 4px 0 #1c1c1e26;
-  /* config */
-  --config-gradir: 90deg;
 }`;
 /* eslint-enable prettier/prettier */

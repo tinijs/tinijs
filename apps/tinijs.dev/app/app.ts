@@ -23,6 +23,7 @@ import {config} from './configs/development.js';
 import {metadata} from './metadata.js';
 import {providers} from './providers.js';
 import {routes} from './routes.js';
+import {globalStyles} from './styles.js';
 
 import './layouts/default';
 
@@ -38,6 +39,7 @@ export class AppRoot
     autoPageMetadata: true,
   });
   readonly ui = setupUI({
+    globals: globalStyles,
     options: {
       '*': {
         // code options
