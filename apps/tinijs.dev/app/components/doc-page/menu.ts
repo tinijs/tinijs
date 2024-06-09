@@ -9,7 +9,7 @@ import {
   Output,
   EventEmitter,
   sectionRender,
-  Colors,
+  ContrastColors,
   type SectionRenderData,
 } from '@tinijs/core';
 
@@ -50,7 +50,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
           href=${this.context.path}
           @click=${() => this.selectItem.emit()}
         >
-          <icon-home scheme=${Colors.Front}></icon-home>
+          <icon-home scheme=${ContrastColors.Body}></icon-home>
           <span>${this.context.name}</span>
         </a>
         ${sectionRender([this.menuItems], {
@@ -89,8 +89,8 @@ export class AppDocPageMenuComponent extends TiniComponent {
       width: 250px;
       height: calc(100vh - var(--header-height));
       height: calc(100dvh - var(--header-height));
-      background: var(--color-back-tint);
-      border-right: 1px solid var(--color-back-shade);
+      background: var(--color-body);
+      border-right: 1px solid var(--color-body-semi);
       overflow-y: scroll;
       opacity: 0;
       transform: translateX(-100%);
@@ -109,11 +109,12 @@ export class AppDocPageMenuComponent extends TiniComponent {
       display: flex;
       align-items: center;
       width: 100%;
-      color: var(--color-text);
-      padding: 6px var(--size-space);
-      gap: var(--size-space);
+      color: var(--color-body-contrast);
+      padding: 4.5px var(--space-md);
+      gap: var(--space-md);
       font-weight: bold;
       font-size: 1.2rem;
+      text-decoration: none;
 
       icon-home {
         transform: translateY(-2px);
@@ -129,20 +130,23 @@ export class AppDocPageMenuComponent extends TiniComponent {
       list-style: none;
       padding: 0;
       margin: 0;
-      border-top: 1px solid var(--color-back-shade);
-      padding: var(--size-space);
+      border-top: 1px solid var(--color-body-semi);
+      padding: var(--space-md);
       display: flex;
       flex-flow: column;
-      gap: var(--size-space-0_25x);
+      gap: var(--space-xs-2);
+      line-height: var(--line-md);
 
       li {
+        padding-left: 0;
+
         strong {
           display: block;
-          margin-top: var(--size-space-1_5x);
-          padding-top: var(--size-space);
-          padding-bottom: var(--size-space-0_25x);
+          margin-top: var(--space-lg);
+          padding-top: var(--space-md);
+          padding-bottom: var(--space-xs-2);
           font-size: 1.1rem;
-          border-top: 1px solid var(--color-back-shade);
+          border-top: 1px solid var(--color-body-semi);
         }
 
         &:first-child strong {
@@ -151,17 +155,20 @@ export class AppDocPageMenuComponent extends TiniComponent {
           padding-top: 0;
         }
 
-        tini-link::part(root) {
+        tini-link::part(main) {
           color: var(--color-medium);
           text-decoration: none;
+          font-weight: normal;
+          font-size: var(--text-sm);
         }
 
-        tini-link:hover::part(root) {
-          color: var(--color-text);
+        tini-link:hover::part(main) {
+          text-decoration: none;
+          color: var(--color-body-contrast);
         }
 
         tini-link::part(active) {
-          color: var(--color-text);
+          color: var(--color-body-contrast);
           cursor: default;
           pointer-events: none;
         }
@@ -174,13 +181,13 @@ export class AppDocPageMenuComponent extends TiniComponent {
         transform: none;
         opacity: 1;
         left: 0;
-        background: var(--color-back);
+        background: var(--color-body-less);
         border-right: none;
         padding-bottom: var(--footer-height);
       }
 
       .title {
-        padding-top: var(--size-space);
+        padding-top: var(--space-md);
       }
 
       ul {

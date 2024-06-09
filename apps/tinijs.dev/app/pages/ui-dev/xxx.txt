@@ -1,0 +1,30 @@
+import {html, css, nothing} from 'lit';
+
+import {
+  Component,
+  TiniComponent,
+  Colors,
+  SubtleColors,
+  Gradients,
+  SubtleGradients,
+  Sizes,
+} from '@tinijs/core';
+
+import {TiniXXXComponent} from '../../ui/components/xxx.js';
+
+@Component({
+  components: [TiniXXXComponent],
+})
+export class AppPageUIDevXXXComponent extends TiniComponent {
+  static readonly defaultTagName = 'app-page-ui-dev-xxx';
+
+  protected render() {
+    return html`
+      <ui-dev-section titleText="-">
+        <tini-xxx></tini-xxx>
+      </ui-dev-section>
+    `;
+  }
+
+  static styles = css``;
+}

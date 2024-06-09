@@ -19,12 +19,7 @@ import {
 } from '@tinijs/cli';
 import type {UIConfig} from '@tinijs/project';
 
-import {
-  getCommonColors,
-  getCommonGradients,
-  getSkinUtils,
-  getGeneralStyles,
-} from './global.js';
+import {getSkinUtils, getCommonStyles} from './global.js';
 
 const {ModuleKind, ScriptTarget} = typescript;
 
@@ -43,6 +38,13 @@ export interface ComponentBuildInstructions {
   reactAnyProp?: boolean;
 }
 
+export interface AvailableComponentsAndThemeFamilies {
+  components: Record<string, AvailableComponent>;
+  themeFamilies: Record<string, AvailableThemeFamily>;
+}
+
+export const DEFAULT_OUT_DIR = './app/ui';
+
 export const TS_CONFIG = {
   declaration: true,
   sourceMap: true,
@@ -56,7 +58,7 @@ export const TS_CONFIG = {
   skipLibCheck: true,
 };
 
-function resolveSourceDir(sourceDir: string) {
+export function resolveSourceDir(sourceDir: string) {
   return /^\.\.?(\/|\\)/.test(sourceDir)
     ? resolve(sourceDir)
     : resolve('node_modules', sourceDir, 'dist', 'ui');
@@ -158,63 +160,45 @@ export async function listAvailableThemeFamilies(sourceDirs: string[]) {
 export async function buildGlobals() {
   const results: GenFileResult[] = [];
 
-  // common colors
-  const commonColorsExportName = 'commonColors';
-  const commonColorsFile = 'globals/common-colors.ts';
-  const commonColorsTS = createGenFile()
-    .addImport('lit', ['css'])
-    .addBlock(
-      `export const ${commonColorsExportName} =`,
-      `css\`${getCommonColors()}\``
-    );
-  results.push(commonColorsTS.toResult(commonColorsFile));
-
-  // common gradients
-  const commonGradientsExportName = 'commonGradients';
-  const commonGradientsFile = 'globals/common-gradients.ts';
-  const commonGradientsTS = createGenFile()
-    .addImport('lit', ['css'])
-    .addBlock(
-      `export const ${commonGradientsExportName} =`,
-      `css\`${getCommonGradients()}\``
-    );
-  results.push(commonGradientsTS.toResult(commonGradientsFile));
-
   // skin utils
   const skinUtilsExportName = 'skinUtils';
   const skinUtilsFile = 'globals/skin-utils.ts';
   const skinUtilsTS = createGenFile()
     .addImport('lit', ['css'])
+    .addImport('@tinijs/core', [
+      'generateOfficialColorTokens',
+      'generateOfficialGradientTokens',
+    ])
     .addBlock(
       `export const ${skinUtilsExportName} =`,
       `css\`${getSkinUtils()}\``
     );
   results.push(skinUtilsTS.toResult(skinUtilsFile));
 
-  // general styles
-  const generalStylesExportName = 'generalStyles';
-  const generalStylesFile = 'globals/general-styles.ts';
-  const generalStylesTS = createGenFile()
+  // common styles
+  const commonStylesExportName = 'commonStyles';
+  const commonStylesFile = 'globals/common-styles.ts';
+  const commonStylesTS = createGenFile()
     .addImport('lit', ['css'])
     .addBlock(
-      `export const ${generalStylesExportName} =`,
-      `css\`${getGeneralStyles()}\``
+      `export const ${commonStylesExportName} =`,
+      `css\`${getCommonStyles()}\``
     );
-  results.push(generalStylesTS.toResult(generalStylesFile));
+  results.push(commonStylesTS.toResult(commonStylesFile));
 
   // index
   const indexTS = createGenFile()
-    .addImport(`./${tsToJS(commonColorsFile)}`, [commonColorsExportName])
-    .addImport(`./${tsToJS(commonGradientsFile)}`, [commonGradientsExportName])
     .addImport(`./${tsToJS(skinUtilsFile)}`, [skinUtilsExportName])
-    .addImport(`./${tsToJS(generalStylesFile)}`, [generalStylesExportName])
+    .addImport(`./${tsToJS(commonStylesFile)}`, [commonStylesExportName])
+    .addBlock(
+      'export',
+      `{ ${[skinUtilsExportName, commonStylesExportName].join(', ')} }`
+    )
     .addBlock(
       'export const availableGlobals =',
       `[
-        ${commonColorsExportName},
-        ${commonGradientsExportName},
         ${skinUtilsExportName},
-        ${generalStylesExportName},
+        ${commonStylesExportName},
       ]`
     );
   results.push(indexTS.toResult('global.ts'));
@@ -251,17 +235,20 @@ export async function buildSkins(
             config.rewritePath
           );
           skinTS.addExport(importPath, [`default as ${importName}`]);
-          results.push(skinTS.toResult(`skins/${skinId}.ts`));
+          results.push(skinTS.toResult(`skins/${familyId}-${skinId}.ts`));
           // add to index
-          indexTS.addImport(`./skins/${skinId}.js`, [importName]);
+          indexTS.addImport(`./skins/${familyId}-${skinId}.js`, [importName]);
           indexTS.data.mainExportValue[`${familyId}/${skinId}`] = importName;
         }
       }
     }
   }
-  indexTS.addBlock('export const availableSkins =', [
-    indexTS.data.mainExportValue,
-  ]);
+  indexTS
+    .addBlock(
+      'export',
+      `{ ${Object.values(indexTS.data.mainExportValue).join(', ')} }`
+    )
+    .addBlock('export const availableSkins =', [indexTS.data.mainExportValue]);
   results.push(indexTS.toResult('skin.ts'));
 
   // result
@@ -274,15 +261,21 @@ export async function buildBases(
   config: UIConfig
 ) {
   const results: GenFileResult[] = [];
-  const allBases = Object.values(themeFamilies).reduce(
-    (result, {bases}) => [...result, ...Object.keys(bases)],
-    [] as string[]
+
+  const pickedFamilies = config.families || {};
+  const allBases = Array.from(
+    Object.keys(pickedFamilies).reduce((result, familyId) => {
+      for (const baseId of Object.keys(themeFamilies[familyId]?.bases || {})) {
+        result.add(baseId);
+      }
+      return result;
+    }, new Set<string>())
   );
 
   const indexTS = createGenFile({
     mainExportValue: {} as Record<string, string>,
   });
-  for (const [familyId] of Object.entries(config.families || {})) {
+  for (const [familyId] of Object.entries(pickedFamilies)) {
     const familyTS = createGenFile();
     const familyNames = parseName(familyId);
     const familyTSExportNames: string[] = [];
@@ -313,9 +306,12 @@ export async function buildBases(
     indexTS.data.mainExportValue[familyId] = familyExportName;
   }
 
-  indexTS.addBlock('export const availableBases =', [
-    indexTS.data.mainExportValue,
-  ]);
+  indexTS
+    .addBlock(
+      'export',
+      `{ ${Object.values(indexTS.data.mainExportValue).join(', ')} }`
+    )
+    .addBlock('export const availableBases =', [indexTS.data.mainExportValue]);
   results.push(indexTS.toResult('base.ts'));
 
   // result
@@ -337,6 +333,8 @@ export async function buildComponents(
       componentsValue: [] as string[],
       themingValue: {} as Record<string, string>,
     });
+
+    componentTS.addImport('@tinijs/core', ['processThemingEntry']);
 
     const buildInstructions: ComponentBuildInstructions = safeDestr(
       (await readFile(componentPath, 'utf8')).match(
@@ -374,7 +372,8 @@ export async function buildComponents(
           config.rewritePath
         );
         componentTS.addImport(soulImportPath, soulImportName);
-        componentTS.data.themingValue[familyId] = soulImportName;
+        componentTS.data.themingValue[familyId] =
+          `processThemingEntry(${soulImportName})`;
       }
     }
 
@@ -427,16 +426,19 @@ export async function buildComponents(
   return results;
 }
 
-export async function buildSetup({manualSkinSelection}: UIConfig) {
+export async function buildSetup(
+  {manualSkinSelection}: UIConfig,
+  skinResults: GenFileResult[]
+) {
   const setupTS = createGenFile();
 
   // imports
   setupTS
-    .addImport('defu', ['defu'])
     .addImport('@tinijs/core', [
       'listify',
       'initUI',
       'registerComponents',
+      'mergeThemingStylesRecords',
       'type RegisterComponentsList',
       'type UI',
       'type UIInit',
@@ -447,6 +449,11 @@ export async function buildSetup({manualSkinSelection}: UIConfig) {
   if (!manualSkinSelection) {
     setupTS.addImport('./skin.js', ['availableSkins']);
   }
+
+  // exports
+  skinResults
+    .filter(item => item.path.startsWith('skins/'))
+    .forEach(item => setupTS.addExport(`./${tsToJS(item.path)}`, '*'));
 
   // blocks
   setupTS
@@ -466,17 +473,12 @@ const ui = initUI({
     ...availableGlobals,
     ...listify<CSSResultOrNativeOrRaw>(globals)
   ],
-  skins: ${manualSkinSelection ? 'skins' : '{...availableSkins, ...skins}'},
-  shares: defu(
-    Object.entries(shares || {}).reduce(
-      (result, [key, value]) => {
-        result[key] = listify<CSSResultOrNativeOrRaw>(value);
-        return result;
-      },
-      {} as Record<string, CSSResultOrNativeOrRaw[]>
-    ),
-    availableBases,
-  ),
+  skins: ${
+    manualSkinSelection
+      ? 'skins'
+      : 'mergeThemingStylesRecords(availableSkins, skins)'
+  },
+  shares: mergeThemingStylesRecords(availableBases, shares),
   options,
 });
 if (components?.length) registerComponents(components);
@@ -488,17 +490,9 @@ return ui;
   return setupTS.toResult('setup.ts');
 }
 
-export async function buildPublicAPI(results: GenFileResult[]) {
-  return {
-    path: 'public-api.ts',
-    content: results
-      .map(({path}) => `export * from './${tsToJS(path)}';`)
-      .join('\n'),
-  } as GenFileResult;
-}
-
 export async function buildPackageJSON(
-  packageJSON: NonNullable<UIConfig['packageJSON']>
+  packageJSON: NonNullable<UIConfig['packageJSON']>,
+  withIcons: boolean
 ) {
   const jsonContent: PackageJson = {
     ...(packageJSON === true
@@ -510,15 +504,16 @@ export async function buildPackageJSON(
           : packageJSON),
     type: 'module',
     exports: {
-      '.': './public-api.js',
-      './global': './global.js',
+      '.': './setup.js',
+      './setup.js': './setup.js',
+      './global.js': './global.js',
       './globals/*': './globals/*',
-      './base': './base.js',
+      './base.js': './base.js',
       './bases/*': './bases/*',
-      './skin': './skin.js',
+      './skin.js': './skin.js',
       './skins/*': './skins/*',
       './components/*': './components/*',
-      './icons/*': './icons/*',
+      ...(!withIcons ? {} : {'./icons/*': './icons/*'}),
     },
     files: ['*'],
   };

@@ -9,8 +9,9 @@ export enum UnstableStates {
   Deprecated = 'deprecated',
 }
 
-export type ComponentLoaderRegistryEntry =
-  () => Promise<CustomElementConstructor>;
+export type ComponentLoaderRegistryEntry = () => Promise<
+  CustomElementConstructor | Record<string, any>
+>;
 
 export type ComponentLoaderRegistry = Record<
   string,
@@ -21,6 +22,16 @@ export type ComponentLoaderRegistry = Record<
 export type ComponentLoaderExtractLookup = {
   prefixes?: Array<string | {prefix: string; keep?: boolean}>;
 };
+
+export function isCustomElementConstructor(
+  input: any
+): input is CustomElementConstructor {
+  return input?.prototype instanceof HTMLElement;
+}
+
+export function getFirstCustomElementConstructor(m: Record<string, any>) {
+  return Object.values(m).find(isCustomElementConstructor);
+}
 
 export function ___checkForUnstableComponent(
   tagName: string,
@@ -63,12 +74,18 @@ export function registerComponents(items: RegisterComponentsList) {
   });
 }
 
-export function createComponentLoader(registry?: ComponentLoaderRegistry) {
-  return new ComponentLoader(registry);
+export function createComponentLoader(
+  registry?: ComponentLoaderRegistry,
+  extractLookup?: ComponentLoaderExtractLookup
+) {
+  return new ComponentLoader(registry, extractLookup);
 }
 
 export class ComponentLoader {
-  constructor(private readonly registry: ComponentLoaderRegistry = {}) {}
+  constructor(
+    private readonly registry: ComponentLoaderRegistry = {},
+    private readonly extractLookup?: ComponentLoaderExtractLookup
+  ) {}
 
   async load(names: string[]) {
     const registerList: RegisterComponentsList = [];
@@ -78,7 +95,11 @@ export class ComponentLoader {
       const {load, tagName: customTagName} =
         entry instanceof Function ? {load: entry, tagName: undefined} : entry;
       // load the component and register it
-      const component = await load();
+      const constructorOrModule = await load();
+      const component = isCustomElementConstructor(constructorOrModule)
+        ? constructorOrModule
+        : getFirstCustomElementConstructor(constructorOrModule);
+      if (!component) throw new Error(`No constructor found for ${name}`);
       const tagName = customTagName || (component as any).defaultTagName;
       if (!tagName)
         throw new Error('No tag name available for component ${name}');
@@ -89,9 +110,10 @@ export class ComponentLoader {
 
   async extractAndLoad(
     sources: string | Array<string | string[]>,
-    lookup: ComponentLoaderExtractLookup
+    customLookup?: ComponentLoaderExtractLookup
   ) {
     const sourceArr = sources instanceof Array ? sources : [sources];
+    const lookup = customLookup || this.extractLookup || {};
     const result: string[] = [];
     for (const source of sourceArr) {
       if (source instanceof Array) {

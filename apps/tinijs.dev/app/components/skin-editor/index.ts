@@ -7,19 +7,16 @@ import {
   TiniComponent,
   UseUI,
   listify,
-  extractTextFromStyles,
+  themingStylesToText,
   type UI,
   type ThemingStyles,
 } from '@tinijs/core';
 import {Subscribe} from '@tinijs/store';
 
-import {
-  TiniSelectComponent,
-  type SelectOption,
-} from '../../ui/components/select.js';
 import {TiniCodeComponent} from '../../ui/components/code.js';
 import {TiniButtonComponent} from '../../ui/components/button.js';
 import {TiniModalComponent} from '../../ui/components/modal.js';
+import {AppThemeSelectorComponent} from '../theme-selector.js';
 
 import {mainStore} from '../../stores/main.js';
 
@@ -32,20 +29,16 @@ import {
 } from '../../utils/font.js';
 import {extractCSSVariables, type VariableDef} from '../../utils/css.js';
 import {buildColorVariants} from '../../utils/color.js';
-import {buildGradientVariants} from '../../utils/gradient.js';
 
 import {IconCodeComponent} from '../../icons/code.js';
 
-import {AppSkinEditorGradientPickerComponent} from './gradient-picker.js';
-
 @Component({
   components: [
-    TiniSelectComponent,
     TiniCodeComponent,
     TiniButtonComponent,
     TiniModalComponent,
     IconCodeComponent,
-    AppSkinEditorGradientPickerComponent,
+    AppThemeSelectorComponent,
   ],
 })
 export class AppSkinEditorComponent extends TiniComponent {
@@ -69,14 +62,23 @@ export class AppSkinEditorComponent extends TiniComponent {
     this.style.display = this.skinEditorShown ? 'block' : 'none';
   }
 
+  private fetchSkinVariables() {
+    const availableSkins = (this.ui as any)._init.skins as Record<
+      string,
+      ThemingStyles
+    >;
+    const skinText = themingStylesToText(
+      listify(availableSkins[this.ui.activeTheme.themeId])
+    );
+    return extractCSSVariables(skinText);
+  }
+
   private buildGroupedSkinVariables() {
     const result = [
       {name: 'Fonts', items: []},
       {name: 'Colors', items: []},
-      {name: 'Gradients', items: []},
+      {name: 'Config gradients', items: []},
       {name: 'Sizes', items: []},
-      {name: 'Scales', items: []},
-      {name: 'Wides', items: []},
       {name: 'Shadows', items: []},
     ] as Array<{name: string; items: VariableDef[]}>;
     // group variables
@@ -86,58 +88,29 @@ export class AppSkinEditorComponent extends TiniComponent {
         result[0].items.push(def);
       } else if (key.startsWith('--color')) {
         if (
+          !~key.indexOf('-more') &&
+          !~key.indexOf('-less') &&
+          !~key.indexOf('-semi') &&
           !~key.indexOf('-subtle') &&
-          !~key.indexOf('-contrast') &&
-          !~key.indexOf('-shade') &&
-          !~key.indexOf('-tint')
+          !~key.indexOf('-contrast')
         ) {
           result[1].items.push(def);
         }
       } else if (key.startsWith('--gradient')) {
-        if (
-          !~key.indexOf('-subtle') &&
-          !~key.indexOf('-contrast') &&
-          !~key.indexOf('-shade') &&
-          !~key.indexOf('-tint')
-        ) {
+        if (~key.indexOf('-direction')) {
           result[2].items.push(def);
         }
       } else if (key.startsWith('--size')) {
         result[3].items.push(def);
-      } else if (key.startsWith('--scale')) {
-        result[4].items.push(def);
-      } else if (key.startsWith('--wide')) {
-        result[5].items.push(def);
       } else if (key.startsWith('--shadow')) {
-        result[6].items.push(def);
+        result[4].items.push(def);
       }
     }
     // result
     return result;
   }
 
-  private fetchSkinVariables() {
-    const availableSkins = (this.ui as any)._init.skins as Record<
-      string,
-      ThemingStyles
-    >;
-    const skinText = extractTextFromStyles(
-      listify(availableSkins[this.ui.activeTheme.themeId])
-    );
-    return extractCSSVariables(skinText);
-  }
-
-  private resetSkin() {
-    if (!confirm('All values will be reset?')) return;
-    document.body.style.cssText = '';
-    this.changedVariablesMap.clear();
-    this.allInputs.forEach(item => {
-      const input = item as HTMLInputElement;
-      input.value = this.variablesMap.get(input.name)?.valueDirect || '';
-    });
-  }
-
-  private showModal() {
+  private showCodeModal() {
     const {familyId} = this.ui.activeTheme;
     // extract google fonts and code
     const googleFonts: Array<{font: string}> = [];
@@ -175,7 +148,10 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         <p>
           Copy the code below and save as
           <code>ui/styles/${familyId}/skins/some-name.ts</code>. You can edit
-          the values further if you wish.
+          the values further if you wish or add overrides for
+          <a href="/ui/token" @click=${() => this.hideCodeModal()}
+            >auto-generated tokens</a
+          >.
         </p>
         <tini-code language="javascript" .content=${skinCode}></tini-code>
         <div style="width: 100%; height: 2rem"></div>
@@ -186,7 +162,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
     this.modalRef.value?.show();
   }
 
-  private hideModal() {
+  private hideCodeModal() {
     this.modalRef.value?.hide();
     render(nothing, this.modalContentRef.value!);
   }
@@ -194,7 +170,16 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
   private updateVariables(values: Array<[string, string]>) {
     values.forEach(([key, value]) => {
       this.changedVariablesMap.set(key, value);
-      document.body.style.setProperty(key, value);
+      document.documentElement.style.setProperty(key, value);
+    });
+  }
+
+  private resetSkin() {
+    this.changedVariablesMap.clear();
+    document.documentElement.style.cssText = '';
+    this.allInputs.forEach(item => {
+      const input = item as HTMLInputElement;
+      input.value = this.variablesMap.get(input.name)?.valueDirect || '';
     });
   }
 
@@ -211,30 +196,10 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
     const key = input.name;
     const value = input.value;
     return debouncer('AppSkinEditorComponent:change_color', 100, () => {
-      const {base, contrast, subtle, shade, tint} = buildColorVariants(value);
+      const {base, contrast} = buildColorVariants(value);
       this.updateVariables([
         [key, base],
-        [`${key}-subtle`, subtle],
         [`${key}-contrast`, contrast],
-        [`${key}-shade`, shade],
-        [`${key}-tint`, tint],
-      ]);
-    });
-  }
-
-  private changeGradient(e: CustomEvent<string>) {
-    const input = e.target as AppSkinEditorGradientPickerComponent;
-    const key = input.name;
-    const value = e.detail;
-    return debouncer('AppSkinEditorComponent:change_gradient', 100, () => {
-      const {base, subtle, contrast, shade, tint} =
-        buildGradientVariants(value);
-      this.updateVariables([
-        [key, base],
-        [`${key}-subtle`, subtle],
-        [`${key}-contrast`, contrast],
-        [`${key}-shade`, shade],
-        [`${key}-tint`, tint],
       ]);
     });
   }
@@ -248,19 +213,20 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
     );
   }
 
-  private buildThemeOptions(familyId: string, items: SelectOption[]) {
-    return items.map(item => {
-      item.value = `${familyId}/${item.value}`;
-      if (item.value === this.ui.activeTheme.themeId) item.selected = true;
-      return item;
-    });
-  }
-
   protected render() {
     return html`
       <div class="head">
         <strong class="title">Skin Editor</strong>
-        <button class="reset" @click=${this.resetSkin}>Reset</button>
+        <button
+          class="reset"
+          @click=${() => {
+            if (confirm('All values will be reset?')) {
+              this.resetSkin();
+            }
+          }}
+        >
+          Reset
+        </button>
         <button
           class="close"
           @click=${() => mainStore.commit('skinEditorShown', false)}
@@ -270,26 +236,8 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       </div>
 
       <div class="body">
-        <section style="padding: var(--size-space)">
-          <tini-select
-            wrap
-            block
-            label="Current theme"
-            events="change"
-            @change=${({detail}: CustomEvent<InputEvent>) =>
-              this.ui.setTheme(
-                (detail.target as HTMLInputElement).value as string
-              )}
-            .items=${[
-              {
-                label: 'Bootstrap',
-                children: this.buildThemeOptions('bootstrap', [
-                  {label: 'Light', value: 'light'},
-                  {label: 'Dark', value: 'dark'},
-                ]),
-              },
-            ]}
-          ></tini-select>
+        <section style="padding: var(--space-md)">
+          <app-theme-selector @change=${this.resetSkin}></app-theme-selector>
         </section>
         <section class="properties">
           <ul class="content">
@@ -309,44 +257,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
                             <div class="key">${item.title}</div>
                             <div class="value">
                               ${group.name === 'Fonts'
-                                ? html`
-                                    <select
-                                      class="field"
-                                      name=${item.key}
-                                      @change=${this.changeFont}
-                                    >
-                                      <optgroup label="Classic Fonts">
-                                        ${FONTS.filter(
-                                          ([, webSafe]) => webSafe
-                                        ).map(
-                                          ([font]) => html`
-                                            <option
-                                              .value=${font}
-                                              .selected=${item.valueDirect ===
-                                              font}
-                                            >
-                                              ${font.replace(/'|"/g, '')}
-                                            </option>
-                                          `
-                                        )}
-                                      </optgroup>
-                                      <optgroup label="Google Fonts">
-                                        ${FONTS.filter(
-                                          ([, webSafe]) => !webSafe
-                                        ).map(
-                                          ([font]) => html`
-                                            <option
-                                              .value=${font}
-                                              .selected=${item.valueDirect ===
-                                              font}
-                                            >
-                                              ${font.replace(/'|"/g, '')}
-                                            </option>
-                                          `
-                                        )}
-                                      </optgroup>
-                                    </select>
-                                  `
+                                ? this.getFontSelectTemplate(item)
                                 : group.name === 'Colors'
                                   ? html`<input
                                       type="color"
@@ -355,20 +266,13 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
                                       .value=${item.valueDirect}
                                       @input=${this.changeColor}
                                     />`
-                                  : group.name === 'Gradients'
-                                    ? html`<app-skin-editor-gradient-picker
-                                        class="field"
-                                        name=${item.key}
-                                        .value=${item.valueDirect}
-                                        @change=${this.changeGradient}
-                                      ></app-skin-editor-gradient-picker>`
-                                    : html`<input
-                                        type="text"
-                                        class="field"
-                                        name=${item.key}
-                                        .value=${item.valueDirect}
-                                        @input=${this.changeValue}
-                                      />`}
+                                  : html`<input
+                                      type="text"
+                                      class="field"
+                                      name=${item.key}
+                                      .value=${item.valueDirect}
+                                      @input=${this.changeValue}
+                                    />`}
                             </div>
                           </li>
                         `;
@@ -386,9 +290,9 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         <tini-button
           class="show-code"
           scheme="primary"
-          @click=${this.showModal}
+          @click=${this.showCodeModal}
         >
-          <icon-code scheme="primary-contrast" scale="sm"></icon-code>
+          <icon-code scheme="primary-contrast" size="sm"></icon-code>
           <span>Show code</span>
         </tini-button>
       </div>
@@ -396,11 +300,48 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       <tini-modal
         ${ref(this.modalRef)}
         titleText="Custom skin code"
-        @yes=${this.hideModal}
-        @no=${this.hideModal}
+        @yes=${this.hideCodeModal}
+        @no=${this.hideCodeModal}
       >
         <div ${ref(this.modalContentRef)} class="modal-body"></div>
       </tini-modal>
+    `;
+  }
+
+  private getFontSelectTemplate(item: VariableDef) {
+    const activeFont = item.valueDirect;
+    const missingFont = FONTS.some(([font]) => font === activeFont)
+      ? undefined
+      : activeFont;
+    const buildLabel = (name: string) => name.replace(/'|"/g, '');
+    return html`
+      <select class="field" name=${item.key} @change=${this.changeFont}>
+        ${!missingFont
+          ? nothing
+          : html`
+              <option value=${missingFont} selected>
+                ${buildLabel(missingFont)}
+              </option>
+            `}
+        <optgroup label="Classic Fonts">
+          ${FONTS.filter(([, webSafe]) => webSafe).map(
+            ([font]) => html`
+              <option .value=${font} .selected=${activeFont === font}>
+                ${buildLabel(font)}
+              </option>
+            `
+          )}
+        </optgroup>
+        <optgroup label="Google Fonts">
+          ${FONTS.filter(([, webSafe]) => !webSafe).map(
+            ([font]) => html`
+              <option .value=${font} .selected=${activeFont === font}>
+                ${buildLabel(font)}
+              </option>
+            `
+          )}
+        </optgroup>
+      </select>
     `;
   }
 
@@ -411,21 +352,21 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       display: none;
       box-sizing: border-box;
       position: fixed;
-      background: var(--color-back-tint);
+      background: var(--color-body);
       width: 100vw;
       width: 100dvw;
       height: 50vh;
       height: 50dvh;
       bottom: 0;
-      box-shadow: var(--shadow-excess);
+      box-shadow: var(--shadow-xl);
     }
 
     .head {
       display: flex;
       align-items: center;
       height: var(--head-height);
-      padding: var(--size-space-0_75x);
-      border-bottom: var(--size-border) solid var(--color-back-shade);
+      padding: var(--space-sm);
+      border-bottom: 1px solid var(--color-body-semi);
 
       .title {
         flex: 1;
@@ -435,17 +376,16 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         cursor: pointer;
         display: flex;
         align-items: center;
-        padding: var(--size-space-0_5x) var(--size-space-0_75x);
-        margin-right: var(--size-space-2x);
-        background: var(--color-back-tint);
-        color: var(--color-front);
-        border: var(--size-border) solid var(--color-front);
-        border-radius: var(--size-radius);
-        font-size: var(--size-text-0_85x);
-        line-height: 1;
+        padding: var(--space-xs-3) var(--space-sm);
+        margin-right: var(--space-xl);
+        background: var(--color-body);
+        color: var(--color-body-contrast);
+        border: 1px solid var(--color-body-contrast);
+        border-radius: var(--radius-md);
+        font-size: var(--text-sm);
 
         &:hover {
-          background: var(--color-back);
+          background: var(--color-body-less);
         }
       }
 
@@ -454,7 +394,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--color-back-tint);
+        background: var(--color-body);
         border: none;
         opacity: 0.5;
 
@@ -473,15 +413,15 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
 
       section {
         .content {
-          padding: var(--size-space-0_5x);
+          padding: var(--space-xs);
           margin-bottom: 0;
         }
       }
 
       .properties {
         .group {
-          padding: var(--size-space-0_5x);
-          margin-bottom: var(--size-space);
+          padding: var(--space-xs);
+          margin-bottom: var(--space-md);
 
           .group-title {
             color: var(--color-medium);
@@ -491,24 +431,25 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
           ul {
             list-style: none;
             padding: 0;
-            margin: var(--size-space) 0 0;
+            margin: var(--space-md) 0 0;
+            line-height: var(--line-md);
 
             li {
               display: flex;
               align-items: center;
               justify-content: space-between;
-              margin-right: var(--size-space-0_5x);
-              margin-bottom: var(--size-space-0_5x);
-              padding: var(--size-space-0_25x) 0 var(--size-space-0_75x);
-              border-bottom: var(--size-border) solid var(--color-back-shade);
+              margin-right: var(--space-xs);
+              margin-bottom: var(--space-xs);
+              padding: var(--space-xs-2) 0 var(--space-sm);
+              border-bottom: 1px solid var(--color-body-semi);
 
               .value {
                 input,
                 select {
-                  background: var(--color-back-tint);
-                  border: var(--size-border) solid var(--color-medium);
-                  border-radius: var(--size-radius);
-                  padding: var(--size-space-0_25x) var(--size-space-0_5x);
+                  background: var(--color-body);
+                  border: 1px solid var(--color-medium);
+                  border-radius: var(--radius-md);
+                  padding: var(--space-xs-2) var(--space-xs);
                 }
 
                 input {
@@ -544,15 +485,15 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       position: absolute;
       bottom: 0;
       left: 0;
-      border-top: var(--size-border) solid var(--color-back-shade);
-      padding: var(--size-space-0_5x);
+      border-top: 1px solid var(--color-body-semi);
+      padding: var(--space-xs);
 
       tini-button.show-code {
         max-width: 480px;
         margin: 0 auto;
 
         &,
-        &::part(root) {
+        &::part(main) {
           width: 100%;
         }
 
@@ -561,13 +502,13 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         }
 
         span {
-          margin-left: var(--size-space-0_5x);
+          margin-left: var(--space-xs);
         }
       }
     }
 
-    tini-modal::part(root) {
-      background: var(--color-back-tint);
+    tini-modal::part(main) {
+      background: var(--color-body);
     }
 
     .modal-body {
@@ -584,8 +525,8 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         width: 310px;
         height: calc(100vh - var(--header-height) + 1px);
         height: calc(100dvh - var(--header-height) + 1px);
-        border: var(--size-border) solid var(--color-back-shade);
-        box-shadow: var(--shadow-main);
+        border: 1px solid var(--color-body-semi);
+        box-shadow: var(--shadow-lg);
       }
     }
   `;

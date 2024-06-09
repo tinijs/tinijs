@@ -13,14 +13,15 @@ import {
   Output,
   Colors,
   SubtleColors,
+  ContrastColors,
   Gradients,
   SubtleGradients,
-  Scales,
-  FontTypes,
-  FontSizes,
-  FontWeights,
-  TextAligns,
-  TextTransforms,
+  ContrastGradients,
+  Sizes,
+  Fonts,
+  Texts,
+  Weights,
+  Radiuses,
   type EventEmitter,
   type OnCreate,
 } from '@tinijs/core';
@@ -37,46 +38,100 @@ export class AppComponentEditorSelectComponent
   static readonly defaultTagName = 'app-component-editor-select';
 
   @Input() label!: string;
+  @Input() value?: string;
   @Input() preset?: string;
   @Input({type: Object}) items?: Array<SelectOption | SelectOptgroup>;
-  @Input() value?: string;
+
   @Output() change!: EventEmitter<string>;
 
-  private presetDefaultItem: SelectOption = {
-    label: 'Default',
-    value: '_default',
-    selected: true,
-  };
   private colors: SelectOptgroup[] = [
     {
       label: 'COLORS',
-      children: this.buildPresetItems(Colors),
+      options: this.buildPresetItems(Colors),
     },
+  ];
+  private subtleColors: SelectOptgroup[] = [
     {
       label: 'SUBTLE COLORS',
-      children: this.buildPresetItems(SubtleColors),
+      options: this.buildPresetItems(SubtleColors),
     },
   ];
+  private contrastColors: SelectOptgroup[] = [
+    {
+      label: 'CONTRAST COLORS',
+      options: this.buildPresetItems(ContrastColors),
+    },
+  ];
+  private allColors = [
+    this.colors[0],
+    this.subtleColors[0],
+    // this.contrastColors[0],
+  ];
+
   private gradients: SelectOptgroup[] = [
     {
-      label: 'GREADIENTS',
-      children: this.buildPresetItems(Gradients),
-    },
-    {
-      label: 'SUBTLE GRADIENTS',
-      children: this.buildPresetItems(SubtleGradients),
+      label: 'GRADIENTS',
+      options: this.buildPresetItems(Gradients),
     },
   ];
+  private subtleGradients: SelectOptgroup[] = [
+    {
+      label: 'SUBTLE GRADIENTS',
+      options: this.buildPresetItems(SubtleGradients),
+    },
+  ];
+  private contrastGradients: SelectOptgroup[] = [
+    {
+      label: 'CONTRAST GRADIENTS',
+      options: this.buildPresetItems(ContrastGradients),
+    },
+  ];
+  private allGradients = [
+    this.gradients[0],
+    this.subtleGradients[0],
+    // this.contrastGradients[0],
+  ];
+
+  private colorsAndGradients: SelectOptgroup[] = [
+    this.colors[0],
+    this.gradients[0],
+  ];
+  private subtleColorsAndSubtleGradients: SelectOptgroup[] = [
+    this.subtleColors[0],
+    this.subtleGradients[0],
+  ];
+  private contrastColorsAndContrastGradients: SelectOptgroup[] = [
+    this.contrastColors[0],
+    this.contrastGradients[0],
+  ];
+  private allColorsAndAllGradients: SelectOptgroup[] = [
+    ...this.allColors,
+    ...this.allGradients,
+  ];
+
+  private presetDefaultItem: SelectOption = {
+    content: 'Default',
+    value: '_default',
+    selected: true,
+  };
   private presets: Record<string, Array<SelectOption | SelectOptgroup>> = {
     colors: this.colors,
+    subtleColors: this.subtleColors,
+    contrastColors: this.contrastColors,
+    allColors: this.allColors,
     gradients: this.gradients,
-    colorsAndGradients: [...this.colors, ...this.gradients],
-    scales: this.buildPresetItems(Scales, value => value.toUpperCase()),
-    fontTypes: this.buildPresetItems(FontTypes),
-    fontSizes: this.buildPresetItems(FontSizes, value => value),
-    fontWeights: this.buildPresetItems(FontWeights),
-    textAligns: this.buildPresetItems(TextAligns),
-    textTransforms: this.buildPresetItems(TextTransforms),
+    subtleGradients: this.subtleGradients,
+    contrastGradients: this.contrastGradients,
+    allGradients: this.allGradients,
+    colorsAndGradients: this.colorsAndGradients,
+    subtleColorsAndSubtleGradients: this.subtleColorsAndSubtleGradients,
+    contrastColorsAndContrastGradients: this.contrastColorsAndContrastGradients,
+    allColorsAndAllGradients: this.allColorsAndAllGradients,
+    sizes: this.buildPresetItems(Sizes, value => value.toUpperCase()),
+    fonts: this.buildPresetItems(Fonts),
+    texts: this.buildPresetItems(Texts, value => value.toUpperCase()),
+    weights: this.buildPresetItems(Weights),
+    radiuses: this.buildPresetItems(Radiuses, value => value.toUpperCase()),
   };
 
   onCreate() {
@@ -87,17 +142,17 @@ export class AppComponentEditorSelectComponent
 
   private buildPresetItems(
     list: Record<string, string>,
-    labelBuilder?: (value: string) => string
+    contentBuilder?: (value: string) => string
   ) {
     return Object.values(list).map(value => {
-      const label = labelBuilder
-        ? labelBuilder(value)
+      const content = contentBuilder
+        ? contentBuilder(value)
         : parseName(value)
             .noCase.split(' ')
             .map(word => word.replace(/^\w/, c => c.toUpperCase()))
             .join(' ');
       return {
-        label,
+        content,
         value,
         selected: value === this.value,
       };
@@ -124,7 +179,7 @@ export class AppComponentEditorSelectComponent
     tini-select {
       &::part(label) {
         font-weight: bold;
-        font-size: var(--size-text-0_75x);
+        font-size: var(--text-xs);
         text-transform: uppercase;
       }
     }

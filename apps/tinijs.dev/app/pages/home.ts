@@ -32,17 +32,18 @@ export class AppPageHome extends TiniComponent {
         <div class="headline">
           <h2 style="margin-bottom: 0">
             <tini-text
-              fontSize="3x"
-              fontWeight="700"
-              color=${Gradients.KaleSalad}
+              size="xl-3"
+              weight="bold"
+              color=${Gradients.Body}
+              style="--gradient: var(--gradient-kale-salad)"
               >Tini</tini-text
-            ><br />A Javascript framework
+            ><br />Web Components Framework
           </h2>
           <p>
             A small, fast and interoperable framework for building
-            <strong>Single Page Apps</strong> or
-            <strong>Progressive Web Apps</strong> or <strong>Desktop</strong> or
-            <strong>Mobile</strong> Apps.
+            <strong>Landing Page</strong>, <strong>SPA</strong>,
+            <strong>PWA</strong>, <strong>Desktop</strong> and
+            <strong>Mobile</strong> apps.
           </p>
           <div class="actions">
             <tini-button
@@ -52,8 +53,8 @@ export class AppPageHome extends TiniComponent {
             >
             <tini-button
               scheme=${Colors.Medium}
-              @click=${() =>
-                open('https://github.com/tinijs/tinijs', '_blank')?.focus()}
+              href="https://github.com/tinijs/tinijs"
+              target="_blank"
               >View on Github</tini-button
             >
           </div>
@@ -150,38 +151,6 @@ export class AppPageHome extends TiniComponent {
           For more detail, please see the <a href="/framework">Get Started</a>.
         </p>
       </section>
-
-      <section class="sponsors">
-        <div class="foreword">
-          <icon-heart></icon-heart>
-          <p>
-            The <strong>Tini Project</strong> is free and open source. It's
-            currently at the very early stage, please consider sponsor me if you
-            see it's useful.
-          </p>
-        </div>
-
-        <div class="special-sponsors">
-          <div class="title">Special Sponsors</div>
-          <ul>
-            <li class="item-1"><a href="javascript:void(0)">Your Logo</a></li>
-            <li class="item-2"><a href="javascript:void(0)">Your Logo</a></li>
-            <li class="item-3"><a href="javascript:void(0)">Your Logo</a></li>
-          </ul>
-        </div>
-
-        <div class="actions">
-          <tini-button
-            scheme=${Gradients.DiscoClub}
-            @click=${() =>
-              open(
-                'mailto:hello@tinijs.dev?subject=Sponsor Tini&body=I want to sponsor the TiniJS project.',
-                '_blank'
-              )?.focus()}
-            >Sponsor Tini</tini-button
-          >
-        </div>
-      </section>
     `;
   }
 
@@ -195,164 +164,129 @@ export class AppPageHome extends TiniComponent {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: var(--size-space-2x) var(--size-space);
-    }
+      padding: var(--space-xl) var(--space-md);
 
-    .logo img {
-      width: 150px;
-    }
+      .logo img {
+        width: 150px;
+      }
 
-    .headline {
-      text-align: center;
-    }
+      .headline {
+        text-align: center;
+        margin-top: var(--space-lg);
 
-    .actions {
-      display: flex;
-      gap: var(--size-space);
-      margin-top: var(--size-space);
-      justify-content: center;
+        h2 {
+          padding-bottom: 1rem;
+          border-bottom: none;
+        }
+
+        .actions {
+          display: flex;
+          gap: var(--space-md);
+          margin-top: var(--space-md);
+          justify-content: center;
+        }
+      }
     }
 
     .members {
-      padding: var(--size-space-2x);
-    }
+      padding: var(--space-xl);
 
-    .members ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: var(--size-space);
-    }
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: var(--space-md);
+        line-height: var(--line-md);
+        font-size: var(--text-md);
 
-    .members li {
-      padding: var(--size-space);
-      border-radius: var(--size-radius);
-      background: var(--color-back);
-      border: 1px solid var(--color-back);
-      transition:
-        box-shadow 0.3s,
-        border-color 0.3s;
-    }
+        li {
+          padding: var(--space-md);
+          border-radius: var(--radius-md);
+          background: var(--color-body-less);
+          border: 1px solid var(--color-body-semi);
+          transition:
+            box-shadow 0.3s,
+            border-color 0.3s;
 
-    .members li:hover {
-      cursor: pointer;
-      box-shadow: var(--shadow-great);
-      border-color: var(--color-back-shade);
-    }
+          &:hover {
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            border-color: var(--color-body-subtle);
+          }
 
-    .members li .icon {
-      font-size: 2rem;
-      padding: var(--size-space-0_75x);
-      background: var(--color-back-shade);
-      width: 55px;
-      height: 50px;
-      line-height: 25px;
-      border-radius: var(--size-radius);
-    }
+          .icon {
+            font-size: 2rem;
+            padding: var(--space-sm);
+            background: var(--color-body-subtle);
+            width: 55px;
+            height: 50px;
+            line-height: 25px;
+            border-radius: var(--radius-md);
+          }
 
-    .members li h3 {
-      margin: var(--size-space) 0 0;
-      font-size: 1.5rem;
-    }
+          h3 {
+            margin: var(--space-md) 0 var(--space-xs);
+            font-size: 1.5rem;
+          }
 
-    .members li p {
-      margin: 0;
-      color: var(--color-medium);
+          p {
+            margin: 0;
+            color: var(--color-medium);
+          }
+        }
+      }
     }
 
     .try {
-      padding: var(--size-space-2x);
-    }
+      padding: var(--space-xl);
 
-    .try .title h1 {
-      margin-bottom: 0;
-    }
+      .title {
+        h2 {
+          border-bottom: none;
+          padding-bottom: 1rem;
+        }
 
-    .try .title p {
-      margin-bottom: var(--size-space-2x);
-    }
+        p {
+          margin-bottom: var(--space-xl);
+        }
+      }
 
-    .sponsors {
-      padding: var(--size-space-2x);
-      margin: var(--size-space-2x) auto;
-    }
-
-    .sponsors .foreword {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      margin-bottom: var(--size-space-2x);
-    }
-
-    .special-sponsors .title {
-      background: var(--color-back);
-      margin-bottom: var(--size-space-0_5x);
-      padding: var(--size-space-0_5x) var(--size-space);
-      border-radius: var(--size-radius) var(--size-radius) 0 0;
-      text-align: center;
-      font-weight: 700;
-      color: var(--color-medium);
-      font-size: 0.9rem;
-    }
-    .special-sponsors ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      gap: var(--size-space-0_5x);
-    }
-    .special-sponsors li {
-      background: var(--color-back);
-    }
-    .special-sponsors a {
-      display: block;
-      color: var(--color-medium);
-      text-decoration: none;
-      font-size: 1.5rem;
-      padding: var(--size-space-2x);
-      width: 100%;
-      text-align: center;
-    }
-
-    .sponsors .actions {
-      display: flex;
-      gap: var(--size-space);
-      margin-top: var(--size-space-2x);
-      justify-content: center;
+      p {
+        margin-top: var(--space-md);
+      }
     }
 
     @media (min-width: 768px) {
       .featured {
-        padding: var(--size-space-3x) var(--size-space-2x);
+        padding: var(--space-xl-3) var(--space-xl);
         flex-direction: row;
-      }
 
-      .logo {
-        width: 40%;
-        text-align: right;
-      }
-      .logo img {
-        width: 200px;
-      }
+        .logo {
+          display: flex;
+          width: 40%;
+          justify-content: flex-end;
 
-      .headline {
-        order: -1;
-        text-align: left;
-      }
-      .headline h2 {
-        font-size: 2.5rem;
-        margin-top: 0;
-      }
+          img {
+            width: 200px;
+          }
+        }
 
-      .actions {
-        justify-content: flex-start;
-      }
+        .headline {
+          order: -1;
+          text-align: left;
+          margin-top: 0;
 
-      .special-sponsors ul {
-        grid-template-columns: repeat(3, 1fr);
+          h2 {
+            font-size: 2.5rem;
+            margin-top: 0;
+          }
+
+          .actions {
+            justify-content: flex-start;
+          }
+        }
       }
     }
   `;

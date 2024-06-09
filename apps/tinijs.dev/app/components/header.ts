@@ -5,7 +5,7 @@ import {
   Component,
   TiniComponent,
   Reactive,
-  Colors,
+  ContrastColors,
   type OnCreate,
   type OnDestroy,
 } from '@tinijs/core';
@@ -23,7 +23,7 @@ import {IconXComponent} from '../icons/x.js';
 import {IconDiscordComponent} from '../icons/discord.js';
 
 import {AppSkinEditorTogglerComponent} from './skin-editor/toggler.js';
-import {AppSkinEditorComponent} from '../components/skin-editor/index.js';
+import {AppSkinEditorComponent} from './skin-editor/index.js';
 
 @Component({
   components: [
@@ -65,10 +65,10 @@ export class HeaderComponent
           justify-content: space-between;
           box-sizing: border-box;
           height: var(--header-height);
-          background: var(--color-back-tint);
-          padding: var(--size-space);
-          padding-left: var(--size-space-1_5x);
-          border-bottom: 1px solid var(--color-back-shade);
+          background: var(--color-body);
+          padding: var(--space-md);
+          padding-left: var(--space-lg);
+          border-bottom: 1px solid var(--color-body-semi);
         "
       >
         <div class="brand">
@@ -78,8 +78,8 @@ export class HeaderComponent
               display: flex;
               align-items: center;
               text-decoration: none;
-              color: var(--color-text);
-              gap: var(--size-space-0_75x);
+              color: var(--color-body-contrast);
+              gap: var(--space-sm);
             "
           >
             <img src=${LOGO_URL} alt="TiniJS" style="height: 28px;" />
@@ -137,13 +137,16 @@ export class HeaderComponent
 
             <div class="social">
               <a href="https://github.com/tinijs/tinijs" target="_blank"
-                ><icon-github scheme=${Colors.Front}></icon-github
+                ><icon-github scheme=${ContrastColors.Body}></icon-github
               ></a>
               <a href="https://twitter.com/tini_js" target="_blank"
-                ><icon-x scheme=${Colors.Front}></icon-x
+                ><icon-x scheme=${ContrastColors.Body}></icon-x
               ></a>
               <a href="https://discord.gg/EABbZVbPAb" target="_blank"
-                ><icon-discord scheme=${Colors.Front} scale="ml"></icon-discord
+                ><icon-discord
+                  scheme=${ContrastColors.Body}
+                  size="lg"
+                ></icon-discord
               ></a>
             </div>
           </div>
@@ -153,7 +156,7 @@ export class HeaderComponent
             @click=${() => (this.mobileMenuOpened = !this.mobileMenuOpened)}
           >
             <tini-icon
-              scheme=${Colors.Front}
+              scheme=${ContrastColors.Body}
               .src=${!this.mobileMenuOpened
                 ? IconMenuComponent.src
                 : IconCloseComponent.src}
@@ -171,15 +174,15 @@ export class HeaderComponent
       position: fixed;
       display: none;
       flex-direction: column;
-      gap: var(--size-space-2x);
+      gap: var(--space-xl);
       top: var(--header-height);
       right: 0;
       width: 100vw;
       width: 100dvw;
       height: calc(100vh - var(--header-height));
       height: calc(100dvh - var(--header-height));
-      background: var(--color-back-tint);
-      padding: var(--size-space-1_5x);
+      background: var(--color-body);
+      padding: var(--space-lg);
 
       &.opened {
         display: flex;
@@ -191,13 +194,14 @@ export class HeaderComponent
       flex-direction: column;
 
       tini-link {
-        border-bottom: 1px solid var(--color-back-shade);
+        border-bottom: 1px solid var(--color-body-semi);
 
-        &::part(root) {
+        &::part(main) {
           display: block;
-          padding: var(--size-space-0_75x) 0;
-          color: var(--color-front);
+          padding: var(--space-sm) 0;
+          color: var(--color-body-contrast);
           text-decoration: none;
+          font-weight: 500;
         }
       }
     }
@@ -206,14 +210,14 @@ export class HeaderComponent
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: var(--size-space);
-      background: var(--color-back);
-      border-radius: var(--size-radius);
+      padding: var(--space-md);
+      background: var(--color-body-less);
+      border-radius: var(--radius-md);
     }
 
     .social {
       display: flex;
-      gap: var(--size-space-1_5x);
+      gap: var(--space-lg);
       align-items: center;
       justify-content: center;
 
@@ -230,7 +234,7 @@ export class HeaderComponent
       justify-content: center;
       border: none;
       background: none;
-      padding: var(--size-space-0_5x);
+      padding: var(--space-xs);
       cursor: pointer;
     }
 
@@ -239,7 +243,7 @@ export class HeaderComponent
         display: flex;
         position: initial;
         flex-direction: row;
-        gap: var(--size-space);
+        gap: var(--space-md);
         top: initial;
         right: initial;
         width: initial;
@@ -250,20 +254,20 @@ export class HeaderComponent
       .menu {
         flex-direction: row;
         align-items: center;
-        gap: var(--size-space-0_25x);
+        gap: var(--space-xs-2);
 
         tini-link {
           border-bottom: none;
 
-          &::part(root) {
-            padding: var(--size-space-0_25x) var(--size-space);
-            border-radius: var(--size-radius);
+          &::part(main) {
+            padding: var(--space-xs-2) var(--space-md);
+            border-radius: var(--radius-md);
           }
-          &:hover::part(root) {
-            background: var(--color-back);
+          &:hover::part(main) {
+            background: var(--color-body-less);
           }
-          &.active::part(root) {
-            background: var(--color-back-shade);
+          &.active::part(main) {
+            background: var(--color-body-semi);
           }
         }
       }
@@ -271,9 +275,9 @@ export class HeaderComponent
       .theme {
         background: none;
         border-radius: 0;
-        padding: 0 var(--size-space);
-        border-left: 1px solid var(--color-back);
-        border-right: 1px solid var(--color-back);
+        padding: 0 var(--space-md);
+        border-left: 1px solid var(--color-body-less);
+        border-right: 1px solid var(--color-body-less);
 
         span {
           display: none;
@@ -281,7 +285,7 @@ export class HeaderComponent
       }
 
       .social {
-        gap: var(--size-space);
+        gap: var(--space-md);
       }
 
       .mobile-toggler {

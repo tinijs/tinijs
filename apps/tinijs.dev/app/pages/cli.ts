@@ -1,7 +1,6 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent} from '@tinijs/core';
-import {TiniEmbedComponent} from '../ui/components/embed.js';
+import {Page, TiniComponent, Texts, Radiuses} from '@tinijs/core';
 
 import {GITHUB_CONTENT_PATH} from '../consts/common.js';
 
@@ -11,7 +10,7 @@ import {AppDocPageComponent} from '../components/doc-page/index.js';
 
 @Page({
   name: 'app-page-cli',
-  components: [TiniEmbedComponent, AppDocPageComponent],
+  components: [AppDocPageComponent],
 })
 export class AppPageCLI extends TiniComponent {
   protected render() {
@@ -31,22 +30,19 @@ export class AppPageCLI extends TiniComponent {
 
   private _getHomeTemplate() {
     return html`
-      <h1>Tini CLI</h1>
-      <p>The TiniJS official CLI tool.</p>
-      <p>
-        <tini-embed>
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/Hq492p9siSs?si=_i9gf3GFm7c0u7hH"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen
-          ></iframe>
-        </tini-embed>
-      </p>
+      <tini-box
+        style="
+          padding: 0 var(--space-xl);
+          --background: var(--gradient-shady-lane-semi)
+        "
+        radius=${Radiuses.XL}
+      >
+        <tini-heading>Tini CLI</tini-heading>
+        <tini-text size=${Texts.LG}>
+          The official CLI for working with TiniJS projects.
+        </tini-text>
+      </tini-box>
+      <article></article>
     `;
   }
 

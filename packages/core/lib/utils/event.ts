@@ -10,10 +10,10 @@ export interface EventForwarding {
 }
 
 export function forwardEvents(
-  host: TiniElement,
+  elem: TiniElement,
   events: string | Array<string | EventForwarding>
 ) {
-  const renderRoot = host.shadowRoot || host;
+  const renderRoot = elem.shadowRoot || elem;
   const cachedTargets = new Map<string, NodeListOf<Element>>();
   (typeof events !== 'string'
     ? events
@@ -30,11 +30,11 @@ export function forwardEvents(
             })();
     const {name, rename, keepPropagation, preventDefault, dispatchOptions} =
       forwarding;
-    const mainNonRootSelector = (host.constructor as typeof TiniElement)
-      .componentMetadata.mainNonRootSelector as undefined | string;
+    const customMainSelector = (elem.constructor as typeof TiniElement)
+      .componentMetadata.customMainSelector as undefined | string;
     const target =
-      !forwarding.target && mainNonRootSelector
-        ? mainNonRootSelector
+      !forwarding.target && customMainSelector
+        ? customMainSelector
         : forwarding.target;
     const targetNodes = !target
       ? [renderRoot.firstElementChild]
@@ -51,7 +51,7 @@ export function forwardEvents(
       targetNode.addEventListener(name, (e: Event) => {
         if (!keepPropagation) e.stopPropagation();
         if (preventDefault) e.preventDefault();
-        host.dispatchEvent(
+        elem.dispatchEvent(
           new CustomEvent(rename || name, {
             ...dispatchOptions,
             detail: e,

@@ -77,7 +77,7 @@ export const compileCommand = createCLICommand(
               ? undefined
               : picomatch(compileOptions.ignorePatterns);
             const context = await parseCompileFileContext(
-              path,
+              resolve(path),
               projectDirs,
               ignoreMatcher
             );

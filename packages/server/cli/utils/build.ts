@@ -33,6 +33,7 @@ export async function postNitroBuild(outDir: string, indexHTMLContent: string) {
 }
 
 export async function onServerPublicChange(path: string) {
+  path = resolve(path);
   if (!path.endsWith('/server/public/index.html')) return;
   await copy(path, resolve('server', '.nitro', 'dev', 'index.html'));
   await remove(path);

@@ -17,4 +17,4 @@ export const NAV_INDICATOR = `app-${NAV_INDICATOR_ID}`;
 export const CLASS_ACTIVE = 'active';
 
 export const NO_ROUTER_ERROR = 'Router is not initialized.';
-export const NO_OUTLET_ROUTER_ERROR = 'Router instance is not provided.';
+export const NO_ROUTER_FOR_OUTLET_ERROR = 'Router instance is not provided.';

@@ -6,6 +6,7 @@ import {GLOBAL_TINI} from '../consts/global.js';
 import {APP_ROOT} from '../consts/common.js';
 import {DUPLICATED_APP_ERROR, NO_REGISTER_ERROR} from '../consts/error.js';
 
+import {isClass} from '../utils/common.js';
 import type {AppOptions} from '../utils/app.js';
 import {
   getDIRegistry,
@@ -20,11 +21,11 @@ function ___checkForDIMissingDependencies(
   dependency: any,
   instance: any
 ) {
-  const paramsMatchingArr = dependency
-    .toString?.()
-    .match(/(constructor\()([\s\S]*?)\)/);
-  if (isClass(dependency) && paramsMatchingArr && paramsMatchingArr[2]) {
-    const params = (paramsMatchingArr[2] as string)
+  const paramsMatching = !isClass(dependency)
+    ? null
+    : dependency.toString?.().match(/(constructor\()([\s\S]*?)\)/);
+  if (paramsMatching?.[2]) {
+    const params = (paramsMatching[2] as string)
       .split(',')
       .map(item => item.trim());
     const missingIds = [];
@@ -50,13 +51,6 @@ Please provide them in 'app/providers.ts' or correcting its order:
       );
     }
   }
-}
-
-function isClass(input: unknown) {
-  return (
-    typeof input === 'function' &&
-    /^class\s/.test(Function.prototype.toString.call(input))
-  );
 }
 
 export function App(options: AppOptions = {}) {

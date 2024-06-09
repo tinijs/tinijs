@@ -1,16 +1,16 @@
 import {TiniComponent} from '../classes/component.js';
 
 export class EventEmitter<Payload> {
-  private host: TiniComponent;
+  private comp: TiniComponent;
   private eventName: string;
 
-  constructor(host: TiniComponent, eventName: string) {
-    this.host = host;
+  constructor(comp: TiniComponent, eventName: string) {
+    this.comp = comp;
     this.eventName = eventName;
   }
 
   emit(payload?: Payload, customEventInit: CustomEventInit<Payload> = {}) {
-    return this.host.dispatchEvent(
+    return this.comp.dispatchEvent(
       new CustomEvent(this.eventName, {
         detail: payload,
         ...customEventInit,

@@ -1,96 +1,167 @@
-import {html, type PropertyValues} from 'lit';
+import {html, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 
-import {TiniElement, partAttrMap} from '@tinijs/core';
+import {
+  TiniElement,
+  ElementParts,
+  partAttrMap,
+  createStyleBuilder,
+  Radiuses,
+  Shadows,
+  generateRadiusVariants,
+  generateShadowVariants,
+} from '@tinijs/core';
 
-export interface Source {
-  srcset: string;
-  type?: string;
-  media?: string;
-  sizes?: string;
-  width?: number;
-  height?: number;
+export enum ImageParts {
+  Main = ElementParts.Main,
+}
+
+export enum ImageLoading {
+  Eager = 'eager',
+  Lazy = 'lazy',
+}
+
+export enum ImageDecoding {
+  Sync = 'sync',
+  Async = 'async',
+}
+
+export enum ImageFetchPriority {
+  Auto = 'auto',
+  High = 'high',
+  Low = 'low',
+}
+
+export enum ImageCrossOrigin {
+  Anonymous = 'anonymous',
+  UseCredentials = 'use-credentials',
+}
+
+export enum ImageReferrerPolicy {
+  NoReferrer = 'no-referrer',
+  NoReferrerWhenDowngrade = 'no-referrer-when-downgrade',
+  Origin = 'origin',
+  OriginWhenCrossOrigin = 'origin-when-cross-origin',
+  SameOrigin = 'same-origin',
+  StrictOrigin = 'strict-origin',
+  StrictOriginWhenCrossOrigin = 'strict-origin-when-cross-origin',
+  UnsafeUrl = 'unsafe-url',
 }
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) src!: string;
   @property({type: String, reflect: true}) alt?: string;
-  @property({type: Number, reflect: true}) width?: number;
-  @property({type: Number, reflect: true}) height?: number;
   @property({type: String, reflect: true}) srcset?: string;
   @property({type: String, reflect: true}) sizes?: string;
-  @property({type: String, reflect: true}) loading?: string;
-  @property({type: String, reflect: true}) decoding?: string;
-  @property({type: String, reflect: true}) fetchpriority?: string;
-  @property({type: String, reflect: true}) crossorigin?: string;
-  @property({type: String, reflect: true}) referrerpolicy?: string;
-  @property({type: Array}) sources?: Source[];
-  @property({type: Boolean, reflect: true}) fluid?: boolean;
+  @property({type: String, reflect: true}) loading?: ImageLoading;
+  @property({type: String, reflect: true}) decoding?: ImageDecoding;
+  @property({type: String, reflect: true}) fetchpriority?: ImageFetchPriority;
+  @property({type: String, reflect: true}) crossorigin?: ImageCrossOrigin;
+  @property({type: String, reflect: true}) referrerpolicy?: ImageReferrerPolicy;
+  @property({type: String, reflect: true}) width?: string;
+  @property({type: String, reflect: true}) height?: string;
+  @property({type: String, reflect: true}) radius?: Radiuses;
+  @property({type: String, reflect: true}) shadow?: Shadows;
   /* eslint-enable prettier/prettier */
 
   private validateProperties() {
     if (!this.src) throw new Error('Property "src" is required.');
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    this.setAttribute('role', 'img');
+  }
+
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
     // default and validations
     this.validateProperties();
-    // set role
-    this.setAttribute('role', 'img');
-    // root classes parts
-    this.extendRootClasses({
-      raw: {
-        fluid: !!this.fluid,
+    // main classes parts
+    this.extendMainClasses({
+      overridable: {
+        radius: this.radius,
+        shadow: this.shadow,
       },
     });
+    // host styles
+    if (changedProperties.has('width') || changedProperties.has('height')) {
+      this.setHostStyles({
+        '--width': this.width,
+        '--height': this.height,
+      });
+    }
   }
 
   protected render() {
-    return !this.sources
-      ? this.getImgTemplate()
-      : html`
-          <picture
-            class=${classMap(this.rootClasses)}
-            part=${partAttrMap(this.rootClasses)}
-          >
-            ${this.sources.map(
-              source => html`
-                <source
-                  srcset=${source.srcset}
-                  type=${ifDefined(source.type)}
-                  sizes=${ifDefined(source.sizes)}
-                  media=${ifDefined(source.media)}
-                  width=${ifDefined(source.width)}
-                  height=${ifDefined(source.height)}
-                />
-              `
-            )}
-            ${this.getImgTemplate(true)}
-          </picture>
-        `;
-  }
-
-  private getImgTemplate(asChild = false) {
-    return html`
-      <img
-        class=${classMap(asChild ? {} : this.rootClasses)}
-        part=${partAttrMap(asChild ? {} : this.rootClasses)}
-        src=${this.src}
-        alt=${ifDefined(this.alt)}
-        width=${ifDefined(this.width)}
-        height=${ifDefined(this.height)}
-        srcset=${ifDefined(this.srcset)}
-        sizes=${ifDefined(this.sizes)}
-        loading=${ifDefined(this.loading as any)}
-        decoding=${ifDefined(this.decoding as any)}
-        fetchpriority=${ifDefined(this.fetchpriority)}
-        crossorigin=${ifDefined(this.crossorigin as any)}
-        referrerpolicy=${ifDefined(this.referrerpolicy as any)}
-      />
-    `;
+    return this.partRender(
+      ImageParts.Main,
+      () => html`
+        <img
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
+          src=${this.src}
+          alt=${ifDefined(this.alt)}
+          srcset=${ifDefined(this.srcset)}
+          sizes=${ifDefined(this.sizes)}
+          loading=${ifDefined(this.loading)}
+          decoding=${ifDefined(this.decoding)}
+          fetchpriority=${ifDefined(this.fetchpriority)}
+          crossorigin=${ifDefined(this.crossorigin)}
+          referrerpolicy=${ifDefined(this.referrerpolicy)}
+        />
+      `
+    );
   }
 }
+
+export const defaultStyles = createStyleBuilder<{
+  statics: CSSResult;
+  radiusGen: Parameters<typeof generateRadiusVariants>[0];
+  shadowGen: Parameters<typeof generateShadowVariants>[0];
+}>(outputs => [
+  css`
+    :host {
+      --width: 100%;
+      --height: auto;
+      --radius: var(--radius-md);
+      --box-shadow: none;
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+      border-radius: var(--radius);
+      width: var(--width);
+      height: var(--height);
+    }
+
+    .main {
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+    }
+  `,
+
+  outputs.statics,
+
+  generateRadiusVariants(values => {
+    const {hostSelector, radius} = values;
+    return `
+      ${hostSelector} {
+        --radius: ${radius};
+      }
+      ${outputs.radiusGen(values)}
+    `;
+  }),
+
+  generateShadowVariants(values => {
+    const {hostSelector, shadow} = values;
+    return `
+      ${hostSelector} {
+        --box-shadow: ${shadow};
+      }
+      ${outputs.shadowGen(values)}
+    `;
+  }),
+]);

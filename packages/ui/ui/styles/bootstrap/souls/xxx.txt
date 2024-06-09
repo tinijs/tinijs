@@ -1,22 +1,22 @@
 import {css} from 'lit';
-import {generateColorVaries, generateScaleVaries} from '@tinijs/core';
+import {generateColorVariants, generateSizeVariants} from '@tinijs/core';
 
 export const styles = css`
-  .root {
+  .main {
     
   }
 
-  ${generateColorVaries(
-    ({fullName, color}) => `
-    .${fullName} {
+  ${generateColorVariants(
+    ({hostSelector, color}) => `
+    ${hostSelector} {
       
     }
   `
   )}
 
-  ${generateScaleVaries(
-    ({fullName, scale}) => `
-    .${fullName} {
+  ${generateSizeVariants(
+    ({hostSelector, size}) => `
+    ${hostSelector} {
       
     }
   `

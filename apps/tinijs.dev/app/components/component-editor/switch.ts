@@ -11,6 +11,7 @@ import {
 
 import {
   TiniSwitchComponent,
+  SwitchStatuses,
   type SwitchEventDetail,
 } from '../../ui/components/switch.js';
 
@@ -33,19 +34,19 @@ export class AppComponentEditorSwitchComponent
 
   protected render() {
     return html`
-      <div class="root">
+      <div class="main">
         <span class="label">${this.label}</span>
         <tini-switch
           ?checked=${this.checked}
-          @change=${({detail}: CustomEvent<SwitchEventDetail>) =>
-            this.change.emit(detail.checked)}
+          @toggle=${({detail}: CustomEvent<SwitchEventDetail>) =>
+            this.change.emit(detail.status === SwitchStatuses.On)}
         ></tini-switch>
       </div>
     `;
   }
 
   static styles = css`
-    .root {
+    .main {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -54,7 +55,7 @@ export class AppComponentEditorSwitchComponent
     .label {
       display: block;
       font-weight: bold;
-      font-size: var(--size-text-0_75x);
+      font-size: var(--text-xs);
       text-transform: uppercase;
     }
   `;

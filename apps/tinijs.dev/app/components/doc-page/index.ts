@@ -13,6 +13,7 @@ import {
   type OnInit,
   type OnDestroy,
 } from '@tinijs/core';
+import {UseMeta, type Meta} from '@tinijs/meta';
 import {
   UseRouter,
   UseParams,
@@ -43,9 +44,14 @@ import {AppDocPageSurroundComponent} from './surround.js';
 
 import {docPageContext, type DocPageContext} from '../../contexts/doc-page.js';
 
-const componentLoader = createComponentLoader({
-  ...UI_POST_COMPONENT_REGISTRY,
-});
+const componentLoader = createComponentLoader(
+  {
+    ...UI_POST_COMPONENT_REGISTRY,
+  },
+  {
+    prefixes: [UI_POST_COMPONENT_PREFIX],
+  }
+);
 
 @Component({
   components: [
@@ -63,6 +69,7 @@ export class AppDocPageComponent
   static readonly defaultTagName = 'app-doc-page';
   @UseRouter() readonly router!: Router;
   @UseParams() readonly params!: {slug?: string};
+  @UseMeta() readonly meta!: Meta;
 
   @provide({context: docPageContext})
   @Input()
@@ -131,6 +138,10 @@ export class AppDocPageComponent
       this.postPrev = postPrev;
       this.postNext = postNext;
     }
+    // update metadata
+    this.meta.setPageMetadata({
+      title: this.post ? this.post.title : this.context.name,
+    });
   }
 
   private _routeChangeHandler = (e: any) => {
@@ -229,9 +240,7 @@ export class AppDocPageComponent
       } else {
         post = await this.postService.getDetail(postSlug);
         if (post?.content) {
-          await componentLoader.extractAndLoad([post.content], {
-            prefixes: [UI_POST_COMPONENT_PREFIX],
-          });
+          await componentLoader.extractAndLoad([post.content]);
         }
       }
     } catch (error) {
@@ -299,6 +308,7 @@ export class AppDocPageComponent
 
     .content {
       width: 100vw;
+      background: var(--color-body);
     }
 
     @media (min-width: 992px) {

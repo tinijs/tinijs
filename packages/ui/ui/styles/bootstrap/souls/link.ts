@@ -1,65 +1,26 @@
 import {css} from 'lit';
-import {generateColorVaries, generateGradientVaries} from '@tinijs/core';
 
-export const styles = css`
-  :host {
-    --color: var(--color-primary);
-    --disabled-color: var(--color-medium);
-    --disabled-opacity: 0.5;
-    display: inline;
-  }
+import {defaultStyles} from '../../../components/link.js';
 
-  a {
-    position: relative;
-    text-decoration: none;
-    color: var(--color);
-  }
-
-  a:hover,
-  a:focus,
-  a:active {
-    text-decoration: underline;
-  }
-
-  a[target='_blank'] {
-    cursor: alias;
-  }
-
-  ${generateColorVaries(
-    ({name, color}) => `
-    .color-${name} {
-      --color: ${color};
-    }
-  `
-  )}
-
-  ${generateGradientVaries(
-    ({name, gradient}) => `
-    .color-${name} {
-      position: relative;
-      background: ${gradient};
-      -webkit-background-clip: text;
-	    -webkit-text-fill-color: transparent;
-    }
-
-    .color-${name}::after {
-      --underline-height: calc(var(--size-text) / 13);
-      visibility: hidden;
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: var(--underline-height);
-      width: 100%;
-      height: var(--underline-height);
-      background: ${gradient};
-    }
-
-    .color-${name}:hover::after,
-    .color-${name}.underline::after {
+export const styles = defaultStyles.extends({
+  statics: css`
+    .gradient::after,
+    .gradient:hover::after {
       visibility: visible;
     }
-  `
-  )}
-`;
+  `,
+  colorGen: ({name, baseName}) => `
+    .color-${name}:hover {
+      color: var(--color-${baseName}-more);
+    }
+  `,
+  gradientGen: ({name, baseName}) => `
+    .color-${name}:hover {
+      --gradient: var(--gradient-${baseName}-more);
+    }
+  `,
+  textGen: () => '',
+  weightGen: () => '',
+});
 
 export default {styles};

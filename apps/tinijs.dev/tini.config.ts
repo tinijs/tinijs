@@ -1,8 +1,4 @@
-// eslint-disable-next-line node/no-extraneous-import
-import {resolve} from 'pathe';
 import {defineTiniConfig} from '@tinijs/project';
-
-const uiPackagePath = resolve('../../packages/ui');
 
 export default defineTiniConfig({
   build: {
@@ -16,9 +12,14 @@ export default defineTiniConfig({
   ui: {
     sources: ['../../packages/ui/ui'],
     families: {
+      shadcn: ['light', 'dark'],
       bootstrap: ['light', 'dark'],
+      material: ['light', 'dark'],
+      ios: ['light', 'dark'],
+      fluent: ['light', 'dark'],
+      spectrum: ['light', 'dark'],
+      tailwind: ['light', 'dark'],
+      chakra: ['light', 'dark'],
     },
-    outDir: './app/ui',
-    rewritePath: path => path.replace(uiPackagePath, '@tinijs/ui/dist'),
   },
 });

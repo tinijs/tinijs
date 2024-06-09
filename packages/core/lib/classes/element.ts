@@ -1,37 +1,34 @@
 import {
   LitElement,
-  unsafeCSS,
-  getCompatibleStyle,
   adoptStyles,
   html,
   nothing,
+  type ComplexAttributeConverter,
   type PropertyValues,
   type TemplateResult,
 } from 'lit';
 import {property} from 'lit/decorators/property.js';
 import type {ClassInfo} from 'lit/directives/class-map.js';
-import {cache} from 'lit/directives/cache.js';
 import {defu} from 'defu';
 
 import {
   THEME_CHANGE_EVENT,
   getOptionalUI,
-  getTemplatesFromTheming,
-  getStylesFromTheming,
-  getScriptsFromTheming,
-  processComponentStyles,
-  ThemingScriptTypes,
+  isThemingStyles,
+  extractTemplatesFromTheming,
+  extractStylesFromTheming,
+  extractScriptsFromTheming,
+  themingStylesToAdoptableStyles,
+  type ActiveTheme,
   type UIOptions,
   type UIButtonOptions,
-  type ThemingTemplates,
-  type ThemingScripts,
   type Theming,
   type StyleDeepInput,
   type CSSResultOrNativeOrRaw,
 } from './ui.js';
 
 import {listify} from '../utils/common.js';
-import {COLORS_TO_GRADIENTS} from '../utils/vary.js';
+import {isGradient} from '../utils/variant.js';
 import {
   UnstableStates,
   registerComponents,
@@ -39,7 +36,7 @@ import {
 } from '../utils/component.js';
 import {forwardEvents, type EventForwarding} from '../utils/event.js';
 
-export interface ExtendRootClassesInput {
+export interface ExtendMainClassesInput {
   raw?: ClassInfo;
   pseudo?: Record<string, Record<string, undefined | string>>;
   overridable?: Record<string, undefined | string>;
@@ -47,11 +44,37 @@ export interface ExtendRootClassesInput {
 
 export interface ComponentMetadata {
   colorOnlyScheme?: boolean;
-  mainNonRootSelector?: string;
+  customMainSelector?: string;
   // dev only
   unstable?: UnstableStates;
   unstableMessage?: string;
 }
+
+export enum ElementParts {
+  BG = 'bg',
+  Main = 'main',
+}
+
+export const stringOrObjectOrArrayConverter: ComplexAttributeConverter = {
+  toAttribute(value: unknown) {
+    return !(value && value instanceof Object) ? value : JSON.stringify(value);
+  },
+  fromAttribute(value: string | null) {
+    let result: unknown = value;
+    if (
+      value &&
+      ((value[0] === '{' && value[value.length - 1] === '}') ||
+        (value[0] === '[' && value[value.length - 1] === ']'))
+    ) {
+      try {
+        result = JSON.parse(value!) as unknown;
+      } catch (e) {
+        result = value;
+      }
+    }
+    return result;
+  },
+};
 
 export class TiniElement extends LitElement {
   static readonly componentName: string = 'element';
@@ -62,17 +85,17 @@ export class TiniElement extends LitElement {
   static readonly components?: RegisterComponentsList;
 
   /* eslint-disable prettier/prettier */
-  @property({type: Object}) templates?: ThemingTemplates;
   @property({type: Object}) refers?: Record<string, Record<string, any>>;
-  @property() styleDeep?: StyleDeepInput;
-  @property() events?: string | Array<string | EventForwarding>;
+  @property({converter: stringOrObjectOrArrayConverter}) styleDeep?: StyleDeepInput;
+  @property({converter: stringOrObjectOrArrayConverter}) events?: string | Array<string | EventForwarding>;
   /* eslint-enable prettier/prettier */
 
-  protected rootClasses: ClassInfo = {root: true};
-  protected customTemplates: ThemingTemplates = {};
+  protected mainClasses: ClassInfo = {[ElementParts.Main]: true};
 
   private _uiTracker = {
     styleDeepAdopted: false,
+    readoptStylesRequired: false,
+    templates: this.getTemplates(),
     scripts: this.getScripts(),
   };
 
@@ -86,8 +109,13 @@ export class TiniElement extends LitElement {
     return renderRoot;
   }
 
-  private onThemeChange = () => {
-    this._uiTracker.scripts = this.getScripts();
+  private onThemeChange = (e: any) => {
+    const {prevFamilyId, familyId} = (e as CustomEvent<ActiveTheme>).detail;
+    this._uiTracker.readoptStylesRequired = true;
+    if (prevFamilyId !== familyId) {
+      this._uiTracker.templates = this.getTemplates();
+      this._uiTracker.scripts = this.getScripts();
+    }
     return this.requestUpdate();
   };
 
@@ -98,43 +126,37 @@ export class TiniElement extends LitElement {
     // continue connectedCallback
     super.connectedCallback();
     addEventListener(THEME_CHANGE_EVENT, this.onThemeChange);
-    // adopt scripts
-    this.adoptScripts('connectedCallback');
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     removeEventListener(THEME_CHANGE_EVENT, this.onThemeChange);
-    // adopt scripts
-    this.adoptScripts('disconnectedCallback');
   }
 
   protected willUpdate(changedProperties: PropertyValues<this>) {
-    // process templates
-    if (changedProperties.has('templates')) {
-      this.customTemplates = this.getTemplates();
+    // adopt styles
+    if (
+      // styleDeep changed but not the first time
+      (changedProperties.has('styleDeep') &&
+        this._uiTracker.styleDeepAdopted) ||
+      // theme changed, re-adopt share styles
+      this._uiTracker.readoptStylesRequired
+    ) {
+      this.customAdoptStyles(this.shadowRoot || this);
+      this._uiTracker.readoptStylesRequired = false;
     }
-    // re-style when deepStyle changed
-    if (changedProperties.has('styleDeep')) {
-      if (!this._uiTracker.styleDeepAdopted) {
-        this._uiTracker.styleDeepAdopted = true; // skip the first time, already adopted in createRenderRoot()
-      } else {
-        this.customAdoptStyles(this.shadowRoot || this);
-      }
+    // mark styleDeep already adopted in createRenderRoot()
+    if (!this._uiTracker.styleDeepAdopted) {
+      this._uiTracker.styleDeepAdopted = true;
     }
-    // adopt scripts
-    this.adoptScripts('willUpdate', changedProperties);
   }
 
   protected firstUpdated(changedProperties: PropertyValues<this>) {
     if (this.events) forwardEvents(this, this.events);
-    // adopt scripts
-    this.adoptScripts('firstUpdated', changedProperties);
   }
 
   protected updated(changedProperties: PropertyValues<this>) {
-    // adopt scripts
-    this.adoptScripts('updated', changedProperties);
+    this.adoptScripts();
   }
 
   protected getUIContext<
@@ -156,7 +178,30 @@ export class TiniElement extends LitElement {
     return {optionalUI, themeOptions, componentOptions};
   }
 
-  extendRootClasses(input: ExtendRootClassesInput) {
+  setHostStyles(styles: Record<string, string | undefined>) {
+    Object.entries(styles).forEach(([key, value]) => {
+      if (!key.startsWith('--')) {
+        this.style[key as any] = value || '';
+      } else {
+        if (value) {
+          this.style.setProperty(key, value);
+        } else {
+          this.style.removeProperty(key);
+        }
+      }
+    });
+    return this;
+  }
+
+  buildClassVariants(name: string, variants: Record<string, any>): ClassInfo {
+    const result: Record<string, boolean> = {[name]: true};
+    for (const suffix of Object.keys(variants)) {
+      result[`${name}-${suffix}`] = !!variants[suffix];
+    }
+    return result;
+  }
+
+  extendMainClasses(input: ExtendMainClassesInput) {
     const {raw = {}, pseudo = {}, overridable = {}} = input;
     const {componentOptions} = this.getUIContext<UIButtonOptions>();
     // build pseudo info
@@ -197,14 +242,14 @@ export class TiniElement extends LitElement {
     if (
       componentOptions.referGradientSchemeOnHover &&
       schemeValue &&
-      !~schemeValue.indexOf('gradient')
+      !isGradient(schemeValue)
     ) {
-      const hoverScheme = COLORS_TO_GRADIENTS[schemeValue];
-      otherInfo[`scheme-${hoverScheme}-hover`] = true;
+      const hoverScheme = `gradient-${schemeValue}-hover`;
+      otherInfo[`scheme-${hoverScheme}`] = true;
     }
     // result
-    return (this.rootClasses = {
-      ...this.rootClasses,
+    return (this.mainClasses = {
+      ...this.mainClasses,
       ...raw,
       ...pseudoInfo,
       ...overridableInfo,
@@ -234,9 +279,9 @@ export class TiniElement extends LitElement {
       name === 'scheme' &&
       themeOptions.referGradientScheme
     ) {
-      return ~originalValue.indexOf('gradient')
+      return isGradient(originalValue)
         ? originalValue
-        : COLORS_TO_GRADIENTS[originalValue];
+        : `gradient-${originalValue}`;
     }
     // default value
     return originalValue;
@@ -244,41 +289,35 @@ export class TiniElement extends LitElement {
 
   private getTemplates() {
     const optionalUI = getOptionalUI();
-    return {
-      ...(!optionalUI
-        ? {}
-        : getTemplatesFromTheming(
-            (this.constructor as typeof TiniElement).theming,
-            optionalUI.activeTheme
-          )),
-      ...this.templates,
-    };
+    return !optionalUI
+      ? {}
+      : extractTemplatesFromTheming(
+          (this.constructor as typeof TiniElement).theming,
+          optionalUI.activeTheme
+        );
   }
 
-  renderPart(
+  partRender(
     name: string,
-    defaultTemplate?: () => typeof nothing | TemplateResult,
-    context?: {
-      before?: any;
-      main?: any;
-      after?: any;
-    }
+    defaultTemplate?: (
+      children: () => typeof nothing | TemplateResult
+    ) => typeof nothing | TemplateResult,
+    context?: any
   ) {
-    return cache(
-      this.customTemplates[name]
-        ? this.customTemplates[name](this, context?.main)
-        : !defaultTemplate
-          ? nothing
-          : html`
-              ${!this.customTemplates[`${name}:before`]
-                ? nothing
-                : this.customTemplates[`${name}:before`](this, context?.before)}
-              ${defaultTemplate()}
-              ${!this.customTemplates[`${name}:after`]
-                ? nothing
-                : this.customTemplates[`${name}:after`](this, context?.after)}
-            `
-    );
+    const customTemplates = this._uiTracker.templates;
+    const newTemplate = customTemplates[name];
+    const siblingsTemplate = customTemplates[`${name}:siblings`];
+    const childrenTemplate = customTemplates[`${name}:children`];
+    return newTemplate
+      ? newTemplate(this, context)
+      : !defaultTemplate
+        ? nothing
+        : html`
+            ${defaultTemplate(() =>
+              !childrenTemplate ? nothing : childrenTemplate(this, context)
+            )}
+            ${!siblingsTemplate ? nothing : siblingsTemplate(this, context)}
+          `;
   }
 
   private customAdoptStyles(renderRoot: HTMLElement | DocumentFragment) {
@@ -287,10 +326,9 @@ export class TiniElement extends LitElement {
     // theme styles
     if (optionalUI) {
       const {familyId, skinId} = optionalUI.activeTheme;
-      const {shareStyles} = optionalUI.getStyles(familyId, skinId);
       allStyles.push(
-        ...shareStyles,
-        ...getStylesFromTheming(
+        ...optionalUI.getShareStyles(familyId, skinId),
+        ...extractStylesFromTheming(
           (this.constructor as typeof TiniElement).theming,
           optionalUI.activeTheme
         )
@@ -305,86 +343,37 @@ export class TiniElement extends LitElement {
       } else if (optionalUI) {
         const {themeId, familyId} = optionalUI.activeTheme;
         const styleDeepStyles = listify<CSSResultOrNativeOrRaw>(
-          this.styleDeep?.[themeId] ||
-            this.styleDeep?.[familyId] ||
-            this.styleDeep?.['*']
+          isThemingStyles(this.styleDeep)
+            ? this.styleDeep
+            : this.styleDeep?.[themeId] ||
+                this.styleDeep?.[familyId] ||
+                this.styleDeep?.['*']
         );
         if (styleDeepStyles?.length) allStyles.push(...styleDeepStyles);
       }
     }
     // adopt all the styles
-    const styleText = processComponentStyles(
-      allStyles,
-      optionalUI?.activeTheme
+    adoptStyles(
+      renderRoot as unknown as ShadowRoot,
+      themingStylesToAdoptableStyles(allStyles)
     );
-    adoptStyles(renderRoot as unknown as ShadowRoot, [
-      getCompatibleStyle(unsafeCSS(styleText)),
-    ]);
   }
 
   private getScripts() {
     const optionalUI = getOptionalUI();
     return !optionalUI
-      ? {
-          prevScripts: {},
-          currentScripts: {},
-        }
-      : getScriptsFromTheming(
-          this,
+      ? undefined
+      : extractScriptsFromTheming(
           (this.constructor as typeof TiniElement).theming,
           optionalUI.activeTheme
         );
   }
 
-  private adoptScripts(
-    hookName: keyof ThemingScripts,
-    changedProperties?: PropertyValues<this>
-  ) {
-    const {prevScripts, currentScripts} = this._uiTracker.scripts;
-    if (hookName === 'connectedCallback') {
-      prevScripts.connectedCallback?.(ThemingScriptTypes.Unscript, this);
-      currentScripts.connectedCallback?.(ThemingScriptTypes.Script, this);
-      delete this._uiTracker.scripts.prevScripts.connectedCallback;
-    } else if (hookName === 'disconnectedCallback') {
-      prevScripts.disconnectedCallback?.(ThemingScriptTypes.Unscript, this);
-      currentScripts.disconnectedCallback?.(ThemingScriptTypes.Script, this);
-      delete this._uiTracker.scripts.prevScripts.disconnectedCallback;
-    } else if (hookName === 'willUpdate' && changedProperties) {
-      prevScripts.willUpdate?.(
-        ThemingScriptTypes.Unscript,
-        this,
-        changedProperties
-      );
-      currentScripts.willUpdate?.(
-        ThemingScriptTypes.Script,
-        this,
-        changedProperties
-      );
-      delete this._uiTracker.scripts.prevScripts.willUpdate;
-    } else if (hookName === 'firstUpdated' && changedProperties) {
-      prevScripts.firstUpdated?.(
-        ThemingScriptTypes.Unscript,
-        this,
-        changedProperties
-      );
-      currentScripts.firstUpdated?.(
-        ThemingScriptTypes.Script,
-        this,
-        changedProperties
-      );
-      delete this._uiTracker.scripts.prevScripts.firstUpdated;
-    } else if (hookName === 'updated' && changedProperties) {
-      prevScripts.updated?.(
-        ThemingScriptTypes.Unscript,
-        this,
-        changedProperties
-      );
-      currentScripts.updated?.(
-        ThemingScriptTypes.Script,
-        this,
-        changedProperties
-      );
-      delete this._uiTracker.scripts.prevScripts.updated;
-    }
+  private adoptScripts() {
+    if (!this._uiTracker.scripts) return;
+    const {activate, deactivate} = this._uiTracker.scripts;
+    deactivate?.(this);
+    activate?.(this);
+    this._uiTracker.scripts = undefined;
   }
 }

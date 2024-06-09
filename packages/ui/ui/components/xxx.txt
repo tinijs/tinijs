@@ -1,7 +1,15 @@
-import {html, type PropertyValues} from 'lit';
+import {html, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
-import {TiniElement, partAttrMap, Colors, Scales} from '@tinijs/core';
+
+import {TiniElement, ElementParts, partAttrMap, createStyleBuilder, Colors, Sizes} from '@tinijs/core';
+
+export enum XXXParts {
+  Main = ElementParts.Main,
+}
+
+type ComponentConstructor = typeof import('./xxx.js').default;
+type Component = import('./xxx.js').default;
 
 export default class extends TiniElement {
 
@@ -11,16 +19,37 @@ export default class extends TiniElement {
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root classes parts
-    this.extendRootClasses({});
+    // main classes parts
+    this.extendMainClasses({});
   }
 
   protected render() {
-    return html`
-      <xxx
-        class=${classMap(this.rootClasses)}
-        part=${partAttrMap(this.rootClasses)}
-      ></xxx>
-    `;
+    return this.partRender(
+      XXXParts.Main,
+      mainChildren => html`
+        <xxx
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
+        >
+          ${mainChildren()}
+        </xxx>
+      `
+    );
   }
 }
+
+export const defaultStyles = createStyleBuilder<{
+  statics: CSSResult;
+}>(outputs => [
+  css`
+    :host {
+
+    }
+
+    .main {
+
+    }
+  `,
+
+  outputs.statics,
+]);

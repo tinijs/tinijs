@@ -33,14 +33,15 @@ export function extractCSSVariables(
       const prefix = keyArr.shift() as string;
       const title = !keyArr.length
         ? '-'
-        : keyArr.map(item => item[0].toUpperCase() + item.slice(1)).join(' ');
+        : keyArr
+            .map(item => item.replace(/^\w/, c => c.toUpperCase()))
+            .join('');
       result[key] = {
         key,
         value,
         valueDirect: value, // process later
         prefix,
-        title:
-          prefix !== 'scale' && prefix !== 'wide' ? title : title.toUpperCase(),
+        title: prefix !== 'shadow' ? title : title.toUpperCase(),
         description: (
           (!category ? description : description?.replace(category, '')) || ''
         ).trim(),

@@ -1,6 +1,6 @@
 import {html, css, nothing} from 'lit';
 
-import {Component, TiniComponent, Input, Scales} from '@tinijs/core';
+import {Component, TiniComponent, Input, Sizes} from '@tinijs/core';
 
 import {mainStore} from '../../stores/main.js';
 
@@ -21,7 +21,7 @@ export class AppSkinEditorTogglerComponent extends TiniComponent {
   protected render() {
     return html`
       <button @click=${this._toggleSkinEditor}>
-        <icon-theme scale=${Scales.SM}></icon-theme>
+        <icon-theme size=${Sizes.SM}></icon-theme>
         ${!this.showText ? nothing : html`<span>Skin Editor</span>`}
       </button>
     `;
@@ -33,15 +33,16 @@ export class AppSkinEditorTogglerComponent extends TiniComponent {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: var(--size-space-0_5x);
-      background: var(--color-back-tint);
-      border: 1px solid var(--color-back-shade);
-      border-radius: var(--size-radius);
-      font-size: var(--size-text-0_85x);
-      padding: var(--size-space-0_25x) var(--size-space-0_5x);
+      gap: var(--space-xs);
+      background: var(--color-body);
+      border: 1px solid var(--color-body-semi);
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm);
+      padding: var(--space-xs-2) var(--space-xs);
 
       &:hover {
-        background: var(--color-back);
+        background: var(--color-body-less);
+        border-color: var(--color-body-subtle);
       }
     }
   `;

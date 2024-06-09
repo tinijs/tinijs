@@ -1,4 +1,4 @@
-import {html, type PropertyValues} from 'lit';
+import {html, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
 import {ref, createRef} from 'lit/directives/ref.js';
@@ -6,15 +6,17 @@ import {ref, createRef} from 'lit/directives/ref.js';
 import {
   TiniElement,
   partAttrMap,
-  UnstableStates,
+  ElementParts,
+  createStyleBuilder,
   type UICodeOptions,
 } from '@tinijs/core';
 
-export default class extends TiniElement {
-  // static readonly componentMetadata = {
-  //   unstable: UnstableStates.Experimental,
-  // };
+export enum CodeParts {
+  Main = ElementParts.Main,
+  Code = 'code',
+}
 
+export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) language!: string;
   @property({type: String, reflect: true}) content!: string;
@@ -29,26 +31,20 @@ export default class extends TiniElement {
   }
 
   private codeClasses: ClassInfo = {};
-  private componentOptions: UICodeOptions = {
-    engine: 'none',
-    highlight: (_, code) => code,
-  };
+  private componentOptions!: UICodeOptions;
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
+    // get component options
+    this.getComponentOptions();
+    // default and validations
+    this.validateProperties();
+    // main and code classes parts
     const commonClasses = {
       [this.componentOptions.engine]: true,
       [`language-${this.language}`]: true,
     };
-    // default and validations
-    this.validateProperties();
-    // root classes parts
-    this.extendRootClasses({
-      raw: commonClasses,
-    });
-    // code classes parts
-    this.componentOptions = this.getUIContext()
-      .componentOptions as UICodeOptions;
-    this.codeClasses = {code: true, ...commonClasses};
+    this.extendMainClasses({raw: commonClasses});
+    this.codeClasses = {[CodeParts.Code]: true, ...commonClasses};
   }
 
   async updated() {
@@ -64,17 +60,40 @@ export default class extends TiniElement {
     }
   }
 
+  private getComponentOptions() {
+    const defaultOptions: UICodeOptions = {
+      engine: 'none',
+      highlight: (_, code) => code,
+    };
+    const options = this.getUIContext<UICodeOptions>().componentOptions;
+    return (this.componentOptions = options || defaultOptions);
+  }
+
   protected render() {
-    return html`
-      <style ${ref(this.styleRef)}></style>
-      <pre
-        class=${classMap(this.rootClasses)}
-        part=${partAttrMap(this.rootClasses)}
-      ><code
-          ${ref(this.codeRef)}
-          class=${classMap(this.codeClasses)}
-          part=${partAttrMap(this.codeClasses)}
-        ></code></pre>
-    `;
+    return this.partRender(
+      CodeParts.Main,
+      () => html`
+        <pre
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
+        ><code
+            ${ref(this.codeRef)}
+            class=${classMap(this.codeClasses)}
+            part=${partAttrMap(this.codeClasses)}
+          ></code></pre>
+        <style ${ref(this.styleRef)}></style>
+      `
+    );
   }
 }
+
+export const defaultStyles = createStyleBuilder<{
+  statics: CSSResult;
+}>(outputs => [
+  css`
+    .main {
+      margin-bottom: 0;
+    }
+  `,
+  outputs.statics,
+]);

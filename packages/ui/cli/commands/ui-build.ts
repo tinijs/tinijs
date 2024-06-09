@@ -1,15 +1,14 @@
 import {resolve} from 'pathe';
 import {defu} from 'defu';
+import {outputJSON} from 'fs-extra/esm';
+import {consola} from 'consola';
+import {green, gray} from 'colorette';
 import {
   createCLICommand,
   outputGenFileResults,
   type GenFileResult,
 } from '@tinijs/cli';
 import {TINI_CONFIG_TS_FILE} from '@tinijs/project';
-import {outputJSON} from 'fs-extra/esm';
-import {consola} from 'consola';
-import {green, gray} from 'colorette';
-import type {AsyncReturnType} from 'type-fest';
 
 import {
   listAvailableComponents,
@@ -19,10 +18,11 @@ import {
   buildBases,
   buildComponents,
   buildSetup,
-  buildPublicAPI,
   buildPackageJSON,
   transpileAndRemoveTSFiles,
   buildBundled,
+  DEFAULT_OUT_DIR,
+  type AvailableComponentsAndThemeFamilies,
 } from '../utils/build.js';
 import {buildIcons} from '../utils/icon.js';
 
@@ -40,17 +40,10 @@ export const uiBuildCommand = createCLICommand(
       context: {tiniProject},
     } = cliExpansion;
     const uiConfig = tiniProject.config.ui;
-    if (!uiConfig) {
-      return consola.error(
-        `No UI configuration found in ${TINI_CONFIG_TS_FILE}.`
-      );
-    }
+    if (!uiConfig) return callbacks?.onNoConfig?.();
     const cachedAvailable = {} as Record<
       string,
-      {
-        components: AsyncReturnType<typeof listAvailableComponents>;
-        themeFamilies: AsyncReturnType<typeof listAvailableThemeFamilies>;
-      }
+      AvailableComponentsAndThemeFamilies
     >;
     const packConfigs = [uiConfig].concat(
       !uiConfig.outPacks
@@ -62,15 +55,15 @@ export const uiBuildCommand = createCLICommand(
     let packCount = 0;
     for (const config of packConfigs) {
       if (!config.sources?.length || !config.families) continue;
-      const outDir = config.outDir || 'app/ui';
       const results: GenFileResult[] = [];
+      const outDir = config.outDir || DEFAULT_OUT_DIR;
+      const outDirPath = resolve(outDir);
 
       // start building
       packCount++;
       callbacks?.onStartPack?.(outDir);
 
       // load available components and theme families
-      const outDirPath = resolve(outDir);
       const {
         components: availableComponents,
         themeFamilies: availableThemeFamilies,
@@ -113,15 +106,15 @@ export const uiBuildCommand = createCLICommand(
       results.push(...iconResults);
 
       // build setup
-      const setupResult = await buildSetup(config);
+      const setupResult = await buildSetup(config, skinResults);
       results.push(setupResult);
 
-      // build public api & package.json
+      // build package.json
       if (config.packageJSON) {
-        const publicAPIResult = await buildPublicAPI([setupResult]);
-        results.push(publicAPIResult);
-
-        const packageJSONResult = await buildPackageJSON(config.packageJSON);
+        const packageJSONResult = await buildPackageJSON(
+          config.packageJSON,
+          !!config.icons?.length
+        );
         results.push(packageJSONResult);
       }
 
@@ -153,6 +146,8 @@ export const uiBuildCommand = createCLICommand(
     callbacks?.onEnd?.(packCount);
   },
   {
+    onNoConfig: () =>
+      consola.error(`No UI configuration found in ${TINI_CONFIG_TS_FILE}.`),
     onStartPack: (outDir: string) => {
       console.log();
       consola.info(`Build package to ${gray(outDir)}.`);

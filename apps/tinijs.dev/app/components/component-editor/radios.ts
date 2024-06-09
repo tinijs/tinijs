@@ -30,7 +30,7 @@ export class AppComponentEditorRadiosComponent extends TiniComponent {
 
   protected render() {
     return html`
-      <div class="root">
+      <div class="main">
         <span class="label">${this.label}</span>
         <tini-radios
           name="radio-item"
@@ -47,13 +47,9 @@ export class AppComponentEditorRadiosComponent extends TiniComponent {
     .label {
       display: block;
       font-weight: bold;
-      font-size: var(--size-text-0_75x);
+      font-size: var(--text-xs);
       text-transform: uppercase;
-      margin-bottom: var(--size-space-0_5x);
-    }
-
-    tini-radios {
-      transform: translateX(-5px);
+      margin-bottom: var(--space-xs);
     }
   `;
 }

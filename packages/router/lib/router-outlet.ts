@@ -1,7 +1,7 @@
 import {LitElement} from 'lit';
 import {property} from 'lit/decorators.js';
 
-import {NO_OUTLET_ROUTER_ERROR} from './consts.js';
+import {NO_ROUTER_FOR_OUTLET_ERROR} from './consts.js';
 import type {ActivatedRoute, RouteHook, ElemHook} from './types.js';
 import {Router} from './router.js';
 
@@ -12,7 +12,7 @@ export class RouterOutletComponent extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    if (!this.router) throw new Error(NO_OUTLET_ROUTER_ERROR);
+    if (!this.router) throw new Error(NO_ROUTER_FOR_OUTLET_ERROR);
     this.router.setCallback(this.handleRoute.bind(this));
     this.handleRoute(this.router.match(new URL(location.href)));
   }

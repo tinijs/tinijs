@@ -17,8 +17,8 @@ import {
   Reactive,
   createComponentLoader,
   UseUI,
-  Colors,
-  Scales,
+  ContrastColors,
+  Sizes,
   type UI,
   type OnCreate,
   type OnChanges,
@@ -40,7 +40,7 @@ import {IconExpandComponent} from '../../icons/expand.js';
 import {IconCollapseComponent} from '../../icons/collapse.js';
 import {IconMobileComponent} from '../../icons/mobile.js';
 import {IconTabletComponent} from '../../icons/tablet.js';
-import {IconLaptopComponent} from '../../icons/laptop.js';
+import {IconTVComponent} from '../../icons/tv.js';
 import {IconDesktopComponent} from '../../icons/desktop.js';
 import {IconTiniComponent} from '../../icons/tini.js';
 import {IconVueComponent} from '../../icons/vue.js';
@@ -74,75 +74,43 @@ export interface ComponentData {
 export enum CommonViewports {
   Mobile = 'mobile',
   Tablet = 'tablet',
-  Laptop = 'laptop',
   Desktop = 'desktop',
+  TV = 'tv',
 }
 
-const componentLoader = createComponentLoader({
-  heading: () =>
-    import('../../ui/components/heading.js').then(m => m.TiniHeadingComponent),
-  text: () =>
-    import('../../ui/components/text.js').then(m => m.TiniTextComponent),
-  link: () =>
-    import('../../ui/components/link.js').then(m => m.TiniLinkComponent),
-  box: () => import('../../ui/components/box.js').then(m => m.TiniBoxComponent),
-  skeleton: () =>
-    import('../../ui/components/skeleton.js').then(
-      m => m.TiniSkeletonComponent
-    ),
-  icon: () =>
-    import('../../ui/components/icon.js').then(m => m.TiniIconComponent),
-  button: () =>
-    import('../../ui/components/button.js').then(m => m.TiniButtonComponent),
-  badge: () =>
-    import('../../ui/components/badge.js').then(m => m.TiniBadgeComponent),
-  label: () =>
-    import('../../ui/components/label.js').then(m => m.TiniLabelComponent),
-  message: () =>
-    import('../../ui/components/message.js').then(m => m.TiniMessageComponent),
-  spinner: () =>
-    import('../../ui/components/spinner.js').then(m => m.TiniSpinnerComponent),
-  card: () =>
-    import('../../ui/components/card.js').then(m => m.TiniCardComponent),
-  breadcrumb: () =>
-    import('../../ui/components/breadcrumb.js').then(
-      m => m.TiniBreadcrumbComponent
-    ),
-  pagination: () =>
-    import('../../ui/components/pagination.js').then(
-      m => m.TiniPaginationComponent
-    ),
-  dialog: () =>
-    import('../../ui/components/dialog.js').then(m => m.TiniDialogComponent),
-  modal: () =>
-    import('../../ui/components/modal.js').then(m => m.TiniModalComponent),
-  input: () =>
-    import('../../ui/components/input.js').then(m => m.TiniInputComponent),
-  textarea: () =>
-    import('../../ui/components/textarea.js').then(
-      m => m.TiniTextareaComponent
-    ),
-  select: () =>
-    import('../../ui/components/select.js').then(m => m.TiniSelectComponent),
-  checkboxes: () =>
-    import('../../ui/components/checkboxes.js').then(
-      m => m.TiniCheckboxesComponent
-    ),
-  radios: () =>
-    import('../../ui/components/radios.js').then(m => m.TiniRadiosComponent),
-  switch: () =>
-    import('../../ui/components/switch.js').then(m => m.TiniSwitchComponent),
-  image: () =>
-    import('../../ui/components/image.js').then(m => m.TiniImageComponent),
-  figure: () =>
-    import('../../ui/components/figure.js').then(m => m.TiniFigureComponent),
-  embed: () =>
-    import('../../ui/components/embed.js').then(m => m.TiniEmbedComponent),
-  table: () =>
-    import('../../ui/components/table.js').then(m => m.TiniTableComponent),
-  code: () =>
-    import('../../ui/components/code.js').then(m => m.TiniCodeComponent),
-});
+const componentLoader = createComponentLoader(
+  {
+    heading: () => import('../../ui/components/heading.js'),
+    text: () => import('../../ui/components/text.js'),
+    link: () => import('../../ui/components/link.js'),
+    box: () => import('../../ui/components/box.js'),
+    skeleton: () => import('../../ui/components/skeleton.js'),
+    icon: () => import('../../ui/components/icon.js'),
+    button: () => import('../../ui/components/button.js'),
+    badge: () => import('../../ui/components/badge.js'),
+    label: () => import('../../ui/components/label.js'),
+    message: () => import('../../ui/components/message.js'),
+    spinner: () => import('../../ui/components/spinner.js'),
+    card: () => import('../../ui/components/card.js'),
+    breadcrumbs: () => import('../../ui/components/breadcrumbs.js'),
+    pagination: () => import('../../ui/components/pagination.js'),
+    dialog: () => import('../../ui/components/dialog.js'),
+    modal: () => import('../../ui/components/modal.js'),
+    input: () => import('../../ui/components/input.js'),
+    textarea: () => import('../../ui/components/textarea.js'),
+    select: () => import('../../ui/components/select.js'),
+    checkboxes: () => import('../../ui/components/checkboxes.js'),
+    radios: () => import('../../ui/components/radios.js'),
+    switch: () => import('../../ui/components/switch.js'),
+    image: () => import('../../ui/components/image.js'),
+    embed: () => import('../../ui/components/embed.js'),
+    table: () => import('../../ui/components/table.js'),
+    code: () => import('../../ui/components/code.js'),
+  },
+  {
+    prefixes: ['tini'],
+  }
+);
 
 @Component({
   components: [
@@ -151,7 +119,7 @@ const componentLoader = createComponentLoader({
     TiniCodeComponent,
     IconMobileComponent,
     IconTabletComponent,
-    IconLaptopComponent,
+    IconTVComponent,
     IconDesktopComponent,
     IconTiniComponent,
     IconVueComponent,
@@ -186,7 +154,7 @@ export class AppComponentEditorComponent
   @Reactive() isFullscreen = false;
   @Reactive() data?: ComponentData;
 
-  private readonly _rootRef = createRef<HTMLDivElement>();
+  private readonly _mainRef = createRef<HTMLDivElement>();
   private readonly _previewRef = createRef<HTMLDivElement>();
   private readonly _resizableRef = createRef<HTMLDivElement>();
   private readonly _viewportSizeRef = createRef<HTMLDivElement>();
@@ -218,9 +186,7 @@ export class AppComponentEditorComponent
     if (!this.data?.inner) {
       componentLoader.load([this.name]);
     } else {
-      componentLoader.extractAndLoad([[this.name], this.data?.inner], {
-        prefixes: ['tini'],
-      });
+      componentLoader.extractAndLoad([[this.name], this.data?.inner]);
     }
     // build codes
     this.importCode = this.buildImportCode();
@@ -394,8 +360,8 @@ registerComponents([ ${constructorName} ]);`;
       const targetWidth = {
         [CommonViewports.Mobile]: 320,
         [CommonViewports.Tablet]: 768,
-        [CommonViewports.Laptop]: 1024,
-        [CommonViewports.Desktop]: 1440,
+        [CommonViewports.Desktop]: 992,
+        [CommonViewports.TV]: 1400,
       }[viewport];
       this.commonViewport = viewport;
       this._resizableRef.value!.style.width = `${
@@ -416,7 +382,7 @@ registerComponents([ ${constructorName} ]);`;
       screenfull.exit();
       this.isFullscreen = false;
     } else {
-      screenfull.request(this._rootRef.value!);
+      screenfull.request(this._mainRef.value!);
       this.isFullscreen = true;
     }
   }
@@ -424,8 +390,8 @@ registerComponents([ ${constructorName} ]);`;
   protected render() {
     return html`
       <div
-        ${ref(this._rootRef)}
-        class=${classMap({root: true, fullscreen: this.isFullscreen})}
+        ${ref(this._mainRef)}
+        class=${classMap({main: true, fullscreen: this.isFullscreen})}
       >
         <aside class="edit">${this.getEditTemplate()}</aside>
 
@@ -513,8 +479,8 @@ registerComponents([ ${constructorName} ]);`;
             @click=${() => this.changeCommonViewport(CommonViewports.Mobile)}
           >
             <icon-mobile
-              scheme=${Colors.Front}
-              scale=${Scales.XS}
+              scheme=${ContrastColors.Body}
+              size=${Sizes.XS}
             ></icon-mobile>
           </button>
           <button
@@ -524,20 +490,9 @@ registerComponents([ ${constructorName} ]);`;
             @click=${() => this.changeCommonViewport(CommonViewports.Tablet)}
           >
             <icon-tablet
-              scheme=${Colors.Front}
-              scale=${Scales.XS}
+              scheme=${ContrastColors.Body}
+              size=${Sizes.XS}
             ></icon-tablet>
-          </button>
-          <button
-            class=${classMap({
-              selected: this.commonViewport === CommonViewports.Laptop,
-            })}
-            @click=${() => this.changeCommonViewport(CommonViewports.Laptop)}
-          >
-            <icon-laptop
-              scheme=${Colors.Front}
-              scale=${Scales.XS}
-            ></icon-laptop>
           </button>
           <button
             class=${classMap({
@@ -546,18 +501,26 @@ registerComponents([ ${constructorName} ]);`;
             @click=${() => this.changeCommonViewport(CommonViewports.Desktop)}
           >
             <icon-desktop
-              scheme=${Colors.Front}
-              scale=${Scales.XS}
+              scheme=${ContrastColors.Body}
+              size=${Sizes.XS}
             ></icon-desktop>
+          </button>
+          <button
+            class=${classMap({
+              selected: this.commonViewport === CommonViewports.TV,
+            })}
+            @click=${() => this.changeCommonViewport(CommonViewports.TV)}
+          >
+            <icon-tv scheme=${ContrastColors.Body} size=${Sizes.XS}></icon-tv>
           </button>
           <span class="separator"></span>
           <button @click=${this.toggleFullScreen}>
             <tini-icon
-              scheme=${Colors.Front}
+              scheme=${ContrastColors.Body}
               src=${this.isFullscreen
                 ? IconCollapseComponent.src
                 : IconExpandComponent.src}
-              scale=${Scales.XS}
+              size=${Sizes.XS}
             ></tini-icon>
           </button>
         </div>
@@ -580,7 +543,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.Tini)}
         >
-          <icon-tini scale=${Scales.XS}></icon-tini>
+          <icon-tini size=${Sizes.XS}></icon-tini>
           <span>Tini</span>
         </button>
         <button
@@ -589,7 +552,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.Vue)}
         >
-          <icon-vue scale=${Scales.XS}></icon-vue>
+          <icon-vue size=${Sizes.XS}></icon-vue>
           <span>Vue</span>
         </button>
         <button
@@ -598,7 +561,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.React)}
         >
-          <icon-react scale=${Scales.XS}></icon-react>
+          <icon-react size=${Sizes.XS}></icon-react>
           <span>React</span>
         </button>
         <button
@@ -607,7 +570,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.Angular)}
         >
-          <icon-angular scale=${Scales.XS}></icon-angular>
+          <icon-angular size=${Sizes.XS}></icon-angular>
           <span>Angular</span>
         </button>
         <button
@@ -616,7 +579,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.Svelte)}
         >
-          <icon-svelte scale=${Scales.XS}></icon-svelte>
+          <icon-svelte size=${Sizes.XS}></icon-svelte>
           <span>Svelte</span>
         </button>
         <button
@@ -625,7 +588,7 @@ registerComponents([ ${constructorName} ]);`;
           })}
           @click=${() => this.changeConsumerTarget(UIConsumerTargets.Vanilla)}
         >
-          <icon-html scale=${Scales.XS}></icon-html>
+          <icon-html size=${Sizes.XS}></icon-html>
           <span>Vanilla</span>
         </button>
       </div>
@@ -661,14 +624,14 @@ registerComponents([ ${constructorName} ]);`;
   }
 
   static styles = css`
-    .root {
+    .main {
       display: flex;
       flex-flow: column;
       gap: 1rem;
-      background: var(--color-back-tint);
+      background: var(--color-body);
 
       &.fullscreen {
-        padding: var(--size-space);
+        padding: var(--space-md);
       }
     }
 
@@ -678,8 +641,8 @@ registerComponents([ ${constructorName} ]);`;
       --head-height: 40px;
       overflow: hidden;
       width: 100%;
-      border: 1px solid var(--color-back-shade);
-      border-radius: var(--size-radius);
+      border: 1px solid var(--color-body-semi);
+      border-radius: var(--radius-md);
 
       .head {
         display: flex;
@@ -687,12 +650,12 @@ registerComponents([ ${constructorName} ]);`;
         align-items: center;
         justify-content: space-between;
         height: var(--head-height);
-        padding: var(--size-space-0_5x);
-        border-bottom: 1px solid var(--color-back-shade);
+        padding: var(--space-xs);
+        border-bottom: 1px solid var(--color-body-semi);
       }
 
       .body {
-        padding: var(--size-space);
+        padding: var(--space-md);
       }
     }
 
@@ -700,7 +663,7 @@ registerComponents([ ${constructorName} ]);`;
       .body {
         display: flex;
         flex-flow: column;
-        gap: var(--size-space-1_5x);
+        gap: var(--space-lg);
       }
     }
 
@@ -712,21 +675,21 @@ registerComponents([ ${constructorName} ]);`;
       .preview {
         --head-height: 40px;
         height: 480px;
-        background: var(--color-back);
+        background: var(--color-body-less);
 
         .head {
-          background: var(--color-back-tint);
+          background: var(--color-body);
 
           .buttons {
             display: flex;
             align-items: center;
-            gap: var(--size-space-0_5x);
+            gap: var(--space-xs);
 
             .separator {
               display: block;
               width: 1px;
               height: 20px;
-              background: var(--color-back-shade);
+              background: var(--color-body-semi);
             }
 
             button {
@@ -735,16 +698,16 @@ registerComponents([ ${constructorName} ]);`;
               justify-content: center;
               background: none;
               border: none;
-              border-radius: var(--size-radius);
-              padding: var(--size-space-0_25x);
+              border-radius: var(--radius-md);
+              padding: var(--space-xs-2);
               cursor: pointer;
 
               &:hover {
-                background: var(--color-back);
+                background: var(--color-body-less);
               }
 
               &.selected {
-                background: var(--color-back-shade);
+                background: var(--color-body-semi);
               }
             }
           }
@@ -757,20 +720,25 @@ registerComponents([ ${constructorName} ]);`;
           height: calc(100% - var(--head-height));
           min-width: 240px;
           min-height: 240px;
-          background: var(--color-back-tint);
+          background: var(--color-body);
           overflow: scroll;
         }
 
         .viewport-size {
           display: none;
           position: absolute;
-          top: var(--size-space);
-          right: var(--size-space);
-          padding: var(--size-space-0_25x) var(--size-space-0_5x);
-          font-size: var(--size-text-0_85x);
-          border-radius: var(--size-radius);
-          background: color-mix(in oklab, var(--color-front), transparent 30%);
-          color: var(--color-back);
+          top: var(--space-md);
+          right: var(--space-md);
+          padding: var(--space-xs-2) var(--space-xs);
+          font-size: var(--text-sm);
+          border-radius: var(--radius-md);
+          background: color-mix(
+            in oklab,
+            var(--color-body-contrast),
+            transparent 30%
+          );
+          color: var(--color-body);
+          user-select: none;
 
           &.showed {
             display: block;
@@ -782,7 +750,7 @@ registerComponents([ ${constructorName} ]);`;
           content: '';
           position: absolute;
           border-radius: 1000rem;
-          background: var(--color-back-shade);
+          background: var(--color-body-semi);
         }
 
         .right-grip {
@@ -812,23 +780,24 @@ registerComponents([ ${constructorName} ]);`;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: var(--size-space-0_25x);
-            background: var(--color-back);
+            gap: var(--space-xs-2);
+            background: var(--color-body);
             border: none;
-            padding: var(--size-space-0_5x) var(--size-space-0_75x);
+            padding: var(--space-xs) var(--space-sm);
             cursor: pointer;
             box-sizing: border-box;
             height: calc(var(--head-height) + 1px);
-            border-bottom: 1px solid var(--color-back-shade);
-            border-right: 1px solid var(--color-back-shade);
+            border-bottom: 1px solid var(--color-body-semi);
+            border-right: 1px solid var(--color-body-semi);
+            background: var(--color-body-less);
 
             &:hover {
-              background: var(--color-back-tint);
+              background: var(--color-body-semi);
             }
 
             &.selected {
-              background: var(--color-back-tint);
-              border-bottom-color: var(--color-back-tint);
+              background: var(--color-body);
+              border-bottom-color: var(--color-body);
             }
 
             span {
@@ -849,8 +818,8 @@ registerComponents([ ${constructorName} ]);`;
       }
     }
 
-    @media (min-width: 1440px) {
-      .root {
+    @media (min-width: 1400px) {
+      .main {
         flex-flow: row;
 
         .edit {

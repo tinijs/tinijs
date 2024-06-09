@@ -1,82 +1,160 @@
-import {html, type PropertyValues} from 'lit';
-import {property, state, queryAssignedElements} from 'lit/decorators.js';
-import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
-import {TiniElement, partAttrMap} from '@tinijs/core';
+import {html, css, type PropertyValues, type CSSResult} from 'lit';
+import {property} from 'lit/decorators.js';
+import {classMap} from 'lit/directives/class-map.js';
+import {
+  TiniElement,
+  ElementParts,
+  partAttrMap,
+  createStyleBuilder,
+} from '@tinijs/core';
+
+export enum CardParts {
+  Main = ElementParts.Main,
+  Head = 'head',
+  Body = 'body',
+  Foot = 'foot',
+}
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: Boolean, reflect: true}) fluid?: boolean;
   /* eslint-enable prettier/prettier */
 
-  /* eslint-disable prettier/prettier */
-  @queryAssignedElements({slot: 'head'}) private readonly headSlotElems?: HTMLElement[];
-  @queryAssignedElements({slot: 'foot'}) private readonly footSlotElems?: HTMLElement[];
-  /* eslint-enable prettier/prettier */
-  @state() private headSlotPopulated = false;
-  @state() private footSlotPopulated = false;
-
-  private headClasses: ClassInfo = {};
-  private bodyClasses: ClassInfo = {};
-  private footClasses: ClassInfo = {};
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // root classes parts
-    this.extendRootClasses({
+    // main classes parts
+    this.extendMainClasses({
       raw: {
         fluid: !!this.fluid,
       },
     });
-    // head classes parts
-    this.headClasses = {
-      head: true,
-      'head-populated': this.headSlotPopulated,
-    };
-    // body classes parts
-    this.bodyClasses = {
-      body: true,
-    };
-    // foot classes parts
-    this.footClasses = {
-      foot: true,
-      'foot-populated': this.footSlotPopulated,
-    };
   }
 
   protected render() {
-    return html`
-      <div
-        class=${classMap(this.rootClasses)}
-        part=${partAttrMap(this.rootClasses)}
-      >
+    return this.partRender(
+      CardParts.Main,
+      mainChildren => html`
         <div
-          class=${classMap(this.headClasses)}
-          part=${partAttrMap(this.headClasses)}
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
         >
-          <slot
-            name="head"
-            @slotchange=${() =>
-              (this.headSlotPopulated = !!this.headSlotElems?.length)}
-          ></slot>
+          ${this.renderHeadPart()} ${this.renderBodyPart()}
+          ${this.renderFootPart()} ${mainChildren()}
         </div>
+      `
+    );
+  }
 
-        <div
-          class=${classMap(this.bodyClasses)}
-          part=${partAttrMap(this.bodyClasses)}
-        >
+  private renderHeadPart() {
+    return this.partRender(
+      CardParts.Head,
+      headChildren => html`
+        <div class=${CardParts.Head} part=${CardParts.Head}>
+          <slot name=${CardParts.Head}></slot>
+          ${headChildren()}
+        </div>
+      `
+    );
+  }
+
+  private renderBodyPart() {
+    return this.partRender(
+      CardParts.Body,
+      bodyChildren => html`
+        <div class=${CardParts.Body} part=${CardParts.Body}>
           <slot></slot>
+          ${bodyChildren()}
         </div>
+      `
+    );
+  }
 
-        <div
-          class=${classMap(this.footClasses)}
-          part=${partAttrMap(this.footClasses)}
-        >
-          <slot
-            name="foot"
-            @slotchange=${() =>
-              (this.footSlotPopulated = !!this.footSlotElems?.length)}
-          ></slot>
+  private renderFootPart() {
+    return this.partRender(
+      CardParts.Foot,
+      footChildren => html`
+        <div class=${CardParts.Foot} part=${CardParts.Foot}>
+          <slot name=${CardParts.Foot}></slot>
+          ${footChildren()}
         </div>
-      </div>
-    `;
+      `
+    );
   }
 }
+
+export const defaultStyles = createStyleBuilder<{
+  statics: CSSResult;
+}>(outputs => [
+  css`
+    :host {
+      --width: var(--wide-xs);
+      --background: var(--color-body);
+      --border: var(--border-md) solid var(--color-body);
+      --radius: var(--radius-md);
+      --box-shadow: none;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      background-color: var(--background);
+      border: var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      width: var(--width);
+      box-shadow: var(--box-shadow);
+    }
+
+    .head,
+    .foot {
+      display: none;
+    }
+
+    .head-populated,
+    .foot-populated {
+      padding: var(--space-xs) var(--space-md);
+      background: color-mix(in oklab, var(--color-body), transparent 75%);
+    }
+
+    .head-populated,
+    .head-populated > :first-child,
+    .foot-populated,
+    .foot-populated > :first-child {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .head {
+      border-bottom: var(--border);
+    }
+
+    .body {
+      padding: var(--space-md);
+    }
+
+    .foot {
+      border-top: var(--border);
+    }
+
+    ::slotted(.card-image) {
+      width: calc(100% + var(--space-xl));
+      margin: calc(var(--space-md) * -1);
+      height: auto;
+      margin-bottom: var(--space-md);
+    }
+
+    ::slotted(.card-title) {
+      display: block;
+      margin: 0;
+      font-size: var(--text-lg);
+      font-weight: bold;
+    }
+
+    .fluid {
+      width: 100%;
+    }
+  `,
+
+  outputs.statics,
+]);

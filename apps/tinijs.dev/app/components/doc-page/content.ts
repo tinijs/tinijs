@@ -10,7 +10,7 @@ import {
   Output,
   EventEmitter,
   sectionRender,
-  Scales,
+  Sizes,
   Colors,
   type SectionRenderData,
   type OnRenders,
@@ -20,7 +20,6 @@ import {UseRouter, type Router, type FragmentItem} from '@tinijs/router';
 import {TiniMessageComponent} from '../../ui/components/message.js';
 import {TiniCodeComponent} from '../../ui/components/code.js';
 import {TiniImageComponent} from '../../ui/components/image.js';
-import {TiniFigureComponent} from '../../ui/components/figure.js';
 
 import type {DocPostDetail} from '../../services/content.js';
 
@@ -35,7 +34,6 @@ import {prismThemeDark} from '../../utils/prism.js';
     TiniMessageComponent,
     TiniCodeComponent,
     TiniImageComponent,
-    TiniFigureComponent,
     IconEditComponent,
   ],
 })
@@ -58,7 +56,7 @@ export class AppDocPageContentComponent
 
   private get editOnGithubUrl() {
     return `${this.context.githubPath.replace('/tree/', '/edit/')}/${
-      !this.post?.order ? '' : `${!this.post?.order} - `
+      !this.post?.order ? '' : `${this.post?.order} - `
     }${this.postSlug}/index.md`;
   }
 
@@ -71,7 +69,7 @@ export class AppDocPageContentComponent
 
   protected render() {
     return html`
-      <article ${ref(this._articleRef)}>
+      <div class="main" ${ref(this._articleRef)}>
         ${!this.postSlug
           ? this.context.homeTemplate
           : sectionRender([this.post], {
@@ -80,7 +78,7 @@ export class AppDocPageContentComponent
               error: () => this._getErrorTemplate(),
               main: ([post]) => this._getMainTemplate(post!),
             })}
-      </article>
+      </div>
     `;
   }
 
@@ -111,7 +109,7 @@ export class AppDocPageContentComponent
         <div class="content">${unsafeHTML(post.content)}</div>
 
         <a class="suggest-edit" href=${this.editOnGithubUrl} target="_blank">
-          <icon-edit scheme=${Colors.Primary} scale=${Scales.SM}></icon-edit>
+          <icon-edit scheme=${Colors.Primary} size=${Sizes.SM}></icon-edit>
           <span>Suggest changes to this page</span>
         </a>
       </div>
@@ -120,89 +118,81 @@ export class AppDocPageContentComponent
 
   static styles = [
     css`
-      article {
+      .main {
         margin-top: var(--toolbar-height);
-        padding: var(--size-space-2x);
-      }
+        padding: var(--space-xl);
 
-      h1 {
-        margin-top: 0;
-        margin-bottom: var(--size-space);
-      }
-
-      .doc .content {
-        border-top: var(--size-border) solid var(--color-back-shade);
-        padding-top: var(--size-space);
-      }
-
-      .doc h1,
-      .doc h2,
-      .doc h3,
-      .doc h4 {
-        display: flex;
-        align-items: center;
-        gap: var(--size-space-0_5x);
-        transform: translateX(-0.8em);
-      }
-      .doc h1 .header-anchor,
-      .doc h2 .header-anchor,
-      .doc h3 .header-anchor,
-      .doc h4 .header-anchor {
-        visibility: hidden;
-        font-size: 0.8em;
-      }
-      .doc h1:hover .header-anchor,
-      .doc h2:hover .header-anchor,
-      .doc h3:hover .header-anchor,
-      .doc h4:hover .header-anchor {
-        visibility: visible;
-      }
-
-      tini-message::part(root) {
-        font-size: var(--size-text-0_75x);
-        padding: var(--size-space-0_5x);
-      }
-
-      tini-figure::part(caption-bottom) {
-        color: var(--color-medium);
-        font-size: var(--size-text-0_75x);
-      }
-
-      table {
-        border-collapse: collapse;
-        width: 100%;
-        text-align: left;
-        background: var(--color-back);
-        color: var(--color-front);
-      }
-      table tr {
-        margin: 0;
-        padding: 0;
-      }
-      table th {
-        font-weight: 700;
-        background: var(--color-back);
-      }
-      table th,
-      table td {
-        padding: var(--size-space-0_5x);
-        border-bottom: var(--size-border) solid var(--color-back-shade);
-      }
-      table td {
-        background: var(--color-back-tint);
-      }
-
-      .suggest-edit {
-        display: flex;
-        align-items: center;
-        gap: var(--size-space-0_25x);
-        margin-top: var(--size-space-2x);
-      }
-
-      @media (min-width: 1200px) {
-        article {
+        @media (min-width: 1200px) {
           margin-top: 0;
-          padding: var(--size-space-4x);
+          padding: var(--space-xl-2) var(--space-xl-4) var(--space-xl-4);
+        }
+      }
+
+      .doc {
+        & > h1 {
+          transform: translateX(-0.4em);
+          display: flex;
+          align-items: center;
+
+          .header-anchor {
+            visibility: hidden;
+            padding-right: 0.2em;
+            font-size: 0.6em;
+          }
+
+          &:hover .header-anchor {
+            visibility: visible;
+          }
+        }
+
+        .content {
+          border-top: 1px solid var(--color-body-semi);
+          margin-top: var(--space-md);
+          padding-top: var(--space-md);
+
+          & > h1,
+          & > h2,
+          & > h3,
+          & > h4,
+          & > h5,
+          & > h6 {
+            display: flex;
+            align-items: center;
+            margin: 0.75em 0 0.5em;
+            padding-bottom: 0;
+            border-bottom: none;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            transform: translateX(-0.6em);
+
+            .header-anchor {
+              visibility: hidden;
+              font-size: 0.75em;
+            }
+
+            &:hover .header-anchor {
+              visibility: visible;
+            }
+          }
+
+          p,
+          ul,
+          ol {
+            margin: 1em 0;
+          }
+
+          tini-message::part(main) {
+            font-size: var(--text-sm);
+            padding: var(--space-sm);
+          }
+        }
+
+        .suggest-edit {
+          display: flex;
+          align-items: center;
+          gap: var(--space-xs-2);
+          margin-top: var(--space-xl);
         }
       }
     `,

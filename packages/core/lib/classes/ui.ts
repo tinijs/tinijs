@@ -1,78 +1,44 @@
 import {
+  getCompatibleStyle,
   adoptStyles,
   unsafeCSS,
   type PropertyValues,
   type CSSResultOrNative,
   type TemplateResult,
 } from 'lit';
+import {defu} from 'defu';
 
 import {GLOBAL_TINI} from '../consts/global.js';
 import {PACKAGE_PREFIX} from '../consts/common.js';
 import {NO_UI_ERROR, DUPLICATED_UI_ERROR} from '../consts/error.js';
 
 import {listify} from '../utils/common.js';
+import {StyleBuilder} from '../utils/style.js';
 
 import type {TiniElement} from './element.js';
 
-export type Theming = Record<
-  string,
-  {
-    templates?: ThemingTemplates;
-    styles: ThemingStyles;
-    scripts?:
-      | ThemingScripts
-      | (<Host extends TiniElement>(host: Host) => ThemingScripts);
-  }
->;
+export type ThemingEntry = {
+  templates?: ThemingTemplates;
+  styles: ThemingStyles;
+  scripts?: ThemingScripts;
+};
+
+export type Theming = Record<string, ThemingEntry>;
 
 export type ThemingTemplates = Record<
   string,
-  <Host extends TiniElement>(host: Host, context?: any) => TemplateResult
+  <Elem extends TiniElement>(elem: Elem, context?: any) => TemplateResult
 >;
 
 export type CSSResultOrNativeOrRaw = CSSResultOrNative | string;
 
 export type ThemingStyles = CSSResultOrNativeOrRaw | CSSResultOrNativeOrRaw[];
 
-export type StyleDeepInput = string | Record<string, ThemingStyles>;
+export type StyleDeepInput = ThemingStyles | Record<string, ThemingStyles>;
 
 export interface ThemingScripts {
-  connectedCallback?<Host extends TiniElement>(
-    type: ThemingScriptTypes,
-    host: Host
-  ): void;
-  disconnectedCallback?<Host extends TiniElement>(
-    type: ThemingScriptTypes,
-    host: Host
-  ): void;
-  willUpdate?<Host extends TiniElement>(
-    type: ThemingScriptTypes,
-    host: Host,
-    changedProperties: PropertyValues<Host>
-  ): void;
-  firstUpdated?<Host extends TiniElement>(
-    type: ThemingScriptTypes,
-    host: Host,
-    changedProperties: PropertyValues<Host>
-  ): void;
-  updated?<Host extends TiniElement>(
-    type: ThemingScriptTypes,
-    host: Host,
-    changedProperties: PropertyValues<Host>
-  ): void;
-}
-
-export enum ThemingScriptTypes {
-  Script = 'script',
-  Unscript = 'unscript',
-}
-
-export enum Breakpoints {
-  XS = '320px',
-  SM = '576px',
-  MD = '768px',
-  LG = '1024px',
-  XL = '1440px',
+  activate?<Elem extends TiniElement>(elem: Elem): void;
+  deactivate?<Elem extends TiniElement>(elem: Elem): void;
 }
 
 export interface ActiveTheme {
@@ -82,7 +48,6 @@ export interface ActiveTheme {
   familyId: string;
   skinId: string;
   themeId: string;
-  breakpoints: Record<Lowercase<keyof typeof Breakpoints>, string>;
 }
 
 export type UIIconOptions = {
@@ -116,24 +81,98 @@ export interface UIOptions<
 }
 
 export interface UIInit {
-  host?: HTMLElement;
-  globals?: ThemingStyles;
   skins: Record<string, ThemingStyles>;
+  globals?: ThemingStyles;
   shares?: Record<string, ThemingStyles>;
+  host?: HTMLElement;
   options?: UIOptions;
 }
 
 export const THEME_LOCAL_STORAGE_KEY = `${PACKAGE_PREFIX}:local-theme-id`;
 export const THEME_CHANGE_EVENT = `${PACKAGE_PREFIX}:theme-change`;
 
-export function getTemplatesFromTheming(
+export function processThemingEntry(
+  entry: ThemingEntry & {
+    styles: ThemingStyles | StyleBuilder<any>;
+  }
+): ThemingEntry {
+  return !(entry.styles instanceof StyleBuilder)
+    ? entry
+    : {
+        ...entry,
+        styles: entry.styles.toResult(),
+      };
+}
+
+export function isThemingStyles(
+  value: ThemingStyles | Record<string, ThemingStyles> | null | undefined
+): value is ThemingStyles | null | undefined {
+  return (
+    !value ||
+    typeof value === 'string' ||
+    value instanceof Array ||
+    value instanceof CSSStyleSheet ||
+    (value as any).toString instanceof Function
+  );
+}
+
+export function themingStylesToAdoptableStyles(
+  styles: ThemingStyles | null | undefined
+) {
+  return listify<CSSResultOrNativeOrRaw>(styles).map(item =>
+    getCompatibleStyle(typeof item !== 'string' ? item : unsafeCSS(item))
+  );
+}
+
+export function themingStylesToText(styles: ThemingStyles | null | undefined) {
+  return listify<CSSResultOrNativeOrRaw>(styles)
+    .map(style => {
+      if (typeof style === 'string') {
+        return style;
+      } else if (style instanceof CSSStyleSheet) {
+        let text = '';
+        for (const rule of style.cssRules as any) {
+          text += rule.cssText;
+        }
+        return text;
+      } else {
+        return style.cssText;
+      }
+    })
+    .join('');
+}
+
+export function mergeThemingStylesRecords(
+  ...records: (Record<string, ThemingStyles> | null | undefined)[]
+) {
+  const processedRecords: Record<string, CSSResultOrNativeOrRaw[]>[] = [];
+  for (let i = records.length - 1; i >= 0; i--) {
+    const record = records[i];
+    if (!record) continue;
+    processedRecords.push(
+      Object.entries(record).reduce(
+        (result, [key, value]) => {
+          result[key] = listify<CSSResultOrNativeOrRaw>(value);
+          return result;
+        },
+        {} as Record<string, CSSResultOrNativeOrRaw[]>
+      )
+    );
+  }
+  return defu(
+    {} as Record<string, CSSResultOrNativeOrRaw[]>,
+    ...processedRecords
+  );
+}
+
+export function extractTemplatesFromTheming(
   theming: Theming | undefined,
   {themeId, familyId}: ActiveTheme
 ) {
   return (theming?.[themeId] || theming?.[familyId])?.templates || {};
 }
 
-export function getStylesFromTheming(
+export function extractStylesFromTheming(
   theming: Theming | undefined,
   {themeId, familyId}: ActiveTheme
 ) {
@@ -146,76 +185,16 @@ export function getStylesFromTheming(
   );
 }
 
-export function getScriptsFromTheming(
-  host: TiniElement,
+export function extractScriptsFromTheming(
   theming: Theming | undefined,
   {themeId, familyId, prevThemeId, prevFamilyId}: ActiveTheme
 ) {
   const current = (theming?.[themeId] || theming?.[familyId])?.scripts;
-  const currentScripts = !current
-    ? {}
-    : typeof current !== 'function'
-      ? current
-      : current(host);
   const prev =
     prevThemeId === themeId
       ? undefined
       : (theming?.[prevThemeId] || theming?.[prevFamilyId])?.scripts;
-  const prevScripts = !prev
-    ? {}
-    : typeof prev !== 'function'
-      ? prev
-      : prev(host);
-  return {prevScripts, currentScripts};
-}
-
-export function convertThemingStylesToAdoptableStyles(
-  styles: ThemingStyles | undefined
-) {
-  return listify<CSSResultOrNativeOrRaw>(styles).map(item =>
-    typeof item !== 'string' ? item : unsafeCSS(item)
-  );
-}
-
-export function extractTextFromStyles(styles: CSSResultOrNativeOrRaw[]) {
-  return styles
-    .map(style => {
-      if (typeof style === 'string') {
-        return style;
-      } else if (style instanceof CSSStyleSheet) {
-        let text = '';
-        for (const rule of style.cssRules as any) {
-          text += '\n' + rule.cssText;
-        }
-        return text;
-      } else {
-        return style.cssText;
-      }
-    })
-    .join('\n');
-}
-
-export function processComponentStyles(
-  allStyles: CSSResultOrNativeOrRaw[],
-  activeTheme?: ActiveTheme,
-  additionalProcess?: (styleText: string, activeTheme?: ActiveTheme) => string
-) {
-  // 1. combine all styles
-  let styleText = extractTextFromStyles(allStyles);
-  // 2. run additional process
-  if (additionalProcess) styleText = additionalProcess(styleText, activeTheme);
-  // 3. replace breakpoints
-  if (activeTheme) {
-    Object.entries(activeTheme.breakpoints).forEach(
-      ([key, value]) =>
-        (styleText = styleText.replace(
-          new RegExp(`: ?(${key}|${key.toUpperCase()})\\)`, 'g'),
-          `: ${value})`
-        ))
-    );
-  }
-  // result
-  return styleText;
+  return {activate: current?.activate, deactivate: prev?.deactivate};
 }
 
 export function getOptionalUI() {
@@ -266,80 +245,59 @@ export class UI {
     const {familyId: currentFamilyId, skinId: currentSkinId} =
       this._activeTheme || {};
     if (newFamilyId !== currentFamilyId || newSkinId !== currentSkinId) {
-      // 1. update local storage
-      localStorage.setItem(THEME_LOCAL_STORAGE_KEY, themeId);
-      // 2. adopt styles
-      this._applyTheme(newFamilyId, newSkinId);
-      // 3. dispatch a global event
+      // A. update active theme
       const prevFamilyId = currentFamilyId || newFamilyId;
       const prevSkinId = currentSkinId || newSkinId;
       const prevThemeId = `${prevFamilyId}/${prevSkinId}`;
-      dispatchEvent(
-        new CustomEvent(THEME_CHANGE_EVENT, {
-          detail: this._rebuildActiveTheme(newFamilyId, newSkinId, {
-            prevFamilyId,
-            prevSkinId,
-            prevThemeId,
-          }),
-        })
-      );
+      const activeTheme = (this._activeTheme = {
+        prevFamilyId,
+        prevSkinId,
+        prevThemeId,
+        familyId: newFamilyId,
+        skinId: newSkinId,
+        themeId,
+      });
+      // B. update local storage
+      localStorage.setItem(THEME_LOCAL_STORAGE_KEY, themeId);
+      // C. adopt styles
+      this._applyTheme(newFamilyId, newSkinId);
+      // D. dispatch a global event
+      dispatchEvent(new CustomEvent(THEME_CHANGE_EVENT, {detail: activeTheme}));
     }
     return this.activeTheme;
   }
 
-  getStyles(familyId: string, skinId: string) {
-    const themeId = `${familyId}/${skinId}`;
-    const {skins, globals, shares} = this._init;
-    const globalStyles = convertThemingStylesToAdoptableStyles(globals);
-    const skinStyles = convertThemingStylesToAdoptableStyles(skins[themeId]);
-    const shareStyles = [
-      ...convertThemingStylesToAdoptableStyles(shares?.['*']),
-      ...convertThemingStylesToAdoptableStyles(shares?.[familyId]),
-      ...convertThemingStylesToAdoptableStyles(shares?.[themeId]),
-    ];
-    return {globalStyles, skinStyles, shareStyles};
+  getGlobalStyles() {
+    const {globals} = this._init;
+    return listify<CSSResultOrNativeOrRaw>(globals);
   }
 
-  private _rebuildActiveTheme(
-    familyId: string,
-    skinId: string,
-    prevData?: Pick<ActiveTheme, 'prevFamilyId' | 'prevSkinId' | 'prevThemeId'>
-  ) {
-    const themeId = `${familyId}/${skinId}`;
-    // breakpoints
-    const computedStyle = getComputedStyle(document.body);
-    const breakpoints = Object.entries(Breakpoints).reduce(
-      (result, [enumKey, defaultValue]) => {
-        const key = enumKey.toLowerCase() as Lowercase<
-          keyof typeof Breakpoints
-        >;
-        const value = computedStyle.getPropertyValue(`--wide-${key}`);
-        result[key] = value || defaultValue;
-        return result;
-      },
-      {} as Record<Lowercase<keyof typeof Breakpoints>, string>
-    );
-    // result
-    return (this._activeTheme = {
-      prevFamilyId: prevData?.prevFamilyId || familyId,
-      prevSkinId: prevData?.prevSkinId || skinId,
-      prevThemeId: prevData?.prevThemeId || themeId,
-      familyId,
-      skinId,
-      themeId,
-      breakpoints,
-    });
+  getSkinStyles(familyId: string, skinId: string) {
+    const {skins} = this._init;
+    return listify<CSSResultOrNativeOrRaw>(skins[`${familyId}/${skinId}`]);
+  }
+
+  getShareStyles(familyId: string, skinId: string) {
+    const {shares} = this._init;
+    return [
+      ...listify<CSSResultOrNativeOrRaw>(shares?.['*']),
+      ...listify<CSSResultOrNativeOrRaw>(shares?.[familyId]),
+      ...listify<CSSResultOrNativeOrRaw>(shares?.[`${familyId}/${skinId}`]),
+    ];
   }
 
   private _applyTheme(familyId: string, skinId: string) {
     const host = this._init.host || document;
-    const {globalStyles, skinStyles, shareStyles} = this.getStyles(
-      familyId,
-      skinId
-    );
+    const globalStyles = this.getGlobalStyles();
+    const skinStyles = this.getSkinStyles(familyId, skinId);
+    const shareStyles = this.getShareStyles(familyId, skinId);
     return adoptStyles(
       ((host as HTMLElement).shadowRoot || host) as ShadowRoot,
-      [...skinStyles, ...globalStyles, ...shareStyles]
+      themingStylesToAdoptableStyles([
+        ...globalStyles,
+        ...skinStyles,
+        ...shareStyles,
+      ])
     );
   }
 }
