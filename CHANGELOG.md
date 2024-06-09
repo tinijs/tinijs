@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.20.0](https://github.com/tinijs/tinijs/compare/v0.19.0...v0.20.0) (2024-06-09)
+
+
+### Bug Fixes
+
+* eslint and scripts and paths on Windows ([#22](https://github.com/tinijs/tinijs/issues/22)) ([2d6281c](https://github.com/tinijs/tinijs/commit/2d6281cafd883513b8846ea0e9fff47eb4e34116))
+
+
+### Features
+
+* revise ui plan ([#23](https://github.com/tinijs/tinijs/issues/23)) ([d2810e4](https://github.com/tinijs/tinijs/commit/d2810e4dfa361c43a82c995e346d0dc6b83cc94b))
+
+
+
+
+
 # [0.19.0](https://github.com/tinijs/tinijs/compare/v0.18.0...v0.19.0) (2024-05-16)
 
 
