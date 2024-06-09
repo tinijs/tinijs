@@ -151,38 +151,6 @@ export class AppPageHome extends TiniComponent {
           For more detail, please see the <a href="/framework">Get Started</a>.
         </p>
       </section>
-
-      <section class="sponsors">
-        <div class="foreword">
-          <icon-heart></icon-heart>
-          <p>
-            The <strong>Tini Project</strong> is free and open source. It's
-            currently at the very early stage, please consider sponsor me if you
-            see it's useful.
-          </p>
-        </div>
-
-        <div class="special-sponsors">
-          <div class="title">Special Sponsors</div>
-          <ul>
-            <li class="item-1"><a href="javascript:void(0)">Your Logo</a></li>
-            <li class="item-2"><a href="javascript:void(0)">Your Logo</a></li>
-            <li class="item-3"><a href="javascript:void(0)">Your Logo</a></li>
-          </ul>
-        </div>
-
-        <div class="actions">
-          <tini-button
-            scheme=${Gradients.Body}
-            style="
-              --background: var(--gradient-disco-club);
-              --gradient: var(--gradient-disco-club-contrast);
-            "
-            href="mailto:hello@tinijs.dev?subject=Sponsor Tini&body=I want to sponsor the TiniJS project."
-            >Sponsor Tini</tini-button
-          >
-        </div>
-      </section>
     `;
   }
 
@@ -290,66 +258,6 @@ export class AppPageHome extends TiniComponent {
       }
     }
 
-    .sponsors {
-      padding: var(--space-xl);
-      margin: var(--space-xl) auto;
-
-      .foreword {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        margin-bottom: var(--space-xl);
-
-        p {
-          margin-top: var(--space-md);
-        }
-      }
-
-      .special-sponsors {
-        .title {
-          background: var(--color-body-less);
-          margin-bottom: var(--space-xs);
-          padding: var(--space-xs) var(--space-md);
-          border-radius: var(--radius-md) var(--radius-md) 0 0;
-          text-align: center;
-          font-weight: 700;
-          color: var(--color-medium);
-          font-size: 0.9rem;
-        }
-
-        ul {
-          list-style: none;
-          margin: 0;
-          padding: 0;
-          display: grid;
-          gap: var(--space-xs);
-          line-height: var(--line-md);
-
-          li {
-            background: var(--color-body-less);
-
-            a {
-              display: block;
-              color: var(--color-medium);
-              text-decoration: none;
-              font-size: 1.5rem;
-              padding: var(--space-xl);
-              width: 100%;
-              text-align: center;
-            }
-          }
-        }
-      }
-
-      .actions {
-        display: flex;
-        gap: var(--space-md);
-        margin-top: var(--space-xl);
-        justify-content: center;
-      }
-    }
-
     @media (min-width: 768px) {
       .featured {
         padding: var(--space-xl-3) var(--space-xl);
@@ -379,10 +287,6 @@ export class AppPageHome extends TiniComponent {
             justify-content: flex-start;
           }
         }
-      }
-
-      .sponsors .special-sponsors ul {
-        grid-template-columns: repeat(3, 1fr);
       }
     }
   `;
