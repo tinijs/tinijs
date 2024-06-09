@@ -40,7 +40,7 @@ export class AppPageUI extends TiniComponent {
       >
         <tini-heading>Tini UI</tini-heading>
         <tini-text size=${Texts.LG}>
-          Unified web UI experience. One platform, many design systems.
+          Unify web UI experience. One platform, many design systems.
         </tini-text>
       </tini-box>
       <article style="margin-top: var(--space-xl)">

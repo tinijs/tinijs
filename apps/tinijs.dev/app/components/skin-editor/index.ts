@@ -13,13 +13,10 @@ import {
 } from '@tinijs/core';
 import {Subscribe} from '@tinijs/store';
 
-import {
-  TiniSelectComponent,
-  type SelectOption,
-} from '../../ui/components/select.js';
 import {TiniCodeComponent} from '../../ui/components/code.js';
 import {TiniButtonComponent} from '../../ui/components/button.js';
 import {TiniModalComponent} from '../../ui/components/modal.js';
+import {AppThemeSelectorComponent} from '../theme-selector.js';
 
 import {mainStore} from '../../stores/main.js';
 
@@ -37,11 +34,11 @@ import {IconCodeComponent} from '../../icons/code.js';
 
 @Component({
   components: [
-    TiniSelectComponent,
     TiniCodeComponent,
     TiniButtonComponent,
     TiniModalComponent,
     IconCodeComponent,
+    AppThemeSelectorComponent,
   ],
 })
 export class AppSkinEditorComponent extends TiniComponent {
@@ -151,7 +148,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         <p>
           Copy the code below and save as
           <code>ui/styles/${familyId}/skins/some-name.ts</code>. You can edit
-          the values further if you wish or override
+          the values further if you wish or add overrides for
           <a href="/ui/token" @click=${() => this.hideCodeModal()}
             >auto-generated tokens</a
           >.
@@ -216,19 +213,6 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
     );
   }
 
-  private buildThemeOptions(familyId: string, items: SelectOption[]) {
-    return items.map(item => {
-      item.value = `${familyId}/${item.value}`;
-      if (item.value === this.ui.activeTheme.themeId) item.selected = true;
-      return item;
-    });
-  }
-
-  private changeTheme({detail}: CustomEvent<InputEvent>) {
-    this.resetSkin();
-    this.ui.setTheme((detail.target as HTMLInputElement).value as string);
-  }
-
   protected render() {
     return html`
       <div class="head">
@@ -253,71 +237,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
 
       <div class="body">
         <section style="padding: var(--space-md)">
-          <tini-select
-            wrap
-            block
-            label="Current theme"
-            events="change"
-            @change=${this.changeTheme}
-            .items=${[
-              {
-                label: 'Bootstrap',
-                options: this.buildThemeOptions('bootstrap', [
-                  {content: 'Bootstrap Light', value: 'light'},
-                  {content: 'Bootstrap Dark', value: 'dark'},
-                ]),
-              },
-              {
-                label: 'Material',
-                options: this.buildThemeOptions('material', [
-                  {content: 'Material Light', value: 'light'},
-                  {content: 'Material Dark', value: 'dark'},
-                ]),
-              },
-              {
-                label: 'iOS',
-                options: this.buildThemeOptions('ios', [
-                  {content: 'iOS Light', value: 'light'},
-                  {content: 'iOS Dark', value: 'dark'},
-                ]),
-              },
-              {
-                label: 'Fluent',
-                options: this.buildThemeOptions('fluent', [
-                  {content: 'Fluent Light', value: 'light'},
-                  {content: 'Fluent Dark', value: 'dark'},
-                ]),
-              },
-              {
-                label: 'Spectrum',
-                options: this.buildThemeOptions('spectrum', [
-                  {content: 'Spectrum Light', value: 'light'},
-                  {content: 'Spectrum Dark', value: 'dark'},
-                ]),
-              },
-              {
-                label: 'Shadcn',
-                options: this.buildThemeOptions('shadcn', [
-                  {content: 'Shadcn Light', value: 'light'},
-                  {content: 'Shadcn Dark', value: 'dark'},
-                ]),
-              },
-              {
-                label: 'Tailwind',
-                options: this.buildThemeOptions('tailwind', [
-                  {content: 'Tailwind Light', value: 'light'},
-                  {content: 'Tailwind Dark', value: 'dark'},
-                ]),
-              },
-              {
-                label: 'Chakra',
-                options: this.buildThemeOptions('chakra', [
-                  {content: 'Chakra Light', value: 'light'},
-                  {content: 'Chakra Dark', value: 'dark'},
-                ]),
-              },
-            ]}
-          ></tini-select>
+          <app-theme-selector @change=${this.resetSkin}></app-theme-selector>
         </section>
         <section class="properties">
           <ul class="content">

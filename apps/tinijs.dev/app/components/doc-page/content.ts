@@ -183,8 +183,8 @@ export class AppDocPageContentComponent
           }
 
           tini-message::part(main) {
-            font-size: var(--text-xs);
-            padding: var(--space-xs);
+            font-size: var(--text-sm);
+            padding: var(--space-sm);
           }
         }
 

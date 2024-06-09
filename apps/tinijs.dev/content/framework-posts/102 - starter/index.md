@@ -9,7 +9,7 @@
 ## App starters
 
 - [Bare](https://github.com/tinijs/bare-starter) (default) - minimum structure of a TiniJS app.
-- [Blank](https://github.com/tinijs/blank-starter) (flag `-t blank`) - includes router, state management, meta tags management and the [Bootstrap theme family](/ui).
+- [Blank](https://github.com/tinijs/blank-starter) (flag `-t blank`) - includes router, state management, meta tags management and the [Bootstrap-inspired theme family](/ui).
 
 
 ## Other starters

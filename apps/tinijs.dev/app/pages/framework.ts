@@ -57,6 +57,13 @@ export class AppPageFramework extends TiniComponent {
           >
           in Vietnamese - meaning something very small in an adorable way).
         </p>
+        <p>
+          <strong>The TiniJS Framework</strong> (meta-framework) is a collection
+          of tools for building web applications from start to finish. It is
+          based on <a href="https://lit.dev" target="_blank">Lit</a> and aims to
+          provide a native, lightweight, interoperable platform for building web
+          applications.
+        </p>
         <tini-message
           scheme=${SubtleColors.Primary}
           styleDeep="

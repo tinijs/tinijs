@@ -6,7 +6,9 @@
 }
 +++
 
-TiniJS has a dedicated **UI library where I aim to provide every commonly used components and blocks and even whole pages**. Components are architected in a special way where they are custom elements to be used not only with TiniJS, but also with other frameworks or no framework.
+<tini-message scheme="warning-subtle"><strong>Tini UI</strong> is currently under heavy development, I may not have time to changelog all the details, so please refer this document for the latest version as well as reaching out to [Discord](https://discord.gg/EABbZVbPAb) or [Issues](https://github.com/tinijs/tinijs/issues/new) for supports. 🙇‍♂️</tini-message>
+
+TiniJS has a **UI library where I aim to provide every commonly used components and blocks and even whole pages**. Components are architected in a special way where they are custom elements to be used not only with TiniJS, but also with other frameworks or no framework.
 
 Working with reusable components is easy, usually in the form of passing props to the custom element tag. Customization can be done via props or CSS `::part()` or custom theme family or completely clone a component source, ...
 
@@ -65,7 +67,7 @@ const ui = setupUI(
 - Step 2: Use components
 
 ```html
-<tini-text>Lorem ipsum</tini-text>
+<tini-text color="success">Lorem ipsum</tini-text>
 <tini-button>A button</tini-button>
 ```
 
@@ -93,6 +95,7 @@ import {TiniButtonComponent} from '@tinijs/ui-material/components/button.js';
   ]
 })
 export class AppRoot extends TiniComponent {
+
   readonly ui = setupUI({
     skins: {
       'material/light': materialLightSkin,
@@ -102,10 +105,11 @@ export class AppRoot extends TiniComponent {
 
   render() {
     return html`
-      <tini-text>Lorem ipsum</tini-text>
+      <tini-text color="success">Lorem ipsum</tini-text>
       <tini-button>A button</tini-button>
     `;
   }
+
 }
 ```
 
@@ -129,8 +133,9 @@ export default defineTiniConfig({
   ui: {
     // define the sources to be used
     sources: ['@tinijs/ui'],
-    // pick one or more families and one or more skins
+    // pick one or more families and one or more skins from each family
     families: {
+      bootstrap: ['light', 'dark'],
       shadcn: ['light', 'dark'],
       chakra: ['light', 'dark'],
     },
@@ -163,13 +168,16 @@ import {TiniButtonComponent} from './ui/components/button.js';
   ]
 })
 export class AppRoot extends TiniComponent {
-  readonly ui = setupUI(); // skins will be loaded automatically based on the config
+
+  // skins will be included automatically based on the config
+  readonly ui = setupUI();
 
   render() {
     return html`
-      <tini-text>Lorem ipsum</tini-text>
+      <tini-text color="success">Lorem ipsum</tini-text>
       <tini-button>A button</tini-button>
     `;
   }
+
 }
 ```

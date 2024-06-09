@@ -50,6 +50,7 @@ export class AppPageModule extends TiniComponent {
             management system
           </li>
           <li><a href="/module/pwa">PWA</a> - turn a TiniJS app into a PWA</li>
+          <li><a href="/module/server">Server</a> - a Nitro server</li>
         </ul>
 
         <h2>Community modules</h2>
