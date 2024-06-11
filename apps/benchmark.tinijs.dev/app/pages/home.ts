@@ -2,11 +2,11 @@ import {html} from 'lit';
 
 import {Page, TiniComponent} from '@tinijs/core';
 
-import {
-  TEXT_VARIANTS,
-  TEXT_SUGGESTED_ITEMS,
-  TEXT_SUGGESTED_REPEATS,
-} from './ui-text.js';
+import {BLANK_SUBJECT} from './blank.js';
+import {TEXT_SUBJECT} from './ui-text.js';
+import {HEADING_SUBJECT} from './ui-heading.js';
+import {LINK_SUBJECT} from './ui-link.js';
+import {IMAGE_SUBJECT} from './ui-image.js';
 
 @Page({
   name: 'app-page-home',
@@ -28,9 +28,8 @@ export class AppPageHome extends TiniComponent {
           >
         </p>
         <p>
-          A simple dashboard for testing real world
-          <strong>performance</strong>, <strong>accessibility</strong> and
-          <strong>best practices</strong> using Lighthouse.
+          A simple dashboard for testing <strong>performance</strong> of the
+          core Framework and UI system using Lighthouse.
         </p>
         <ul>
           <li>
@@ -40,10 +39,7 @@ export class AppPageHome extends TiniComponent {
           </li>
           <li>
             Go to the <strong>Lighthouse</strong> tab in the DevTools and run
-            <strong>Analyze page load</strong> (or using
-            <a href="https://pagespeed.web.dev/" target="_blank"
-              >PageSpeed Insights</a
-            >)
+            <strong>Analyze page load</strong>
           </li>
         </ul>
         <hr />
@@ -52,31 +48,38 @@ export class AppPageHome extends TiniComponent {
             <tr>
               <th>Subject</th>
               <th>Variants</th>
-              <th>Suggested loads</th>
+              <th>Suggested load</th>
+              <th>PSI</th>
             </tr>
           </thead>
 
           <tbody>
-            <tr>
-              <td><a href="/blank" target="_blank">Blank page</a></td>
-              <td></td>
-              <td></td>
-            </tr>
-
-            <tr>
-              <td>
-                <a
-                  href=${`/ui/text?repeat=${TEXT_SUGGESTED_REPEATS}`}
-                  target="_blank"
-                  >tini-text</a
-                >
-              </td>
-              <td>${TEXT_VARIANTS}</td>
-              <td>
-                ${TEXT_SUGGESTED_ITEMS} items (${TEXT_SUGGESTED_REPEATS}
-                repeats)
-              </td>
-            </tr>
+            ${[
+              BLANK_SUBJECT,
+              TEXT_SUBJECT,
+              HEADING_SUBJECT,
+              LINK_SUBJECT,
+              IMAGE_SUBJECT,
+            ].map(
+              ({
+                title,
+                variants,
+                suggestedItems,
+                suggestedLoadsText,
+                url,
+                psiUrl,
+              }) => {
+                const noRepeat = variants <= 1 && suggestedItems <= 1;
+                return html`
+                  <tr>
+                    <td><a href=${url} target="_blank">${title}</a></td>
+                    <td>${noRepeat ? '' : variants}</td>
+                    <td>${noRepeat ? '' : suggestedLoadsText}</td>
+                    <td><a href=${psiUrl} target="_blank">Link</a></td>
+                  </tr>
+                `;
+              }
+            )}
           </tbody>
         </table>
       </article>

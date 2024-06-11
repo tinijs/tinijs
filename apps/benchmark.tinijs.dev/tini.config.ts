@@ -4,6 +4,7 @@ export default defineTiniConfig({
   build: {
     options: {
       configPath: '../../packages/vite-builder/vite.config.js',
+      devPort: 3100,
     },
   },
 

@@ -6,13 +6,14 @@ import {UseQuery} from '@tinijs/router';
 
 import {TiniTextComponent} from '../ui/components/text.js';
 
-import {repeat} from '../utils/repeat.js';
+import {info, repeat} from '../utils/subject.js';
 
-export const TEXT_VARIANTS = 8;
-export const TEXT_SUGGESTED_ITEMS = 10000;
-export const TEXT_SUGGESTED_REPEATS = Math.round(
-  TEXT_SUGGESTED_ITEMS / TEXT_VARIANTS
-);
+export const TEXT_SUBJECT = info({
+  title: 'tini-text',
+  path: '/ui/text',
+  variants: 10,
+  suggestedItems: 10000,
+});
 
 @Page({
   name: 'app-page-ui-text',
@@ -30,17 +31,21 @@ export class AppPageUIText extends TiniComponent implements PageWithMetadata {
     return repeat(
       Number(this.query.repeat || 1),
       i => html`
-        <tini-text>Text ${i}</tini-text>
-        <tini-text italic>Italic text ${i}</tini-text>
-        <tini-text underline>Underline text ${i}</tini-text>
-        <tini-text font="code">Code text ${i}</tini-text>
-        <tini-text weight="bold">Bold text ${i}</tini-text>
-        <tini-text color="primary">Color text ${i}</tini-text>
-        <tini-text color="gradient-primary">Gradient text ${i}</tini-text>
-        <tini-text size="xl">Large text ${i}</tini-text>
+        <tini-text>Text (#${i})</tini-text>
+        <tini-text font="code">Code text (#${i})</tini-text>
+        <tini-text italic>Italic text (#${i})</tini-text>
+        <tini-text underline>Underline text (#${i})</tini-text>
+        <tini-text weight="bold">Bold text (#${i})</tini-text>
+        <tini-text color="primary">Color text (#${i})</tini-text>
+        <tini-text color="gradient-primary">Gradient text (#${i})</tini-text>
+        <tini-text underline color="gradient-primary"
+          >Underline gradient text (#${i})</tini-text
+        >
+        <tini-text size="xl">Large text (#${i})</tini-text>
+        <tini-text size="xs">Small text (#${i})</tini-text>
         <br />
       `,
-      TEXT_SUGGESTED_REPEATS
+      TEXT_SUBJECT.suggestedRepeats
     );
   }
 
