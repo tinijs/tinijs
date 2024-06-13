@@ -27,12 +27,14 @@ const customBootstrapLightSkin = css`
 `;
 
 const ui = setupUI({
+
   skins: {
     'bootstrap/light': [
       bootstrapLightSkin,
       customBootstrapLightSkin,
     ],
   },
+
 });
 ```
 

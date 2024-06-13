@@ -215,8 +215,9 @@ export async function buildSkins(
   const results: GenFileResult[] = [];
 
   const indexTS = createGenFile({
-    mainExportValue: {} as Record<string, string>,
+    availableSkins: {} as Record<string, string>,
   });
+
   for (const [familyId, pickedSkins] of Object.entries(config.families || {})) {
     const family = themeFamilies[familyId];
     if (family) {
@@ -238,17 +239,18 @@ export async function buildSkins(
           results.push(skinTS.toResult(`skins/${familyId}-${skinId}.ts`));
           // add to index
           indexTS.addImport(`./skins/${familyId}-${skinId}.js`, [importName]);
-          indexTS.data.mainExportValue[`${familyId}/${skinId}`] = importName;
+          indexTS.data.availableSkins[`${familyId}/${skinId}`] = importName;
         }
       }
     }
   }
+
   indexTS
     .addBlock(
       'export',
-      `{ ${Object.values(indexTS.data.mainExportValue).join(', ')} }`
+      `{ ${Object.values(indexTS.data.availableSkins).join(', ')} }`
     )
-    .addBlock('export const availableSkins =', [indexTS.data.mainExportValue]);
+    .addBlock('export const availableSkins =', [indexTS.data.availableSkins]);
   results.push(indexTS.toResult('skin.ts'));
 
   // result
@@ -273,8 +275,9 @@ export async function buildBases(
   );
 
   const indexTS = createGenFile({
-    mainExportValue: {} as Record<string, string>,
+    availableBases: {} as Record<string, string>,
   });
+
   for (const [familyId] of Object.entries(pickedFamilies)) {
     const familyTS = createGenFile();
     const familyNames = parseName(familyId);
@@ -303,15 +306,15 @@ export async function buildBases(
     results.push(familyTS.toResult(`bases/${familyId}.ts`));
     // add to index
     indexTS.addImport(`./bases/${familyId}.js`, [familyExportName]);
-    indexTS.data.mainExportValue[familyId] = familyExportName;
+    indexTS.data.availableBases[familyId] = familyExportName;
   }
 
   indexTS
     .addBlock(
       'export',
-      `{ ${Object.values(indexTS.data.mainExportValue).join(', ')} }`
+      `{ ${Object.values(indexTS.data.availableBases).join(', ')} }`
     )
-    .addBlock('export const availableBases =', [indexTS.data.mainExportValue]);
+    .addBlock('export const availableBases =', [indexTS.data.availableBases]);
   results.push(indexTS.toResult('base.ts'));
 
   // result
@@ -326,31 +329,37 @@ export async function buildComponents(
 ) {
   const results: GenFileResult[] = [];
 
+  const indexTS = createGenFile({
+    availableComponents: [] as string[],
+  });
+
   for (const [componentId, {path: componentPath}] of Object.entries(
     components
   )) {
     const componentTS = createGenFile({
-      componentsValue: [] as string[],
-      themingValue: {} as Record<string, string>,
+      depComponents: [] as string[],
+      themingSouls: {} as Record<string, string>,
     });
 
-    componentTS.addImport('@tinijs/core', ['processThemingEntry']);
-
+    // load build instructions
     const buildInstructions: ComponentBuildInstructions = safeDestr(
       (await readFile(componentPath, 'utf8')).match(
         /\/\*\*\*([\s\S]*?)\*\*\*\//
       )?.[1] || '{}'
     );
+
+    // dep components
     if (buildInstructions.components) {
-      buildInstructions.components.forEach(componentId => {
-        const componentNames = parseName(componentId);
-        const componentImportName = `Tini${componentNames.className}Component`;
-        const componentImportPath = `./${componentId}.js`;
-        componentTS.addImport(componentImportPath, [componentImportName]);
-        componentTS.data.componentsValue.push(componentImportName);
+      buildInstructions.components.forEach(depComponentId => {
+        const depComponents = parseName(depComponentId);
+        const depComponentImportName = `Tini${depComponents.className}Component`;
+        const depComponentImportPath = `./${depComponentId}.js`;
+        componentTS.addImport(depComponentImportPath, [depComponentImportName]);
+        componentTS.data.depComponents.push(depComponentImportName);
       });
     }
 
+    // original component
     const componentNames = parseName(componentId);
     const componentImportName = `Tini${componentNames.className}Component`;
     const componentImportPath = await rewriteImportPath(
@@ -360,7 +369,11 @@ export async function buildComponents(
     );
     componentTS.addImport(componentImportPath, 'OriginalComponent');
     componentTS.addExport(componentImportPath, '*');
+    indexTS.addImport(`./components/${componentId}.js`, [componentImportName]);
+    indexTS.data.availableComponents.push(componentImportName);
 
+    // component souls
+    componentTS.addImport('@tinijs/core', ['processThemingEntry']);
     for (const [familyId] of Object.entries(config.families || {})) {
       const availableSoul = themeFamilies[familyId]?.souls[componentId];
       if (availableSoul) {
@@ -372,11 +385,12 @@ export async function buildComponents(
           config.rewritePath
         );
         componentTS.addImport(soulImportPath, soulImportName);
-        componentTS.data.themingValue[familyId] =
+        componentTS.data.themingSouls[familyId] =
           `processThemingEntry(${soulImportName})`;
       }
     }
 
+    // construct component file
     componentTS.addBlock(
       `export class ${componentImportName} extends OriginalComponent`,
       `{
@@ -386,19 +400,20 @@ export async function buildComponents(
     buildInstructions.raw
       ? ''
       : `static readonly theming = ${genObjectFromRaw(
-          componentTS.data.themingValue
+          componentTS.data.themingSouls
         )};`
   }
   ${
     !buildInstructions.components
       ? ''
       : `static readonly components = ${genArrayFromRaw(
-          componentTS.data.componentsValue
+          componentTS.data.depComponents
         )};`
   }
 }`
     );
 
+    // add framework specific
     if (config.framework === 'react') {
       componentTS
         .addImport('react', 'React')
@@ -422,14 +437,18 @@ export async function buildComponents(
     results.push(componentTS.toResult(`components/${componentId}.ts`));
   }
 
+  indexTS
+    .addBlock('export', `{ ${indexTS.data.availableComponents.join(', ')} }`)
+    .addBlock('export const availableComponents =', [
+      indexTS.data.availableComponents,
+    ]);
+  results.push(indexTS.toResult('component.ts'));
+
   // result
   return results;
 }
 
-export async function buildSetup(
-  {manualSkinSelection}: UIConfig,
-  skinResults: GenFileResult[]
-) {
+export async function buildSetup({manualSkinSelection}: UIConfig) {
   const setupTS = createGenFile();
 
   // imports
@@ -451,21 +470,22 @@ export async function buildSetup(
   }
 
   // exports
-  skinResults
-    .filter(item => item.path.startsWith('skins/'))
-    .forEach(item => setupTS.addExport(`./${tsToJS(item.path)}`, '*'));
+  if (manualSkinSelection) {
+    setupTS.addExport('./skin.js', '*');
+  }
 
   // blocks
   setupTS
     .addBlock('export interface AppWithUI', '{ui: UI}')
     .addBlock(
       'export type UISetup = ',
-      manualSkinSelection ? 'UIInit' : 'Partial<UIInit>'
+      (manualSkinSelection ? 'UIInit' : 'Partial<UIInit>') +
+        ' & {components?: RegisterComponentsList}'
     )
     .addBlock(
-      `export function setupUI({host, globals, skins, shares, options}: UISetup${
+      `export function setupUI({host, globals, skins, shares, options, components}: UISetup${
         manualSkinSelection ? '' : ' = {}'
-      }, components?: RegisterComponentsList)`,
+      })`,
       `{
 const ui = initUI({
   host,
@@ -504,7 +524,6 @@ export async function buildPackageJSON(
           : packageJSON),
     type: 'module',
     exports: {
-      '.': './setup.js',
       './setup.js': './setup.js',
       './global.js': './global.js',
       './globals/*': './globals/*',
@@ -512,8 +531,14 @@ export async function buildPackageJSON(
       './bases/*': './bases/*',
       './skin.js': './skin.js',
       './skins/*': './skins/*',
+      './component.js': './component.js',
       './components/*': './components/*',
-      ...(!withIcons ? {} : {'./icons/*': './icons/*'}),
+      ...(!withIcons
+        ? {}
+        : {
+            './icon.js': './icon.js',
+            './icons/*': './icons/*',
+          }),
     },
     files: ['*'],
   };
@@ -536,47 +561,27 @@ export async function transpileAndRemoveTSFiles(
   await removeFiles(tsFilePaths);
 }
 
-export async function buildBundled(
-  outDir: string,
-  {
-    setupResult,
-    skinResults,
-    componentResults,
-  }: {
-    setupResult: GenFileResult;
-    skinResults: GenFileResult[];
-    componentResults: GenFileResult[];
-  }
-) {
-  // setup.js
-  const setupFile = 'bundled/setup.js';
-  await outputFile(
-    resolve(outDir, setupFile),
-    [
-      ...skinResults
-        .filter(item => item.path.startsWith('skins/'))
-        .map(item => item.path),
-      setupResult.path,
-    ]
-      .map(path => `export * from '../${tsToJS(path)}';`)
-      .join('\n')
-  );
-  // components.js
-  const componentsFile = 'bundled/components.js';
-  await outputFile(
-    resolve(outDir, componentsFile),
-    componentResults
-      .map(({path}) => `export * from '../${tsToJS(path)}';`)
-      .join('\n')
-  );
-  // bundle
+export async function buildBundled(outDir: string, withIcons: boolean) {
+  // save bundled.js
+  const bundledPath = 'bundled.js';
+  const bundledContent = [
+    'skin.js',
+    'component.js',
+    !withIcons ? null : 'icon.js',
+    'setup.js',
+  ]
+    .filter(Boolean)
+    .map(file => `export * from './${file}';`)
+    .join('\n');
+  await outputFile(resolve(outDir, bundledPath), bundledContent);
+  // build bundled.js
   await execa(
     'esbuild',
     [
-      setupFile,
-      componentsFile,
-      '--outdir=bundled',
+      bundledPath,
+      '--outdir=.',
       '--format=esm',
+      '--sourcemap',
       '--bundle',
       '--minify',
       '--allow-overwrite',

@@ -13,8 +13,7 @@ Material-inspired theme family.
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-material/bundled/setup.js
-https://cdn.jsdelivr.net/npm/@tinijs/ui-material/bundled/components.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-material/bundled.js
 ```
 
 - NPM:

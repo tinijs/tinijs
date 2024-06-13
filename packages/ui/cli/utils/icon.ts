@@ -15,9 +15,13 @@ const {sanitize} = isomorphicDompurify;
 
 export async function buildIcons(config: UIConfig) {
   const results: GenFileResult[] = [];
-  const index = {
+
+  const indexJSON = {
     items: [] as Array<[string, string, string]>,
   };
+  const indexTS = createGenFile({
+    availableIcons: [] as string[],
+  });
 
   const availableIcons = await loadAndProcessAvailableIcons(config.icons || []);
   for (const {path, name, ext} of availableIcons) {
@@ -25,14 +29,23 @@ export async function buildIcons(config: UIConfig) {
     const dataURI = await fileToDataURI(path);
 
     const iconTS = createGenFile();
+
+    // prepare info
+    const iconImportName = `Icon${className}Component`;
+    indexTS.addImport(`./icons/${name}.js`, [iconImportName]);
+    indexTS.data.availableIcons.push(iconImportName);
+
+    // construct component file
     iconTS.addImport('../components/icon.js', ['TiniIconComponent']);
     iconTS.addBlock(
-      `export class Icon${className}Component extends TiniIconComponent`,
+      `export class ${iconImportName} extends TiniIconComponent`,
       `{
-static readonly defaultTagName = '${tagName}';
+static readonly defaultTagName = 'icon-${tagName}';
 static readonly src = \`${dataURI}\`;   
 }`
     );
+
+    // add framework specific
     if (config.framework === 'react') {
       iconTS.addImport('react', 'React');
       iconTS.addImport('@lit/react', ['createComponent']);
@@ -40,18 +53,26 @@ static readonly src = \`${dataURI}\`;
         `export const Icon${className} =`,
         `createComponent({
 react: React,
-elementClass: Icon${className}Component,
-tagName: Icon${className}Component.defaultTagName,
+elementClass: ${iconImportName},
+tagName: ${iconImportName}.defaultTagName,
 })`
       );
     }
+
     results.push(iconTS.toResult(`icons/${name}.ts`));
 
-    // add to index
-    index.items.push([name, ext, dataURI.split('base64,')[1]]);
+    // add to index json
+    indexJSON.items.push([name, ext, dataURI.split('base64,')[1]]);
   }
 
-  return {results, index};
+  if (availableIcons.length) {
+    indexTS
+      .addBlock('export', `{ ${indexTS.data.availableIcons.join(', ')} }`)
+      .addBlock('export const availableIcons =', [indexTS.data.availableIcons]);
+    results.push(indexTS.toResult('icon.ts'));
+  }
+
+  return {results, indexJSON};
 }
 
 async function loadAndProcessAvailableIcons(

@@ -13,8 +13,7 @@ Chakra-inspired theme family, homepage: https://v2.chakra-ui.com/
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-chakra/bundled/setup.js
-https://cdn.jsdelivr.net/npm/@tinijs/ui-chakra/bundled/components.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-chakra/bundled.js
 ```
 
 - NPM:
