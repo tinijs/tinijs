@@ -4,13 +4,14 @@ import {Page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
 import {UseQuery} from '@tinijs/router';
 
-import {TiniImageComponent} from '../ui/components/image.js';
+import {TiniImageComponent} from '../../ui/components/image.js';
 
-import {info, repeat} from '../utils/subject.js';
+import {info, repeat} from '../../utils/subject.js';
 
 export const IMAGE_SUBJECT = info({
   title: 'tini-image',
   path: '/ui/image',
+  docPath: '/ui/image',
   variants: 3,
   suggestedItems: 1000,
 });

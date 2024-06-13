@@ -4,13 +4,14 @@ import {Page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
 import {UseQuery} from '@tinijs/router';
 
-import {TiniHeadingComponent} from '../ui/components/heading.js';
+import {TiniHeadingComponent} from '../../ui/components/heading.js';
 
-import {info, repeat} from '../utils/subject.js';
+import {info, repeat} from '../../utils/subject.js';
 
 export const HEADING_SUBJECT = info({
   title: 'tini-heading',
   path: '/ui/heading',
+  docPath: '/ui/heading',
   variants: 6,
   suggestedItems: 1000,
 });

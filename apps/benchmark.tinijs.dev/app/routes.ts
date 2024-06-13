@@ -14,28 +14,28 @@ export const routes: Route[] = [
       {
         path: '/blank',
         component: 'app-page-blank',
-        action: () => import('./pages/blank.js'),
+        action: () => import('./pages/subjects/blank.js'),
       },
       // ui
       {
         path: '/ui/text',
         component: 'app-page-ui-text',
-        action: () => import('./pages/ui-text.js'),
+        action: () => import('./pages/subjects/ui-text.js'),
       },
       {
         path: '/ui/heading',
         component: 'app-page-ui-heading',
-        action: () => import('./pages/ui-heading.js'),
+        action: () => import('./pages/subjects/ui-heading.js'),
       },
       {
         path: '/ui/link',
         component: 'app-page-ui-link',
-        action: () => import('./pages/ui-link.js'),
+        action: () => import('./pages/subjects/ui-link.js'),
       },
       {
         path: '/ui/image',
         component: 'app-page-ui-image',
-        action: () => import('./pages/ui-image.js'),
+        action: () => import('./pages/subjects/ui-image.js'),
       },
       // 404
       {

@@ -4,13 +4,14 @@ import {Page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
 import {UseQuery} from '@tinijs/router';
 
-import {TiniLinkComponent} from '../ui/components/link.js';
+import {TiniLinkComponent} from '../../ui/components/link.js';
 
-import {info, repeat} from '../utils/subject.js';
+import {info, repeat} from '../../utils/subject.js';
 
 export const LINK_SUBJECT = info({
   title: 'tini-link',
   path: '/ui/link',
+  docPath: '/ui/link',
   variants: 8,
   suggestedItems: 1000,
 });

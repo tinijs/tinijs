@@ -2,13 +2,14 @@ import {html, css} from 'lit';
 
 import {Page, TiniComponent} from '@tinijs/core';
 
-import {AppWelcomeComponent} from '../components/welcome.js';
+import {AppWelcomeComponent} from '../../components/welcome.js';
 
-import {info} from '../utils/subject.js';
+import {info} from '../../utils/subject.js';
 
 export const BLANK_SUBJECT = info({
   title: 'Blank page',
   path: '/blank',
+  docPath: '/framework/get-started',
   variants: 1,
   suggestedItems: 1,
 });

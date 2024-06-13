@@ -2,11 +2,11 @@ import {html} from 'lit';
 
 import {Page, TiniComponent} from '@tinijs/core';
 
-import {BLANK_SUBJECT} from './blank.js';
-import {TEXT_SUBJECT} from './ui-text.js';
-import {HEADING_SUBJECT} from './ui-heading.js';
-import {LINK_SUBJECT} from './ui-link.js';
-import {IMAGE_SUBJECT} from './ui-image.js';
+import {BLANK_SUBJECT} from './subjects/blank.js';
+import {TEXT_SUBJECT} from './subjects/ui-text.js';
+import {HEADING_SUBJECT} from './subjects/ui-heading.js';
+import {LINK_SUBJECT} from './subjects/ui-link.js';
+import {IMAGE_SUBJECT} from './subjects/ui-image.js';
 
 @Page({
   name: 'app-page-home',
@@ -18,11 +18,12 @@ export class AppPageHome extends TiniComponent {
         <h1>Benchmark TiniJS Framework and UI</h1>
         <p>
           Homepage:
-          <a href="https://tinijs.dev" target="_blank">https://tinijs.dev</a
-          >&nbsp;&middot;&nbsp;Host:
+          <a href="https://tinijs.dev" target="_blank">https://tinijs.dev</a> —
+          Host:
           <a href="https://pages.cloudflare.com/" target="_blank"
             >Cloudflare Pages</a
-          >&nbsp;&middot;&nbsp;Theme:
+          >
+          — Theme:
           <a href="https://tinijs.dev/ui/bootstrap" target="_blank"
             >Bootstrap Light</a
           >
@@ -67,15 +68,20 @@ export class AppPageHome extends TiniComponent {
                 suggestedItems,
                 suggestedLoadsText,
                 url,
+                docUrl,
                 psiUrl,
               }) => {
                 const noRepeat = variants <= 1 && suggestedItems <= 1;
                 return html`
                   <tr>
-                    <td><a href=${url} target="_blank">${title}</a></td>
+                    <td>
+                      <a href=${url} target="_blank">${title}</a> &middot;
+                      <a href=${docUrl} target="_blank">Doc</a>
+                    </td>
                     <td>${noRepeat ? '' : variants}</td>
                     <td>${noRepeat ? '' : suggestedLoadsText}</td>
                     <td><a href=${psiUrl} target="_blank">Link</a></td>
+                    <td></td>
                   </tr>
                 `;
               }

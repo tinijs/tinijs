@@ -4,13 +4,14 @@ import {Page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
 import {UseQuery} from '@tinijs/router';
 
-import {TiniTextComponent} from '../ui/components/text.js';
+import {TiniTextComponent} from '../../ui/components/text.js';
 
-import {info, repeat} from '../utils/subject.js';
+import {info, repeat} from '../../utils/subject.js';
 
 export const TEXT_SUBJECT = info({
   title: 'tini-text',
   path: '/ui/text',
+  docPath: '/ui/text',
   variants: 10,
   suggestedItems: 10000,
 });
