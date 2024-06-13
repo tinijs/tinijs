@@ -45,8 +45,12 @@ CDN is the simplest way to get started with Tini UI, just include the script tag
 
 ```html
 <script type="module">
-import {setupUI, bootstrapLightSkin, bootstrapDarkSkin} from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap/bundled/setup.js';
-import {TiniTextComponent, TiniButtonComponent} from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap/bundled/components.js';
+import {
+  setupUI,
+  bootstrapLightSkin,
+  bootstrapDarkSkin,
+  availableComponents,
+} from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap/bundled.js';
 
 const ui = setupUI(
   {
@@ -55,11 +59,7 @@ const ui = setupUI(
       'bootstrap/dark': bootstrapDarkSkin,
     },
   },
-  [
-    TiniTextComponent,
-    TiniButtonComponent,
-    // other components
-  ]
+  availableComponents, // register all components
 );
 </script>
 ```

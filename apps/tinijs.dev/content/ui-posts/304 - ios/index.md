@@ -13,8 +13,7 @@ iOS-inspired theme family, homepage: https://developer.apple.com/design/human-in
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-ios/bundled/setup.js
-https://cdn.jsdelivr.net/npm/@tinijs/ui-ios/bundled/components.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-ios/bundled.js
 ```
 
 - NPM:
