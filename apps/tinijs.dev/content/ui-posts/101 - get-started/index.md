@@ -39,32 +39,37 @@ There are 3 main ways of using Tini UI:
 
 ### Via CDN
 
-CDN is the simplest way to get started with Tini UI, just include the script tag in your HTML file.
+CDN is the simplest way to get started with Tini UI, just include the script tag in your HTML file. This way is suitable for small projects or quick prototyping without the need of a build step.
 
 - Step 1: Setup the UI
 
 ```html
 <script type="module">
+
 import {
   setupUI,
-  bootstrapLightSkin,
-  bootstrapDarkSkin,
+  availableSkins,
   availableComponents,
 } from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap/bundled.js';
 
-const ui = setupUI(
-  {
-    skins: {
-      'bootstrap/light': bootstrapLightSkin,
-      'bootstrap/dark': bootstrapDarkSkin,
-    },
-  },
-  availableComponents, // register all components
-);
+// setup the UI
+const ui = setupUI({
+
+  // include some or all skins
+  skins: availableSkins,
+
+  // register some or all components
+  components: availableComponents,
+
+});
+
+// to change theme
+ui.setTheme(isDark ? 'bootstrap/dark' : 'bootstrap/light');
+
 </script>
 ```
 
-- Step 2: Use components
+- Step 2: Use the components
 
 ```html
 <tini-text color="success">Lorem ipsum</tini-text>
@@ -75,42 +80,45 @@ const ui = setupUI(
 
 Prebuilt packages are available on NPM.
 
-- Step 1: Install a theme family.
+- Step 1: Install a theme family
 
 ```bash
 npm i @tinijs/ui-material
 ```
 
-- Step 2: Setup and use components.
+- Step 2: Setup the UI
 
 ```ts
 import { setupUI, materialLightSkin, materialDarkSkin } from '@tinijs/ui-material/setup.js';
-import {TiniTextComponent} from '@tinijs/ui-material/components/text.js';
-import {TiniButtonComponent} from '@tinijs/ui-material/components/button.js';
+import { TiniTextComponent } from '@tinijs/ui-material/components/text.js';
+import { TiniButtonComponent } from '@tinijs/ui-material/components/button.js';
 
-@App({
+// setup the UI
+const ui = setupUI({
+
+  // include some or all skins
+  skins: {
+    'material/light': materialLightSkin,
+    'material/dark': materialDarkSkin,
+  },
+
+  // register some or all components
   components: [
     TiniTextComponent,
     TiniButtonComponent,
   ]
-})
-export class AppRoot extends TiniComponent {
 
-  readonly ui = setupUI({
-    skins: {
-      'material/light': materialLightSkin,
-      'material/dark': materialDarkSkin,
-    },
-  });
+});
 
-  render() {
-    return html`
-      <tini-text color="success">Lorem ipsum</tini-text>
-      <tini-button>A button</tini-button>
-    `;
-  }
+// to change theme
+ui.setTheme(themeId);
+```
 
-}
+- Step 3: Use components
+
+```html
+<tini-text color="success">Lorem ipsum</tini-text>
+<tini-button>A button</tini-button>
 ```
 
 ### Using CLI
@@ -119,32 +127,38 @@ With [Tini CLI](/cli), you can build UI packages for using locally in a project 
 
 It also allows you to override the default bases, skins and components as well as develop your own theme families with your own design systems and private components.
 
-- Step 1: Install Tini UI base package:
+- Step 1: Config and build UI packages
+
+First, install Tini UI source:
 
 ```bash
 npm i @tinijs/ui
 ```
 
-- Step 2: Add config to `tini.config.ts`:
+Then, add the config to `tini.config.ts`:
 
 ```ts
 export default defineTiniConfig({
 
   ui: {
+
     // define the sources to be used
     sources: ['@tinijs/ui'],
-    // pick one or more families and one or more skins from each family
+
+    // pick one or more families
+    // and one or more skins from each family
     families: {
       bootstrap: ['light', 'dark'],
       shadcn: ['light', 'dark'],
       chakra: ['light', 'dark'],
     },
+
   },
 
 });
 ```
 
-Run the build command:
+Finally, run the build command:
 
 ```bash
 npx tini ui build
@@ -152,32 +166,34 @@ npx tini ui build
 
 By default, the result will be output to the `app/ui` folder, the folder should be ignored from git.
 
-You now can import the setup and components.
-
-- Step 3: Setup and use components.
+- Step 2: Setup the UI
 
 ```ts
-import {setupUI, type AppWithUI} from './ui/setup.js';
-import {TiniTextComponent} from './ui/components/text.js';
-import {TiniButtonComponent} from './ui/components/button.js';
+import { setupUI, type AppWithUI } from './ui/setup.js';
+import { TiniTextComponent } from './ui/components/text.js';
+import { TiniButtonComponent } from './ui/components/button.js';
 
-@App({
+// setup the UI
+const ui = setupUI({
+
+  // skins are included automatically
+  // based on the config above in tini.config.ts
+
+  // register some or all components
   components: [
     TiniTextComponent,
     TiniButtonComponent,
   ]
-})
-export class AppRoot extends TiniComponent {
 
-  // skins will be included automatically based on the config
-  readonly ui = setupUI();
+});
 
-  render() {
-    return html`
-      <tini-text color="success">Lorem ipsum</tini-text>
-      <tini-button>A button</tini-button>
-    `;
-  }
+// to change theme
+ui.setTheme(themeId);
+```
 
-}
+- Step 3: Use components
+
+```html
+<tini-text color="success">Lorem ipsum</tini-text>
+<tini-button>A button</tini-button>
 ```

@@ -479,12 +479,13 @@ export async function buildSetup({manualSkinSelection}: UIConfig) {
     .addBlock('export interface AppWithUI', '{ui: UI}')
     .addBlock(
       'export type UISetup = ',
-      manualSkinSelection ? 'UIInit' : 'Partial<UIInit>'
+      (manualSkinSelection ? 'UIInit' : 'Partial<UIInit>') +
+        ' & {components?: RegisterComponentsList}'
     )
     .addBlock(
-      `export function setupUI({host, globals, skins, shares, options}: UISetup${
+      `export function setupUI({host, globals, skins, shares, options, components}: UISetup${
         manualSkinSelection ? '' : ' = {}'
-      }, components?: RegisterComponentsList)`,
+      })`,
       `{
 const ui = initUI({
   host,
