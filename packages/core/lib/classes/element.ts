@@ -34,7 +34,11 @@ import {
   registerComponents,
   type RegisterComponentsList,
 } from '../utils/component.js';
-import {forwardEvents, type EventForwarding} from '../utils/event.js';
+import {
+  parseAndMergeEventForwardings,
+  forwardEvents,
+  type EventForwardingInput,
+} from '../utils/event.js';
 
 export interface ExtendMainClassesInput {
   raw?: ClassInfo;
@@ -83,11 +87,12 @@ export class TiniElement extends LitElement {
 
   static readonly theming?: Theming;
   static readonly components?: RegisterComponentsList;
+  static readonly events?: EventForwardingInput;
 
   /* eslint-disable prettier/prettier */
-  @property({type: Object}) refers?: Record<string, Record<string, any>>;
   @property({converter: stringOrObjectOrArrayConverter}) styleDeep?: StyleDeepInput;
-  @property({converter: stringOrObjectOrArrayConverter}) events?: string | Array<string | EventForwarding>;
+  @property({converter: stringOrObjectOrArrayConverter}) events?: EventForwardingInput;
+  @property({type: Object}) refers?: Record<string, Record<string, any>>;
   /* eslint-enable prettier/prettier */
 
   protected mainClasses: ClassInfo = {[ElementParts.Main]: true};
@@ -105,7 +110,7 @@ export class TiniElement extends LitElement {
       this.attachShadow(
         (this.constructor as typeof LitElement).shadowRootOptions
       );
-    this.customAdoptStyles(renderRoot);
+    this.adoptStyles(renderRoot);
     return renderRoot;
   }
 
@@ -142,7 +147,7 @@ export class TiniElement extends LitElement {
       // theme changed, re-adopt share styles
       this._uiTracker.readoptStylesRequired
     ) {
-      this.customAdoptStyles(this.shadowRoot || this);
+      this.adoptStyles(this.shadowRoot || this);
       this._uiTracker.readoptStylesRequired = false;
     }
     // mark styleDeep already adopted in createRenderRoot()
@@ -152,7 +157,7 @@ export class TiniElement extends LitElement {
   }
 
   protected firstUpdated(changedProperties: PropertyValues<this>) {
-    if (this.events) forwardEvents(this, this.events);
+    this.forwardEvents();
   }
 
   protected updated(changedProperties: PropertyValues<this>) {
@@ -287,6 +292,15 @@ export class TiniElement extends LitElement {
     return originalValue;
   }
 
+  private forwardEvents() {
+    const eventForwardings = parseAndMergeEventForwardings([
+      (this.constructor as typeof TiniElement).events,
+      this.events,
+    ]);
+    if (!eventForwardings?.length) return;
+    forwardEvents(this, eventForwardings);
+  }
+
   private getTemplates() {
     const optionalUI = getOptionalUI();
     return !optionalUI
@@ -320,7 +334,7 @@ export class TiniElement extends LitElement {
           `;
   }
 
-  private customAdoptStyles(renderRoot: HTMLElement | DocumentFragment) {
+  private adoptStyles(renderRoot: HTMLElement | DocumentFragment) {
     const optionalUI = getOptionalUI();
     const allStyles: CSSResultOrNativeOrRaw[] = [];
     // theme styles

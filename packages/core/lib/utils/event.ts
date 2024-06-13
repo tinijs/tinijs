@@ -9,25 +9,45 @@ export interface EventForwarding {
   dispatchOptions?: Omit<CustomEventInit, 'detail'>;
 }
 
+export type EventForwardingInput = string | Array<string | EventForwarding>;
+
+export function parseEventForwarding(input: EventForwardingInput) {
+  return (
+    typeof input !== 'string'
+      ? input
+      : input.split(',').map(item => item.trim())
+  ).map(item =>
+    typeof item !== 'string'
+      ? item
+      : !~item.indexOf(':')
+        ? ({name: item} as EventForwarding)
+        : (() => {
+            const [name, rename] = item.split(':').map(item => item.trim());
+            return {name, rename} as EventForwarding;
+          })()
+  );
+}
+
+export function parseAndMergeEventForwardings(
+  inputs: (EventForwardingInput | undefined)[]
+) {
+  const forwardings: Record<string, EventForwarding> = {};
+  for (const input of inputs) {
+    if (!input) continue;
+    for (const item of parseEventForwarding(input)) {
+      forwardings[item.name] = item;
+    }
+  }
+  return Object.values(forwardings);
+}
+
 export function forwardEvents(
   elem: TiniElement,
-  events: string | Array<string | EventForwarding>
+  forwardings: EventForwarding[]
 ) {
   const renderRoot = elem.shadowRoot || elem;
   const cachedTargets = new Map<string, NodeListOf<Element>>();
-  (typeof events !== 'string'
-    ? events
-    : events.split(',').map(item => item.trim())
-  ).forEach(item => {
-    const forwarding =
-      typeof item !== 'string'
-        ? item
-        : !~item.indexOf(':')
-          ? ({name: item} as EventForwarding)
-          : (() => {
-              const [name, rename] = item.split(':').map(item => item.trim());
-              return {name, rename} as EventForwarding;
-            })();
+  forwardings.forEach(forwarding => {
     const {name, rename, keepPropagation, preventDefault, dispatchOptions} =
       forwarding;
     const customMainSelector = (elem.constructor as typeof TiniElement)
