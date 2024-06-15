@@ -8,7 +8,7 @@ import {
   partAttrMap,
   ElementParts,
   createStyleBuilder,
-  type UICodeOptions,
+  type CodeComponentOptions,
 } from '@tinijs/core';
 
 export enum CodeParts {
@@ -31,7 +31,7 @@ export default class extends TiniElement {
   }
 
   private codeClasses: ClassInfo = {};
-  private componentOptions!: UICodeOptions;
+  private componentOptions!: CodeComponentOptions;
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
     // get component options
@@ -61,11 +61,11 @@ export default class extends TiniElement {
   }
 
   private getComponentOptions() {
-    const defaultOptions: UICodeOptions = {
+    const defaultOptions: CodeComponentOptions = {
       engine: 'none',
       highlight: (_, code) => code,
     };
-    const options = this.getUIContext<UICodeOptions>().componentOptions;
+    const options = this.getUIContext<CodeComponentOptions>().componentOptions;
     return (this.componentOptions = options || defaultOptions);
   }
 

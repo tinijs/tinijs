@@ -16,7 +16,7 @@ import {
   generateAllColorVariants,
   generateAllGradientVariants,
   generateSizeVariants,
-  type UIIconOptions,
+  type IconComponentOptions,
 } from '@tinijs/core';
 
 export enum IconParts {
@@ -68,7 +68,7 @@ export default class extends TiniElement {
       throw new Error(
         'The "name" attribute is required when "src" is not provided.'
       );
-    const {componentOptions} = this.getUIContext<UIIconOptions>();
+    const {componentOptions} = this.getUIContext<IconComponentOptions>();
     return componentOptions?.resolve
       ? componentOptions.resolve(this.name, this.provider)
       : `/icons/${this.name}${~this.name.indexOf('.') ? '' : '.svg'}`;

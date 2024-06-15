@@ -5,8 +5,6 @@ import {
   TiniComponent,
   registerConfig,
   type AppWithConfig,
-  type UIIconOptions,
-  type UICodeOptions,
 } from '@tinijs/core';
 import {createRouter, type AppWithRouter} from '@tinijs/router';
 import {initMeta, type AppWithMeta} from '@tinijs/meta';
@@ -53,20 +51,18 @@ export class AppRoot
   readonly ui = setupUI({
     globals: globalStyles,
     options: {
-      '*': {
-        // code options
-        [TiniCodeComponent.componentName]: {
-          engine: 'prism',
-          highlight: prismHighlight,
-          theme: prismThemeDark,
-        } as UICodeOptions,
-        // icon options (for using in /ui/<name>/dev)
-        [TiniIconComponent.componentName]: {
-          resolve: (name, provider) =>
-            provider === 'iconify'
-              ? `https://api.iconify.design/${name}.svg`
-              : `/icons/${name}${~name.indexOf('.') ? '' : '.svg'}`,
-        } as UIIconOptions,
+      // code options
+      code: {
+        engine: 'prism',
+        highlight: prismHighlight,
+        theme: prismThemeDark,
+      },
+      // icon options (for using in /ui/<name>/dev)
+      icon: {
+        resolve: (name, provider) =>
+          provider === 'iconify'
+            ? `https://api.iconify.design/${name}.svg`
+            : `/icons/${name}${~name.indexOf('.') ? '' : '.svg'}`,
       },
     },
   });

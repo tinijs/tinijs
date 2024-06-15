@@ -17,13 +17,13 @@ import {StyleBuilder} from '../utils/style.js';
 
 import type {TiniElement} from './element.js';
 
+export type Theming = Record<string, ThemingEntry>;
+
 export type ThemingEntry = {
   templates?: ThemingTemplates;
   styles: ThemingStyles;
   scripts?: ThemingScripts;
 };
-
-export type Theming = Record<string, ThemingEntry>;
 
 export type ThemingTemplates = Record<
   string,
@@ -31,7 +31,6 @@ export type ThemingTemplates = Record<
 >;
 
 export type CSSResultOrNativeOrRaw = CSSResultOrNative | string;
-
 export type ThemingStyles = CSSResultOrNativeOrRaw | CSSResultOrNativeOrRaw[];
 
 export interface ThemingScripts {
@@ -48,15 +47,11 @@ export interface ActiveTheme {
   themeId: string;
 }
 
-export type UIIconOptions = {
+export type IconComponentOptions = {
   resolve?(name: string, provider?: string): string;
 };
 
-export type UIButtonOptions = {
-  referGradientSchemeOnHover?: boolean;
-};
-
-export type UICodeOptions = {
+export type CodeComponentOptions = {
   engine: string;
   highlight: (
     language: string,
@@ -66,17 +61,10 @@ export type UICodeOptions = {
   theme?: string;
 };
 
-export interface UIOptions<
-  ExtendedOptions extends Record<string, unknown> = {},
-> {
-  [asteriskOrThemeIdOrFamilyId: string]: {
-    referGradientScheme?: boolean;
-    // component specific options
-    icon?: UIIconOptions;
-    button?: UIButtonOptions;
-    code?: UICodeOptions;
-  } & ExtendedOptions;
-}
+export type UIOptions<ExtendedOptions extends Record<string, unknown> = {}> = {
+  icon?: IconComponentOptions;
+  code?: CodeComponentOptions;
+} & ExtendedOptions;
 
 export interface UIInit {
   skins: Record<string, ThemingStyles>;
