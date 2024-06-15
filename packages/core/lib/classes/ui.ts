@@ -34,8 +34,6 @@ export type CSSResultOrNativeOrRaw = CSSResultOrNative | string;
 
 export type ThemingStyles = CSSResultOrNativeOrRaw | CSSResultOrNativeOrRaw[];
 
-export type StyleDeepInput = ThemingStyles | Record<string, ThemingStyles>;
-
 export interface ThemingScripts {
   activate?<Elem extends TiniElement>(elem: Elem): void;
   deactivate?<Elem extends TiniElement>(elem: Elem): void;

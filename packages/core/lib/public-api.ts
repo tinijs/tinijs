@@ -18,7 +18,6 @@ export * from './decorators/watch.js';
 
 export * from './directives/part-attr-map.js';
 export * from './directives/render.js';
-export * from './directives/style-deep.js';
 
 export * from './utils/app.js';
 export * from './utils/color.js';
