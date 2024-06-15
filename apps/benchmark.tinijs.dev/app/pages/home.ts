@@ -2,8 +2,9 @@ import {html} from 'lit';
 
 import {Page, TiniComponent} from '@tinijs/core';
 
-import {BLANK_SUBJECT} from './subjects/blank.js';
+import {HELLO_WORLD_SUBJECT} from './subjects/hello-world.js';
 import {TEXT_SUBJECT} from './subjects/ui-text.js';
+import {TEXT_NATIVE_SUBJECT} from './subjects/ui-text-native.js';
 import {HEADING_SUBJECT} from './subjects/ui-heading.js';
 import {LINK_SUBJECT} from './subjects/ui-link.js';
 import {IMAGE_SUBJECT} from './subjects/ui-image.js';
@@ -25,13 +26,18 @@ export class AppPageHome extends TiniComponent {
           >
           — Theme:
           <a href="https://tinijs.dev/ui/bootstrap" target="_blank"
-            >Bootstrap Light</a
+            >Bootstrap-inspired Light</a
           >
         </p>
         <p>
-          A simple dashboard for testing <strong>performance</strong> of the
-          core Framework and UI system using Lighthouse.
+          A simple dashboard for testing performance of the
+          core Framework and UI components.
         </p>
+        <p>Using PageSpeed Insights:</p>
+        <ul>
+          <li>Open the corresponded <strong>PSI</strong> links below to run tests</li>
+        </ul>
+        <p>Using local Lighthouse:</p>
         <ul>
           <li>
             Open the below subjects in
@@ -39,7 +45,7 @@ export class AppPageHome extends TiniComponent {
             <code>?repeat=x</code> if available)
           </li>
           <li>
-            Go to the <strong>Lighthouse</strong> tab in the DevTools and run
+            Go to the Lighthouse tab in the DevTools and run
             <strong>Analyze page load</strong>
           </li>
         </ul>
@@ -56,7 +62,8 @@ export class AppPageHome extends TiniComponent {
 
           <tbody>
             ${[
-              BLANK_SUBJECT,
+              HELLO_WORLD_SUBJECT,
+              TEXT_NATIVE_SUBJECT,
               TEXT_SUBJECT,
               HEADING_SUBJECT,
               LINK_SUBJECT,

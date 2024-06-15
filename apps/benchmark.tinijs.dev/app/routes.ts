@@ -10,17 +10,22 @@ export const routes: Route[] = [
         component: 'app-page-home',
         action: () => import('./pages/home.js'),
       },
-      // blank
+      // hello-world
       {
-        path: '/blank',
-        component: 'app-page-blank',
-        action: () => import('./pages/subjects/blank.js'),
+        path: '/hello-world',
+        component: 'app-page-hello-world',
+        action: () => import('./pages/subjects/hello-world.js'),
       },
       // ui
       {
         path: '/ui/text',
         component: 'app-page-ui-text',
         action: () => import('./pages/subjects/ui-text.js'),
+      },
+      {
+        path: '/ui/text-native',
+        component: 'app-page-ui-text-native',
+        action: () => import('./pages/subjects/ui-text-native.js'),
       },
       {
         path: '/ui/heading',
