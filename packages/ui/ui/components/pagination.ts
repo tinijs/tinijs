@@ -99,7 +99,7 @@ export default class extends TiniElement {
     const prevPageNum = this.currentPage - 1;
     const href = this.buildHref(prevPageNum);
     const disabled = this.currentPage <= 1;
-    const prevClasses = this.buildClassVariants(PaginationParts.Prev, {
+    const prevClasses = this.deriveClassNames(PaginationParts.Prev, {
       disabled,
     });
     return html`
@@ -121,7 +121,7 @@ export default class extends TiniElement {
     const nextPageNum = this.currentPage + 1;
     const href = this.buildHref(nextPageNum);
     const disabled = this.currentPage >= this.totalPage;
-    const nextClasses = this.buildClassVariants(PaginationParts.Next, {
+    const nextClasses = this.deriveClassNames(PaginationParts.Next, {
       disabled,
     });
     return html`
@@ -144,7 +144,7 @@ export default class extends TiniElement {
       const pageNum = i + 1;
       const href = this.buildHref(pageNum);
       const active = pageNum === this.currentPage;
-      const itemClasses = this.buildClassVariants(PaginationParts.Item, {
+      const itemClasses = this.deriveClassNames(PaginationParts.Item, {
         active,
       });
       return html`

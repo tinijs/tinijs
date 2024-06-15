@@ -62,7 +62,7 @@ export default class extends TiniElement {
   }
 
   private renderItemPart(item: BreadcrumbsItem, active: boolean) {
-    const itemClasses = this.buildClassVariants(BreadcrumbsParts.Item, {
+    const itemClasses = this.deriveClassNames(BreadcrumbsParts.Item, {
       active,
     });
     return this.partRender(

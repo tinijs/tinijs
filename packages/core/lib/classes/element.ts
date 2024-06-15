@@ -198,10 +198,10 @@ export class TiniElement extends LitElement {
     return this;
   }
 
-  buildClassVariants(name: string, variants: Record<string, any>): ClassInfo {
+  deriveClassNames(name: string, suffixes: Record<string, any>): ClassInfo {
     const result: Record<string, boolean> = {[name]: true};
-    for (const suffix of Object.keys(variants)) {
-      result[`${name}-${suffix}`] = !!variants[suffix];
+    for (const suffix of Object.keys(suffixes)) {
+      result[`${name}-${suffix}`] = !!suffixes[suffix];
     }
     return result;
   }

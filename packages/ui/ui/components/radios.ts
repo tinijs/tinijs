@@ -82,7 +82,7 @@ export default class extends TiniElement {
     checked = false,
     disabled = false,
   }: RadiosItem) {
-    const itemClasses = this.buildClassVariants(RadiosParts.Item, {
+    const itemClasses = this.deriveClassNames(RadiosParts.Item, {
       checked,
       disabled,
     });

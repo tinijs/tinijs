@@ -85,7 +85,7 @@ export default class extends TiniElement {
     checked = false,
     disabled = false,
   }: CheckboxesItem) {
-    const itemClasses = this.buildClassVariants(CheckboxesParts.Item, {
+    const itemClasses = this.deriveClassNames(CheckboxesParts.Item, {
       checked,
       disabled,
     });
