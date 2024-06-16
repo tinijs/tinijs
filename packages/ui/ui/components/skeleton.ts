@@ -14,10 +14,6 @@ export enum SkeletonParts {
 }
 
 export default class extends TiniElement {
-  static readonly componentMetadata = {
-    colorOnlyScheme: true,
-  };
-
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) width?: string;
   @property({type: String, reflect: true}) height?: string;

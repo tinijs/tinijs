@@ -22,10 +22,6 @@ export enum LabelShapes {
 }
 
 export default class extends TiniElement {
-  static readonly componentMetadata = {
-    colorOnlyScheme: true,
-  };
-
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) shape?: LabelShapes;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;

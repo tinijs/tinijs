@@ -28,6 +28,18 @@ import {globalStyles} from './styles.js';
 
 import './layouts/default';
 
+TiniIconComponent.config({
+  resolve: (name, provider) =>
+    provider === 'iconify'
+      ? `https://api.iconify.design/${name}.svg`
+      : `/icons/${name}${~name.indexOf('.') ? '' : '.svg'}`,
+});
+
+TiniCodeComponent.config({
+  highlight: prismHighlight,
+  theme: prismThemeDark,
+});
+
 @App({
   providers,
   components: [
@@ -48,24 +60,7 @@ export class AppRoot
     metadata,
     autoPageMetadata: true,
   });
-  readonly ui = setupUI({
-    globals: globalStyles,
-    options: {
-      // code options
-      code: {
-        engine: 'prism',
-        highlight: prismHighlight,
-        theme: prismThemeDark,
-      },
-      // icon options (for using in /ui/<name>/dev)
-      icon: {
-        resolve: (name, provider) =>
-          provider === 'iconify'
-            ? `https://api.iconify.design/${name}.svg`
-            : `/icons/${name}${~name.indexOf('.') ? '' : '.svg'}`,
-      },
-    },
-  });
+  readonly ui = setupUI({globals: globalStyles});
 
   protected render() {
     return html`<router-outlet .router=${this.router}></router-outlet>`;

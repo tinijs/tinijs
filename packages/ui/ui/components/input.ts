@@ -33,7 +33,6 @@ export enum InputAutoCompletes {
 
 export default class extends TiniElement {
   static readonly componentMetadata = {
-    colorOnlyScheme: true,
     customMainSelector: `.${InputParts.Input}`,
   };
 

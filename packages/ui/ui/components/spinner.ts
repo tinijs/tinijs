@@ -16,10 +16,6 @@ export enum SpinnerParts {
 }
 
 export default class extends TiniElement {
-  static readonly componentMetadata = {
-    colorOnlyScheme: true,
-  };
-
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
   @property({type: String, reflect: true}) size?: Sizes;

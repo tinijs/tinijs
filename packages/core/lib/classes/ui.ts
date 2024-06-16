@@ -2,7 +2,6 @@ import {
   getCompatibleStyle,
   adoptStyles,
   unsafeCSS,
-  type PropertyValues,
   type CSSResultOrNative,
   type TemplateResult,
 } from 'lit';
@@ -38,6 +37,8 @@ export interface ThemingScripts {
   deactivate?<Elem extends TiniElement>(elem: Elem): void;
 }
 
+export type StyleDeepInput = ThemingStyles | Record<string, ThemingStyles>;
+
 export interface ActiveTheme {
   prevFamilyId: string;
   prevSkinId: string;
@@ -47,24 +48,7 @@ export interface ActiveTheme {
   themeId: string;
 }
 
-export type IconComponentOptions = {
-  resolve?(name: string, provider?: string): string;
-};
-
-export type CodeComponentOptions = {
-  engine: string;
-  highlight: (
-    language: string,
-    code: string,
-    styleElement: HTMLStyleElement
-  ) => string | Promise<string>;
-  theme?: string;
-};
-
-export interface UIOptions {
-  icon?: IconComponentOptions;
-  code?: CodeComponentOptions;
-}
+export type UIOptions = {};
 
 export interface UIInit {
   skins: Record<string, ThemingStyles>;
@@ -151,11 +135,35 @@ export function mergeThemingStylesRecords(
   );
 }
 
+export function concatStyleDeepInputs(
+  input1: StyleDeepInput | null | undefined,
+  input2: StyleDeepInput | null | undefined
+) {
+  if (!input1 && !input2) return undefined;
+  if (!input1) return input2 || undefined;
+  if (!input2) return input1 || undefined;
+  const isInput1ThemingStyles = isThemingStyles(input1);
+  const isInput2ThemingStyles = isThemingStyles(input2);
+  if (isInput1ThemingStyles && isInput2ThemingStyles) {
+    return [...listify(input1), ...listify(input2)];
+  } else if (!isInput1ThemingStyles && isInput2ThemingStyles) {
+    return mergeThemingStylesRecords(input1, {
+      [Object.keys(input1)[0]]: input2,
+    });
+  } else if (!isInput2ThemingStyles && isInput1ThemingStyles) {
+    return mergeThemingStylesRecords(input2, {
+      [Object.keys(input2)[0]]: input1,
+    });
+  } else {
+    return undefined;
+  }
+}
+
 export function extractTemplatesFromTheming(
   theming: Theming | undefined,
   {themeId, familyId}: ActiveTheme
 ) {
-  return (theming?.[themeId] || theming?.[familyId])?.templates || {};
+  return theming?.[themeId]?.templates || theming?.[familyId]?.templates || {};
 }
 
 export function extractStylesFromTheming(
@@ -163,11 +171,9 @@ export function extractStylesFromTheming(
   {themeId, familyId}: ActiveTheme
 ) {
   return listify<CSSResultOrNativeOrRaw>(
-    (
-      theming?.[themeId] ||
-      theming?.[familyId] ||
-      Object.values(theming || {})[0]
-    )?.styles
+    theming?.[themeId]?.styles ||
+      theming?.[familyId]?.styles ||
+      Object.values(theming || {})[0]?.styles
   );
 }
 
@@ -175,11 +181,11 @@ export function extractScriptsFromTheming(
   theming: Theming | undefined,
   {themeId, familyId, prevThemeId, prevFamilyId}: ActiveTheme
 ) {
-  const current = (theming?.[themeId] || theming?.[familyId])?.scripts;
+  const current = theming?.[themeId]?.scripts || theming?.[familyId]?.scripts;
   const prev =
     prevThemeId === themeId
       ? undefined
-      : (theming?.[prevThemeId] || theming?.[prevFamilyId])?.scripts;
+      : theming?.[prevThemeId]?.scripts || theming?.[prevFamilyId]?.scripts;
   return {activate: current?.activate, deactivate: prev?.deactivate};
 }
 
@@ -224,6 +230,30 @@ export class UI {
   get activeTheme() {
     if (!this._activeTheme) throw new Error('No active theme found!');
     return this._activeTheme;
+  }
+
+  get prevFamilyId() {
+    return this.activeTheme.prevFamilyId;
+  }
+
+  get familyId() {
+    return this.activeTheme.familyId;
+  }
+
+  get prevSkinId() {
+    return this.activeTheme.prevSkinId;
+  }
+
+  get skinId() {
+    return this.activeTheme.skinId;
+  }
+
+  get prevThemeId() {
+    return this.activeTheme.prevThemeId;
+  }
+
+  get themeId() {
+    return this.activeTheme.themeId;
   }
 
   async setTheme(themeId: string) {

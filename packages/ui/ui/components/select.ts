@@ -39,7 +39,6 @@ export enum SelectAutoCompletes {
 
 export default class extends TiniElement {
   static readonly componentMetadata = {
-    colorOnlyScheme: true,
     customMainSelector: `.${SelectParts.Select}`,
   };
 

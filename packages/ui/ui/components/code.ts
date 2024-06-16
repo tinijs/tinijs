@@ -8,7 +8,8 @@ import {
   partAttrMap,
   ElementParts,
   createStyleBuilder,
-  type CodeComponentOptions,
+  concatStyleDeepInputs,
+  type StyleDeepInput,
 } from '@tinijs/core';
 
 export enum CodeParts {
@@ -16,69 +17,74 @@ export enum CodeParts {
   Code = 'code',
 }
 
+export type CodeHighlight = (
+  code: string,
+  language: string
+) => string | Promise<string>;
+
+export type CodeConfig = {
+  highlight: CodeHighlight;
+  theme?: StyleDeepInput;
+};
+
+type ComponentConstructor = typeof import('./code.js').default;
+
 export default class extends TiniElement {
+  private static highlight: CodeHighlight = code => code;
+  static config(config: CodeConfig) {
+    this.highlight = config.highlight;
+    this.styleDeep = concatStyleDeepInputs(this.styleDeep, config.theme);
+  }
+
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) language!: string;
   @property({type: String, reflect: true}) content!: string;
   /* eslint-enable prettier/prettier */
 
-  private readonly styleRef = createRef<HTMLStyleElement>();
   private readonly codeRef = createRef<HTMLElement>();
-
-  private componentOptions!: CodeComponentOptions;
-  private getComponentOptions() {
-    const defaultOptions: CodeComponentOptions = {
-      engine: 'none',
-      highlight: (_, code) => code,
-    };
-    const options = this.getUIContext<CodeComponentOptions>().componentOptions;
-    return (this.componentOptions = options || defaultOptions);
-  }
 
   private validateProperties() {
     if (!this.language) throw new Error('Property "language" is required.');
     if (!this.content) throw new Error('Property "content" is required.');
   }
 
+  private mainClasses: ClassInfo = {};
   private codeClasses: ClassInfo = {};
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // get component options
-    this.getComponentOptions();
     // default and validations
     this.validateProperties();
     // main and code classes parts
-    const commonClasses = {
-      [this.componentOptions.engine]: true,
+    this.mainClasses = {
+      [CodeParts.Main]: true,
       [`language-${this.language}`]: true,
     };
-    this.codeClasses = {[CodeParts.Code]: true, ...commonClasses};
+    this.codeClasses = {
+      [CodeParts.Code]: true,
+      [`language-${this.language}`]: true,
+    };
   }
 
   async updated() {
-    if (this.codeRef.value && this.styleRef.value) {
-      if (this.componentOptions.theme) {
-        this.styleRef.value.textContent = this.componentOptions.theme;
-      }
-      this.codeRef.value.innerHTML = await this.componentOptions.highlight?.(
-        this.language,
-        this.content,
-        this.styleRef.value
-      );
+    if (this.codeRef.value) {
+      this.codeRef.value.innerHTML = await (
+        this.constructor as ComponentConstructor
+      ).highlight?.(this.content, this.language);
     }
   }
 
   protected render() {
     return this.partRender(
       CodeParts.Main,
-      () => html`
-        <pre class=${CodeParts.Main} part=${CodeParts.Main}><code
+      () =>
+        html`<pre
+          class=${classMap(this.mainClasses)}
+          part=${partAttrMap(this.mainClasses)}
+        ><code
             ${ref(this.codeRef)}
             class=${classMap(this.codeClasses)}
             part=${partAttrMap(this.codeClasses)}
-          ></code></pre>
-        <style ${ref(this.styleRef)}></style>
-      `
+          ></code></pre>`
     );
   }
 }

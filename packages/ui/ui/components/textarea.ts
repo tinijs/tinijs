@@ -25,7 +25,6 @@ export enum TextareaAutoCompletes {
 
 export default class extends TiniElement {
   static readonly componentMetadata = {
-    colorOnlyScheme: true,
     customMainSelector: `.${TextareaParts.Textarea}`,
   };
 
