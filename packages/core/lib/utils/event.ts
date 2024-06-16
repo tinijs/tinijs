@@ -46,38 +46,41 @@ export function forwardEvents(
   forwardings: EventForwarding[]
 ) {
   const renderRoot = elem.shadowRoot || elem;
-  const cachedTargets = new Map<string, NodeListOf<Element>>();
-  forwardings.forEach(forwarding => {
-    const {name, rename, keepPropagation, preventDefault, dispatchOptions} =
-      forwarding;
-    const customMainSelector = (elem.constructor as typeof TiniElement)
-      .componentMetadata.customMainSelector as undefined | string;
-    const target =
-      !forwarding.target && customMainSelector
-        ? customMainSelector
-        : forwarding.target;
-    const targetNodes = !target
-      ? [renderRoot.firstElementChild]
-      : typeof target !== 'string'
-        ? target
-        : cachedTargets.has(target)
-          ? cachedTargets.get(target)
-          : cachedTargets
-              .set(target, renderRoot.querySelectorAll(target))
-              .get(target);
-    if (!targetNodes?.length) return;
-    targetNodes.forEach(targetNode => {
-      if (!targetNode) return;
-      targetNode.addEventListener(name, (e: Event) => {
-        if (!keepPropagation) e.stopPropagation();
-        if (preventDefault) e.preventDefault();
-        elem.dispatchEvent(
-          new CustomEvent(rename || name, {
-            ...dispatchOptions,
-            detail: e,
-          })
-        );
+  const customMainSelector = (elem.constructor as typeof TiniElement)
+    .componentMetadata.customMainSelector as undefined | string;
+  forwardings.forEach(
+    ({
+      name,
+      rename,
+      target,
+      keepPropagation,
+      preventDefault,
+      dispatchOptions,
+    }) => {
+      const customEventName = rename || name;
+      const targetNodeOrNodeListOrSelector =
+        !target && customMainSelector ? customMainSelector : target;
+      (!targetNodeOrNodeListOrSelector
+        ? [renderRoot.firstElementChild]
+        : typeof targetNodeOrNodeListOrSelector !== 'string'
+          ? targetNodeOrNodeListOrSelector
+          : renderRoot.querySelectorAll(targetNodeOrNodeListOrSelector)
+      ).forEach(targetNode => {
+        const forwardedEvents = ((targetNode as any).forwardedEvents ||=
+          {}) as Record<string, EventListener>;
+        if (!targetNode || forwardedEvents[customEventName]) return;
+        forwardedEvents[customEventName] = e => {
+          if (!keepPropagation) e.stopPropagation();
+          if (preventDefault) e.preventDefault();
+          elem.dispatchEvent(
+            new CustomEvent(customEventName, {
+              ...dispatchOptions,
+              detail: e,
+            })
+          );
+        };
+        targetNode.addEventListener(name, forwardedEvents[customEventName]);
       });
-    });
-  });
+    }
+  );
 }
