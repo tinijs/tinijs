@@ -1,12 +1,9 @@
 import {html, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
-import {styleMap, type StyleInfo} from 'lit/directives/style-map.js';
 
 import {
   TiniElement,
   ElementParts,
-  partAttrMap,
   createStyleBuilder,
   Radiuses,
   generateRadiusVariants,
@@ -30,12 +27,6 @@ export default class extends TiniElement {
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // main classes parts
-    this.extendMainClasses({
-      overridable: {
-        radius: this.radius,
-      },
-    });
     // main styles
     if (
       changedProperties.has('width') ||
@@ -54,10 +45,7 @@ export default class extends TiniElement {
     return this.partRender(
       SkeletonParts.Main,
       mainChildren => html`
-        <div
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <div class=${SkeletonParts.Main} part=${SkeletonParts.Main}>
           ${mainChildren()}
         </div>
       `

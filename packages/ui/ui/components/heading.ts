@@ -1,14 +1,11 @@
-import {css, type PropertyValues, type CSSResult} from 'lit';
+import {css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
 import {html, unsafeStatic} from 'lit/static-html.js';
 
 import {
   TiniElement,
   ElementParts,
-  partAttrMap,
   createStyleBuilder,
-  isGradient,
   Colors,
   Gradients,
   generateColorVariants,
@@ -34,21 +31,6 @@ export default class extends TiniElement {
     this.setAttribute('role', 'heading');
   }
 
-  willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    // main classes parts
-    this.extendMainClasses({
-      raw: {
-        gradient: isGradient(this.color),
-        italic: !!this.italic,
-        underline: !!this.underline,
-      },
-      overridable: {
-        color: this.color,
-      },
-    });
-  }
-
   private buildMainTag() {
     let level = Number(this.level?.replace(/^(h|H)/, ''));
     if (isNaN(level) || level < 1 || level > 6) level = 1;
@@ -60,8 +42,8 @@ export default class extends TiniElement {
       HeadingParts.Main,
       mainChildren => html`
         <${this.mainTag}
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
+          class=${HeadingParts.Main}
+          part=${HeadingParts.Main}
         >
           <slot></slot>
           ${mainChildren()}

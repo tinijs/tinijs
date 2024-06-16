@@ -25,13 +25,22 @@ export default class extends TiniElement {
   private readonly styleRef = createRef<HTMLStyleElement>();
   private readonly codeRef = createRef<HTMLElement>();
 
+  private componentOptions!: CodeComponentOptions;
+  private getComponentOptions() {
+    const defaultOptions: CodeComponentOptions = {
+      engine: 'none',
+      highlight: (_, code) => code,
+    };
+    const options = this.getUIContext<CodeComponentOptions>().componentOptions;
+    return (this.componentOptions = options || defaultOptions);
+  }
+
   private validateProperties() {
     if (!this.language) throw new Error('Property "language" is required.');
     if (!this.content) throw new Error('Property "content" is required.');
   }
 
   private codeClasses: ClassInfo = {};
-  private componentOptions!: CodeComponentOptions;
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
     // get component options
@@ -43,7 +52,6 @@ export default class extends TiniElement {
       [this.componentOptions.engine]: true,
       [`language-${this.language}`]: true,
     };
-    this.extendMainClasses({raw: commonClasses});
     this.codeClasses = {[CodeParts.Code]: true, ...commonClasses};
   }
 
@@ -60,23 +68,11 @@ export default class extends TiniElement {
     }
   }
 
-  private getComponentOptions() {
-    const defaultOptions: CodeComponentOptions = {
-      engine: 'none',
-      highlight: (_, code) => code,
-    };
-    const options = this.getUIContext<CodeComponentOptions>().componentOptions;
-    return (this.componentOptions = options || defaultOptions);
-  }
-
   protected render() {
     return this.partRender(
       CodeParts.Main,
       () => html`
-        <pre
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        ><code
+        <pre class=${CodeParts.Main} part=${CodeParts.Main}><code
             ${ref(this.codeRef)}
             class=${classMap(this.codeClasses)}
             part=${partAttrMap(this.codeClasses)}

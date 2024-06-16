@@ -61,10 +61,10 @@ export type CodeComponentOptions = {
   theme?: string;
 };
 
-export type UIOptions<ExtendedOptions extends Record<string, unknown> = {}> = {
+export interface UIOptions {
   icon?: IconComponentOptions;
   code?: CodeComponentOptions;
-} & ExtendedOptions;
+}
 
 export interface UIInit {
   skins: Record<string, ThemingStyles>;

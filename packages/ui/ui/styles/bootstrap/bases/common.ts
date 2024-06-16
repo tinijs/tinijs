@@ -41,14 +41,4 @@ export default css`
   :host {
     display: block;
   }
-
-  .main {
-    color: var(--color-body-contrast);
-    font-family: var(--font-content);
-    font-size: var(--text-md);
-    line-height: var(--line-md);
-    letter-spacing: var(--letter-md);
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: 100%;
-  }
 `;

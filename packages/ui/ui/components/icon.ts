@@ -1,10 +1,8 @@
 import {html, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,
   ElementParts,
-  partAttrMap,
   createStyleBuilder,
   Colors,
   SubtleColors,
@@ -39,16 +37,6 @@ export default class extends TiniElement {
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // main classes parts
-    this.extendMainClasses({
-      raw: {
-        scheme: !!this.scheme,
-      },
-      overridable: {
-        scheme: this.scheme,
-        size: this.size,
-      },
-    });
     // main styles
     const prebuiltSRC = (this.constructor as ComponentConstructor).src;
     if (prebuiltSRC) {
@@ -79,10 +67,7 @@ export default class extends TiniElement {
       IconParts.Main,
       mainChildren => html`
         <div class=${IconParts.BG} part=${IconParts.BG}></div>
-        <div
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <div class=${IconParts.Main} part=${IconParts.Main}>
           ${mainChildren()}
         </div>
       `

@@ -56,13 +56,6 @@ export default class extends TiniElement {
     super.willUpdate(changedProperties);
     // default and validations
     this.validateProperties();
-    // main classes parts
-    this.extendMainClasses({
-      overridable: {
-        scheme: this.scheme,
-        size: this.size,
-      },
-    });
   }
 
   private buildHref(pageNum: number) {
@@ -84,10 +77,7 @@ export default class extends TiniElement {
     return this.partRender(
       PaginationParts.Main,
       mainChildren => html`
-        <div
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <div class=${PaginationParts.Main} part=${PaginationParts.Main}>
           ${this.renderPrevPart()} ${this.renderItemParts()}
           ${this.renderNextPart()} ${mainChildren()}
         </div>

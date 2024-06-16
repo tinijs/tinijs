@@ -1,10 +1,8 @@
-import {html, css, type PropertyValues, type CSSResult} from 'lit';
+import {html, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,
   ElementParts,
-  partAttrMap,
   createStyleBuilder,
   Colors,
   SubtleColors,
@@ -27,25 +25,11 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
-  willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    // main classes parts
-    this.extendMainClasses({
-      overridable: {
-        scheme: this.scheme,
-        size: this.size,
-      },
-    });
-  }
-
   protected render() {
     return this.partRender(
       SpinnerParts.Main,
       mainChildren => html`
-        <div
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <div class=${SpinnerParts.Main} part=${SpinnerParts.Main}>
           ${mainChildren()}
         </div>
       `

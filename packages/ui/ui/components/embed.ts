@@ -1,14 +1,8 @@
 import {html, css, type PropertyValues, CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
 import {styleMap, type StyleInfo} from 'lit/directives/style-map.js';
 
-import {
-  TiniElement,
-  ElementParts,
-  createStyleBuilder,
-  partAttrMap,
-} from '@tinijs/core';
+import {TiniElement, ElementParts, createStyleBuilder} from '@tinijs/core';
 
 export enum EmbedParts {
   Main = ElementParts.Main,
@@ -22,8 +16,6 @@ export default class extends TiniElement {
   private mainStyles: StyleInfo = {};
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // main classes parts
-    this.extendMainClasses({});
     // main styles
     if (!this.ratio) {
       this.mainStyles = {paddingBottom: '56.25%'};
@@ -44,8 +36,8 @@ export default class extends TiniElement {
       EmbedParts.Main,
       mainChildren => html`
         <div
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
+          class=${EmbedParts.Main}
+          part=${EmbedParts.Main}
           style=${styleMap(this.mainStyles)}
         >
           <slot></slot>

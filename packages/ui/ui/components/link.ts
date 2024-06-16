@@ -1,14 +1,11 @@
-import {html, css, type PropertyValues, type CSSResult} from 'lit';
+import {html, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {ref, createRef} from 'lit/directives/ref.js';
 import {
   TiniElement,
   ElementParts,
-  partAttrMap,
   createStyleBuilder,
-  isGradient,
   Colors,
   Gradients,
   Texts,
@@ -46,24 +43,6 @@ export default class extends TiniElement {
   @property({type: Boolean, reflect: true}) italic?: boolean;
   @property({type: Boolean, reflect: true}) noUnderline?: boolean;
   /* eslint-enable prettier/prettier */
-
-  willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    // main classes parts
-    this.extendMainClasses({
-      raw: {
-        gradient: isGradient(this.color),
-        disabled: !!this.disabled,
-        italic: !!this.italic,
-        'no-underline': !!this.noUnderline,
-      },
-      overridable: {
-        color: this.color,
-        text: this.size,
-        weight: this.weight,
-      },
-    });
-  }
 
   connectedCallback() {
     super.connectedCallback();
@@ -135,8 +114,8 @@ export default class extends TiniElement {
         <a
           router-ignore
           ${ref(this.anchorRef)}
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
+          class=${LinkParts.Main}
+          part=${LinkParts.Main}
           href=${this.href || '/'}
           target=${ifDefined(this.target)}
           rel=${ifDefined(this.rel)}

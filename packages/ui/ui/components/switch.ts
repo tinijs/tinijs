@@ -1,11 +1,9 @@
-import {html, nothing, css, type PropertyValues, type CSSResult} from 'lit';
+import {html, nothing, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
   ElementParts,
-  partAttrMap,
   createStyleBuilder,
   Colors,
   SubtleColors,
@@ -46,21 +44,6 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
-  willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    // main classes parts
-    this.extendMainClasses({
-      raw: {
-        disabled: !!this.disabled,
-      },
-      overridable: {
-        status: this.status,
-        scheme: this.scheme,
-        size: this.size,
-      },
-    });
-  }
-
   private toggle(e: Event) {
     e.stopPropagation();
     const target = e.target as HTMLInputElement;
@@ -79,10 +62,7 @@ export default class extends TiniElement {
     return this.partRender(
       SwitchParts.Main,
       mainChildren => html`
-        <label
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <label class=${SwitchParts.Main} part=${SwitchParts.Main}>
           ${!this.label
             ? nothing
             : html`<div class=${SwitchParts.Label} part=${SwitchParts.Label}>

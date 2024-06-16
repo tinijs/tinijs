@@ -36,12 +36,6 @@ import {
   type EventForwardingInput,
 } from '../utils/event.js';
 
-export interface ExtendMainClassesInput {
-  raw?: ClassInfo;
-  pseudo?: Record<string, Record<string, undefined | string>>;
-  overridable?: Record<string, undefined | string>;
-}
-
 export interface ComponentMetadata {
   colorOnlyScheme?: boolean;
   customMainSelector?: string;
@@ -86,12 +80,9 @@ export class TiniElement extends LitElement {
   static readonly events?: EventForwardingInput;
 
   /* eslint-disable prettier/prettier */
-  @property({converter: stringOrObjectOrArrayConverter}) events?: EventForwardingInput;
   @property({converter: stringOrObjectOrArrayConverter}) styleDeep?: ThemingStyles;
-  @property({type: Object}) themingProps?: Record<string, Record<string, unknown>>;
+  @property({converter: stringOrObjectOrArrayConverter}) events?: EventForwardingInput;
   /* eslint-enable prettier/prettier */
-
-  protected mainClasses: ClassInfo = {[ElementParts.Main]: true};
 
   private customTemplates = this.getTemplates();
   private themingScripts = this.getScripts();
@@ -130,107 +121,12 @@ export class TiniElement extends LitElement {
     removeEventListener(THEME_CHANGE_EVENT, this.onThemeChange);
   }
 
-  protected firstUpdated(changedProperties: PropertyValues<this>) {
+  protected updated(changedProperties: PropertyValues<this>) {
+    this.adoptScripts();
     this.forwardEvents();
   }
 
-  protected updated(changedProperties: PropertyValues<this>) {
-    this.adoptScripts();
-  }
-
-  getPropValue<Value>(name: string): Value | null | undefined {
-    const activeTheme = getOptionalUI()?.activeTheme;
-    return !activeTheme
-      ? (this as any)[name]
-      : this.themingProps?.[activeTheme.themeId]?.[name] ??
-          this.themingProps?.[activeTheme.familyId]?.[name] ??
-          (this as any)[name];
-  }
-
-  getUIContext<
-    ComponentSpecificOptions extends Record<string, unknown> = {},
-    ExtendedOptions extends Record<string, unknown> = {},
-  >() {
-    const optionalUI = getOptionalUI();
-    const uiOptions = optionalUI?.options as UIOptions<ExtendedOptions>;
-    const componentOptions = ((uiOptions as any)?.[
-      (this.constructor as typeof TiniElement).componentName
-    ] || {}) as ComponentSpecificOptions;
-    return {optionalUI, uiOptions, componentOptions};
-  }
-
-  setHostStyles(styles: Record<string, string | undefined>) {
-    Object.entries(styles).forEach(([key, value]) => {
-      if (!key.startsWith('--')) {
-        this.style[key as any] = value || '';
-      } else {
-        if (value) {
-          this.style.setProperty(key, value);
-        } else {
-          this.style.removeProperty(key);
-        }
-      }
-    });
-    return this;
-  }
-
-  deriveClassNames(name: string, suffixes: Record<string, any>): ClassInfo {
-    const result: Record<string, boolean> = {[name]: true};
-    for (const suffix of Object.keys(suffixes)) {
-      result[`${name}-${suffix}`] = !!suffixes[suffix];
-    }
-    return result;
-  }
-
-  extendMainClasses2(names: string[], directClasses?: ClassInfo) {
-    // dynamic
-    const dynamicClasses = names.reduce(
-      (result, name) => {
-        const value = this.getPropValue(
-          name.replace(/-(\w)/g, (_, letter) => letter.toUpperCase())
-        );
-        if (value === true) {
-          result[name] = true;
-        } else if (value && typeof value === 'string') {
-          result[`${name}-${value}`] = true;
-        }
-        return result;
-      },
-      {} as Record<string, boolean>
-    );
-    // result
-    return (this.mainClasses = {
-      ...this.mainClasses,
-      ...directClasses,
-      ...dynamicClasses,
-    });
-  }
-
-  // TODO: remove this method
-  extendMainClasses(input: ExtendMainClassesInput) {
-    return this.mainClasses;
-  }
-
-  private forwardEvents() {
-    const eventForwardings = parseAndMergeEventForwardings([
-      (this.constructor as typeof TiniElement).events,
-      this.events,
-    ]);
-    if (!eventForwardings?.length) return;
-    forwardEvents(this, eventForwardings);
-  }
-
-  private getTemplates() {
-    const optionalUI = getOptionalUI();
-    return !optionalUI
-      ? {}
-      : extractTemplatesFromTheming(
-          (this.constructor as typeof TiniElement).theming,
-          optionalUI.activeTheme
-        );
-  }
-
-  partRender(
+  protected partRender(
     name: string,
     defaultTemplate?: (
       children: () => typeof nothing | TemplateResult
@@ -252,33 +148,65 @@ export class TiniElement extends LitElement {
           `;
   }
 
-  private adoptStyles(renderRoot: HTMLElement | DocumentFragment) {
+  protected getUIContext<
+    ComponentSpecificOptions extends Record<string, unknown> = {},
+    ExtendedOptions extends Record<string, unknown> = {},
+  >() {
     const optionalUI = getOptionalUI();
-    const allStyles: CSSResultOrNativeOrRaw[] = [];
-    // theme styles
-    if (optionalUI) {
-      const {familyId, skinId} = optionalUI.activeTheme;
-      allStyles.push(
-        ...optionalUI.getShareStyles(familyId, skinId),
-        ...extractStylesFromTheming(
+    const uiOptions = optionalUI?.options as UIOptions & ExtendedOptions;
+    const componentOptions = ((uiOptions as any)?.[
+      (this.constructor as typeof TiniElement).componentName
+    ] || {}) as ComponentSpecificOptions;
+    return {optionalUI, uiOptions, componentOptions};
+  }
+
+  protected deriveClassNames(
+    name: string,
+    suffixes: Record<string, any>
+  ): ClassInfo {
+    const result: Record<string, boolean> = {[name]: true};
+    for (const suffix of Object.keys(suffixes)) {
+      result[`${name}-${suffix}`] = !!suffixes[suffix];
+    }
+    return result;
+  }
+
+  protected setHostStyles(styles: Record<string, string | undefined>) {
+    Object.entries(styles).forEach(([key, value]) => {
+      if (!key.startsWith('--')) {
+        this.style[key as any] = value || '';
+      } else {
+        if (value) {
+          this.style.setProperty(key, value);
+        } else {
+          this.style.removeProperty(key);
+        }
+      }
+    });
+    return this;
+  }
+
+  private getTemplates() {
+    const optionalUI = getOptionalUI();
+    return !optionalUI
+      ? {}
+      : extractTemplatesFromTheming(
           (this.constructor as typeof TiniElement).theming,
           optionalUI.activeTheme
-        )
-      );
-    }
-    // element styles
-    allStyles.push(...(this.constructor as typeof LitElement).elementStyles);
-    // from styleDeep
-    allStyles.push(
-      ...listify<CSSResultOrNativeOrRaw>(
-        this.getPropValue<ThemingStyles>('styleDeep')
-      )
-    );
-    // adopt all the styles
-    adoptStyles(
-      renderRoot as unknown as ShadowRoot,
-      themingStylesToAdoptableStyles(allStyles)
-    );
+        );
+  }
+
+  private getStyles() {
+    const optionalUI = getOptionalUI();
+    if (!optionalUI) return [];
+    const {familyId, skinId} = optionalUI.activeTheme;
+    return [
+      ...optionalUI.getShareStyles(familyId, skinId),
+      ...extractStylesFromTheming(
+        (this.constructor as typeof TiniElement).theming,
+        optionalUI.activeTheme
+      ),
+    ];
   }
 
   private getScripts() {
@@ -289,6 +217,27 @@ export class TiniElement extends LitElement {
           (this.constructor as typeof TiniElement).theming,
           optionalUI.activeTheme
         );
+  }
+
+  private forwardEvents() {
+    const eventForwardings = parseAndMergeEventForwardings([
+      (this.constructor as typeof TiniElement).events,
+      this.events,
+    ]);
+    if (!eventForwardings?.length) return;
+    forwardEvents(this, eventForwardings);
+  }
+
+  private adoptStyles(renderRoot: HTMLElement | DocumentFragment) {
+    const styles = themingStylesToAdoptableStyles([
+      // theme styles
+      ...this.getStyles(),
+      // element styles
+      ...(this.constructor as typeof LitElement).elementStyles,
+      // from styleDeep
+      ...listify<CSSResultOrNativeOrRaw>(this.styleDeep),
+    ]);
+    adoptStyles(renderRoot as unknown as ShadowRoot, styles);
   }
 
   private adoptScripts() {

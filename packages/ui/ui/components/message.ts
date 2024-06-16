@@ -1,10 +1,8 @@
-import {html, css, type PropertyValues, type CSSResult} from 'lit';
+import {html, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,
   ElementParts,
-  partAttrMap,
   createStyleBuilder,
   Colors,
   SubtleColors,
@@ -25,25 +23,12 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
   /* eslint-enable prettier/prettier */
 
-  willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    // main classes parts
-    this.extendMainClasses({
-      overridable: {
-        scheme: this.scheme,
-      },
-    });
-  }
-
   protected render() {
     return this.partRender(
       MessageParts.Main,
       mainChildren => html`
         <div class=${MessageParts.BG} part=${MessageParts.BG}></div>
-        <div
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <div class=${MessageParts.Main} part=${MessageParts.Main}>
           <slot></slot>
           ${mainChildren()}
         </div>

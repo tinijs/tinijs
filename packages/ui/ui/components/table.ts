@@ -6,15 +6,9 @@ import {
   type CSSResult,
 } from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 
-import {
-  TiniElement,
-  partAttrMap,
-  ElementParts,
-  createStyleBuilder,
-} from '@tinijs/core';
+import {TiniElement, ElementParts, createStyleBuilder} from '@tinijs/core';
 
 export enum TableParts {
   Main = ElementParts.Main,
@@ -47,8 +41,6 @@ export default class extends TiniElement {
     super.willUpdate(changedProperties);
     // default and validations
     this.validateProperties();
-    // main classes parts
-    this.extendMainClasses({});
   }
 
   private processCell(item: TableItem) {
@@ -63,10 +55,7 @@ export default class extends TiniElement {
     return this.partRender(
       TableParts.Main,
       mainChildren => html`
-        <table
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <table class=${TableParts.Main} part=${TableParts.Main}>
           ${this.renderTHead()} ${this.renderTBody()} ${mainChildren()}
         </table>
       `

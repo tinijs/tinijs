@@ -52,26 +52,13 @@ export default class extends TiniElement {
     super.willUpdate(changedProperties);
     // default and validations
     this.validateProperties();
-    // main classes parts
-    this.extendMainClasses({
-      raw: {
-        wrap: !!this.wrap,
-      },
-      overridable: {
-        scheme: this.scheme,
-        size: this.size,
-      },
-    });
   }
 
   protected render() {
     return this.partRender(
       CheckboxesParts.Main,
       mainChildren => html`
-        <div
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <div class=${CheckboxesParts.Main} part=${CheckboxesParts.Main}>
           ${this.items.map(item => this.renderItemPart(item))} ${mainChildren()}
         </div>
       `

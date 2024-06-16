@@ -1,12 +1,6 @@
-import {html, css, type PropertyValues, type CSSResult} from 'lit';
+import {html, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
-import {
-  TiniElement,
-  ElementParts,
-  partAttrMap,
-  createStyleBuilder,
-} from '@tinijs/core';
+import {TiniElement, ElementParts, createStyleBuilder} from '@tinijs/core';
 
 export enum CardParts {
   Main = ElementParts.Main,
@@ -20,24 +14,11 @@ export default class extends TiniElement {
   @property({type: Boolean, reflect: true}) fluid?: boolean;
   /* eslint-enable prettier/prettier */
 
-  willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    // main classes parts
-    this.extendMainClasses({
-      raw: {
-        fluid: !!this.fluid,
-      },
-    });
-  }
-
   protected render() {
     return this.partRender(
       CardParts.Main,
       mainChildren => html`
-        <div
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <div class=${CardParts.Main} part=${CardParts.Main}>
           ${this.renderHeadPart()} ${this.renderBodyPart()}
           ${this.renderFootPart()} ${mainChildren()}
         </div>

@@ -1,11 +1,9 @@
 import {html, nothing, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
   ElementParts,
-  partAttrMap,
   createStyleBuilder,
   Colors,
   SubtleColors,
@@ -68,17 +66,6 @@ export default class extends TiniElement {
     super.willUpdate(changedProperties);
     // default and validations
     this.validateProperties();
-    // main classes parts
-    this.extendMainClasses({
-      raw: {
-        disabled: !!this.disabled,
-        wrap: !!this.wrap,
-      },
-      overridable: {
-        scheme: this.scheme,
-        size: this.size,
-      },
-    });
   }
 
   private isOptgroup(item: SelectItem): item is SelectOptgroup {
@@ -89,10 +76,7 @@ export default class extends TiniElement {
     return this.partRender(
       SelectParts.Main,
       mainChildren => html`
-        <label
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <label class=${SelectParts.Main} part=${SelectParts.Main}>
           ${!this.label
             ? nothing
             : html`<div class=${SelectParts.Label} part=${SelectParts.Label}>
