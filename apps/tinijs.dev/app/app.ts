@@ -5,8 +5,6 @@ import {
   TiniComponent,
   registerConfig,
   type AppWithConfig,
-  type UIIconOptions,
-  type UICodeOptions,
 } from '@tinijs/core';
 import {createRouter, type AppWithRouter} from '@tinijs/router';
 import {initMeta, type AppWithMeta} from '@tinijs/meta';
@@ -30,6 +28,18 @@ import {globalStyles} from './styles.js';
 
 import './layouts/default';
 
+TiniIconComponent.config({
+  resolve: (name, provider) =>
+    provider === 'iconify'
+      ? `https://api.iconify.design/${name}.svg`
+      : `/icons/${name}${~name.indexOf('.') ? '' : '.svg'}`,
+});
+
+TiniCodeComponent.config({
+  highlight: prismHighlight,
+  theme: prismThemeDark,
+});
+
 @App({
   providers,
   components: [
@@ -50,26 +60,7 @@ export class AppRoot
     metadata,
     autoPageMetadata: true,
   });
-  readonly ui = setupUI({
-    globals: globalStyles,
-    options: {
-      '*': {
-        // code options
-        [TiniCodeComponent.componentName]: {
-          engine: 'prism',
-          highlight: prismHighlight,
-          theme: prismThemeDark,
-        } as UICodeOptions,
-        // icon options (for using in /ui/<name>/dev)
-        [TiniIconComponent.componentName]: {
-          resolve: (name, provider) =>
-            provider === 'iconify'
-              ? `https://api.iconify.design/${name}.svg`
-              : `/icons/${name}${~name.indexOf('.') ? '' : '.svg'}`,
-        } as UIIconOptions,
-      },
-    },
-  });
+  readonly ui = setupUI({globals: globalStyles});
 
   protected render() {
     return html`<router-outlet .router=${this.router}></router-outlet>`;

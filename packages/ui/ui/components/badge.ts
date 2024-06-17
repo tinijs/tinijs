@@ -1,9 +1,7 @@
-import {html, css, type PropertyValues, type CSSResult} from 'lit';
+import {html, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,
-  partAttrMap,
   ElementParts,
   createStyleBuilder,
   Colors,
@@ -36,27 +34,12 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
-  willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    // main classes parts
-    this.extendMainClasses({
-      overridable: {
-        shape: this.shape,
-        scheme: this.scheme,
-        size: this.size,
-      },
-    });
-  }
-
   protected render() {
     return this.partRender(
       BadgeParts.Main,
       mainChildren => html`
         <div class=${BadgeParts.BG} part=${BadgeParts.BG}></div>
-        <div
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <div class=${BadgeParts.Main} part=${BadgeParts.Main}>
           <slot></slot>
           ${mainChildren()}
         </div>
@@ -123,7 +106,8 @@ export const defaultStyles = createStyleBuilder<{
       width: calc(var(--size) * 0.5);
       height: calc(var(--size) * 0.5);
     }
-    .shape-dot {
+
+    :host([shape='dot']) .main {
       font-size: 0;
     }
   `,

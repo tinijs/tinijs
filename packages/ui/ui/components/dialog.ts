@@ -1,11 +1,9 @@
-import {html, nothing, css, type PropertyValues, type CSSResult} from 'lit';
+import {html, nothing, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
 import {ref, createRef} from 'lit/directives/ref.js';
 import {
   TiniElement,
   ElementParts,
-  partAttrMap,
   createStyleBuilder,
   Colors,
   SubtleColors,
@@ -37,8 +35,6 @@ export enum DialogActions {
   Accept = 'accept',
 }
 
-export const BACKDROP_DISMISSAL = 'backdrop-dismissal';
-
 /***
 {
   "components": ["button"],
@@ -59,17 +55,6 @@ export default class extends TiniElement {
   /* eslint-enable prettier/prettier */
 
   private readonly dialogRef = createRef<HTMLDialogElement>();
-
-  willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    // main classes parts
-    this.extendMainClasses({
-      raw: {
-        [this.type]: true,
-        [BACKDROP_DISMISSAL]: !!this.backdropDismissal,
-      },
-    });
-  }
 
   get dialogElement() {
     return this.dialogRef.value!;
@@ -93,10 +78,7 @@ export default class extends TiniElement {
   private clickDialog(e: MouseEvent) {
     if (!this.backdropDismissal) return;
     const targetPart = (e.target as any)?.getAttribute('part') || '';
-    if (
-      ~targetPart.indexOf(DialogParts.Main) &&
-      ~targetPart.indexOf(BACKDROP_DISMISSAL)
-    ) {
+    if (~targetPart.indexOf(DialogParts.Main) && this.backdropDismissal) {
       this.dismiss();
     }
   }
@@ -131,8 +113,8 @@ export default class extends TiniElement {
       mainChildren => html`
         <dialog
           ${ref(this.dialogRef)}
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
+          class=${DialogParts.Main}
+          part=${DialogParts.Main}
           @click=${this.clickDialog}
         >
           ${this.renderHeadPart()} ${this.renderBodyPart()}

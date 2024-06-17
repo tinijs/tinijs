@@ -4,7 +4,7 @@ import {defaultStyles} from '../../../components/link.js';
 
 export const styles = defaultStyles.extends({
   statics: css`
-    .gradient:hover::after {
+    :host([color^='gradient']) :hover::after {
       visibility: visible;
     }
   `,

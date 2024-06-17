@@ -1,12 +1,9 @@
-import {html, css, type PropertyValues, type CSSResult} from 'lit';
+import {html, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,
   ElementParts,
-  partAttrMap,
   createStyleBuilder,
-  isGradient,
   Colors,
   Gradients,
   Fonts,
@@ -34,33 +31,11 @@ export default class extends TiniElement {
   @property({type: Boolean, reflect: true}) underline?: boolean;
   /* eslint-enable prettier/prettier */
 
-  willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    // main classes parts
-    this.extendMainClasses({
-      raw: {
-        gradient: isGradient(this.color),
-        block: !!this.block,
-        italic: !!this.italic,
-        underline: !!this.underline,
-      },
-      overridable: {
-        color: this.color,
-        font: this.font,
-        text: this.size,
-        weight: this.weight,
-      },
-    });
-  }
-
   protected render() {
     return this.partRender(
       TextParts.Main,
       mainChildren => html`
-        <span
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <span class=${TextParts.Main} part=${TextParts.Main}>
           <slot></slot>
           ${mainChildren()}
         </span>
@@ -85,9 +60,6 @@ export const defaultStyles = createStyleBuilder<{
       --size: var(--text-md);
       --weight: normal;
       display: inline-block;
-    }
-
-    .main {
       color: var(--color);
       font-family: var(--font);
       font-size: var(--size);
@@ -98,26 +70,26 @@ export const defaultStyles = createStyleBuilder<{
       display: block;
     }
 
-    .gradient {
+    :host([italic]) {
+      font-style: italic;
+    }
+
+    :host([underline]) {
+      text-decoration: underline;
+    }
+
+    :host([color^='gradient']) {
       position: relative;
       background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .italic {
-      font-style: italic;
-    }
-
-    .underline {
-      text-decoration: underline;
-    }
-
-    .underline.gradient::after {
+    :host([color^='gradient'][underline])::after {
       content: '';
       position: absolute;
       left: 0;
-      bottom: 0;
+      bottom: 0.25em;
       width: 100%;
       background: var(--gradient);
       height: 0.08em;

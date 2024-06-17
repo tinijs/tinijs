@@ -457,7 +457,8 @@ export async function buildSetup({manualSkinSelection}: UIConfig) {
       'listify',
       'initUI',
       'registerComponents',
-      'mergeThemingStylesRecords',
+      'mergeRecordStyles',
+      'mergeDirectOrRecordStyles',
       'type RegisterComponentsList',
       'type UI',
       'type UIInit',
@@ -494,11 +495,9 @@ const ui = initUI({
     ...listify<CSSResultOrNativeOrRaw>(globals)
   ],
   skins: ${
-    manualSkinSelection
-      ? 'skins'
-      : 'mergeThemingStylesRecords(availableSkins, skins)'
+    manualSkinSelection ? 'skins' : 'mergeRecordStyles(availableSkins, skins)'
   },
-  shares: mergeThemingStylesRecords(availableBases, shares),
+  shares: mergeDirectOrRecordStyles(availableBases, shares),
   options,
 });
 if (components?.length) registerComponents(components);

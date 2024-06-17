@@ -4,13 +4,13 @@ import {defaultStyles} from '../../../components/link.js';
 
 export const styles = defaultStyles.extends({
   statics: css``,
-  colorGen: ({name, baseName}) => `
-    .color-${name}:hover {
+  colorGen: ({hostSelector, baseName}) => `
+    ${hostSelector} .main:hover {
       color: var(--color-${baseName}-less);
     }
   `,
-  gradientGen: ({name, baseName}) => `
-    .color-${name}:hover {
+  gradientGen: ({hostSelector, baseName}) => `
+    ${hostSelector} .main:hover {
       --gradient: var(--gradient-${baseName}-less);
     }
   `,

@@ -1,9 +1,7 @@
-import {html, css, type PropertyValues, type CSSResult} from 'lit';
+import {html, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,
-  partAttrMap,
   createStyleBuilder,
   ElementParts,
   Colors,
@@ -11,7 +9,6 @@ import {
   ContrastColors,
   Gradients,
   SubtleGradients,
-  ContrastGradients,
   Radiuses,
   Shadows,
   generateAllColorVariants,
@@ -32,27 +29,12 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) shadow?: Shadows;
   /* eslint-enable prettier/prettier */
 
-  willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    // main classes parts
-    this.extendMainClasses({
-      overridable: {
-        scheme: this.scheme,
-        radius: this.radius,
-        shadow: this.shadow,
-      },
-    });
-  }
-
   protected render() {
     return this.partRender(
       BoxParts.Main,
       mainChildren => html`
         <div class=${BoxParts.BG} part=${BoxParts.BG}></div>
-        <div
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <div class=${BoxParts.Main} part=${BoxParts.Main}>
           <slot></slot>
           ${mainChildren()}
         </div>
