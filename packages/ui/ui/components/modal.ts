@@ -25,8 +25,6 @@ export enum ModalActions {
   Accept = 'accept',
 }
 
-export const BACKDROP_DISMISSAL = 'backdrop-dismissal';
-
 /***
 {
   "reactEvents": {
@@ -68,10 +66,7 @@ export default class extends TiniElement {
   private clickDialog(e: MouseEvent) {
     if (!this.backdropDismissal) return;
     const targetPart = (e.target as any)?.getAttribute('part') || '';
-    if (
-      ~targetPart.indexOf(ModalParts.Main) &&
-      ~targetPart.indexOf(BACKDROP_DISMISSAL)
-    ) {
+    if (~targetPart.indexOf(ModalParts.Main) && this.backdropDismissal) {
       this.dismiss();
     }
   }

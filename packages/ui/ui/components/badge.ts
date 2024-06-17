@@ -106,7 +106,8 @@ export const defaultStyles = createStyleBuilder<{
       width: calc(var(--size) * 0.5);
       height: calc(var(--size) * 0.5);
     }
-    .shape-dot {
+
+    :host([shape='dot']) .main {
       font-size: 0;
     }
   `,

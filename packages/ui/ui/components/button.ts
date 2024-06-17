@@ -143,7 +143,7 @@ export const defaultStyles = createStyleBuilder<{
       text-decoration: none;
     }
 
-    .gradient {
+    :host([scheme^='gradient']) .main {
       background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;

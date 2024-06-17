@@ -64,14 +64,7 @@ export class AppPageFramework extends TiniComponent {
           provide a native, lightweight, interoperable platform for building web
           applications.
         </p>
-        <tini-message
-          scheme=${SubtleColors.Primary}
-          styleDeep="
-            .main {
-              font-size: var(--text-md) !important;
-              padding: var(--space-md) !important;
-            }
-          "
+        <tini-message scheme=${SubtleColors.Primary}
           >Want to know <strong>Why bother creating TiniJS Framework?</strong
           ><br />Please read the story about
           <a

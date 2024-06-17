@@ -128,7 +128,7 @@ export const defaultStyles = createStyleBuilder<{
       height: 100%;
     }
 
-    .scheme {
+    :host([scheme]) .main {
       background: var(--scheme);
       -webkit-mask-image: var(--image);
       -webkit-mask-size: 100% 100%;

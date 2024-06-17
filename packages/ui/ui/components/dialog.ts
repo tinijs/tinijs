@@ -35,8 +35,6 @@ export enum DialogActions {
   Accept = 'accept',
 }
 
-export const BACKDROP_DISMISSAL = 'backdrop-dismissal';
-
 /***
 {
   "components": ["button"],
@@ -80,10 +78,7 @@ export default class extends TiniElement {
   private clickDialog(e: MouseEvent) {
     if (!this.backdropDismissal) return;
     const targetPart = (e.target as any)?.getAttribute('part') || '';
-    if (
-      ~targetPart.indexOf(DialogParts.Main) &&
-      ~targetPart.indexOf(BACKDROP_DISMISSAL)
-    ) {
+    if (~targetPart.indexOf(DialogParts.Main) && this.backdropDismissal) {
       this.dismiss();
     }
   }

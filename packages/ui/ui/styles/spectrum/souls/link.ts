@@ -4,17 +4,17 @@ import {defaultStyles} from '../../../components/link.js';
 
 export const styles = defaultStyles.extends({
   statics: css`
-    .gradient:hover::after {
+    :host([color^='gradient']) .main:hover::after {
       visibility: visible;
     }
   `,
-  colorGen: ({name, baseName}) => `
-    .color-${name}:hover {
+  colorGen: ({hostSelector, baseName}) => `
+    ${hostSelector} .main:hover {
       color: var(--color-${baseName}-more);
     }
   `,
-  gradientGen: ({name, baseName}) => `
-    .color-${name}:hover {
+  gradientGen: ({hostSelector, baseName}) => `
+    ${hostSelector} .main:hover {
       --gradient: var(--gradient-${baseName}-more);
     }
   `,

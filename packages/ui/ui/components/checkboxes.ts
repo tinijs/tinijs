@@ -119,7 +119,7 @@ export const defaultStyles = createStyleBuilder<{
       gap: var(--space-md);
     }
 
-    .wrap {
+    :host([wrap]) .main {
       flex-flow: column;
       align-items: flex-start;
     }

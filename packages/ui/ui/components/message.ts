@@ -63,11 +63,13 @@ export const defaultStyles = createStyleBuilder<{
   outputs.statics,
 
   generateAllColorVariants(values => {
-    const {hostSelector, fullName, isSubtle, baseColor, color} = values;
+    const {hostSelector, isSubtle, baseColor, color} = values;
     return `
-      .${fullName} {
+      ${hostSelector} {
         --background: ${color};
         --color: ${isSubtle ? baseColor : color};
+      }
+      ${hostSelector} .main {
         border-color: ${color};
       }
       ${outputs.colorGen(values)}

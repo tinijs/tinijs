@@ -129,7 +129,7 @@ export const defaultStyles = createStyleBuilder<{
       color: var(--color-medium);
     }
 
-    .wrap {
+    :host([wrap]) .main {
       flex-flow: column;
       align-items: flex-start;
       gap: var(--space-xs);
@@ -148,7 +148,7 @@ export const defaultStyles = createStyleBuilder<{
       flex: 1;
     }
 
-    :host([block]) .wrap input {
+    :host([block]) .main input {
       width: 100%;
     }
   `,

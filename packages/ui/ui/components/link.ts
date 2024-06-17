@@ -149,14 +149,14 @@ export const defaultStyles = createStyleBuilder<{
       font-size: var(--size);
     }
 
-    .gradient {
+    :host([color^='gradient']) .main {
       position: relative;
       background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .gradient::after {
+    :host([color^='gradient']) .main::after {
       visibility: hidden;
       content: '';
       position: absolute;
@@ -167,21 +167,21 @@ export const defaultStyles = createStyleBuilder<{
       height: 0.08em;
     }
 
-    .disabled {
+    :host([disabled]) .main {
       cursor: not-allowed;
       pointer-events: none;
       opacity: 0.5;
     }
 
-    .italic {
+    :host([italic]) .main {
       font-style: italic;
     }
 
-    .no-underline {
+    :host([noUnderline]) .main {
       text-decoration: none !important;
     }
 
-    .no-underline.gradient::after {
+    :host([color^='gradient'][noUnderline]) .main::after {
       visibility: hidden !important;
     }
   `,
