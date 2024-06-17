@@ -40,18 +40,13 @@ export default class extends TiniElement {
     super.willUpdate(changedProperties);
     // default and validations
     this.validateProperties();
-    // main classes parts
-    this.extendMainClasses({});
   }
 
   protected render() {
     return this.partRender(
       BreadcrumbsParts.Main,
       mainChildren => html`
-        <div
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <div class=${BreadcrumbsParts.Main} part=${BreadcrumbsParts.Main}>
           ${this.items.map((item, i) =>
             this.renderItemPart(item, i === this.items.length - 1)
           )}
@@ -62,7 +57,7 @@ export default class extends TiniElement {
   }
 
   private renderItemPart(item: BreadcrumbsItem, active: boolean) {
-    const itemClasses = this.buildClassVariants(BreadcrumbsParts.Item, {
+    const itemClasses = this.deriveClassNames(BreadcrumbsParts.Item, {
       active,
     });
     return this.partRender(

@@ -1,11 +1,9 @@
-import {html, nothing, css, type PropertyValues, type CSSResult} from 'lit';
+import {html, nothing, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
   ElementParts,
-  partAttrMap,
   createStyleBuilder,
   Colors,
   SubtleColors,
@@ -35,7 +33,6 @@ export enum InputAutoCompletes {
 
 export default class extends TiniElement {
   static readonly componentMetadata = {
-    colorOnlyScheme: true,
     customMainSelector: `.${InputParts.Input}`,
   };
 
@@ -55,30 +52,11 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
-  willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    // main classes parts
-    this.extendMainClasses({
-      raw: {
-        disabled: !!this.disabled,
-        readonly: !!this.readonly,
-        wrap: !!this.wrap,
-      },
-      overridable: {
-        scheme: this.scheme,
-        size: this.size,
-      },
-    });
-  }
-
   protected render() {
     return this.partRender(
       InputParts.Main,
       mainChildren => html`
-        <label
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <label class=${InputParts.Main} part=${InputParts.Main}>
           ${!this.label
             ? nothing
             : html`<div class=${InputParts.Label} part=${InputParts.Label}>
@@ -151,7 +129,7 @@ export const defaultStyles = createStyleBuilder<{
       color: var(--color-medium);
     }
 
-    .wrap {
+    :host([wrap]) .main {
       flex-flow: column;
       align-items: flex-start;
       gap: var(--space-xs);
@@ -170,7 +148,7 @@ export const defaultStyles = createStyleBuilder<{
       flex: 1;
     }
 
-    :host([block]) .wrap input {
+    :host([block]) .main input {
       width: 100%;
     }
   `,

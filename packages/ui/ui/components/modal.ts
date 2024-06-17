@@ -1,11 +1,9 @@
-import {html, css, type PropertyValues, type CSSResult} from 'lit';
+import {html, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
 import {ref, createRef} from 'lit/directives/ref.js';
 import {
   TiniElement,
   ElementParts,
-  partAttrMap,
   createStyleBuilder,
   Colors,
 } from '@tinijs/core';
@@ -27,8 +25,6 @@ export enum ModalActions {
   Accept = 'accept',
 }
 
-export const BACKDROP_DISMISSAL = 'backdrop-dismissal';
-
 /***
 {
   "reactEvents": {
@@ -47,16 +43,6 @@ export default class extends TiniElement {
   /* eslint-enable prettier/prettier */
 
   private readonly dialogRef = createRef<HTMLDialogElement>();
-
-  willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    // main classes parts
-    this.extendMainClasses({
-      raw: {
-        [BACKDROP_DISMISSAL]: !!this.backdropDismissal,
-      },
-    });
-  }
 
   get dialogElement() {
     return this.dialogRef.value!;
@@ -80,10 +66,7 @@ export default class extends TiniElement {
   private clickDialog(e: MouseEvent) {
     if (!this.backdropDismissal) return;
     const targetPart = (e.target as any)?.getAttribute('part') || '';
-    if (
-      ~targetPart.indexOf(ModalParts.Main) &&
-      ~targetPart.indexOf(BACKDROP_DISMISSAL)
-    ) {
+    if (~targetPart.indexOf(ModalParts.Main) && this.backdropDismissal) {
       this.dismiss();
     }
   }
@@ -118,8 +101,8 @@ export default class extends TiniElement {
       mainChildren => html`
         <dialog
           ${ref(this.dialogRef)}
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
+          class=${ModalParts.Main}
+          part=${ModalParts.Main}
           @click=${this.clickDialog}
         >
           ${this.renderHeadPart()} ${this.renderBodyPart()}

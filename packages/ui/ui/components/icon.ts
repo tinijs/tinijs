@@ -1,10 +1,8 @@
 import {html, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,
   ElementParts,
-  partAttrMap,
   createStyleBuilder,
   Colors,
   SubtleColors,
@@ -16,7 +14,6 @@ import {
   generateAllColorVariants,
   generateAllGradientVariants,
   generateSizeVariants,
-  type UIIconOptions,
 } from '@tinijs/core';
 
 export enum IconParts {
@@ -24,10 +21,21 @@ export enum IconParts {
   Main = ElementParts.Main,
 }
 
+export type IconResolve = (name: string, provider?: string) => string;
+
+export type IconConfig = {
+  resolve?: IconResolve;
+};
+
 type ComponentConstructor = typeof import('./icon.js').default;
 
 export default class extends TiniElement {
   static readonly src?: string;
+
+  private static resolve?: IconResolve;
+  static config(value: IconConfig) {
+    this.resolve = value.resolve;
+  }
 
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) src?: string;
@@ -39,16 +47,6 @@ export default class extends TiniElement {
 
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // main classes parts
-    this.extendMainClasses({
-      raw: {
-        scheme: !!this.scheme,
-      },
-      overridable: {
-        scheme: this.scheme,
-        size: this.size,
-      },
-    });
     // main styles
     const prebuiltSRC = (this.constructor as ComponentConstructor).src;
     if (prebuiltSRC) {
@@ -68,10 +66,12 @@ export default class extends TiniElement {
       throw new Error(
         'The "name" attribute is required when "src" is not provided.'
       );
-    const {componentOptions} = this.getUIContext<UIIconOptions>();
-    return componentOptions?.resolve
-      ? componentOptions.resolve(this.name, this.provider)
-      : `/icons/${this.name}${~this.name.indexOf('.') ? '' : '.svg'}`;
+    return (
+      (this.constructor as ComponentConstructor).resolve?.(
+        this.name,
+        this.provider
+      ) || `/icons/${this.name}${~this.name.indexOf('.') ? '' : '.svg'}`
+    );
   }
 
   protected render() {
@@ -79,10 +79,7 @@ export default class extends TiniElement {
       IconParts.Main,
       mainChildren => html`
         <div class=${IconParts.BG} part=${IconParts.BG}></div>
-        <div
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <div class=${IconParts.Main} part=${IconParts.Main}>
           ${mainChildren()}
         </div>
       `
@@ -131,7 +128,7 @@ export const defaultStyles = createStyleBuilder<{
       height: 100%;
     }
 
-    .scheme {
+    :host([scheme]) .main {
       background: var(--scheme);
       -webkit-mask-image: var(--image);
       -webkit-mask-size: 100% 100%;

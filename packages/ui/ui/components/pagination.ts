@@ -56,13 +56,6 @@ export default class extends TiniElement {
     super.willUpdate(changedProperties);
     // default and validations
     this.validateProperties();
-    // main classes parts
-    this.extendMainClasses({
-      overridable: {
-        scheme: this.scheme,
-        size: this.size,
-      },
-    });
   }
 
   private buildHref(pageNum: number) {
@@ -84,10 +77,7 @@ export default class extends TiniElement {
     return this.partRender(
       PaginationParts.Main,
       mainChildren => html`
-        <div
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <div class=${PaginationParts.Main} part=${PaginationParts.Main}>
           ${this.renderPrevPart()} ${this.renderItemParts()}
           ${this.renderNextPart()} ${mainChildren()}
         </div>
@@ -99,7 +89,7 @@ export default class extends TiniElement {
     const prevPageNum = this.currentPage - 1;
     const href = this.buildHref(prevPageNum);
     const disabled = this.currentPage <= 1;
-    const prevClasses = this.buildClassVariants(PaginationParts.Prev, {
+    const prevClasses = this.deriveClassNames(PaginationParts.Prev, {
       disabled,
     });
     return html`
@@ -121,7 +111,7 @@ export default class extends TiniElement {
     const nextPageNum = this.currentPage + 1;
     const href = this.buildHref(nextPageNum);
     const disabled = this.currentPage >= this.totalPage;
-    const nextClasses = this.buildClassVariants(PaginationParts.Next, {
+    const nextClasses = this.deriveClassNames(PaginationParts.Next, {
       disabled,
     });
     return html`
@@ -144,7 +134,7 @@ export default class extends TiniElement {
       const pageNum = i + 1;
       const href = this.buildHref(pageNum);
       const active = pageNum === this.currentPage;
-      const itemClasses = this.buildClassVariants(PaginationParts.Item, {
+      const itemClasses = this.deriveClassNames(PaginationParts.Item, {
         active,
       });
       return html`

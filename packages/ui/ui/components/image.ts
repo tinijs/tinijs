@@ -1,12 +1,10 @@
 import {html, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 
 import {
   TiniElement,
   ElementParts,
-  partAttrMap,
   createStyleBuilder,
   Radiuses,
   Shadows,
@@ -80,13 +78,6 @@ export default class extends TiniElement {
     super.willUpdate(changedProperties);
     // default and validations
     this.validateProperties();
-    // main classes parts
-    this.extendMainClasses({
-      overridable: {
-        radius: this.radius,
-        shadow: this.shadow,
-      },
-    });
     // host styles
     if (changedProperties.has('width') || changedProperties.has('height')) {
       this.setHostStyles({
@@ -101,8 +92,8 @@ export default class extends TiniElement {
       ImageParts.Main,
       () => html`
         <img
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
+          class=${ImageParts.Main}
+          part=${ImageParts.Main}
           src=${this.src}
           alt=${ifDefined(this.alt)}
           srcset=${ifDefined(this.srcset)}

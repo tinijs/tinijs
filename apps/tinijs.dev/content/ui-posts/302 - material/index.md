@@ -6,15 +6,14 @@
 }
 +++
 
-Material-inspired theme family.
+Material-inspired theme family, homepage: https://m3.material.io/
 
 ## Install
 
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-material/bundled/setup.js
-https://cdn.jsdelivr.net/npm/@tinijs/ui-material/bundled/components.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-material/bundled.js
 ```
 
 - NPM:

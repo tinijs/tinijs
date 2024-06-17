@@ -5,7 +5,7 @@ export function isClass(input: unknown) {
   );
 }
 
-export function listify<Type>(itemOrItems: Type | Type[] | undefined | null) {
+export function listify<Type>(itemOrItems: Type | Type[] | null | undefined) {
   return itemOrItems === undefined || itemOrItems === null
     ? []
     : itemOrItems instanceof Array

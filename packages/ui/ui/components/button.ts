@@ -1,13 +1,10 @@
-import {html, css, type PropertyValues, type CSSResult} from 'lit';
+import {html, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
   ElementParts,
-  partAttrMap,
   createStyleBuilder,
-  isGradient,
   Colors,
   SubtleColors,
   ContrastColors,
@@ -46,24 +43,11 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
-  willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
+  connectedCallback() {
+    super.connectedCallback();
     // a11y
     this.setAttribute('role', 'button');
     this.setAttribute('tabindex', '0');
-    // main classes parts
-    this.extendMainClasses({
-      raw: {
-        gradient: isGradient(this.scheme),
-        block: !!this.block,
-        disabled: !!this.disabled,
-      },
-      overridable: {
-        mode: this.mode,
-        scheme: this.scheme,
-        size: this.size,
-      },
-    });
   }
 
   protected render() {
@@ -74,8 +58,8 @@ export default class extends TiniElement {
         ${this.href
           ? html`
               <a
-                class=${classMap(this.mainClasses)}
-                part=${partAttrMap(this.mainClasses)}
+                class=${ButtonParts.Main}
+                part=${ButtonParts.Main}
                 tabindex="-1"
                 href=${this.href}
                 target=${ifDefined(this.target)}
@@ -86,8 +70,8 @@ export default class extends TiniElement {
             `
           : html`
               <button
-                class=${classMap(this.mainClasses)}
-                part=${partAttrMap(this.mainClasses)}
+                class=${ButtonParts.Main}
+                part=${ButtonParts.Main}
                 tabindex="-1"
                 ?disabled=${this.disabled}
               >
@@ -159,7 +143,7 @@ export const defaultStyles = createStyleBuilder<{
       text-decoration: none;
     }
 
-    .gradient {
+    :host([scheme^='gradient']) .main {
       background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;

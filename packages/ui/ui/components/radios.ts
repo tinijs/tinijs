@@ -1,6 +1,6 @@
 import {html, nothing, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
+import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
@@ -50,26 +50,13 @@ export default class extends TiniElement {
     super.willUpdate(changedProperties);
     // default and validations
     this.validateProperties();
-    // main classes parts
-    this.extendMainClasses({
-      raw: {
-        wrap: !!this.wrap,
-      },
-      overridable: {
-        scheme: this.scheme,
-        size: this.size,
-      },
-    });
   }
 
   protected render() {
     return this.partRender(
       RadiosParts.Main,
       mainChildren => html`
-        <div
-          class=${classMap(this.mainClasses)}
-          part=${partAttrMap(this.mainClasses)}
-        >
+        <div class=${RadiosParts.Main} part=${RadiosParts.Main}>
           ${this.items.map(item => this.renderItemPart(item))} ${mainChildren()}
         </div>
       `
@@ -82,7 +69,7 @@ export default class extends TiniElement {
     checked = false,
     disabled = false,
   }: RadiosItem) {
-    const itemClasses = this.buildClassVariants(RadiosParts.Item, {
+    const itemClasses = this.deriveClassNames(RadiosParts.Item, {
       checked,
       disabled,
     });
@@ -126,7 +113,7 @@ export const defaultStyles = createStyleBuilder<{
       gap: var(--space-md);
     }
 
-    .wrap {
+    :host([wrap]) .main {
       flex-flow: column;
       align-items: flex-start;
     }

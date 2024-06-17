@@ -7,9 +7,9 @@ import {
   TiniComponent,
   UseUI,
   listify,
-  themingStylesToText,
+  stylesToText,
   type UI,
-  type ThemingStyles,
+  type Styles,
 } from '@tinijs/core';
 import {Subscribe} from '@tinijs/store';
 
@@ -65,9 +65,9 @@ export class AppSkinEditorComponent extends TiniComponent {
   private fetchSkinVariables() {
     const availableSkins = (this.ui as any)._init.skins as Record<
       string,
-      ThemingStyles
+      Styles
     >;
-    const skinText = themingStylesToText(
+    const skinText = stylesToText(
       listify(availableSkins[this.ui.activeTheme.themeId])
     );
     return extractCSSVariables(skinText);

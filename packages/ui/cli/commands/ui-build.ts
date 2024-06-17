@@ -58,6 +58,7 @@ export const uiBuildCommand = createCLICommand(
       const results: GenFileResult[] = [];
       const outDir = config.outDir || DEFAULT_OUT_DIR;
       const outDirPath = resolve(outDir);
+      const withIcons = !!config.icons?.length;
 
       // start building
       packCount++;
@@ -102,18 +103,19 @@ export const uiBuildCommand = createCLICommand(
       results.push(...componentResults);
 
       // build icons
-      const {results: iconResults, index: iconIndex} = await buildIcons(config);
+      const {results: iconResults, indexJSON: iconIndexJSON} =
+        await buildIcons(config);
       results.push(...iconResults);
 
       // build setup
-      const setupResult = await buildSetup(config, skinResults);
+      const setupResult = await buildSetup(config);
       results.push(setupResult);
 
       // build package.json
       if (config.packageJSON) {
         const packageJSONResult = await buildPackageJSON(
           config.packageJSON,
-          !!config.icons?.length
+          withIcons
         );
         results.push(packageJSONResult);
       }
@@ -122,7 +124,7 @@ export const uiBuildCommand = createCLICommand(
       await outputGenFileResults(outDirPath, results);
       // icons index
       if (config.outputIconsIndex) {
-        await outputJSON(resolve(config.outputIconsIndex), iconIndex);
+        await outputJSON(resolve(config.outputIconsIndex), iconIndexJSON);
       }
 
       // transpile & remove .ts files
@@ -136,11 +138,7 @@ export const uiBuildCommand = createCLICommand(
       // bundled
       if (config.bundled) {
         callbacks?.onBundle?.();
-        await buildBundled(outDirPath, {
-          setupResult,
-          skinResults,
-          componentResults,
-        });
+        await buildBundled(outDirPath, withIcons);
       }
     }
     callbacks?.onEnd?.(packCount);

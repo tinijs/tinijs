@@ -11,11 +11,13 @@ export const styles = defaultStyles.extends({
     :host,
     :host([level='1']) {
       font-size: 3rem;
+    }
+    :host([level='1']) {
       font-weight: 800;
     }
     :host([level='2']) {
       font-size: 1.875rem;
-      padding-bottom: 0.75rem;
+      padding-bottom: 0.35em;
       border-bottom: var(--border-md) solid var(--color-body-semi);
     }
     :host([level='3']) {
