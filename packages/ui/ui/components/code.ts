@@ -8,8 +8,8 @@ import {
   partAttrMap,
   ElementParts,
   createStyleBuilder,
-  concatStyleDeepInputs,
-  type StyleDeepInput,
+  mergeDirectOrRecordStyles,
+  type DirectOrRecordStyles,
 } from '@tinijs/core';
 
 export enum CodeParts {
@@ -24,7 +24,7 @@ export type CodeHighlight = (
 
 export type CodeConfig = {
   highlight: CodeHighlight;
-  theme?: StyleDeepInput;
+  theme?: DirectOrRecordStyles;
 };
 
 type ComponentConstructor = typeof import('./code.js').default;
@@ -33,7 +33,10 @@ export default class extends TiniElement {
   private static highlight: CodeHighlight = code => code;
   static config(config: CodeConfig) {
     this.highlight = config.highlight;
-    this.styleDeep = concatStyleDeepInputs(this.styleDeep, config.theme);
+    this.themingStyles = mergeDirectOrRecordStyles(
+      this.themingStyles,
+      config.theme
+    );
   }
 
   /* eslint-disable prettier/prettier */

@@ -5,7 +5,6 @@ import {
   type CSSResultOrNative,
   type TemplateResult,
 } from 'lit';
-import {defu} from 'defu';
 
 import {GLOBAL_TINI} from '../consts/global.js';
 import {PACKAGE_PREFIX} from '../consts/common.js';
@@ -15,6 +14,12 @@ import {listify} from '../utils/common.js';
 import {StyleBuilder} from '../utils/style.js';
 
 import type {TiniElement} from './element.js';
+
+export type CSSResultOrNativeOrRaw = CSSResultOrNative | string;
+
+export type Styles = CSSResultOrNativeOrRaw | CSSResultOrNativeOrRaw[];
+
+export type DirectOrRecordStyles = Styles | Record<string, Styles>;
 
 export type Theming = Record<string, ThemingEntry>;
 
@@ -29,15 +34,12 @@ export type ThemingTemplates = Record<
   <Elem extends TiniElement>(elem: Elem, context?: any) => TemplateResult
 >;
 
-export type CSSResultOrNativeOrRaw = CSSResultOrNative | string;
-export type ThemingStyles = CSSResultOrNativeOrRaw | CSSResultOrNativeOrRaw[];
+export type ThemingStyles = Styles;
 
 export interface ThemingScripts {
   activate?<Elem extends TiniElement>(elem: Elem): void;
   deactivate?<Elem extends TiniElement>(elem: Elem): void;
 }
-
-export type StyleDeepInput = ThemingStyles | Record<string, ThemingStyles>;
 
 export interface ActiveTheme {
   prevFamilyId: string;
@@ -51,9 +53,9 @@ export interface ActiveTheme {
 export type UIOptions = {};
 
 export interface UIInit {
-  skins: Record<string, ThemingStyles>;
-  globals?: ThemingStyles;
-  shares?: Record<string, ThemingStyles>;
+  skins: Record<string, Styles>;
+  globals?: Styles;
+  shares?: DirectOrRecordStyles;
   host?: HTMLElement;
   options?: UIOptions;
 }
@@ -63,7 +65,7 @@ export const THEME_CHANGE_EVENT = `${PACKAGE_PREFIX}:theme-change`;
 
 export function processThemingEntry(
   entry: ThemingEntry & {
-    styles: ThemingStyles | StyleBuilder<any>;
+    styles: Styles | StyleBuilder<any>;
   }
 ): ThemingEntry {
   return !(entry.styles instanceof StyleBuilder)
@@ -74,27 +76,25 @@ export function processThemingEntry(
       };
 }
 
-export function isThemingStyles(
-  value: ThemingStyles | Record<string, ThemingStyles> | null | undefined
-): value is ThemingStyles | null | undefined {
+export function isDirectStyles(
+  value: Styles | Record<string, Styles> | undefined
+): value is Styles | undefined {
   return (
     !value ||
     typeof value === 'string' ||
     value instanceof Array ||
     value instanceof CSSStyleSheet ||
-    (value as any).toString instanceof Function
+    (value as any)._$cssResult$ === true
   );
 }
 
-export function themingStylesToAdoptableStyles(
-  styles: ThemingStyles | null | undefined
-) {
+export function stylesToAdoptableStyles(styles: Styles | undefined) {
   return listify<CSSResultOrNativeOrRaw>(styles).map(item =>
     getCompatibleStyle(typeof item !== 'string' ? item : unsafeCSS(item))
   );
 }
 
-export function themingStylesToText(styles: ThemingStyles | null | undefined) {
+export function stylesToText(styles: Styles | undefined) {
   return listify<CSSResultOrNativeOrRaw>(styles)
     .map(style => {
       if (typeof style === 'string') {
@@ -112,81 +112,96 @@ export function themingStylesToText(styles: ThemingStyles | null | undefined) {
     .join('');
 }
 
-export function mergeThemingStylesRecords(
-  ...records: (Record<string, ThemingStyles> | null | undefined)[]
+export function mergeRecordStyles(
+  ...records: (Record<string, Styles> | undefined)[]
 ) {
-  const processedRecords: Record<string, CSSResultOrNativeOrRaw[]>[] = [];
-  for (let i = records.length - 1; i >= 0; i--) {
-    const record = records[i];
+  const result: Record<string, CSSResultOrNativeOrRaw[]> = {};
+  for (const record of records) {
     if (!record) continue;
-    processedRecords.push(
-      Object.entries(record).reduce(
-        (result, [key, value]) => {
-          result[key] = listify<CSSResultOrNativeOrRaw>(value);
-          return result;
-        },
-        {} as Record<string, CSSResultOrNativeOrRaw[]>
-      )
-    );
+    for (const [key, value] of Object.entries(record)) {
+      result[key] = listify(result[key] || []);
+      result[key].push(...listify(value));
+    }
   }
-  return defu(
-    {} as Record<string, CSSResultOrNativeOrRaw[]>,
-    ...processedRecords
-  );
+  return result;
 }
 
-export function concatStyleDeepInputs(
-  input1: StyleDeepInput | null | undefined,
-  input2: StyleDeepInput | null | undefined
+export function mergeDirectOrRecordStyles(
+  ...directsOrRecords: (Styles | Record<string, Styles> | undefined)[]
 ) {
-  if (!input1 && !input2) return undefined;
-  if (!input1) return input2 || undefined;
-  if (!input2) return input1 || undefined;
-  const isInput1ThemingStyles = isThemingStyles(input1);
-  const isInput2ThemingStyles = isThemingStyles(input2);
-  if (isInput1ThemingStyles && isInput2ThemingStyles) {
-    return [...listify(input1), ...listify(input2)];
-  } else if (!isInput1ThemingStyles && isInput2ThemingStyles) {
-    return mergeThemingStylesRecords(input1, {
-      [Object.keys(input1)[0]]: input2,
-    });
-  } else if (!isInput2ThemingStyles && isInput1ThemingStyles) {
-    return mergeThemingStylesRecords(input2, {
-      [Object.keys(input2)[0]]: input1,
-    });
-  } else {
-    return undefined;
+  const items = directsOrRecords.filter(Boolean) as Array<
+    Styles | Record<string, Styles>
+  >;
+  // convert directs to arrays and find a record with longest length
+  let longestRecordKeys: string[] = [];
+  for (const item of items) {
+    if (isDirectStyles(item)) continue;
+    const recordKeys = Object.keys(item);
+    if (recordKeys.length >= longestRecordKeys.length) {
+      longestRecordKeys = recordKeys;
+    }
   }
+  // all are direct styles
+  if (!longestRecordKeys.length) {
+    return (items as Styles[]).reduce((result, item) => {
+      result.push(...listify<CSSResultOrNativeOrRaw>(item));
+      return result;
+    }, [] as any) as CSSResultOrNativeOrRaw[];
+  }
+  // has at least 1 record
+  return mergeRecordStyles(
+    ...items.map(item => {
+      if (!isDirectStyles(item)) return item;
+      return longestRecordKeys.reduce(
+        (result, key) => {
+          result[key] = item;
+          return result;
+        },
+        {} as Record<string, Styles>
+      );
+    })
+  );
 }
 
 export function extractTemplatesFromTheming(
   theming: Theming | undefined,
-  {themeId, familyId}: ActiveTheme
+  {familyId}: ActiveTheme
 ) {
-  return theming?.[themeId]?.templates || theming?.[familyId]?.templates || {};
-}
-
-export function extractStylesFromTheming(
-  theming: Theming | undefined,
-  {themeId, familyId}: ActiveTheme
-) {
-  return listify<CSSResultOrNativeOrRaw>(
-    theming?.[themeId]?.styles ||
-      theming?.[familyId]?.styles ||
-      Object.values(theming || {})[0]?.styles
-  );
+  return theming?.[familyId]?.templates || {};
 }
 
 export function extractScriptsFromTheming(
   theming: Theming | undefined,
   {themeId, familyId, prevThemeId, prevFamilyId}: ActiveTheme
 ) {
-  const current = theming?.[themeId]?.scripts || theming?.[familyId]?.scripts;
+  const current = theming?.[familyId]?.scripts;
   const prev =
-    prevThemeId === themeId
-      ? undefined
-      : theming?.[prevThemeId]?.scripts || theming?.[prevFamilyId]?.scripts;
+    prevThemeId === themeId ? undefined : theming?.[prevFamilyId]?.scripts;
   return {activate: current?.activate, deactivate: prev?.deactivate};
+}
+
+export function extractStylesFromTheming(
+  theming: Theming | undefined,
+  {themeId, familyId}: ActiveTheme
+): CSSResultOrNativeOrRaw[] {
+  return [
+    ...listify(theming?.[familyId]?.styles),
+    ...listify(theming?.[themeId]?.styles),
+  ];
+}
+
+export function extractStylesFromDirectOrRecordStyles(
+  input: DirectOrRecordStyles | undefined,
+  activeTheme?: ActiveTheme
+): CSSResultOrNativeOrRaw[] {
+  if (!input) return [];
+  if (isDirectStyles(input)) return listify(input);
+  return !activeTheme
+    ? []
+    : [
+        ...listify(input[activeTheme.familyId]),
+        ...listify(input[activeTheme.themeId]),
+      ];
 }
 
 export function getOptionalUI() {
@@ -276,7 +291,7 @@ export class UI {
       // B. update local storage
       localStorage.setItem(THEME_LOCAL_STORAGE_KEY, themeId);
       // C. adopt styles
-      this._applyTheme(newFamilyId, newSkinId);
+      this._applyTheme(activeTheme);
       // D. dispatch a global event
       dispatchEvent(new CustomEvent(THEME_CHANGE_EVENT, {detail: activeTheme}));
     }
@@ -284,36 +299,28 @@ export class UI {
   }
 
   getGlobalStyles() {
-    const {globals} = this._init;
-    return listify<CSSResultOrNativeOrRaw>(globals);
+    return listify<CSSResultOrNativeOrRaw>(this._init.globals);
   }
 
-  getSkinStyles(familyId: string, skinId: string) {
-    const {skins} = this._init;
-    return listify<CSSResultOrNativeOrRaw>(skins[`${familyId}/${skinId}`]);
+  getSkinStyles({themeId}: ActiveTheme) {
+    return listify<CSSResultOrNativeOrRaw>(this._init.skins[themeId]);
   }
 
-  getShareStyles(familyId: string, skinId: string) {
-    const {shares} = this._init;
-    return [
-      ...listify<CSSResultOrNativeOrRaw>(shares?.['*']),
-      ...listify<CSSResultOrNativeOrRaw>(shares?.[familyId]),
-      ...listify<CSSResultOrNativeOrRaw>(shares?.[`${familyId}/${skinId}`]),
-    ];
+  getShareStyles(activeTheme: ActiveTheme) {
+    return extractStylesFromDirectOrRecordStyles(
+      this._init.shares,
+      activeTheme
+    );
   }
 
-  private _applyTheme(familyId: string, skinId: string) {
+  private _applyTheme(activeTheme: ActiveTheme) {
     const host = this._init.host || document;
     const globalStyles = this.getGlobalStyles();
-    const skinStyles = this.getSkinStyles(familyId, skinId);
-    const shareStyles = this.getShareStyles(familyId, skinId);
+    const skinStyles = this.getSkinStyles(activeTheme);
+    const shareStyles = this.getShareStyles(activeTheme);
     return adoptStyles(
       ((host as HTMLElement).shadowRoot || host) as ShadowRoot,
-      themingStylesToAdoptableStyles([
-        ...globalStyles,
-        ...skinStyles,
-        ...shareStyles,
-      ])
+      stylesToAdoptableStyles([...globalStyles, ...skinStyles, ...shareStyles])
     );
   }
 }
