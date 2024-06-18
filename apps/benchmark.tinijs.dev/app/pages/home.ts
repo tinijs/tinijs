@@ -2,12 +2,7 @@ import {html} from 'lit';
 
 import {Page, TiniComponent} from '@tinijs/core';
 
-import {HELLO_WORLD_SUBJECT} from './subjects/hello-world.js';
-import {TEXT_SUBJECT} from './subjects/ui-text.js';
-import {TEXT_NATIVE_SUBJECT} from './subjects/ui-text-native.js';
-import {HEADING_SUBJECT} from './subjects/ui-heading.js';
-import {LINK_SUBJECT} from './subjects/ui-link.js';
-import {IMAGE_SUBJECT} from './subjects/ui-image.js';
+import SUBJECTS from '../subjects.js';
 
 @Page({
   name: 'app-page-home',
@@ -30,13 +25,9 @@ export class AppPageHome extends TiniComponent {
           >
         </p>
         <p>
-          A simple dashboard for testing performance of the
-          core Framework and UI components.
+          A simple dashboard for testing performance of the core Framework and
+          UI components.
         </p>
-        <p>Using PageSpeed Insights:</p>
-        <ul>
-          <li>Open the corresponded <strong>PSI</strong> links below to run tests</li>
-        </ul>
         <p>Using local Lighthouse:</p>
         <ul>
           <li>
@@ -47,6 +38,12 @@ export class AppPageHome extends TiniComponent {
           <li>
             Go to the Lighthouse tab in the DevTools and run
             <strong>Analyze page load</strong>
+          </li>
+        </ul>
+        <p>Using PageSpeed Insights:</p>
+        <ul>
+          <li>
+            Open the corresponded <strong>PSI</strong> links below to run tests
           </li>
         </ul>
         <hr />
@@ -61,19 +58,12 @@ export class AppPageHome extends TiniComponent {
           </thead>
 
           <tbody>
-            ${[
-              HELLO_WORLD_SUBJECT,
-              TEXT_NATIVE_SUBJECT,
-              TEXT_SUBJECT,
-              HEADING_SUBJECT,
-              LINK_SUBJECT,
-              IMAGE_SUBJECT,
-            ].map(
+            ${SUBJECTS.map(
               ({
                 title,
                 variants,
                 suggestedItems,
-                suggestedLoadsText,
+                suggestedLoadText,
                 url,
                 docUrl,
                 psiUrl,
@@ -86,7 +76,7 @@ export class AppPageHome extends TiniComponent {
                       <a href=${docUrl} target="_blank">Doc</a>
                     </td>
                     <td>${noRepeat ? '' : variants}</td>
-                    <td>${noRepeat ? '' : suggestedLoadsText}</td>
+                    <td>${noRepeat ? '' : suggestedLoadText}</td>
                     <td><a href=${psiUrl} target="_blank">Link</a></td>
                     <td></td>
                   </tr>

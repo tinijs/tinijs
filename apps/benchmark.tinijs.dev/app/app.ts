@@ -8,7 +8,7 @@ import {
 } from '@tinijs/core';
 import {createRouter, type AppWithRouter} from '@tinijs/router';
 import {initMeta, type AppWithMeta} from '@tinijs/meta';
-import {setupUI, bootstrapLightSkin, type AppWithUI} from './ui/setup.js';
+import {setupUI, type AppWithUI} from './ui/setup.js';
 
 import type {AppConfig} from './types/common.js';
 
@@ -34,9 +34,6 @@ export class AppRoot
   readonly ui = setupUI({
     globals: globalStyles,
     shares: shareStyles,
-    skins: {
-      'bootstrap/light': bootstrapLightSkin,
-    },
   });
 
   protected render() {

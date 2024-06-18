@@ -36,6 +36,7 @@
     "test": "lerna run test",
     "lint": "lerna run lint",
     "fix": "lerna run fix",
+    "benchmark": "tsx ./scripts/benchmark.mts",
     "release": "lerna publish --no-private --force-publish --conventional-commits && tsx ./scripts/release-ui.mts"
   },
   "repository": {
@@ -48,6 +49,7 @@
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.11.30",
+    "chrome-launcher": "^1.1.2",
     "colorette": "^2.0.20",
     "consola": "^3.2.3",
     "cross-os": "^1.5.0",
@@ -55,10 +57,12 @@
     "fs-extra": "^11.2.0",
     "gts": "^5.3.0",
     "lerna": "^8.1.2",
+    "lighthouse": "^12.0.0",
     "mri": "^1.2.0",
     "pathe": "^1.1.2",
     "rimraf": "^5.0.5",
     "tsx": "^4.7.2",
+    "tty-table": "^4.2.3",
     "type-fest": "^4.14.0",
     "typedoc": "^0.25.12",
     "typescript": "^5.4.3",

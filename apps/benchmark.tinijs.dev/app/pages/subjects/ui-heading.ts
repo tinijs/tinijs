@@ -12,8 +12,7 @@ export const HEADING_SUBJECT = info({
   title: 'tini-heading',
   path: '/ui/heading',
   docPath: '/ui/heading',
-  variants: 6,
-  suggestedItems: 1000,
+  batches: [6, 100, 1000],
 });
 
 @Page({
@@ -29,11 +28,11 @@ export class AppPageUIHeading
     description: 'The tini-heading component.',
   };
 
-  @UseQuery() query!: {repeat?: number};
+  @UseQuery() query!: {items?: number};
 
   protected render() {
     return repeat(
-      Number(this.query.repeat || 1),
+      Number(this.query.items || 1),
       i => html`
         <tini-heading>Heading level 1 (#${i})</tini-heading>
         <tini-heading italic level="2"
@@ -52,7 +51,7 @@ export class AppPageUIHeading
           >Underline gradient heading level 6 (#${i})</tini-heading
         >
       `,
-      HEADING_SUBJECT.suggestedItems
+      HEADING_SUBJECT
     );
   }
 

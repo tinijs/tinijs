@@ -12,13 +12,15 @@ export const IMAGE_SUBJECT = info({
   title: 'tini-image',
   path: '/ui/image',
   docPath: '/ui/image',
-  variants: 3,
-  suggestedItems: 1000,
+  batches: [3, 100, 1000],
 });
 
-const JPG = new URL('../assets/placeholders/image.jpeg', import.meta.url).href;
-const PNG = new URL('../assets/placeholders/image.png', import.meta.url).href;
-const SVG = new URL('../assets/placeholders/image.svg', import.meta.url).href;
+const JPG = new URL('../../assets/placeholders/image.jpeg', import.meta.url)
+  .href;
+const PNG = new URL('../../assets/placeholders/image.png', import.meta.url)
+  .href;
+const SVG = new URL('../../assets/placeholders/image.svg', import.meta.url)
+  .href;
 
 @Page({
   name: 'app-page-ui-image',
@@ -30,11 +32,11 @@ export class AppPageUIImage extends TiniComponent implements PageWithMetadata {
     description: 'The tini-image component.',
   };
 
-  @UseQuery() query!: {repeat?: number};
+  @UseQuery() query!: {items?: number};
 
   protected render() {
     return repeat(
-      Number(this.query.repeat || 1),
+      Number(this.query.items || 1),
       () => html`
         <tini-image src=${SVG} alt="Placeholder"></tini-image>
         <tini-image src=${JPG} width="350px" alt="Placeholder"></tini-image>
@@ -46,7 +48,7 @@ export class AppPageUIImage extends TiniComponent implements PageWithMetadata {
           alt="Placeholder"
         ></tini-image>
       `,
-      IMAGE_SUBJECT.suggestedItems
+      IMAGE_SUBJECT
     );
   }
 

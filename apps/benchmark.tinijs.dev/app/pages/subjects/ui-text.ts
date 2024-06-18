@@ -12,8 +12,7 @@ export const TEXT_SUBJECT = info({
   title: 'tini-text',
   path: '/ui/text',
   docPath: '/ui/text',
-  variants: 10,
-  suggestedItems: 10000,
+  batches: [10, 1000, 10000],
 });
 
 @Page({
@@ -26,11 +25,11 @@ export class AppPageUIText extends TiniComponent implements PageWithMetadata {
     description: 'The tini-text component.',
   };
 
-  @UseQuery() query!: {repeat?: number};
+  @UseQuery() query!: {items?: number};
 
   protected render() {
     return repeat(
-      Number(this.query.repeat || 1),
+      Number(this.query.items || 1),
       i => html`
         <tini-text>Text (#${i})</tini-text>
         <tini-text font="code">Code text (#${i})</tini-text>
@@ -46,7 +45,7 @@ export class AppPageUIText extends TiniComponent implements PageWithMetadata {
         <tini-text size="xs">Small text (#${i})</tini-text>
         <br />
       `,
-      TEXT_SUBJECT.suggestedRepeats
+      TEXT_SUBJECT
     );
   }
 

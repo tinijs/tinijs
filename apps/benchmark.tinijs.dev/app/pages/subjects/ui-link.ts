@@ -12,8 +12,7 @@ export const LINK_SUBJECT = info({
   title: 'tini-link',
   path: '/ui/link',
   docPath: '/ui/link',
-  variants: 8,
-  suggestedItems: 1000,
+  batches: [8, 100, 1000],
 });
 
 @Page({
@@ -26,11 +25,11 @@ export class AppPageUILink extends TiniComponent implements PageWithMetadata {
     description: 'The tini-link component.',
   };
 
-  @UseQuery() query!: {repeat?: number};
+  @UseQuery() query!: {items?: number};
 
   protected render() {
     return repeat(
-      Number(this.query.repeat || 1),
+      Number(this.query.items || 1),
       i => html`
         <tini-link href="#">Link (#${i})</tini-link>
         <tini-link href="#" disabled>Disabled link (#${i})</tini-link>
@@ -44,7 +43,7 @@ export class AppPageUILink extends TiniComponent implements PageWithMetadata {
         <tini-link href="#" size="xs">Small link (#${i})</tini-link>
         <br />
       `,
-      LINK_SUBJECT.suggestedItems
+      LINK_SUBJECT
     );
   }
 

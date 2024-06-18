@@ -10,24 +10,26 @@ export const TEXT_NATIVE_SUBJECT = info({
   title: 'Native texts',
   path: '/ui/text-native',
   docPath: '/ui/token',
-  variants: 10,
-  suggestedItems: 10000,
+  batches: [10, 1000, 10000],
 });
 
 @Page({
   name: 'app-page-ui-text-native',
 })
-export class AppPageUITextNative extends TiniComponent implements PageWithMetadata {
+export class AppPageUITextNative
+  extends TiniComponent
+  implements PageWithMetadata
+{
   readonly metadata = {
     title: 'Native texts',
     description: 'Native texts using CSS.',
   };
 
-  @UseQuery() query!: {repeat?: number};
+  @UseQuery() query!: {items?: number};
 
   protected render() {
     return repeat(
-      Number(this.query.repeat || 1),
+      Number(this.query.items || 1),
       i => html`
         <span>Text (#${i})</span>
         <span class="code">Code text (#${i})</span>
@@ -43,7 +45,7 @@ export class AppPageUITextNative extends TiniComponent implements PageWithMetada
         <span class="xs">Small text (#${i})</span>
         <br />
       `,
-      TEXT_NATIVE_SUBJECT.suggestedRepeats
+      TEXT_NATIVE_SUBJECT
     );
   }
 

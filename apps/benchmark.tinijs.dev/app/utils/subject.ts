@@ -2,18 +2,17 @@ export function info({
   title,
   path,
   docPath,
-  variants,
-  suggestedItems,
+  batches,
 }: {
   title: string;
   path: string;
   docPath: string;
-  variants: number;
-  suggestedItems: number;
+  batches: number[];
 }) {
-  const suggestedRepeats = Math.round(suggestedItems / variants);
-  const suggestedLoadsText = `${suggestedItems.toLocaleString()} items (${suggestedRepeats.toLocaleString()} repeats)`;
-  const url = path + (suggestedItems <= 1 ? '' : `?repeat=${suggestedRepeats}`);
+  const variants = batches[0];
+  const suggestedItems = batches[batches.length - 1] || variants;
+  const suggestedLoadText = `${suggestedItems.toLocaleString()} items`;
+  const url = path + (suggestedItems <= 1 ? '' : `?items=${suggestedItems}`);
   const docUrl = `https://tinijs.dev${docPath}`;
   const psiUrl =
     'https://pagespeed.web.dev/report?url=' +
@@ -22,10 +21,10 @@ export function info({
     title,
     path,
     docPath,
+    batches,
     variants,
     suggestedItems,
-    suggestedRepeats,
-    suggestedLoadsText,
+    suggestedLoadText,
     url,
     docUrl,
     psiUrl,
@@ -33,12 +32,12 @@ export function info({
 }
 
 export function repeat(
-  count: number,
+  items: number,
   callback: (no: number) => any,
-  suggestedCount: number
+  {variants, suggestedItems}: ReturnType<typeof info>
 ) {
-  count = Math.round(count);
-  const maxCount = suggestedCount * 3;
-  const length = Math.min(count, maxCount || count);
+  const repeats = Math.ceil(Math.max(items, variants) / variants);
+  const maxRepeats = Math.ceil(suggestedItems / variants) * 3;
+  const length = Math.min(repeats, maxRepeats || repeats);
   return Array.from({length}, (_, i) => callback(i + 1));
 }

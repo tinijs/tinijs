@@ -4,6 +4,4 @@ import {css} from 'lit';
 export const globalStyles = css``;
 
 // share styles available inside shadow DOM (only for components which extends TiniElement or TiniComponent)
-export const shareStyles = {
-  '*': css``,
-};
+export const shareStyles = css``;
