@@ -42,10 +42,24 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
     return html`
       <article>
         <p>
+          For other frameworks and vanilla, please try them on Stackblitz using
+          below links:
+        </p>
+        <ul>
+          <li>
+            <a
+              href="https://stackblitz.com/edit/tini-ui-vanilla-playground?file=index.html"
+              target="_blank"
+              >Vanilla Playground</a
+            >
+          </li>
+        </ul>
+        <p>
           Use the theme selector below or in the Skin Editor panel to see how
           components will works in their respective theme family.
         </p>
       </article>
+
       <div class="head">
         <app-theme-selector
           styleDeep="tini-select::part(label) {display: none}"
@@ -57,7 +71,7 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
         >
       </div>
 
-      <div class="section">
+      <section>
         <h3>
           <span>Text</span>
           <a href="/ui/text">Detail</a>
@@ -74,30 +88,33 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
           ><br />
           <tini-text size="xs">Small text</tini-text><br />
         </div>
-      </div>
+      </section>
 
-      <div class="section">
+      <section>
         <h3>
           <span>Heading</span>
           <a href="/ui/heading">Detail</a>
         </h3>
         <div class="content">
-          <tini-heading>Heading 1</tini-heading>
-          <tini-heading level="2">Heading 2</tini-heading>
-          <tini-heading level="3" color="success">Color heading</tini-heading>
-          <tini-heading level="3" color="gradient-danger"
-            >Gradient heading</tini-heading
+          <tini-heading>Heading level 1</tini-heading>
+          <tini-heading level="2">Heading level 2</tini-heading>
+          <tini-heading level="3" color="success"
+            >Color heading level 3</tini-heading
+          >
+          <tini-heading level="4" color="gradient-danger"
+            >Gradient heading level 4</tini-heading
           >
         </div>
-      </div>
+      </section>
 
-      <div class="section">
+      <section>
         <h3>
           <span>Link</span>
           <a href="/ui/link">Detail</a>
         </h3>
         <div class="content">
           <tini-link href="#">An utility for link</tini-link><br />
+          <tini-link href="#" disabled>Disabled link</tini-link><br />
           <tini-link href="#" italic>Italic link</tini-link><br />
           <tini-link href="#" color="success">Color link</tini-link><br />
           <tini-link href="#" color="gradient-danger" size="xl"
@@ -106,9 +123,9 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
           <tini-link href="#" size="xs">Small link</tini-link><br />
           <tini-link href="#" noUnderline>Force no underline</tini-link><br />
         </div>
-      </div>
+      </section>
 
-      <div class="section">
+      <section>
         <h3>
           <span>Image</span>
           <a href="/ui/image">Detail</a>
@@ -136,9 +153,9 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
             radius="half"
           ></tini-image>
         </div>
-      </div>
+      </section>
 
-      <div class="section">
+      <section>
         <h3>
           <span>Table</span>
           <a href="/ui/table">Detail</a>
@@ -157,9 +174,9 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
             ]}
           ></tini-table>
         </div>
-      </div>
+      </section>
 
-      <div class="section">
+      <section>
         <h3>
           <span>Embed</span>
           <a href="/ui/embed">Detail</a>
@@ -191,9 +208,9 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
             ></iframe>
           </tini-embed>
         </div>
-      </div>
+      </section>
 
-      <div class="section">
+      <section>
         <h3>
           <span>Code</span>
           <a href="/ui/code">Detail</a>
@@ -209,9 +226,9 @@ function sayHello() {
 `}
           ></tini-code>
         </div>
-      </div>
+      </section>
 
-      <div class="section">
+      <section>
         <h3>
           <span>Skeleton</span>
           <a href="/ui/skeleton">Detail</a>
@@ -229,9 +246,9 @@ function sayHello() {
             radius="half"
           ></tini-skeleton>
         </div>
-      </div>
+      </section>
 
-      <div class="section">
+      <section>
         <h3>
           <span>Icon</span>
           <a href="/ui/icon">Detail</a>
@@ -263,9 +280,9 @@ function sayHello() {
           <tini-icon src=${ICON_SRC} scheme="primary"></tini-icon>
           <tini-icon src=${ICON_SRC} scheme="primary" size="xl"></tini-icon>
         </div>
-      </div>
+      </section>
 
-      <div class="section">
+      <section>
         <h3>
           <span>Badge</span>
           <a href="/ui/badge">Detail</a>
@@ -307,9 +324,9 @@ function sayHello() {
           <tini-badge>Badge</tini-badge>
           <tini-badge size="xl">Badge</tini-badge>
         </div>
-      </div>
+      </section>
 
-      <div class="section">
+      <section>
         <h3>
           <span>Button</span>
           <a href="/ui/button">Detail</a>
@@ -337,7 +354,7 @@ function sayHello() {
           <tini-button>Button</tini-button>
           <tini-button size="xl">Button</tini-button>
         </div>
-      </div>
+      </section>
     `;
   }
 
@@ -348,12 +365,12 @@ function sayHello() {
       justify-content: space-between;
     }
 
-    .section {
+    section {
       border: 1px solid var(--color-body-semi);
       margin-top: var(--space-xl);
     }
 
-    .section > h3 {
+    section > h3 {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -361,15 +378,15 @@ function sayHello() {
       padding: var(--space-xs) var(--space-md);
     }
 
-    .section > h3 a {
+    section > h3 a {
       font-size: var(--text-md);
     }
 
-    .section > .content {
+    section > .content {
       padding: var(--space-md);
     }
 
-    .section > .content .desc {
+    section > .content .desc {
       margin-top: var(--space-xl-2);
       margin-bottom: var(--space-lg);
       padding-bottom: var(--space-xs-2);

@@ -1,0 +1,29 @@
+{
+  "private": true,
+  "name": "benchmark.tinijs.dev",
+  "version": "0.0.0",
+  "description": "Benchmark TiniJS Framework and UI.",
+  "author": "Nhan Lam",
+  "homepage": "https://tinijs.dev",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dev": "tini dev",
+    "build": "tini build",
+    "preview": "tini preview",
+    "lint": "gts lint",
+    "fix": "gts fix"
+  },
+  "dependencies": {
+    "@tinijs/core": "*",
+    "@tinijs/meta": "*",
+    "@tinijs/project": "*",
+    "@tinijs/router": "*",
+    "@tinijs/store": "*",
+    "@tinijs/ui": "*",
+    "lit": "^3.1.4"
+  }
+}
