@@ -33,7 +33,7 @@ export class AppPageHome extends TiniComponent {
           <li>
             Open the below subjects in
             <strong>Incognito window</strong> (optionaly setting the
-            <code>?repeat=x</code> if available)
+            <code>?items=x</code> if available)
           </li>
           <li>
             Go to the Lighthouse tab in the DevTools and run

@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Pages and Layouts",
-  "category": "core"
+  "category": "router"
 }
 +++
 

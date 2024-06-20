@@ -15,8 +15,8 @@ The `@lit/task` package provides a `Task` reactive controller to help manage thi
 ```ts
 import {Task} from '@lit/task';
 
-@Page({})
-export class AppPageXXX extends TiniComponent {
+@Component()
+export class AppXXXComponent extends TiniComponent {
 
   @Reactive() productId?: string;
 
@@ -56,8 +56,8 @@ Similar to Task Render, Section Render renders a section of a page based on **th
 ```ts
 import {sectionRender, type SectionRenderData} from '@tinijs/core';
 
-@Page({})
-export class AppPageXXX extends TiniComponent {
+@Component()
+export class AppXXXComponent extends TiniComponent {
 
   @Reactive() product: SectionRenderData<Product>;
 
