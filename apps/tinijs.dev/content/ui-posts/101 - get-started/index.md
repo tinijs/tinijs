@@ -197,3 +197,34 @@ ui.setTheme(themeId);
 <tini-text color="success">Lorem ipsum</tini-text>
 <tini-button>A button</tini-button>
 ```
+
+## Setup UI details
+
+The `setupUI()` function is the beginning of the UI system, it returns an UI instance of your app. This is where you choose to include skins, global styles, share styles and optionaly register components globally.
+
+The values of the following `Styles` can be one of these:
+- `string` (CSS string)
+- CSSStyleSheet object
+- Result of `css` tagged template
+- Array of any of the above values
+
+```ts
+const ui = setupUI({
+
+  // select skins
+  // only required when using CDN or prebuilt packages
+  skins: Record<string, Styles>;
+
+  // define CSS variables
+  // and styles available globally for the Light DOM
+  globals: Styles;
+
+  // shared styles available in the Shadow DOM
+  // but only for elements which extends TiniElement or TiniComponent
+  shares: Styles;
+
+  // optionally register components globally
+  components: Component[];
+
+});
+```
