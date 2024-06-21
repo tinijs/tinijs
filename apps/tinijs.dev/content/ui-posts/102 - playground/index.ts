@@ -390,7 +390,7 @@ function sayHello() {
       margin-top: var(--space-xl-2);
       margin-bottom: var(--space-lg);
       padding-bottom: var(--space-xs-2);
-      border-bottom: 1px solid var(--color-body-less);
+      border-bottom: 1px solid var(--color-body-soft);
       font-size: var(--text-lg);
     }
   `;

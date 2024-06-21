@@ -55,7 +55,7 @@ export const link = css`
   }
 
   a:hover {
-    color: var(--color-primary-less);
+    color: var(--color-primary-soft);
   }
 `;
 
@@ -141,7 +141,7 @@ export const code = css`
     font-family: var(--font-code);
     font-size: 0.85em;
     padding: 0.25rem 0.75rem;
-    background: var(--color-body-less);
+    background: var(--color-body-soft);
     border: 1px solid var(--color-body-semi);
     word-wrap: break-word;
     border-radius: 0.25rem;

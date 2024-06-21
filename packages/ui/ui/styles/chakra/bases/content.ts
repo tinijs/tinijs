@@ -55,7 +55,7 @@ export const link = css`
   }
 
   a:hover {
-    color: var(--color-primary-more);
+    color: var(--color-primary-hard);
   }
 `;
 

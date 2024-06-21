@@ -675,7 +675,7 @@ registerComponents([ ${constructorName} ]);`;
       .preview {
         --head-height: 40px;
         height: 480px;
-        background: var(--color-body-less);
+        background: var(--color-body-soft);
 
         .head {
           background: var(--color-body);
@@ -703,7 +703,7 @@ registerComponents([ ${constructorName} ]);`;
               cursor: pointer;
 
               &:hover {
-                background: var(--color-body-less);
+                background: var(--color-body-soft);
               }
 
               &.selected {
@@ -789,7 +789,7 @@ registerComponents([ ${constructorName} ]);`;
             height: calc(var(--head-height) + 1px);
             border-bottom: 1px solid var(--color-body-semi);
             border-right: 1px solid var(--color-body-semi);
-            background: var(--color-body-less);
+            background: var(--color-body-soft);
 
             &:hover {
               background: var(--color-body-semi);

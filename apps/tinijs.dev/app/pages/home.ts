@@ -204,7 +204,7 @@ export class AppPageHome extends TiniComponent {
         li {
           padding: var(--space-md);
           border-radius: var(--radius-md);
-          background: var(--color-body-less);
+          background: var(--color-body-soft);
           border: 1px solid var(--color-body-semi);
           transition:
             box-shadow 0.3s,

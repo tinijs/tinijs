@@ -6,12 +6,12 @@ export const styles = defaultStyles.extends({
   statics: css``,
   colorGen: ({hostSelector, baseName}) => `
     ${hostSelector} .main:hover {
-      color: var(--color-${baseName}-less);
+      color: var(--color-${baseName}-soft);
     }
   `,
   gradientGen: ({hostSelector, baseName}) => `
     ${hostSelector} .main:hover {
-      --gradient: var(--gradient-${baseName}-less);
+      --gradient: var(--gradient-${baseName}-soft);
     }
   `,
   textGen: () => '',

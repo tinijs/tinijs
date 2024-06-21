@@ -211,7 +211,7 @@ export class HeaderComponent
       justify-content: space-between;
       align-items: center;
       padding: var(--space-md);
-      background: var(--color-body-less);
+      background: var(--color-body-soft);
       border-radius: var(--radius-md);
     }
 
@@ -264,7 +264,7 @@ export class HeaderComponent
             border-radius: var(--radius-md);
           }
           &:hover::part(main) {
-            background: var(--color-body-less);
+            background: var(--color-body-soft);
           }
           &.active::part(main) {
             background: var(--color-body-semi);
@@ -276,8 +276,8 @@ export class HeaderComponent
         background: none;
         border-radius: 0;
         padding: 0 var(--space-md);
-        border-left: 1px solid var(--color-body-less);
-        border-right: 1px solid var(--color-body-less);
+        border-left: 1px solid var(--color-body-soft);
+        border-right: 1px solid var(--color-body-soft);
 
         span {
           display: none;

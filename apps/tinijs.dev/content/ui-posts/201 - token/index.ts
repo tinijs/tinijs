@@ -93,9 +93,9 @@ export class ContentUIPostTokenComponent
               <td>
                 <div class="color-preview-container">
                   ${[
-                    'more',
+                    'hard',
                     '',
-                    'less',
+                    'soft',
                     'semi',
                     'subtle',
                     'dull',
@@ -136,9 +136,9 @@ export class ContentUIPostTokenComponent
               <td>
                 <div class="color-preview-container">
                   ${[
-                    'more',
+                    'hard',
                     '',
-                    'less',
+                    'soft',
                     'semi',
                     'subtle',
                     'dull',
@@ -576,7 +576,7 @@ export class ContentUIPostTokenComponent
       <div
         class=${classMap({
           'color-preview': true,
-          schemable: !~['more', 'less', 'semi', 'dull'].indexOf(variantName),
+          schemable: !~['hard', 'soft', 'semi', 'dull'].indexOf(variantName),
         })}
       >
         <span style=${styleMap({background: `var(${varName})`})}></span>
@@ -610,7 +610,7 @@ export class ContentUIPostTokenComponent
     }
     .color-preview span {
       display: inline-block;
-      border: 1px solid var(--color-body-less);
+      border: 1px solid var(--color-body-soft);
       width: 100%;
       height: 35px;
     }
