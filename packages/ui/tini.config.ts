@@ -61,6 +61,12 @@ const shadcnBaseConfig: PrebuiltBaseConfig = {
   },
 };
 
+const primeBaseConfig: PrebuiltBaseConfig = {
+  families: {
+    prime: true,
+  },
+};
+
 const tailwindBaseConfig: PrebuiltBaseConfig = {
   families: {
     tailwind: true,
@@ -70,6 +76,42 @@ const tailwindBaseConfig: PrebuiltBaseConfig = {
 const chakraBaseConfig: PrebuiltBaseConfig = {
   families: {
     chakra: true,
+  },
+};
+
+const horizonBaseConfig: PrebuiltBaseConfig = {
+  families: {
+    horizon: true,
+  },
+};
+
+const radixBaseConfig: PrebuiltBaseConfig = {
+  families: {
+    radix: true,
+  },
+};
+
+const antBaseConfig: PrebuiltBaseConfig = {
+  families: {
+    ant: true,
+  },
+};
+
+const nuxtBaseConfig: PrebuiltBaseConfig = {
+  families: {
+    nuxt: true,
+  },
+};
+
+const nextBaseConfig: PrebuiltBaseConfig = {
+  families: {
+    next: true,
+  },
+};
+
+const daisyBaseConfig: PrebuiltBaseConfig = {
+  families: {
+    daisy: true,
   },
 };
 
@@ -159,6 +201,19 @@ export default defineTiniConfig({
         packageJSON: ({version}) =>
           prebuiltReactPackageJSON('shadcn-react', version),
       },
+      // prime
+      {
+        ...primeBaseConfig,
+        outDir: './build/prime',
+        packageJSON: ({version}) => prebuiltPackageJSON('prime', version),
+      },
+      {
+        ...primeBaseConfig,
+        framework: 'react',
+        outDir: './build/prime-react',
+        packageJSON: ({version}) =>
+          prebuiltReactPackageJSON('prime-react', version),
+      },
       // tailwind
       {
         ...tailwindBaseConfig,
@@ -184,6 +239,84 @@ export default defineTiniConfig({
         outDir: './build/chakra-react',
         packageJSON: ({version}) =>
           prebuiltReactPackageJSON('chakra-react', version),
+      },
+      // horizon
+      {
+        ...horizonBaseConfig,
+        outDir: './build/horizon',
+        packageJSON: ({version}) => prebuiltPackageJSON('horizon', version),
+      },
+      {
+        ...horizonBaseConfig,
+        framework: 'react',
+        outDir: './build/horizon-react',
+        packageJSON: ({version}) =>
+          prebuiltReactPackageJSON('horizon-react', version),
+      },
+      // radix
+      {
+        ...radixBaseConfig,
+        outDir: './build/radix',
+        packageJSON: ({version}) => prebuiltPackageJSON('radix', version),
+      },
+      {
+        ...radixBaseConfig,
+        framework: 'react',
+        outDir: './build/radix-react',
+        packageJSON: ({version}) =>
+          prebuiltReactPackageJSON('radix-react', version),
+      },
+      // ant
+      {
+        ...antBaseConfig,
+        outDir: './build/ant',
+        packageJSON: ({version}) => prebuiltPackageJSON('ant', version),
+      },
+      {
+        ...antBaseConfig,
+        framework: 'react',
+        outDir: './build/ant-react',
+        packageJSON: ({version}) =>
+          prebuiltReactPackageJSON('ant-react', version),
+      },
+      // nuxt
+      {
+        ...nuxtBaseConfig,
+        outDir: './build/nuxt',
+        packageJSON: ({version}) => prebuiltPackageJSON('nuxt', version),
+      },
+      {
+        ...nuxtBaseConfig,
+        framework: 'react',
+        outDir: './build/nuxt-react',
+        packageJSON: ({version}) =>
+          prebuiltReactPackageJSON('nuxt-react', version),
+      },
+      // next
+      {
+        ...nextBaseConfig,
+        outDir: './build/next',
+        packageJSON: ({version}) => prebuiltPackageJSON('next', version),
+      },
+      {
+        ...nextBaseConfig,
+        framework: 'react',
+        outDir: './build/next-react',
+        packageJSON: ({version}) =>
+          prebuiltReactPackageJSON('next-react', version),
+      },
+      // daisy
+      {
+        ...daisyBaseConfig,
+        outDir: './build/daisy',
+        packageJSON: ({version}) => prebuiltPackageJSON('daisy', version),
+      },
+      {
+        ...daisyBaseConfig,
+        framework: 'react',
+        outDir: './build/daisy-react',
+        packageJSON: ({version}) =>
+          prebuiltReactPackageJSON('daisy-react', version),
       },
     ],
   },

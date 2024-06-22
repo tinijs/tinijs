@@ -29,7 +29,7 @@ With the theming concept in mind, any app can have these theming capabilities:
 
 ## Usage
 
-To get started with Tini UI, first identify which theme family and skin you would like to include. Currently, these theme families are available: [Bootstrap](/ui/bootstrap), [Material](/ui/material), [iOS](/ui/ios), [Fluent](/ui/fluent), [Spectrum](/ui/spectrum), [Shadcn](/ui/shadcn), [Tailwind](/ui/tailwind) and [Chakra](/ui/chakra); each contains a light and a dark skin.
+To get started with Tini UI, first identify which theme family and skin you would like to include. Currently, these theme families are available: [Bootstrap](/ui/bootstrap), [Material](/ui/material), [iOS](/ui/ios), [Fluent](/ui/fluent), [Spectrum](/ui/spectrum), [Shadcn](/ui/shadcn), [Prime](/ui/prime), [Tailwind](/ui/tailwind), [Chakra](/ui/chakra), [Horizon](/ui/horizon), [Radix](/ui/radix), [Ant](/ui/ant), [Nuxt](/ui/nuxt), [Next](/ui/next) and [Daisy](/ui/daisy); each contains a light and a dark skin.
 
 There are 3 main ways of using Tini UI:
 
