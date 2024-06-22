@@ -730,27 +730,11 @@ function generateColorTokensAsString(
   ].join('');
 }
 
-export function generateColorTokens(
-  name: string,
-  def: ColorTokenDef
-): CSSResult;
-export function generateColorTokens(
-  items: Record<string, ColorTokenDef>
-): CSSResult;
-export function generateColorTokens(
-  nameOrItems: string | Record<string, ColorTokenDef>,
-  def?: ColorTokenDef
-): CSSResult {
+export function generateColorTokens(items: Record<string, ColorTokenDef>) {
   return unsafeCSS(`:root {
-    ${
-      nameOrItems instanceof Object
-        ? Object.entries(nameOrItems)
-            .map(([name, def]) => generateColorTokensAsString(name, def))
-            .join('')
-        : def
-          ? generateColorTokensAsString(nameOrItems, def)
-          : ''
-    }
+    ${Object.entries(items)
+      .map(([name, def]) => generateColorTokensAsString(name, def))
+      .join('')}
   }`);
 }
 
@@ -770,16 +754,8 @@ export function generateOfficialColorTokens() {
 }
 
 export function generateGradientTokens(
-  name: string,
-  def: GradientTokenDef
-): CSSResult;
-export function generateGradientTokens(
   items: Record<string, GradientTokenDef>
-): CSSResult;
-export function generateGradientTokens(
-  nameOrItems: string | Record<string, GradientTokenDef>,
-  def?: GradientTokenDef
-): CSSResult {
+) {
   const generate = (
     name: string,
     {
@@ -808,15 +784,9 @@ export function generateGradientTokens(
       .join('');
   };
   return unsafeCSS(`:root {
-    ${
-      nameOrItems instanceof Object
-        ? Object.entries(nameOrItems)
-            .map(([name, def]) => generate(name, def))
-            .join('')
-        : def
-          ? generate(nameOrItems, def)
-          : ''
-    }
+    ${Object.entries(items)
+      .map(([name, def]) => generate(name, def))
+      .join('')}
   }`);
 }
 
