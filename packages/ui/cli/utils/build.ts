@@ -1,5 +1,5 @@
 import {readdir, readFile} from 'node:fs/promises';
-import {pathExistsSync, readJSON, outputFile} from 'fs-extra/esm';
+import {pathExistsSync, readJSON, remove} from 'fs-extra/esm';
 import typescript from 'typescript';
 import {resolve, parse, relative} from 'pathe';
 import {execa} from 'execa';
@@ -560,30 +560,18 @@ export async function transpileAndRemoveTSFiles(
   await removeFiles(tsFilePaths);
 }
 
-export async function buildBundled(outDir: string, withIcons: boolean) {
-  // save bundled.js
-  const bundledPath = 'bundled.js';
-  const bundledContent = [
-    'skin.js',
-    'component.js',
-    !withIcons ? null : 'icon.js',
-    'setup.js',
-  ]
-    .filter(Boolean)
-    .map(file => `export * from './${file}';`)
-    .join('\n');
-  await outputFile(resolve(outDir, bundledPath), bundledContent);
-  // build bundled.js
+export async function buildBundled(outDir: string) {
+  await remove(resolve(outDir, 'bundled'));
   await execa(
     'esbuild',
     [
-      bundledPath,
-      '--outdir=.',
+      '**/*.js',
+      '--outdir=bundled',
       '--format=esm',
       '--sourcemap',
       '--bundle',
+      '--splitting',
       '--minify',
-      '--allow-overwrite',
     ],
     {stdio: 'inherit', cwd: outDir}
   );

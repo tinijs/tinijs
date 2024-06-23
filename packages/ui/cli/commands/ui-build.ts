@@ -138,7 +138,7 @@ export const uiBuildCommand = createCLICommand(
       // bundled
       if (config.bundled) {
         callbacks?.onBundle?.();
-        await buildBundled(outDirPath, withIcons);
+        await buildBundled(outDirPath);
       }
     }
     callbacks?.onEnd?.(packCount);

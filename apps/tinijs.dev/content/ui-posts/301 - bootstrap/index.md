@@ -13,7 +13,7 @@ Bootstrap-inspired theme family, homepage: https://getbootstrap.com/
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap/bundled.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap/bundled/setup.js
 ```
 
 - NPM:

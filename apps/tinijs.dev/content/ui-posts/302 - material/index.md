@@ -13,7 +13,7 @@ Material-inspired theme family, homepage: https://m3.material.io/
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-material/bundled.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-material/bundled/setup.js
 ```
 
 - NPM:

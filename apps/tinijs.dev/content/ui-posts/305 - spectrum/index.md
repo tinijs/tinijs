@@ -13,7 +13,7 @@ Spectrum-inspired theme family, homepage: https://spectrum.adobe.com/
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-spectrum/bundled.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-spectrum/bundled/setup.js
 ```
 
 - NPM:

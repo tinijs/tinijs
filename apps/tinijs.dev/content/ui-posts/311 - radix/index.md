@@ -13,7 +13,7 @@ Radix-inspired theme family, homepage: https://www.radix-ui.com/
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-radix/bundled.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-radix/bundled/setup.js
 ```
 
 - NPM:

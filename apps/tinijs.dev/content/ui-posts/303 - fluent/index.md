@@ -13,7 +13,7 @@ Fluent-inspired theme family, homepages: https://fluent2.microsoft.design/
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-fluent/bundled.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-fluent/bundled/setup.js
 ```
 
 - NPM:

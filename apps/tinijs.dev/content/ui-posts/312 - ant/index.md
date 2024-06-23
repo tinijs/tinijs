@@ -13,7 +13,7 @@ Ant-inspired theme family, homepage: https://ant.design/
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-ant/bundled.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-ant/bundled/setup.js
 ```
 
 - NPM:

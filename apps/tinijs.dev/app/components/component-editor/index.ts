@@ -248,7 +248,7 @@ export class AppComponentEditorComponent
 registerComponents([ ${constructorName} ])`;
       }
       case UIConsumerTargets.Vanilla: {
-        const cdnPath = `https://cdn.jsdelivr.net/npm/@tinijs/ui-${familyId}/bundled.js`;
+        const cdnPath = `https://cdn.jsdelivr.net/npm/@tinijs/ui-${familyId}/components/${this.name}.js`;
         return `import {${constructorName}} from '${cdnPath}';
 
 setupUI({ components: [ ${constructorName} ] });`;

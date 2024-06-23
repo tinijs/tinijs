@@ -114,7 +114,7 @@ export default defineTiniConfig({
     // transpile ts to js for distribution
     transpile?: true;
 
-    // create a bundled.js for CDN usage
+    // create bundled outputs for CDN usage
     bundled?: true;
 
     // rewrite import paths for distribution

@@ -13,7 +13,7 @@ Prime-inspired theme family, homepage: https://primeng.org/
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-prime/bundled.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-prime/bundled/setup.js
 ```
 
 - NPM:

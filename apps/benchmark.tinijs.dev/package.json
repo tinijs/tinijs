@@ -11,9 +11,10 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "dev": "tini dev",
-    "build": "tini build",
-    "preview": "tini preview",
+    "tini": "node ../../packages/cli/dist/cli/index.js",
+    "dev": "npm run tini -- dev",
+    "build": "npm run tini -- ui build && npm run tini -- build",
+    "preview": "npm run tini -- preview",
     "lint": "gts lint",
     "fix": "gts fix"
   },

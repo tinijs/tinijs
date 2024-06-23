@@ -13,7 +13,7 @@ NextUI-inspired theme family, homepage: https://nextui.org/
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-next/bundled.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-next/bundled/setup.js
 ```
 
 - NPM:

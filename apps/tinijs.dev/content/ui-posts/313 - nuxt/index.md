@@ -13,7 +13,7 @@ NuxtUI-inspired theme family, homepage: https://ui.nuxt.com/
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-nuxt/bundled.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-nuxt/bundled/setup.js
 ```
 
 - NPM:

@@ -46,11 +46,8 @@ CDN is the simplest way to get started with Tini UI, just include the script tag
 ```html
 <script type="module">
 
-import {
-  setupUI,
-  availableSkins,
-  availableComponents,
-} from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap/bundled.js';
+import { setupUI, availableSkins } from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap/bundled/setup.js';
+import { availableComponents } from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap/bundled/component.js';
 
 // setup the UI
 const ui = setupUI({

@@ -13,7 +13,7 @@ TailwindUI-inspired theme family, homepage: https://tailwindui.com/
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-tailwind/bundled.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-tailwind/bundled/setup.js
 ```
 
 - NPM:

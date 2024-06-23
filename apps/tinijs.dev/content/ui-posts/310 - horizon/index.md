@@ -13,7 +13,7 @@ Horizon-inspired theme family, homepage: https://horizon-ui.com/
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-horizon/bundled.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-horizon/bundled/setup.js
 ```
 
 - NPM:

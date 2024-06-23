@@ -13,7 +13,7 @@ Daisy-inspired theme family, homepage: https://daisyui.com/
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-daisy/bundled.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-daisy/bundled/setup.js
 ```
 
 - NPM:
