@@ -6,14 +6,9 @@ import {UseQuery} from '@tinijs/router';
 
 import {TiniHeadingComponent} from '../../ui/components/heading.js';
 
-import {info, repeat} from '../../utils/subject.js';
+import {repeat} from '../../utils/subject.js';
 
-export const HEADING_SUBJECT = info({
-  title: 'tini-heading',
-  path: '/ui/heading',
-  docPath: '/ui/heading',
-  batches: [6, 100, 1000],
-});
+import {HEADING_SUBJECT} from '../../subjects.js';
 
 @Page({
   name: 'app-page-ui-heading',

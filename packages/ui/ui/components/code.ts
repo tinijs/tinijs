@@ -33,10 +33,7 @@ export default class extends TiniElement {
   private static highlight: CodeHighlight = code => code;
   static config(config: CodeConfig) {
     this.highlight = config.highlight;
-    this.themingStyles = mergeDirectOrRecordStyles(
-      this.themingStyles,
-      config.theme
-    );
+    this.styles = mergeDirectOrRecordStyles(this.styles, config.theme);
   }
 
   /* eslint-disable prettier/prettier */

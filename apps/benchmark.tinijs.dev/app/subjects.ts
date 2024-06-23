@@ -1,9 +1,46 @@
-import {HELLO_WORLD_SUBJECT} from './pages/subjects/hello-world.js';
-import {TEXT_SUBJECT} from './pages/subjects/ui-text.js';
-import {TEXT_NATIVE_SUBJECT} from './pages/subjects/ui-text-native.js';
-import {HEADING_SUBJECT} from './pages/subjects/ui-heading.js';
-import {LINK_SUBJECT} from './pages/subjects/ui-link.js';
-import {IMAGE_SUBJECT} from './pages/subjects/ui-image.js';
+import {info} from './utils/subject.js';
+
+export const HELLO_WORLD_SUBJECT = info({
+  title: 'Hello world',
+  path: '/hello-world',
+  docPath: '/framework/get-started',
+  batches: [1],
+});
+
+export const TEXT_NATIVE_SUBJECT = info({
+  title: 'Native texts',
+  path: '/ui/text-native',
+  docPath: '/ui/token',
+  batches: [10, 1000, 10000],
+});
+
+export const TEXT_SUBJECT = info({
+  title: 'tini-text',
+  path: '/ui/text',
+  docPath: '/ui/text',
+  batches: [10, 1000, 10000],
+});
+
+export const HEADING_SUBJECT = info({
+  title: 'tini-heading',
+  path: '/ui/heading',
+  docPath: '/ui/heading',
+  batches: [6, 100, 1000],
+});
+
+export const LINK_SUBJECT = info({
+  title: 'tini-link',
+  path: '/ui/link',
+  docPath: '/ui/link',
+  batches: [8, 100, 1000],
+});
+
+export const IMAGE_SUBJECT = info({
+  title: 'tini-image',
+  path: '/ui/image',
+  docPath: '/ui/image',
+  batches: [3, 100, 1000],
+});
 
 export default [
   HELLO_WORLD_SUBJECT,

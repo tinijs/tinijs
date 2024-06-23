@@ -6,14 +6,9 @@ import {UseQuery} from '@tinijs/router';
 
 import {TiniTextComponent} from '../../ui/components/text.js';
 
-import {info, repeat} from '../../utils/subject.js';
+import {repeat} from '../../utils/subject.js';
 
-export const TEXT_SUBJECT = info({
-  title: 'tini-text',
-  path: '/ui/text',
-  docPath: '/ui/text',
-  batches: [10, 1000, 10000],
-});
+import {TEXT_SUBJECT} from '../../subjects.js';
 
 @Page({
   name: 'app-page-ui-text',

@@ -89,17 +89,23 @@ export function isDirectStyles(
 }
 
 export function stylesToAdoptableStyles(styles: Styles | undefined) {
-  return listify<CSSResultOrNativeOrRaw>(styles).map(item =>
-    getCompatibleStyle(typeof item !== 'string' ? item : unsafeCSS(item))
+  const set = new Set(
+    listify(styles)
+      .map(item => (typeof item !== 'string' ? item : unsafeCSS(item)))
+      .flat(Infinity)
+      .reverse()
   );
+  const result: CSSResultOrNative[] = [];
+  for (const item of set) {
+    result.unshift(getCompatibleStyle(item));
+  }
+  return result;
 }
 
 export function stylesToText(styles: Styles | undefined) {
-  return listify<CSSResultOrNativeOrRaw>(styles)
+  return stylesToAdoptableStyles(styles)
     .map(style => {
-      if (typeof style === 'string') {
-        return style;
-      } else if (style instanceof CSSStyleSheet) {
+      if (style instanceof CSSStyleSheet) {
         let text = '';
         for (const rule of style.cssRules as any) {
           text += rule.cssText;
