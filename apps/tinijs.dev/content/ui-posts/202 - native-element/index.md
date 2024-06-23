@@ -1,12 +1,12 @@
 +++json
 {
   "status": "publish",
-  "title": "Base styles",
+  "title": "Native Elements",
   "category": "guide"
 }
 +++
 
-Bases is used to set the base styles for native elements like **headings**, **text**, **link**, ... You can think of them as CSS reset, they help to enforce a consistent look across the application.
+Base styles is used to set the styles for native elements like **headings**, **text**, **link**, ... You can think of them as CSS reset, they help to enforce a consistent look across the application.
 
 Bases are defined in `ui/styles/<family>/bases/some-name.ts` file. Base styles can be provided in one or more files, upon building the UI package, all base files styles will be merged together.
 
