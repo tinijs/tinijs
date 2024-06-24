@@ -3,25 +3,25 @@ import {css} from 'lit';
 /* eslint-disable prettier/prettier */
 export default css`:root {
   /* fonts */
-  --font-title: Arial, sans-serif;
-  --font-content: Arial, sans-serif;
-  --font-code: Monaco, monospace;
+  --font-title: 'DM Sans', sans-serif;
+  --font-content: 'DM Sans', sans-serif;
+  --font-code: 'DM Mono', monospace;
   /* colors */
-  --color-body: #212428;
+  --color-body: #0e172a;
   --color-body-contrast: #f4f5f8;
-  --color-medium: #878b8e;
+  --color-medium: #94a3b8;
   --color-medium-contrast: #f4f5f8;
-  --color-primary: #0d6efd;
+  --color-primary: #03c169;
   --color-primary-contrast: #f4f5f8;
-  --color-secondary: #b4b7bb;
+  --color-secondary: #9e339f;
   --color-secondary-contrast: #f4f5f8;
-  --color-info: #0ecaf0;
+  --color-info: #5a54f9;
   --color-info-contrast: #f4f5f8;
-  --color-success: #198754;
+  --color-success: #02b96b;
   --color-success-contrast: #f4f5f8;
-  --color-warning: #ffc106;
+  --color-warning: #f2bd27;
   --color-warning-contrast: #222428;
-  --color-danger: #dc3545;
+  --color-danger: #e0282e;
   --color-danger-contrast: #f4f5f8;
   /* gradients */
   --gradient-direction: 180deg;
@@ -29,10 +29,10 @@ export default css`:root {
   --size-base: 16px;
   --size-text: 1;
   --size-space: 1;
-  --size-radius: .25;
+  --size-radius: .375;
   --size-border: 1px;
   --size-ring: 1px;
-  --size-line: 1.5;
+  --size-line: 1.75;
   --size-letter: normal;
   /* shadows */
   --shadow-xs: 0 0 0 1px #00000026;

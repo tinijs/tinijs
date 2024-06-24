@@ -3,25 +3,25 @@ import {css} from 'lit';
 /* eslint-disable prettier/prettier */
 export default css`:root {
   /* fonts */
-  --font-title: Arial, sans-serif;
-  --font-content: Arial, sans-serif;
-  --font-code: Monaco, monospace;
+  --font-title: Geist, sans-serif;
+  --font-content: Geist, sans-serif;
+  --font-code: "Geist Mono", monospace;
   /* colors */
-  --color-body: #212428;
+  --color-body: #000000;
   --color-body-contrast: #f4f5f8;
-  --color-medium: #878b8e;
+  --color-medium: #a1a1aa;
   --color-medium-contrast: #f4f5f8;
-  --color-primary: #0d6efd;
+  --color-primary: #016fee;
   --color-primary-contrast: #f4f5f8;
-  --color-secondary: #b4b7bb;
+  --color-secondary: #9353d3;
   --color-secondary-contrast: #f4f5f8;
-  --color-info: #0ecaf0;
-  --color-info-contrast: #f4f5f8;
-  --color-success: #198754;
+  --color-info: #98c7fb;
+  --color-info-contrast: #222428;
+  --color-success: #1ac964;
   --color-success-contrast: #f4f5f8;
-  --color-warning: #ffc106;
-  --color-warning-contrast: #222428;
-  --color-danger: #dc3545;
+  --color-warning: #f5a525;
+  --color-warning-contrast: #f4f5f8;
+  --color-danger: #f31260;
   --color-danger-contrast: #f4f5f8;
   /* gradients */
   --gradient-direction: 180deg;
@@ -29,10 +29,10 @@ export default css`:root {
   --size-base: 16px;
   --size-text: 1;
   --size-space: 1;
-  --size-radius: .25;
+  --size-radius: .75;
   --size-border: 1px;
   --size-ring: 1px;
-  --size-line: 1.5;
+  --size-line: 1.75;
   --size-letter: normal;
   /* shadows */
   --shadow-xs: 0 0 0 1px #00000026;

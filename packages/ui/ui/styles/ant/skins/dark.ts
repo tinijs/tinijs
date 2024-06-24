@@ -3,25 +3,25 @@ import {css} from 'lit';
 /* eslint-disable prettier/prettier */
 export default css`:root {
   /* fonts */
-  --font-title: Arial, sans-serif;
-  --font-content: Arial, sans-serif;
+  --font-title: Roboto, sans-serif;
+  --font-content: Roboto, sans-serif;
   --font-code: Monaco, monospace;
   /* colors */
-  --color-body: #212428;
+  --color-body: #141414;
   --color-body-contrast: #f4f5f8;
-  --color-medium: #878b8e;
+  --color-medium: #8c8c8c;
   --color-medium-contrast: #f4f5f8;
-  --color-primary: #0d6efd;
+  --color-primary: #1990ff;
   --color-primary-contrast: #f4f5f8;
-  --color-secondary: #b4b7bb;
+  --color-secondary: #8d51d7;
   --color-secondary-contrast: #f4f5f8;
-  --color-info: #0ecaf0;
+  --color-info: #35cbc5;
   --color-info-contrast: #f4f5f8;
-  --color-success: #198754;
+  --color-success: #4eba1a;
   --color-success-contrast: #f4f5f8;
-  --color-warning: #ffc106;
-  --color-warning-contrast: #222428;
-  --color-danger: #dc3545;
+  --color-warning: #f0a513;
+  --color-warning-contrast: #f4f5f8;
+  --color-danger: #f64a4c;
   --color-danger-contrast: #f4f5f8;
   /* gradients */
   --gradient-direction: 180deg;
@@ -32,7 +32,7 @@ export default css`:root {
   --size-radius: .25;
   --size-border: 1px;
   --size-ring: 1px;
-  --size-line: 1.5;
+  --size-line: 1.75;
   --size-letter: normal;
   /* shadows */
   --shadow-xs: 0 0 0 1px #00000026;

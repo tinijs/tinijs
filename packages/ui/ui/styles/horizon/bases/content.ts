@@ -1,5 +1,17 @@
 import {css} from 'lit';
 
+import {
+  text as bootstrapText,
+  image as bootstrapImage,
+  figure as bootstrapFigure,
+  fieldset as bootstrapFieldset,
+} from '../../bootstrap/bases/content.js';
+import {
+  link as chakraLink,
+  table as chakraTable,
+  code as chakraCode,
+} from '../../chakra/bases/content.js';
+
 export const heading = css`
   h1,
   h2,
@@ -38,29 +50,9 @@ export const heading = css`
   }
 `;
 
-export const text = css`
-  p {
-    margin: 0;
-  }
+export const text = bootstrapText;
 
-  hr {
-    margin: 0;
-    border: 0;
-    border-bottom: 1px solid var(--color-body-semi);
-  }
-`;
-
-export const link = css`
-  a {
-    color: var(--color-primary);
-    text-decoration: underline;
-    font-weight: 500;
-  }
-
-  a:hover {
-    color: var(--color-primary-hard);
-  }
-`;
+export const link = chakraLink;
 
 export const blockquote = css`
   blockquote,
@@ -93,78 +85,15 @@ export const list = css`
   }
 `;
 
-export const table = css`
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    text-align: left;
-    color: var(--color-body-contrast);
-  }
+export const table = chakraTable;
 
-  th,
-  td {
-    background: var(--color-body);
-    padding: var(--space-xs);
-    border-bottom: var(--border-md) solid var(--color-body-semi);
-  }
+export const code = chakraCode;
 
-  th {
-    font-weight: 700;
-  }
-`;
+export const image = bootstrapImage;
 
-export const code = css`
-  pre,
-  code,
-  kbd,
-  samp,
-  var {
-    font-family: var(--font-code);
-    font-size: 0.85em;
-    word-wrap: break-word;
-    color: rgb(214, 51, 132);
-  }
+export const figure = bootstrapFigure;
 
-  kbd {
-    padding: 0.2rem 0.4rem;
-    border-radius: 0.25rem;
-    background: var(--color-body-contrast);
-    color: var(--color-body);
-  }
-`;
-
-export const image = css`
-  img {
-    width: 100%;
-    height: auto;
-    border-radius: var(--radius-md);
-  }
-`;
-
-export const figure = css`
-  figure {
-    margin: 0;
-  }
-
-  figcaption {
-    color: var(--color-medium);
-    margin: 0.5em 0;
-    font-size: 0.9em;
-  }
-`;
-
-export const fieldset = css`
-  fieldset {
-    margin: 0;
-    padding: 0;
-    border: none;
-  }
-
-  legend {
-    font-size: 1.5rem;
-    margin-bottom: 0.5em;
-  }
-`;
+export const fieldset = bootstrapFieldset;
 
 export const article = css`
   article h1,

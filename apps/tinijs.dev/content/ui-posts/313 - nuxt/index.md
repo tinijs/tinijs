@@ -27,3 +27,16 @@ npm i @tinijs/ui-nuxt
 ```bash
 npm i @tinijs/ui-nuxt-react
 ```
+
+## Setup fonts
+
+Fonts: **DM Sans**, **DM Mono**.
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&amp;family=DM+Mono&amp;display=swap"
+  rel="stylesheet"
+/>
+```

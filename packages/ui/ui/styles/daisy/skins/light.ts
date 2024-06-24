@@ -3,25 +3,25 @@ import {css} from 'lit';
 /* eslint-disable prettier/prettier */
 export default css`:root {
   /* fonts */
-  --font-title: Arial, sans-serif;
-  --font-content: Arial, sans-serif;
-  --font-code: Monaco, monospace;
+  --font-title: Helvetica, sans-serif;
+  --font-content: Helvetica, sans-serif;
+  --font-code: Menlo, monospace;
   /* colors */
   --color-body: #ffffff;
   --color-body-contrast: #222428;
-  --color-medium: #999b9c;
+  --color-medium: #9499a0;
   --color-medium-contrast: #f4f5f8;
-  --color-primary: #0d6efd;
+  --color-primary: #4a00ff;
   --color-primary-contrast: #f4f5f8;
-  --color-secondary: #626466;
+  --color-secondary: #ff00d3;
   --color-secondary-contrast: #f4f5f8;
-  --color-info: #0ecaf0;
+  --color-info: #00b5ff;
   --color-info-contrast: #f4f5f8;
-  --color-success: #198754;
+  --color-success: #00aa6e;
   --color-success-contrast: #f4f5f8;
-  --color-warning: #ffc106;
+  --color-warning: #ffbe00;
   --color-warning-contrast: #222428;
-  --color-danger: #dc3545;
+  --color-danger: #ff5861;
   --color-danger-contrast: #f4f5f8;
   /* gradients */
   --gradient-direction: 180deg;
@@ -29,10 +29,10 @@ export default css`:root {
   --size-base: 16px;
   --size-text: 1;
   --size-space: 1;
-  --size-radius: .25;
+  --size-radius: .5;
   --size-border: 1px;
   --size-ring: 1px;
-  --size-line: 1.5;
+  --size-line: 1.75;
   --size-letter: normal;
   /* shadows */
   --shadow-xs: 0 0 0 1px #0000000d;
