@@ -6,7 +6,7 @@
 }
 +++
 
-Ant-inspired theme family, homepage: https://ant.design/
+Ant-inspired theme family, homepage: <https://ant.design>
 
 ## Install
 

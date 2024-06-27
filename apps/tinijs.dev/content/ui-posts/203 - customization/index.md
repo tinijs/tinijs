@@ -6,7 +6,7 @@
 }
 +++
 
-For consuming components, there are several ways to customize Tini UI components:
+To customize UI packages and components, there are several ways:
 
 1. Override skin variables
 2. Use parts
@@ -16,7 +16,7 @@ For consuming components, there are several ways to customize Tini UI components
 
 At the [setup step](/ui/get-started), you can quickly override skin variables to customize the look of a skin. 
 
-Override skin variables is suitable for a quick change of color, border, radius, ... For a more complex customization, you should create your own skin.
+Override skin variables is suitable for a quick change of color, border, radius, ... For a more complex customization, you should [create your own skin](/ui/skin).
 
 ```ts
 const ui = setupUI({

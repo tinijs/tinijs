@@ -6,7 +6,7 @@
 }
 +++
 
-TailwindUI-inspired theme family, homepage: https://tailwindui.com/
+TailwindUI-inspired theme family, homepage: <https://tailwindui.com>
 
 ## Install
 

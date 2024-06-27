@@ -6,7 +6,7 @@
 }
 +++
 
-Shadcn-inspired theme family, homepage: https://ui.shadcn.com/
+Shadcn-inspired theme family, homepage: <https://ui.shadcn.com>
 
 ## Install
 

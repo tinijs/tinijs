@@ -6,7 +6,7 @@
 }
 +++
 
-Material-inspired theme family, homepage: https://m3.material.io/
+Material-inspired theme family, homepage: <https://m3.material.io>
 
 ## Install
 

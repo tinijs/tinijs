@@ -1,19 +1,9 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/badge.js';
+import {styles as chakraStyles} from '../../chakra/souls/badge.js';
 
-export const styles = defaultStyles.extends({
-  statics: css`
-    .main {
-      font-weight: var(--weight-bold);
-      padding: 0 calc(var(--size) * 0.5);
-    }
-
-    :host([shape='dot']) {
-      width: var(--size);
-      height: var(--size);
-    }
-  `,
+export const styles = chakraStyles.extends({
+  statics: css``,
   colorGen: () => '',
   gradientGen: () => '',
   sizeGen: () => '',

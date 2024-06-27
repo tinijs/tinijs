@@ -6,7 +6,7 @@
 }
 +++
 
-NextUI-inspired theme family, homepage: https://nextui.org/
+NextUI-inspired theme family, homepage: <https://nextui.org>
 
 ## Install
 

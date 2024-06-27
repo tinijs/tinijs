@@ -6,7 +6,7 @@
 }
 +++
 
-Daisy-inspired theme family, homepage: https://daisyui.com/
+Daisy-inspired theme family, homepage: <https://daisyui.com>
 
 ## Install
 

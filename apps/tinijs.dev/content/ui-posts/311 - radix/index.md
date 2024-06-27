@@ -6,7 +6,7 @@
 }
 +++
 
-Radix-inspired theme family, homepage: https://www.radix-ui.com/
+Radix-inspired theme family, homepage: <https://www.radix-ui.com>
 
 ## Install
 

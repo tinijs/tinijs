@@ -6,11 +6,7 @@
 }
 +++
 
-Base styles is used to set the styles for native elements like **headings**, **text**, **link**, ... You can think of them as CSS reset, they help to enforce a consistent look across the application.
-
-Bases are defined in `ui/styles/<family>/bases/some-name.ts` file. Base styles can be provided in one or more files, upon building the UI package, all base files styles will be merged together.
-
-After `setupUI()`, base styles will be applied globally in the light DOM, and will also be available automatically in the shadow DOM for any component which extends `TiniElement` or `TiniComponent`.
+Base styles is used to set the styles for native elements like **headings**, **text**, **link**, ... For more details, please see [Bases](/ui/base).
 
 Below is the preview of the base styles of the current activated theme. You may want to switch to another theme of a some other family to see the differences using the **Skin Editor** panel.
 

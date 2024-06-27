@@ -6,7 +6,7 @@
 }
 +++
 
-Prime-inspired theme family, homepage: https://primeng.org/
+Prime-inspired theme family, homepage: <https://primeng.org>
 
 ## Install
 

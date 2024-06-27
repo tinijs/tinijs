@@ -6,7 +6,7 @@
 }
 +++
 
-Chakra-inspired theme family, homepage: https://v2.chakra-ui.com/
+Chakra-inspired theme family, homepage: <https://v2.chakra-ui.com>
 
 ## Install
 

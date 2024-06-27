@@ -6,7 +6,7 @@
 }
 +++
 
-iOS-inspired theme family, homepage: https://developer.apple.com/design/human-interface-guidelines/
+iOS-inspired theme family, homepage: <https://developer.apple.com/design/human-interface-guidelines>
 
 ## Install
 

@@ -6,7 +6,7 @@
 }
 +++
 
-Bootstrap-inspired theme family, homepage: https://getbootstrap.com/
+Bootstrap-inspired theme family, homepage: <https://getbootstrap.com>
 
 ## Install
 

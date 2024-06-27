@@ -6,7 +6,7 @@
 }
 +++
 
-Horizon-inspired theme family, homepage: https://horizon-ui.com/
+Horizon-inspired theme family, homepage: <https://horizon-ui.com>
 
 ## Install
 

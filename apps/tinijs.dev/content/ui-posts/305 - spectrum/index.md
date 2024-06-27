@@ -6,7 +6,7 @@
 }
 +++
 
-Spectrum-inspired theme family, homepage: https://spectrum.adobe.com/
+Spectrum-inspired theme family, homepage: <https://spectrum.adobe.com>
 
 ## Install
 

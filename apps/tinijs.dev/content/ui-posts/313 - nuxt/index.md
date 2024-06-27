@@ -6,7 +6,7 @@
 }
 +++
 
-NuxtUI-inspired theme family, homepage: https://ui.nuxt.com/
+NuxtUI-inspired theme family, homepage: <https://ui.nuxt.com>
 
 ## Install
 

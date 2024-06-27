@@ -42,10 +42,42 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
     return html`
       <article>
         <p>
-          For other frameworks and vanilla, please try them on Stackblitz using
-          below links:
+          This playground serves a quick tour of how components look and behave
+          in different variants and theme families.
+        </p>
+        <p>
+          For interactive playgrounds using different frameworks, please check
+          out these examples on Stackblitz:
         </p>
         <ul>
+          <li>
+            <a
+              href="https://stackblitz.com/edit/tini-ui-vue-playground?file=src%2FApp.vue"
+              target="_blank"
+              >Vue Playground</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://stackblitz.com/edit/tini-ui-react-playground?file=src%2FApp.tsx"
+              target="_blank"
+              >React Playground</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://stackblitz.com/edit/tini-ui-angular-playground?file=src%2Fmain.html"
+              target="_blank"
+              >Angular Playground</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://stackblitz.com/edit/tini-ui-svelte-playground?file=src%2FApp.svelte"
+              target="_blank"
+              >Svelte Playground</a
+            >
+          </li>
           <li>
             <a
               href="https://stackblitz.com/edit/tini-ui-vanilla-playground?file=index.html"
@@ -55,8 +87,10 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
           </li>
         </ul>
         <p>
-          Use the theme selector below or in the Skin Editor panel to see how
-          components will works in their respective theme family.
+          <em
+            >Note: use the theme selector below or in the Skin Editor panel to
+            see how components will works in their respective theme family.</em
+          >
         </p>
       </article>
 

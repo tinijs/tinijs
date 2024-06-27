@@ -6,7 +6,7 @@
 }
 +++
 
-Fluent-inspired theme family, homepages: https://fluent2.microsoft.design/
+Fluent-inspired theme family, homepages: <https://fluent2.microsoft.design>
 
 ## Install
 
