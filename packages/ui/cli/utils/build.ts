@@ -481,27 +481,32 @@ export async function buildSetup({manualSkinSelection}: UIConfig) {
     .addBlock(
       'export type UISetup = ',
       (manualSkinSelection ? 'UIInit' : 'Partial<UIInit>') +
-        ' & {components?: RegisterComponentsList}'
+        ' & {components?: RegisterComponentsList, pendingBody?: true | string}'
     )
     .addBlock(
-      `export function setupUI({host, globals, skins, shares, options, components}: UISetup${
+      `export function setupUI({host, globals, skins, shares, options, components, pendingBody}: UISetup${
         manualSkinSelection ? '' : ' = {}'
       })`,
       `{
-const ui = initUI({
-  host,
-  globals: [
-    ...availableGlobals,
-    ...listify<CSSResultOrNativeOrRaw>(globals)
-  ],
-  skins: ${
-    manualSkinSelection ? 'skins' : 'mergeRecordStyles(availableSkins, skins)'
-  },
-  shares: mergeDirectOrRecordStyles(availableBases, shares),
-  options,
-});
-if (components?.length) registerComponents(components);
-return ui;
+  const ui = initUI({
+    host,
+    globals: [
+      ...availableGlobals,
+      ...listify<CSSResultOrNativeOrRaw>(globals)
+    ],
+    skins: ${
+      manualSkinSelection ? 'skins' : 'mergeRecordStyles(availableSkins, skins)'
+    },
+    shares: mergeDirectOrRecordStyles(availableBases, shares),
+    options,
+  });
+  if (components?.length) {
+    registerComponents(components);
+  }
+  if (pendingBody) {
+    document.body.removeAttribute('hidden');
+  }
+  return ui;
 }`
     );
 
