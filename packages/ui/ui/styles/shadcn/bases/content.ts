@@ -112,7 +112,7 @@ export const table = css`
   }
 
   tr:nth-child(2n) td {
-    background: var(--color-body-less);
+    background: var(--color-body-soft);
   }
 `;
 

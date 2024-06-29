@@ -73,7 +73,7 @@ export const defaultStyles = createStyleBuilder<{
     }
 
     .main::after {
-      --background: var(--color-body-more);
+      --background: var(--color-body-hard);
       position: absolute;
       inset: 0;
       transform: translateX(-100%);

@@ -16,7 +16,7 @@ export const styles = defaultStyles.extends({
 
     .item:hover {
       text-decoration: none;
-      color: var(--color-medium-more);
+      color: var(--color-medium-hard);
     }
 
     .item-active {

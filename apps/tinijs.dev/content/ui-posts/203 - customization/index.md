@@ -6,41 +6,39 @@
 }
 +++
 
-## For consumers
-
-There are several ways to customize Tini UI components:
+To customize UI packages and components, there are several ways:
 
 1. Override skin variables
 2. Use parts
 3. Use `styleDeep` attribute
 
-### Override skin variables
+## Override skin variables
 
-At the setup step, you can override skin variables to customize the default look of a skin, see [Get started](/ui/get-started).
+At the [setup step](/ui/get-started), you can quickly override skin variables to customize the look of a skin. 
+
+Override skin variables is suitable for a quick change of color, border, radius, ... For a more complex customization, you should [create your own skin](/ui/skin).
 
 ```ts
-const customBootstrapLightSkin = css`
-  :root {
-    --color-primary: abc;
-    --color-success: xyz;
-  }
-`;
-
 const ui = setupUI({
 
   skins: {
     'bootstrap/light': [
       bootstrapLightSkin,
-      customBootstrapLightSkin,
+      css`
+        :root {
+          --color-primary: abc;
+          --color-success: xyz;
+        }
+      `,
     ],
   },
 
 });
 ```
 
-### Use parts
+## Use parts
 
-Use `::part()` to target a specific part of a component. This is the standard way to customize custom elements.
+Use `::part()` selector to target a specific part of a component, this is the standard way to customize custom elements.
 
 ```css
 tini-button::part(main) {
@@ -48,33 +46,30 @@ tini-button::part(main) {
 }
 ```
 
-### Use `styleDeep` attribute
+## Use `styleDeep` attribute
 
-Write any CSS to target any element inside a component shadow DOM.
+Write CSS to target any element inside a component shadow DOM.
 
 ```ts
 class XXX {
 
   render() {
     return html`
-      <tini-button .styleDeep=${this.customStyle}>A button</tini-button>
+      <tini-button .styleDeep=${this.customButtonStyles}>A button</tini-button>
     `;
   }
 
-  readonly customStyle = css`
+  readonly customButtonStyles = css`
     .main {
       color: aqua;
     }
   `;
+
 }
 ```
 
-Or inline style:
+Or inline:
 
 ```html
 <tini-button styleDeep=".main { color: aqua; }">A button</tini-button>
 ```
-
-## For authors
-
-TODO: add instructions

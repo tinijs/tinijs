@@ -181,7 +181,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
         transform: none;
         opacity: 1;
         left: 0;
-        background: var(--color-body-less);
+        background: var(--color-body-soft);
         border-right: none;
         padding-bottom: var(--footer-height);
       }

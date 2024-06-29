@@ -74,8 +74,8 @@ export class TiniElement extends LitElement {
   static readonly componentMetadata: ComponentMetadata = {};
 
   static theming?: Theming;
-  static themingStyles?: DirectOrRecordStyles;
   static components?: RegisterComponentsList;
+  static styles?: any; // any = DirectOrRecordStyles
   static events?: EventForwardingInput;
 
   /* eslint-disable prettier/prettier */
@@ -97,12 +97,17 @@ export class TiniElement extends LitElement {
   }
 
   private onThemeChange = (e: any) => {
+    // get updated templates and scripts
     const {prevFamilyId, familyId} = (e as CustomEvent<ActiveTheme>).detail;
     if (prevFamilyId !== familyId) {
       this.customTemplates = this.getTemplates();
       this.themingScripts = this.getScripts();
     }
+    // re-adopt styles
+    const component = this.constructor as typeof LitElement;
+    component.elementStyles = component.finalizeStyles(component.styles);
     this.adoptStyles(this.shadowRoot || this);
+    // continue update cycle
     return this.requestUpdate();
   };
 
@@ -183,10 +188,16 @@ export class TiniElement extends LitElement {
   }
 
   private adoptStyles(renderRoot: HTMLElement | DocumentFragment) {
-    adoptStyles(
-      renderRoot as unknown as ShadowRoot,
-      stylesToAdoptableStyles(this.getStyles())
+    const optionalUI = getOptionalUI();
+    const styles = (this.constructor as typeof LitElement).elementStyles.concat(
+      stylesToAdoptableStyles(
+        extractStylesFromDirectOrRecordStyles(
+          this.styleDeep,
+          optionalUI?.activeTheme
+        )
+      )
     );
+    adoptStyles(renderRoot as unknown as ShadowRoot, styles);
   }
 
   private adoptScripts() {
@@ -216,45 +227,27 @@ export class TiniElement extends LitElement {
         );
   }
 
-  private getStyles() {
+  protected static finalizeStyles(styles?: any) {
     const optionalUI = getOptionalUI();
-    const styles: CSSResultOrNativeOrRaw[] = [];
-
+    const elementStyles: CSSResultOrNativeOrRaw[] = [];
     // 1. share styles
     if (optionalUI) {
-      styles.push(...optionalUI.getShareStyles(optionalUI.activeTheme));
+      elementStyles.push(...optionalUI.getShareStyles(optionalUI.activeTheme));
     }
-
-    // 2. theming styles (full)
+    // 2. theming styles
     if (optionalUI) {
-      styles.push(
-        ...extractStylesFromTheming(
-          (this.constructor as typeof TiniElement).theming,
-          optionalUI.activeTheme
-        )
+      elementStyles.push(
+        ...extractStylesFromTheming(this.theming, optionalUI.activeTheme)
       );
     }
-
-    // 3. theming styles (lite - static themingStyles = ...)
-    styles.push(
+    // 3. element styles (static styles = ...)
+    elementStyles.push(
       ...extractStylesFromDirectOrRecordStyles(
-        (this.constructor as typeof TiniElement).themingStyles,
+        styles as DirectOrRecordStyles,
         optionalUI?.activeTheme
       )
     );
-
-    // 4. element styles (static styles = ...)
-    styles.push(...(this.constructor as typeof LitElement).elementStyles);
-
-    // 5. styleDeep
-    styles.push(
-      ...extractStylesFromDirectOrRecordStyles(
-        this.styleDeep,
-        optionalUI?.activeTheme
-      )
-    );
-
     // result
-    return styles;
+    return stylesToAdoptableStyles(elementStyles);
   }
 }

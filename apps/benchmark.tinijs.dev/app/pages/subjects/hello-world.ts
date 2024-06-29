@@ -2,15 +2,6 @@ import {html, css} from 'lit';
 
 import {Page, TiniComponent} from '@tinijs/core';
 
-import {info} from '../../utils/subject.js';
-
-export const HELLO_WORLD_SUBJECT = info({
-  title: 'Hello world',
-  path: '/hello-world',
-  docPath: '/framework/get-started',
-  batches: [1],
-});
-
 @Page({
   name: 'app-page-hello-world',
 })

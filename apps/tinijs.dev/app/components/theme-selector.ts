@@ -90,6 +90,13 @@ export class AppThemeSelectorComponent extends TiniComponent {
             ]),
           },
           {
+            label: 'Prime',
+            options: this.buildThemeOptions('prime', [
+              {content: 'Prime Light', value: 'light'},
+              {content: 'Prime Dark', value: 'dark'},
+            ]),
+          },
+          {
             label: 'Tailwind',
             options: this.buildThemeOptions('tailwind', [
               {content: 'Tailwind Light', value: 'light'},
@@ -101,6 +108,48 @@ export class AppThemeSelectorComponent extends TiniComponent {
             options: this.buildThemeOptions('chakra', [
               {content: 'Chakra Light', value: 'light'},
               {content: 'Chakra Dark', value: 'dark'},
+            ]),
+          },
+          {
+            label: 'Horizon',
+            options: this.buildThemeOptions('horizon', [
+              {content: 'Horizon Light', value: 'light'},
+              {content: 'Horizon Dark', value: 'dark'},
+            ]),
+          },
+          {
+            label: 'Radix',
+            options: this.buildThemeOptions('radix', [
+              {content: 'Radix Light', value: 'light'},
+              {content: 'Radix Dark', value: 'dark'},
+            ]),
+          },
+          {
+            label: 'Ant',
+            options: this.buildThemeOptions('ant', [
+              {content: 'Ant Light', value: 'light'},
+              {content: 'Ant Dark', value: 'dark'},
+            ]),
+          },
+          {
+            label: 'Nuxt',
+            options: this.buildThemeOptions('nuxt', [
+              {content: 'Nuxt Light', value: 'light'},
+              {content: 'Nuxt Dark', value: 'dark'},
+            ]),
+          },
+          {
+            label: 'Next',
+            options: this.buildThemeOptions('next', [
+              {content: 'Next Light', value: 'light'},
+              {content: 'Next Dark', value: 'dark'},
+            ]),
+          },
+          {
+            label: 'Daisy',
+            options: this.buildThemeOptions('daisy', [
+              {content: 'Daisy Light', value: 'light'},
+              {content: 'Daisy Dark', value: 'dark'},
             ]),
           },
         ]}

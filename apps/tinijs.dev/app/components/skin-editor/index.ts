@@ -88,8 +88,8 @@ export class AppSkinEditorComponent extends TiniComponent {
         result[0].items.push(def);
       } else if (key.startsWith('--color')) {
         if (
-          !~key.indexOf('-more') &&
-          !~key.indexOf('-less') &&
+          !~key.indexOf('-hard') &&
+          !~key.indexOf('-soft') &&
           !~key.indexOf('-semi') &&
           !~key.indexOf('-subtle') &&
           !~key.indexOf('-contrast')
@@ -385,7 +385,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         font-size: var(--text-sm);
 
         &:hover {
-          background: var(--color-body-less);
+          background: var(--color-body-soft);
         }
       }
 

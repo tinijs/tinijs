@@ -54,7 +54,7 @@ export const link = css`
   }
 
   a:hover {
-    color: var(--color-primary-more);
+    color: var(--color-primary-hard);
     text-decoration: underline;
   }
 `;
@@ -117,7 +117,7 @@ export const table = css`
   }
 
   tr:hover td {
-    background: var(--color-body-less);
+    background: var(--color-body-soft);
   }
 `;
 

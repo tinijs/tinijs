@@ -25,8 +25,8 @@ export interface ColorRenderValues extends RenderValues {
   isSubtle: boolean;
   isContrast: boolean;
   baseColor: string;
-  baseColorMore: string;
-  baseColorLess: string;
+  baseColorHard: string;
+  baseColorSoft: string;
   baseColorSemi: string;
   baseColorSubtle: string;
   baseColorDull: string;
@@ -37,8 +37,8 @@ export interface ColorRenderValues extends RenderValues {
 export type ColorVariantRender = (values: ColorRenderValues) => string;
 export interface GradientRenderValues extends ColorRenderValues {
   baseGradient: string;
-  baseGradientMore: string;
-  baseGradientLess: string;
+  baseGradientHard: string;
+  baseGradientSoft: string;
   baseGradientSemi: string;
   baseGradientSubtle: string;
   baseGradientDull: string;
@@ -80,8 +80,8 @@ export type ShadowVariantRender = (values: ShadowRenderValues) => string;
 
 export enum ColorSuffixes {
   None = 'none',
-  More = 'more',
-  Less = 'less',
+  Hard = 'hard',
+  Soft = 'soft',
   Semi = 'semi',
   Subtle = 'subtle',
   Dull = 'dull',
@@ -323,8 +323,8 @@ function generateColorVariant(
     .join('-');
   // colors
   const baseColor = `var(--color-${baseName})`;
-  const baseColorMore = `var(--color-${baseName}-more)`;
-  const baseColorLess = `var(--color-${baseName}-less)`;
+  const baseColorHard = `var(--color-${baseName}-hard)`;
+  const baseColorSoft = `var(--color-${baseName}-soft)`;
   const baseColorSemi = `var(--color-${baseName}-semi)`;
   const baseColorSubtle = `var(--color-${baseName}-subtle)`;
   const baseColorDull = `var(--color-${baseName}-dull)`;
@@ -344,8 +344,8 @@ function generateColorVariant(
     isSubtle,
     isContrast,
     baseColor,
-    baseColorMore,
-    baseColorLess,
+    baseColorHard,
+    baseColorSoft,
     baseColorSemi,
     baseColorSubtle,
     baseColorDull,
@@ -410,8 +410,8 @@ function generateGradientVariant(
     .join('-');
   // colors
   const baseColor = `var(--color-${baseName})`;
-  const baseColorMore = `var(--color-${baseName}-more)`;
-  const baseColorLess = `var(--color-${baseName}-less)`;
+  const baseColorHard = `var(--color-${baseName}-hard)`;
+  const baseColorSoft = `var(--color-${baseName}-soft)`;
   const baseColorSemi = `var(--color-${baseName}-semi)`;
   const baseColorSubtle = `var(--color-${baseName}-subtle)`;
   const baseColorDull = `var(--color-${baseName}-dull)`;
@@ -420,8 +420,8 @@ function generateGradientVariant(
   const contrast = isSubtle || isContrast ? baseColor : baseColorContrast;
   // gradients
   const baseGradient = `var(--gradient-${baseName})`;
-  const baseGradientMore = `var(--gradient-${baseName}-more)`;
-  const baseGradientLess = `var(--gradient-${baseName}-less)`;
+  const baseGradientHard = `var(--gradient-${baseName}-hard)`;
+  const baseGradientSoft = `var(--gradient-${baseName}-soft)`;
   const baseGradientSemi = `var(--gradient-${baseName}-semi)`;
   const baseGradientSubtle = `var(--gradient-${baseName}-subtle)`;
   const baseGradientDull = `var(--gradient-${baseName}-dull)`;
@@ -442,8 +442,8 @@ function generateGradientVariant(
     isSubtle,
     isContrast,
     baseColor,
-    baseColorMore,
-    baseColorLess,
+    baseColorHard,
+    baseColorSoft,
     baseColorSemi,
     baseColorSubtle,
     baseColorDull,
@@ -451,8 +451,8 @@ function generateGradientVariant(
     color,
     contrast,
     baseGradient,
-    baseGradientMore,
-    baseGradientLess,
+    baseGradientHard,
+    baseGradientSoft,
     baseGradientSemi,
     baseGradientSubtle,
     baseGradientDull,
@@ -657,7 +657,7 @@ export interface GradientTokenDef {
 }
 
 const DECREASE_BODY_COLOR_STRENGTHS = {
-  [ColorSuffixes.Less]: '3%',
+  [ColorSuffixes.Soft]: '3%',
   [ColorSuffixes.Semi]: '10%',
   [ColorSuffixes.Subtle]: '15%',
   [ColorSuffixes.Dull]: '25%',
@@ -668,9 +668,9 @@ export function deriveColorStrength(
   color: string
 ) {
   switch (target) {
-    case ColorSuffixes.More:
+    case ColorSuffixes.Hard:
       return `color-mix(in oklab, ${color}, var(--color-body-contrast) 15%)`;
-    case ColorSuffixes.Less:
+    case ColorSuffixes.Soft:
       return `color-mix(in oklab, ${color}, var(--color-body) 15%)`;
     case ColorSuffixes.Semi:
       return `color-mix(in oklab, ${color}, var(--color-body) 40%)`;
@@ -702,15 +702,15 @@ function generateColorTokensAsString(
   return [
     excludeBaseAndContrast ? '' : `--color-${name}: ${color};`,
     excludeBaseAndContrast ? '' : `--color-${name}-contrast: ${contrastColor};`,
-    `--color-${name}-more: ${
+    `--color-${name}-hard: ${
       isBodyColor
         ? 'var(--color-body)'
-        : deriveColorStrength(ColorSuffixes.More, color)
+        : deriveColorStrength(ColorSuffixes.Hard, color)
     };`,
-    `--color-${name}-less: ${
+    `--color-${name}-soft: ${
       isBodyColor
-        ? increaseColorStrength(color, DECREASE_BODY_COLOR_STRENGTHS.less)
-        : deriveColorStrength(ColorSuffixes.Less, color)
+        ? increaseColorStrength(color, DECREASE_BODY_COLOR_STRENGTHS.soft)
+        : deriveColorStrength(ColorSuffixes.Soft, color)
     };`,
     `--color-${name}-semi: ${
       isBodyColor
@@ -730,27 +730,11 @@ function generateColorTokensAsString(
   ].join('');
 }
 
-export function generateColorTokens(
-  name: string,
-  def: ColorTokenDef
-): CSSResult;
-export function generateColorTokens(
-  items: Record<string, ColorTokenDef>
-): CSSResult;
-export function generateColorTokens(
-  nameOrItems: string | Record<string, ColorTokenDef>,
-  def?: ColorTokenDef
-): CSSResult {
+export function generateColorTokens(items: Record<string, ColorTokenDef>) {
   return unsafeCSS(`:root {
-    ${
-      nameOrItems instanceof Object
-        ? Object.entries(nameOrItems)
-            .map(([name, def]) => generateColorTokensAsString(name, def))
-            .join('')
-        : def
-          ? generateColorTokensAsString(nameOrItems, def)
-          : ''
-    }
+    ${Object.entries(items)
+      .map(([name, def]) => generateColorTokensAsString(name, def))
+      .join('')}
   }`);
 }
 
@@ -770,16 +754,8 @@ export function generateOfficialColorTokens() {
 }
 
 export function generateGradientTokens(
-  name: string,
-  def: GradientTokenDef
-): CSSResult;
-export function generateGradientTokens(
   items: Record<string, GradientTokenDef>
-): CSSResult;
-export function generateGradientTokens(
-  nameOrItems: string | Record<string, GradientTokenDef>,
-  def?: GradientTokenDef
-): CSSResult {
+) {
   const generate = (
     name: string,
     {
@@ -808,15 +784,9 @@ export function generateGradientTokens(
       .join('');
   };
   return unsafeCSS(`:root {
-    ${
-      nameOrItems instanceof Object
-        ? Object.entries(nameOrItems)
-            .map(([name, def]) => generate(name, def))
-            .join('')
-        : def
-          ? generate(nameOrItems, def)
-          : ''
-    }
+    ${Object.entries(items)
+      .map(([name, def]) => generate(name, def))
+      .join('')}
   }`);
 }
 
@@ -842,8 +812,8 @@ export function generateOfficialGradientTokens() {
         ? buildStartVarForBase(name)
         : isContrast
           ? buildStartVarForContrast(name)
-          : suffix === ColorSuffixes.More
-            ? `--gradient-${name}-more-start: var(--gradient-${name}-start);`
+          : suffix === ColorSuffixes.Hard
+            ? `--gradient-${name}-hard-start: var(--gradient-${name}-start);`
             : `--gradient-${fullName}-start: ${increaseColorStrength(
                 `var(--gradient-${name}-start)`,
                 DECREASE_BODY_COLOR_STRENGTHS[suffix]
@@ -852,8 +822,8 @@ export function generateOfficialGradientTokens() {
         ? buildEndVarForBase(name)
         : isContrast
           ? buildEndVarForContrast(name)
-          : suffix === ColorSuffixes.More
-            ? `--gradient-${name}-more-end: var(--gradient-${name}-end);`
+          : suffix === ColorSuffixes.Hard
+            ? `--gradient-${name}-hard-end: var(--gradient-${name}-end);`
             : `--gradient-${fullName}-end: ${increaseColorStrength(
                 `var(--gradient-${name}-end)`,
                 DECREASE_BODY_COLOR_STRENGTHS[suffix]

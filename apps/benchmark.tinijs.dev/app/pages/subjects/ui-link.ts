@@ -6,14 +6,9 @@ import {UseQuery} from '@tinijs/router';
 
 import {TiniLinkComponent} from '../../ui/components/link.js';
 
-import {info, repeat} from '../../utils/subject.js';
+import {repeat} from '../../utils/subject.js';
 
-export const LINK_SUBJECT = info({
-  title: 'tini-link',
-  path: '/ui/link',
-  docPath: '/ui/link',
-  batches: [8, 100, 1000],
-});
+import {LINK_SUBJECT} from '../../subjects.js';
 
 @Page({
   name: 'app-page-ui-link',

@@ -1,10 +1,7 @@
-import {css} from 'lit';
-
 import {generateGradientTokens} from '@tinijs/core';
 
-export const globalStyles = css`
-  /* no-sass */
-  ${generateGradientTokens({
+export const globalStyles = [
+  generateGradientTokens({
     'kale-salad': {
       start: ['#00C9FF', '#323232'],
       end: ['#92FE9D', '#000000'],
@@ -25,5 +22,5 @@ export const globalStyles = css`
       start: ['#3F2B96', '#ffffff'],
       end: ['#A8C0FF', '#e1e1e1'],
     },
-  })}
-`;
+  }),
+];

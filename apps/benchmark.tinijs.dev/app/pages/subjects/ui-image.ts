@@ -6,14 +6,9 @@ import {UseQuery} from '@tinijs/router';
 
 import {TiniImageComponent} from '../../ui/components/image.js';
 
-import {info, repeat} from '../../utils/subject.js';
+import {repeat} from '../../utils/subject.js';
 
-export const IMAGE_SUBJECT = info({
-  title: 'tini-image',
-  path: '/ui/image',
-  docPath: '/ui/image',
-  batches: [3, 100, 1000],
-});
+import {IMAGE_SUBJECT} from '../../subjects.js';
 
 const JPG = new URL('../../assets/placeholders/image.jpeg', import.meta.url)
   .href;

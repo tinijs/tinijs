@@ -8,10 +8,6 @@ For more detail and usage, please visit <https://tinijs.dev>
 
 - https://getbootstrap.com/
 
-TODO:
-- https://shoelace.style/
-- https://semantic-ui.com/
-
 ### Material
 
 - https://m3.material.io/
@@ -33,34 +29,44 @@ TODO:
 
 - https://ui.shadcn.com/
 
+### Prime
+
+- https://primeng.org/
+- https://primereact.org/
+
 ### Tailwind
 
 - https://tailwindui.com/
-
-TODO:
-- https://ui.nuxt.com/
-- https://ant.design/
-- https://element-plus.org/en-US/
-- https://atlassian.design/
-- https://primeng.org/
-- https://primer.style/
 
 ### Chakra
 
 - https://v2.chakra-ui.com/
 
-TODO:
-- https://horizon-ui.com/documentation/docs/introduction
-- https://designsystem.raksul.com/731d8c745/p/28c69a-styles
-- https://ui.vuestic.dev/
-- https://system.design.orange.com/0c1af118d/p/0127c5-the-orange-design-system
+### Horizon
 
-### Others
+- https://horizon-ui.com/documentation/docs/introduction
+
+### Radix
+
+- https://www.radix-ui.com/
+
+### Ant
+
+- https://ant.design/
+- https://element-plus.org/en-US/
+
+### Nuxt
+
+- https://ui.nuxt.com/
+
+### Next
 
 - https://nextui.org/
 - https://turbo.build/repo
-- https://io.google/2024/
-- https://posthog.com/
+
+### Daisy
+
+- https://daisyui.com/
 
 ## Resources
 

@@ -1,5 +1,5 @@
 import {readdir, readFile} from 'node:fs/promises';
-import {pathExistsSync, readJSON, outputFile} from 'fs-extra/esm';
+import {pathExistsSync, readJSON, remove} from 'fs-extra/esm';
 import typescript from 'typescript';
 import {resolve, parse, relative} from 'pathe';
 import {execa} from 'execa';
@@ -481,27 +481,32 @@ export async function buildSetup({manualSkinSelection}: UIConfig) {
     .addBlock(
       'export type UISetup = ',
       (manualSkinSelection ? 'UIInit' : 'Partial<UIInit>') +
-        ' & {components?: RegisterComponentsList}'
+        ' & {components?: RegisterComponentsList, pendingBody?: true | string}'
     )
     .addBlock(
-      `export function setupUI({host, globals, skins, shares, options, components}: UISetup${
+      `export function setupUI({host, globals, skins, shares, options, components, pendingBody}: UISetup${
         manualSkinSelection ? '' : ' = {}'
       })`,
       `{
-const ui = initUI({
-  host,
-  globals: [
-    ...availableGlobals,
-    ...listify<CSSResultOrNativeOrRaw>(globals)
-  ],
-  skins: ${
-    manualSkinSelection ? 'skins' : 'mergeRecordStyles(availableSkins, skins)'
-  },
-  shares: mergeDirectOrRecordStyles(availableBases, shares),
-  options,
-});
-if (components?.length) registerComponents(components);
-return ui;
+  const ui = initUI({
+    host,
+    globals: [
+      ...availableGlobals,
+      ...listify<CSSResultOrNativeOrRaw>(globals)
+    ],
+    skins: ${
+      manualSkinSelection ? 'skins' : 'mergeRecordStyles(availableSkins, skins)'
+    },
+    shares: mergeDirectOrRecordStyles(availableBases, shares),
+    options,
+  });
+  if (components?.length) {
+    registerComponents(components);
+  }
+  if (pendingBody) {
+    document.body.removeAttribute('hidden');
+  }
+  return ui;
 }`
     );
 
@@ -560,30 +565,18 @@ export async function transpileAndRemoveTSFiles(
   await removeFiles(tsFilePaths);
 }
 
-export async function buildBundled(outDir: string, withIcons: boolean) {
-  // save bundled.js
-  const bundledPath = 'bundled.js';
-  const bundledContent = [
-    'skin.js',
-    'component.js',
-    !withIcons ? null : 'icon.js',
-    'setup.js',
-  ]
-    .filter(Boolean)
-    .map(file => `export * from './${file}';`)
-    .join('\n');
-  await outputFile(resolve(outDir, bundledPath), bundledContent);
-  // build bundled.js
+export async function buildBundled(outDir: string) {
+  await remove(resolve(outDir, 'bundled'));
   await execa(
     'esbuild',
     [
-      bundledPath,
-      '--outdir=.',
+      '**/*.js',
+      '--outdir=bundled',
       '--format=esm',
       '--sourcemap',
       '--bundle',
+      '--splitting',
       '--minify',
-      '--allow-overwrite',
     ],
     {stdio: 'inherit', cwd: outDir}
   );

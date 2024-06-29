@@ -6,14 +6,14 @@
 }
 +++
 
-Shadcn-inspired theme family, homepage: https://ui.shadcn.com/
+Shadcn-inspired theme family, homepage: <https://ui.shadcn.com>
 
 ## Install
 
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-shadcn/bundled.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-shadcn/bundled/setup.js
 ```
 
 - NPM:

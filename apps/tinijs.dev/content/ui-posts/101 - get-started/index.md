@@ -29,7 +29,22 @@ With the theming concept in mind, any app can have these theming capabilities:
 
 ## Usage
 
-To get started with Tini UI, first identify which theme family and skin you would like to include. Currently, these theme families are available: [Bootstrap](/ui/bootstrap), [Material](/ui/material), [iOS](/ui/ios), [Fluent](/ui/fluent), [Spectrum](/ui/spectrum), [Shadcn](/ui/shadcn), [Tailwind](/ui/tailwind) and [Chakra](/ui/chakra); each contains a light and a dark skin.
+To get started with Tini UI, first identify which theme family and skin you would like to include. Currently, these theme families are available, each contains a light and a dark skin:
+- [Bootstrap](/ui/bootstrap)
+- [Material](/ui/material)
+- [iOS](/ui/ios)
+- [Fluent](/ui/fluent)
+- [Spectrum](/ui/spectrum)
+- [Shadcn](/ui/shadcn)
+- [Prime](/ui/prime)
+- [Tailwind](/ui/tailwind)
+- [Chakra](/ui/chakra)
+- [Horizon](/ui/horizon)
+- [Radix](/ui/radix)
+- [Ant](/ui/ant)
+- [Nuxt](/ui/nuxt)
+- [Next](/ui/next)
+- [Daisy](/ui/daisy)
 
 There are 3 main ways of using Tini UI:
 
@@ -46,11 +61,8 @@ CDN is the simplest way to get started with Tini UI, just include the script tag
 ```html
 <script type="module">
 
-import {
-  setupUI,
-  availableSkins,
-  availableComponents,
-} from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap/bundled.js';
+import { setupUI, availableSkins } from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap/bundled/setup.js';
+import { availableComponents } from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap/bundled/component.js';
 
 // setup the UI
 const ui = setupUI({
@@ -129,7 +141,7 @@ It also allows you to override the default bases, skins and components as well a
 
 - Step 1: Config and build UI packages
 
-First, install Tini UI source:
+First, install Tini UI official source package:
 
 ```bash
 npm i @tinijs/ui
@@ -164,7 +176,7 @@ Finally, run the build command:
 npx tini ui build
 ```
 
-By default, the result will be output to the `app/ui` folder, the folder should be ignored from git.
+By default, the result will be output to the `app/ui` folder, the folder should be ignored from GIT.
 
 - Step 2: Setup the UI
 
@@ -196,4 +208,74 @@ ui.setTheme(themeId);
 ```html
 <tini-text color="success">Lorem ipsum</tini-text>
 <tini-button>A button</tini-button>
+```
+
+## Import endpoints
+
+Whether you use CDN, prebuilt packages or build UI with Tini CLI, there are some common endpoints to import stuffs depending on the need.
+
+| Endpoint | Description |
+| --- | --- |
+| `/setup.js` | `setupUI()`, all the skins and `availableSkins` (an object contains all skins) |
+| _Official components_ |
+| `/component.js` | all the components and `availableComponents` (an array of all components) |
+| `/components/<name>.js` | certain component only |
+| _Icon components (if available)_ |
+| `/icon.js` | all the icon components and `availableIcons` (an array of all icon components) |
+| `/icons/<name>.js` | certain icon component only |
+
+## Setup UI details
+
+The `setupUI()` function is the beginning of the UI system, it returns an UI instance of your app. This is where you choose which skins to be included, global styles, share styles and optionaly register components globally.
+
+The value of **Styles** can be one of these:
+- Raw CSS `string`
+- CSSStyleSheet object
+- Result of `css` tagged template
+- Array of any of the above values
+
+```ts
+const ui = setupUI({
+
+  // select skins to be included
+  // only required when using CDN or prebuilt packages
+  skins: Record<string, Styles>;
+
+  // define global CSS variables
+  // and styles which available globally for the Light DOM
+  globals: Styles;
+
+  // shared styles available in the Shadow DOM
+  // but only for elements which extends TiniElement or TiniComponent
+  shares: Styles;
+
+  // optionally register components globally
+  components: Component[];
+
+  // remove 'hidden' attribute from body for server rendered pages
+  pendingBody: boolean;
+
+});
+```
+
+After `setupUI()`, an UI instance will be available for the app, you can access UI information and methods.
+
+From anywhere in the app, you can access the UI instance:
+
+```ts
+import {getUI, THEME_CHANGE_EVENT, type ActiveTheme} from '@tinijs/core';
+
+// get the UI instance
+const ui = getUI();
+
+// get the active theme
+const activeTheme = ui.activeTheme;
+
+// set a theme
+ui.setTheme(themeId);
+
+// listen for theme changed
+addEventListener(THEME_CHANGE_EVENT, e => {
+  const activeTheme = (e as CustomEvent<ActiveTheme>).detail;
+});
 ```

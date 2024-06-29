@@ -4,14 +4,9 @@ import {Page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
 import {UseQuery} from '@tinijs/router';
 
-import {info, repeat} from '../../utils/subject.js';
+import {repeat} from '../../utils/subject.js';
 
-export const TEXT_NATIVE_SUBJECT = info({
-  title: 'Native texts',
-  path: '/ui/text-native',
-  docPath: '/ui/token',
-  batches: [10, 1000, 10000],
-});
+import {TEXT_NATIVE_SUBJECT} from '../../subjects.js';
 
 @Page({
   name: 'app-page-ui-text-native',
