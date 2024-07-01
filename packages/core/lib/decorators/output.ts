@@ -32,3 +32,5 @@ export function Output() {
     });
   };
 }
+
+export const Emit = Output;
