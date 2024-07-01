@@ -3,12 +3,14 @@ import type {PropertyValues} from 'lit';
 import {GLOBAL_TINI} from '../consts/global.js';
 
 import {TiniComponent, ComponentTypes} from '../classes/component.js';
+import type {ActiveTheme} from '../classes/ui.js';
 
 import {getApp, type ClientApp} from './app.js';
 
 export enum LifecycleHooks {
   OnCreate = 'onCreate',
   OnDestroy = 'onDestroy',
+  OnTheme = 'onTheme',
   OnInit = 'onInit',
   OnReady = 'onReady',
   OnChanges = 'onChanges',
@@ -23,6 +25,9 @@ export interface OnCreate {
 }
 export interface OnDestroy {
   onDestroy(): void; // disconnectedCallback()
+}
+export interface OnTheme {
+  onTheme(activeTheme: ActiveTheme): void;
 }
 export interface OnInit {
   onInit(): void | Promise<void>;

@@ -96,10 +96,11 @@ export class TiniElement extends LitElement {
     return renderRoot;
   }
 
-  private onThemeChange = (e: any) => {
+  private handleThemeChanges = (e: any) => {
+    const activeTheme = (e as CustomEvent<ActiveTheme>).detail;
+    this.themeChanged(activeTheme);
     // get updated templates and scripts
-    const {prevFamilyId, familyId} = (e as CustomEvent<ActiveTheme>).detail;
-    if (prevFamilyId !== familyId) {
+    if (activeTheme.prevFamilyId !== activeTheme.familyId) {
       this.customTemplates = this.getTemplates();
       this.themingScripts = this.getScripts();
     }
@@ -110,6 +111,9 @@ export class TiniElement extends LitElement {
     // continue update cycle
     return this.requestUpdate();
   };
+  protected themeChanged(activeTheme: ActiveTheme): void {
+    // placeholder for the onTheme() hook
+  }
 
   connectedCallback() {
     // register components
@@ -117,12 +121,12 @@ export class TiniElement extends LitElement {
     if (components) registerComponents(components);
     // continue connectedCallback
     super.connectedCallback();
-    addEventListener(THEME_CHANGE_EVENT, this.onThemeChange);
+    addEventListener(THEME_CHANGE_EVENT, this.handleThemeChanges);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    removeEventListener(THEME_CHANGE_EVENT, this.onThemeChange);
+    removeEventListener(THEME_CHANGE_EVENT, this.handleThemeChanges);
   }
 
   protected updated(changedProperties: PropertyValues<this>) {
