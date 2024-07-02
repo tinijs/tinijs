@@ -14,6 +14,7 @@ import {
 } from '@tinijs/core';
 
 import {TiniLinkComponent} from '../../ui/components/link.js';
+import {TiniSkeletonComponent} from '../../ui/components/skeleton.js';
 
 import type {DocCategory, DocPost} from '../../services/content.js';
 
@@ -28,7 +29,7 @@ export interface MenuItem {
 }
 
 @Component({
-  components: [IconHomeComponent, TiniLinkComponent],
+  components: [IconHomeComponent, TiniLinkComponent, TiniSkeletonComponent],
 })
 export class AppDocPageMenuComponent extends TiniComponent {
   static readonly defaultTagName = 'app-doc-page-menu';
@@ -54,9 +55,32 @@ export class AppDocPageMenuComponent extends TiniComponent {
           <span>${this.context.name}</span>
         </a>
         ${sectionRender([this.menuItems], {
+          loading: () => this._getLoadingTemplate(),
           main: ([menuItems]) => this._getMainTemplate(menuItems!),
         })}
       </aside>
+    `;
+  }
+
+  private _getLoadingTemplate() {
+    return html`
+      <div
+        style="
+          display: flex;
+          flex-flow: column;
+          gap: var(--space-xs);
+          padding: var(--space-lg);
+        "
+      >
+        <tini-skeleton
+          height="1.2rem"
+          width="35%"
+          style="margin-bottom: var(--space-sm)"
+        ></tini-skeleton>
+        <tini-skeleton height=".75rem" width="70%"></tini-skeleton>
+        <tini-skeleton height=".75rem" width="90%"></tini-skeleton>
+        <tini-skeleton height=".75rem" width="50%"></tini-skeleton>
+      </div>
     `;
   }
 

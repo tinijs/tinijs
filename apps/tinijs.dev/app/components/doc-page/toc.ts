@@ -35,7 +35,14 @@ export class AppDocPageTOCComponent extends TiniComponent {
         <button class="return-top" @click=${this._scrollTop}>
           Return to top
         </button>
-        <div class="desktop-title">On This Page</div>
+        <div
+          class=${classMap({
+            'desktop-title': true,
+            'empty-toc': !this.tocItems?.length,
+          })}
+        >
+          On This Page
+        </div>
         ${sectionRender([this.tocItems], {
           main: ([tocItems]) => this._getMainTemplate(tocItems!),
         })}
@@ -169,6 +176,10 @@ export class AppDocPageTOCComponent extends TiniComponent {
         display: block;
         padding: var(--space-md) var(--space-md) 0;
         font-weight: bold;
+
+        &.empty-toc {
+          visibility: hidden;
+        }
       }
 
       ul {

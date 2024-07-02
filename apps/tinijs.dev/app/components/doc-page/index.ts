@@ -67,9 +67,9 @@ export class AppDocPageComponent
   implements OnCreate, OnInit, OnDestroy
 {
   static readonly defaultTagName = 'app-doc-page';
+  @UseMeta() readonly meta!: Meta;
   @UseRouter() readonly router!: Router;
   @UseParams() readonly params!: {slug?: string};
-  @UseMeta() readonly meta!: Meta;
 
   @provide({context: docPageContext})
   @Input()
@@ -81,6 +81,7 @@ export class AppDocPageComponent
   @Reactive() mobileMenuOpened = false;
   @Reactive() mobileTOCOpened = false;
 
+  private _currentRoutePath?: string;
   private _mobileToolbarRef = createRef<AppDocPageMobileToolbarComponent>();
   private _menuRef = createRef<AppDocPageMenuComponent>();
   private _tocRef = createRef<AppDocPageTOCComponent>();
@@ -91,6 +92,7 @@ export class AppDocPageComponent
     if (!this.postService) throw new Error('postService is required');
     addEventListener(ROUTE_CHANGE_EVENT, this._routeChangeHandler);
     this.addEventListener('click', this._globalClickHandler);
+    this._currentRoutePath = this.router.getActiveRoute().routePath;
   }
 
   @Reactive() menuItems?: Array<{
@@ -114,26 +116,31 @@ export class AppDocPageComponent
   }
 
   async _loadData(postSlug?: string) {
-    const loadList = !this.allPosts || !this.menuItems;
-    const loadItem = !this.post || this.post.slug !== postSlug;
-    const {allPosts, menuItems} = !loadList
+    const willLoadList = !this.allPosts || !this.menuItems;
+    const willLoadItem = !this.post || this.post.slug !== postSlug;
+    if (willLoadItem) {
+      this.post = undefined;
+      this.postPrev = undefined;
+      this.postNext = undefined;
+    }
+    const {allPosts, menuItems} = !willLoadList
       ? {
           allPosts: this.allPosts,
           menuItems: this.menuItems,
         }
       : await this._loadPosts();
-    const {post, postPrev, postNext} = !loadItem
+    const {post, postPrev, postNext} = !willLoadItem
       ? {
           post: this.post,
           postPrev: this.postPrev,
           postNext: this.postNext,
         }
       : await this._loadPost(postSlug, allPosts as DocPost[]);
-    if (loadList) {
+    if (willLoadList) {
       this.menuItems = menuItems;
       this.allPosts = allPosts;
     }
-    if (loadItem) {
+    if (willLoadItem) {
       this.post = post;
       this.postPrev = postPrev;
       this.postNext = postNext;
@@ -145,8 +152,9 @@ export class AppDocPageComponent
   }
 
   private _routeChangeHandler = (e: any) => {
-    const {params} = (e as CustomEvent).detail;
-    this._loadData(params.slug);
+    const route = (e as CustomEvent).detail;
+    if (this._currentRoutePath !== route.routePath) return;
+    this._loadData(route.params.slug);
   };
 
   private _globalClickHandler = (e: MouseEvent) => {
