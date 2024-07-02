@@ -55,6 +55,13 @@ export class AppThemeSelectorComponent extends TiniComponent {
             ]),
           },
           {
+            label: 'Shadcn',
+            options: this.buildThemeOptions('shadcn', [
+              {content: 'Shadcn Light', value: 'light'},
+              {content: 'Shadcn Dark', value: 'dark'},
+            ]),
+          },
+          {
             label: 'Material',
             options: this.buildThemeOptions('material', [
               {content: 'Material Light', value: 'light'},
@@ -76,48 +83,6 @@ export class AppThemeSelectorComponent extends TiniComponent {
             ]),
           },
           {
-            label: 'Spectrum',
-            options: this.buildThemeOptions('spectrum', [
-              {content: 'Spectrum Light', value: 'light'},
-              {content: 'Spectrum Dark', value: 'dark'},
-            ]),
-          },
-          {
-            label: 'Shadcn',
-            options: this.buildThemeOptions('shadcn', [
-              {content: 'Shadcn Light', value: 'light'},
-              {content: 'Shadcn Dark', value: 'dark'},
-            ]),
-          },
-          {
-            label: 'Prime',
-            options: this.buildThemeOptions('prime', [
-              {content: 'Prime Light', value: 'light'},
-              {content: 'Prime Dark', value: 'dark'},
-            ]),
-          },
-          {
-            label: 'Tailwind',
-            options: this.buildThemeOptions('tailwind', [
-              {content: 'Tailwind Light', value: 'light'},
-              {content: 'Tailwind Dark', value: 'dark'},
-            ]),
-          },
-          {
-            label: 'Chakra',
-            options: this.buildThemeOptions('chakra', [
-              {content: 'Chakra Light', value: 'light'},
-              {content: 'Chakra Dark', value: 'dark'},
-            ]),
-          },
-          {
-            label: 'Horizon',
-            options: this.buildThemeOptions('horizon', [
-              {content: 'Horizon Light', value: 'light'},
-              {content: 'Horizon Dark', value: 'dark'},
-            ]),
-          },
-          {
             label: 'Radix',
             options: this.buildThemeOptions('radix', [
               {content: 'Radix Light', value: 'light'},
@@ -125,24 +90,10 @@ export class AppThemeSelectorComponent extends TiniComponent {
             ]),
           },
           {
-            label: 'Ant',
-            options: this.buildThemeOptions('ant', [
-              {content: 'Ant Light', value: 'light'},
-              {content: 'Ant Dark', value: 'dark'},
-            ]),
-          },
-          {
-            label: 'Nuxt',
-            options: this.buildThemeOptions('nuxt', [
-              {content: 'Nuxt Light', value: 'light'},
-              {content: 'Nuxt Dark', value: 'dark'},
-            ]),
-          },
-          {
-            label: 'Next',
-            options: this.buildThemeOptions('next', [
-              {content: 'Next Light', value: 'light'},
-              {content: 'Next Dark', value: 'dark'},
+            label: 'Chakra',
+            options: this.buildThemeOptions('chakra', [
+              {content: 'Chakra Light', value: 'light'},
+              {content: 'Chakra Dark', value: 'dark'},
             ]),
           },
           {

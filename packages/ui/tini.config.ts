@@ -31,6 +31,12 @@ const bootstrapBaseConfig: PrebuiltBaseConfig = {
   },
 };
 
+const shadcnBaseConfig: PrebuiltBaseConfig = {
+  families: {
+    shadcn: true,
+  },
+};
+
 const materialBaseConfig: PrebuiltBaseConfig = {
   families: {
     material: true,
@@ -49,63 +55,15 @@ const fluentBaseConfig: PrebuiltBaseConfig = {
   },
 };
 
-const spectrumBaseConfig: PrebuiltBaseConfig = {
-  families: {
-    spectrum: true,
-  },
-};
-
-const shadcnBaseConfig: PrebuiltBaseConfig = {
-  families: {
-    shadcn: true,
-  },
-};
-
-const primeBaseConfig: PrebuiltBaseConfig = {
-  families: {
-    prime: true,
-  },
-};
-
-const tailwindBaseConfig: PrebuiltBaseConfig = {
-  families: {
-    tailwind: true,
-  },
-};
-
-const chakraBaseConfig: PrebuiltBaseConfig = {
-  families: {
-    chakra: true,
-  },
-};
-
-const horizonBaseConfig: PrebuiltBaseConfig = {
-  families: {
-    horizon: true,
-  },
-};
-
 const radixBaseConfig: PrebuiltBaseConfig = {
   families: {
     radix: true,
   },
 };
 
-const antBaseConfig: PrebuiltBaseConfig = {
+const chakraBaseConfig: PrebuiltBaseConfig = {
   families: {
-    ant: true,
-  },
-};
-
-const nuxtBaseConfig: PrebuiltBaseConfig = {
-  families: {
-    nuxt: true,
-  },
-};
-
-const nextBaseConfig: PrebuiltBaseConfig = {
-  families: {
-    next: true,
+    chakra: true,
   },
 };
 
@@ -135,6 +93,19 @@ export default defineTiniConfig({
         outDir: './build/bootstrap-react',
         packageJSON: ({version}) =>
           prebuiltReactPackageJSON('bootstrap-react', version),
+      },
+      // shadcn
+      {
+        ...shadcnBaseConfig,
+        outDir: './build/shadcn',
+        packageJSON: ({version}) => prebuiltPackageJSON('shadcn', version),
+      },
+      {
+        ...shadcnBaseConfig,
+        framework: 'react',
+        outDir: './build/shadcn-react',
+        packageJSON: ({version}) =>
+          prebuiltReactPackageJSON('shadcn-react', version),
       },
       // material
       {
@@ -175,84 +146,6 @@ export default defineTiniConfig({
         packageJSON: ({version}) =>
           prebuiltReactPackageJSON('fluent-react', version),
       },
-      // spectrum
-      {
-        ...spectrumBaseConfig,
-        outDir: './build/spectrum',
-        packageJSON: ({version}) => prebuiltPackageJSON('spectrum', version),
-      },
-      {
-        ...spectrumBaseConfig,
-        framework: 'react',
-        outDir: './build/spectrum-react',
-        packageJSON: ({version}) =>
-          prebuiltReactPackageJSON('spectrum-react', version),
-      },
-      // shadcn
-      {
-        ...shadcnBaseConfig,
-        outDir: './build/shadcn',
-        packageJSON: ({version}) => prebuiltPackageJSON('shadcn', version),
-      },
-      {
-        ...shadcnBaseConfig,
-        framework: 'react',
-        outDir: './build/shadcn-react',
-        packageJSON: ({version}) =>
-          prebuiltReactPackageJSON('shadcn-react', version),
-      },
-      // prime
-      {
-        ...primeBaseConfig,
-        outDir: './build/prime',
-        packageJSON: ({version}) => prebuiltPackageJSON('prime', version),
-      },
-      {
-        ...primeBaseConfig,
-        framework: 'react',
-        outDir: './build/prime-react',
-        packageJSON: ({version}) =>
-          prebuiltReactPackageJSON('prime-react', version),
-      },
-      // tailwind
-      {
-        ...tailwindBaseConfig,
-        outDir: './build/tailwind',
-        packageJSON: ({version}) => prebuiltPackageJSON('tailwind', version),
-      },
-      {
-        ...tailwindBaseConfig,
-        framework: 'react',
-        outDir: './build/tailwind-react',
-        packageJSON: ({version}) =>
-          prebuiltReactPackageJSON('tailwind-react', version),
-      },
-      // chakra
-      {
-        ...chakraBaseConfig,
-        outDir: './build/chakra',
-        packageJSON: ({version}) => prebuiltPackageJSON('chakra', version),
-      },
-      {
-        ...chakraBaseConfig,
-        framework: 'react',
-        outDir: './build/chakra-react',
-        packageJSON: ({version}) =>
-          prebuiltReactPackageJSON('chakra-react', version),
-      },
-      // horizon
-      {
-        ...horizonBaseConfig,
-        outDir: './build/horizon',
-        packageJSON: ({version}) => prebuiltPackageJSON('horizon', version),
-      },
-      {
-        ...horizonBaseConfig,
-        framework: 'react',
-        outDir: './build/horizon-react',
-        packageJSON: ({version}) =>
-          prebuiltReactPackageJSON('horizon-react', version),
-      },
       // radix
       {
         ...radixBaseConfig,
@@ -266,44 +159,18 @@ export default defineTiniConfig({
         packageJSON: ({version}) =>
           prebuiltReactPackageJSON('radix-react', version),
       },
-      // ant
+      // chakra
       {
-        ...antBaseConfig,
-        outDir: './build/ant',
-        packageJSON: ({version}) => prebuiltPackageJSON('ant', version),
+        ...chakraBaseConfig,
+        outDir: './build/chakra',
+        packageJSON: ({version}) => prebuiltPackageJSON('chakra', version),
       },
       {
-        ...antBaseConfig,
+        ...chakraBaseConfig,
         framework: 'react',
-        outDir: './build/ant-react',
+        outDir: './build/chakra-react',
         packageJSON: ({version}) =>
-          prebuiltReactPackageJSON('ant-react', version),
-      },
-      // nuxt
-      {
-        ...nuxtBaseConfig,
-        outDir: './build/nuxt',
-        packageJSON: ({version}) => prebuiltPackageJSON('nuxt', version),
-      },
-      {
-        ...nuxtBaseConfig,
-        framework: 'react',
-        outDir: './build/nuxt-react',
-        packageJSON: ({version}) =>
-          prebuiltReactPackageJSON('nuxt-react', version),
-      },
-      // next
-      {
-        ...nextBaseConfig,
-        outDir: './build/next',
-        packageJSON: ({version}) => prebuiltPackageJSON('next', version),
-      },
-      {
-        ...nextBaseConfig,
-        framework: 'react',
-        outDir: './build/next-react',
-        packageJSON: ({version}) =>
-          prebuiltReactPackageJSON('next-react', version),
+          prebuiltReactPackageJSON('chakra-react', version),
       },
       // daisy
       {

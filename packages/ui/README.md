@@ -7,6 +7,14 @@ For more detail and usage, please visit <https://tinijs.dev>
 ### Bootstrap
 
 - https://getbootstrap.com/
+- https://ant.design/
+- https://element-plus.org/en-US/
+
+### Shadcn
+
+- https://ui.shadcn.com/
+- https://ui.nuxt.com/
+- https://primer.style/
 
 ### Material
 
@@ -19,54 +27,24 @@ For more detail and usage, please visit <https://tinijs.dev>
 ### Fluent
 
 - https://fluent2.microsoft.design/
-
-### Spectrum
-
-- https://spectrum.adobe.com/
 - https://s2.spectrum.adobe.com/
-
-### Shadcn
-
-- https://ui.shadcn.com/
-
-### Prime
-
-- https://primeng.org/
-- https://primereact.org/
-
-### Tailwind
-
-- https://tailwindui.com/
-
-### Chakra
-
-- https://v2.chakra-ui.com/
-
-### Horizon
-
-- https://horizon-ui.com/documentation/docs/introduction
 
 ### Radix
 
 - https://www.radix-ui.com/
+- https://tailwindui.com/
+- https://primeng.org/
 
-### Ant
+### Chakra
 
-- https://ant.design/
-- https://element-plus.org/en-US/
-
-### Nuxt
-
-- https://ui.nuxt.com/
-
-### Next
-
-- https://nextui.org/
-- https://turbo.build/repo
+- https://v2.chakra-ui.com/
+- https://horizon-ui.com/documentation/docs/introduction
+- https://designsystem.raksul.com/731d8c745/p/28c69a-styles
 
 ### Daisy
 
 - https://daisyui.com/
+- https://nextui.org/
 
 ## Resources
 
