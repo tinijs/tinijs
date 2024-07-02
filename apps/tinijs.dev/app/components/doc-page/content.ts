@@ -20,6 +20,7 @@ import {UseRouter, type Router, type FragmentItem} from '@tinijs/router';
 import {TiniMessageComponent} from '../../ui/components/message.js';
 import {TiniCodeComponent} from '../../ui/components/code.js';
 import {TiniImageComponent} from '../../ui/components/image.js';
+import {TiniSkeletonComponent} from '../../ui/components/skeleton.js';
 
 import type {DocPostDetail} from '../../services/content.js';
 
@@ -35,6 +36,7 @@ import {prismThemeDark} from '../../utils/prism.js';
     TiniCodeComponent,
     TiniImageComponent,
     IconEditComponent,
+    TiniSkeletonComponent,
   ],
 })
 export class AppDocPageContentComponent
@@ -75,7 +77,6 @@ export class AppDocPageContentComponent
           : sectionRender([this.post], {
               loading: () => this._getLoadingTemplate(),
               empty: () => this._get404Template(),
-              error: () => this._getErrorTemplate(),
               main: ([post]) => this._getMainTemplate(post!),
             })}
       </div>
@@ -83,15 +84,28 @@ export class AppDocPageContentComponent
   }
 
   private _getLoadingTemplate() {
-    return html` <p>Loading ...</p> `;
+    return html`
+      <div
+        style="
+          display: flex;
+          flex-flow: column;
+          gap: var(--space-md);
+        "
+      >
+        <tini-skeleton
+          height="2.35rem"
+          width="30%"
+          style="margin-bottom: var(--space-md)"
+        ></tini-skeleton>
+        <tini-skeleton width="90%"></tini-skeleton>
+        <tini-skeleton width="70%"></tini-skeleton>
+        <tini-skeleton width="80%"></tini-skeleton>
+      </div>
+    `;
   }
 
   private _get404Template() {
     return html` <p>Doc page not found!</p> `;
-  }
-
-  private _getErrorTemplate() {
-    return html` <p>Error loading doc page.</p> `;
   }
 
   private _getMainTemplate(post: DocPostDetail) {

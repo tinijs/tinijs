@@ -1,6 +1,6 @@
 import type {PropertyValues} from 'lit';
 
-import type {Theming} from './ui.js';
+import type {ActiveTheme, Theming} from './ui.js';
 import {TiniElement} from './element.js';
 
 import type {RegisterComponentsList} from '../utils/component.js';
@@ -10,6 +10,7 @@ import {
   runGlobalHooks,
   type OnCreate,
   type OnDestroy,
+  type OnTheme,
   type OnChanges,
   type OnFirstRender,
   type OnRenders,
@@ -60,6 +61,12 @@ export class TiniComponent extends TiniElement {
     (this as typeof this & OnDestroy).onDestroy?.();
     // unsubscribe store
     this.unsubscribeStore();
+  }
+
+  protected override themeChanged(activeTheme: ActiveTheme) {
+    super.themeChanged(activeTheme);
+    runGlobalHooks(LifecycleHooks.OnTheme, this);
+    (this as typeof this & OnTheme).onTheme?.(activeTheme);
   }
 
   protected override willUpdate(changedProperties: PropertyValues<this>) {
