@@ -20,7 +20,7 @@ export class AppPageUILink extends TiniComponent implements PageWithMetadata {
     description: 'The tini-link component.',
   };
 
-  @UseQuery() query!: {items?: number};
+  @UseQuery() readonly query!: {items?: number};
 
   protected render() {
     return repeat(

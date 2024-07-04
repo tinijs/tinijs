@@ -62,7 +62,7 @@ const meta = app.meta;
 @Page({})
 export class AppPageXXX extends TiniComponent {
 
-  @UseApp() app!: AppRoot;
+  @UseApp() readonly app!: AppRoot;
 
   onCreate() {
     const config = this.app.config;

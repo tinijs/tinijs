@@ -1,9 +1,10 @@
-import {html, css, type CSSResult} from 'lit';
+import {html, css, unsafeCSS, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {
   TiniElement,
   ElementParts,
   createStyleBuilder,
+  buildVariantNamesAndSelectors,
   Colors,
   Gradients,
   Fonts,
@@ -14,10 +15,51 @@ import {
   generateFontVariants,
   generateTextVariants,
   generateWeightVariants,
+  type VariantRenderValues,
 } from '@tinijs/core';
 
 export enum TextParts {
   Main = ElementParts.Main,
+}
+
+export enum TextAligns {
+  Start = 'start',
+  End = 'end',
+  Left = 'left',
+  Right = 'right',
+  Center = 'center',
+  Justify = 'justify',
+  JustifyAll = 'justify-all',
+  MatchParent = 'match-parent',
+}
+
+export interface AlignRenderValues extends VariantRenderValues {
+  align: string;
+}
+export type AlignVariantRender = (values: AlignRenderValues) => string;
+
+export function generateAlignVariants(
+  render: AlignVariantRender,
+  prefixName?: string
+) {
+  return unsafeCSS(
+    Object.values(TextAligns)
+      .map(name => {
+        prefixName ||= 'align';
+        const align = name;
+        const {fullName, hostSelector, mainSelector} =
+          buildVariantNamesAndSelectors(prefixName, name);
+        return render({
+          name,
+          prefixName,
+          align,
+          fullName,
+          hostSelector,
+          mainSelector,
+        });
+      })
+      .join('')
+  );
 }
 
 export default class extends TiniElement {
@@ -27,6 +69,7 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) font?: Fonts;
   @property({type: String, reflect: true}) size?: Texts;
   @property({type: String, reflect: true}) weight?: Weights;
+  @property({type: String, reflect: true}) align?: TextAligns;
   @property({type: Boolean, reflect: true}) italic?: boolean;
   @property({type: Boolean, reflect: true}) underline?: boolean;
   /* eslint-enable prettier/prettier */
@@ -51,6 +94,7 @@ export const defaultStyles = createStyleBuilder<{
   fontGen: Parameters<typeof generateFontVariants>[0];
   textGen: Parameters<typeof generateTextVariants>[0];
   weightGen: Parameters<typeof generateWeightVariants>[0];
+  alignGen: Parameters<typeof generateAlignVariants>[0];
 }>(outputs => [
   css`
     :host {
@@ -59,11 +103,13 @@ export const defaultStyles = createStyleBuilder<{
       --font: var(--font-content);
       --size: var(--text-md);
       --weight: normal;
+      --align: start;
       display: inline-block;
       color: var(--color);
       font-family: var(--font);
       font-size: var(--size);
       font-weight: var(--weight);
+      text-align: var(--align);
     }
 
     :host([block]) {
@@ -145,6 +191,16 @@ export const defaultStyles = createStyleBuilder<{
         --weight: ${weight};
       }
       ${outputs.weightGen(values)}
+    `;
+  }),
+
+  generateAlignVariants(values => {
+    const {hostSelector, align} = values;
+    return `
+      ${hostSelector} {
+        --align: ${align};
+      }
+      ${outputs.alignGen(values)}
     `;
   }),
 ]);

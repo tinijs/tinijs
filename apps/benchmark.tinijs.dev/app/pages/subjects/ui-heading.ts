@@ -23,7 +23,7 @@ export class AppPageUIHeading
     description: 'The tini-heading component.',
   };
 
-  @UseQuery() query!: {items?: number};
+  @UseQuery() readonly query!: {items?: number};
 
   protected render() {
     return repeat(

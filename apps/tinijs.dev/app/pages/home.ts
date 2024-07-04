@@ -20,7 +20,7 @@ import {LOGO_URL} from '../consts/common.js';
   ],
 })
 export class AppPageHome extends TiniComponent {
-  @UseRouter() router!: Router;
+  @UseRouter() readonly router!: Router;
 
   protected render() {
     return html`

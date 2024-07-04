@@ -20,7 +20,7 @@ export class AppPageUIText extends TiniComponent implements PageWithMetadata {
     description: 'The tini-text component.',
   };
 
-  @UseQuery() query!: {items?: number};
+  @UseQuery() readonly query!: {items?: number};
 
   protected render() {
     return repeat(

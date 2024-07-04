@@ -1,4 +1,4 @@
-import {unsafeCSS, type CSSResult} from 'lit';
+import {unsafeCSS} from 'lit';
 
 export function isGradient(name: string | undefined) {
   return !!name?.startsWith('gradient-');
@@ -12,7 +12,7 @@ export function isContrast(name: string | undefined) {
   return name?.slice(-9) === '-contrast';
 }
 
-export interface RenderValues {
+export interface VariantRenderValues {
   name: string;
   prefixName: string;
   fullName: string;
@@ -20,7 +20,7 @@ export interface RenderValues {
   mainSelector: string;
 }
 
-export interface ColorRenderValues extends RenderValues {
+export interface ColorRenderValues extends VariantRenderValues {
   baseName: string;
   isSubtle: boolean;
   isContrast: boolean;
@@ -48,32 +48,32 @@ export interface GradientRenderValues extends ColorRenderValues {
 }
 export type GradientVariantRender = (values: GradientRenderValues) => string;
 
-export interface FontRenderValues extends RenderValues {
+export interface FontRenderValues extends VariantRenderValues {
   font: string;
 }
 export type FontVariantRender = (values: FontRenderValues) => string;
 
-export interface TextRenderValues extends RenderValues {
+export interface TextRenderValues extends VariantRenderValues {
   text: string;
 }
 export type TextVariantRender = (values: TextRenderValues) => string;
 
-export interface WeightRenderValues extends RenderValues {
+export interface WeightRenderValues extends VariantRenderValues {
   weight: string;
 }
 export type WeightVariantRender = (values: WeightRenderValues) => string;
 
-export interface SizeRenderValues extends RenderValues {
+export interface SizeRenderValues extends VariantRenderValues {
   size: string;
 }
 export type SizeVariantRender = (values: SizeRenderValues) => string;
 
-export interface RadiusRenderValues extends RenderValues {
+export interface RadiusRenderValues extends VariantRenderValues {
   radius: string;
 }
 export type RadiusVariantRender = (values: RadiusRenderValues) => string;
 
-export interface ShadowRenderValues extends RenderValues {
+export interface ShadowRenderValues extends VariantRenderValues {
   shadow: string;
 }
 export type ShadowVariantRender = (values: ShadowRenderValues) => string;
@@ -302,7 +302,10 @@ export enum Shadows {
 }
 export const SHADOWS = Object.values(Shadows);
 
-function buildNamesAndSelectors(prefixName: string, name: string) {
+export function buildVariantNamesAndSelectors(
+  prefixName: string,
+  name: string
+) {
   const fullName = `${prefixName}-${name}`;
   const hostSelector = `:host([${prefixName}='${name}'])`;
   const mainSelector = `.${fullName}`;
@@ -332,7 +335,7 @@ function generateColorVariant(
   const color = `var(--color-${name})`;
   const contrast = isSubtle || isContrast ? baseColor : baseColorContrast;
   // names and selectors
-  const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
+  const {fullName, hostSelector, mainSelector} = buildVariantNamesAndSelectors(
     prefixName,
     name
   );
@@ -430,7 +433,7 @@ function generateGradientVariant(
   const gradientContrast =
     isSubtle || isContrast ? baseGradient : baseGradientContrast;
   // names and selectors
-  const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
+  const {fullName, hostSelector, mainSelector} = buildVariantNamesAndSelectors(
     prefixName,
     name
   );
@@ -513,10 +516,8 @@ export function generateFontVariants(
     FONTS.map(name => {
       prefixName ||= 'font';
       const font = `var(--font-${name})`;
-      const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
-        prefixName,
-        name
-      );
+      const {fullName, hostSelector, mainSelector} =
+        buildVariantNamesAndSelectors(prefixName, name);
       return render({
         name,
         prefixName,
@@ -537,10 +538,8 @@ export function generateTextVariants(
     TEXTS.map(name => {
       prefixName ||= 'text';
       const text = `var(--text-${name})`;
-      const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
-        prefixName,
-        name
-      );
+      const {fullName, hostSelector, mainSelector} =
+        buildVariantNamesAndSelectors(prefixName, name);
       return render({
         name,
         prefixName,
@@ -561,10 +560,8 @@ export function generateWeightVariants(
     WEIGHTS.map(name => {
       prefixName ||= 'weight';
       const weight = `var(--weight-${name})`;
-      const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
-        prefixName,
-        name
-      );
+      const {fullName, hostSelector, mainSelector} =
+        buildVariantNamesAndSelectors(prefixName, name);
       return render({
         name,
         prefixName,
@@ -585,10 +582,8 @@ export function generateSizeVariants(
     SIZES.map(name => {
       prefixName ||= 'size';
       const size = `var(--size-${name})`;
-      const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
-        prefixName,
-        name
-      );
+      const {fullName, hostSelector, mainSelector} =
+        buildVariantNamesAndSelectors(prefixName, name);
       return render({
         name,
         prefixName,
@@ -609,10 +604,8 @@ export function generateRadiusVariants(
     RADIUSES.map(name => {
       prefixName ||= 'radius';
       const radius = `var(--radius-${name})`;
-      const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
-        prefixName,
-        name
-      );
+      const {fullName, hostSelector, mainSelector} =
+        buildVariantNamesAndSelectors(prefixName, name);
       return render({
         name,
         prefixName,
@@ -633,10 +626,8 @@ export function generateShadowVariants(
     SHADOWS.map(name => {
       prefixName ||= 'shadow';
       const shadow = `var(--shadow-${name})`;
-      const {fullName, hostSelector, mainSelector} = buildNamesAndSelectors(
-        prefixName,
-        name
-      );
+      const {fullName, hostSelector, mainSelector} =
+        buildVariantNamesAndSelectors(prefixName, name);
       return render({
         name,
         prefixName,

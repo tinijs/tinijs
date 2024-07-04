@@ -288,7 +288,7 @@ import {UseRoute, UseParams, type ActivatedRoute} from '@tinijs/router';
 export class AppPageXXX extends TiniComponent {
 
   // current route
-  @UseRoute() route!: ActivatedRoute;
+  @UseRoute() readonly route!: ActivatedRoute;
 
   // route params
   @UseParams() readonly params!: {slug: string};
