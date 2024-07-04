@@ -21,6 +21,7 @@ import {
   type ActiveTheme,
   type Theming,
   type CSSResultOrNativeOrRaw,
+  type Styles,
   type DirectOrRecordStyles,
 } from './ui.js';
 
@@ -81,6 +82,7 @@ export class TiniElement extends LitElement {
   /* eslint-disable prettier/prettier */
   @property({converter: stringOrObjectOrArrayConverter}) styleDeep?: DirectOrRecordStyles;
   @property({converter: stringOrObjectOrArrayConverter}) events?: EventForwardingInput;
+  @property({type: Boolean, reflect: true}) restyleOnUpdate?: boolean;
   /* eslint-enable prettier/prettier */
 
   private customTemplates = this.getTemplates();
@@ -107,12 +109,17 @@ export class TiniElement extends LitElement {
     // re-adopt styles
     const component = this.constructor as typeof LitElement;
     component.elementStyles = component.finalizeStyles(component.styles);
-    this.adoptStyles(this.shadowRoot || this);
+    if (!this.restyleOnUpdate) {
+      this.adoptStyles(this.shadowRoot || this);
+    }
     // continue update cycle
     return this.requestUpdate();
   };
   protected themeChanged(activeTheme: ActiveTheme): void {
     // placeholder for the onTheme() hook
+  }
+  protected computedStyles(): Styles {
+    return [];
   }
 
   connectedCallback() {
@@ -127,6 +134,12 @@ export class TiniElement extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     removeEventListener(THEME_CHANGE_EVENT, this.handleThemeChanges);
+  }
+
+  protected willUpdate(changedProperties: PropertyValues<this>) {
+    if (this.restyleOnUpdate) {
+      this.adoptStyles(this.shadowRoot || this);
+    }
   }
 
   protected updated(changedProperties: PropertyValues<this>) {
@@ -193,14 +206,16 @@ export class TiniElement extends LitElement {
 
   private adoptStyles(renderRoot: HTMLElement | DocumentFragment) {
     const optionalUI = getOptionalUI();
-    const styles = (this.constructor as typeof LitElement).elementStyles.concat(
-      stylesToAdoptableStyles(
-        extractStylesFromDirectOrRecordStyles(
-          this.styleDeep,
-          optionalUI?.activeTheme
+    const styles = (this.constructor as typeof LitElement).elementStyles
+      .concat(stylesToAdoptableStyles(this.computedStyles()))
+      .concat(
+        stylesToAdoptableStyles(
+          extractStylesFromDirectOrRecordStyles(
+            this.styleDeep,
+            optionalUI?.activeTheme
+          )
         )
-      )
-    );
+      );
     adoptStyles(renderRoot as unknown as ShadowRoot, styles);
   }
 
