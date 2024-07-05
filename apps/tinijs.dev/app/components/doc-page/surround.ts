@@ -113,7 +113,7 @@ export class AppDocPageSurroundComponent extends TiniComponent {
 
     @media (min-width: 1200px) {
       .container {
-        padding: var(--space-xl) var(--space-xl-4);
+        padding: var(--space-xl) var(--space-xl4);
       }
     }
   `;

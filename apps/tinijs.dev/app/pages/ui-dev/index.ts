@@ -15,8 +15,10 @@ import {UseMeta, type Meta} from '@tinijs/meta';
 import {UseParams} from '@tinijs/router';
 
 const componentLoader = createComponentLoader({
-  badge: () => import('./badge.js'),
   box: () => import('./box.js'),
+  flex: () => import('./flex.js'),
+  grid: () => import('./grid.js'),
+  badge: () => import('./badge.js'),
   breadcrumbs: () => import('./breadcrumbs.js'),
   button: () => import('./button.js'),
   card: () => import('./card.js'),

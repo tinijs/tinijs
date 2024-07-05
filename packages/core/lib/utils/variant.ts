@@ -171,18 +171,18 @@ export enum Fonts {
 export const FONTS = Object.values(Fonts);
 
 export enum Texts {
-  XS3 = 'xs-3',
-  XS2 = 'xs-2',
+  XS3 = 'xs3',
+  XS2 = 'xs2',
   XS = 'xs',
   SM = 'sm',
   MD = 'md',
   LG = 'lg',
   XL = 'xl',
-  XL2 = 'xl-2',
-  XL3 = 'xl-3',
-  XL4 = 'xl-4',
-  XL5 = 'xl-5',
-  XL6 = 'xl-6',
+  XL2 = 'xl2',
+  XL3 = 'xl3',
+  XL4 = 'xl4',
+  XL5 = 'xl5',
+  XL6 = 'xl6',
 }
 export const TEXTS = Object.values(Texts);
 
@@ -207,18 +207,18 @@ export const SIZES = Object.values(Sizes);
 
 export enum Spaces {
   Zero = 'zero',
-  XS3 = 'xs-3',
-  XS2 = 'xs-2',
+  XS3 = 'xs3',
+  XS2 = 'xs2',
   XS = 'xs',
   SM = 'sm',
   MD = 'md',
   LG = 'lg',
   XL = 'xl',
-  XL2 = 'xl-2',
-  XL3 = 'xl-3',
-  XL4 = 'xl-4',
-  XL5 = 'xl-5',
-  XL6 = 'xl-6',
+  XL2 = 'xl2',
+  XL3 = 'xl3',
+  XL4 = 'xl4',
+  XL5 = 'xl5',
+  XL6 = 'xl6',
 }
 export const SPACES = Object.values(Spaces);
 
@@ -273,21 +273,21 @@ export enum Letters {
 export const LETTERS = Object.values(Letters);
 
 export enum Wides {
-  XS6 = 'xs-6',
-  XS5 = 'xs-5',
-  XS4 = 'xs-4',
-  XS3 = 'xs-3',
-  XS2 = 'xs-2',
+  XS6 = 'xs6',
+  XS5 = 'xs5',
+  XS4 = 'xs4',
+  XS3 = 'xs3',
+  XS2 = 'xs2',
   XS = 'xs',
   SM = 'sm',
   MD = 'md',
   LG = 'lg',
   XL = 'xl',
-  XL2 = 'xl-2',
-  XL3 = 'xl-3',
-  XL4 = 'xl-4',
-  XL5 = 'xl-5',
-  XL6 = 'xl-6',
+  XL2 = 'xl2',
+  XL3 = 'xl3',
+  XL4 = 'xl4',
+  XL5 = 'xl5',
+  XL6 = 'xl6',
 }
 export const WIDES = Object.values(Wides);
 

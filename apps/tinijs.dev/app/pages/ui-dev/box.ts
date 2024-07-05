@@ -1,12 +1,6 @@
 import {html, css} from 'lit';
 
-import {
-  Component,
-  TiniComponent,
-  Colors,
-  Gradients,
-  Shadows,
-} from '@tinijs/core';
+import {Component, TiniComponent, Shadows} from '@tinijs/core';
 
 import {TiniBoxComponent} from '../../ui/components/box.js';
 
@@ -24,37 +18,33 @@ export class AppPageUIDevBoxComponent extends TiniComponent {
 
       <ui-dev-section titleText="Schemes">
         <div style="display: flex; flex-flow: column; gap: 1rem;">
-          ${Object.values(Colors).map(
-            scheme => html`
-              <tini-box scheme=${scheme}>${scheme}</tini-box>
-              <tini-box scheme=${`${scheme}-subtle`}
-                >${`${scheme}-subtle`}</tini-box
-              >
-              <tini-box scheme=${`${scheme}-contrast`}
-                >${`${scheme}-contrast`}</tini-box
-              >
-            `
-          )}
-          ${Object.values(Gradients).map(
-            scheme => html`
-              <tini-box scheme=${scheme}>${scheme}</tini-box>
-              <tini-box scheme=${`${scheme}-subtle`}
-                >${`${scheme}-subtle`}</tini-box
-              >
-              <tini-box scheme=${`${scheme}-contrast`}
-                >${`${scheme}-contrast`}</tini-box
-              >
-            `
-          )}
+          <tini-box background="primary" color="primary-contrast"
+            >Color</tini-box
+          >
+          <tini-box background="primary-subtle" color="primary"
+            >Subtle color</tini-box
+          >
+          <tini-box background="primary-contrast" color="primary"
+            >Contrast color</tini-box
+          >
+          <tini-box background="gradient-success" color="success-contrast"
+            >Gradient</tini-box
+          >
+          <tini-box background="gradient-success-subtle" color="success"
+            >Subtle gradient</tini-box
+          >
+          <tini-box background="gradient-success-contrast" color="success"
+            >Contrast gradient</tini-box
+          >
         </div>
       </ui-dev-section>
 
       <ui-dev-section titleText="Radius">
         <div style="display: flex; flex-flow: column; gap: 1rem;">
-          <tini-box radius="zero" scheme="primary">None</tini-box>
-          <tini-box scheme="primary">Default</tini-box>
-          <tini-box radius="xl" scheme="primary">XL</tini-box>
-          <tini-box radius="full" scheme="primary">Full</tini-box>
+          <tini-box radius="zero" background="#3b82f6">None</tini-box>
+          <tini-box background="#3b82f6">Default</tini-box>
+          <tini-box radius="xl" background="#3b82f6">XL</tini-box>
+          <tini-box radius="full" background="#3b82f6">Full</tini-box>
         </div>
       </ui-dev-section>
 
@@ -64,9 +54,7 @@ export class AppPageUIDevBoxComponent extends TiniComponent {
         >
           ${Object.values(Shadows).map(
             shadow => html`
-              <tini-box
-                shadow=${shadow}
-                styleDeep=".main {width: 250px; height: 200px;}"
+              <tini-box shadow=${shadow} width="250px" height="200px"
                 >${shadow}</tini-box
               >
             `

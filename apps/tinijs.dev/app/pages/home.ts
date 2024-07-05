@@ -32,7 +32,7 @@ export class AppPageHome extends TiniComponent {
         <div class="headline">
           <h2 style="margin-bottom: 0">
             <tini-text
-              size="xl-3"
+              size="xl3"
               weight="bold"
               color=${Gradients.Body}
               style="--gradient: var(--gradient-kale-salad)"
@@ -260,7 +260,7 @@ export class AppPageHome extends TiniComponent {
 
     @media (min-width: 768px) {
       .featured {
-        padding: var(--space-xl-3) var(--space-xl);
+        padding: var(--space-xl3) var(--space-xl);
         flex-direction: row;
 
         .logo {

@@ -8,18 +8,18 @@ function generateFontVars() {
 
 function generateTextVars() {
   const items: [string, number][] = [
-    ['xs-3', 0.5],
-    ['xs-2', 0.625],
+    ['xs3', 0.5],
+    ['xs2', 0.625],
     ['xs', 0.75],
     ['sm', 0.875],
     ['md', 1],
     ['lg', 1.25],
     ['xl', 1.5],
-    ['xl-2', 2.25],
-    ['xl-3', 3],
-    ['xl-4', 4.5],
-    ['xl-5', 6],
-    ['xl-6', 7],
+    ['xl2', 2.25],
+    ['xl3', 3],
+    ['xl4', 4.5],
+    ['xl5', 6],
+    ['xl6', 7],
   ];
   return items
     .map(
@@ -58,18 +58,18 @@ function generateSizeVars() {
 
 function generateSpaceVars() {
   const items: [string, number][] = [
-    ['xs-3', 0.125],
-    ['xs-2', 0.25],
+    ['xs3', 0.125],
+    ['xs2', 0.25],
     ['xs', 0.5],
     ['sm', 0.75],
     ['md', 1],
     ['lg', 1.25],
     ['xl', 1.75],
-    ['xl-2', 2.25],
-    ['xl-3', 3],
-    ['xl-4', 4.5],
-    ['xl-5', 6],
-    ['xl-6', 8],
+    ['xl2', 2.25],
+    ['xl3', 3],
+    ['xl4', 4.5],
+    ['xl5', 6],
+    ['xl6', 8],
   ];
   return (
     '--space-zero: 0;\n  ' +
@@ -172,21 +172,21 @@ function generateLetterVars() {
 
 function generateWideVars() {
   const items: [string, number][] = [
-    ['xs-6', 48],
-    ['xs-5', 72],
-    ['xs-4', 96],
-    ['xs-3', 150],
-    ['xs-2', 320],
+    ['xs6', 48],
+    ['xs5', 72],
+    ['xs4', 96],
+    ['xs3', 150],
+    ['xs2', 320],
     ['xs', 480],
     ['sm', 576],
     ['md', 768],
     ['lg', 992],
     ['xl', 1024],
-    ['xl-2', 1200],
-    ['xl-3', 1400],
-    ['xl-4', 1920],
-    ['xl-5', 2560],
-    ['xl-6', 3840],
+    ['xl2', 1200],
+    ['xl3', 1400],
+    ['xl4', 1920],
+    ['xl5', 2560],
+    ['xl6', 3840],
   ];
   return items.map(([name, value]) => `--wide-${name}: ${value}px;`).join(JOIN);
 }

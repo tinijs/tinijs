@@ -254,13 +254,13 @@ export class HeaderComponent
       .menu {
         flex-direction: row;
         align-items: center;
-        gap: var(--space-xs-2);
+        gap: var(--space-xs2);
 
         tini-link {
           border-bottom: none;
 
           &::part(main) {
-            padding: var(--space-xs-2) var(--space-md);
+            padding: var(--space-xs2) var(--space-md);
             border-radius: var(--radius-md);
           }
           &:hover::part(main) {

@@ -158,7 +158,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
       padding: var(--space-md);
       display: flex;
       flex-flow: column;
-      gap: var(--space-xs-2);
+      gap: var(--space-xs2);
       line-height: var(--line-md);
 
       li {
@@ -168,7 +168,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
           display: block;
           margin-top: var(--space-lg);
           padding-top: var(--space-md);
-          padding-bottom: var(--space-xs-2);
+          padding-bottom: var(--space-xs2);
           font-size: 1.1rem;
           border-top: 1px solid var(--color-body-semi);
         }

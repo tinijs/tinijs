@@ -699,7 +699,7 @@ registerComponents([ ${constructorName} ]);`;
               background: none;
               border: none;
               border-radius: var(--radius-md);
-              padding: var(--space-xs-2);
+              padding: var(--space-xs2);
               cursor: pointer;
 
               &:hover {
@@ -729,7 +729,7 @@ registerComponents([ ${constructorName} ]);`;
           position: absolute;
           top: var(--space-md);
           right: var(--space-md);
-          padding: var(--space-xs-2) var(--space-xs);
+          padding: var(--space-xs2) var(--space-xs);
           font-size: var(--text-sm);
           border-radius: var(--radius-md);
           background: color-mix(
@@ -780,7 +780,7 @@ registerComponents([ ${constructorName} ]);`;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: var(--space-xs-2);
+            gap: var(--space-xs2);
             background: var(--color-body);
             border: none;
             padding: var(--space-xs) var(--space-sm);
