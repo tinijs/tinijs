@@ -38,6 +38,7 @@ import {
 
 export interface ComponentMetadata {
   customMainSelector?: string;
+  restyleAtUpdate?: boolean;
   // dev only
   unstable?: UnstableStates;
   unstableMessage?: string;
@@ -82,8 +83,13 @@ export class TiniElement extends LitElement {
   /* eslint-disable prettier/prettier */
   @property({converter: stringOrObjectOrArrayConverter}) styleDeep?: DirectOrRecordStyles;
   @property({converter: stringOrObjectOrArrayConverter}) events?: EventForwardingInput;
-  @property({type: Boolean, reflect: true}) restyleOnUpdate?: boolean;
+  @property({type: Boolean, reflect: true}) restyleAtUpdate?: boolean;
   /* eslint-enable prettier/prettier */
+
+  private readonly willAdoptStylesAtUpdate = !!(
+    this.restyleAtUpdate ||
+    (this.constructor as typeof TiniElement).componentMetadata.restyleAtUpdate
+  );
 
   private customTemplates = this.getTemplates();
   private themingScripts = this.getScripts();
@@ -94,7 +100,9 @@ export class TiniElement extends LitElement {
       this.attachShadow(
         (this.constructor as typeof LitElement).shadowRootOptions
       );
-    this.adoptStyles(renderRoot);
+    if (!this.willAdoptStylesAtUpdate) {
+      this.adoptStyles(renderRoot);
+    }
     return renderRoot;
   }
 
@@ -109,7 +117,7 @@ export class TiniElement extends LitElement {
     // re-adopt styles
     const component = this.constructor as typeof LitElement;
     component.elementStyles = component.finalizeStyles(component.styles);
-    if (!this.restyleOnUpdate) {
+    if (!this.willAdoptStylesAtUpdate) {
       this.adoptStyles(this.shadowRoot || this);
     }
     // continue update cycle
@@ -137,7 +145,7 @@ export class TiniElement extends LitElement {
   }
 
   protected willUpdate(changedProperties: PropertyValues<this>) {
-    if (this.restyleOnUpdate) {
+    if (this.willAdoptStylesAtUpdate) {
       this.adoptStyles(this.shadowRoot || this);
     }
   }

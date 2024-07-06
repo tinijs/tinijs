@@ -162,6 +162,10 @@ export function parseLayoutWideValue(raw: string) {
 }
 
 export class BaseLayoutElement extends TiniElement {
+  static readonly componentMetadata = {
+    restyleAtUpdate: true,
+  };
+
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) container?: LayoutProps['container'];
   @property({type: String, reflect: true}) containerType?: LayoutProps['containerType'];
@@ -229,6 +233,8 @@ export class BaseLayoutElement extends TiniElement {
 
   protected composeStyles(props: LayoutProps) {
     const result: string[] = [];
+    // patch align attribute
+    result.push('text-align: inherit;');
     /* eslint-disable prettier/prettier */
     if (props.container) result.push(`container: ${props.container};`);
     if (props.containerType) result.push(`container-type: ${props.containerType};`);
