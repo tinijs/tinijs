@@ -80,10 +80,13 @@ export enum CommonViewports {
 
 const componentLoader = createComponentLoader(
   {
+    box: () => import('../../ui/components/box.js'),
+    flex: () => import('../../ui/components/flex.js'),
+    grid: () => import('../../ui/components/grid.js'),
+    container: () => import('../../ui/components/container.js'),
     heading: () => import('../../ui/components/heading.js'),
     text: () => import('../../ui/components/text.js'),
     link: () => import('../../ui/components/link.js'),
-    box: () => import('../../ui/components/box.js'),
     skeleton: () => import('../../ui/components/skeleton.js'),
     icon: () => import('../../ui/components/icon.js'),
     button: () => import('../../ui/components/button.js'),

@@ -32,7 +32,10 @@ export default class extends BaseLayoutElement {
   /* eslint-enable prettier/prettier */
 
   protected composeStyles(props: FlexProps) {
-    if (!~['none', 'flex', 'inline-flex'].indexOf(props.display as string)) {
+    if (
+      props.display &&
+      !~['none', 'flex', 'inline-flex'].indexOf(props.display as string)
+    ) {
       throw new Error(
         'For tini-flex, the display prop only accepts flex, inline-flex or none value.'
       );

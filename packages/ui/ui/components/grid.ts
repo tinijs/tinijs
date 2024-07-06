@@ -34,7 +34,10 @@ export default class extends BaseLayoutElement {
   /* eslint-enable prettier/prettier */
 
   protected composeStyles(props: GridProps) {
-    if (!~['none', 'grid', 'inline-grid'].indexOf(props.display as string)) {
+    if (
+      props.display &&
+      !~['none', 'grid', 'inline-grid'].indexOf(props.display as string)
+    ) {
       throw new Error(
         'For tini-grid, the display prop only accepts grid, inline-grid or none value.'
       );

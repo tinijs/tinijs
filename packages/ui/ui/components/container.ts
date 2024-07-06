@@ -23,7 +23,10 @@ export default class extends BaseLayoutElement {
   /* eslint-enable prettier/prettier */
 
   protected composeStyles(props: ContainerProps) {
-    if (!~['none', 'initial'].indexOf(props.display as string)) {
+    if (
+      props.display &&
+      !~['none', 'initial'].indexOf(props.display as string)
+    ) {
       throw new Error(
         'For tini-container, the display prop only accepts initial or none value.'
       );
