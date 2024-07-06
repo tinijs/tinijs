@@ -18,6 +18,7 @@ const componentLoader = createComponentLoader({
   box: () => import('./box.js'),
   flex: () => import('./flex.js'),
   grid: () => import('./grid.js'),
+  container: () => import('./container.js'),
   badge: () => import('./badge.js'),
   breadcrumbs: () => import('./breadcrumbs.js'),
   button: () => import('./button.js'),
