@@ -1,3 +1,4 @@
+import {html} from 'lit';
 import {property} from 'lit/decorators.js';
 import {
   TiniElement,
@@ -321,5 +322,9 @@ export class BaseLayoutElement extends TiniElement {
     }
     // result
     return result.join('');
+  }
+
+  protected render() {
+    return html`<slot></slot>`;
   }
 }

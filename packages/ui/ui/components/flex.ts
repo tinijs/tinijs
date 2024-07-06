@@ -1,11 +1,6 @@
-import {html} from 'lit';
 import {property} from 'lit/decorators.js';
-import {ElementParts} from '@tinijs/core';
-import {BaseLayoutElement, type LayoutProps} from '@tinijs/ui';
 
-export enum FlexParts {
-  Main = ElementParts.Main,
-}
+import {BaseLayoutElement, type LayoutProps} from '../../lib/classes/layout.js';
 
 export interface FlexProps extends LayoutProps {
   display?: 'none' | 'flex' | 'inline-flex';
@@ -37,6 +32,11 @@ export default class extends BaseLayoutElement {
   /* eslint-enable prettier/prettier */
 
   protected composeStyles(props: FlexProps) {
+    if (!~['none', 'flex', 'inline-flex'].indexOf(props.display as string)) {
+      throw new Error(
+        'For tini-flex, the display prop only accepts flex, inline-flex or none value.'
+      );
+    }
     const result: string[] = [super.composeStyles(props)];
     /* eslint-disable prettier/prettier */
     /* if (props.display) */ result.push(`display: ${props.display || 'flex'};`);
@@ -47,9 +47,5 @@ export default class extends BaseLayoutElement {
     if (props.gap) result.push(`gap: ${props.gap};`);
     /* eslint-enable prettier/prettier */
     return result.join('');
-  }
-
-  protected render() {
-    return this.partRender(FlexParts.Main, () => html`<slot></slot>`);
   }
 }

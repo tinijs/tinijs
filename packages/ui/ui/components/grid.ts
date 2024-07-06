@@ -1,11 +1,6 @@
-import {html} from 'lit';
 import {property} from 'lit/decorators.js';
-import {ElementParts} from '@tinijs/core';
-import {BaseLayoutElement, type LayoutProps} from '@tinijs/ui';
 
-export enum GridParts {
-  Main = ElementParts.Main,
-}
+import {BaseLayoutElement, type LayoutProps} from '../../lib/classes/layout.js';
 
 export interface GridProps extends LayoutProps {
   display?: 'none' | 'grid' | 'inline-grid';
@@ -39,6 +34,11 @@ export default class extends BaseLayoutElement {
   /* eslint-enable prettier/prettier */
 
   protected composeStyles(props: GridProps) {
+    if (!~['none', 'grid', 'inline-grid'].indexOf(props.display as string)) {
+      throw new Error(
+        'For tini-grid, the display prop only accepts grid, inline-grid or none value.'
+      );
+    }
     const result: string[] = [super.composeStyles(props)];
     /* eslint-disable prettier/prettier */
     /* if (props.display) */ result.push(`display: ${props.display || 'grid'};`);
@@ -50,9 +50,5 @@ export default class extends BaseLayoutElement {
     if (props.gap) result.push(`gap: ${props.gap};`);
     /* eslint-enable prettier/prettier */
     return result.join('');
-  }
-
-  protected render() {
-    return this.partRender(GridParts.Main, () => html`<slot></slot>`);
   }
 }

@@ -16,7 +16,7 @@ export class AppPageUIDevBoxComponent extends TiniComponent {
         <tini-box>This is a box.</tini-box>
       </ui-dev-section>
 
-      <ui-dev-section titleText="Schemes">
+      <ui-dev-section titleText="Backgrounds & colors">
         <div style="display: flex; flex-flow: column; gap: 1rem;">
           <tini-box background="primary" color="primary-contrast"
             >Color</tini-box
@@ -39,12 +39,35 @@ export class AppPageUIDevBoxComponent extends TiniComponent {
         </div>
       </ui-dev-section>
 
-      <ui-dev-section titleText="Radius">
+      <ui-dev-section titleText="Radiuses">
         <div style="display: flex; flex-flow: column; gap: 1rem;">
-          <tini-box radius="zero" background="#3b82f6">None</tini-box>
-          <tini-box background="#3b82f6">Default</tini-box>
-          <tini-box radius="xl" background="#3b82f6">XL</tini-box>
-          <tini-box radius="full" background="#3b82f6">Full</tini-box>
+          <tini-box
+            radius="zero"
+            background="#3b82f6"
+            width="xs2"
+            height="4rem"
+            padding="md"
+            >None</tini-box
+          >
+          <tini-box background="#3b82f6" width="xs2" height="4rem" padding="md"
+            >Default</tini-box
+          >
+          <tini-box
+            radius="xl"
+            background="#3b82f6"
+            width="xs2"
+            height="4rem"
+            padding="1rem"
+            >XL</tini-box
+          >
+          <tini-box
+            radius="full"
+            background="#3b82f6"
+            width="xs2"
+            height="4rem"
+            padding="1rem"
+            >Full</tini-box
+          >
         </div>
       </ui-dev-section>
 

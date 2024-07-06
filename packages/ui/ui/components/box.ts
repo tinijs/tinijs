@@ -1,11 +1,6 @@
-import {html} from 'lit';
 import {property} from 'lit/decorators.js';
-import {ElementParts} from '@tinijs/core';
-import {BaseLayoutElement, type LayoutProps} from '@tinijs/ui';
 
-export enum BoxParts {
-  Main = ElementParts.Main,
-}
+import {BaseLayoutElement, type LayoutProps} from '../../lib/classes/layout.js';
 
 export interface BoxProps extends LayoutProps {
   display?: 'none' | 'inline' | 'inline-block' | 'block';
@@ -68,9 +63,5 @@ export default class extends BaseLayoutElement {
     if (props.gridRowEnd) result.push(`grid-row-end: ${props.gridRowEnd};`);
     /* eslint-enable prettier/prettier */
     return result.join('');
-  }
-
-  protected render() {
-    return this.partRender(BoxParts.Main, () => html`<slot></slot>`);
   }
 }
