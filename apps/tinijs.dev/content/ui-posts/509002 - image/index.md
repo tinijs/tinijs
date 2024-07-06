@@ -6,6 +6,10 @@
 }
 +++
 
+## Import
+
+<app-component-import componentName="image"></app-component-import>
+
 ## Editor
 
 {%

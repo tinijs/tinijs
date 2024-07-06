@@ -6,6 +6,10 @@
 }
 +++
 
+## Import
+
+<app-component-import componentName="badge"></app-component-import>
+
 ## Editor
 
 {%

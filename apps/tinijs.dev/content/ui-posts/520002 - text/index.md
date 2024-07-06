@@ -6,6 +6,10 @@
 }
 +++
 
+## Import
+
+<app-component-import componentName="text"></app-component-import>
+
 ## Editor
 
 {%

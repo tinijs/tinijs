@@ -7,11 +7,18 @@ import {GITHUB_CONTENT_PATH} from '../consts/common.js';
 import {uiCategoryService, uiPostService} from '../services/content.js';
 
 import {AppDocPageComponent} from '../components/doc-page/index.js';
+import {AppComponentImportComponent} from '../components/component-import.js';
 import {AppComponentEditorComponent} from '../components/component-editor/index.js';
+import {AppComponentUsageComponent} from '../components/component-usage.js';
 
 @Page({
   name: 'app-page-ui',
-  components: [AppDocPageComponent, AppComponentEditorComponent],
+  components: [
+    AppDocPageComponent,
+    AppComponentImportComponent,
+    AppComponentEditorComponent,
+    AppComponentUsageComponent,
+  ],
 })
 export class AppPageUI extends TiniComponent {
   protected render() {

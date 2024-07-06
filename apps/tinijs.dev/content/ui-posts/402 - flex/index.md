@@ -6,6 +6,10 @@
 }
 +++
 
+## Import
+
+<app-component-import componentName="flex"></app-component-import>
+
 ## Editor
 
 {%

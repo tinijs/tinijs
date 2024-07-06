@@ -6,6 +6,10 @@
 }
 +++
 
+## Import
+
+<app-component-import componentName="box"></app-component-import>
+
 ## Editor
 
 {%
@@ -20,8 +24,8 @@
       },
       {
         section: 'select',
-        attrs: {label: 'Scheme', preset: 'allColorsAndAllGradients'},
-        target: 'scheme'
+        attrs: {label: 'Background', preset: 'allColorsAndAllGradients'},
+        target: 'background'
       },
       {
         section: 'css',

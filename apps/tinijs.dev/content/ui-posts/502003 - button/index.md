@@ -8,6 +8,10 @@
 
 Use buttons to trigger actions.
 
+## Import
+
+<app-component-import componentName="button"></app-component-import>
+
 ## Editor
 
 {%

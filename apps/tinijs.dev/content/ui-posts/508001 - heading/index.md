@@ -6,6 +6,10 @@
 }
 +++
 
+## Import
+
+<app-component-import componentName="heading"></app-component-import>
+
 ## Editor
 
 {%

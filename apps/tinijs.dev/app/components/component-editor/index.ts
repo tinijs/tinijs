@@ -8,7 +8,6 @@ import '@interactjs/modifiers';
 import interact from '@interactjs/interact'; // eslint-disable-next-line node/no-extraneous-import
 import type {InteractStatic} from '@interactjs/core/InteractStatic.js';
 import screenfull from 'screenfull';
-import JSON5 from 'json5';
 
 import {
   Component,
@@ -16,10 +15,8 @@ import {
   Input,
   Reactive,
   createComponentLoader,
-  UseUI,
   ContrastColors,
   Sizes,
-  type UI,
   type OnCreate,
   type OnChanges,
   type OnFirstRender,
@@ -35,6 +32,7 @@ import {UIConsumerTargets} from '../../consts/common.js';
 import {mainStore} from '../../stores/main.js';
 
 import {parseName, type Names} from '../../utils/name.js';
+import {buildUsageCode, buildPreviewCode} from '../../utils/code.js';
 
 import {IconExpandComponent} from '../../icons/expand.js';
 import {IconCollapseComponent} from '../../icons/collapse.js';
@@ -42,13 +40,8 @@ import {IconMobileComponent} from '../../icons/mobile.js';
 import {IconTabletComponent} from '../../icons/tablet.js';
 import {IconTVComponent} from '../../icons/tv.js';
 import {IconDesktopComponent} from '../../icons/desktop.js';
-import {IconTiniComponent} from '../../icons/tini.js';
-import {IconVueComponent} from '../../icons/vue.js';
-import {IconReactComponent} from '../../icons/react.js';
-import {IconAngularComponent} from '../../icons/angular.js';
-import {IconSvelteComponent} from '../../icons/svelte.js';
-import {IconHTMLComponent} from '../../icons/html.js';
 
+import {AppConsumerTabsComponent} from '../consumer-tabs.js';
 import {AppSkinEditorTogglerComponent} from '../skin-editor/toggler.js';
 import {AppComponentEditorInputComponent} from './input.js';
 import {AppComponentEditorTextareaComponent} from './textarea.js';
@@ -124,12 +117,7 @@ const componentLoader = createComponentLoader(
     IconTabletComponent,
     IconTVComponent,
     IconDesktopComponent,
-    IconTiniComponent,
-    IconVueComponent,
-    IconReactComponent,
-    IconAngularComponent,
-    IconSvelteComponent,
-    IconHTMLComponent,
+    AppConsumerTabsComponent,
     AppSkinEditorTogglerComponent,
     AppComponentEditorInputComponent,
     AppComponentEditorTextareaComponent,
@@ -147,7 +135,6 @@ export class AppComponentEditorComponent
 {
   static readonly defaultTagName = 'app-component-editor';
 
-  @UseUI() readonly ui!: UI;
   @Subscribe(mainStore) uiConsumerTarget = mainStore.uiConsumerTarget;
 
   @Input() name!: string;
@@ -162,7 +149,6 @@ export class AppComponentEditorComponent
   private readonly _resizableRef = createRef<HTMLDivElement>();
   private readonly _viewportSizeRef = createRef<HTMLDivElement>();
 
-  importCode?: string;
   usageCode?: string;
   previewTemplate?: TemplateResult;
 
@@ -192,7 +178,6 @@ export class AppComponentEditorComponent
       componentLoader.extractAndLoad([[this.name], this.data?.inner]);
     }
     // build codes
-    this.importCode = this.buildImportCode();
     this.usageCode = this.buildUsageCode();
     this.previewTemplate = this.buildPreviewCode();
   }
@@ -233,126 +218,15 @@ export class AppComponentEditorComponent
     });
   }
 
-  private buildImportCode() {
-    const {familyId} = this.ui.activeTheme;
-    const constructorName = `Tini${this.names.className}Component`;
-    const importPath = `@tinijs/ui-${familyId}/components/${this.name}.js`;
-    switch (this.uiConsumerTarget) {
-      case UIConsumerTargets.Tini: {
-        return `import {${constructorName}} from '${importPath}';
-
-@App|Layout|Page|Component({components: [ ${constructorName} ]})`;
-      }
-      case UIConsumerTargets.React: {
-        const reactTag = `Tini${this.names.className}`;
-        const reactPath = `@tinijs/ui-${familyId}-react/components/${this.name}.js`;
-        return `import {${reactTag}, ${constructorName}} from '${reactPath}';
-
-registerComponents([ ${constructorName} ])`;
-      }
-      case UIConsumerTargets.Vanilla: {
-        const cdnPath = `https://cdn.jsdelivr.net/npm/@tinijs/ui-${familyId}/components/${this.name}.js`;
-        return `import {${constructorName}} from '${cdnPath}';
-
-setupUI({ components: [ ${constructorName} ] });`;
-      }
-      default: {
-        return `import {${constructorName}} from '${importPath}';
-
-registerComponents([ ${constructorName} ]);`;
-      }
-    }
-  }
-
-  private buildUsageProperties(
-    props: Record<string, any> | undefined,
-    nonPrimitiveModifiers: [string, string, string, string] = [
-      '.',
-      '',
-      '${',
-      '}',
-    ],
-    stringifyObject = false
-  ) {
-    const [prefix, suffix, open, close] = nonPrimitiveModifiers;
-    return !props
-      ? ''
-      : Object.entries(props)
-          .map(([key, value]) => {
-            if (!value) return null;
-            if (value === true) {
-              return key;
-            } else if (typeof value === 'number') {
-              return `${prefix}${key}${suffix}=${open}${value}${close}`;
-            } else if (value instanceof Object) {
-              return `${prefix}${key}${suffix}=${open}${
-                stringifyObject
-                  ? JSON.stringify(value, null, 2)
-                  : JSON5.stringify(value, null, 2)
-              }${close}`;
-            } else {
-              return `${key}="${value}"`;
-            }
-          })
-          .filter(Boolean)
-          .join(' ');
-  }
   private buildUsageCode() {
-    const {props = {}, inner = ''} = this.data || {};
-    let tag = `tini-${this.name}`;
-    let properties!: string;
-    switch (this.uiConsumerTarget) {
-      case UIConsumerTargets.Vue: {
-        properties = this.buildUsageProperties(props, ['.', '', '"', '"']);
-        break;
-      }
-      case UIConsumerTargets.React: {
-        tag = `Tini${this.names.className}`;
-        properties = this.buildUsageProperties(props, ['', '', '{', '}']);
-        break;
-      }
-      case UIConsumerTargets.Angular: {
-        properties = this.buildUsageProperties(props, ['[', ']', '"', '"']);
-        break;
-      }
-      case UIConsumerTargets.Svelte: {
-        properties = this.buildUsageProperties(props, ['', '', '{', '}']);
-        break;
-      }
-      case UIConsumerTargets.Vanilla: {
-        properties = this.buildUsageProperties(props, ['', '', "'", "'"], true);
-        break;
-      }
-      case UIConsumerTargets.Tini:
-      default: {
-        properties = this.buildUsageProperties(props);
-        break;
-      }
-    }
-    return `<${tag} ${properties}>${inner}</${tag}>`;
+    return buildUsageCode(this.uiConsumerTarget, {
+      ...this.data,
+      name: this.name,
+    });
   }
 
   private buildPreviewCode() {
-    const {props = {}, inner = ''} = this.data || {};
-    const tag = unsafeStatic(`tini-${this.name}`);
-    const properties = !props
-      ? ''
-      : unsafeStatic(
-          Object.entries(props)
-            .map(([key, value]) => {
-              if (!value) return null;
-              if (value === true) {
-                return key;
-              } else if (value instanceof Object) {
-                return `${key}='${JSON.stringify(value)}'`;
-              } else {
-                return `${key}="${value}"`;
-              }
-            })
-            .filter(Boolean)
-            .join(' ')
-        );
-    return staticHTML`<${tag} ${properties}>${unsafeStatic(inner)}</${tag}>`;
+    return buildPreviewCode({...this.data, name: this.name});
   }
 
   private changeCommonViewport(viewport: CommonViewports) {
@@ -373,7 +247,9 @@ registerComponents([ ${constructorName} ]);`;
     }
   }
 
-  private changeConsumerTarget(target: UIConsumerTargets) {
+  private changeConsumerTarget({
+    detail: target,
+  }: CustomEvent<UIConsumerTargets>) {
     if (target === this.uiConsumerTarget) return;
     mainStore.uiConsumerTarget = target;
   }
@@ -464,7 +340,7 @@ registerComponents([ ${constructorName} ]);`;
       <div class="body">
         ${editTemplate}
         <div class="foot">
-          <a href="/ui/customization">Not sastify, more options?</a>
+          <!-- <a href="/ui/customization">Not sastify, more options?</a> -->
         </div>
       </div>
     `;
@@ -540,82 +416,16 @@ registerComponents([ ${constructorName} ]);`;
   private getCodeTemplate() {
     return html`
       <div class="head">
-        <button
-          class=${classMap({
-            selected: this.uiConsumerTarget === UIConsumerTargets.Tini,
-          })}
-          @click=${() => this.changeConsumerTarget(UIConsumerTargets.Tini)}
-        >
-          <icon-tini size=${Sizes.XS}></icon-tini>
-          <span>Tini</span>
-        </button>
-        <button
-          class=${classMap({
-            selected: this.uiConsumerTarget === UIConsumerTargets.Vue,
-          })}
-          @click=${() => this.changeConsumerTarget(UIConsumerTargets.Vue)}
-        >
-          <icon-vue size=${Sizes.XS}></icon-vue>
-          <span>Vue</span>
-        </button>
-        <button
-          class=${classMap({
-            selected: this.uiConsumerTarget === UIConsumerTargets.React,
-          })}
-          @click=${() => this.changeConsumerTarget(UIConsumerTargets.React)}
-        >
-          <icon-react size=${Sizes.XS}></icon-react>
-          <span>React</span>
-        </button>
-        <button
-          class=${classMap({
-            selected: this.uiConsumerTarget === UIConsumerTargets.Angular,
-          })}
-          @click=${() => this.changeConsumerTarget(UIConsumerTargets.Angular)}
-        >
-          <icon-angular size=${Sizes.XS}></icon-angular>
-          <span>Angular</span>
-        </button>
-        <button
-          class=${classMap({
-            selected: this.uiConsumerTarget === UIConsumerTargets.Svelte,
-          })}
-          @click=${() => this.changeConsumerTarget(UIConsumerTargets.Svelte)}
-        >
-          <icon-svelte size=${Sizes.XS}></icon-svelte>
-          <span>Svelte</span>
-        </button>
-        <button
-          class=${classMap({
-            selected: this.uiConsumerTarget === UIConsumerTargets.Vanilla,
-          })}
-          @click=${() => this.changeConsumerTarget(UIConsumerTargets.Vanilla)}
-        >
-          <icon-html size=${Sizes.XS}></icon-html>
-          <span>Vanilla</span>
-        </button>
+        <app-consumer-tabs
+          target=${this.uiConsumerTarget}
+          @change=${this.changeConsumerTarget}
+        ></app-consumer-tabs>
       </div>
       <div class="body">
-        ${!this.importCode
-          ? nothing
-          : html`
-              <div>
-                <p>
-                  <strong>Step 1</strong>: Import and register the component,
-                  please see <a href="/ui/get-started">Get started</a> for more
-                  details.
-                </p>
-                <tini-code
-                  language="javascript"
-                  content=${this.importCode}
-                ></tini-code>
-              </div>
-            `}
         ${!this.usageCode
           ? nothing
           : html`
               <div>
-                <p><strong>Step 2</strong>: Copy below code to the template.</p>
                 <tini-code
                   language="html"
                   content=${this.usageCode}
@@ -778,35 +588,6 @@ registerComponents([ ${constructorName} ]);`;
           display: flex;
           padding: 0;
           justify-content: flex-start;
-
-          button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--space-xs2);
-            background: var(--color-body);
-            border: none;
-            padding: var(--space-xs) var(--space-sm);
-            cursor: pointer;
-            box-sizing: border-box;
-            height: calc(var(--head-height) + 1px);
-            border-bottom: 1px solid var(--color-body-semi);
-            border-right: 1px solid var(--color-body-semi);
-            background: var(--color-body-soft);
-
-            &:hover {
-              background: var(--color-body-semi);
-            }
-
-            &.selected {
-              background: var(--color-body);
-              border-bottom-color: var(--color-body);
-            }
-
-            span {
-              display: none;
-            }
-          }
         }
 
         tini-code {

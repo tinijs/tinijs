@@ -24,7 +24,7 @@ setupUI({
 });
 ```
 
-- **Step 2**: config Vue compiler, for example with `vit.config.js`
+- **Step 2**: config Vue compiler, for example with `vite.config.js`
 
 ```js
 export default defineConfig({

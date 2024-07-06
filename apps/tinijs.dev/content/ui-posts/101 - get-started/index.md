@@ -39,17 +39,24 @@ To get started with Tini UI, first identify which theme family and skin you woul
 - [Chakra](/ui/chakra)
 - [Daisy](/ui/daisy)
 
+For using Tini UI with other frameworks or no framework:
+- [Vue and Nuxt](/ui/vue)
+- [React](/ui/react)
+- [Angular](/ui/angular)
+- [Svelte](/ui/svelte)
+- [Vanilla and Servers](/ui/vanilla)
+
 There are 3 main ways of using Tini UI:
 
 1. **Via CDN** (one theme family, one or more skin)
 2. **Install prebuilt packages** (one theme family, one or more skin)
 3. **Build and manage UI** using [Tini CLI](/cli) (one or more theme family, one or more skin)
 
-### Via CDN
+### Option 1: Via CDN
 
 CDN is the simplest way to get started with Tini UI, just include the script tag in your HTML file. This way is suitable for small projects or quick prototyping without the need of a build step.
 
-- Step 1: Setup the UI
+- **Step 1**: Setup the UI
 
 ```html
 <script type="module">
@@ -74,24 +81,24 @@ ui.setTheme(isDark ? 'bootstrap/dark' : 'bootstrap/light');
 </script>
 ```
 
-- Step 2: Use the components
+- **Step 2**: Use the components
 
 ```html
 <tini-text color="success">Lorem ipsum</tini-text>
 <tini-button>A button</tini-button>
 ```
 
-### Prebuilt packages
+### Option 2: Prebuilt packages
 
 Prebuilt packages are available on NPM.
 
-- Step 1: Install a theme family
+- **Step 1**: Install a theme family
 
 ```bash
 npm i @tinijs/ui-material
 ```
 
-- Step 2: Setup the UI
+- **Step 2**: Setup the UI
 
 ```ts
 import { setupUI, materialLightSkin, materialDarkSkin } from '@tinijs/ui-material/setup.js';
@@ -119,20 +126,20 @@ const ui = setupUI({
 ui.setTheme(themeId);
 ```
 
-- Step 3: Use components
+- **Step 3**: Use components
 
 ```html
 <tini-text color="success">Lorem ipsum</tini-text>
 <tini-button>A button</tini-button>
 ```
 
-### Using CLI
+### Option 3: Using CLI
 
 With [Tini CLI](/cli), you can build UI packages for using locally in a project or as an sharable package for your entire organization.
 
 It also allows you to override the default bases, skins and components as well as develop your own theme families with your own design systems and private components.
 
-- Step 1: Config and build UI packages
+- **Step 1**: Config and build UI packages
 
 First, install Tini UI official source package:
 
@@ -171,7 +178,7 @@ npx tini ui build
 
 By default, the result will be output to the `app/ui` folder, the folder should be ignored from GIT.
 
-- Step 2: Setup the UI
+- **Step 2**: Setup the UI
 
 ```ts
 import { setupUI, type AppWithUI } from './ui/setup.js';
@@ -196,7 +203,7 @@ const ui = setupUI({
 ui.setTheme(themeId);
 ```
 
-- Step 3: Use components
+- **Step 3**: Use components
 
 ```html
 <tini-text color="success">Lorem ipsum</tini-text>

@@ -14,11 +14,17 @@ This article provides an insight into the performance aspect and the limitations
 
 ## Overhead benchmark
 
-When it comes to performance, TiniJS prioritizes the usability over raw performance. Therefore, please use the following **Lighthouse scores** as a suggested guide to determine if it is within the acceptable range for your project.
+This benchmark is about the usability of the TiniJS framework, please use it as a suggested guide to determine if it is within the acceptable range for your project. For the raw performance, please refer the result of [lit-v3.0.0 at js-framework-benchmark](https://krausest.github.io/js-framework-benchmark/current.html). TiniJS is based on Lit, therefore the raw performance should be similar.
 
-These below metrics are about the overhead (using a simple **Hello World** page) of the corresponding frameworks, audited using Chrome Lighthouse (mode = **navigation**, device = **mobile**, category = **performance**), on a Macbook Pro M1 32GB (2021).
+These below metrics are about the overhead of the corresponding frameworks, audited using Chrome Lighthouse (mode = **navigation**, device = **mobile**, category = **performance**), on a Macbook Pro M1 32GB (2021).
 
-Notes:
+Setup notes:
+  - Init projects using Vite TS templates or official CLIs
+  - Remove all styles and unnecessary assets, add the `<h1>Hello World</h1>` template
+  - Build apps using `build` command
+  - Run apps using [superstatic](https://github.com/firebase/superstatic) and audit using Chrome Lighthouse
+
+Additional notes:
   - App size is the uncompressed size of all the chunks downloaded by the browser
   - TBT is `0 ms` and CLS is `0` for all frameworks
 
@@ -29,7 +35,7 @@ Notes:
   }
 
   .performance-table tr th:first-child {
-    max-width: 50%;
+    width: 50%;
   }
 
   .performance-table tr td:first-child {
@@ -58,7 +64,7 @@ Notes:
 
   <thead>
     <tr>
-      <th>Framework</th>
+      <th>Baseline</th>
       <th>App size</th>
       <th>Score</th>
       <th>FCP</th>
@@ -67,7 +73,6 @@ Notes:
   </thead>
 
   <tbody>
-
     <tr>
       <td>
         <strong>Vanilla</strong> <br>
@@ -78,17 +83,23 @@ Notes:
       <td><span class="ok">0.8 s</span></td>
       <td><span class="ok">0.8 s</span></td>
     </tr>
+  </tbody>
 
+</table>
+
+<table class="performance-table">
+
+  <thead>
     <tr>
-      <td>
-        <strong>Lit</strong> 3.1.2 <br>
-        <em>(Vite <a target="_blank" href="https://vitejs.dev/guide/">lit-ts</a>)</em>
-      </td>
-      <td>18 kB</td>
-      <td><span class="ok">100</span></td>
-      <td><span class="ok">0.9 s</span></td>
-      <td><span class="ok">0.9 s</span></td>
+      <th>Meta frameworks</th>
+      <th>App size</th>
+      <th>Score</th>
+      <th>FCP</th>
+      <th>LCP</th>
     </tr>
+  </thead>
+
+  <tbody>
 
     <tr>
       <td>
@@ -110,6 +121,35 @@ Notes:
       <td><span class="ok">100</span></td>
       <td><span class="ok">1.2 s</span></td>
       <td><span class="ok">1.7 s</span></td>
+    </tr>
+
+  </tbody>
+
+</table>
+
+<table class="performance-table">
+
+  <thead>
+    <tr>
+      <th>Base frameworks</th>
+      <th>App size</th>
+      <th>Score</th>
+      <th>FCP</th>
+      <th>LCP</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <tr>
+      <td>
+        <strong>Lit</strong> 3.1.2 <br>
+        <em>(Vite <a target="_blank" href="https://vitejs.dev/guide/">lit-ts</a>)</em>
+      </td>
+      <td>18 kB</td>
+      <td><span class="ok">100</span></td>
+      <td><span class="ok">0.9 s</span></td>
+      <td><span class="ok">0.9 s</span></td>
     </tr>
 
     <tr>

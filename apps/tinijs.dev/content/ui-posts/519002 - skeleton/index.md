@@ -6,6 +6,10 @@
 }
 +++
 
+## Import
+
+<app-component-import componentName="skeleton"></app-component-import>
+
 ## Editor
 
 {%
