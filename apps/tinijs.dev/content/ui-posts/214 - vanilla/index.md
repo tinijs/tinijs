@@ -45,7 +45,7 @@ To prevent FOUC, you can add attribute `hidden` to the body.
 <script type="module">
 
   setupUI({
-    pendingBody: true // remove hidden attribute from body after setup
+    resolvePending: true // remove hidden attribute from body after setup
   });
 
 </script>

@@ -253,7 +253,8 @@ const ui = setupUI({
   components: Component[];
 
   // remove 'hidden' attribute from body for server rendered pages
-  pendingBody: boolean;
+  // or provide a custom hanlder
+  resolvePending: boolean | (() => void);
 
 });
 ```

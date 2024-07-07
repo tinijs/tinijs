@@ -67,7 +67,7 @@ Try an online example: [Tini UI - Nuxt Playground](https://stackblitz.com/edit/t
     setupUI({
       skins: availableSkins,
       components: availableComponents,
-      pendingBody: true, // hide the body to prevent FOUC
+      resolvePending: true, // hide the body to prevent FOUC
     });
   }
 
