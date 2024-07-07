@@ -1,6 +1,6 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent, Colors, Texts, Radiuses} from '@tinijs/core';
+import {Page, TiniComponent, Texts, Radiuses} from '@tinijs/core';
 
 import {GITHUB_CONTENT_PATH} from '../consts/common.js';
 
@@ -10,6 +10,7 @@ import {AppDocPageComponent} from '../components/doc-page/index.js';
 import {AppComponentImportComponent} from '../components/component-import.js';
 import {AppComponentEditorComponent} from '../components/component-editor/index.js';
 import {AppComponentUsageComponent} from '../components/component-usage.js';
+import {AppComponentBenchmarkComponent} from '../components/component-benchmark.js';
 
 @Page({
   name: 'app-page-ui',
@@ -18,6 +19,7 @@ import {AppComponentUsageComponent} from '../components/component-usage.js';
     AppComponentImportComponent,
     AppComponentEditorComponent,
     AppComponentUsageComponent,
+    AppComponentBenchmarkComponent,
   ],
 })
 export class AppPageUI extends TiniComponent {

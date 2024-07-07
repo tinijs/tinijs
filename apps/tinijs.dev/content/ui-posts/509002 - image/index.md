@@ -48,3 +48,7 @@
     ]
   }
 %}{% endapp %}
+
+## Benchmark
+
+<app-component-benchmark reportId="ui-image"></app-component-benchmark>

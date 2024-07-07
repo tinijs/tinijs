@@ -85,7 +85,7 @@ registerComponents([ ${constructorName} ]);`;
   protected render() {
     return html`
       <p style="margin-bottom: var(--space-md)">
-        Import and register the component, please see
+        Import and register the component either globally or locally, please see
         <a href="/ui/get-started">Get started</a> for more details.
       </p>
       <div class="main">

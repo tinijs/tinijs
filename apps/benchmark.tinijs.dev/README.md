@@ -10,3 +10,7 @@ Benchmark Core and UI using Lighthouse.
 | Option | Description |
 | --- | --- |
 | `--path` | Optional subject paths, separated by comma, ex.: `npm run benchmark -- --path=/hello-world,/ui/text` |
+
+## Development
+
+The benchmark script is located at [scripts/benchmark.mts](../../scripts/benchmark.mts).

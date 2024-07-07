@@ -68,3 +68,7 @@
     ]
   }
 %}{% endapp %}
+
+## Benchmark
+
+<app-component-benchmark reportId="ui-text"></app-component-benchmark>

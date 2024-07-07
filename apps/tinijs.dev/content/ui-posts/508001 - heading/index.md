@@ -63,3 +63,7 @@
     ]
   }
 %}{% endapp %}
+
+## Benchmark
+
+<app-component-benchmark reportId="ui-heading"></app-component-benchmark>
