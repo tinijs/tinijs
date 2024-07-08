@@ -257,6 +257,6 @@ Options can also be set at document level by setting the `$build` field, it will
 Hello world!
 ```
 
-| Option | Description |
-| --- | --- |
+| Option        | Description                                                                                                                                                      |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `collectTags` | Collection `tags` field into a tags collection, values: `false` to disable or `{collection: string; field?: string}` to config which field and which collection. |

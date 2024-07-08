@@ -7,8 +7,8 @@ import {AppComponentEditorComponent} from '../../../app/components/component-edi
 @Component({
   components: [AppComponentEditorComponent],
 })
-export class ContentUIPostBoxComponent extends TiniComponent {
-  static readonly defaultTagName = 'content-ui-post-box';
+export class ContentUIPostContainerComponent extends TiniComponent {
+  static readonly defaultTagName = 'content-ui-post-container';
 
   @Input() block!: string;
 
@@ -28,17 +28,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
   private renderEditorBlock() {
     return html`
       <app-component-editor
-        name="box"
-        .examples=${{
-          test: {
-            content: 'Test',
-            items: [
-              {target: 'inner', value: 'Test test test.'},
-              {target: 'display', value: 'inline'},
-              {target: 'background', value: 'red'},
-            ],
-          },
-        }}
+        name="container"
         .sections=${[
           {
             section: 'select',
@@ -47,9 +37,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
               items: [
                 {content: 'Default', value: '_default'},
                 {content: 'None', value: 'none'},
-                {content: 'Block', value: 'block'},
-                {content: 'Inline', value: 'inline'},
-                {content: 'Inline block', value: 'inline-block'},
+                {content: 'Initial', value: 'initial'},
               ],
             },
             target: 'display',
@@ -58,7 +46,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
             section: 'html',
             attrs: {label: 'Text/html'},
             target: 'inner',
-            value: 'A box',
+            value: '<div style="background: #f1f1f1">A container</div>',
           },
           {
             section: 'css',

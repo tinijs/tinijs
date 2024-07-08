@@ -14,10 +14,10 @@ npx tini watch
 
 ## Options
 
-| Option | Description |
-| --- | --- |
-| `--clean` or `-c` | Clean the output dir before build. |
-| `--lazy` or `-l` | No initial build, only build for new changes. |
+| Option            | Description                                          |
+| ----------------- | ---------------------------------------------------- |
+| `--clean` or `-c` | Clean the output dir before build.                   |
+| `--lazy` or `-l`  | No initial build, only build for new changes.        |
 | `--debug` or `-d` | When using a compiler, log output from all commands. |
 
 ## Configuration

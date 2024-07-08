@@ -30,39 +30,39 @@ Skins are available in 3 levels:
 
 At the basic level, a skin contains a fundamental set of variables, includes:
 
-| Variable | Description |
-| --- | --- |
-| _Font group_ |
-| `--font-title` | Title font |
-| `--font-content` | Content font |
-| `--font-code` | Code font |
-| _Color group_ |
-| `--color-body`, `*-contrast` | Body color and its contrast |
-| `--color-medium`, `*-contrast` | Medium color and its contrast |
-| `--color-primary`, `*-contrast` | Primary color and its contrast |
-| `--color-secondary`, `*-contrast` | Secondary color and its contrast |
-| `--color-info`, `*-contrast` | Info color and its contrast |
-| `--color-success`, `*-contrast` | Success color and its contrast |
-| `--color-warning`, `*-contrast` | Warning color and its contrast |
-| `--color-danger`, `*-contrast` | Danger color and its contrast |
-| _Grandient group_ |
-| `--gradient-direction` | Config the direction of auto-generated gradients |
-| _Size group_ |
-| `--size-base` | Base size |
-| `--size-text` | Text size |
-| `--size-space` | Space size |
-| `--size-radius` | Border radius |
-| `--size-border` | Border size |
-| `--size-ring` | Outline size |
-| `--size-line` | Line height |
-| `--size-letter` | Letter spacing |
-| _Shadow group_ |
-| `--shadow-xs` | Extra small shadow |
-| `--shadow-sm` | Small shadow |
-| `--shadow-md` | Medium shadow |
-| `--shadow-lg` | Large shadow |
-| `--shadow-xl` | Extra large shadow |
-| `--shadow-inset` | Inset shadow |
+| Variable                          | Description                                      |
+| --------------------------------- | ------------------------------------------------ |
+| _Font group_                      |
+| `--font-title`                    | Title font                                       |
+| `--font-content`                  | Content font                                     |
+| `--font-code`                     | Code font                                        |
+| _Color group_                     |
+| `--color-body`, `*-contrast`      | Body color and its contrast                      |
+| `--color-medium`, `*-contrast`    | Medium color and its contrast                    |
+| `--color-primary`, `*-contrast`   | Primary color and its contrast                   |
+| `--color-secondary`, `*-contrast` | Secondary color and its contrast                 |
+| `--color-info`, `*-contrast`      | Info color and its contrast                      |
+| `--color-success`, `*-contrast`   | Success color and its contrast                   |
+| `--color-warning`, `*-contrast`   | Warning color and its contrast                   |
+| `--color-danger`, `*-contrast`    | Danger color and its contrast                    |
+| _Grandient group_                 |
+| `--gradient-direction`            | Config the direction of auto-generated gradients |
+| _Size group_                      |
+| `--size-base`                     | Base size                                        |
+| `--size-text`                     | Text size                                        |
+| `--size-space`                    | Space size                                       |
+| `--size-radius`                   | Border radius                                    |
+| `--size-border`                   | Border size                                      |
+| `--size-ring`                     | Outline size                                     |
+| `--size-line`                     | Line height                                      |
+| `--size-letter`                   | Letter spacing                                   |
+| _Shadow group_                    |
+| `--shadow-xs`                     | Extra small shadow                               |
+| `--shadow-sm`                     | Small shadow                                     |
+| `--shadow-md`                     | Medium shadow                                    |
+| `--shadow-lg`                     | Large shadow                                     |
+| `--shadow-xl`                     | Extra large shadow                               |
+| `--shadow-inset`                  | Inset shadow                                     |
 
 You can use the **Skin Editor** to modify or create level 1 skins.
 

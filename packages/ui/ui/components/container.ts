@@ -28,12 +28,12 @@ export default class extends BaseLayoutElement {
       !~['none', 'initial'].indexOf(props.display as string)
     ) {
       throw new Error(
-        'For tini-container, the display prop only accepts initial or none value.'
+        'For tini-container, the display property only accepts "initial" or "none" value.'
       );
     }
     const result: string[] = [super.composeStyles(props)];
     /* eslint-disable prettier/prettier */
-    /* if (props.display) */ result.push(`display: ${props.display || 'grid'};`);
+    if (props.display) result.push(`display: ${props.display};`);
     if (props.size) result.push(`max-width: ${parseLayoutWideValue(props.size)};`);
     if (props.align === 'left') {
       result.push('margin-right: auto;');

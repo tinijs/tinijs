@@ -52,24 +52,37 @@ export class AppComponentImportComponent
       case UIConsumerTargets.Tini: {
         return `import { ${constructorName} } from '${importPath}';
 
-@App|Layout|Page|Component({ components: [ ${constructorName} ] })`;
+// globally in app.ts
+@App({ components: [ ${constructorName} ] })
+
+// or, locally in layouts, pages and components
+@Layout|Page|Component({ components: [ ${constructorName} ] })`;
       }
       case UIConsumerTargets.React: {
         const reactTag = `Tini${className}`;
         const reactPath = `@tinijs/ui-${familyId}-react/components/${this.componentName}.js`;
         return `import { ${reactTag}, ${constructorName} } from '${reactPath}';
 
-registerComponents([ ${constructorName} ])`;
+// globally before app initialization
+setupUI({ components: [ ${constructorName} ] });
+
+// or, locally in components
+registerComponents([ ${constructorName} ]);`;
       }
       case UIConsumerTargets.Vanilla: {
         const cdnPath = `https://cdn.jsdelivr.net/npm/@tinijs/ui-${familyId}/components/${this.componentName}.js`;
         return `import { ${constructorName} } from '${cdnPath}';
 
+// at the very beginning of a page
 setupUI({ components: [ ${constructorName} ] });`;
       }
       default: {
         return `import { ${constructorName} } from '${importPath}';
 
+// globally before app initialization
+setupUI({ components: [ ${constructorName} ] });
+
+// or, locally in components
 registerComponents([ ${constructorName} ]);`;
       }
     }
@@ -86,7 +99,8 @@ registerComponents([ ${constructorName} ]);`;
     return html`
       <p style="margin-bottom: var(--space-md)">
         Import and register the component either globally or locally, please see
-        <a href="/ui/get-started">Get started</a> for more details.
+        <a href="/ui/get-started">Get started</a> for how to add Tini UI to a
+        project.
       </p>
       <div class="main">
         <div class="head">

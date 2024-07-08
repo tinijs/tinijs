@@ -51,6 +51,7 @@ import {AppComponentEditorSwitchComponent} from './switch.js';
 import {AppComponentEditorHTMLComponent} from './html.js';
 import {AppComponentEditorCSSComponent} from './css.js';
 import {AppComponentEditorJSComponent} from './js.js';
+import {AppComponentEditorPlainComponent} from './plain.js';
 
 export interface QuickExample {
   content: string;
@@ -136,6 +137,7 @@ const componentLoader = createComponentLoader(
     AppComponentEditorHTMLComponent,
     AppComponentEditorCSSComponent,
     AppComponentEditorJSComponent,
+    AppComponentEditorPlainComponent,
   ],
 })
 export class AppComponentEditorComponent

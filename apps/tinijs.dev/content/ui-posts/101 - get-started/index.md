@@ -17,9 +17,9 @@ Working with reusable components is easy, usually in the form of passing props t
 Components are also able to accommodate almost any design systems with as little effort as possible. This is achieved via a theming system; the concept is this:
 
 - Components are written **only once**, they are **headless** (without specific styles)
-- Themes are organized into **Families** (aka. design systems), families define their own base characteristics, for example: Bootstrap, Material, Fluent, Spectrum, ...
+- Themes are organized into **Families** (aka. design systems), families define their own base characteristics, for example: Bootstrap, Material, Fluent, ...
 - Upon the base characteristics, a family have style variants, called **Skins**, for example, the Bootstrap family may have: Light skin, Dark skin, ...
-- A so called **Theme** is a combination of a family and a skin, for example: `bootstrap/light`, `bootstrap/dark`, ...
+- A so called **Theme** is a combination of a family and a skin, for example: `bootstrap/light`, `material/dark`, ...
 
 With the theming concept in mind, any app can have these theming capabilities:
 
@@ -214,15 +214,15 @@ ui.setTheme(themeId);
 
 Whether you use CDN, prebuilt packages or build UI with Tini CLI, there are some common endpoints to import stuffs depending on the need.
 
-| Endpoint | Description |
-| --- | --- |
-| `/setup.js` | `setupUI()`, all the skins and `availableSkins` (an object contains all skins) |
-| _Official components_ |
-| `/component.js` | all the components and `availableComponents` (an array of all components) |
-| `/components/<name>.js` | certain component only |
+| Endpoint                         | Description                                                                    |
+| -------------------------------- | ------------------------------------------------------------------------------ |
+| `/setup.js`                      | `setupUI()`, all the skins and `availableSkins` (an object contains all skins) |
+| _Official components_            |
+| `/component.js`                  | all the components and `availableComponents` (an array of all components)      |
+| `/components/<name>.js`          | certain component only                                                         |
 | _Icon components (if available)_ |
-| `/icon.js` | all the icon components and `availableIcons` (an array of all icon components) |
-| `/icons/<name>.js` | certain icon component only |
+| `/icon.js`                       | all the icon components and `availableIcons` (an array of all icon components) |
+| `/icons/<name>.js`               | certain icon component only                                                    |
 
 ## Setup UI details
 

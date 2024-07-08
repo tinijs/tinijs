@@ -17,8 +17,8 @@ npx tini module add <name>
 
 ## Options
 
-| Option | Description |
-| --- | --- |
+| Option                      | Description           |
+| --------------------------- | --------------------- |
 | `--version <value>` or `-v` | Use a custom version. |
 
 Please see [modules page](/module) for more information.

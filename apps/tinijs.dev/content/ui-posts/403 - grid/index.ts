@@ -7,8 +7,8 @@ import {AppComponentEditorComponent} from '../../../app/components/component-edi
 @Component({
   components: [AppComponentEditorComponent],
 })
-export class ContentUIPostBoxComponent extends TiniComponent {
-  static readonly defaultTagName = 'content-ui-post-box';
+export class ContentUIPostGridComponent extends TiniComponent {
+  static readonly defaultTagName = 'content-ui-post-grid';
 
   @Input() block!: string;
 
@@ -26,19 +26,11 @@ export class ContentUIPostBoxComponent extends TiniComponent {
   }
 
   private renderEditorBlock() {
+    const innerValue = `<div>Child 1</div>
+<div>Child 2</div>`;
     return html`
       <app-component-editor
-        name="box"
-        .examples=${{
-          test: {
-            content: 'Test',
-            items: [
-              {target: 'inner', value: 'Test test test.'},
-              {target: 'display', value: 'inline'},
-              {target: 'background', value: 'red'},
-            ],
-          },
-        }}
+        name="grid"
         .sections=${[
           {
             section: 'select',
@@ -47,9 +39,8 @@ export class ContentUIPostBoxComponent extends TiniComponent {
               items: [
                 {content: 'Default', value: '_default'},
                 {content: 'None', value: 'none'},
-                {content: 'Block', value: 'block'},
-                {content: 'Inline', value: 'inline'},
-                {content: 'Inline block', value: 'inline-block'},
+                {content: 'Grid', value: 'grid'},
+                {content: 'Inline grid', value: 'inline-grid'},
               ],
             },
             target: 'display',
@@ -58,7 +49,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
             section: 'html',
             attrs: {label: 'Text/html'},
             target: 'inner',
-            value: 'A box',
+            value: innerValue,
           },
           {
             section: 'css',
