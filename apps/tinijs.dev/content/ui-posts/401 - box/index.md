@@ -12,29 +12,4 @@
 
 ## Editor
 
-{%
-  app 'component-editor', {
-    name: 'box',
-    sections: [
-      {
-        section: 'html',
-        attrs: {label: 'Inner'},
-        target: 'inner',
-        value: 'This is a box.'
-      },
-      {
-        section: 'select',
-        attrs: {label: 'Background', preset: 'allColorsAndAllGradients'},
-        target: 'background'
-      },
-      {
-        section: 'css',
-        attrs: {
-          label: 'Style deep',
-          placeholder: ':host, .main, .any { ... }'
-        },
-        target: 'styleDeep'
-      }
-    ]
-  }
-%}{% endapp %}
+<content-ui-post-box block="editor"></content-ui-post-box>

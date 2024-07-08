@@ -17,7 +17,6 @@ export type SelectItem = SelectOption | SelectOptgroup;
 export interface SelectOption {
   value: string;
   content: string;
-  selected?: boolean;
   disabled?: boolean;
 }
 
@@ -44,6 +43,7 @@ export default class extends TiniElement {
 
   /* eslint-disable prettier/prettier */
   @property({type: Array}) items!: SelectItem[];
+  @property({type: String, reflect: true}) value?: string;
   @property({type: String, reflect: true}) label?: string;
   @property({type: String, reflect: true}) name?: string;
   @property({type: String, reflect: true}) autocomplete?: SelectAutoCompletes;
@@ -61,7 +61,7 @@ export default class extends TiniElement {
       );
   }
 
-  willUpdate(changedProperties: PropertyValues<this>) {
+  protected willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
     // default and validations
     this.validateProperties();
@@ -85,6 +85,7 @@ export default class extends TiniElement {
             class=${SelectParts.Select}
             part=${SelectParts.Select}
             name=${ifDefined(this.name)}
+            .value=${this.value || ''}
             autocomplete=${ifDefined(this.autocomplete)}
             ?disabled=${this.disabled}
           >
@@ -106,18 +107,9 @@ export default class extends TiniElement {
     );
   }
 
-  private getOptionTemplate({
-    value,
-    content,
-    selected = false,
-    disabled = false,
-  }: SelectOption) {
+  private getOptionTemplate({value, content, disabled = false}: SelectOption) {
     return html`
-      <option
-        value=${ifDefined(value)}
-        ?selected=${selected}
-        ?disabled=${disabled}
-      >
+      <option value=${ifDefined(value)} ?disabled=${disabled}>
         ${content}
       </option>
     `;

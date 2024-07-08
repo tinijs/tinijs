@@ -18,7 +18,6 @@ export interface CheckboxesItem {
   value: string;
   name?: string;
   label?: string;
-  checked?: boolean;
   disabled?: boolean;
 }
 
@@ -36,6 +35,7 @@ export default class extends TiniElement {
 
   /* eslint-disable prettier/prettier */
   @property({type: Array}) items!: CheckboxesItem[];
+  @property({type: String, reflect: true}) value?: string;
   @property({type: Boolean, reflect: true}) wrap?: boolean;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
   @property({type: String, reflect: true}) size?: Sizes;
@@ -48,7 +48,7 @@ export default class extends TiniElement {
       );
   }
 
-  willUpdate(changedProperties: PropertyValues<this>) {
+  protected willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
     // default and validations
     this.validateProperties();
@@ -69,9 +69,9 @@ export default class extends TiniElement {
     value,
     name,
     label,
-    checked = false,
     disabled = false,
   }: CheckboxesItem) {
+    const checked = value === this.value;
     const itemClasses = this.deriveClassNames(CheckboxesParts.Item, {
       checked,
       disabled,
@@ -82,8 +82,8 @@ export default class extends TiniElement {
           class=${CheckboxesParts.Input}
           part=${CheckboxesParts.Input}
           type="checkbox"
-          value=${ifDefined(value)}
           name=${ifDefined(name)}
+          value=${ifDefined(value)}
           ?checked=${checked}
           ?disabled=${disabled}
         />

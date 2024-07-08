@@ -32,6 +32,7 @@ export default class extends TiniElement {
 
   /* eslint-disable prettier/prettier */
   @property({type: Array}) items!: RadiosItem[];
+  @property({type: String, reflect: true}) value?: string;
   @property({type: String, reflect: true}) name!: string;
   @property({type: Boolean, reflect: true}) wrap?: boolean;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
@@ -46,7 +47,7 @@ export default class extends TiniElement {
       );
   }
 
-  willUpdate(changedProperties: PropertyValues<this>) {
+  protected willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
     // default and validations
     this.validateProperties();
@@ -63,12 +64,8 @@ export default class extends TiniElement {
     );
   }
 
-  private renderItemPart({
-    value,
-    label,
-    checked = false,
-    disabled = false,
-  }: RadiosItem) {
+  private renderItemPart({value, label, disabled = false}: RadiosItem) {
+    const checked = value === this.value;
     const itemClasses = this.deriveClassNames(RadiosParts.Item, {
       checked,
       disabled,

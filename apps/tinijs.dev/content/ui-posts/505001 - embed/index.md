@@ -27,7 +27,7 @@
         attrs: {
           label: 'Ratio',
           items: [
-            {content: 'Default (16/9)', value: '_default', selected: true},
+            {content: 'Default (16/9)', value: '_default'},
             {content: '4/3', value: '4/3'},
             {content: '1/1', value: '1/1'},
             {content: '9/16', value: '9/16'}

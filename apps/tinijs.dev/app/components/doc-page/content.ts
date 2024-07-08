@@ -190,6 +190,14 @@ export class AppDocPageContentComponent
             }
           }
 
+          & > h2 {
+            margin-top: var(--space-xl3);
+          }
+
+          & > h3 {
+            margin-top: var(--space-xl2);
+          }
+
           p,
           ul,
           ol {
@@ -206,7 +214,7 @@ export class AppDocPageContentComponent
           display: flex;
           align-items: center;
           gap: var(--space-xs2);
-          margin-top: var(--space-xl);
+          margin-top: var(--space-xl3);
         }
       }
     `,

@@ -217,4 +217,4 @@ Here is a list of major limitations worth mentioning. I will try to address them
 
 ### Server-side rendering
 
-SSR will not be available in the first version, I know it is a big bummer but I don't have much time and effort for it now. I hope I will be able to support fully SSR in the future. Apology for the inconvenience. 🙏
+SSR will not be available in the first version, I know it is a big bummer but I don't have much time and effort for it now. I hope I will be able to support fully SSR in the future, apology for the inconvenience. 🙏

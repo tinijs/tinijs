@@ -33,7 +33,7 @@
         attrs: {
           label: 'Target',
           items: [
-            {content: 'Default', value: '_default', selected: true},
+            {content: 'Default', value: '_default'},
             {content: '_blank', value: '_blank'},
             {content: '_parent', value: '_parent'},
             {content: '_top', value: '_top'}

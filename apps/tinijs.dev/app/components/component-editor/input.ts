@@ -1,4 +1,5 @@
 import {html, css} from 'lit';
+import {ifDefined} from 'lit/directives/if-defined.js';
 
 import {
   Component,
@@ -22,11 +23,15 @@ export class AppComponentEditorInputComponent
 
   @Input() label!: string;
   @Input() placeholder?: string;
+
+  @Input() target!: string;
   @Input() value?: string;
+
   @Output() change!: EventEmitter<string>;
 
   onCreate() {
     if (!this.label) throw new Error('label is required');
+    if (!this.target) throw new Error('target is required');
   }
 
   protected render() {
@@ -34,8 +39,8 @@ export class AppComponentEditorInputComponent
       <tini-input
         wrap
         block
-        .label=${this.label}
-        .placeholder=${this.placeholder}
+        label=${this.label}
+        placeholder=${ifDefined(this.placeholder)}
         .value=${this.value}
         events="change"
         @change=${({detail}: CustomEvent<InputEvent>) =>

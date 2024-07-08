@@ -27,7 +27,7 @@
         attrs: {
           label: 'Level',
           items: [
-            {content: 'Default', value: '_default', selected: true},
+            {content: 'Default', value: '_default'},
             {content: '2', value: '2'},
             {content: '3', value: '3'},
             {content: '4', value: '4'},

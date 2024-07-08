@@ -26,12 +26,12 @@ import {Subscribe} from '@tinijs/store';
 import {TiniLinkComponent} from '../../ui/components/link.js';
 import {TiniIconComponent} from '../../ui/components/icon.js';
 import {TiniCodeComponent} from '../../ui/components/code.js';
+import {TiniSelectComponent} from '../../ui/components/select.js';
 
 import {UIConsumerTargets} from '../../consts/common.js';
 
 import {mainStore} from '../../stores/main.js';
 
-import {parseName, type Names} from '../../utils/name.js';
 import {buildUsageCode, buildPreviewCode} from '../../utils/code.js';
 
 import {IconExpandComponent} from '../../icons/expand.js';
@@ -51,6 +51,14 @@ import {AppComponentEditorSwitchComponent} from './switch.js';
 import {AppComponentEditorHTMLComponent} from './html.js';
 import {AppComponentEditorCSSComponent} from './css.js';
 import {AppComponentEditorJSComponent} from './js.js';
+
+export interface QuickExample {
+  content: string;
+  items: Array<{
+    target: string;
+    value: any;
+  }>;
+}
 
 export interface FunctionSection {
   section: string;
@@ -113,6 +121,7 @@ const componentLoader = createComponentLoader(
     TiniLinkComponent,
     TiniIconComponent,
     TiniCodeComponent,
+    TiniSelectComponent,
     IconMobileComponent,
     IconTabletComponent,
     IconTVComponent,
@@ -138,10 +147,12 @@ export class AppComponentEditorComponent
   @Subscribe(mainStore) uiConsumerTarget = mainStore.uiConsumerTarget;
 
   @Input() name!: string;
+  @Input({type: Object}) examples?: Record<string, QuickExample>;
   @Input({type: Object}) sections!: FunctionSection[];
 
   @Reactive() commonViewport?: string;
   @Reactive() isFullscreen = false;
+  @Reactive() selectedExampleValue = '_default';
   @Reactive() data?: ComponentData;
 
   private readonly _mainRef = createRef<HTMLDivElement>();
@@ -152,22 +163,11 @@ export class AppComponentEditorComponent
   usageCode?: string;
   previewTemplate?: TemplateResult;
 
-  private names!: Names;
   onCreate() {
     if (!this.name) throw new Error('name is required');
     if (!this.sections) throw new Error('sections is required');
-    // parse name
-    this.names = parseName(this.name);
-    // initial data
-    this.data = this.sections.reduce((result, {target, value}) => {
-      if (target === 'inner') {
-        if (value) result.inner = value;
-      } else {
-        if (!result.props) result.props = {};
-        if (value) result.props[target] = value;
-      }
-      return result;
-    }, {} as ComponentData);
+    // build initial data
+    this.data = this.getInitialData();
   }
 
   onChanges() {
@@ -178,8 +178,11 @@ export class AppComponentEditorComponent
       componentLoader.extractAndLoad([[this.name], this.data?.inner]);
     }
     // build codes
-    this.usageCode = this.buildUsageCode();
-    this.previewTemplate = this.buildPreviewCode();
+    this.usageCode = buildUsageCode(this.uiConsumerTarget, {
+      ...this.data,
+      name: this.name,
+    });
+    this.previewTemplate = buildPreviewCode({...this.data, name: this.name});
   }
 
   private originalAvailableWidth!: number;
@@ -216,17 +219,6 @@ export class AppComponentEditorComponent
         }),
       ],
     });
-  }
-
-  private buildUsageCode() {
-    return buildUsageCode(this.uiConsumerTarget, {
-      ...this.data,
-      name: this.name,
-    });
-  }
-
-  private buildPreviewCode() {
-    return buildPreviewCode({...this.data, name: this.name});
   }
 
   private changeCommonViewport(viewport: CommonViewports) {
@@ -266,6 +258,51 @@ export class AppComponentEditorComponent
     }
   }
 
+  private getInitialData() {
+    return this.sections.reduce((result, {target, value}) => {
+      if (target === 'inner') {
+        if (value) result.inner = value;
+      } else {
+        if (!result.props) result.props = {};
+        if (value) result.props[target] = value;
+      }
+      return result;
+    }, {} as ComponentData);
+  }
+
+  private changeExample({detail}: CustomEvent<InputEvent>) {
+    const value = (detail.target as any).value as string;
+    const example = this.examples![value];
+    this.data = {}; // reset data
+    if (!example) {
+      this.selectedExampleValue = '_default';
+      this.data = this.getInitialData();
+    } else {
+      this.selectedExampleValue = value;
+      example.items.forEach(({target, value}) => {
+        this.changeComponentData(target, value, true);
+      });
+    }
+  }
+
+  private changeComponentData(target: string, value: any, keepExample = false) {
+    // reset example
+    if (!keepExample) this.selectedExampleValue = '_default';
+    // update data
+    const data = {...this.data};
+    if (target === 'inner') {
+      data.inner = value;
+    } else {
+      data.props ||= {};
+      if (!value || value === '_default') {
+        delete data.props[target];
+      } else {
+        data.props[target] = value;
+      }
+    }
+    this.data = data;
+  }
+
   protected render() {
     return html`
       <div
@@ -286,11 +323,45 @@ export class AppComponentEditorComponent
   }
 
   private getEditTemplate() {
+    const selectedExample = (
+      this.examples?.[this.selectedExampleValue!]?.items || []
+    ).reduce(
+      (result, item) => {
+        result[item.target] = item.value;
+        return result;
+      },
+      {} as Record<string, any>
+    );
+    const currentData: Record<string, any> = {
+      ...this.data?.props,
+      inner: this.data?.inner,
+    };
+    const examplesTemplate = !this.examples
+      ? nothing
+      : html`
+          <div class="examples">
+            <tini-select
+              wrap
+              block
+              label="Quick examples"
+              .items=${[
+                {value: '_default', content: 'None (manually)'},
+                ...Object.entries(this.examples).map(([value, {content}]) => ({
+                  value,
+                  content,
+                })),
+              ]}
+              .value=${this.selectedExampleValue}
+              events="change"
+              @change=${this.changeExample}
+            ></tini-select>
+          </div>
+          <hr />
+        `;
     const editTemplate = !this.sections.length
       ? nothing
-      : this.sections.map(({section, attrs, target, value}) => {
+      : this.sections.map(({section, attrs, target}) => {
           const tag = unsafeStatic(`app-component-editor-${section}`);
-          // attributes
           const attributes = !attrs
             ? ''
             : unsafeStatic(
@@ -308,27 +379,15 @@ export class AppComponentEditorComponent
                   .filter(Boolean)
                   .join(' ')
               );
-          // value event
-          const onChange = (value: any) => {
-            const data = {...this.data};
-            if (target === 'inner') {
-              data.inner = value;
-            } else {
-              data.props ||= {};
-              if (!value || value === '_default') {
-                delete data.props[target];
-              } else {
-                data.props[target] = value;
-              }
-            }
-            this.data = data;
-          };
-          // build section
           return staticHTML`
-        <${tag} ${attributes} .value=${value} @change=${({
-          detail,
-        }: CustomEvent<any>) => onChange(detail)}></${tag}>
-      `;
+            <${tag}
+              ${attributes}
+              target=${target}
+              .value=${selectedExample[target] || currentData[target]}
+              @change=${({detail}: CustomEvent<any>) =>
+                this.changeComponentData(target, detail)}
+            ></${tag}>
+          `;
         });
     return html`
       <div class="head">
@@ -338,7 +397,7 @@ export class AppComponentEditorComponent
           : html`<app-skin-editor-toggler></app-skin-editor-toggler>`}
       </div>
       <div class="body">
-        ${editTemplate}
+        ${examplesTemplate} ${editTemplate}
         <div class="foot">
           <!-- <a href="/ui/customization">Not sastify, more options?</a> -->
         </div>
@@ -477,6 +536,20 @@ export class AppComponentEditorComponent
         display: flex;
         flex-flow: column;
         gap: var(--space-lg);
+
+        .examples {
+          border: 1px solid var(--color-medium);
+          border-radius: var(--radius-md);
+          padding: var(--space-md);
+          background: var(--gradient-body);
+
+          tini-select::part(label) {
+            font-weight: bold;
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            margin-top: -4px;
+          }
+        }
       }
     }
 
