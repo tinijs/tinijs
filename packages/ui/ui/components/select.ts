@@ -108,8 +108,13 @@ export default class extends TiniElement {
   }
 
   private getOptionTemplate({value, content, disabled = false}: SelectOption) {
+    const selected = value === this.value;
     return html`
-      <option value=${ifDefined(value)} ?disabled=${disabled}>
+      <option
+        value=${ifDefined(value)}
+        ?selected=${selected}
+        ?disabled=${disabled}
+      >
         ${content}
       </option>
     `;

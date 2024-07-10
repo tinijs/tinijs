@@ -41,7 +41,7 @@ export class AppPageHome extends TiniComponent {
           </h2>
           <p>
             A small, fast and interoperable framework for building
-            <strong>Landing Page</strong>, <strong>SPA</strong>,
+            <strong>Landing Pages</strong>, <strong>SPA</strong>,
             <strong>PWA</strong>, <strong>Desktop</strong> and
             <strong>Mobile</strong> apps.
           </p>

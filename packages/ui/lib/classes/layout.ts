@@ -239,7 +239,7 @@ export class BaseLayoutElement extends TiniElement {
   @property({type: String, reflect: true}) outlineOffset?: LayoutProps['outlineOffset'];
   // effect
   @property({type: String, reflect: true}) transform?: LayoutProps['transform'];
-  @property({type: String, reflect: true}) translate: any = ''; // override the native 'translate' attribute
+  @property({type: String, reflect: true}) translate: any; // override the native 'translate' attribute
   @property({type: String, reflect: true}) scale?: LayoutProps['scale'];
   @property({type: String, reflect: true}) rotate?: LayoutProps['rotate'];
   @property({type: String, reflect: true}) transition?: LayoutProps['transition'];
@@ -346,7 +346,7 @@ export class BaseLayoutElement extends TiniElement {
     if (props.outlineOffset) result.push(`outline-offset: ${parseLayoutSingleSpaceValue(props.outlineOffset)};`);
     // effect
     if (props.transform) result.push(`transform: ${props.transform};`);
-    if (props.translate) result.push(`translate: ${props.translate};`);
+    if (props.translate) result.push(`translate: ${parseLayoutMultipleSpaceValue(props.translate)};`);
     if (props.scale) result.push(`scale: ${props.scale};`);
     if (props.rotate) result.push(`rotate: ${props.rotate};`);
     if (props.transition) result.push(`transition: ${props.transition};`);

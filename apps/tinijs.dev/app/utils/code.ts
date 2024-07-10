@@ -10,76 +10,112 @@ export interface BuildCodeDef {
   props?: Record<string, any>;
 }
 
-function buildUsageProperties(
-  props: Record<string, any> | undefined,
-  nonPrimitiveModifiers: [string, string, string, string] = [
-    '.',
-    '',
-    '${',
-    '}',
-  ],
-  stringifyObject = false
-) {
-  const [prefix, suffix, open, close] = nonPrimitiveModifiers;
-  return !props
-    ? ''
-    : Object.entries(props)
-        .map(([key, value]) => {
-          if (!value) return null;
-          if (value === true) {
-            return key;
-          } else if (typeof value === 'number') {
-            return `${prefix}${key}${suffix}=${open}${value}${close}`;
-          } else if (value instanceof Object) {
-            return `${prefix}${key}${suffix}=${open}${
-              stringifyObject
-                ? JSON.stringify(value, null, 2)
-                : JSON5.stringify(value, null, 2)
-            }${close}`;
-          } else {
-            return `${key}="${value}"`;
-          }
-        })
-        .filter(Boolean)
-        .join(' ');
-}
-
 export function buildUsageCode(
   consumerTarget: UIConsumerTargets,
   def: BuildCodeDef
 ) {
   const {name, props = {}, inner = ''} = def;
   let tag = `tini-${name}`;
-  let properties!: string;
+  // utils
+  const hasLinebreak = (str: string) =>
+    str.indexOf('\r') !== -1 || str.indexOf('\n') !== -1;
+  const addIndent = (str: string) =>
+    str
+      .replace(/(?:\r\n|\r|\n)/g, '\n')
+      .split('\n')
+      .map(item => `  ${item}`)
+      .join('\n');
+  const buildUsageProps = (
+    props: Record<string, any> | undefined,
+    nonPrimitiveModifiers: [string, string, string, string] = [
+      '.',
+      '',
+      '${',
+      '}',
+    ],
+    {
+      stringifyObject = false,
+      implicitBoolean = false,
+    }: {
+      stringifyObject?: boolean;
+      implicitBoolean?: boolean;
+    } = {}
+  ) => {
+    const [prefix, suffix, open, close] = nonPrimitiveModifiers;
+    const propsArr = !props
+      ? []
+      : (Object.entries(props)
+          .map(([key, value]) => {
+            if (!value) return null;
+            if (value === true) {
+              return !implicitBoolean ? key : `${key}="true"`;
+            } else if (typeof value === 'number') {
+              return `${prefix}${key}${suffix}=${open}${value}${close}`;
+            } else if (value instanceof Object) {
+              return `${prefix}${key}${suffix}=${open}${
+                stringifyObject
+                  ? JSON.stringify(value, null, 2)
+                  : JSON5.stringify(value, null, 2)
+              }${close}`;
+            } else {
+              return `${key}="${
+                !hasLinebreak(value) ? value : `\n${addIndent(value)}\n`
+              }"`;
+            }
+          })
+          .filter(Boolean) as string[]);
+    const propsStr = propsArr.join(' ');
+    // no props
+    if (!propsArr.length) return '';
+    // short props
+    if (propsStr.length <= 32 && !hasLinebreak(propsStr)) return ` ${propsStr}`;
+    // long/multiline props
+    return `\n${propsArr.map(prop => addIndent(prop)).join('\n')}\n`;
+  };
+  // build props content
+  let propsContent!: string;
   switch (consumerTarget) {
     case UIConsumerTargets.Vue: {
-      properties = buildUsageProperties(props, ['.', '', '"', '"']);
+      propsContent = buildUsageProps(props, ['.', '', '"', '"'], {
+        implicitBoolean: true,
+      });
       break;
     }
     case UIConsumerTargets.React: {
       tag = `Tini${pascalCase(name)}`;
-      properties = buildUsageProperties(props, ['', '', '{', '}']);
+      propsContent = buildUsageProps(props, ['', '', '{', '}']);
       break;
     }
     case UIConsumerTargets.Angular: {
-      properties = buildUsageProperties(props, ['[', ']', '"', '"']);
+      propsContent = buildUsageProps(props, ['[', ']', '"', '"']);
       break;
     }
     case UIConsumerTargets.Svelte: {
-      properties = buildUsageProperties(props, ['', '', '{', '}']);
+      propsContent = buildUsageProps(props, ['', '', '{', '}'], {
+        implicitBoolean: true,
+      });
       break;
     }
     case UIConsumerTargets.Vanilla: {
-      properties = buildUsageProperties(props, ['', '', "'", "'"], true);
+      propsContent = buildUsageProps(props, ['', '', "'", "'"], {
+        stringifyObject: true,
+      });
       break;
     }
     case UIConsumerTargets.Tini:
     default: {
-      properties = buildUsageProperties(props);
+      propsContent = buildUsageProps(props);
       break;
     }
   }
-  return `<${tag}${!properties ? '' : ` ${properties}`}>${inner}</${tag}>`;
+  // build inner content
+  const innerContent = !inner
+    ? '' // no inner
+    : inner.length <= 32 && !hasLinebreak(inner)
+      ? inner // short inner
+      : `\n${addIndent(inner)}\n`; // long/multiline inner
+  // result
+  return `<${tag}${propsContent}>${innerContent}</${tag}>`;
 }
 
 export function buildPreviewCode(def: BuildCodeDef) {

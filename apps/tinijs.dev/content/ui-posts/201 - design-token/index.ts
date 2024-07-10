@@ -546,20 +546,26 @@ export class ContentUIPostTokenComponent
       <table>
         <tr>
           <th>Viewport</th>
+          <th>Key</th>
           <th>Media query</th>
         </tr>
 
         ${[
-          ['X-Small devices (portrait phones)', 'default, no media query'],
-          ['Small devices (landscape phones)', '(min-width: 576px)'],
-          ['Medium devices (tablets)', '(min-width: 768px)'],
-          ['Large devices (desktops)', '(min-width: 992px)'],
-          ['X-Large devices (large desktops)', '(min-width: 1200px)'],
-          ['XX-Large devices (larger desktops)', '(min-width: 1400px)'],
-        ].map(([viewport, query]) => {
+          [
+            'X-Small devices (portrait phones)',
+            null,
+            'default, no media query',
+          ],
+          ['Small devices (landscape phones)', 'xs', '(min-width: 576px)'],
+          ['Medium devices (tablets)', 'sm', '(min-width: 768px)'],
+          ['Large devices (desktops)', 'md', '(min-width: 992px)'],
+          ['X-Large devices (large desktops)', 'lg', '(min-width: 1200px)'],
+          ['XX-Large devices (larger desktops)', 'xl', '(min-width: 1400px)'],
+        ].map(([viewport, key, query]) => {
           return html`
             <tr>
               <td><strong>${viewport}</strong></td>
+              <td>${!key ? nothing : html`<code>${key}</code>`}</td>
               <td><code>${query}</code></td>
             </tr>
           `;

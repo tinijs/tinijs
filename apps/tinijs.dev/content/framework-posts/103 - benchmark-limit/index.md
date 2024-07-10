@@ -14,7 +14,7 @@ This article provides an insight into the performance aspect and the limitations
 
 ## Overhead benchmark
 
-This benchmark is about the usability of the TiniJS framework, please use it as a suggested guide to determine if it is within the acceptable range for your project. For the raw performance, please refer the result of [lit-v3.0.0 at js-framework-benchmark](https://krausest.github.io/js-framework-benchmark/current.html). TiniJS is based on Lit, therefore the raw performance should be similar.
+This benchmark is about the usability of the TiniJS framework, please use it as a suggested guide to determine if it is within the acceptable range for your project. For the raw performance, please refer the result of [lit-v3.0.0 at js-framework-benchmark](https://krausest.github.io/js-framework-benchmark/current.html), TiniJS is based on Lit, therefore the raw performance should be similar.
 
 These below metrics are about the overhead of the corresponding frameworks, audited using Chrome Lighthouse (mode = **navigation**, device = **mobile**, category = **performance**), on a Macbook Pro M1 32GB (2021).
 
@@ -213,8 +213,29 @@ Additional notes:
 
 ## Limitations
 
-Here is a list of major limitations worth mentioning. I will try to address them in the future versions hopefully.
+Here is a list of major limitations worth mentioning, I will try to address them in the future versions hopefully.
 
 ### Server-side rendering
 
-SSR will not be available in the first version, I know it is a big bummer but I don't have much time and effort for it now. I hope I will be able to support fully SSR in the future, apology for the inconvenience. 🙏
+SSR will not be available in the first version, I know it is a bummer but I don't have much time and effort for it just yet. I do really hope it will be able to support full SSR in the future, apology for the inconvenience. 🙏
+
+But, is it usable without SSR? Well, it depends on the kind of apps and other factors. SSR has advantages and disavantages that we should consider before deciding to include in our apps or not.
+
+In my opinion, there are 2 kinds of apps:
+- _For human only_: if you are building **landing pages** or **mobile apps** or **desktop apps** or even **PWA apps** and **non-public facing web apps**, then SSR is unnecessary.
+- _For human and bot_: the rest belongs to the group of **public facing multi-routes web apps**, where pages are accessed by URLs, in this case, SSR provides certain benefits.
+
+The main benefits of SSR compared to SPA:
+
+| Pros                             | SSR                                                                                              | TiniJS (SPA)                                                                                    |
+| -------------------------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| **SEO and Social media sharing** | Search engines and social media crawlers can crawl and index server-side rendered pages natively | Google crawlers are able to index SPA applications but it is not as good as SSR                 |
+| **Loading performance**          | The initial page load is expected to be faster and the whole page appears at once                | TiniJS apps is small and fast, loading indicators are not very bad as long as it is fast enough |
+
+Beside the benefits, SSR has some drawbacks:
+
+| Cons                             | SSR                                                                                                                                                                                | TiniJS (SPA)                                                                                                              |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| **Interactives**                 | Not very good for highly interactive apps                                                                                                                                          | Provide app-like experience with smooth interactions                                                                      |
+| **Cost and complexity**          | It requires more effort and cost for infrastructure, it is mandatory for enterprise apps, but for small and medium projects, it is a burden                                        | Requires much less server capability to serve SPA apps, therefore reducing cost and maintaining effort                    |
+| **Incompatable and inefficient** | Fragmentation of features between server and client, incompatible with some libraries and tools. Double the energy for rendering content on the server and hydrating on the client | SPA apps care only about the client side, utilizing the free power of end user devices to render content and interactions |

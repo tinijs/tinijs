@@ -687,6 +687,12 @@ export class AppComponentEditorComponent
 
         main {
           flex: 1;
+          display: flex;
+          flex-direction: column;
+
+          .preview {
+            flex: 1;
+          }
         }
       }
     }

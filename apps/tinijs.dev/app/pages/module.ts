@@ -1,6 +1,6 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent, Texts, Radiuses} from '@tinijs/core';
+import {Page, TiniComponent, Texts, Spaces, Radiuses} from '@tinijs/core';
 
 import {GITHUB_CONTENT_PATH} from '../consts/common.js';
 
@@ -31,11 +31,9 @@ export class AppPageModule extends TiniComponent {
   private _getHomeTemplate() {
     return html`
       <tini-box
-        style="
-          padding: 0 var(--space-xl);
-          --background: var(--gradient-mello-yellow-semi)
-        "
+        background="var(--gradient-mello-yellow-semi)"
         radius=${Radiuses.XL}
+        padding=${Spaces.XL}
       >
         <tini-heading>Tini Modules</tini-heading>
         <tini-text size=${Texts.LG}>
