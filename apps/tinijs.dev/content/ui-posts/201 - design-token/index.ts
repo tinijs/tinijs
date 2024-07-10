@@ -15,7 +15,7 @@ import {
   Spaces,
   Radiuses,
   Borders,
-  Rings,
+  Outlines,
   Lines,
   Letters,
   Wides,
@@ -62,8 +62,8 @@ export class ContentUIPostTokenComponent
         return this.renderRadiusBlock();
       case 'border':
         return this.renderBorderBlock();
-      case 'ring':
-        return this.renderRingBlock();
+      case 'outline':
+        return this.renderOutlineBlock();
       case 'shadow':
         return this.renderShadowBlock();
       case 'wide':
@@ -445,7 +445,7 @@ export class ContentUIPostTokenComponent
     `;
   }
 
-  private renderRingBlock() {
+  private renderOutlineBlock() {
     return html`
       <table>
         <tr>
@@ -455,8 +455,8 @@ export class ContentUIPostTokenComponent
           <th>Preview</th>
         </tr>
 
-        ${Object.entries(Rings).map(([name, value]) => {
-          const varName = `--ring-${value}`;
+        ${Object.entries(Outlines).map(([name, value]) => {
+          const varName = `--outline-${value}`;
           const varValue = computedStyle.getPropertyValue(varName);
           return html`
             <tr>

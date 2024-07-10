@@ -127,7 +127,7 @@ function generateBorderVars() {
   );
 }
 
-function generateRingVars() {
+function generateOutlineVars() {
   const items: [string, number][] = [
     ['sm', 0.5],
     ['md', 1],
@@ -135,10 +135,11 @@ function generateRingVars() {
     ['xl', 3],
   ];
   return (
-    '--ring-zero: 0;\n  ' +
+    '--outline-zero: 0;\n  ' +
     items
       .map(
-        ([name, value]) => `--ring-${name}: calc(var(--size-ring) * ${value});`
+        ([name, value]) =>
+          `--outline-${name}: calc(var(--size-outline) * ${value});`
       )
       .join(JOIN)
   );
@@ -203,7 +204,7 @@ export function getSkinUtils() {
   const spaceVars = generateSpaceVars();
   const radiusVars = generateRadiusVars();
   const borderVars = generateBorderVars();
-  const ringVars = generateRingVars();
+  const ringVars = generateOutlineVars();
   const lineVars = generateLineVars();
   const letterVars = generateLetterVars();
   const wideVars = generateWideVars();

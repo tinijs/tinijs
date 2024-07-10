@@ -8,7 +8,7 @@ import {
   SHADOWS,
   RADIUSES,
   BORDERS,
-  RINGS,
+  OUTLINES,
   WIDES,
 } from '@tinijs/core';
 
@@ -27,7 +27,7 @@ const SPACES_MAP = createListMap(SPACES);
 const SHADOWS_MAP = createListMap(SHADOWS);
 const RADIUSES_MAP = createListMap(RADIUSES);
 const BORDERS_MAP = createListMap(BORDERS);
-const RINGS_MAP = createListMap(RINGS);
+const OUTLINES_MAP = createListMap(OUTLINES);
 const WIDES_MAP = createListMap(WIDES);
 const BREAKPOINTS: Record<string, string> = {
   xs: '576px',
@@ -157,12 +157,12 @@ export function parseLayoutBorderValue(raw: string) {
     .join(' ');
 }
 
-export function parseLayoutRingValue(raw: string) {
+export function parseLayoutOutlineValue(raw: string) {
   return raw
     .split(' ')
     .map(item =>
-      RINGS_MAP[item]
-        ? `var(--ring-${item})`
+      OUTLINES_MAP[item]
+        ? `var(--outline-${item})`
         : ALL_COLORS_MAP[item]
           ? `var(--color-${item})`
           : item
@@ -342,7 +342,7 @@ export class BaseLayoutElement extends TiniElement {
     if (props.borderRight) result.push(`border-right: ${parseLayoutBorderValue(props.borderRight)};`);
     if (props.borderBottom) result.push(`border-bottom: ${parseLayoutBorderValue(props.borderBottom)};`);
     if (props.borderLeft) result.push(`border-left: ${parseLayoutBorderValue(props.borderLeft)};`);
-    if (props.outline) result.push(`outline: ${parseLayoutRingValue(props.outline)};`);
+    if (props.outline) result.push(`outline: ${parseLayoutOutlineValue(props.outline)};`);
     if (props.outlineOffset) result.push(`outline-offset: ${parseLayoutSingleSpaceValue(props.outlineOffset)};`);
     // effect
     if (props.transform) result.push(`transform: ${props.transform};`);

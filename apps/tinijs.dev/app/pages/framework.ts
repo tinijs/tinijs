@@ -1,6 +1,13 @@
 import {html} from 'lit';
 
-import {Page, TiniComponent, SubtleColors, Texts, Spaces, Radiuses} from '@tinijs/core';
+import {
+  Page,
+  TiniComponent,
+  SubtleColors,
+  Texts,
+  Spaces,
+  Radiuses,
+} from '@tinijs/core';
 import {TiniMessageComponent} from '../ui/components/message.js';
 
 import {GITHUB_CONTENT_PATH} from '../consts/common.js';

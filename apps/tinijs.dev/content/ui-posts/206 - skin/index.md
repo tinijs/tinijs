@@ -53,7 +53,7 @@ At the basic level, a skin contains a fundamental set of variables, includes:
 | `--size-space`                    | Space size                                       |
 | `--size-radius`                   | Border radius                                    |
 | `--size-border`                   | Border size                                      |
-| `--size-ring`                     | Outline size                                     |
+| `--size-outline`                  | Outline size                                     |
 | `--size-line`                     | Line height                                      |
 | `--size-letter`                   | Letter spacing                                   |
 | _Shadow group_                    |

@@ -89,9 +89,9 @@ To create more advance gradients, define them manually one by one, for example:
 
 <content-ui-post-token block="border"></content-ui-post-token>
 
-### Rings
+### Outlines
 
-<content-ui-post-token block="ring"></content-ui-post-token>
+<content-ui-post-token block="outline"></content-ui-post-token>
 
 ## Shadows
 

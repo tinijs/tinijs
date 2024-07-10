@@ -245,14 +245,14 @@ export enum Borders {
 }
 export const BORDERS = Object.values(Borders);
 
-export enum Rings {
+export enum Outlines {
   Zero = 'zero',
   SM = 'sm',
   MD = 'md',
   LG = 'lg',
   XL = 'xl',
 }
-export const RINGS = Object.values(Rings);
+export const OUTLINES = Object.values(Outlines);
 
 export enum Lines {
   XS = 'xs',
