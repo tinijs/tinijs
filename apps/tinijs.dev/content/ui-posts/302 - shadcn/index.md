@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Shadcn",
-  "category": "family"
+  "category": "families"
 }
 +++
 

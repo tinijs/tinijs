@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Node servers",
-  "category": "backend"
+  "category": "backends"
 }
 +++
 

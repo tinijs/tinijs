@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Firebase and Supabase",
-  "category": "backend"
+  "category": "backends"
 }
 +++
 

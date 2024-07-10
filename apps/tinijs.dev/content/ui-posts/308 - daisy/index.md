@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Daisy",
-  "category": "family"
+  "category": "families"
 }
 +++
 

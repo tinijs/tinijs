@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Native Elements",
-  "category": "guide"
+  "category": "guides"
 }
 +++
 

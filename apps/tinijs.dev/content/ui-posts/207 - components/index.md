@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Components",
-  "category": "guide"
+  "category": "guides"
 }
 +++
 

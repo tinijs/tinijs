@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Svelte",
-  "category": "guide"
+  "category": "guides"
 }
 +++
 

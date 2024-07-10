@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Fluent",
-  "category": "family"
+  "category": "families"
 }
 +++
 

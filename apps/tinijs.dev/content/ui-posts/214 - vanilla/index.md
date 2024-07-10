@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Vanilla and Servers",
-  "category": "guide"
+  "category": "guides"
 }
 +++
 

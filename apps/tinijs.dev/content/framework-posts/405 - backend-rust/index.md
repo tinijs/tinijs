@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Rust servers",
-  "category": "backend"
+  "category": "backends"
 }
 +++
 

@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Angular",
-  "category": "guide"
+  "category": "guides"
 }
 +++
 

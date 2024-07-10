@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Material",
-  "category": "family"
+  "category": "families"
 }
 +++
 

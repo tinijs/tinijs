@@ -2,7 +2,7 @@
 {
   "status": "draft",
   "title": "Dialog",
-  "category": "component"
+  "category": "components"
 }
 +++
 

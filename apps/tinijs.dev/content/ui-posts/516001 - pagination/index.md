@@ -2,7 +2,7 @@
 {
   "status": "draft",
   "title": "Pagination",
-  "category": "component"
+  "category": "components"
 }
 +++
 

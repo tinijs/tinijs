@@ -2,7 +2,7 @@
 {
   "status": "draft",
   "title": "Card",
-  "category": "component"
+  "category": "components"
 }
 +++
 

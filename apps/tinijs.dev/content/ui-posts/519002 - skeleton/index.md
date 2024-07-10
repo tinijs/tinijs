@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Skeleton",
-  "category": "component"
+  "category": "components"
 }
 +++
 

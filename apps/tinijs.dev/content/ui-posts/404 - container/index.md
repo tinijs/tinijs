@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Container",
-  "category": "layout"
+  "category": "layouts"
 }
 +++
 
@@ -22,8 +22,8 @@
 | `size`             | `string` - valid CSS values or [wides](/ui/design-token#wides)                                                                                              | -       |
 | `align`            | `left`, `center` or `right`                                                                                                                                 | -       |
 | _Responsive_       |
-| `mediaQueries`     | `Record<string, BoxProps>` - query keys can be [breakpoints](/ui/design-token#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `(min-width: 500px)`      | -       |
-| `containerQueries` | `Record<string, BoxProps>` - query keys can be [breakpoints](/ui/design-token#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `container-name (min-width: 500px)` | -       |
+| `mediaQueries`     | `Record<string, ContainerProps>` - query keys can be [breakpoints](/ui/design-token#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `(min-width: 500px)`      | -       |
+| `containerQueries` | `Record<string, ContainerProps>` - query keys can be [breakpoints](/ui/design-token#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `container-name (min-width: 500px)` | -       |
 | _Common utilities_ |
 | `container`        | `string`                                                                                                                                                    | -       |
 | `containerName`    | `string`                                                                                                                                                    | -       |

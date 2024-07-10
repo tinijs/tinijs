@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "React",
-  "category": "guide"
+  "category": "guides"
 }
 +++
 

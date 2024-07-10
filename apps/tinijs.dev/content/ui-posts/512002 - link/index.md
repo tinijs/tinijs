@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Link",
-  "category": "component"
+  "category": "components"
 }
 +++
 

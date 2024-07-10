@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Vue and Nuxt",
-  "category": "guide"
+  "category": "guides"
 }
 +++
 

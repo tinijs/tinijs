@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Chakra",
-  "category": "family"
+  "category": "families"
 }
 +++
 

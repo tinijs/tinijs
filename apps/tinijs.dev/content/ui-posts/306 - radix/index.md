@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Radix",
-  "category": "family"
+  "category": "families"
 }
 +++
 

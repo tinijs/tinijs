@@ -2,7 +2,7 @@
 {
   "status": "draft",
   "title": "Message",
-  "category": "component"
+  "category": "components"
 }
 +++
 

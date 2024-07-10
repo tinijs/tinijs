@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Bootstrap",
-  "category": "family"
+  "category": "families"
 }
 +++
 

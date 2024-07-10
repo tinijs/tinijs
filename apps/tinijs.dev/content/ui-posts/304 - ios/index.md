@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "iOS",
-  "category": "family"
+  "category": "families"
 }
 +++
 

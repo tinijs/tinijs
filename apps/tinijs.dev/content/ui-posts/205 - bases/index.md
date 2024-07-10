@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Base Styles",
-  "category": "guide"
+  "category": "guides"
 }
 +++
 

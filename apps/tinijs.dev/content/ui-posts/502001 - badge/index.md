@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Badge",
-  "category": "component"
+  "category": "components"
 }
 +++
 

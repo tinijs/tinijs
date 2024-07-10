@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Icon Components",
-  "category": "guide"
+  "category": "guides"
 }
 +++
 

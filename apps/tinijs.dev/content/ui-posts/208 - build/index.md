@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Build Packages",
-  "category": "guide"
+  "category": "guides"
 }
 +++
 

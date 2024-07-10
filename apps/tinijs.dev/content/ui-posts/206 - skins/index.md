@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Family Skins",
-  "category": "guide"
+  "category": "guides"
 }
 +++
 

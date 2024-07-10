@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Embed",
-  "category": "component"
+  "category": "components"
 }
 +++
 

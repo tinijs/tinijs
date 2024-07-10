@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Flex",
-  "category": "layout"
+  "category": "layouts"
 }
 +++
 
@@ -32,8 +32,8 @@
 | `rowGap`           | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
 | `columnGap`        | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
 | _Responsive_       |
-| `mediaQueries`     | `Record<string, BoxProps>` - query keys can be [breakpoints](/ui/design-token#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `(min-width: 500px)`      | -       |
-| `containerQueries` | `Record<string, BoxProps>` - query keys can be [breakpoints](/ui/design-token#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `container-name (min-width: 500px)` | -       |
+| `mediaQueries`     | `Record<string, FlexProps>` - query keys can be [breakpoints](/ui/design-token#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `(min-width: 500px)`      | -       |
+| `containerQueries` | `Record<string, FlexProps>` - query keys can be [breakpoints](/ui/design-token#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `container-name (min-width: 500px)` | -       |
 | _Common utilities_ |
 | `container`        | `string`                                                                                                                                                    | -       |
 | `containerName`    | `string`                                                                                                                                                    | -       |

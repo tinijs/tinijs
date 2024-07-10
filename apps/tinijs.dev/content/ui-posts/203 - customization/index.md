@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Customization",
-  "category": "guide"
+  "category": "guides"
 }
 +++
 

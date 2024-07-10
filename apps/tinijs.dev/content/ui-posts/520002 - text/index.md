@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Text",
-  "category": "component"
+  "category": "components"
 }
 +++
 

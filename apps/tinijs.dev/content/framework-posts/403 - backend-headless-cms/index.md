@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Headless CMS",
-  "category": "backend"
+  "category": "backends"
 }
 +++
 

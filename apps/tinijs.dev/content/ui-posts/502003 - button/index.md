@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Button",
-  "category": "component"
+  "category": "components"
 }
 +++
 

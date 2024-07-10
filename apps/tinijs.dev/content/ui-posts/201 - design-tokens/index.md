@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Design Tokens",
-  "category": "guide"
+  "category": "guides"
 }
 +++
 

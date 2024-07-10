@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Web Apps",
-  "category": "distribution"
+  "category": "distributions"
 }
 +++
 

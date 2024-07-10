@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Icon",
-  "category": "component"
+  "category": "components"
 }
 +++
 
