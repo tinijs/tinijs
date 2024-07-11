@@ -26,11 +26,31 @@ export class ContentUIPostGridComponent extends TiniComponent {
   }
 
   private renderEditorBlock() {
-    const innerValue = `<div>Child 1</div>
-<div>Child 2</div>`;
+    const holyGrailInner = `<tini-box gridArea="header" height="64px" background="body-subtle">Header</tini-box>
+<tini-box gridArea="nav" width="120px" background="body-subtle">Nav</tini-box>
+<tini-box gridArea="content" background="body-subtle">Content</tini-box>
+<tini-box gridArea="side" width="120px" background="body-subtle">Side</tini-box>
+<tini-box gridArea="footer" height="64px" background="body-subtle">Footer</tini-box>`;
     return html`
       <app-component-editor
         name="grid"
+        .examples=${{
+          row: {
+            content: 'Holy grail',
+            items: [
+              {
+                target: 'areas',
+                value:
+                  "'header header header' 'nav content side' 'footer footer footer'",
+              },
+              {target: 'columns', value: 'auto 1fr auto'},
+              {target: 'rows', value: 'auto 1fr auto'},
+              {target: 'gap', value: 'md'},
+              {target: 'height', value: '250px'},
+              {target: 'inner', value: holyGrailInner},
+            ],
+          },
+        }}
         .sections=${[
           {
             section: 'select',
@@ -47,9 +67,9 @@ export class ContentUIPostGridComponent extends TiniComponent {
           },
           {
             section: 'html',
-            attrs: {label: 'Text/html'},
+            attrs: {label: 'HTML'},
             target: 'inner',
-            value: innerValue,
+            value: '<div>Grid layout</div>',
           },
           {
             section: 'css',

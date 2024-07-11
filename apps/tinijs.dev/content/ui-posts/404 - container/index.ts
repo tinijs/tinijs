@@ -29,6 +29,17 @@ export class ContentUIPostContainerComponent extends TiniComponent {
     return html`
       <app-component-editor
         name="container"
+        .examples=${{
+          section: {
+            content: 'As sections',
+            items: [
+              {target: 'padding', value: 'md'},
+              {target: 'background', value: 'body-subtle'},
+              {target: 'marginY', value: 'xl6'},
+              {target: 'inner', value: 'A container with top/bottom margins'},
+            ],
+          },
+        }}
         .sections=${[
           {
             section: 'select',
@@ -44,9 +55,9 @@ export class ContentUIPostContainerComponent extends TiniComponent {
           },
           {
             section: 'html',
-            attrs: {label: 'Text/html'},
+            attrs: {label: 'HTML'},
             target: 'inner',
-            value: '<div style="background: #f1f1f1">A container</div>',
+            value: '<div>A container</div>',
           },
           {
             section: 'css',

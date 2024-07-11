@@ -26,11 +26,30 @@ export class ContentUIPostFlexComponent extends TiniComponent {
   }
 
   private renderEditorBlock() {
-    const innerValue = `<div>Child 1</div>
-<div>Child 2</div>`;
+    const twoChildren =
+      '<div style="width: 15rem; height: 2rem; background: var(--color-body-subtle)">Item 1</div>\n<div style="width: 10rem; height: 4rem; background: var(--color-body-subtle)">Item 2</div>';
     return html`
       <app-component-editor
         name="flex"
+        .examples=${{
+          row: {
+            content: 'Row flex',
+            items: [
+              {target: 'alignItems', value: 'center'},
+              {target: 'gap', value: 'md'},
+              {target: 'inner', value: twoChildren},
+            ],
+          },
+          column: {
+            content: 'Column flex',
+            items: [
+              {target: 'direction', value: 'column'},
+              {target: 'alignItems', value: 'center'},
+              {target: 'gap', value: 'md'},
+              {target: 'inner', value: twoChildren},
+            ],
+          },
+        }}
         .sections=${[
           {
             section: 'select',
@@ -47,9 +66,9 @@ export class ContentUIPostFlexComponent extends TiniComponent {
           },
           {
             section: 'html',
-            attrs: {label: 'Text/html'},
+            attrs: {label: 'HTML'},
             target: 'inner',
-            value: innerValue,
+            value: '<div>Flex layout</div>',
           },
           {
             section: 'css',
