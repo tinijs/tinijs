@@ -36,7 +36,7 @@ export class ContentUIPostGridComponent extends TiniComponent {
         name="grid"
         .examples=${{
           row: {
-            content: 'Holy grail',
+            content: 'Holy grail layout',
             items: [
               {
                 target: 'areas',

@@ -8,7 +8,7 @@
 
 Fluent-inspired theme family, homepages: <https://fluent2.microsoft.design>
 
-This family may also be used as an alternative to these design systems. If an exact match is required, you can [create a new family that extends this family](/ui/folder-structure):
+This family may also be used as an alternative to these design systems (if an exact match is required, you can [create a new family that extends this family](/ui/folder-structure)):
 - [Spectrum 2](https://s2.spectrum.adobe.com)
 
 ## Install
@@ -29,6 +29,17 @@ npm i @tinijs/ui-fluent
 
 ```bash
 npm i @tinijs/ui-fluent-react
+```
+
+- CLI:
+
+```js
+{
+  sources: ['@tinijs/ui'],
+  families: {
+    fluent: ['light', 'dark'],
+  }
+}
 ```
 
 ## Setup fonts

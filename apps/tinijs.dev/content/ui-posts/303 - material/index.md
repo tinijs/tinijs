@@ -28,6 +28,17 @@ npm i @tinijs/ui-material
 npm i @tinijs/ui-material-react
 ```
 
+- CLI:
+
+```js
+{
+  sources: ['@tinijs/ui'],
+  families: {
+    material: ['light', 'dark'],
+  }
+}
+```
+
 ## Setup fonts
 
 Fonts: **Noto Sans**, **Noto Sans Mono**.

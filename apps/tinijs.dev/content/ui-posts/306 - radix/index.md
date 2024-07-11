@@ -8,7 +8,7 @@
 
 Radix-inspired theme family, homepage: <https://www.radix-ui.com>
 
-This family may also be used as an alternative to these design systems. If an exact match is required, you can [create a new family that extends this family](/ui/folder-structure)
+This family may also be used as an alternative to these design systems (if an exact match is required, you can [create a new family that extends this family](/ui/folder-structure)):
 - [Tailwind UI](https://tailwindui.com)
 - [PrimeNG](https://primeng.org)
 
@@ -30,6 +30,17 @@ npm i @tinijs/ui-radix
 
 ```bash
 npm i @tinijs/ui-radix-react
+```
+
+- CLI:
+
+```js
+{
+  sources: ['@tinijs/ui'],
+  families: {
+    radix: ['light', 'dark'],
+  }
+}
 ```
 
 ## Setup fonts

@@ -259,8 +259,6 @@ export class BaseLayoutElement extends TiniElement {
 
   protected composeStyles(props: LayoutProps) {
     const result: string[] = [];
-    // patch align attribute
-    result.push('text-align: inherit;');
     /* eslint-disable prettier/prettier */
     if (props.container) result.push(`container: ${props.container};`);
     if (props.containerType) result.push(`container-type: ${props.containerType};`);

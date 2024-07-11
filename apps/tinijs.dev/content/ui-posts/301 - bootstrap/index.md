@@ -8,7 +8,7 @@
 
 Bootstrap-inspired theme family, homepage: <https://getbootstrap.com>
 
-This family may also be used as an alternative to these design systems. If an exact match is required, you can [create a new family that extends this family](/ui/folder-structure):
+This family may also be used as an alternative to these design systems (if an exact match is required, you can [create a new family that extends this family](/ui/folder-structure)):
 - [Ant](https://ant.design)
 - [Element Plus](https://element-plus.org/en-US)
 
@@ -30,4 +30,15 @@ npm i @tinijs/ui-bootstrap
 
 ```bash
 npm i @tinijs/ui-bootstrap-react
+```
+
+- CLI:
+
+```js
+{
+  sources: ['@tinijs/ui'],
+  families: {
+    bootstrap: ['light', 'dark'],
+  }
+}
 ```

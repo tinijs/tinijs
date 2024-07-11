@@ -13,7 +13,9 @@ export class AppPageUIDevContainerComponent extends TiniComponent {
   protected render() {
     return html`
       <ui-dev-section titleText="Default">
-        <tini-container>This is a container.</tini-container>
+        <tini-container size="sm" padding="md" background="body-subtle"
+          >A small centered container</tini-container
+        >
       </ui-dev-section>
     `;
   }

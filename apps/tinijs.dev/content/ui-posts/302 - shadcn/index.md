@@ -8,7 +8,7 @@
 
 Shadcn-inspired theme family, homepage: <https://ui.shadcn.com>
 
-This family may also be used as an alternative to these design systems. If an exact match is required, you can [create a new family that extends this family](/ui/folder-structure):
+This family may also be used as an alternative to these design systems (if an exact match is required, you can [create a new family that extends this family](/ui/folder-structure)):
 - [Nuxt UI](https://ui.nuxt.com)
 - [Primer](https://primer.style)
 
@@ -30,6 +30,17 @@ npm i @tinijs/ui-shadcn
 
 ```bash
 npm i @tinijs/ui-shadcn-react
+```
+
+- CLI:
+
+```js
+{
+  sources: ['@tinijs/ui'],
+  families: {
+    shadcn: ['light', 'dark'],
+  }
+}
 ```
 
 ## Setup fonts

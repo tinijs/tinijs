@@ -11,14 +11,14 @@ export const BOX_SUBJECT = info({
   title: 'tini-box',
   path: '/ui/box',
   docPath: '/ui/box',
-  batches: [1, 1000, 10000],
+  batches: [1, 500, 5000],
 });
 
 export const FLEX_SUBJECT = info({
   title: 'tini-flex',
   path: '/ui/flex',
   docPath: '/ui/flex',
-  batches: [1, 1000, 10000],
+  batches: [1, 300, 3000],
 });
 
 export const GRID_SUBJECT = info({

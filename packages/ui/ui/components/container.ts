@@ -35,6 +35,7 @@ export default class extends BaseLayoutElement {
     /* eslint-disable prettier/prettier */
     if (props.display) result.push(`display: ${props.display};`);
     if (props.size) result.push(`max-width: ${parseLayoutWideValue(props.size)};`);
+    if (props.align) result.push('text-align: inherit;');
     if (props.align === 'left') {
       result.push('margin-right: auto;');
     } else if (props.align === 'right') {
