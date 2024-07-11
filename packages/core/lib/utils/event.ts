@@ -1,4 +1,4 @@
-import {TiniElement} from '../classes/element.js';
+import {TiniElement, ElementParts} from '../classes/element.js';
 
 export interface EventForwarding {
   name: string;
@@ -58,13 +58,13 @@ export function forwardEvents(
       dispatchOptions,
     }) => {
       const customEventName = rename || name;
-      const targetNodeOrNodeListOrSelector =
+      const elementsOrSelector =
         !target && customMainSelector ? customMainSelector : target;
-      (!targetNodeOrNodeListOrSelector
-        ? [renderRoot.firstElementChild]
-        : typeof targetNodeOrNodeListOrSelector !== 'string'
-          ? targetNodeOrNodeListOrSelector
-          : renderRoot.querySelectorAll(targetNodeOrNodeListOrSelector)
+      (!elementsOrSelector
+        ? [renderRoot.querySelector(`[part='${ElementParts.Main}']`)]
+        : typeof elementsOrSelector !== 'string'
+          ? elementsOrSelector
+          : renderRoot.querySelectorAll(elementsOrSelector)
       ).forEach(targetNode => {
         const forwardedEvents = ((targetNode as any).forwardedEvents ||=
           {}) as Record<string, EventListener>;

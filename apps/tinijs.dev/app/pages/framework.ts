@@ -60,7 +60,7 @@ export class AppPageFramework extends TiniComponent {
             href="_blank"
             ><strong>Tí nị</strong></a
           >
-          in Vietnamese - meaning something very small in an adorable way).
+          in Vietnamese) meaning something very small in an adorable way.
         </p>
         <p>
           <strong>The TiniJS Framework</strong> (meta-framework) is a collection

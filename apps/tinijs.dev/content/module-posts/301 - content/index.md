@@ -1,7 +1,7 @@
 +++json
 {
   "status": "publish",
-  "title": "Get started",
+  "title": "Get Started",
   "category": "content"
 }
 +++

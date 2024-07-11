@@ -8,6 +8,10 @@
 
 Shadcn-inspired theme family, homepage: <https://ui.shadcn.com>
 
+This family may also be used as an alternative to these design systems. If an exact match is required, you can [create a new family that extends this family](/ui/folder-structure):
+- [Nuxt UI](https://ui.nuxt.com)
+- [Primer](https://primer.style)
+
 ## Install
 
 - CDN:

@@ -1,7 +1,7 @@
 +++json
 {
   "status": "publish",
-  "title": "CLI expansion",
+  "title": "CLI Expansion",
   "category": "server"
 }
 +++

@@ -1,7 +1,7 @@
 +++json
 {
   "status": "publish",
-  "title": "Fetch services",
+  "title": "Fetch Services",
   "category": "fetch"
 }
 +++

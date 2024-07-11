@@ -1,6 +1,6 @@
 +++json
 {
   "status": "publish",
-  "title": "Theme families"
+  "title": "Theme Families"
 }
 +++

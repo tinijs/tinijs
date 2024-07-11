@@ -170,8 +170,6 @@ You can also append new static styles using the `append` method.
 export const styles = defaultStyles
 .extends({/* ... */})
 .append(
-  css`
-    /* more rules higher than the predefined slots */
-  `
+  css`/* more rules higher than the predefined slots */`
 );
 ```
