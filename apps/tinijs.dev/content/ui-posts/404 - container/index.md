@@ -6,6 +6,8 @@
 }
 +++
 
+Constrains the maximum width of page content.
+
 ## Import
 
 <app-component-import componentName="container"></app-component-import>

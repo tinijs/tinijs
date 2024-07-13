@@ -6,9 +6,7 @@
 }
 +++
 
-## Vanilla
-
-Using Tini UI with Vanilla Javascript is as simple as using native HTML elements, follow the [CDN](/ui/get-started) setup guide to add Tini UI to your project.
+Using Tini UI with vanilla Javascript and server rendered (WordPress, Rails, ...) are as simple as using native HTML elements, follow the [CDN](/ui/get-started) setup guide to add Tini UI to your project.
 
 See an online example: [Tini UI - Vanilla Playground](https://stackblitz.com/edit/tini-ui-vanilla-playground?file=index.html)
 
@@ -35,11 +33,7 @@ See an online example: [Tini UI - Vanilla Playground](https://stackblitz.com/edi
 <tini-button>A button</tini-button>
 ```
 
-## Server rendered (WordPress, Rails, ...)
-
-For server rendered pages, you can apply the same way as using Tini UI with Vanilla Javascript.
-
-To prevent FOUC, you can add attribute `hidden` to the body.
+To prevent Flash of Unstyled Content (FOUC), you can add the attribute `hidden` to the body and turn on the `resolvePending` option.
 
 ```html
 <script type="module">

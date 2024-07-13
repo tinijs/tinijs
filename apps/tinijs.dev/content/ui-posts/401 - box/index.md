@@ -6,6 +6,8 @@
 }
 +++
 
+Fundamental layout building block.
+
 ## Import
 
 <app-component-import componentName="box"></app-component-import>
@@ -103,6 +105,15 @@
 | `clipPath`          | `string`                                                                                                                                                    | -       |
 | `mask`              | `string`                                                                                                                                                    | -       |
 | `cursor`            | `string`                                                                                                                                                    | -       |
+
+## Tailwind Comparison
+
+Here are 2 examples inspired by Tailwind if you like to compare [Tini UI](/ui) to [Tailwind CSS](https://tailwindcss.com/).
+
+1. [Traditional CSS vs Utility classes](https://tailwindcss.com/docs/utility-first)
+2. [Why not just use inline styles?](https://tailwindcss.com/docs/utility-first#why-not-just-use-inline-styles)
+
+<content-ui-post-box block="tailwind"></content-ui-post-box>
 
 ## Benchmark
 

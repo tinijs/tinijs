@@ -6,6 +6,8 @@
 }
 +++
 
+Component for creating grid layouts.
+
 ## Import
 
 <app-component-import componentName="grid"></app-component-import>

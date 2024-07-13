@@ -6,6 +6,8 @@
 }
 +++
 
+Component for creating flex layouts.
+
 ## Import
 
 <app-component-import componentName="flex"></app-component-import>
