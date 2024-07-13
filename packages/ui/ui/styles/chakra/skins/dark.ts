@@ -31,7 +31,7 @@ export default css`:root {
   --size-space: 1;
   --size-radius: .25;
   --size-border: 1px;
-  --size-ring: 1px;
+  --size-outline: 1px;
   --size-line: 1.7;
   --size-letter: normal;
   /* shadows */

@@ -38,9 +38,11 @@ export class AppComponentEditorSelectComponent
   static readonly defaultTagName = 'app-component-editor-select';
 
   @Input() label!: string;
-  @Input() value?: string;
   @Input() preset?: string;
   @Input({type: Object}) items?: Array<SelectOption | SelectOptgroup>;
+
+  @Input() target!: string;
+  @Input() value?: string;
 
   @Output() change!: EventEmitter<string>;
 
@@ -112,7 +114,6 @@ export class AppComponentEditorSelectComponent
   private presetDefaultItem: SelectOption = {
     content: 'Default',
     value: '_default',
-    selected: true,
   };
   private presets: Record<string, Array<SelectOption | SelectOptgroup>> = {
     colors: this.colors,
@@ -138,6 +139,7 @@ export class AppComponentEditorSelectComponent
     if (!this.label) throw new Error('label is required');
     if (!this.preset && !this.items)
       throw new Error('preset or items is required');
+    if (!this.target) throw new Error('target is required');
   }
 
   private buildPresetItems(
@@ -151,11 +153,7 @@ export class AppComponentEditorSelectComponent
             .noCase.split(' ')
             .map(word => word.replace(/^\w/, c => c.toUpperCase()))
             .join(' ');
-      return {
-        content,
-        value,
-        selected: value === this.value,
-      };
+      return {content, value};
     });
   }
 
@@ -164,10 +162,11 @@ export class AppComponentEditorSelectComponent
       <tini-select
         wrap
         block
-        .label=${this.label}
+        label=${this.label}
         .items=${!this.preset
           ? this.items
           : [this.presetDefaultItem, ...this.presets[this.preset]]}
+        .value=${this.value || '_default'}
         events="change"
         @change=${({detail}: CustomEvent<InputEvent>) =>
           this.change.emit((detail as any).target.value)}

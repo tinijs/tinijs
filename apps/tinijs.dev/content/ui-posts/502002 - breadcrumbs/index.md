@@ -2,7 +2,7 @@
 {
   "status": "draft",
   "title": "Breadcrumbs",
-  "category": "component"
+  "category": "components"
 }
 +++
 

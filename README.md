@@ -30,11 +30,11 @@ Prebuilt UI packages are released using the `release-ui` script.
 npx tsx ./scripts/release-ui.mts
 ```
 
-| Option | Description |
-| --- | --- |
-| `--dir <path>` | The path to the UI build dir, default `./packages/ui/build` |
-| `--pick <names>` | Pick certain packages to release, provide dir names in comma-separated |
-| `--version <value>` | Provide a version, default to field `version` in lerna.json |
+| Option              | Description                                                            |
+| ------------------- | ---------------------------------------------------------------------- |
+| `--dir <path>`      | The path to the UI build dir, default `./packages/ui/build`            |
+| `--pick <names>`    | Pick certain packages to release, provide dir names in comma-separated |
+| `--version <value>` | Provide a version, default to field `version` in lerna.json            |
 
 ## License
 

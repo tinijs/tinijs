@@ -66,7 +66,7 @@ export default class extends TiniElement {
     if (this.active) this.updateActiveStatus();
   }
 
-  private updateActiveStatus = (e?: Event) => {
+  private updateActiveStatus = (e?: any) => {
     if (!this.active || !this.anchorRef.value) return;
     const currentUrl = new URL(
       !this.href ? '/' : this.href,
@@ -90,7 +90,7 @@ export default class extends TiniElement {
     this.classList[currentActive ? 'add' : 'remove'](this.active);
   };
 
-  private clickLink(e: Event) {
+  private clickLink(e: PointerEvent) {
     if (
       !this.anchorRef.value ||
       (this.target && this.target !== LinkTargets.Self)

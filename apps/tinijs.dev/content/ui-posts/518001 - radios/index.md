@@ -2,7 +2,7 @@
 {
   "status": "draft",
   "title": "Radios",
-  "category": "component"
+  "category": "components"
 }
 +++
 

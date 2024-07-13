@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Mobile Apps",
-  "category": "distribution"
+  "category": "distributions"
 }
 +++
 

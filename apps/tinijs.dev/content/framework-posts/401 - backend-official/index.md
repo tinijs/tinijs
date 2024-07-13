@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Content and Server",
-  "category": "backend"
+  "category": "backends"
 }
 +++
 

@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Desktop Apps",
-  "category": "distribution"
+  "category": "distributions"
 }
 +++
 

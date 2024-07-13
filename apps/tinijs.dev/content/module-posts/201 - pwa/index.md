@@ -74,14 +74,11 @@ import {UseSW, type SW} from '@tinijs/pwa';
 
 @Page({})
 export class AppPageXXX extends TiniComponent {
-  @UseSW() sw!: SW;
+  @UseSW() readonly sw!: SW;
 
-  onReady() {
-    this.sw
-      .messageSW({type: 'endpoint-1'})
-      .then(value => {
-        // do something with the value returned from the SW
-      });
+  async onReady() {
+    const result = await this.sw.messageSW({type: 'endpoint-1'});
+    // do something with the result returned from the service worker
   }
 }
 ```

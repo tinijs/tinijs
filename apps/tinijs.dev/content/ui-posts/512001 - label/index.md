@@ -2,7 +2,7 @@
 {
   "status": "draft",
   "title": "Label",
-  "category": "component"
+  "category": "components"
 }
 +++
 

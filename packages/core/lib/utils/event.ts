@@ -1,4 +1,4 @@
-import {TiniElement} from '../classes/element.js';
+import {TiniElement, ElementParts} from '../classes/element.js';
 
 export interface EventForwarding {
   name: string;
@@ -6,7 +6,7 @@ export interface EventForwarding {
   target?: string | Element[] | NodeListOf<Element>;
   keepPropagation?: boolean;
   preventDefault?: boolean;
-  dispatchOptions?: Omit<CustomEventInit, 'detail'>;
+  dispatchOptions?: Omit<CustomEventInit<unknown>, 'detail'>;
 }
 
 export type EventForwardingInput = string | Array<string | EventForwarding>;
@@ -58,13 +58,13 @@ export function forwardEvents(
       dispatchOptions,
     }) => {
       const customEventName = rename || name;
-      const targetNodeOrNodeListOrSelector =
+      const elementsOrSelector =
         !target && customMainSelector ? customMainSelector : target;
-      (!targetNodeOrNodeListOrSelector
-        ? [renderRoot.firstElementChild]
-        : typeof targetNodeOrNodeListOrSelector !== 'string'
-          ? targetNodeOrNodeListOrSelector
-          : renderRoot.querySelectorAll(targetNodeOrNodeListOrSelector)
+      (!elementsOrSelector
+        ? [renderRoot.querySelector(`[part='${ElementParts.Main}']`)]
+        : typeof elementsOrSelector !== 'string'
+          ? elementsOrSelector
+          : renderRoot.querySelectorAll(elementsOrSelector)
       ).forEach(targetNode => {
         const forwardedEvents = ((targetNode as any).forwardedEvents ||=
           {}) as Record<string, EventListener>;
@@ -72,12 +72,7 @@ export function forwardEvents(
         forwardedEvents[customEventName] = e => {
           if (!keepPropagation) e.stopPropagation();
           if (preventDefault) e.preventDefault();
-          elem.dispatchEvent(
-            new CustomEvent(customEventName, {
-              ...dispatchOptions,
-              detail: e,
-            })
-          );
+          elem.emitEvent(customEventName, e, dispatchOptions);
         };
         targetNode.addEventListener(name, forwardedEvents[customEventName]);
       });

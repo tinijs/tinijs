@@ -2,7 +2,7 @@
 {
   "status": "draft",
   "title": "Spinner",
-  "category": "component"
+  "category": "components"
 }
 +++
 

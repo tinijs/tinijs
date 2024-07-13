@@ -14,8 +14,8 @@ npx tini dev
 
 ## Options
 
-| Option | Description |
-| --- | --- |
+| Option            | Description                                          |
+| ----------------- | ---------------------------------------------------- |
 | `--debug` or `-d` | When using a compiler, log output from all commands. |
 
 ## Configuration

@@ -1,7 +1,10 @@
 import {html, css} from 'lit';
-import {classMap} from 'lit/directives/class-map.js';
 
 import {AppThemeSelectorComponent} from '../../../app/components/theme-selector.js';
+import {TiniBoxComponent} from '../../../app/ui/components/box.js';
+import {TiniFlexComponent} from '../../../app/ui/components/flex.js';
+import {TiniGridComponent} from '../../../app/ui/components/grid.js';
+import {TiniContainerComponent} from '../../../app/ui/components/container.js';
 import {TiniTextComponent} from '../../../app/ui/components/text.js';
 import {TiniHeadingComponent} from '../../../app/ui/components/heading.js';
 import {TiniLinkComponent} from '../../../app/ui/components/link.js';
@@ -22,6 +25,10 @@ const ICON_SRC =
 @Component({
   components: [
     AppThemeSelectorComponent,
+    TiniBoxComponent,
+    TiniFlexComponent,
+    TiniGridComponent,
+    TiniContainerComponent,
     TiniTextComponent,
     TiniHeadingComponent,
     TiniLinkComponent,
@@ -104,6 +111,74 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
           >View source code</a
         >
       </div>
+
+      <section>
+        <h3>
+          <span>Layout</span>
+          <a href="/ui/box">Detail</a>
+        </h3>
+        <div class="content">
+          <tini-box padding="md" background="body-subtle" radius="md"
+            >A box with padding, background and radius</tini-box
+          >
+
+          <p class="desc">Flex</p>
+          <tini-flex gap="md">
+            <tini-box padding="md" background="body-subtle" flex="1"
+              >Flex item 1</tini-box
+            >
+            <tini-box padding="md" background="body-subtle" flex="1"
+              >Flex item 2</tini-box
+            >
+          </tini-flex>
+
+          <p class="desc">Grid</p>
+          <tini-grid
+            areas="'header header header' 'nav content side' 'footer footer footer'"
+            columns="auto 1fr auto"
+            rows="auto 1fr auto"
+            gap="md"
+            height="250px"
+          >
+            <tini-box
+              gridArea="header"
+              padding="md"
+              height="64px"
+              background="body-subtle"
+              >Grid header area</tini-box
+            >
+            <tini-box
+              gridArea="nav"
+              padding="md"
+              width="150px"
+              background="body-subtle"
+              >Grid nav area</tini-box
+            >
+            <tini-box gridArea="content" padding="md" background="body-subtle"
+              >Grid content area</tini-box
+            >
+            <tini-box
+              gridArea="side"
+              padding="md"
+              width="150px"
+              background="body-subtle"
+              >Grid side area</tini-box
+            >
+            <tini-box
+              gridArea="footer"
+              padding="md"
+              height="64px"
+              background="body-subtle"
+              >Grid footer area</tini-box
+            >
+          </tini-grid>
+
+          <p class="desc">Container</p>
+          <tini-container size="sm" padding="md" background="body-subtle"
+            >A small centered container</tini-container
+          >
+        </div>
+      </section>
 
       <section>
         <h3>
@@ -216,7 +291,6 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
           <a href="/ui/embed">Detail</a>
         </h3>
         <div class="content">
-          <p class="desc">16/9 ratio</p>
           <tini-embed>
             <iframe
               width="560"
@@ -229,7 +303,7 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
             ></iframe>
           </tini-embed>
 
-          <p class="desc">9/16 ratio</p>
+          <p class="desc">9x16 ratio</p>
           <tini-embed ratio="9x16" style="width: 320px">
             <iframe
               width="560"
@@ -239,6 +313,27 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen
+            ></iframe>
+          </tini-embed>
+
+          <p class="desc">4:3 ratio</p>
+          <tini-embed ratio="4:3">
+            <iframe
+              src="https://stackblitz.com/edit/try-tinijs-todo-app?ctl=1&embed=1&file=app%2Fapp.ts"
+              title="Try TiniJS - Example To Do App"
+              frameborder="0"
+            ></iframe>
+          </tini-embed>
+
+          <p class="desc">Custom ratio (7/3)</p>
+          <tini-embed ratio="7/3">
+            <iframe
+              allowfullscreen=""
+              frameborder="0"
+              height="100%"
+              src="https://giphy.com/embed/Ze44chcCSUpyVN1gmQ/video"
+              style="left:0;position:absolute;top:0"
+              width="100%"
             ></iframe>
           </tini-embed>
         </div>
@@ -418,14 +513,19 @@ function sayHello() {
 
     section > .content {
       padding: var(--space-md);
+      overflow: hidden;
     }
 
     section > .content .desc {
-      margin-top: var(--space-xl-2);
-      margin-bottom: var(--space-lg);
-      padding-bottom: var(--space-xs-2);
-      border-bottom: 1px solid var(--color-body-soft);
+      width: calc(100% + (var(--space-md) * 2));
+      padding: var(--space-xs2) var(--space-md);
+      margin-top: var(--space-md);
+      margin-bottom: var(--space-md);
+      margin-left: calc(var(--space-md) * -1);
+      border-top: 1px solid var(--color-body-semi);
+      border-bottom: 1px solid var(--color-body-semi);
       font-size: var(--text-lg);
+      font-weight: bold;
     }
   `;
 }

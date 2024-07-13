@@ -2,9 +2,13 @@
 {
   "status": "publish",
   "title": "Table",
-  "category": "component"
+  "category": "components"
 }
 +++
+
+## Import
+
+<app-component-import componentName="table"></app-component-import>
 
 ## Editor
 

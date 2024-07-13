@@ -69,8 +69,7 @@ export default class extends TiniElement {
 
   private changePage(pageNum: number) {
     this.currentPage = pageNum;
-    const detail = {pageNum};
-    return this.dispatchEvent(new CustomEvent('change', {detail}));
+    return this.emitEvent('change', {pageNum});
   }
 
   protected render() {
@@ -97,7 +96,7 @@ export default class extends TiniElement {
         class=${classMap(prevClasses)}
         part=${partAttrMap(prevClasses)}
         href=${href || '#'}
-        @click=${(e: Event) =>
+        @click=${(e: PointerEvent) =>
           disabled
             ? e.preventDefault()
             : !href
@@ -119,7 +118,7 @@ export default class extends TiniElement {
         class=${classMap(nextClasses)}
         part=${partAttrMap(nextClasses)}
         href=${href || '#'}
-        @click=${(e: Event) =>
+        @click=${(e: PointerEvent) =>
           disabled
             ? e.preventDefault()
             : !href
@@ -142,7 +141,7 @@ export default class extends TiniElement {
           class=${classMap(itemClasses)}
           part=${partAttrMap(itemClasses)}
           href=${href || '#'}
-          @click=${(e: Event) =>
+          @click=${(e: PointerEvent) =>
             active
               ? e.preventDefault()
               : !href

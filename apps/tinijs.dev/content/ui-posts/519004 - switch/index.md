@@ -2,7 +2,7 @@
 {
   "status": "draft",
   "title": "Switch",
-  "category": "component"
+  "category": "components"
 }
 +++
 

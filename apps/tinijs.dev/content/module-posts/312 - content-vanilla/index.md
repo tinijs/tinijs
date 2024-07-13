@@ -1,7 +1,7 @@
 +++json
 {
   "status": "publish",
-  "title": "Vanilla (no framework)",
+  "title": "Vanilla",
   "category": "content"
 }
 +++

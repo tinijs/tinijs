@@ -21,17 +21,17 @@ export class AppPageUIDevTextComponent extends TiniComponent {
   protected render() {
     return html`
       <ui-dev-section titleText="Natives">
+        <span>Lorem ipsum (span)</span>
         <p>Lorem ipsum (p)</p>
         <strong>Lorem ipsum (strong)</strong><br />
         <em>Lorem ipsum (em)</em><br />
-        <span>Lorem ipsum (span)</span>
       </ui-dev-section>
 
       <ui-dev-section titleText="Defaults">
+        <tini-text>Lorem ipsum (default)</tini-text>
         <tini-text block>Lorem ipsum (block)</tini-text>
         <tini-text weight="bold">Lorem ipsum (weight=bold)</tini-text><br />
         <tini-text italic>Lorem ipsum (italic)</tini-text><br />
-        <tini-text>Lorem ipsum (default)</tini-text>
       </ui-dev-section>
 
       <ui-dev-section titleText="Colors">
@@ -70,6 +70,12 @@ export class AppPageUIDevTextComponent extends TiniComponent {
             <br />
           `
         )}
+      </ui-dev-section>
+
+      <ui-dev-section titleText="Aligns">
+        <tini-text block>Lorem ipsum (start)</tini-text>
+        <tini-text block align="center">Lorem ipsum (center)</tini-text>
+        <tini-text block align="end">Lorem ipsum (end)</tini-text>
       </ui-dev-section>
 
       <ui-dev-section titleText="Italics">

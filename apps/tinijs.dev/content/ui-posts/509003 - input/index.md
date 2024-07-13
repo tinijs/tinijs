@@ -2,7 +2,7 @@
 {
   "status": "draft",
   "title": "Input",
-  "category": "component"
+  "category": "components"
 }
 +++
 

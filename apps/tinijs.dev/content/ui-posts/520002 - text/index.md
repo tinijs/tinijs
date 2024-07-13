@@ -2,9 +2,13 @@
 {
   "status": "publish",
   "title": "Text",
-  "category": "component"
+  "category": "components"
 }
 +++
+
+## Import
+
+<app-component-import componentName="text"></app-component-import>
 
 ## Editor
 
@@ -64,3 +68,7 @@
     ]
   }
 %}{% endapp %}
+
+## Benchmark
+
+<app-component-benchmark reportId="ui-text"></app-component-benchmark>

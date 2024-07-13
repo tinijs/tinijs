@@ -27,7 +27,7 @@ export class AppPageUIImage extends TiniComponent implements PageWithMetadata {
     description: 'The tini-image component.',
   };
 
-  @UseQuery() query!: {items?: number};
+  @UseQuery() readonly query!: {items?: number};
 
   protected render() {
     return repeat(

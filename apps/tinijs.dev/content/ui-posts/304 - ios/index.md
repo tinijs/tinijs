@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "iOS",
-  "category": "family"
+  "category": "families"
 }
 +++
 
@@ -26,4 +26,15 @@ npm i @tinijs/ui-ios
 
 ```bash
 npm i @tinijs/ui-ios-react
+```
+
+- CLI:
+
+```js
+{
+  sources: ['@tinijs/ui'],
+  families: {
+    ios: ['light', 'dark'],
+  }
+}
 ```

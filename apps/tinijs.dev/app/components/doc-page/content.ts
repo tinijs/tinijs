@@ -138,7 +138,7 @@ export class AppDocPageContentComponent
 
         @media (min-width: 1200px) {
           margin-top: 0;
-          padding: var(--space-xl-2) var(--space-xl-4) var(--space-xl-4);
+          padding: var(--space-xl2) var(--space-xl4) var(--space-xl4);
         }
       }
 
@@ -190,6 +190,14 @@ export class AppDocPageContentComponent
             }
           }
 
+          & > h2 {
+            margin-top: var(--space-xl3);
+          }
+
+          & > h3 {
+            margin-top: var(--space-xl2);
+          }
+
           p,
           ul,
           ol {
@@ -205,8 +213,8 @@ export class AppDocPageContentComponent
         .suggest-edit {
           display: flex;
           align-items: center;
-          gap: var(--space-xs-2);
-          margin-top: var(--space-xl);
+          gap: var(--space-xs2);
+          margin-top: var(--space-xl3);
         }
       }
     `,

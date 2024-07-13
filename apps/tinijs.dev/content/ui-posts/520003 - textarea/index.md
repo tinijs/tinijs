@@ -2,7 +2,7 @@
 {
   "status": "draft",
   "title": "Textarea",
-  "category": "component"
+  "category": "components"
 }
 +++
 

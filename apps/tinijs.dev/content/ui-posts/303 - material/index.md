@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Material",
-  "category": "family"
+  "category": "families"
 }
 +++
 
@@ -26,6 +26,17 @@ npm i @tinijs/ui-material
 
 ```bash
 npm i @tinijs/ui-material-react
+```
+
+- CLI:
+
+```js
+{
+  sources: ['@tinijs/ui'],
+  families: {
+    material: ['light', 'dark'],
+  }
+}
 ```
 
 ## Setup fonts

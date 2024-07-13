@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Progessive Web Apps",
-  "category": "distribution"
+  "category": "distributions"
 }
 +++
 

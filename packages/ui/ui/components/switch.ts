@@ -44,18 +44,14 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
-  private toggle(e: Event) {
+  private toggle(e: InputEvent) {
     e.stopPropagation();
     const target = e.target as HTMLInputElement;
-    return this.dispatchEvent(
-      new CustomEvent('toggle', {
-        detail: {
-          name: target.name,
-          status: target.checked ? SwitchStatuses.On : SwitchStatuses.Off,
-          inputElement: target,
-        } as SwitchEventDetail,
-      })
-    );
+    return this.emitEvent('toggle', {
+      name: target.name,
+      status: target.checked ? SwitchStatuses.On : SwitchStatuses.Off,
+      inputElement: target,
+    } as SwitchEventDetail);
   }
 
   protected render() {

@@ -1,7 +1,7 @@
 +++json
 {
   "status": "publish",
-  "title": "Type schemas",
+  "title": "Type Schemas",
   "category": "content"
 }
 +++

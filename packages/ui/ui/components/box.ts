@@ -1,124 +1,73 @@
-import {html, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
-import {
-  TiniElement,
-  createStyleBuilder,
-  ElementParts,
-  Colors,
-  SubtleColors,
-  ContrastColors,
-  Gradients,
-  SubtleGradients,
-  Radiuses,
-  Shadows,
-  generateAllColorVariants,
-  generateAllGradientVariants,
-  generateRadiusVariants,
-  generateShadowVariants,
-} from '@tinijs/core';
 
-export enum BoxParts {
-  BG = ElementParts.BG,
-  Main = ElementParts.Main,
+import {BaseLayoutElement, type LayoutProps} from '../../lib/classes/layout.js';
+
+export interface BoxProps extends LayoutProps {
+  display?: 'none' | 'inline' | 'inline-block' | 'block';
+  // flex
+  flex?: string;
+  flexBasis?: string;
+  flexShrink?: string;
+  flexGrow?: string;
+  // grid
+  gridColumn?: string;
+  gridColumnStart?: string;
+  gridColumnEnd?: string;
+  gridRow?: string;
+  gridRowStart?: string;
+  gridRowEnd?: string;
+  gridArea?: string;
 }
 
-export default class extends TiniElement {
+export default class extends BaseLayoutElement {
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | ContrastColors | Gradients | SubtleGradients | ContrastColors;
-  @property({type: String, reflect: true}) radius?: Radiuses;
-  @property({type: String, reflect: true}) shadow?: Shadows;
+  @property({type: String, reflect: true}) display?: BoxProps['display'];
+  // flex
+  @property({type: String, reflect: true}) flex?: BoxProps['flex'];
+  @property({type: String, reflect: true}) flexBasis?: BoxProps['flexBasis'];
+  @property({type: String, reflect: true}) flexShrink?: BoxProps['flexShrink'];
+  @property({type: String, reflect: true}) flexGrow?: BoxProps['flexGrow'];
+  // grid
+  @property({type: String, reflect: true}) gridColumn?: BoxProps['gridColumn'];
+  @property({type: String, reflect: true}) gridColumnStart?: BoxProps['gridColumnStart'];
+  @property({type: String, reflect: true}) gridColumnEnd?: BoxProps['gridColumnEnd'];
+  @property({type: String, reflect: true}) gridRow?: BoxProps['gridRow'];
+  @property({type: String, reflect: true}) gridRowStart?: BoxProps['gridRowStart'];
+  @property({type: String, reflect: true}) gridRowEnd?: BoxProps['gridRowEnd'];
+  @property({type: String, reflect: true}) gridArea?: BoxProps['gridArea'];
+  // queries
+  @property({type: Object}) mediaQueries?: Record<string, BoxProps>;
+  @property({type: Object}) containerQueries?: Record<string, BoxProps>;
   /* eslint-enable prettier/prettier */
 
-  protected render() {
-    return this.partRender(
-      BoxParts.Main,
-      mainChildren => html`
-        <div class=${BoxParts.BG} part=${BoxParts.BG}></div>
-        <div class=${BoxParts.Main} part=${BoxParts.Main}>
-          <slot></slot>
-          ${mainChildren()}
-        </div>
-      `
-    );
+  protected composeStyles(props: BoxProps) {
+    if (~['flex', 'inline-flex'].indexOf(props.display as string)) {
+      throw new Error(
+        'The values "flex" and "inline-flex" are not available for tini-box, please use tini-flex instead.'
+      );
+    }
+    if (~['grid', 'inline-grid'].indexOf(props.display as string)) {
+      throw new Error(
+        'The values "grid" and "inline-grid" are not available for tini-box, please use tini-grid instead.'
+      );
+    }
+    const result: string[] = [super.composeStyles(props)];
+    /* eslint-disable prettier/prettier */
+    if (props.display) result.push(`display: ${props.display};`);
+    // flex
+    if (props.flex) result.push(`flex: ${props.flex};`);
+    if (props.flexBasis) result.push(`flex-basis: ${props.flexBasis};`);
+    if (props.flexShrink) result.push(`flex-shrink: ${props.flexShrink};`);
+    if (props.flexGrow) result.push(`flex-grow: ${props.flexGrow};`);
+    // grid
+    if (props.gridColumn) result.push(`grid-column: ${props.gridColumn};`);
+    if (props.gridColumnStart) result.push(`grid-column-start: ${props.gridColumnStart};`);
+    if (props.gridColumnEnd) result.push(`grid-column-end: ${props.gridColumnEnd};`);
+    if (props.gridRow) result.push(`grid-row: ${props.gridRow};`);
+    if (props.gridRowStart) result.push(`grid-row-start: ${props.gridRowStart};`);
+    if (props.gridRowEnd) result.push(`grid-row-end: ${props.gridRowEnd};`);
+    if (props.gridArea) result.push(`grid-area: ${props.gridArea};`);
+    /* eslint-enable prettier/prettier */
+    return result.join('');
   }
 }
-
-export const defaultStyles = createStyleBuilder<{
-  statics: CSSResult;
-  colorGen: Parameters<typeof generateAllColorVariants>[0];
-  gradientGen: Parameters<typeof generateAllGradientVariants>[0];
-  radiusGen: Parameters<typeof generateRadiusVariants>[0];
-  shadowGen: Parameters<typeof generateShadowVariants>[0];
-}>(outputs => [
-  css`
-    :host {
-      --background: none;
-      --color: var(--color-body-contrast);
-      --radius: var(--radius-md);
-      --padding: var(--space-md);
-      --box-shadow: none;
-      position: relative;
-      overflow: hidden;
-      z-index: 0;
-      border-radius: var(--radius);
-      box-shadow: var(--box-shadow);
-    }
-
-    .bg {
-      position: absolute;
-      inset: 0;
-      background: var(--background);
-    }
-
-    .main {
-      position: relative;
-      z-index: 1;
-      color: var(--color);
-      padding: var(--padding);
-    }
-  `,
-
-  outputs.statics,
-
-  generateAllColorVariants(values => {
-    const {hostSelector, color, contrast} = values;
-    return `
-      ${hostSelector} {
-        --background: ${color};
-        --color: ${contrast};
-      }
-      ${outputs.colorGen(values)}
-    `;
-  }),
-
-  generateAllGradientVariants(values => {
-    const {hostSelector, gradient, contrast} = values;
-    return `
-      ${hostSelector} {
-        --background: ${gradient};
-        --color: ${contrast};
-      }
-      ${outputs.gradientGen(values)}
-    `;
-  }),
-
-  generateRadiusVariants(values => {
-    const {hostSelector, radius} = values;
-    return `
-      ${hostSelector} {
-        --radius: ${radius};
-      }
-      ${outputs.radiusGen(values)}
-    `;
-  }),
-
-  generateShadowVariants(values => {
-    const {hostSelector, shadow} = values;
-    return `
-      ${hostSelector} {
-        --box-shadow: ${shadow};
-      }
-      ${outputs.shadowGen(values)}
-    `;
-  }),
-]);

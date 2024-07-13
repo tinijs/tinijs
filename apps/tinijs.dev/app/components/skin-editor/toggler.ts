@@ -38,7 +38,7 @@ export class AppSkinEditorTogglerComponent extends TiniComponent {
       border: 1px solid var(--color-body-semi);
       border-radius: var(--radius-md);
       font-size: var(--text-sm);
-      padding: var(--space-xs-2) var(--space-xs);
+      padding: var(--space-xs2) var(--space-xs);
 
       &:hover {
         background: var(--color-body-soft);

@@ -1,8 +1,8 @@
 +++json
 {
   "status": "publish",
-  "title": "Node servers",
-  "category": "backend"
+  "title": "Node Servers",
+  "category": "backends"
 }
 +++
 

@@ -1,8 +1,8 @@
 +++json
 {
   "status": "publish",
-  "title": "Rust servers",
-  "category": "backend"
+  "title": "Rust Servers",
+  "category": "backends"
 }
 +++
 

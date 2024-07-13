@@ -2,7 +2,7 @@
 {
   "status": "draft",
   "title": "Checkboxes",
-  "category": "component"
+  "category": "components"
 }
 +++
 

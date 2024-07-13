@@ -14,7 +14,7 @@ npx tini preview [OPTIONS]
 
 ## Options
 
-| Option | Description |
-| --- | --- |
+| Option                   | Description  |
+| ------------------------ | ------------ |
 | `--port <value>` or `-p` | Custom port. |
 | `--host <value>` or `-h` | Custom host. |

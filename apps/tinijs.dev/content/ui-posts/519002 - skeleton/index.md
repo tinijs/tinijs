@@ -2,9 +2,13 @@
 {
   "status": "publish",
   "title": "Skeleton",
-  "category": "component"
+  "category": "components"
 }
 +++
+
+## Import
+
+<app-component-import componentName="skeleton"></app-component-import>
 
 ## Editor
 

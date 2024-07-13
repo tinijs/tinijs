@@ -25,11 +25,15 @@ export class AppComponentEditorSwitchComponent
   static readonly defaultTagName = 'app-component-editor-switch';
 
   @Input() label!: string;
+
+  @Input() target!: string;
   @Input() checked?: boolean;
+
   @Output() change!: EventEmitter<boolean>;
 
   onCreate() {
     if (!this.label) throw new Error('label is required');
+    if (!this.target) throw new Error('target is required');
   }
 
   protected render() {

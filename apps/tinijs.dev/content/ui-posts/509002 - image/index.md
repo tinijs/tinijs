@@ -2,9 +2,13 @@
 {
   "status": "publish",
   "title": "Image",
-  "category": "component"
+  "category": "components"
 }
 +++
+
+## Import
+
+<app-component-import componentName="image"></app-component-import>
 
 ## Editor
 
@@ -44,3 +48,7 @@
     ]
   }
 %}{% endapp %}
+
+## Benchmark
+
+<app-component-benchmark reportId="ui-image"></app-component-benchmark>

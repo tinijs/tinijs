@@ -2,9 +2,13 @@
 {
   "status": "publish",
   "title": "Badge",
-  "category": "component"
+  "category": "components"
 }
 +++
+
+## Import
+
+<app-component-import componentName="badge"></app-component-import>
 
 ## Editor
 

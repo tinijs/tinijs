@@ -2,7 +2,7 @@
 {
   "status": "draft",
   "title": "Modal",
-  "category": "component"
+  "category": "components"
 }
 +++
 

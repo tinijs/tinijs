@@ -57,21 +57,50 @@ export function ___checkForUnstableComponent(
   }
 }
 
-export function registerComponents(items: RegisterComponentsList) {
-  return items.forEach(item => {
+export function registerComponents(
+  list: RegisterComponentsList,
+  resolvePending?: true | (() => void)
+) {
+  const result: Record<string, CustomElementConstructor> = {};
+  // register components
+  list.forEach(item => {
     const useCustomTagName = item instanceof Array;
-    const [constructor, tagName] = useCustomTagName
+    const [originalConstructor, tagName] = useCustomTagName
       ? item
       : [item, (item as any).defaultTagName];
-    if (!tagName || !constructor || customElements.get(tagName)) return;
-    customElements.define(
-      tagName,
-      !useCustomTagName ? constructor : class extends constructor {}
-    );
+    if (!tagName || !originalConstructor) return;
+    const constructor = !useCustomTagName
+      ? originalConstructor
+      : class extends originalConstructor {};
+    result[tagName] = constructor;
+    if (customElements.get(tagName)) return;
+    customElements.define(tagName, constructor);
     if (process.env.NODE_ENV === 'development') {
-      ___checkForUnstableComponent(tagName, constructor as typeof TiniElement);
+      ___checkForUnstableComponent(
+        tagName,
+        originalConstructor as typeof TiniElement
+      );
     }
   });
+  // resolve pending components
+  if (resolvePending === true) {
+    document.body.removeAttribute('hidden');
+  } else if (resolvePending instanceof Function) {
+    resolvePending();
+  }
+  // result
+  return result;
+}
+
+export async function resolvePendingComponents(
+  tagNames: string[],
+  customResolver?: () => void
+) {
+  await Promise.allSettled(
+    tagNames.map(tagName => customElements.whenDefined(tagName))
+  );
+  if (customResolver) return customResolver();
+  return document.body.removeAttribute('hidden');
 }
 
 export function createComponentLoader(

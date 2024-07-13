@@ -21,6 +21,7 @@ import {
   type ActiveTheme,
   type Theming,
   type CSSResultOrNativeOrRaw,
+  type Styles,
   type DirectOrRecordStyles,
 } from './ui.js';
 
@@ -37,6 +38,7 @@ import {
 
 export interface ComponentMetadata {
   customMainSelector?: string;
+  restyleAtUpdate?: boolean;
   // dev only
   unstable?: UnstableStates;
   unstableMessage?: string;
@@ -81,10 +83,66 @@ export class TiniElement extends LitElement {
   /* eslint-disable prettier/prettier */
   @property({converter: stringOrObjectOrArrayConverter}) styleDeep?: DirectOrRecordStyles;
   @property({converter: stringOrObjectOrArrayConverter}) events?: EventForwardingInput;
+  @property({type: Boolean, reflect: true}) restyleAtUpdate?: boolean;
   /* eslint-enable prettier/prettier */
 
   private customTemplates = this.getTemplates();
   private themingScripts = this.getScripts();
+
+  private readonly willAdoptStylesAtUpdate = !!(
+    this.restyleAtUpdate ||
+    (this.constructor as typeof TiniElement).componentMetadata.restyleAtUpdate
+  );
+
+  constructor() {
+    super();
+    // a convienent method for setting non-primitive props
+    // when using components with vanilla JS only
+    // USE WITH CAUTION!
+    const setProps = this.getAttribute('setProps');
+    if (
+      setProps &&
+      setProps[0] === '{' &&
+      setProps[setProps.length - 1] === '}'
+    ) {
+      const props = eval(`"use strict";(${setProps})`);
+      if (props instanceof Object) {
+        Object.entries(props).forEach(
+          ([key, value]) => ((this as any)[key] = value)
+        );
+      }
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(
+          'The attribute "setProps" is intended for using with vanilla JS only. For frameworks, please use a proper property binding method.'
+        );
+      }
+    }
+  }
+
+  emitEvent<Payload>(
+    name: string,
+    payload?: Payload,
+    options?: Omit<CustomEventInit<Payload>, 'detail'>
+  ) {
+    this.dispatchEvent(
+      new CustomEvent(name, {
+        ...options,
+        detail: payload,
+      })
+    );
+    // a convinient method for adding events
+    // when using components with vanilla JS only
+    // USE WITH CAUTION!
+    const inlineEvent = this.getAttribute(`on${name}`);
+    if (inlineEvent) {
+      eval(`"use strict";(${inlineEvent})`);
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(
+          'Inline custom event hanlders are intended for using with vanilla JS only. For frameworks, please use a proper event binding method.'
+        );
+      }
+    }
+  }
 
   protected createRenderRoot() {
     const renderRoot =
@@ -92,7 +150,9 @@ export class TiniElement extends LitElement {
       this.attachShadow(
         (this.constructor as typeof LitElement).shadowRootOptions
       );
-    this.adoptStyles(renderRoot);
+    if (!this.willAdoptStylesAtUpdate) {
+      this.adoptStyles(renderRoot);
+    }
     return renderRoot;
   }
 
@@ -107,12 +167,17 @@ export class TiniElement extends LitElement {
     // re-adopt styles
     const component = this.constructor as typeof LitElement;
     component.elementStyles = component.finalizeStyles(component.styles);
-    this.adoptStyles(this.shadowRoot || this);
+    if (!this.willAdoptStylesAtUpdate) {
+      this.adoptStyles(this.shadowRoot || this);
+    }
     // continue update cycle
     return this.requestUpdate();
   };
   protected themeChanged(activeTheme: ActiveTheme): void {
     // placeholder for the onTheme() hook
+  }
+  protected computedStyles(): Styles {
+    return [];
   }
 
   connectedCallback() {
@@ -127,6 +192,12 @@ export class TiniElement extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     removeEventListener(THEME_CHANGE_EVENT, this.handleThemeChanges);
+  }
+
+  protected willUpdate(changedProperties: PropertyValues<this>) {
+    if (this.willAdoptStylesAtUpdate) {
+      this.adoptStyles(this.shadowRoot || this);
+    }
   }
 
   protected updated(changedProperties: PropertyValues<this>) {
@@ -193,14 +264,16 @@ export class TiniElement extends LitElement {
 
   private adoptStyles(renderRoot: HTMLElement | DocumentFragment) {
     const optionalUI = getOptionalUI();
-    const styles = (this.constructor as typeof LitElement).elementStyles.concat(
-      stylesToAdoptableStyles(
-        extractStylesFromDirectOrRecordStyles(
-          this.styleDeep,
-          optionalUI?.activeTheme
+    const styles = (this.constructor as typeof LitElement).elementStyles
+      .concat(stylesToAdoptableStyles(this.computedStyles()))
+      .concat(
+        stylesToAdoptableStyles(
+          extractStylesFromDirectOrRecordStyles(
+            this.styleDeep,
+            optionalUI?.activeTheme
+          )
         )
-      )
-    );
+      );
     adoptStyles(renderRoot as unknown as ShadowRoot, styles);
   }
 

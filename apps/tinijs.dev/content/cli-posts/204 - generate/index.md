@@ -29,8 +29,8 @@ Support these types:
 
 ## Options
 
-| Option | Description |
-| --- | --- |
-| `--dir <value>` or `-d` | Custom client app srcDir, default to `app`. |
-| `--typePrefixed` or `-t` | Use format `name.type.ext`. |
-| `--nested` or `-n` | Nested under the folder with the same name. |
+| Option                   | Description                                 |
+| ------------------------ | ------------------------------------------- |
+| `--dir <value>` or `-d`  | Custom client app srcDir, default to `app`. |
+| `--typePrefixed` or `-t` | Use format `name.type.ext`.                 |
+| `--nested` or `-n`       | Nested under the folder with the same name. |

@@ -8,7 +8,6 @@ import '@interactjs/modifiers';
 import interact from '@interactjs/interact'; // eslint-disable-next-line node/no-extraneous-import
 import type {InteractStatic} from '@interactjs/core/InteractStatic.js';
 import screenfull from 'screenfull';
-import JSON5 from 'json5';
 
 import {
   Component,
@@ -16,10 +15,8 @@ import {
   Input,
   Reactive,
   createComponentLoader,
-  UseUI,
   ContrastColors,
   Sizes,
-  type UI,
   type OnCreate,
   type OnChanges,
   type OnFirstRender,
@@ -29,12 +26,13 @@ import {Subscribe} from '@tinijs/store';
 import {TiniLinkComponent} from '../../ui/components/link.js';
 import {TiniIconComponent} from '../../ui/components/icon.js';
 import {TiniCodeComponent} from '../../ui/components/code.js';
+import {TiniSelectComponent} from '../../ui/components/select.js';
 
 import {UIConsumerTargets} from '../../consts/common.js';
 
 import {mainStore} from '../../stores/main.js';
 
-import {parseName, type Names} from '../../utils/name.js';
+import {buildUsageCode, buildPreviewCode} from '../../utils/code.js';
 
 import {IconExpandComponent} from '../../icons/expand.js';
 import {IconCollapseComponent} from '../../icons/collapse.js';
@@ -42,13 +40,8 @@ import {IconMobileComponent} from '../../icons/mobile.js';
 import {IconTabletComponent} from '../../icons/tablet.js';
 import {IconTVComponent} from '../../icons/tv.js';
 import {IconDesktopComponent} from '../../icons/desktop.js';
-import {IconTiniComponent} from '../../icons/tini.js';
-import {IconVueComponent} from '../../icons/vue.js';
-import {IconReactComponent} from '../../icons/react.js';
-import {IconAngularComponent} from '../../icons/angular.js';
-import {IconSvelteComponent} from '../../icons/svelte.js';
-import {IconHTMLComponent} from '../../icons/html.js';
 
+import {AppConsumerTabsComponent} from '../consumer-tabs.js';
 import {AppSkinEditorTogglerComponent} from '../skin-editor/toggler.js';
 import {AppComponentEditorInputComponent} from './input.js';
 import {AppComponentEditorTextareaComponent} from './textarea.js';
@@ -58,6 +51,15 @@ import {AppComponentEditorSwitchComponent} from './switch.js';
 import {AppComponentEditorHTMLComponent} from './html.js';
 import {AppComponentEditorCSSComponent} from './css.js';
 import {AppComponentEditorJSComponent} from './js.js';
+import {AppComponentEditorPlainComponent} from './plain.js';
+
+export interface QuickExample {
+  content: string;
+  items: Array<{
+    target: string;
+    value: any;
+  }>;
+}
 
 export interface FunctionSection {
   section: string;
@@ -80,10 +82,13 @@ export enum CommonViewports {
 
 const componentLoader = createComponentLoader(
   {
+    box: () => import('../../ui/components/box.js'),
+    flex: () => import('../../ui/components/flex.js'),
+    grid: () => import('../../ui/components/grid.js'),
+    container: () => import('../../ui/components/container.js'),
     heading: () => import('../../ui/components/heading.js'),
     text: () => import('../../ui/components/text.js'),
     link: () => import('../../ui/components/link.js'),
-    box: () => import('../../ui/components/box.js'),
     skeleton: () => import('../../ui/components/skeleton.js'),
     icon: () => import('../../ui/components/icon.js'),
     button: () => import('../../ui/components/button.js'),
@@ -117,16 +122,12 @@ const componentLoader = createComponentLoader(
     TiniLinkComponent,
     TiniIconComponent,
     TiniCodeComponent,
+    TiniSelectComponent,
     IconMobileComponent,
     IconTabletComponent,
     IconTVComponent,
     IconDesktopComponent,
-    IconTiniComponent,
-    IconVueComponent,
-    IconReactComponent,
-    IconAngularComponent,
-    IconSvelteComponent,
-    IconHTMLComponent,
+    AppConsumerTabsComponent,
     AppSkinEditorTogglerComponent,
     AppComponentEditorInputComponent,
     AppComponentEditorTextareaComponent,
@@ -136,6 +137,7 @@ const componentLoader = createComponentLoader(
     AppComponentEditorHTMLComponent,
     AppComponentEditorCSSComponent,
     AppComponentEditorJSComponent,
+    AppComponentEditorPlainComponent,
   ],
 })
 export class AppComponentEditorComponent
@@ -144,14 +146,15 @@ export class AppComponentEditorComponent
 {
   static readonly defaultTagName = 'app-component-editor';
 
-  @UseUI() readonly ui!: UI;
   @Subscribe(mainStore) uiConsumerTarget = mainStore.uiConsumerTarget;
 
   @Input() name!: string;
+  @Input({type: Object}) examples?: Record<string, QuickExample>;
   @Input({type: Object}) sections!: FunctionSection[];
 
   @Reactive() commonViewport?: string;
   @Reactive() isFullscreen = false;
+  @Reactive() selectedExampleValue = '_default';
   @Reactive() data?: ComponentData;
 
   private readonly _mainRef = createRef<HTMLDivElement>();
@@ -159,26 +162,14 @@ export class AppComponentEditorComponent
   private readonly _resizableRef = createRef<HTMLDivElement>();
   private readonly _viewportSizeRef = createRef<HTMLDivElement>();
 
-  importCode?: string;
   usageCode?: string;
   previewTemplate?: TemplateResult;
 
-  private names!: Names;
   onCreate() {
     if (!this.name) throw new Error('name is required');
     if (!this.sections) throw new Error('sections is required');
-    // parse name
-    this.names = parseName(this.name);
-    // initial data
-    this.data = this.sections.reduce((result, {target, value}) => {
-      if (target === 'inner') {
-        if (value) result.inner = value;
-      } else {
-        if (!result.props) result.props = {};
-        if (value) result.props[target] = value;
-      }
-      return result;
-    }, {} as ComponentData);
+    // build initial data
+    this.data = this.getInitialData();
   }
 
   onChanges() {
@@ -189,9 +180,11 @@ export class AppComponentEditorComponent
       componentLoader.extractAndLoad([[this.name], this.data?.inner]);
     }
     // build codes
-    this.importCode = this.buildImportCode();
-    this.usageCode = this.buildUsageCode();
-    this.previewTemplate = this.buildPreviewCode();
+    this.usageCode = buildUsageCode(this.uiConsumerTarget, {
+      ...this.data,
+      name: this.name,
+    });
+    this.previewTemplate = buildPreviewCode({...this.data, name: this.name});
   }
 
   private originalAvailableWidth!: number;
@@ -230,128 +223,6 @@ export class AppComponentEditorComponent
     });
   }
 
-  private buildImportCode() {
-    const {familyId} = this.ui.activeTheme;
-    const constructorName = `Tini${this.names.className}Component`;
-    const importPath = `@tinijs/ui-${familyId}/components/${this.name}.js`;
-    switch (this.uiConsumerTarget) {
-      case UIConsumerTargets.Tini: {
-        return `import {${constructorName}} from '${importPath}';
-
-@App|Layout|Page|Component({components: [ ${constructorName} ]})`;
-      }
-      case UIConsumerTargets.React: {
-        const reactTag = `Tini${this.names.className}`;
-        const reactPath = `@tinijs/ui-${familyId}-react/components/${this.name}.js`;
-        return `import {${reactTag}, ${constructorName}} from '${reactPath}';
-
-registerComponents([ ${constructorName} ])`;
-      }
-      case UIConsumerTargets.Vanilla: {
-        const cdnPath = `https://cdn.jsdelivr.net/npm/@tinijs/ui-${familyId}/components/${this.name}.js`;
-        return `import {${constructorName}} from '${cdnPath}';
-
-setupUI({ components: [ ${constructorName} ] });`;
-      }
-      default: {
-        return `import {${constructorName}} from '${importPath}';
-
-registerComponents([ ${constructorName} ]);`;
-      }
-    }
-  }
-
-  private buildUsageProperties(
-    props: Record<string, any> | undefined,
-    nonPrimitiveModifiers: [string, string, string, string] = [
-      '.',
-      '',
-      '${',
-      '}',
-    ],
-    stringifyObject = false
-  ) {
-    const [prefix, suffix, open, close] = nonPrimitiveModifiers;
-    return !props
-      ? ''
-      : Object.entries(props)
-          .map(([key, value]) => {
-            if (!value) return null;
-            if (value === true) {
-              return key;
-            } else if (typeof value === 'number') {
-              return `${prefix}${key}${suffix}=${open}${value}${close}`;
-            } else if (value instanceof Object) {
-              return `${prefix}${key}${suffix}=${open}${
-                stringifyObject
-                  ? JSON.stringify(value, null, 2)
-                  : JSON5.stringify(value, null, 2)
-              }${close}`;
-            } else {
-              return `${key}="${value}"`;
-            }
-          })
-          .filter(Boolean)
-          .join(' ');
-  }
-  private buildUsageCode() {
-    const {props = {}, inner = ''} = this.data || {};
-    let tag = `tini-${this.name}`;
-    let properties!: string;
-    switch (this.uiConsumerTarget) {
-      case UIConsumerTargets.Vue: {
-        properties = this.buildUsageProperties(props, ['.', '', '"', '"']);
-        break;
-      }
-      case UIConsumerTargets.React: {
-        tag = `Tini${this.names.className}`;
-        properties = this.buildUsageProperties(props, ['', '', '{', '}']);
-        break;
-      }
-      case UIConsumerTargets.Angular: {
-        properties = this.buildUsageProperties(props, ['[', ']', '"', '"']);
-        break;
-      }
-      case UIConsumerTargets.Svelte: {
-        properties = this.buildUsageProperties(props, ['', '', '{', '}']);
-        break;
-      }
-      case UIConsumerTargets.Vanilla: {
-        properties = this.buildUsageProperties(props, ['', '', "'", "'"], true);
-        break;
-      }
-      case UIConsumerTargets.Tini:
-      default: {
-        properties = this.buildUsageProperties(props);
-        break;
-      }
-    }
-    return `<${tag} ${properties}>${inner}</${tag}>`;
-  }
-
-  private buildPreviewCode() {
-    const {props = {}, inner = ''} = this.data || {};
-    const tag = unsafeStatic(`tini-${this.name}`);
-    const properties = !props
-      ? ''
-      : unsafeStatic(
-          Object.entries(props)
-            .map(([key, value]) => {
-              if (!value) return null;
-              if (value === true) {
-                return key;
-              } else if (value instanceof Object) {
-                return `${key}='${JSON.stringify(value)}'`;
-              } else {
-                return `${key}="${value}"`;
-              }
-            })
-            .filter(Boolean)
-            .join(' ')
-        );
-    return staticHTML`<${tag} ${properties}>${unsafeStatic(inner)}</${tag}>`;
-  }
-
   private changeCommonViewport(viewport: CommonViewports) {
     if (viewport === this.commonViewport) {
       this.commonViewport = undefined;
@@ -370,7 +241,9 @@ registerComponents([ ${constructorName} ]);`;
     }
   }
 
-  private changeConsumerTarget(target: UIConsumerTargets) {
+  private changeConsumerTarget({
+    detail: target,
+  }: CustomEvent<UIConsumerTargets>) {
     if (target === this.uiConsumerTarget) return;
     mainStore.uiConsumerTarget = target;
   }
@@ -385,6 +258,51 @@ registerComponents([ ${constructorName} ]);`;
       screenfull.request(this._mainRef.value!);
       this.isFullscreen = true;
     }
+  }
+
+  private getInitialData() {
+    return this.sections.reduce((result, {target, value}) => {
+      if (target === 'inner') {
+        if (value) result.inner = value;
+      } else {
+        if (!result.props) result.props = {};
+        if (value) result.props[target] = value;
+      }
+      return result;
+    }, {} as ComponentData);
+  }
+
+  private changeExample({detail}: CustomEvent<InputEvent>) {
+    const value = (detail.target as any).value as string;
+    const example = this.examples![value];
+    this.data = {}; // reset data
+    if (!example) {
+      this.selectedExampleValue = '_default';
+      this.data = this.getInitialData();
+    } else {
+      this.selectedExampleValue = value;
+      example.items.forEach(({target, value}) => {
+        this.changeComponentData(target, value, true);
+      });
+    }
+  }
+
+  private changeComponentData(target: string, value: any, keepExample = false) {
+    // reset example
+    if (!keepExample) this.selectedExampleValue = '_default';
+    // update data
+    const data = {...this.data};
+    if (target === 'inner') {
+      data.inner = value;
+    } else {
+      data.props ||= {};
+      if (!value || value === '_default') {
+        delete data.props[target];
+      } else {
+        data.props[target] = value;
+      }
+    }
+    this.data = data;
   }
 
   protected render() {
@@ -407,11 +325,45 @@ registerComponents([ ${constructorName} ]);`;
   }
 
   private getEditTemplate() {
+    const selectedExample = (
+      this.examples?.[this.selectedExampleValue!]?.items || []
+    ).reduce(
+      (result, item) => {
+        result[item.target] = item.value;
+        return result;
+      },
+      {} as Record<string, any>
+    );
+    const currentData: Record<string, any> = {
+      ...this.data?.props,
+      inner: this.data?.inner,
+    };
+    const examplesTemplate = !this.examples
+      ? nothing
+      : html`
+          <div class="examples">
+            <tini-select
+              wrap
+              block
+              label="Quick examples"
+              .items=${[
+                {value: '_default', content: 'None (manually)'},
+                ...Object.entries(this.examples).map(([value, {content}]) => ({
+                  value,
+                  content,
+                })),
+              ]}
+              .value=${this.selectedExampleValue}
+              events="change"
+              @change=${this.changeExample}
+            ></tini-select>
+          </div>
+          <hr />
+        `;
     const editTemplate = !this.sections.length
       ? nothing
-      : this.sections.map(({section, attrs, target, value}) => {
+      : this.sections.map(({section, attrs, target}) => {
           const tag = unsafeStatic(`app-component-editor-${section}`);
-          // attributes
           const attributes = !attrs
             ? ''
             : unsafeStatic(
@@ -429,27 +381,15 @@ registerComponents([ ${constructorName} ]);`;
                   .filter(Boolean)
                   .join(' ')
               );
-          // value event
-          const onChange = (value: any) => {
-            const data = {...this.data};
-            if (target === 'inner') {
-              data.inner = value;
-            } else {
-              data.props ||= {};
-              if (!value || value === '_default') {
-                delete data.props[target];
-              } else {
-                data.props[target] = value;
-              }
-            }
-            this.data = data;
-          };
-          // build section
           return staticHTML`
-        <${tag} ${attributes} .value=${value} @change=${({
-          detail,
-        }: CustomEvent<any>) => onChange(detail)}></${tag}>
-      `;
+            <${tag}
+              ${attributes}
+              target=${target}
+              .value=${selectedExample[target] || currentData[target]}
+              @change=${({detail}: CustomEvent<any>) =>
+                this.changeComponentData(target, detail)}
+            ></${tag}>
+          `;
         });
     return html`
       <div class="head">
@@ -459,9 +399,9 @@ registerComponents([ ${constructorName} ]);`;
           : html`<app-skin-editor-toggler></app-skin-editor-toggler>`}
       </div>
       <div class="body">
-        ${editTemplate}
+        ${examplesTemplate} ${editTemplate}
         <div class="foot">
-          <a href="/ui/customization">Not sastify, more options?</a>
+          <!-- <a href="/ui/customization">Not sastify, more options?</a> -->
         </div>
       </div>
     `;
@@ -537,82 +477,16 @@ registerComponents([ ${constructorName} ]);`;
   private getCodeTemplate() {
     return html`
       <div class="head">
-        <button
-          class=${classMap({
-            selected: this.uiConsumerTarget === UIConsumerTargets.Tini,
-          })}
-          @click=${() => this.changeConsumerTarget(UIConsumerTargets.Tini)}
-        >
-          <icon-tini size=${Sizes.XS}></icon-tini>
-          <span>Tini</span>
-        </button>
-        <button
-          class=${classMap({
-            selected: this.uiConsumerTarget === UIConsumerTargets.Vue,
-          })}
-          @click=${() => this.changeConsumerTarget(UIConsumerTargets.Vue)}
-        >
-          <icon-vue size=${Sizes.XS}></icon-vue>
-          <span>Vue</span>
-        </button>
-        <button
-          class=${classMap({
-            selected: this.uiConsumerTarget === UIConsumerTargets.React,
-          })}
-          @click=${() => this.changeConsumerTarget(UIConsumerTargets.React)}
-        >
-          <icon-react size=${Sizes.XS}></icon-react>
-          <span>React</span>
-        </button>
-        <button
-          class=${classMap({
-            selected: this.uiConsumerTarget === UIConsumerTargets.Angular,
-          })}
-          @click=${() => this.changeConsumerTarget(UIConsumerTargets.Angular)}
-        >
-          <icon-angular size=${Sizes.XS}></icon-angular>
-          <span>Angular</span>
-        </button>
-        <button
-          class=${classMap({
-            selected: this.uiConsumerTarget === UIConsumerTargets.Svelte,
-          })}
-          @click=${() => this.changeConsumerTarget(UIConsumerTargets.Svelte)}
-        >
-          <icon-svelte size=${Sizes.XS}></icon-svelte>
-          <span>Svelte</span>
-        </button>
-        <button
-          class=${classMap({
-            selected: this.uiConsumerTarget === UIConsumerTargets.Vanilla,
-          })}
-          @click=${() => this.changeConsumerTarget(UIConsumerTargets.Vanilla)}
-        >
-          <icon-html size=${Sizes.XS}></icon-html>
-          <span>Vanilla</span>
-        </button>
+        <app-consumer-tabs
+          target=${this.uiConsumerTarget}
+          @change=${this.changeConsumerTarget}
+        ></app-consumer-tabs>
       </div>
       <div class="body">
-        ${!this.importCode
-          ? nothing
-          : html`
-              <div>
-                <p>
-                  <strong>Step 1</strong>: Import and register the component,
-                  please see <a href="/ui/get-started">Get started</a> for more
-                  details.
-                </p>
-                <tini-code
-                  language="javascript"
-                  content=${this.importCode}
-                ></tini-code>
-              </div>
-            `}
         ${!this.usageCode
           ? nothing
           : html`
               <div>
-                <p><strong>Step 2</strong>: Copy below code to the template.</p>
                 <tini-code
                   language="html"
                   content=${this.usageCode}
@@ -664,6 +538,20 @@ registerComponents([ ${constructorName} ]);`;
         display: flex;
         flex-flow: column;
         gap: var(--space-lg);
+
+        .examples {
+          border: 1px solid var(--color-medium);
+          border-radius: var(--radius-md);
+          padding: var(--space-md);
+          background: var(--gradient-body);
+
+          tini-select::part(label) {
+            font-weight: bold;
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            margin-top: -4px;
+          }
+        }
       }
     }
 
@@ -699,7 +587,7 @@ registerComponents([ ${constructorName} ]);`;
               background: none;
               border: none;
               border-radius: var(--radius-md);
-              padding: var(--space-xs-2);
+              padding: var(--space-xs2);
               cursor: pointer;
 
               &:hover {
@@ -729,7 +617,7 @@ registerComponents([ ${constructorName} ]);`;
           position: absolute;
           top: var(--space-md);
           right: var(--space-md);
-          padding: var(--space-xs-2) var(--space-xs);
+          padding: var(--space-xs2) var(--space-xs);
           font-size: var(--text-sm);
           border-radius: var(--radius-md);
           background: color-mix(
@@ -775,35 +663,6 @@ registerComponents([ ${constructorName} ]);`;
           display: flex;
           padding: 0;
           justify-content: flex-start;
-
-          button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--space-xs-2);
-            background: var(--color-body);
-            border: none;
-            padding: var(--space-xs) var(--space-sm);
-            cursor: pointer;
-            box-sizing: border-box;
-            height: calc(var(--head-height) + 1px);
-            border-bottom: 1px solid var(--color-body-semi);
-            border-right: 1px solid var(--color-body-semi);
-            background: var(--color-body-soft);
-
-            &:hover {
-              background: var(--color-body-semi);
-            }
-
-            &.selected {
-              background: var(--color-body);
-              border-bottom-color: var(--color-body);
-            }
-
-            span {
-              display: none;
-            }
-          }
         }
 
         tini-code {
@@ -828,6 +687,12 @@ registerComponents([ ${constructorName} ]);`;
 
         main {
           flex: 1;
+          display: flex;
+          flex-direction: column;
+
+          .preview {
+            flex: 1;
+          }
         }
       }
     }

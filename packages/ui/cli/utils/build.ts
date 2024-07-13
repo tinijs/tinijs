@@ -471,6 +471,10 @@ export async function buildSetup({manualSkinSelection}: UIConfig) {
   }
 
   // exports
+  setupTS.addExport('@tinijs/core', [
+    'registerComponents',
+    'resolvePendingComponents',
+  ]);
   if (manualSkinSelection) {
     setupTS.addExport('./skin.js', '*');
   }
@@ -481,10 +485,10 @@ export async function buildSetup({manualSkinSelection}: UIConfig) {
     .addBlock(
       'export type UISetup = ',
       (manualSkinSelection ? 'UIInit' : 'Partial<UIInit>') +
-        ' & {components?: RegisterComponentsList, pendingBody?: true | string}'
+        ' & {components?: RegisterComponentsList, resolvePending?: Parameters<typeof registerComponents>[1]}'
     )
     .addBlock(
-      `export function setupUI({host, globals, skins, shares, options, components, pendingBody}: UISetup${
+      `export function setupUI({host, globals, skins, shares, options, components, resolvePending}: UISetup${
         manualSkinSelection ? '' : ' = {}'
       })`,
       `{
@@ -501,10 +505,7 @@ export async function buildSetup({manualSkinSelection}: UIConfig) {
     options,
   });
   if (components?.length) {
-    registerComponents(components);
-  }
-  if (pendingBody) {
-    document.body.removeAttribute('hidden');
+    registerComponents(components, resolvePending);
   }
   return ui;
 }`

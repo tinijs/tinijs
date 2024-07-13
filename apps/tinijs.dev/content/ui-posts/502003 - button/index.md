@@ -2,11 +2,15 @@
 {
   "status": "publish",
   "title": "Button",
-  "category": "component"
+  "category": "components"
 }
 +++
 
 Use buttons to trigger actions.
+
+## Import
+
+<app-component-import componentName="button"></app-component-import>
 
 ## Editor
 

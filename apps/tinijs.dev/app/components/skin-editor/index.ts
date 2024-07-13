@@ -376,7 +376,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         cursor: pointer;
         display: flex;
         align-items: center;
-        padding: var(--space-xs-3) var(--space-sm);
+        padding: var(--space-xs3) var(--space-sm);
         margin-right: var(--space-xl);
         background: var(--color-body);
         color: var(--color-body-contrast);
@@ -440,7 +440,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
               justify-content: space-between;
               margin-right: var(--space-xs);
               margin-bottom: var(--space-xs);
-              padding: var(--space-xs-2) 0 var(--space-sm);
+              padding: var(--space-xs2) 0 var(--space-sm);
               border-bottom: 1px solid var(--color-body-semi);
 
               .value {
@@ -449,7 +449,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
                   background: var(--color-body);
                   border: 1px solid var(--color-medium);
                   border-radius: var(--radius-md);
-                  padding: var(--space-xs-2) var(--space-xs);
+                  padding: var(--space-xs2) var(--space-xs);
                 }
 
                 input {

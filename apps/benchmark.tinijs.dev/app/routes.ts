@@ -18,14 +18,24 @@ export const routes: Route[] = [
       },
       // ui
       {
-        path: '/ui/text',
-        component: 'app-page-ui-text',
-        action: () => import('./pages/subjects/ui-text.js'),
+        path: '/ui/box',
+        component: 'app-page-ui-box',
+        action: () => import('./pages/subjects/ui-box.js'),
       },
       {
-        path: '/ui/text-native',
-        component: 'app-page-ui-text-native',
-        action: () => import('./pages/subjects/ui-text-native.js'),
+        path: '/ui/flex',
+        component: 'app-page-ui-flex',
+        action: () => import('./pages/subjects/ui-flex.js'),
+      },
+      {
+        path: '/ui/grid',
+        component: 'app-page-ui-grid',
+        action: () => import('./pages/subjects/ui-grid.js'),
+      },
+      {
+        path: '/ui/container',
+        component: 'app-page-ui-container',
+        action: () => import('./pages/subjects/ui-container.js'),
       },
       {
         path: '/ui/heading',
@@ -41,6 +51,16 @@ export const routes: Route[] = [
         path: '/ui/image',
         component: 'app-page-ui-image',
         action: () => import('./pages/subjects/ui-image.js'),
+      },
+      {
+        path: '/ui/text',
+        component: 'app-page-ui-text',
+        action: () => import('./pages/subjects/ui-text.js'),
+      },
+      {
+        path: '/ui/text-native',
+        component: 'app-page-ui-text-native',
+        action: () => import('./pages/subjects/ui-text-native.js'),
       },
       // 404
       {

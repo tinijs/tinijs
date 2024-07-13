@@ -9,6 +9,7 @@ export const styles = defaultStyles.extends({
   fontGen: () => '',
   textGen: () => '',
   weightGen: () => '',
+  alignGen: () => '',
 });
 
 export default {styles};

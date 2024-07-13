@@ -2,9 +2,13 @@
 {
   "status": "publish",
   "title": "Icon",
-  "category": "component"
+  "category": "components"
 }
 +++
+
+## Import
+
+<app-component-import componentName="icon"></app-component-import>
 
 ## Editor
 

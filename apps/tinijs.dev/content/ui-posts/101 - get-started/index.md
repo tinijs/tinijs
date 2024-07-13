@@ -17,9 +17,9 @@ Working with reusable components is easy, usually in the form of passing props t
 Components are also able to accommodate almost any design systems with as little effort as possible. This is achieved via a theming system; the concept is this:
 
 - Components are written **only once**, they are **headless** (without specific styles)
-- Themes are organized into **Families** (aka. design systems), families define their own base characteristics, for example: Bootstrap, Material, Fluent, Spectrum, ...
+- Themes are organized into **Families** (aka. design systems), families define their own base characteristics, for example: Bootstrap, Material, Fluent, ...
 - Upon the base characteristics, a family have style variants, called **Skins**, for example, the Bootstrap family may have: Light skin, Dark skin, ...
-- A so called **Theme** is a combination of a family and a skin, for example: `bootstrap/light`, `bootstrap/dark`, ...
+- A so called **Theme** is a combination of a family and a skin, for example: `bootstrap/light`, `material/dark`, ...
 
 With the theming concept in mind, any app can have these theming capabilities:
 
@@ -39,17 +39,24 @@ To get started with Tini UI, first identify which theme family and skin you woul
 - [Chakra](/ui/chakra)
 - [Daisy](/ui/daisy)
 
+For using Tini UI with other frameworks or no framework:
+- [Vue and Nuxt](/ui/vue)
+- [React](/ui/react)
+- [Angular](/ui/angular)
+- [Svelte](/ui/svelte)
+- [Vanilla and Servers](/ui/vanilla)
+
 There are 3 main ways of using Tini UI:
 
 1. **Via CDN** (one theme family, one or more skin)
 2. **Install prebuilt packages** (one theme family, one or more skin)
 3. **Build and manage UI** using [Tini CLI](/cli) (one or more theme family, one or more skin)
 
-### Via CDN
+### Option 1: Via CDN
 
 CDN is the simplest way to get started with Tini UI, just include the script tag in your HTML file. This way is suitable for small projects or quick prototyping without the need of a build step.
 
-- Step 1: Setup the UI
+- **Step 1**: Setup the UI
 
 ```html
 <script type="module">
@@ -60,10 +67,10 @@ import { availableComponents } from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-boo
 // setup the UI
 const ui = setupUI({
 
-  // include some or all skins
+  // include all skins
   skins: availableSkins,
 
-  // register some or all components
+  // register all components
   components: availableComponents,
 
 });
@@ -74,24 +81,24 @@ ui.setTheme(isDark ? 'bootstrap/dark' : 'bootstrap/light');
 </script>
 ```
 
-- Step 2: Use the components
+- **Step 2**: Use the components
 
 ```html
 <tini-text color="success">Lorem ipsum</tini-text>
 <tini-button>A button</tini-button>
 ```
 
-### Prebuilt packages
+### Option 2: Prebuilt packages
 
 Prebuilt packages are available on NPM.
 
-- Step 1: Install a theme family
+- **Step 1**: Install a theme family
 
 ```bash
 npm i @tinijs/ui-material
 ```
 
-- Step 2: Setup the UI
+- **Step 2**: Setup the UI
 
 ```ts
 import { setupUI, materialLightSkin, materialDarkSkin } from '@tinijs/ui-material/setup.js';
@@ -101,13 +108,13 @@ import { TiniButtonComponent } from '@tinijs/ui-material/components/button.js';
 // setup the UI
 const ui = setupUI({
 
-  // include some or all skins
+  // include some skins
   skins: {
     'material/light': materialLightSkin,
     'material/dark': materialDarkSkin,
   },
 
-  // register some or all components
+  // register some components
   components: [
     TiniTextComponent,
     TiniButtonComponent,
@@ -119,20 +126,20 @@ const ui = setupUI({
 ui.setTheme(themeId);
 ```
 
-- Step 3: Use components
+- **Step 3**: Use components
 
 ```html
 <tini-text color="success">Lorem ipsum</tini-text>
 <tini-button>A button</tini-button>
 ```
 
-### Using CLI
+### Option 3: Using CLI
 
 With [Tini CLI](/cli), you can build UI packages for using locally in a project or as an sharable package for your entire organization.
 
 It also allows you to override the default bases, skins and components as well as develop your own theme families with your own design systems and private components.
 
-- Step 1: Config and build UI packages
+- **Step 1**: Config and build UI packages
 
 First, install Tini UI official source package:
 
@@ -171,7 +178,7 @@ npx tini ui build
 
 By default, the result will be output to the `app/ui` folder, the folder should be ignored from GIT.
 
-- Step 2: Setup the UI
+- **Step 2**: Setup the UI
 
 ```ts
 import { setupUI, type AppWithUI } from './ui/setup.js';
@@ -184,7 +191,7 @@ const ui = setupUI({
   // skins are included automatically
   // based on the config above in tini.config.ts
 
-  // register some or all components
+  // register some components
   components: [
     TiniTextComponent,
     TiniButtonComponent,
@@ -196,7 +203,7 @@ const ui = setupUI({
 ui.setTheme(themeId);
 ```
 
-- Step 3: Use components
+- **Step 3**: Use components
 
 ```html
 <tini-text color="success">Lorem ipsum</tini-text>
@@ -207,15 +214,15 @@ ui.setTheme(themeId);
 
 Whether you use CDN, prebuilt packages or build UI with Tini CLI, there are some common endpoints to import stuffs depending on the need.
 
-| Endpoint | Description |
-| --- | --- |
-| `/setup.js` | `setupUI()`, all the skins and `availableSkins` (an object contains all skins) |
-| _Official components_ |
-| `/component.js` | all the components and `availableComponents` (an array of all components) |
-| `/components/<name>.js` | certain component only |
+| Endpoint                         | Description                                                                    |
+| -------------------------------- | ------------------------------------------------------------------------------ |
+| `/setup.js`                      | `setupUI()`, all the skins and `availableSkins` (an object contains all skins) |
+| _Official components_            |
+| `/component.js`                  | all the components and `availableComponents` (an array of all)      |
+| `/components/<name>.js`          | specific component only                                                         |
 | _Icon components (if available)_ |
-| `/icon.js` | all the icon components and `availableIcons` (an array of all icon components) |
-| `/icons/<name>.js` | certain icon component only |
+| `/icon.js`                       | all the icon components and `availableIcons` (an array of all) |
+| `/icons/<name>.js`               | specific icon component only                                                    |
 
 ## Setup UI details
 
@@ -246,7 +253,8 @@ const ui = setupUI({
   components: Component[];
 
   // remove 'hidden' attribute from body for server rendered pages
-  pendingBody: boolean;
+  // or provide a custom hanlder
+  resolvePending: boolean | (() => void);
 
 });
 ```

@@ -1,7 +1,7 @@
 +++json
 {
   "status": "publish",
-  "title": "CLI expansion",
+  "title": "CLI Expansion",
   "category": "server"
 }
 +++
@@ -18,8 +18,8 @@ npx tini server dev
 
 ### Options
 
-| Option | Description |
-| --- | --- |
+| Option            | Description                   |
+| ----------------- | ----------------------------- |
 | `--debug` or `-d` | Log output from all commands. |
 
 ## `server build`
