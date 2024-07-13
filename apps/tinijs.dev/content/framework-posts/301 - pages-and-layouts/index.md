@@ -73,3 +73,56 @@ export class AppLayoutXXX extends TiniComponent {
 ```
 
 Beside the `@Layout()` decorator and the `<slot></slot>` in the template, everything else would work the same as any component. But, please note the `name: 'app-layout-xxx'` property, it plays a role later when we setup the [Tini Router](https://tinijs.dev/framework/router).
+
+## Lit elements
+
+If you have existing Lit pages that you wish to use in a TinJS app, you can do one of the following.
+
+### Continue using LitElement
+
+You can continue to use Lit pages in a TiniJS app without changing anything.
+
+Let say you have a Lit page:
+
+```js
+@customElement('my-lit-page')
+export class MyLitPage extends LitElement {}
+```
+
+Then, use the page in a TiniJS app like this (please see [Routes and Navigation](/framework/router) for details):
+
+```ts
+import 'my/lit/page.js';
+
+export const routes: Route[] = [
+  {
+    path: '/my-route',
+    component: 'my-lit-page',
+  },
+];
+```
+
+### Migrate to TiniComponent
+
+You can also convert a Lit page to a Tini page, in 3 steps:
+- Extend `TiniComponent` instead of `LitElement`
+- Move the tag name to `options.name`
+- Use `@Page()` decorator
+
+For example, the below Lit page:
+
+```js
+@customElement('my-page')
+export class MyPage extends LitElement {}
+```
+
+Will be converted to:
+
+```js
+@Page({
+  name: 'my-page'
+})
+export class MyPage extends TiniComponent {}
+```
+
+Please note that if you use [Tini UI](/ui), then the new page which extends `TinComponent` will have access to the [base styles](/ui/native-elements) and any [shared styles](/ui/get-started#setup-ui-details). Therefore, it may change the appearance of some native elements, please do check it after the conversion.

@@ -4,8 +4,8 @@ import {classMap} from 'lit/directives/class-map.js';
 import {
   Component,
   TiniComponent,
-  Input,
-  Output,
+  Prop,
+  Event,
   Sizes,
   type EventEmitter,
 } from '@tinijs/core';
@@ -32,9 +32,9 @@ import {UIConsumerTargets} from '../consts/common.js';
 export class AppConsumerTabsComponent extends TiniComponent {
   static readonly defaultTagName = 'app-consumer-tabs';
 
-  @Input() target?: string;
+  @Prop() target?: string;
 
-  @Output() change!: EventEmitter<UIConsumerTargets>;
+  @Event() change!: EventEmitter<UIConsumerTargets>;
 
   private changeTarget(target: UIConsumerTargets) {
     this.target = target;

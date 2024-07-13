@@ -4,7 +4,7 @@ import {pascalCase} from 'change-case';
 import {
   Component,
   TiniComponent,
-  Input,
+  Prop,
   UseUI,
   type UI,
   type OnCreate,
@@ -32,7 +32,7 @@ export class AppComponentImportComponent
   @UseUI() readonly ui!: UI;
   @Subscribe(mainStore) uiConsumerTarget = mainStore.uiConsumerTarget;
 
-  @Input() componentName!: string;
+  @Prop() componentName!: string;
 
   onCreate() {
     if (!this.componentName) throw new Error('componentName is required');

@@ -3,7 +3,7 @@ import {html, css} from 'lit';
 import {
   Component,
   TiniComponent,
-  Output,
+  Event,
   UseUI,
   type UI,
   type EventEmitter,
@@ -22,7 +22,7 @@ export class AppThemeSelectorComponent extends TiniComponent {
 
   @UseUI() readonly ui!: UI;
 
-  @Output() change!: EventEmitter<string>;
+  @Event() change!: EventEmitter<string>;
 
   private buildThemeOptions(familyId: string, items: SelectOption[]) {
     return items.map(item => {

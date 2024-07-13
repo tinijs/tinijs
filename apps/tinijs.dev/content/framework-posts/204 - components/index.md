@@ -86,4 +86,57 @@ static readonly defaultTagName = 'app-foo';
 }
 ```
 
-After register, you can use the tag `<app-xxx></app-xxx>` and `<bar-baz-qux></bar-baz-qux>` as they are native HTML tags.
+After register, you can use the tag `<app-xxx></app-xxx>` and `<bar-baz-qux></bar-baz-qux>` just like they are native HTML tags.
+
+## Lit elements
+
+If you have existing Lit elements that you wish to use in a TinJS app, you can do one of the following.
+
+### Continue using LitElement
+
+You can continue to use Lit elements in a TiniJS app without changing anything.
+
+Let say you have a Lit element:
+
+```js
+@customElement('my-lit-element')
+export class MyLitElement extends LitElement {}
+```
+
+Then, somewhere in a TiniJS app:
+
+```js
+import 'my/lit/element.js';
+
+@Component()
+export class MyTiniComponent extends TiniComponent {
+  protected render() {
+    return html`<my-lit-element></my-lit-element>`;
+  }
+}
+```
+
+### Migrate to TiniComponent
+
+You can also convert a Lit element to a Tini component, in 3 steps:
+- Extend `TiniComponent` instead of `LitElement`
+- Move the tag name to `defaultTagName`
+- Use `@Component()` decorator
+
+For example, the below Lit element:
+
+```js
+@customElement('my-component')
+export class MyComponent extends LitElement {}
+```
+
+Will be converted to:
+
+```js
+@Component()
+export class MyComponent extends TiniComponent {
+  static readonly defaultTagName = 'my-component';
+}
+```
+
+Please note that if you use [Tini UI](/ui), then the new component which extends `TinComponent` will have access to the [base styles](/ui/native-elements) and any [shared styles](/ui/get-started#setup-ui-details). Therefore, it may change the appearance of some native elements, please do check it after the conversion.

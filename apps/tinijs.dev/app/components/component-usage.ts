@@ -4,7 +4,7 @@ import {classMap} from 'lit/directives/class-map.js';
 import {
   Component,
   TiniComponent,
-  Input,
+  Prop,
   Reactive,
   type OnCreate,
   type OnChanges,
@@ -29,7 +29,7 @@ export class AppComponentUsageComponent
 {
   static readonly defaultTagName = 'app-component-usage';
 
-  @Input() codes!: Array<BuildCodeDef | Record<string, TemplateResult>>;
+  @Prop() codes!: Array<BuildCodeDef | Record<string, TemplateResult>>;
 
   @Reactive() uiConsumerTarget?: UIConsumerTargets;
 

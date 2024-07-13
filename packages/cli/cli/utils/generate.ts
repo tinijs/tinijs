@@ -290,25 +290,26 @@ export class ${className} extends TiniComponent {
 function getComponentMainContent({className, tagName}: Names) {
   return `import {html, css} from 'lit';
 
-import {Component, TiniComponent, Input, Output, type EventEmitter, type OnCreate} from '@tinijs/core';
+import {Component, TiniComponent, Prop, Event, type EventEmitter, type OnCreate} from '@tinijs/core';
 
 @Component()
 export class ${className} extends TiniComponent implements OnCreate {
   static readonly defaultTagName = '${tagName}';
 
-  @Input() property?: string;
-  @Output() customEvent!: EventEmitter<{payload: any}>;
+  @Prop() prop?: string;
+
+  @Event() event!: EventEmitter<any>;
 
   onCreate() {
     // element connected
   }
 
-  emitCustomEvent() {
-    this.customEvent.emit({payload: '...'});
+  emitEvent() {
+    this.event.emit('any payload');
   }
 
   protected render() {
-    return html\`<p @click=\${this.emitCustomEvent}>${className}</p>\`;
+    return html\`<p @click=\${this.emitEvent}>${className}</p>\`;
   }
 
   static styles = css\`\`;

@@ -3,7 +3,7 @@ import {html, css, nothing} from 'lit';
 import {
   Component,
   TiniComponent,
-  Input,
+  Prop,
   Reactive,
   sectionRender,
   type SectionRenderData,
@@ -29,8 +29,8 @@ export class AppComponentBenchmarkComponent
 {
   static readonly defaultTagName = 'app-component-benchmark';
 
-  @Input() reportId!: string;
-  @Input({type: Boolean}) noNote?: boolean;
+  @Prop() reportId!: string;
+  @Prop({type: Boolean}) noNote?: boolean;
 
   @Reactive() private report: SectionRenderData<BenckmarkReport>;
 

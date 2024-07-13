@@ -1,36 +1,36 @@
 import {TiniComponent} from '../classes/component.js';
 
 export class EventEmitter<Payload> {
-  private comp: TiniComponent;
-  private eventName: string;
+  constructor(
+    private component: TiniComponent,
+    private eventName: string,
+    private options?: CustomEventInit<Payload>
+  ) {}
 
-  constructor(comp: TiniComponent, eventName: string) {
-    this.comp = comp;
-    this.eventName = eventName;
-  }
-
-  emit(payload?: Payload, customEventInit: CustomEventInit<Payload> = {}) {
-    return this.comp.dispatchEvent(
+  emit(payload?: Payload, customOptions: CustomEventInit<Payload> = {}) {
+    return this.component.dispatchEvent(
       new CustomEvent(this.eventName, {
         detail: payload,
-        ...customEventInit,
+        ...this.options,
+        ...customOptions,
       })
     );
   }
 }
 
-export function Output() {
+export function Event(options?: CustomEventInit<unknown>) {
   return function (prototype: any, propertyName: string) {
     const emitterKey = Symbol();
     Object.defineProperty(prototype, propertyName, {
       get: function () {
         return (this[emitterKey] ||= new EventEmitter<unknown>(
           this,
-          propertyName
+          propertyName,
+          options
         ));
       },
     });
   };
 }
 
-export const Emit = Output;
+export const Output = Event;
