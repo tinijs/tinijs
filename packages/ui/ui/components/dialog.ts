@@ -84,12 +84,11 @@ export default class extends TiniElement {
   }
 
   private triggerAction(action: DialogActions) {
-    const detail = {
+    return this.emitEvent('action', {
       action,
       data: this.data,
       dialog: this,
-    };
-    return this.dispatchEvent(new CustomEvent('action', {detail}));
+    });
   }
 
   private dismiss() {

@@ -68,7 +68,7 @@ class XXX {
 }
 ```
 
-Or inline:
+Or inline, but please make sure the value is **SAFE** to use because [`unsafeCSS`](https://lit.dev/docs/api/styles/#unsafeCSS) is utilized under the hood for string value.
 
 ```html
 <tini-button styleDeep=".main { color: aqua; }">A button</tini-button>

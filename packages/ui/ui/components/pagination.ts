@@ -69,8 +69,7 @@ export default class extends TiniElement {
 
   private changePage(pageNum: number) {
     this.currentPage = pageNum;
-    const detail = {pageNum};
-    return this.dispatchEvent(new CustomEvent('change', {detail}));
+    return this.emitEvent('change', {pageNum});
   }
 
   protected render() {

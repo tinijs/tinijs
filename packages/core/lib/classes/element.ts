@@ -86,13 +86,51 @@ export class TiniElement extends LitElement {
   @property({type: Boolean, reflect: true}) restyleAtUpdate?: boolean;
   /* eslint-enable prettier/prettier */
 
+  private customTemplates = this.getTemplates();
+  private themingScripts = this.getScripts();
+
   private readonly willAdoptStylesAtUpdate = !!(
     this.restyleAtUpdate ||
     (this.constructor as typeof TiniElement).componentMetadata.restyleAtUpdate
   );
 
-  private customTemplates = this.getTemplates();
-  private themingScripts = this.getScripts();
+  constructor() {
+    super();
+    // a convienent method for setting non-primitive props
+    // when using components with vanilla JS only
+    // USE WITH CAUTION!
+    const setProps = this.getAttribute('setProps');
+    if (
+      setProps &&
+      setProps[0] === '{' &&
+      setProps[setProps.length - 1] === '}'
+    ) {
+      const props = eval(`"use strict";(${setProps})`);
+      if (props instanceof Object) {
+        Object.entries(props).forEach(
+          ([key, value]) => ((this as any)[key] = value)
+        );
+      }
+    }
+  }
+
+  emitEvent<Payload>(
+    name: string,
+    payload?: Payload,
+    options?: Omit<CustomEventInit<Payload>, 'detail'>
+  ) {
+    this.dispatchEvent(
+      new CustomEvent(name, {
+        ...options,
+        detail: payload,
+      })
+    );
+    // a convinient method for adding events
+    // when using components with vanilla JS only
+    // USE WITH CAUTION!
+    const inlineEvent = this.getAttribute(`on${name}`);
+    if (inlineEvent) eval(`"use strict";(${inlineEvent})`);
+  }
 
   protected createRenderRoot() {
     const renderRoot =

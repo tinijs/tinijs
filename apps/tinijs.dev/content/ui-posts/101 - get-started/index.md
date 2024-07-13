@@ -67,10 +67,10 @@ import { availableComponents } from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-boo
 // setup the UI
 const ui = setupUI({
 
-  // include some or all skins
+  // include all skins
   skins: availableSkins,
 
-  // register some or all components
+  // register all components
   components: availableComponents,
 
 });
@@ -108,13 +108,13 @@ import { TiniButtonComponent } from '@tinijs/ui-material/components/button.js';
 // setup the UI
 const ui = setupUI({
 
-  // include some or all skins
+  // include some skins
   skins: {
     'material/light': materialLightSkin,
     'material/dark': materialDarkSkin,
   },
 
-  // register some or all components
+  // register some components
   components: [
     TiniTextComponent,
     TiniButtonComponent,
@@ -191,7 +191,7 @@ const ui = setupUI({
   // skins are included automatically
   // based on the config above in tini.config.ts
 
-  // register some or all components
+  // register some components
   components: [
     TiniTextComponent,
     TiniButtonComponent,
@@ -218,11 +218,11 @@ Whether you use CDN, prebuilt packages or build UI with Tini CLI, there are some
 | -------------------------------- | ------------------------------------------------------------------------------ |
 | `/setup.js`                      | `setupUI()`, all the skins and `availableSkins` (an object contains all skins) |
 | _Official components_            |
-| `/component.js`                  | all the components and `availableComponents` (an array of all components)      |
-| `/components/<name>.js`          | certain component only                                                         |
+| `/component.js`                  | all the components and `availableComponents` (an array of all)      |
+| `/components/<name>.js`          | specific component only                                                         |
 | _Icon components (if available)_ |
-| `/icon.js`                       | all the icon components and `availableIcons` (an array of all icon components) |
-| `/icons/<name>.js`               | certain icon component only                                                    |
+| `/icon.js`                       | all the icon components and `availableIcons` (an array of all) |
+| `/icons/<name>.js`               | specific icon component only                                                    |
 
 ## Setup UI details
 

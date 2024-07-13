@@ -6,7 +6,7 @@ export interface EventForwarding {
   target?: string | Element[] | NodeListOf<Element>;
   keepPropagation?: boolean;
   preventDefault?: boolean;
-  dispatchOptions?: Omit<CustomEventInit, 'detail'>;
+  dispatchOptions?: Omit<CustomEventInit<unknown>, 'detail'>;
 }
 
 export type EventForwardingInput = string | Array<string | EventForwarding>;
@@ -72,12 +72,7 @@ export function forwardEvents(
         forwardedEvents[customEventName] = e => {
           if (!keepPropagation) e.stopPropagation();
           if (preventDefault) e.preventDefault();
-          elem.dispatchEvent(
-            new CustomEvent(customEventName, {
-              ...dispatchOptions,
-              detail: e,
-            })
-          );
+          elem.emitEvent(customEventName, e, dispatchOptions);
         };
         targetNode.addEventListener(name, forwardedEvents[customEventName]);
       });
