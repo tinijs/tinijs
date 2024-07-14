@@ -70,7 +70,7 @@ setupUI({ components: [ ${constructorName} ] });
 registerComponents([ ${constructorName} ]);`;
       }
       case UIConsumerTargets.Vanilla: {
-        const cdnPath = `https://cdn.jsdelivr.net/npm/@tinijs/ui-${familyId}/components/${this.componentName}.js`;
+        const cdnPath = `https://cdn.jsdelivr.net/npm/@tinijs/ui-${familyId}@0.21.0/bundled/components/${this.componentName}.js`;
         return `import { ${constructorName} } from '${cdnPath}';
 
 // at the very beginning of a page

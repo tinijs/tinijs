@@ -16,7 +16,7 @@ This family may also be used as an alternative to these design systems (if an ex
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-daisy/bundled/setup.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-daisy@0.21.0/bundled/setup.js
 ```
 
 - NPM:
