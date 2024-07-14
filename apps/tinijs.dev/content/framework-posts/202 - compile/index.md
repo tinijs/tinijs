@@ -117,5 +117,5 @@ export const config: AppConfig = {
 During the `npm run dev` the file `configs/development.ts` will be used, during the `npm run build` the file `configs/production.ts` or `configs/<env>.ts` (flag `--target <env>`) will be used.
 
 ```bash
-npx tini build --target qa|staging|xxx
+npx tini build --target qa|stage|xxx
 ```

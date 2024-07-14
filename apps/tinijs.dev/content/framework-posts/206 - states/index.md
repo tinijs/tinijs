@@ -45,7 +45,7 @@ Getting started with **Tini Store** by install `npm i @tinijs/store`. Then creat
 ```ts
 import {createStore} from '@tinijs/store';
 
-export const mainStore = createStore({
+export const MAIN_STORE = createStore({
   foo: 'bar'
 });
 ```
@@ -55,23 +55,23 @@ After creating a store, you now can **access its states**, **subscribe to state 
 ```ts
 import {Subscribe} from '@tinijs/store';
 
-import {mainStore} from './stores/main.js';
+import {MAIN_STORE} from './stores/main.js';
 
 /*
  * Access states
  */
 
-const foo = mainStore.foo;
+const foo = MAIN_STORE.foo;
 
 /*
  * Mutate states
  */
 
 // assign a new value
-mainStore.foo = 'bar2';
+MAIN_STORE.foo = 'bar2';
 
 // or, using the 'commit' method
-mainStore.commit('foo', 'bar3');
+MAIN_STORE.commit('foo', 'bar3');
 
 /*
  * Subscribe to state changes
@@ -81,18 +81,18 @@ mainStore.commit('foo', 'bar3');
 export class AppXXXComponent extends TiniComponent {
 
   // Use the @Subscribe() decorator
-  // this.foo will be updated when mainStore.foo changes it is reactive by default
-  @Subscribe(mainStore) foo = mainStore.foo;
+  // this.foo will be updated when MAIN_STORE.foo changes it is reactive by default
+  @Subscribe(MAIN_STORE) foo = MAIN_STORE.foo;
 
   // use a different variable name
-  @Subscribe(mainStore, 'foo') xyz = mainStore.foo;
+  @Subscribe(MAIN_STORE, 'foo') xyz = MAIN_STORE.foo;
 
   // to turn of reactive, set the third argument to false
-  @Subscribe(mainStore, null, false) foo = mainStore.foo;
+  @Subscribe(MAIN_STORE, null, false) foo = MAIN_STORE.foo;
 
   // Or, subscribe and unsubscribe manually
   onInit() {
-    this.unsubscribeFoo = mainStore.subscribe('foo', value => {
+    this.unsubscribeFoo = MAIN_STORE.subscribe('foo', value => {
       // do something with the new value
     });
   }

@@ -30,7 +30,7 @@ import {TiniSelectComponent} from '../../ui/components/select.js';
 
 import {UIConsumerTargets} from '../../consts/common.js';
 
-import {mainStore} from '../../stores/main.js';
+import {MAIN_STORE} from '../../stores/main.js';
 
 import {buildUsageCode, buildPreviewCode} from '../../utils/code.js';
 
@@ -146,7 +146,7 @@ export class AppComponentEditorComponent
 {
   static readonly defaultTagName = 'app-component-editor';
 
-  @Subscribe(mainStore) uiConsumerTarget = mainStore.uiConsumerTarget;
+  @Subscribe(MAIN_STORE) uiConsumerTarget = MAIN_STORE.uiConsumerTarget;
 
   @Input() name!: string;
   @Input({type: Object}) examples?: Record<string, QuickExample>;
@@ -245,7 +245,7 @@ export class AppComponentEditorComponent
     detail: target,
   }: CustomEvent<UIConsumerTargets>) {
     if (target === this.uiConsumerTarget) return;
-    mainStore.uiConsumerTarget = target;
+    MAIN_STORE.uiConsumerTarget = target;
   }
 
   private toggleFullScreen() {

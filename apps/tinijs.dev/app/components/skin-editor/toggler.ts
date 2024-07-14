@@ -2,7 +2,7 @@ import {html, css, nothing} from 'lit';
 
 import {Component, TiniComponent, Input, Sizes} from '@tinijs/core';
 
-import {mainStore} from '../../stores/main.js';
+import {MAIN_STORE} from '../../stores/main.js';
 
 import {IconThemeComponent} from '../../icons/theme.js';
 
@@ -15,7 +15,7 @@ export class AppSkinEditorTogglerComponent extends TiniComponent {
   @Input({type: Boolean}) showText = false;
 
   private _toggleSkinEditor() {
-    mainStore.skinEditorShown = !mainStore.skinEditorShown;
+    MAIN_STORE.skinEditorShown = !MAIN_STORE.skinEditorShown;
   }
 
   protected render() {
