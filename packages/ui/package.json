@@ -1,6 +1,6 @@
 {
   "name": "@tinijs/ui",
-  "version": "0.20.0",
+  "version": "0.21.0",
   "description": "A next generation web UI system.",
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",
@@ -43,9 +43,9 @@
   },
   "dependencies": {
     "@sindresorhus/slugify": "^2.2.1",
-    "@tinijs/cli": "^0.20.0",
-    "@tinijs/core": "^0.20.0",
-    "@tinijs/project": "^0.20.0",
+    "@tinijs/cli": "^0.21.0",
+    "@tinijs/core": "^0.21.0",
+    "@tinijs/project": "^0.21.0",
     "colorette": "^2.0.20",
     "consola": "^3.2.3",
     "defu": "^6.1.4",

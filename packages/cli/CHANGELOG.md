@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](https://github.com/tinijs/tinijs/compare/v0.20.0...v0.21.0) (2024-07-14)
+
+
+### Features
+
+* **ui:** layout components ([#30](https://github.com/tinijs/tinijs/issues/30)) ([6fb621e](https://github.com/tinijs/tinijs/commit/6fb621e0a25a704f1cfb22fc170b713b671067dd))
+
+
+
+
+
 # [0.20.0](https://github.com/tinijs/tinijs/compare/v0.19.0...v0.20.0) (2024-06-09)
 
 

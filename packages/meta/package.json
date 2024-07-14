@@ -1,6 +1,6 @@
 {
   "name": "@tinijs/meta",
-  "version": "0.20.0",
+  "version": "0.21.0",
   "description": "The Meta module for TiniJS apps.",
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",
@@ -40,6 +40,6 @@
     "url": "https://github.com/tinijs/tinijs/issues"
   },
   "dependencies": {
-    "@tinijs/core": "^0.20.0"
+    "@tinijs/core": "^0.21.0"
   }
 }
