@@ -94,31 +94,6 @@ export class TiniElement extends LitElement {
     (this.constructor as typeof TiniElement).componentMetadata.restyleAtUpdate
   );
 
-  constructor() {
-    super();
-    // a convienent method for setting non-primitive props
-    // when using components with vanilla JS only
-    // USE WITH CAUTION!
-    const setProps = this.getAttribute('setProps');
-    if (
-      setProps &&
-      setProps[0] === '{' &&
-      setProps[setProps.length - 1] === '}'
-    ) {
-      const props = eval(`"use strict";(${setProps})`);
-      if (props instanceof Object) {
-        Object.entries(props).forEach(
-          ([key, value]) => ((this as any)[key] = value)
-        );
-      }
-      if (process.env.NODE_ENV === 'development') {
-        console.warn(
-          'The attribute "setProps" is intended for using with vanilla JS only. For frameworks, please use a proper property binding method.'
-        );
-      }
-    }
-  }
-
   emitEvent<Payload>(
     name: string,
     payload?: Payload,
@@ -130,18 +105,6 @@ export class TiniElement extends LitElement {
         detail: payload,
       })
     );
-    // a convinient method for adding events
-    // when using components with vanilla JS only
-    // USE WITH CAUTION!
-    const inlineEvent = this.getAttribute(`on${name}`);
-    if (inlineEvent) {
-      eval(`"use strict";(${inlineEvent})`);
-      if (process.env.NODE_ENV === 'development') {
-        console.warn(
-          'Inline custom event hanlders are intended for using with vanilla JS only. For frameworks, please use a proper event binding method.'
-        );
-      }
-    }
   }
 
   protected createRenderRoot() {
