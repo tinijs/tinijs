@@ -15,8 +15,8 @@ See an online example: [Tini UI - Vanilla Playground](https://stackblitz.com/edi
 ```html
 <script type="module">
 
-  import { setupUI, availableSkins } from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap@0.21.0/bundled/setup.js';
-  import { availableComponents } from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap@0.21.0/bundled/component.js';
+  import { setupUI, availableSkins } from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap@0.21.1/bundled/setup.js';
+  import { availableComponents } from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap@0.21.1/bundled/component.js';
 
   setupUI({
     skins: availableSkins,

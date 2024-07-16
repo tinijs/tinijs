@@ -36,6 +36,17 @@ npx tsx ./scripts/release-ui.mts
 | `--pick <names>`    | Pick certain packages to release, provide dir names in comma-separated |
 | `--version <value>` | Provide a version, default to field `version` in lerna.json            |
 
+### Individual release
+
+In case of small changes and hotfixes, packages can be released individually.
+
+- Manually update `package.json`:
+  - The `version` field
+  - The `dependencies, devDependencies` fields (if packages depend on each other)
+- Release:
+  - Normal packages: `cd packages/<name> && npm publish`
+  - UI packages (if required): at the root, run `npx tsx ./scripts/release-ui.mts --version <version>`
+
 ## License
 
 **The TiniJS Framework** is released under the [MIT](./LICENSE) license.

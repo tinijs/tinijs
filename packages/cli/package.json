@@ -1,6 +1,6 @@
 {
   "name": "@tinijs/cli",
-  "version": "0.21.0",
+  "version": "0.21.1",
   "description": "The CLI for the TiniJS framework and beyond.",
   "author": "Nhan Lam",
   "homepage": "https://tinijs.dev",
