@@ -30,7 +30,7 @@ export class AppComponentBenchmarkComponent
   static readonly defaultTagName = 'app-component-benchmark';
 
   @Prop() reportId!: string;
-  @Prop({type: Boolean}) noNote?: boolean;
+  @Prop({type: Boolean, reflect: true}) noNote = false;
 
   @Reactive() private report: SectionRenderData<BenckmarkReport>;
 

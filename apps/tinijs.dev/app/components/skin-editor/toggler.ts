@@ -12,7 +12,7 @@ import {IconThemeComponent} from '../../icons/theme.js';
 export class AppSkinEditorTogglerComponent extends TiniComponent {
   static readonly defaultTagName = 'app-skin-editor-toggler';
 
-  @Input({type: Boolean}) showText = false;
+  @Input({type: Boolean, reflect: true}) showText = false;
 
   private _toggleSkinEditor() {
     MAIN_STORE.skinEditorShown = !MAIN_STORE.skinEditorShown;

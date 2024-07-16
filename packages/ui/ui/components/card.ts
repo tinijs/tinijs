@@ -11,7 +11,7 @@ export enum CardParts {
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: Boolean, reflect: true}) fluid?: boolean;
+  @property({type: Boolean, reflect: true}) fluid = false;
   /* eslint-enable prettier/prettier */
 
   protected render() {

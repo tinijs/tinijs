@@ -83,7 +83,7 @@ export class TiniElement extends LitElement {
   /* eslint-disable prettier/prettier */
   @property({converter: stringOrObjectOrArrayConverter}) styleDeep?: DirectOrRecordStyles;
   @property({converter: stringOrObjectOrArrayConverter}) events?: EventForwardingInput;
-  @property({type: Boolean, reflect: true}) restyleAtUpdate?: boolean;
+  @property({type: Boolean, reflect: true}) restyleAtUpdate = false;
   /* eslint-enable prettier/prettier */
 
   private customTemplates = this.getTemplates();

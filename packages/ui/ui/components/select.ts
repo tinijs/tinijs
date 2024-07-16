@@ -47,9 +47,9 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) label?: string;
   @property({type: String, reflect: true}) name?: string;
   @property({type: String, reflect: true}) autocomplete?: SelectAutoCompletes;
-  @property({type: Boolean, reflect: true}) disabled?: boolean;
-  @property({type: Boolean, reflect: true}) wrap?: boolean;
-  @property({type: Boolean, reflect: true}) block?: boolean;
+  @property({type: Boolean, reflect: true}) disabled = false;
+  @property({type: Boolean, reflect: true}) wrap = false;
+  @property({type: Boolean, reflect: true}) block = false;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */

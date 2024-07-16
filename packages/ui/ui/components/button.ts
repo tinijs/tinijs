@@ -35,8 +35,8 @@ export enum ButtonModes {
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) mode?: ButtonModes;
-  @property({type: Boolean, reflect: true}) block?: boolean;
-  @property({type: Boolean, reflect: true}) disabled?: boolean;
+  @property({type: Boolean, reflect: true}) block = false;
+  @property({type: Boolean, reflect: true}) disabled = false;
   @property({type: String, reflect: true}) href?: boolean;
   @property({type: String, reflect: true}) target?: LinkTargets;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | ContrastColors | Gradients | SubtleGradients | ContrastGradients;
