@@ -36,7 +36,10 @@ export class ContentUIPostContainerComponent extends TiniComponent {
               {target: 'padding', value: 'md'},
               {target: 'background', value: 'body-subtle'},
               {target: 'marginY', value: 'xl6'},
-              {target: 'inner', value: 'A container with top/bottom margins'},
+              {
+                target: 'inner',
+                value: '<span>A container with top/bottom margins</span>',
+              },
             ],
           },
         }}

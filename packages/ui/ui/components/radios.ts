@@ -1,7 +1,6 @@
 import {html, nothing, css, type PropertyValues, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
-import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
   ElementParts,
@@ -14,9 +13,12 @@ import {
   generateSizeVariants,
 } from '@tinijs/core';
 
-import type {CheckboxesItem} from './checkboxes.js';
-
-export type RadiosItem = Omit<CheckboxesItem, 'name'>;
+export interface RadiosItem {
+  value: string;
+  label?: string;
+  disabled?: boolean;
+  checked?: boolean;
+}
 
 export enum RadiosParts {
   Main = ElementParts.Main,
@@ -32,15 +34,14 @@ export default class extends TiniElement {
 
   /* eslint-disable prettier/prettier */
   @property({type: Array}) items!: RadiosItem[];
+  @property({type: String, reflect: true}) name = 'radio';
   @property({type: String, reflect: true}) value?: string;
-  @property({type: String, reflect: true}) name!: string;
-  @property({type: Boolean, reflect: true}) wrap?: boolean;
+  @property({type: Boolean, reflect: true}) wrap = false;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
   private validateProperties() {
-    if (!this.name) throw new Error('Property "name" is required.');
     if (!this.items.length)
       throw new Error(
         'Property "items" is required  and must contain at least 1 item.'
@@ -64,8 +65,13 @@ export default class extends TiniElement {
     );
   }
 
-  private renderItemPart({value, label, disabled = false}: RadiosItem) {
-    const checked = value === this.value;
+  private renderItemPart({
+    value,
+    label,
+    disabled = false,
+    checked: itemChecked = false,
+  }: RadiosItem) {
+    const checked = itemChecked || value === this.value;
     const itemClasses = this.deriveClassNames(RadiosParts.Item, {
       checked,
       disabled,
@@ -77,9 +83,9 @@ export default class extends TiniElement {
           part=${RadiosParts.Input}
           type="radio"
           name=${this.name}
-          value=${ifDefined(value)}
-          ?checked=${checked}
+          value=${value}
           ?disabled=${disabled}
+          ?checked=${checked}
         />
         ${!label
           ? nothing

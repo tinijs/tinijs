@@ -18,6 +18,7 @@ export interface SelectOption {
   value: string;
   content: string;
   disabled?: boolean;
+  selected?: boolean;
 }
 
 export interface SelectOptgroup {
@@ -43,9 +44,9 @@ export default class extends TiniElement {
 
   /* eslint-disable prettier/prettier */
   @property({type: Array}) items!: SelectItem[];
-  @property({type: String, reflect: true}) value?: string;
   @property({type: String, reflect: true}) label?: string;
   @property({type: String, reflect: true}) name?: string;
+  @property({type: String, reflect: true}) value?: string;
   @property({type: String, reflect: true}) autocomplete?: SelectAutoCompletes;
   @property({type: Boolean, reflect: true}) disabled = false;
   @property({type: Boolean, reflect: true}) wrap = false;
@@ -107,13 +108,18 @@ export default class extends TiniElement {
     );
   }
 
-  private getOptionTemplate({value, content, disabled = false}: SelectOption) {
-    const selected = value === this.value;
+  private getOptionTemplate({
+    value,
+    content,
+    disabled = false,
+    selected: itemSelected = false,
+  }: SelectOption) {
+    const selected = itemSelected || value === this.value;
     return html`
       <option
         value=${ifDefined(value)}
-        ?selected=${selected}
         ?disabled=${disabled}
+        ?selected=${selected}
       >
         ${content}
       </option>

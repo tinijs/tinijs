@@ -42,7 +42,6 @@ export class AppComponentEditorRadiosComponent
       <div class="main">
         <span class="label">${this.label}</span>
         <tini-radios
-          name="radio-item"
           .items=${this.items}
           .value=${this.value || '_default'}
           events="change"

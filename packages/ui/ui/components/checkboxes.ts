@@ -16,9 +16,10 @@ import {
 
 export interface CheckboxesItem {
   value: string;
-  name?: string;
   label?: string;
   disabled?: boolean;
+  checked?: boolean;
+  indeterminate?: boolean;
 }
 
 export enum CheckboxesParts {
@@ -35,8 +36,9 @@ export default class extends TiniElement {
 
   /* eslint-disable prettier/prettier */
   @property({type: Array}) items!: CheckboxesItem[];
-  @property({type: String, reflect: true}) value?: string;
-  @property({type: Boolean, reflect: true}) wrap?: boolean;
+  @property({type: String, reflect: true}) name?: string;
+  @property({type: Array}) values?: string[];
+  @property({type: Boolean, reflect: true}) wrap = false;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
@@ -67,14 +69,18 @@ export default class extends TiniElement {
 
   private renderItemPart({
     value,
-    name,
     label,
     disabled = false,
+    checked: itemChecked = false,
+    indeterminate: itemIndeterminate = false,
   }: CheckboxesItem) {
-    const checked = value === this.value;
+    const checked = itemChecked || (this.values?.includes(value) ?? false);
+    const indeterminate =
+      itemIndeterminate || (this.values?.includes(`[${value}]`) ?? false);
     const itemClasses = this.deriveClassNames(CheckboxesParts.Item, {
-      checked,
       disabled,
+      checked,
+      indeterminate,
     });
     return html`
       <label class=${classMap(itemClasses)} part=${partAttrMap(itemClasses)}>
@@ -82,10 +88,11 @@ export default class extends TiniElement {
           class=${CheckboxesParts.Input}
           part=${CheckboxesParts.Input}
           type="checkbox"
-          name=${ifDefined(name)}
-          value=${ifDefined(value)}
-          ?checked=${checked}
+          name=${ifDefined(this.name)}
+          value=${value}
           ?disabled=${disabled}
+          ?checked=${checked}
+          .indeterminate=${indeterminate}
         />
         ${!label
           ? nothing
@@ -162,6 +169,10 @@ export const defaultStyles = createStyleBuilder<{
       border-color: var(--background);
       background: var(--background);
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+    }
+
+    input:indeterminate {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 15 15'%3E%3Cpath fill='%23000' fill-rule='evenodd' d='M5 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5' clip-rule='evenodd'/%3E%3C/svg%3E");
     }
 
     .label {

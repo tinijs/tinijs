@@ -29,7 +29,7 @@ Use buttons to trigger actions.
         attrs: {
           label: 'Mode',
           items: [
-            {label: 'Default', value: '_default', checked: true},
+            {label: 'Default', value: '_default', activated: true},
             {label: 'Filled', value: 'filled'}
           ]
         },

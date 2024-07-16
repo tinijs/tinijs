@@ -53,7 +53,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
             content: 'Paddings',
             items: [
               {target: 'padding', value: 'md'},
-              {target: 'inner', value: 'Box with medium padding'},
+              {target: 'inner', value: '<span>Box with medium padding</span>'},
             ],
           },
           'backgroumd-color-padding-radius': {
@@ -63,7 +63,10 @@ export class ContentUIPostBoxComponent extends TiniComponent {
               {target: 'background', value: 'primary'},
               {target: 'color', value: 'primary-contrast'},
               {target: 'radius', value: 'md'},
-              {target: 'inner', value: 'Box with primary background'},
+              {
+                target: 'inner',
+                value: '<span>Box with primary background</span>',
+              },
             ],
           },
           margins: {
@@ -72,7 +75,10 @@ export class ContentUIPostBoxComponent extends TiniComponent {
               {target: 'padding', value: 'md'},
               {target: 'background', value: 'body-subtle'},
               {target: 'margin', value: 'xl'},
-              {target: 'inner', value: 'Box with extra-large margin'},
+              {
+                target: 'inner',
+                value: '<span>Box with extra-large margin</span>',
+              },
             ],
           },
           'width-height': {
@@ -82,7 +88,10 @@ export class ContentUIPostBoxComponent extends TiniComponent {
               {target: 'background', value: 'body-subtle'},
               {target: 'width', value: '150px'},
               {target: 'height', value: '150px'},
-              {target: 'inner', value: 'Box with custom width and height'},
+              {
+                target: 'inner',
+                value: '<span>Box with custom width and height</span>',
+              },
             ],
           },
           borders: {
@@ -90,7 +99,10 @@ export class ContentUIPostBoxComponent extends TiniComponent {
             items: [
               {target: 'padding', value: 'md'},
               {target: 'border', value: 'md solid medium'},
-              {target: 'inner', value: 'Box with medium solid border'},
+              {
+                target: 'inner',
+                value: '<span>Box with medium solid border</span>',
+              },
             ],
           },
           shadows: {
@@ -98,7 +110,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
             items: [
               {target: 'padding', value: 'md'},
               {target: 'shadow', value: 'md'},
-              {target: 'inner', value: 'Box with medium shadow'},
+              {target: 'inner', value: '<span>Box with medium shadow</span>'},
             ],
           },
           transforms: {
@@ -110,7 +122,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
                 target: 'transform',
                 value: 'translateY(5rem) scaleX(0.7) skew(30deg,10deg)',
               },
-              {target: 'inner', value: 'Box with transform'},
+              {target: 'inner', value: '<span>Box with transform</span>'},
             ],
           },
           filters: {
@@ -122,7 +134,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
                 value: 'linear-gradient(90deg,#f8ff00 0%,#3ad59f 100%)',
               },
               {target: 'filter', value: 'grayscale(80%)'},
-              {target: 'inner', value: 'Box with filter'},
+              {target: 'inner', value: '<span>Box with filter</span>'},
             ],
           },
         }}

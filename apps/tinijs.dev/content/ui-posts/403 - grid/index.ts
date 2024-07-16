@@ -38,13 +38,13 @@ export class ContentUIPostGridComponent extends TiniComponent {
           row: {
             content: 'Holy grail layout',
             items: [
+              {target: 'columns', value: 'auto 1fr auto'},
+              {target: 'rows', value: 'auto 1fr auto'},
               {
                 target: 'areas',
                 value:
                   "'header header header' 'nav content side' 'footer footer footer'",
               },
-              {target: 'columns', value: 'auto 1fr auto'},
-              {target: 'rows', value: 'auto 1fr auto'},
               {target: 'gap', value: 'md'},
               {target: 'height', value: '250px'},
               {target: 'inner', value: holyGrailInner},
