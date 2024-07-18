@@ -183,6 +183,7 @@ export enum Texts {
   XL4 = 'xl4',
   XL5 = 'xl5',
   XL6 = 'xl6',
+  XL7 = 'xl7',
 }
 export const TEXTS = Object.values(Texts);
 
@@ -219,6 +220,7 @@ export enum Spaces {
   XL4 = 'xl4',
   XL5 = 'xl5',
   XL6 = 'xl6',
+  XL7 = 'xl7',
 }
 export const SPACES = Object.values(Spaces);
 

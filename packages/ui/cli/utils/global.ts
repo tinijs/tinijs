@@ -20,6 +20,7 @@ function generateTextVars() {
     ['xl4', 4.5],
     ['xl5', 6],
     ['xl6', 7],
+    ['xl7', 10],
   ];
   return items
     .map(
@@ -70,6 +71,7 @@ function generateSpaceVars() {
     ['xl4', 4.5],
     ['xl5', 6],
     ['xl6', 8],
+    ['xl7', 10],
   ];
   return (
     '--space-zero: 0;\n  ' +
