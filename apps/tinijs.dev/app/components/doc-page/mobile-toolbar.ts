@@ -92,14 +92,14 @@ export class AppDocPageMobileToolbarComponent extends TiniComponent {
       opacity: 1;
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 1024px) {
       .menu-toggler {
         visibility: hidden;
         pointer-events: none;
       }
     }
 
-    @media (min-width: 1200px) {
+    @media (min-width: 1280px) {
       .mobile-toolbar {
         display: none;
       }

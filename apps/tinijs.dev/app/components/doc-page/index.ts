@@ -319,7 +319,7 @@ export class AppDocPageComponent
       background: var(--color-body);
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 1024px) {
       .container {
         display: grid;
         grid-template-columns: 250px 1fr;
@@ -337,7 +337,7 @@ export class AppDocPageComponent
       }
     }
 
-    @media (min-width: 1200px) {
+    @media (min-width: 1280px) {
       .container {
         grid-template-columns: 250px 1fr 250px;
         grid-template-areas: 'menu content toc';

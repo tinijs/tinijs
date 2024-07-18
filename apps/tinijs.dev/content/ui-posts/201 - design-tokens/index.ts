@@ -558,9 +558,9 @@ export class ContentUIPostTokenComponent
           ],
           ['Small devices (landscape phones)', 'xs', '(min-width: 576px)'],
           ['Medium devices (tablets)', 'sm', '(min-width: 768px)'],
-          ['Large devices (desktops)', 'md', '(min-width: 992px)'],
-          ['X-Large devices (large desktops)', 'lg', '(min-width: 1200px)'],
-          ['XX-Large devices (larger desktops)', 'xl', '(min-width: 1400px)'],
+          ['Large devices (desktops)', 'md', '(min-width: 1024px)'],
+          ['X-Large devices (large desktops)', 'lg', '(min-width: 1280px)'],
+          ['XX-Large devices (larger desktops)', 'xl', '(min-width: 1640px)'],
         ].map(([viewport, key, query]) => {
           return html`
             <tr>

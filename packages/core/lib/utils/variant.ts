@@ -273,9 +273,6 @@ export enum Letters {
 export const LETTERS = Object.values(Letters);
 
 export enum Wides {
-  XS6 = 'xs6',
-  XS5 = 'xs5',
-  XS4 = 'xs4',
   XS3 = 'xs3',
   XS2 = 'xs2',
   XS = 'xs',
@@ -288,6 +285,7 @@ export enum Wides {
   XL4 = 'xl4',
   XL5 = 'xl5',
   XL6 = 'xl6',
+  XL7 = 'xl7',
 }
 export const WIDES = Object.values(Wides);
 

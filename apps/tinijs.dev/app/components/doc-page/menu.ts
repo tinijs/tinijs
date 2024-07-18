@@ -199,7 +199,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
       }
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 1024px) {
       .menu {
         position: fixed;
         transform: none;

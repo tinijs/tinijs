@@ -148,7 +148,7 @@ export class AppDocPageTOCComponent extends TiniComponent {
       }
     }
 
-    @media (min-width: 1200px) {
+    @media (min-width: 1280px) {
       :host {
         border-left: 1px solid var(--color-body-semi);
       }

@@ -83,7 +83,7 @@ Based on the basic variables above, the system will generate other variables aut
 - 5 border sizes
 - 5 outline sizes
 - `--shadow-none` variable
-- 15 wide variables
+- 13 wide variables
 
 At this level, you can fine tune a skin futher by providing above variables manually.
 

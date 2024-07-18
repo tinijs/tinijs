@@ -136,7 +136,7 @@ export class AppDocPageContentComponent
         margin-top: var(--toolbar-height);
         padding: var(--space-xl);
 
-        @media (min-width: 1200px) {
+        @media (min-width: 1280px) {
           margin-top: 0;
           padding: var(--space-xl2) var(--space-xl4) var(--space-xl4);
         }

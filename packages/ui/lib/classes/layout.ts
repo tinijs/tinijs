@@ -32,9 +32,9 @@ const WIDES_MAP = createListMap(WIDES);
 const BREAKPOINTS: Record<string, string> = {
   xs: '576px',
   sm: '768px',
-  md: '992px',
-  lg: '1200px',
-  xl: '1400px',
+  md: '1024px',
+  lg: '1280px',
+  xl: '1640px',
 };
 
 export interface LayoutProps {

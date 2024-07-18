@@ -173,21 +173,19 @@ function generateLetterVars() {
 
 function generateWideVars() {
   const items: [string, number][] = [
-    ['xs6', 48],
-    ['xs5', 72],
-    ['xs4', 96],
-    ['xs3', 150],
+    ['xs3', 240],
     ['xs2', 320],
     ['xs', 480],
     ['sm', 576],
     ['md', 768],
-    ['lg', 992],
-    ['xl', 1024],
-    ['xl2', 1200],
-    ['xl3', 1400],
+    ['lg', 1024],
+    ['xl', 1280],
+    ['xl2', 1440],
+    ['xl3', 1640],
     ['xl4', 1920],
     ['xl5', 2560],
     ['xl6', 3840],
+    ['xl7', 4096],
   ];
   return items.map(([name, value]) => `--wide-${name}: ${value}px;`).join(JOIN);
 }

@@ -99,7 +99,7 @@ export class AppDocPageSurroundComponent extends TiniComponent {
       align-items: flex-end;
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 1024px) {
       .container {
         flex-flow: row;
         gap: var(--space-xl);
@@ -111,7 +111,7 @@ export class AppDocPageSurroundComponent extends TiniComponent {
       }
     }
 
-    @media (min-width: 1200px) {
+    @media (min-width: 1280px) {
       .container {
         padding: var(--space-xl) var(--space-xl4);
       }

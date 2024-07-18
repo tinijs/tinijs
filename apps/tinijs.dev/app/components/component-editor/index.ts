@@ -229,10 +229,10 @@ export class AppComponentEditorComponent
     } else {
       const availableWidth = this._previewRef.value!.clientWidth;
       const targetWidth = {
-        [CommonViewports.Mobile]: 320,
+        [CommonViewports.Mobile]: 480,
         [CommonViewports.Tablet]: 768,
-        [CommonViewports.Desktop]: 992,
-        [CommonViewports.TV]: 1400,
+        [CommonViewports.Desktop]: 1024,
+        [CommonViewports.TV]: 1640,
       }[viewport];
       this.commonViewport = viewport;
       this._resizableRef.value!.style.width = `${
@@ -677,7 +677,7 @@ export class AppComponentEditorComponent
       }
     }
 
-    @media (min-width: 1400px) {
+    @media (min-width: 1440px) {
       .main {
         flex-flow: row;
 
