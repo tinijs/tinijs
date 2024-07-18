@@ -2,7 +2,6 @@ import {html, css, unsafeCSS, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {
   TiniElement,
-  ElementParts,
   createStyleBuilder,
   buildVariantNamesAndSelectors,
   Colors,
@@ -17,10 +16,6 @@ import {
   generateWeightVariants,
   type VariantRenderValues,
 } from '@tinijs/core';
-
-export enum TextParts {
-  Main = ElementParts.Main,
-}
 
 export enum TextAligns {
   Start = 'start',
@@ -75,15 +70,7 @@ export default class extends TiniElement {
   /* eslint-enable prettier/prettier */
 
   protected render() {
-    return this.partRender(
-      TextParts.Main,
-      mainChildren => html`
-        <span class=${TextParts.Main} part=${TextParts.Main}>
-          <slot></slot>
-          ${mainChildren()}
-        </span>
-      `
-    );
+    return html`<slot></slot>`;
   }
 }
 
@@ -99,12 +86,11 @@ export const defaultStyles = createStyleBuilder<{
   css`
     :host {
       --color: var(--color-body-contrast);
-      --gradient: none;
       --font: var(--font-content);
       --size: var(--text-md);
       --weight: normal;
       --align: start;
-      display: inline-block;
+      display: inline;
       color: var(--color);
       font-family: var(--font);
       font-size: var(--size);
@@ -125,20 +111,23 @@ export const defaultStyles = createStyleBuilder<{
     }
 
     :host([color^='gradient']) {
-      position: relative;
-      background: var(--gradient);
+      background: var(--color);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+    }
+
+    :host([color^='gradient'][underline]) {
+      position: relative;
     }
 
     :host([color^='gradient'][underline])::after {
       content: '';
       position: absolute;
       left: 0;
-      bottom: 0.25em;
+      bottom: 0.1em;
       width: 100%;
-      background: var(--gradient);
-      height: 0.08em;
+      background: var(--color);
+      height: 0.075em;
     }
   `,
 
@@ -158,7 +147,7 @@ export const defaultStyles = createStyleBuilder<{
     const {hostSelector, gradient} = values;
     return `
       ${hostSelector} {
-        --gradient: ${gradient};
+        --color: ${gradient};
       }
       ${outputs.gradientGen(values)}
     `;

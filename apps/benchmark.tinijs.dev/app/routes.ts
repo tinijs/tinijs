@@ -58,9 +58,9 @@ export const routes: Route[] = [
         action: () => import('./pages/subjects/ui-text.js'),
       },
       {
-        path: '/ui/text-native',
-        component: 'app-page-ui-text-native',
-        action: () => import('./pages/subjects/ui-text-native.js'),
+        path: '/ui/text-class',
+        component: 'app-page-ui-text-class',
+        action: () => import('./pages/subjects/ui-text-class.js'),
       },
       // 404
       {

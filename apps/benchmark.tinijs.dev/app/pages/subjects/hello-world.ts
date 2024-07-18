@@ -2,13 +2,15 @@ import {html, css} from 'lit';
 
 import {Page, TiniComponent} from '@tinijs/core';
 
+import {HELLO_WORLD_SUBJECT} from '../../subjects.js';
+
 @Page({
   name: 'app-page-hello-world',
 })
 export class AppPageHelloWorld extends TiniComponent {
   readonly metadata = {
-    title: 'Hello world',
-    description: 'A hello world page.',
+    title: HELLO_WORLD_SUBJECT.title,
+    description: HELLO_WORLD_SUBJECT.desc,
   };
 
   protected render() {

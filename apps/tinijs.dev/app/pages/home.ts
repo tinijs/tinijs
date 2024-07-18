@@ -35,7 +35,7 @@ export class AppPageHome extends TiniComponent {
               size="xl3"
               weight="bold"
               color=${Gradients.Body}
-              style="--gradient: var(--gradient-kale-salad)"
+              style="--color: var(--gradient-kale-salad)"
               >Tini</tini-text
             ><br />Web Components Framework
           </h2>

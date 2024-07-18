@@ -16,8 +16,8 @@ import {TEXT_SUBJECT} from '../../subjects.js';
 })
 export class AppPageUIText extends TiniComponent implements PageWithMetadata {
   readonly metadata = {
-    title: 'tini-text',
-    description: 'The tini-text component.',
+    title: TEXT_SUBJECT.title,
+    description: TEXT_SUBJECT.desc,
   };
 
   @UseQuery() readonly query!: {items?: number};

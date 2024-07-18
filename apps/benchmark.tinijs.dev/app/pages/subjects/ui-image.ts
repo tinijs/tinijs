@@ -23,8 +23,8 @@ const SVG = new URL('../../assets/placeholders/image.svg', import.meta.url)
 })
 export class AppPageUIImage extends TiniComponent implements PageWithMetadata {
   readonly metadata = {
-    title: 'tini-image',
-    description: 'The tini-image component.',
+    title: IMAGE_SUBJECT.title,
+    description: IMAGE_SUBJECT.desc,
   };
 
   @UseQuery() readonly query!: {items?: number};

@@ -19,8 +19,8 @@ export class AppPageUIHeading
   implements PageWithMetadata
 {
   readonly metadata = {
-    title: 'tini-heading',
-    description: 'The tini-heading component.',
+    title: HEADING_SUBJECT.title,
+    description: HEADING_SUBJECT.desc,
   };
 
   @UseQuery() readonly query!: {items?: number};

@@ -1,4 +1,4 @@
-import {html, css, nothing} from 'lit';
+import {html, css} from 'lit';
 
 import {
   Component,
@@ -21,17 +21,17 @@ export class AppPageUIDevTextComponent extends TiniComponent {
   protected render() {
     return html`
       <ui-dev-section titleText="Natives">
-        <span>Lorem ipsum (span)</span>
-        <p>Lorem ipsum (p)</p>
+        <span>Lorem ipsum (span)</span><br />
         <strong>Lorem ipsum (strong)</strong><br />
         <em>Lorem ipsum (em)</em><br />
+        <p>Lorem ipsum (p)</p>
       </ui-dev-section>
 
       <ui-dev-section titleText="Defaults">
-        <tini-text>Lorem ipsum (default)</tini-text>
-        <tini-text block>Lorem ipsum (block)</tini-text>
+        <tini-text>Lorem ipsum (default)</tini-text><br />
         <tini-text weight="bold">Lorem ipsum (weight=bold)</tini-text><br />
         <tini-text italic>Lorem ipsum (italic)</tini-text><br />
+        <tini-text block>Lorem ipsum (block)</tini-text>
       </ui-dev-section>
 
       <ui-dev-section titleText="Colors">

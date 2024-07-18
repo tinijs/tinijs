@@ -16,8 +16,8 @@ import {LINK_SUBJECT} from '../../subjects.js';
 })
 export class AppPageUILink extends TiniComponent implements PageWithMetadata {
   readonly metadata = {
-    title: 'tini-link',
-    description: 'The tini-link component.',
+    title: LINK_SUBJECT.title,
+    description: LINK_SUBJECT.desc,
   };
 
   @UseQuery() readonly query!: {items?: number};

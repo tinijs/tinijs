@@ -6,18 +6,18 @@ import {UseQuery} from '@tinijs/router';
 
 import {repeat} from '../../utils/subject.js';
 
-import {TEXT_NATIVE_SUBJECT} from '../../subjects.js';
+import {TEXT_CLASS_SUBJECT} from '../../subjects.js';
 
 @Page({
-  name: 'app-page-ui-text-native',
+  name: 'app-page-ui-text-class',
 })
 export class AppPageUITextNative
   extends TiniComponent
   implements PageWithMetadata
 {
   readonly metadata = {
-    title: 'Native texts',
-    description: 'Native texts using CSS.',
+    title: TEXT_CLASS_SUBJECT.title,
+    description: TEXT_CLASS_SUBJECT.desc,
   };
 
   @UseQuery() readonly query!: {items?: number};
@@ -40,7 +40,7 @@ export class AppPageUITextNative
         <span class="xs">Small text (#${i})</span>
         <br />
       `,
-      TEXT_NATIVE_SUBJECT
+      TEXT_CLASS_SUBJECT
     );
   }
 
