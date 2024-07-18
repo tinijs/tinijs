@@ -17,7 +17,7 @@ This family may also be used as an alternative to these design systems (if an ex
 - CDN:
 
 ```txt
-https://cdn.jsdelivr.net/npm/@tinijs/ui-shadcn/bundled/setup.js
+https://cdn.jsdelivr.net/npm/@tinijs/ui-shadcn@0.21.1/bundled/setup.js
 ```
 
 - NPM:

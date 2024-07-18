@@ -64,14 +64,14 @@ export function generateAlignVariants(
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: Boolean, reflect: true}) block?: boolean;
+  @property({type: Boolean, reflect: true}) block = false;
   @property({type: String, reflect: true}) color?: Colors | Gradients;
   @property({type: String, reflect: true}) font?: Fonts;
   @property({type: String, reflect: true}) size?: Texts;
   @property({type: String, reflect: true}) weight?: Weights;
   @property({type: String, reflect: true}) align?: TextAligns;
-  @property({type: Boolean, reflect: true}) italic?: boolean;
-  @property({type: Boolean, reflect: true}) underline?: boolean;
+  @property({type: Boolean, reflect: true}) italic = false;
+  @property({type: Boolean, reflect: true}) underline = false;
   /* eslint-enable prettier/prettier */
 
   protected render() {

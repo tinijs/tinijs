@@ -10,7 +10,7 @@ import {
   type OnChanges,
 } from '@tinijs/core';
 
-import {mainStore} from '../stores/main.js';
+import {MAIN_STORE} from '../stores/main.js';
 
 import {TiniCodeComponent} from '../ui/components/code.js';
 
@@ -60,7 +60,7 @@ export class AppComponentUsageComponent
     detail: target,
   }: CustomEvent<UIConsumerTargets>) {
     if (target === this.uiConsumerTarget) return;
-    this.uiConsumerTarget = mainStore.uiConsumerTarget = target;
+    this.uiConsumerTarget = MAIN_STORE.uiConsumerTarget = target;
   }
 
   protected render() {

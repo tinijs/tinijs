@@ -4,7 +4,7 @@ import {readdir, stat} from 'node:fs/promises';
 import {readJSONSync, readJSON, writeJSON, pathExistsSync} from 'fs-extra/esm';
 import {execa} from 'execa';
 import {consola} from 'consola';
-import {green, blueBright} from 'colorette';
+import {green} from 'colorette';
 import type {PackageJson} from 'type-fest';
 
 interface Args {
@@ -43,7 +43,7 @@ class ReleaseUI {
     const {dir = './packages/ui/build', pick} = this.args;
     const availablePackages = await this.loadAvailablePackages(
       dir,
-      (_, packageJSON) => packageJSON.version !== this.version,
+      (_, packageJSON) => this.args.version ? true : packageJSON.version !== this.version,
       pick?.split(',').map(item => item.trim())
     );
     if (!availablePackages.length) {
@@ -92,7 +92,7 @@ class ReleaseUI {
         availablePackages
           .map(
             ({packageName, fromVersion, toVersion}) =>
-              `${blueBright(packageName)} ${fromVersion} -> ${green(toVersion)}`
+              `${packageName}: ${fromVersion} -> ${green(toVersion)}`
           )
           .join('\n  + ')
     );

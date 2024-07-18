@@ -34,8 +34,8 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) value?: string;
   @property({type: String, reflect: true}) placeholder?: string;
   @property({type: String, reflect: true}) autocomplete?: TextareaAutoCompletes;
-  @property({type: Boolean, reflect: true}) disabled?: boolean;
-  @property({type: Boolean, reflect: true}) readonly?: boolean;
+  @property({type: Boolean, reflect: true}) disabled = false;
+  @property({type: Boolean, reflect: true}) readonly = false;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */

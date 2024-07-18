@@ -18,7 +18,7 @@ import {TiniButtonComponent} from '../../ui/components/button.js';
 import {TiniModalComponent} from '../../ui/components/modal.js';
 import {AppThemeSelectorComponent} from '../theme-selector.js';
 
-import {mainStore} from '../../stores/main.js';
+import {MAIN_STORE} from '../../stores/main.js';
 
 import {debouncer} from '../../utils/common.js';
 import {
@@ -46,7 +46,7 @@ export class AppSkinEditorComponent extends TiniComponent {
 
   @UseUI() readonly ui!: UI;
   @queryAll('.field') private allInputs!: NodeListOf<HTMLElement>;
-  @Subscribe(mainStore) skinEditorShown = mainStore.skinEditorShown;
+  @Subscribe(MAIN_STORE) skinEditorShown = MAIN_STORE.skinEditorShown;
 
   private modalRef = createRef<TiniModalComponent>();
   private modalContentRef = createRef<HTMLDivElement>();
@@ -229,7 +229,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
         </button>
         <button
           class="close"
-          @click=${() => mainStore.commit('skinEditorShown', false)}
+          @click=${() => MAIN_STORE.commit('skinEditorShown', false)}
         >
           ✕
         </button>

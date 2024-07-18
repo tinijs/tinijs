@@ -27,6 +27,7 @@ export class AppThemeSelectorComponent extends TiniComponent {
   private buildThemeOptions(familyId: string, items: SelectOption[]) {
     return items.map(item => {
       item.value = `${familyId}/${item.value}`;
+      item.selected = item.value === this.ui.activeTheme.themeId;
       return item;
     });
   }
@@ -45,7 +46,6 @@ export class AppThemeSelectorComponent extends TiniComponent {
         label="Current theme"
         events="change"
         @change=${this.changeTheme}
-        .value=${this.ui.activeTheme.themeId}
         .items=${[
           {
             label: 'Bootstrap',

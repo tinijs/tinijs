@@ -47,8 +47,8 @@ export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) type = DialogTypes.Alert;
   @property({type: String, reflect: true}) titleText?: string;
-  @property({type: Boolean, reflect: true}) backdropDismissal?: boolean;
-  @property({type: Boolean, reflect: true}) stayUponAccepted?: boolean;
+  @property({type: Boolean, reflect: true}) backdropDismissal = false;
+  @property({type: Boolean, reflect: true}) stayUponAccepted = false;
   @property({type: Object}) data?: Record<string, unknown>;
   @property({type: Object}) denyButton?: DialogButton;
   @property({type: Object}) acceptButton?: DialogButton;

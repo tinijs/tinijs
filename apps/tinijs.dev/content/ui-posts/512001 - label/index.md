@@ -23,7 +23,7 @@
         attrs: {
           label: 'Shape',
           items: [
-            {label: 'Default', value: '_default', checked: true},
+            {label: 'Default', value: '_default', activated: true},
             {label: 'Pill', value: 'pill'},
             {label: 'Circle', value: 'circle'}
           ]

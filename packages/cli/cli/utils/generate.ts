@@ -218,11 +218,11 @@ function getConstMainContent({constName}: Names) {
   return `export const ${constName} = 'value';\n`;
 }
 
-function getStoreMainContent({varName}: Names) {
+function getStoreMainContent({constName}: Names) {
   return `import {createStore} from '@tinijs/store';
 
-export const ${varName}Store = createStore({
-  name: '${varName}',
+export const ${constName}_STORE = createStore({
+  key: 'value',
 });\n`;
 }
 

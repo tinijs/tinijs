@@ -17,8 +17,8 @@ import {
 
 export interface SwitchEventDetail {
   name?: string;
-  status: SwitchStatuses;
-  inputElement: HTMLInputElement;
+  activated: boolean;
+  checkboxElement: HTMLInputElement;
 }
 
 export enum SwitchParts {
@@ -29,17 +29,12 @@ export enum SwitchParts {
   Slider = 'slider',
 }
 
-export enum SwitchStatuses {
-  On = 'on',
-  Off = 'off',
-}
-
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) label?: string;
   @property({type: String, reflect: true}) name?: string;
-  @property({type: String, reflect: true}) status?: SwitchStatuses;
-  @property({type: Boolean, reflect: true}) disabled?: boolean;
+  @property({type: Boolean, reflect: true}) activated = false;
+  @property({type: Boolean, reflect: true}) disabled = false;
   @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
@@ -49,8 +44,8 @@ export default class extends TiniElement {
     const target = e.target as HTMLInputElement;
     return this.emitEvent('toggle', {
       name: target.name,
-      status: target.checked ? SwitchStatuses.On : SwitchStatuses.Off,
-      inputElement: target,
+      activated: target.checked,
+      checkboxElement: target,
     } as SwitchEventDetail);
   }
 
@@ -70,8 +65,8 @@ export default class extends TiniElement {
               part=${SwitchParts.Input}
               type="checkbox"
               name=${ifDefined(this.name)}
-              ?checked=${this.status === SwitchStatuses.On}
-              ?disabled=${!!this.disabled}
+              ?checked=${this.activated}
+              ?disabled=${this.disabled}
               @change=${this.toggle}
             />
             <div class=${SwitchParts.Slider} part=${SwitchParts.Slider}></div>

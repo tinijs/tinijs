@@ -20,8 +20,8 @@ export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) level?: string;
   @property({type: String, reflect: true}) color?: Colors | Gradients;
-  @property({type: Boolean, reflect: true}) italic?: boolean;
-  @property({type: Boolean, reflect: true}) underline?: boolean;
+  @property({type: Boolean, reflect: true}) italic = false;
+  @property({type: Boolean, reflect: true}) underline = false;
   /* eslint-enable prettier/prettier */
 
   private readonly mainTag = this.buildMainTag();

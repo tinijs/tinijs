@@ -2,7 +2,7 @@ import {createStore} from '@tinijs/store';
 
 import {UIConsumerTargets} from '../consts/common.js';
 
-export const mainStore = createStore({
+export const MAIN_STORE = createStore({
   uiConsumerTarget: UIConsumerTargets.Tini,
   skinEditorShown: false,
 });

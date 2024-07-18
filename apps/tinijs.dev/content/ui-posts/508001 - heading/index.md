@@ -28,6 +28,7 @@
           label: 'Level',
           items: [
             {content: 'Default', value: '_default'},
+            {content: '1', value: '1'},
             {content: '2', value: '2'},
             {content: '3', value: '3'},
             {content: '4', value: '4'},

@@ -6,12 +6,24 @@
 }
 +++
 
-You can turn a TiniJS app into a Progressive Web App (PWA) using a single CLI command with the [PWA module](/module/pwa) module.
+You can turn a TiniJS app into a Progressive Web App (PWA) with a single CLI command using the [PWA module](/module/pwa) module.
 
-Assume that you have a TiniJS app created using one of the app [starter templates](/framework/starter). Run the following command:
+Create a TiniJS app if you haven't already (details at [Get started](/framework/get-started)):
+
+```bash
+npx @tinijs/cli@latest new my-app -t blank
+```
+
+Add the PWA module by running the following command:
 
 ```bash
 npx tini module add @tinijs/pwa
 ```
 
-For more details, see the [PWA module page](/module/pwa).
+After setup app icons and configurations if any as seen in [PWA module](/module/pwa). Run the build command:
+
+```bash
+npm run build
+```
+
+Finally, deploy the `.output` folder to any static server, see more at [deploy web apps](/framework/distribution-web).

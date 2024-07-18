@@ -36,12 +36,12 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) rel?: string;
   @property({type: String, reflect: true}) target?: LinkTargets;
   @property({type: String, reflect: true}) active?: string;
-  @property({type: Boolean, reflect: true}) disabled?: boolean;
+  @property({type: Boolean, reflect: true}) disabled = false;
   @property({type: String, reflect: true}) color?: Colors | Gradients;
   @property({type: String, reflect: true}) size?: Texts;
   @property({type: String, reflect: true}) weight?: Weights;
-  @property({type: Boolean, reflect: true}) italic?: boolean;
-  @property({type: Boolean, reflect: true}) noUnderline?: boolean;
+  @property({type: Boolean, reflect: true}) italic = false;
+  @property({type: Boolean, reflect: true}) noUnderline = false;
   /* eslint-enable prettier/prettier */
 
   connectedCallback() {

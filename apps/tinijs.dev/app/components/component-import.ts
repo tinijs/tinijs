@@ -12,7 +12,7 @@ import {
 } from '@tinijs/core';
 import {Subscribe} from '@tinijs/store';
 
-import {mainStore} from '../stores/main.js';
+import {MAIN_STORE} from '../stores/main.js';
 
 import {TiniCodeComponent} from '../ui/components/code.js';
 
@@ -30,7 +30,7 @@ export class AppComponentImportComponent
   static readonly defaultTagName = 'app-component-import';
 
   @UseUI() readonly ui!: UI;
-  @Subscribe(mainStore) uiConsumerTarget = mainStore.uiConsumerTarget;
+  @Subscribe(MAIN_STORE) uiConsumerTarget = MAIN_STORE.uiConsumerTarget;
 
   @Prop() componentName!: string;
 
@@ -70,7 +70,7 @@ setupUI({ components: [ ${constructorName} ] });
 registerComponents([ ${constructorName} ]);`;
       }
       case UIConsumerTargets.Vanilla: {
-        const cdnPath = `https://cdn.jsdelivr.net/npm/@tinijs/ui-${familyId}/components/${this.componentName}.js`;
+        const cdnPath = `https://cdn.jsdelivr.net/npm/@tinijs/ui-${familyId}@0.21.1/bundled/components/${this.componentName}.js`;
         return `import { ${constructorName} } from '${cdnPath}';
 
 // at the very beginning of a page
@@ -92,7 +92,7 @@ registerComponents([ ${constructorName} ]);`;
     detail: target,
   }: CustomEvent<UIConsumerTargets>) {
     if (target === this.uiConsumerTarget) return;
-    mainStore.uiConsumerTarget = target;
+    MAIN_STORE.uiConsumerTarget = target;
   }
 
   protected render() {
