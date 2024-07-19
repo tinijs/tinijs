@@ -2,40 +2,16 @@ import {html} from 'lit';
 import {property} from 'lit/decorators.js';
 import {
   TiniElement,
-  ALL_COLORS,
-  ALL_GRADIENTS,
-  SPACES,
-  SHADOWS,
-  RADIUSES,
-  BORDERS,
-  OUTLINES,
-  WIDES,
+  AVAILABLE_ALL_COLORS,
+  AVAILABLE_ALL_GRADIENTS,
+  AVAILABLE_SPACES,
+  AVAILABLE_SHADOWS,
+  AVAILABLE_RADIUSES,
+  AVAILABLE_BORDERS,
+  AVAILABLE_OUTLINES,
+  AVAILABLE_WIDES,
+  BREAKPOINT_VALUES,
 } from '@tinijs/core';
-
-function createListMap(list: string[]) {
-  return list.reduce(
-    (result, item) => {
-      result[item] = item;
-      return result;
-    },
-    {} as Record<string, string>
-  );
-}
-const ALL_COLORS_MAP = createListMap(ALL_COLORS);
-const ALL_GRADIENTS_MAP = createListMap(ALL_GRADIENTS);
-const SPACES_MAP = createListMap(SPACES);
-const SHADOWS_MAP = createListMap(SHADOWS);
-const RADIUSES_MAP = createListMap(RADIUSES);
-const BORDERS_MAP = createListMap(BORDERS);
-const OUTLINES_MAP = createListMap(OUTLINES);
-const WIDES_MAP = createListMap(WIDES);
-const BREAKPOINTS: Record<string, string> = {
-  xs: '576px',
-  sm: '768px',
-  md: '1024px',
-  lg: '1280px',
-  xl: '1640px',
-};
 
 export interface LayoutProps {
   container?: string;
@@ -114,19 +90,19 @@ export interface LayoutProps {
 }
 
 export function parseLayoutColorValue(raw: string) {
-  return !ALL_COLORS_MAP[raw] ? raw : `var(--color-${raw})`;
+  return !AVAILABLE_ALL_COLORS[raw] ? raw : `var(--color-${raw})`;
 }
 
 export function parseLayoutColorOrGradientValue(raw: string) {
-  return ALL_GRADIENTS_MAP[raw]
+  return AVAILABLE_ALL_GRADIENTS[raw]
     ? `var(--${raw})`
-    : ALL_COLORS_MAP[raw]
+    : AVAILABLE_ALL_COLORS[raw]
       ? `var(--color-${raw})`
       : raw;
 }
 
 export function parseLayoutSingleSpaceValue(raw: string) {
-  return !SPACES_MAP[raw] ? raw : `var(--space-${raw})`;
+  return !AVAILABLE_SPACES[raw] ? raw : `var(--space-${raw})`;
 }
 
 export function parseLayoutMultipleSpaceValue(raw: string) {
@@ -137,20 +113,20 @@ export function parseLayoutMultipleSpaceValue(raw: string) {
 }
 
 export function parseLayoutShadowValue(raw: string) {
-  return !SHADOWS_MAP[raw] ? raw : `var(--shadow-${raw})`;
+  return !AVAILABLE_SHADOWS[raw] ? raw : `var(--shadow-${raw})`;
 }
 
 export function parseLayoutRadiusValue(raw: string) {
-  return !RADIUSES_MAP[raw] ? raw : `var(--radius-${raw})`;
+  return !AVAILABLE_RADIUSES[raw] ? raw : `var(--radius-${raw})`;
 }
 
 export function parseLayoutBorderValue(raw: string) {
   return raw
     .split(' ')
     .map(item =>
-      BORDERS_MAP[item]
+      AVAILABLE_BORDERS[item]
         ? `var(--border-${item})`
-        : ALL_COLORS_MAP[item]
+        : AVAILABLE_ALL_COLORS[item]
           ? `var(--color-${item})`
           : item
     )
@@ -161,9 +137,9 @@ export function parseLayoutOutlineValue(raw: string) {
   return raw
     .split(' ')
     .map(item =>
-      OUTLINES_MAP[item]
+      AVAILABLE_OUTLINES[item]
         ? `var(--outline-${item})`
-        : ALL_COLORS_MAP[item]
+        : AVAILABLE_ALL_COLORS[item]
           ? `var(--color-${item})`
           : item
     )
@@ -171,7 +147,7 @@ export function parseLayoutOutlineValue(raw: string) {
 }
 
 export function parseLayoutWideValue(raw: string) {
-  return !WIDES_MAP[raw] ? raw : `var(--wide-${raw})`;
+  return !AVAILABLE_WIDES[raw] ? raw : `var(--wide-${raw})`;
 }
 
 export class BaseLayoutElement extends TiniElement {
@@ -368,9 +344,9 @@ export class BaseLayoutElement extends TiniElement {
     // media queries
     if (this.mediaQueries) {
       for (const [key, value] of Object.entries(this.mediaQueries)) {
-        const query = !BREAKPOINTS[key]
+        const query = !BREAKPOINT_VALUES[key]
           ? key
-          : `(min-width: ${BREAKPOINTS[key]})`;
+          : `(min-width: ${BREAKPOINT_VALUES[key]})`;
         result.push(
           `@media ${query} { :host { ${this.composeStyles(value)} } }`
         );
@@ -379,9 +355,9 @@ export class BaseLayoutElement extends TiniElement {
     // container queries
     if (this.containerQueries) {
       for (const [key, value] of Object.entries(this.containerQueries)) {
-        const query = !BREAKPOINTS[key]
+        const query = !BREAKPOINT_VALUES[key]
           ? key
-          : `(min-width: ${BREAKPOINTS[key]})`;
+          : `(min-width: ${BREAKPOINT_VALUES[key]})`;
         result.push(
           `@container ${query} { :host { ${this.composeStyles(value)} } }`
         );

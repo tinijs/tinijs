@@ -12,6 +12,16 @@ export function isContrast(name: string | undefined) {
   return name?.slice(-9) === '-contrast';
 }
 
+function createVariantAvailabilityMap(list: string[]) {
+  return list.reduce(
+    (result, item) => {
+      result[item] = item;
+      return result;
+    },
+    {} as Record<string, string>
+  );
+}
+
 export interface VariantRenderValues {
   name: string;
   prefixName: string;
@@ -35,6 +45,7 @@ export interface ColorRenderValues extends VariantRenderValues {
   contrast: string;
 }
 export type ColorVariantRender = (values: ColorRenderValues) => string;
+
 export interface GradientRenderValues extends ColorRenderValues {
   baseGradient: string;
   baseGradientHard: string;
@@ -122,6 +133,7 @@ export const COLORS = Object.values(Colors);
 export const SUBTLE_COLORS = Object.values(SubtleColors);
 export const CONTRAST_COLORS = Object.values(ContrastColors);
 export const ALL_COLORS = [...COLORS, ...SUBTLE_COLORS, ...CONTRAST_COLORS];
+export const AVAILABLE_ALL_COLORS = createVariantAvailabilityMap(ALL_COLORS);
 
 export enum Gradients {
   Body = 'gradient-body',
@@ -161,6 +173,7 @@ export const ALL_GRADIENTS = [
   ...SUBTLE_GRADIENTS,
   ...CONTRAST_GRADIENTS,
 ];
+export const AVAILABLE_ALL_GRADIENTS = createVariantAvailabilityMap(ALL_GRADIENTS);
 
 export enum Fonts {
   Title = 'title',
@@ -169,6 +182,7 @@ export enum Fonts {
   Art = 'art',
 }
 export const FONTS = Object.values(Fonts);
+export const AVAILABLE_FONTS = createVariantAvailabilityMap(FONTS);
 
 export enum Texts {
   XS3 = 'xs3',
@@ -186,6 +200,7 @@ export enum Texts {
   XL7 = 'xl7',
 }
 export const TEXTS = Object.values(Texts);
+export const AVAILABLE_TEXTS = createVariantAvailabilityMap(TEXTS);
 
 export enum Weights {
   Thin = 'thin',
@@ -196,6 +211,7 @@ export enum Weights {
   Black = 'black',
 }
 export const WEIGHTS = Object.values(Weights);
+export const AVAILABLE_WEIGHTS = createVariantAvailabilityMap(WEIGHTS);
 
 export enum Sizes {
   XS = 'xs',
@@ -205,6 +221,7 @@ export enum Sizes {
   XL = 'xl',
 }
 export const SIZES = Object.values(Sizes);
+export const AVAILABLE_SIZES = createVariantAvailabilityMap(SIZES);
 
 export enum Spaces {
   Zero = 'zero',
@@ -223,6 +240,7 @@ export enum Spaces {
   XL7 = 'xl7',
 }
 export const SPACES = Object.values(Spaces);
+export const AVAILABLE_SPACES = createVariantAvailabilityMap(SPACES);
 
 export enum Radiuses {
   Zero = 'zero',
@@ -237,6 +255,7 @@ export enum Radiuses {
   Full = 'full',
 }
 export const RADIUSES = Object.values(Radiuses);
+export const AVAILABLE_RADIUSES = createVariantAvailabilityMap(RADIUSES);
 
 export enum Borders {
   Zero = 'zero',
@@ -246,6 +265,7 @@ export enum Borders {
   XL = 'xl',
 }
 export const BORDERS = Object.values(Borders);
+export const AVAILABLE_BORDERS = createVariantAvailabilityMap(BORDERS);
 
 export enum Outlines {
   Zero = 'zero',
@@ -255,6 +275,7 @@ export enum Outlines {
   XL = 'xl',
 }
 export const OUTLINES = Object.values(Outlines);
+export const AVAILABLE_OUTLINES = createVariantAvailabilityMap(OUTLINES);
 
 export enum Lines {
   XS = 'xs',
@@ -264,6 +285,7 @@ export enum Lines {
   XL = 'xl',
 }
 export const LINES = Object.values(Lines);
+export const AVAILABLE_LINES = createVariantAvailabilityMap(LINES);
 
 export enum Letters {
   XS = 'xs',
@@ -273,6 +295,7 @@ export enum Letters {
   XL = 'xl',
 }
 export const LETTERS = Object.values(Letters);
+export const AVAILABLE_LETTERS = createVariantAvailabilityMap(LETTERS);
 
 export enum Wides {
   XS3 = 'xs3',
@@ -290,6 +313,24 @@ export enum Wides {
   XL7 = 'xl7',
 }
 export const WIDES = Object.values(Wides);
+export const AVAILABLE_WIDES = createVariantAvailabilityMap(WIDES);
+
+export enum Breakpoints {
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+}
+export const BREAKPOINTS = Object.values(Breakpoints);
+export const AVAILABLE_BREAKPOINTS = createVariantAvailabilityMap(BREAKPOINTS);
+export const BREAKPOINT_VALUES: Record<string, string> = {
+  [Breakpoints.XS]: '576px',
+  [Breakpoints.SM]: '768px',
+  [Breakpoints.MD]: '1024px',
+  [Breakpoints.LG]: '1280px',
+  [Breakpoints.XL]: '1640px',
+};
 
 export enum Shadows {
   None = 'none',
@@ -301,6 +342,7 @@ export enum Shadows {
   Inset = 'inset',
 }
 export const SHADOWS = Object.values(Shadows);
+export const AVAILABLE_SHADOWS = createVariantAvailabilityMap(SHADOWS);
 
 export function buildVariantNamesAndSelectors(
   prefixName: string,
