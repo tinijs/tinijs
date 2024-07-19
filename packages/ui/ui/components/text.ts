@@ -9,11 +9,15 @@ import {
   Fonts,
   Texts,
   Weights,
+  Lines,
+  Letters,
   generateColorVariants,
   generateGradientVariants,
   generateFontVariants,
   generateTextVariants,
   generateWeightVariants,
+  generateLineVariants,
+  generateLetterVariants,
   type VariantRenderValues,
 } from '@tinijs/core';
 
@@ -63,8 +67,10 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) color?: Colors | Gradients;
   @property({type: String, reflect: true}) font?: Fonts;
   @property({type: String, reflect: true}) size?: Texts;
-  @property({type: String, reflect: true}) weight?: Weights;
   @property({type: String, reflect: true}) align?: TextAligns;
+  @property({type: String, reflect: true}) weight?: Weights;
+  @property({type: String, reflect: true}) height?: Lines;
+  @property({type: String, reflect: true}) spacing?: Letters;
   @property({type: Boolean, reflect: true}) italic = false;
   @property({type: Boolean, reflect: true}) underline = false;
   /* eslint-enable prettier/prettier */
@@ -80,22 +86,28 @@ export const defaultStyles = createStyleBuilder<{
   gradientGen: Parameters<typeof generateGradientVariants>[0];
   fontGen: Parameters<typeof generateFontVariants>[0];
   textGen: Parameters<typeof generateTextVariants>[0];
-  weightGen: Parameters<typeof generateWeightVariants>[0];
   alignGen: Parameters<typeof generateAlignVariants>[0];
+  weightGen: Parameters<typeof generateWeightVariants>[0];
+  lineGen: Parameters<typeof generateLineVariants>[0];
+  letterGen: Parameters<typeof generateLetterVariants>[0];
 }>(outputs => [
   css`
     :host {
       --color: var(--color-body-contrast);
       --font: var(--font-content);
       --size: var(--text-md);
-      --weight: normal;
       --align: start;
+      --weight: normal;
+      --height: var(--line-md);
+      --spacing: var(--letter-md);
       display: inline;
       color: var(--color);
       font-family: var(--font);
       font-size: var(--size);
-      font-weight: var(--weight);
       text-align: var(--align);
+      font-weight: var(--weight);
+      line-height: var(--height);
+      letter-spacing: var(--spacing);
     }
 
     :host([block]) {
@@ -173,6 +185,16 @@ export const defaultStyles = createStyleBuilder<{
     `;
   }, 'size'),
 
+  generateAlignVariants(values => {
+    const {hostSelector, align} = values;
+    return `
+      ${hostSelector} {
+        --align: ${align};
+      }
+      ${outputs.alignGen(values)}
+    `;
+  }),
+
   generateWeightVariants(values => {
     const {hostSelector, weight} = values;
     return `
@@ -183,13 +205,23 @@ export const defaultStyles = createStyleBuilder<{
     `;
   }),
 
-  generateAlignVariants(values => {
-    const {hostSelector, align} = values;
+  generateLineVariants(values => {
+    const {hostSelector, line} = values;
     return `
       ${hostSelector} {
-        --align: ${align};
+        --height: ${line};
       }
-      ${outputs.alignGen(values)}
+      ${outputs.lineGen(values)}
     `;
-  }),
+  }, 'height'),
+
+  generateLetterVariants(values => {
+    const {hostSelector, letter} = values;
+    return `
+      ${hostSelector} {
+        --spacing: ${letter};
+      }
+      ${outputs.letterGen(values)}
+    `;
+  }, 'spacing'),
 ]);

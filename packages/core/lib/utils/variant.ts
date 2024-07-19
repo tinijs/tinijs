@@ -74,6 +74,16 @@ export interface WeightRenderValues extends VariantRenderValues {
 }
 export type WeightVariantRender = (values: WeightRenderValues) => string;
 
+export interface LineRenderValues extends VariantRenderValues {
+  line: string;
+}
+export type LineVariantRender = (values: LineRenderValues) => string;
+
+export interface LetterRenderValues extends VariantRenderValues {
+  letter: string;
+}
+export type LetterVariantRender = (values: LetterRenderValues) => string;
+
 export interface SizeRenderValues extends VariantRenderValues {
   size: string;
 }
@@ -173,7 +183,8 @@ export const ALL_GRADIENTS = [
   ...SUBTLE_GRADIENTS,
   ...CONTRAST_GRADIENTS,
 ];
-export const AVAILABLE_ALL_GRADIENTS = createVariantAvailabilityMap(ALL_GRADIENTS);
+export const AVAILABLE_ALL_GRADIENTS =
+  createVariantAvailabilityMap(ALL_GRADIENTS);
 
 export enum Fonts {
   Title = 'title',
@@ -608,6 +619,50 @@ export function generateWeightVariants(
         name,
         prefixName,
         weight,
+        fullName,
+        hostSelector,
+        mainSelector,
+      });
+    }).join('')
+  );
+}
+
+export function generateLineVariants(
+  render: LineVariantRender,
+  prefixName?: string
+) {
+  return unsafeCSS(
+    LINES.map(name => {
+      prefixName ||= 'line';
+      const line = `var(--line-${name})`;
+      const {fullName, hostSelector, mainSelector} =
+        buildVariantNamesAndSelectors(prefixName, name);
+      return render({
+        name,
+        prefixName,
+        line,
+        fullName,
+        hostSelector,
+        mainSelector,
+      });
+    }).join('')
+  );
+}
+
+export function generateLetterVariants(
+  render: LetterVariantRender,
+  prefixName?: string
+) {
+  return unsafeCSS(
+    LETTERS.map(name => {
+      prefixName ||= 'letter';
+      const letter = `var(--letter-${name})`;
+      const {fullName, hostSelector, mainSelector} =
+        buildVariantNamesAndSelectors(prefixName, name);
+      return render({
+        name,
+        prefixName,
+        letter,
         fullName,
         hostSelector,
         mainSelector,

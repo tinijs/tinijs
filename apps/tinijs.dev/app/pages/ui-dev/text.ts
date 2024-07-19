@@ -8,6 +8,8 @@ import {
   Fonts,
   Texts,
   Weights,
+  Lines,
+  Letters,
 } from '@tinijs/core';
 
 import {TiniTextComponent} from '../../ui/components/text.js';
@@ -61,6 +63,12 @@ export class AppPageUIDevTextComponent extends TiniComponent {
         )}
       </ui-dev-section>
 
+      <ui-dev-section titleText="Aligns">
+        <tini-text block>Lorem ipsum (start)</tini-text>
+        <tini-text block align="center">Lorem ipsum (center)</tini-text>
+        <tini-text block align="end">Lorem ipsum (end)</tini-text>
+      </ui-dev-section>
+
       <ui-dev-section titleText="Font weights">
         ${Object.values(Weights).map(
           weight => html`
@@ -72,10 +80,28 @@ export class AppPageUIDevTextComponent extends TiniComponent {
         )}
       </ui-dev-section>
 
-      <ui-dev-section titleText="Aligns">
-        <tini-text block>Lorem ipsum (start)</tini-text>
-        <tini-text block align="center">Lorem ipsum (center)</tini-text>
-        <tini-text block align="end">Lorem ipsum (end)</tini-text>
+      <ui-dev-section titleText="Line heights">
+        ${Object.values(Lines).map(
+          height => html`
+            <tini-text block height=${height} style="width: 150px"
+              >The quick brown fox jumped over the lazy dog
+              <strong>(height=${height})</strong></tini-text
+            >
+            <br />
+          `
+        )}
+      </ui-dev-section>
+
+      <ui-dev-section titleText="Letter spacings">
+        ${Object.values(Letters).map(
+          spacing => html`
+            <tini-text spacing=${spacing}
+              >The quick brown fox jumped over the lazy dog
+              <strong>(spacing=${spacing})</strong></tini-text
+            >
+            <br />
+          `
+        )}
       </ui-dev-section>
 
       <ui-dev-section titleText="Italics">
