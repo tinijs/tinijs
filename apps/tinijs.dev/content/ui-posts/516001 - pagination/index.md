@@ -22,8 +22,13 @@
       },
       {
         section: 'select',
-        attrs: {label: 'Scheme', preset: 'allColorsAndAllGradients'},
-        target: 'scheme'
+        attrs: {label: 'Color', preset: 'allColors'},
+        target: 'color'
+      },
+      {
+        section: 'select',
+        attrs: {label: 'Gradient', preset: 'allGradients'},
+        target: 'gradient'
       },
       {
         section: 'select',

@@ -1,11 +1,7 @@
 import {property} from 'lit/decorators.js';
+import {parseSingleSpaceValue, parseMultipleSpaceValue} from '@tinijs/core';
 
-import {
-  BaseLayoutElement,
-  parseLayoutSingleSpaceValue,
-  parseLayoutMultipleSpaceValue,
-  type LayoutProps,
-} from '../../lib/classes/layout.js';
+import {BaseLayoutElement, type LayoutProps} from '../../lib/classes/layout.js';
 
 export interface FlexProps extends LayoutProps {
   display?: 'none' | 'flex' | 'inline-flex';
@@ -64,9 +60,9 @@ export default class extends BaseLayoutElement {
     if (props.justifyContent) result.push(`justify-content: ${props.justifyContent};`);
     if (props.placeItems) result.push(`place-items: ${props.placeItems};`);
     if (props.placeContent) result.push(`place-content: ${props.placeContent};`);
-    if (props.gap) result.push(`gap: ${parseLayoutMultipleSpaceValue(props.gap)};`);
-    if (props.rowGap) result.push(`row-gap: ${parseLayoutSingleSpaceValue(props.rowGap)};`);
-    if (props.columnGap) result.push(`column-gap: ${parseLayoutSingleSpaceValue(props.columnGap)};`);
+    if (props.gap) result.push(`gap: ${parseMultipleSpaceValue(props.gap)};`);
+    if (props.rowGap) result.push(`row-gap: ${parseSingleSpaceValue(props.rowGap)};`);
+    if (props.columnGap) result.push(`column-gap: ${parseSingleSpaceValue(props.columnGap)};`);
     /* eslint-enable prettier/prettier */
     return result.join('');
   }

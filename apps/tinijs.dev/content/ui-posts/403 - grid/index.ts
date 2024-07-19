@@ -26,7 +26,7 @@ export class ContentUIPostGridComponent extends TiniComponent {
   }
 
   private renderEditorBlock() {
-    const holyGrailInner = `<tini-box gridArea="header" height="64px" background="body-subtle">Header</tini-box>
+    const holyGrailLayoutInner = `<tini-box gridArea="header" height="64px" background="body-subtle">Header</tini-box>
 <tini-box gridArea="nav" width="120px" background="body-subtle">Nav</tini-box>
 <tini-box gridArea="content" background="body-subtle">Content</tini-box>
 <tini-box gridArea="side" width="120px" background="body-subtle">Side</tini-box>
@@ -47,7 +47,7 @@ export class ContentUIPostGridComponent extends TiniComponent {
               },
               {target: 'gap', value: 'md'},
               {target: 'height', value: '250px'},
-              {target: 'inner', value: holyGrailInner},
+              {target: 'inner', value: holyGrailLayoutInner},
             ],
           },
         }}

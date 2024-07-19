@@ -289,10 +289,10 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       <div class="foot">
         <tini-button
           class="show-code"
-          scheme="primary"
+          color="primary"
           @click=${this.showCodeModal}
         >
-          <icon-code scheme="primary-contrast" size="sm"></icon-code>
+          <icon-code color="primary-contrast" size="sm"></icon-code>
           <span>Show code</span>
         </tini-button>
       </div>

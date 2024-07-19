@@ -2,14 +2,15 @@ import {html} from 'lit';
 import {property} from 'lit/decorators.js';
 import {
   TiniElement,
-  AVAILABLE_ALL_COLORS,
-  AVAILABLE_ALL_GRADIENTS,
-  AVAILABLE_SPACES,
-  AVAILABLE_SHADOWS,
-  AVAILABLE_RADIUSES,
-  AVAILABLE_BORDERS,
-  AVAILABLE_OUTLINES,
-  AVAILABLE_WIDES,
+  parseColorValue,
+  parseColorOrGradientValue,
+  parseSingleSpaceValue,
+  parseMultipleSpaceValue,
+  parseShadowValue,
+  parseRadiusValue,
+  parseBorderValue,
+  parseOutlineValue,
+  parseWideValue,
   BREAKPOINT_VALUES,
 } from '@tinijs/core';
 
@@ -59,6 +60,7 @@ export interface LayoutProps {
   // style
   color?: string;
   background?: string;
+  backgroundBlendMode?: string;
   shadow?: string;
   radius?: string;
   radiusTop?: string;
@@ -74,7 +76,7 @@ export interface LayoutProps {
   outlineOffset?: string;
   // effect
   transform?: string;
-  translate?: string;
+  move?: string;
   scale?: string;
   rotate?: string;
   transition?: string;
@@ -87,67 +89,6 @@ export interface LayoutProps {
   mask?: string;
   // misc
   cursor?: string;
-}
-
-export function parseLayoutColorValue(raw: string) {
-  return !AVAILABLE_ALL_COLORS[raw] ? raw : `var(--color-${raw})`;
-}
-
-export function parseLayoutColorOrGradientValue(raw: string) {
-  return AVAILABLE_ALL_GRADIENTS[raw]
-    ? `var(--${raw})`
-    : AVAILABLE_ALL_COLORS[raw]
-      ? `var(--color-${raw})`
-      : raw;
-}
-
-export function parseLayoutSingleSpaceValue(raw: string) {
-  return !AVAILABLE_SPACES[raw] ? raw : `var(--space-${raw})`;
-}
-
-export function parseLayoutMultipleSpaceValue(raw: string) {
-  return raw
-    .split(' ')
-    .map(item => parseLayoutSingleSpaceValue(item))
-    .join(' ');
-}
-
-export function parseLayoutShadowValue(raw: string) {
-  return !AVAILABLE_SHADOWS[raw] ? raw : `var(--shadow-${raw})`;
-}
-
-export function parseLayoutRadiusValue(raw: string) {
-  return !AVAILABLE_RADIUSES[raw] ? raw : `var(--radius-${raw})`;
-}
-
-export function parseLayoutBorderValue(raw: string) {
-  return raw
-    .split(' ')
-    .map(item =>
-      AVAILABLE_BORDERS[item]
-        ? `var(--border-${item})`
-        : AVAILABLE_ALL_COLORS[item]
-          ? `var(--color-${item})`
-          : item
-    )
-    .join(' ');
-}
-
-export function parseLayoutOutlineValue(raw: string) {
-  return raw
-    .split(' ')
-    .map(item =>
-      AVAILABLE_OUTLINES[item]
-        ? `var(--outline-${item})`
-        : AVAILABLE_ALL_COLORS[item]
-          ? `var(--color-${item})`
-          : item
-    )
-    .join(' ');
-}
-
-export function parseLayoutWideValue(raw: string) {
-  return !AVAILABLE_WIDES[raw] ? raw : `var(--wide-${raw})`;
 }
 
 export class BaseLayoutElement extends TiniElement {
@@ -200,6 +141,7 @@ export class BaseLayoutElement extends TiniElement {
   // style
   @property({type: String, reflect: true}) color?: LayoutProps['color'];
   @property({type: String, reflect: true}) background?: LayoutProps['background'];
+  @property({type: String, reflect: true}) backgroundBlendMode?: LayoutProps['backgroundBlendMode'];
   @property({type: String, reflect: true}) shadow?: LayoutProps['shadow'];
   @property({type: String, reflect: true}) radius?: LayoutProps['radius'];
   @property({type: String, reflect: true}) radiusTop?: LayoutProps['radiusTop'];
@@ -215,7 +157,7 @@ export class BaseLayoutElement extends TiniElement {
   @property({type: String, reflect: true}) outlineOffset?: LayoutProps['outlineOffset'];
   // effect
   @property({type: String, reflect: true}) transform?: LayoutProps['transform'];
-  @property({type: String, reflect: true}) translate: any; // override the native 'translate' attribute
+  @property({type: String, reflect: true}) move?: LayoutProps['move'];
   @property({type: String, reflect: true}) scale?: LayoutProps['scale'];
   @property({type: String, reflect: true}) rotate?: LayoutProps['rotate'];
   @property({type: String, reflect: true}) transition?: LayoutProps['transition'];
@@ -252,75 +194,76 @@ export class BaseLayoutElement extends TiniElement {
     // position
     if (props.position) result.push(`position: ${props.position};`);
     if (props.inset) result.push(`inset: ${props.inset};`);
-    if (props.top) result.push(`top: ${parseLayoutSingleSpaceValue(props.top)};`);
-    if (props.right) result.push(`right: ${parseLayoutSingleSpaceValue(props.right)};`);
-    if (props.bottom) result.push(`bottom: ${parseLayoutSingleSpaceValue(props.bottom)};`);
-    if (props.left) result.push(`left: ${parseLayoutSingleSpaceValue(props.left)};`);
+    if (props.top) result.push(`top: ${parseSingleSpaceValue(props.top)};`);
+    if (props.right) result.push(`right: ${parseSingleSpaceValue(props.right)};`);
+    if (props.bottom) result.push(`bottom: ${parseSingleSpaceValue(props.bottom)};`);
+    if (props.left) result.push(`left: ${parseSingleSpaceValue(props.left)};`);
     if (props.zIndex) result.push(`z-index: ${props.zIndex};`);
     // size
-    if (props.width) result.push(`width: ${parseLayoutWideValue(props.width)};`);
-    if (props.minWidth) result.push(`min-width: ${parseLayoutWideValue(props.minWidth)};`);
-    if (props.maxWidth) result.push(`max-width: ${parseLayoutWideValue(props.maxWidth)};`);
-    if (props.height) result.push(`height: ${parseLayoutWideValue(props.height)};`);
-    if (props.minHeight) result.push(`min-height: ${parseLayoutWideValue(props.minHeight)};`);
-    if (props.maxHeight) result.push(`max-height: ${parseLayoutWideValue(props.maxHeight)};`);
-    if (props.margin) result.push(`margin: ${parseLayoutMultipleSpaceValue(props.margin)};`);
+    if (props.width) result.push(`width: ${parseWideValue(props.width)};`);
+    if (props.minWidth) result.push(`min-width: ${parseWideValue(props.minWidth)};`);
+    if (props.maxWidth) result.push(`max-width: ${parseWideValue(props.maxWidth)};`);
+    if (props.height) result.push(`height: ${parseWideValue(props.height)};`);
+    if (props.minHeight) result.push(`min-height: ${parseWideValue(props.minHeight)};`);
+    if (props.maxHeight) result.push(`max-height: ${parseWideValue(props.maxHeight)};`);
+    if (props.margin) result.push(`margin: ${parseMultipleSpaceValue(props.margin)};`);
     if (props.marginX) {
-      const value = parseLayoutSingleSpaceValue(props.marginX);
+      const value = parseSingleSpaceValue(props.marginX);
       result.push(`margin-left: ${value}; margin-right: ${value};`);
     }
     if (props.marginY) {
-      const value = parseLayoutSingleSpaceValue(props.marginY);
+      const value = parseSingleSpaceValue(props.marginY);
       result.push(`margin-top: ${value}; margin-bottom: ${value};`);
     }
-    if (props.marginTop) result.push(`margin-top: ${parseLayoutSingleSpaceValue(props.marginTop)};`);
-    if (props.marginRight) result.push(`margin-right: ${parseLayoutSingleSpaceValue(props.marginRight)};`);
-    if (props.marginBottom) result.push(`margin-bottom: ${parseLayoutSingleSpaceValue(props.marginBottom)};`);
-    if (props.marginLeft) result.push(`margin-left: ${parseLayoutSingleSpaceValue(props.marginLeft)};`);
-    if (props.padding) result.push(`padding: ${parseLayoutMultipleSpaceValue(props.padding)};`);
+    if (props.marginTop) result.push(`margin-top: ${parseSingleSpaceValue(props.marginTop)};`);
+    if (props.marginRight) result.push(`margin-right: ${parseSingleSpaceValue(props.marginRight)};`);
+    if (props.marginBottom) result.push(`margin-bottom: ${parseSingleSpaceValue(props.marginBottom)};`);
+    if (props.marginLeft) result.push(`margin-left: ${parseSingleSpaceValue(props.marginLeft)};`);
+    if (props.padding) result.push(`padding: ${parseMultipleSpaceValue(props.padding)};`);
     if (props.paddingX) {
-      const value = parseLayoutSingleSpaceValue(props.paddingX);
+      const value = parseSingleSpaceValue(props.paddingX);
       result.push(`padding-left: ${value}; padding-right: ${value};`);
     }
     if (props.paddingY) {
-      const value = parseLayoutSingleSpaceValue(props.paddingY);
+      const value = parseSingleSpaceValue(props.paddingY);
       result.push(`padding-top: ${value}; padding-bottom: ${value};`);
     }
-    if (props.paddingTop) result.push(`padding-top: ${parseLayoutSingleSpaceValue(props.paddingTop)};`);
-    if (props.paddingRight) result.push(`padding-right: ${parseLayoutSingleSpaceValue(props.paddingRight)};`);
-    if (props.paddingBottom) result.push(`padding-bottom: ${parseLayoutSingleSpaceValue(props.paddingBottom)};`);
-    if (props.paddingLeft) result.push(`padding-left: ${parseLayoutSingleSpaceValue(props.paddingLeft)};`);
+    if (props.paddingTop) result.push(`padding-top: ${parseSingleSpaceValue(props.paddingTop)};`);
+    if (props.paddingRight) result.push(`padding-right: ${parseSingleSpaceValue(props.paddingRight)};`);
+    if (props.paddingBottom) result.push(`padding-bottom: ${parseSingleSpaceValue(props.paddingBottom)};`);
+    if (props.paddingLeft) result.push(`padding-left: ${parseSingleSpaceValue(props.paddingLeft)};`);
     // style
-    if (props.color) result.push(`color: ${parseLayoutColorValue(props.color)};`);
-    if (props.background) result.push(`background: ${parseLayoutColorOrGradientValue(props.background)};`);
-    if (props.shadow) result.push(`box-shadow: ${parseLayoutShadowValue(props.shadow)};`);
-    if (props.radius) result.push(`border-radius: ${parseLayoutRadiusValue(props.radius)};`);
+    if (props.color) result.push(`color: ${parseColorValue(props.color)};`);
+    if (props.background) result.push(`background: ${parseColorOrGradientValue(props.background)};`);
+    if (props.backgroundBlendMode) result.push(`background-blend-mode: ${props.backgroundBlendMode};`);
+    if (props.shadow) result.push(`box-shadow: ${parseShadowValue(props.shadow)};`);
+    if (props.radius) result.push(`border-radius: ${parseRadiusValue(props.radius)};`);
     if (props.radiusTop) {
-      const value = parseLayoutRadiusValue(props.radiusTop);
+      const value = parseRadiusValue(props.radiusTop);
       result.push(`border-top-left-radius: ${value}; border-top-right-radius: ${value};`);
     }
     if (props.radiusRight) {
-      const value = parseLayoutRadiusValue(props.radiusRight);
+      const value = parseRadiusValue(props.radiusRight);
       result.push(`border-top-right-radius: ${value}; border-bottom-right-radius: ${value};`);
     }
     if (props.radiusBottom) {
-      const value = parseLayoutRadiusValue(props.radiusBottom);
+      const value = parseRadiusValue(props.radiusBottom);
       result.push(`border-bottom-right-radius: ${value}; border-bottom-left-radius: ${value};`);
     }
     if (props.radiusLeft) {
-      const value = parseLayoutRadiusValue(props.radiusLeft);
+      const value = parseRadiusValue(props.radiusLeft);
       result.push(`border-top-left-radius: ${value}; border-bottom-left-radius: ${value};`);
     }
-    if (props.border) result.push(`border: ${parseLayoutBorderValue(props.border)};`);
-    if (props.borderTop) result.push(`border-top: ${parseLayoutBorderValue(props.borderTop)};`);
-    if (props.borderRight) result.push(`border-right: ${parseLayoutBorderValue(props.borderRight)};`);
-    if (props.borderBottom) result.push(`border-bottom: ${parseLayoutBorderValue(props.borderBottom)};`);
-    if (props.borderLeft) result.push(`border-left: ${parseLayoutBorderValue(props.borderLeft)};`);
-    if (props.outline) result.push(`outline: ${parseLayoutOutlineValue(props.outline)};`);
-    if (props.outlineOffset) result.push(`outline-offset: ${parseLayoutSingleSpaceValue(props.outlineOffset)};`);
+    if (props.border) result.push(`border: ${parseBorderValue(props.border)};`);
+    if (props.borderTop) result.push(`border-top: ${parseBorderValue(props.borderTop)};`);
+    if (props.borderRight) result.push(`border-right: ${parseBorderValue(props.borderRight)};`);
+    if (props.borderBottom) result.push(`border-bottom: ${parseBorderValue(props.borderBottom)};`);
+    if (props.borderLeft) result.push(`border-left: ${parseBorderValue(props.borderLeft)};`);
+    if (props.outline) result.push(`outline: ${parseOutlineValue(props.outline)};`);
+    if (props.outlineOffset) result.push(`outline-offset: ${parseSingleSpaceValue(props.outlineOffset)};`);
     // effect
     if (props.transform) result.push(`transform: ${props.transform};`);
-    if (props.translate) result.push(`translate: ${parseLayoutMultipleSpaceValue(props.translate)};`);
+    if (props.move) result.push(`translate: ${parseMultipleSpaceValue(props.move)};`);
     if (props.scale) result.push(`scale: ${props.scale};`);
     if (props.rotate) result.push(`rotate: ${props.rotate};`);
     if (props.transition) result.push(`transition: ${props.transition};`);

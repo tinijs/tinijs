@@ -35,7 +35,8 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) name?: string;
   @property({type: Boolean, reflect: true}) activated = false;
   @property({type: Boolean, reflect: true}) disabled = false;
-  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
+  @property({type: String, reflect: true}) color?: Colors | SubtleColors;
+  @property({type: String, reflect: true}) gradient?: Gradients | SubtleGradients;
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 

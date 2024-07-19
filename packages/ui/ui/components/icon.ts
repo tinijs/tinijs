@@ -41,7 +41,8 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) src?: string;
   @property({type: String, reflect: true}) name?: string;
   @property({type: String, reflect: true}) provider?: string;
-  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | ContrastColors | Gradients | SubtleGradients | ContrastGradients;
+  @property({type: String, reflect: true}) color?: Colors | SubtleColors | ContrastColors;
+  @property({type: String, reflect: true}) gradient?: Gradients | SubtleGradients | ContrastGradients;
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
@@ -97,7 +98,8 @@ export const defaultStyles = createStyleBuilder<{
     :host {
       --width: calc(var(--size-md) * 2);
       --height: calc(var(--size-md) * 2);
-      --scheme: none;
+      --color: none;
+      --gradient: none;
       --image: url();
       display: inline-flex;
       align-items: center;
@@ -128,8 +130,16 @@ export const defaultStyles = createStyleBuilder<{
       height: 100%;
     }
 
-    :host([scheme]) .main {
-      background: var(--scheme);
+    :host([color]) .main {
+      background: var(--color);
+    }
+
+    :host([gradient]) .main {
+      background: var(--gradient);
+    }
+
+    :host([color]) .main,
+    :host([gradient]) .main {
       -webkit-mask-image: var(--image);
       -webkit-mask-size: 100% 100%;
       -webkit-mask-repeat: no-repeat;
@@ -147,7 +157,7 @@ export const defaultStyles = createStyleBuilder<{
     const {hostSelector, color} = values;
     return `
       ${hostSelector} {
-        --scheme: ${color};
+        --color: ${color};
       }
       ${outputs.colorGen(values)}
     `;
@@ -157,7 +167,7 @@ export const defaultStyles = createStyleBuilder<{
     const {hostSelector, gradient} = values;
     return `
       ${hostSelector} {
-        --scheme: ${gradient};
+        --gradient: ${gradient};
       }
       ${outputs.gradientGen(values)}
     `;

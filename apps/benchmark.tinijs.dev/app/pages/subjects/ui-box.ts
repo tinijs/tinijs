@@ -53,6 +53,7 @@ export const COMMON_MEDIA_PROPS = {
   paddingLeft: '0',
   color: '#000000',
   background: '#ffffff',
+  backgroundBlendMode: 'normal',
   shadow: 'none',
   radius: '6px',
   radiusTop: 'none',
@@ -67,7 +68,7 @@ export const COMMON_MEDIA_PROPS = {
   outline: 'solid',
   outlineOffset: '2px',
   transform: 'none',
-  translate: 'none',
+  move: 'none',
   scale: 'none',
   rotate: 'none',
   transition: 'all 0s ease',
@@ -123,6 +124,7 @@ export const COMMON_CONTAINER_PROPS = {
   paddingLeft: '0',
   color: '#000000',
   background: '#ffffff',
+  backgroundBlendMode: 'normal',
   shadow: '12px 12px 2px 1px rgba(0, 0, 255, .2)',
   radius: '12px',
   radiusTop: 'none',
@@ -137,7 +139,7 @@ export const COMMON_CONTAINER_PROPS = {
   outline: 'solid',
   outlineOffset: '4px',
   transform: 'none',
-  translate: 'none',
+  move: 'none',
   scale: 'none',
   rotate: 'none',
   transition: 'all 0s ease',
@@ -225,6 +227,7 @@ export const COMMON_ATTRS = unsafeStatic(`
   paddingLeft="0"
   color="#000000"
   background="#ffffff"
+  backgroundBlendMode="normal"
   shadow="10px 5px 5px red"
   radius="0"
   radiusTop="none"
@@ -239,7 +242,7 @@ export const COMMON_ATTRS = unsafeStatic(`
   outline="solid"
   outlineOffset="1px"
   transform="none"
-  translate="none"
+  move="none"
   scale="none"
   rotate="none"
   transition="all 0s ease"

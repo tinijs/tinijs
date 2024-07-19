@@ -1,10 +1,7 @@
 import {property} from 'lit/decorators.js';
+import {parseWideValue} from '@tinijs/core';
 
-import {
-  BaseLayoutElement,
-  parseLayoutWideValue,
-  type LayoutProps,
-} from '../../lib/classes/layout.js';
+import {BaseLayoutElement, type LayoutProps} from '../../lib/classes/layout.js';
 
 export interface ContainerProps extends LayoutProps {
   display?: 'none' | 'initial';
@@ -34,7 +31,7 @@ export default class extends BaseLayoutElement {
     const result: string[] = [super.composeStyles(props)];
     /* eslint-disable prettier/prettier */
     if (props.display) result.push(`display: ${props.display};`);
-    if (props.size) result.push(`max-width: ${parseLayoutWideValue(props.size)};`);
+    if (props.size) result.push(`max-width: ${parseWideValue(props.size)};`);
     if (props.align) result.push('text-align: inherit;');
     if (props.align === 'left') {
       result.push('margin-right: auto;');

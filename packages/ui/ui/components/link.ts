@@ -149,14 +149,14 @@ export const defaultStyles = createStyleBuilder<{
       font-size: var(--size);
     }
 
-    :host([color^='gradient']) .main {
+    :host([gradient]) .main {
       position: relative;
       background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    :host([color^='gradient']) .main::after {
+    :host([gradient]) .main::after {
       visibility: hidden;
       content: '';
       position: absolute;
@@ -181,7 +181,7 @@ export const defaultStyles = createStyleBuilder<{
       text-decoration: none !important;
     }
 
-    :host([color^='gradient'][noUnderline]) .main::after {
+    :host([gradient][noUnderline]) .main::after {
       visibility: hidden !important;
     }
   `,

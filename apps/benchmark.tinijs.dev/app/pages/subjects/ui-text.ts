@@ -32,8 +32,8 @@ export class AppPageUIText extends TiniComponent implements PageWithMetadata {
         <tini-text underline>Underline text (#${i})</tini-text>
         <tini-text weight="bold">Bold text (#${i})</tini-text>
         <tini-text color="primary">Color text (#${i})</tini-text>
-        <tini-text color="gradient-primary">Gradient text (#${i})</tini-text>
-        <tini-text underline color="gradient-primary"
+        <tini-text gradient="primary">Gradient text (#${i})</tini-text>
+        <tini-text underline gradient="primary"
           >Underline gradient text (#${i})</tini-text
         >
         <tini-text size="xl">Large text (#${i})</tini-text>

@@ -39,10 +39,10 @@ export class AppPageUIHeading
         <tini-heading color="primary" level="4"
           >Color heading level 4 (#${i})</tini-heading
         >
-        <tini-heading color="gradient-primary" level="5"
+        <tini-heading gradient="primary" level="5"
           >Gradient heading level 5 (#${i})</tini-heading
         >
-        <tini-heading underline color="gradient-primary" level="6"
+        <tini-heading underline gradient="primary" level="6"
           >Underline gradient heading level 6 (#${i})</tini-heading
         >
       `,

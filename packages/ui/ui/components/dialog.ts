@@ -1,6 +1,7 @@
 import {html, nothing, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {ref, createRef} from 'lit/directives/ref.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
   ElementParts,
@@ -13,7 +14,8 @@ import {
 
 export interface DialogButton {
   text?: string;
-  scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
+  color?: Colors | SubtleColors;
+  gradient?: Gradients | SubtleGradients;
 }
 
 export enum DialogParts {
@@ -160,14 +162,16 @@ export default class extends TiniElement {
               ? nothing
               : html`
                   <tini-button
-                    scheme=${this.denyButton?.scheme || Colors.Medium}
+                    color=${ifDefined(this.denyButton?.color)}
+                    gradient=${ifDefined(this.denyButton?.gradient)}
                     @click=${this.deny}
                   >
                     ${this.denyButton?.text || 'Cancel'}
                   </tini-button>
                 `}
             <tini-button
-              scheme=${this.acceptButton?.scheme || 'primary'}
+              color=${ifDefined(this.acceptButton?.color)}
+              gradient=${ifDefined(this.acceptButton?.gradient)}
               @click=${this.accept}
             >
               ${this.acceptButton?.text || 'OK'}

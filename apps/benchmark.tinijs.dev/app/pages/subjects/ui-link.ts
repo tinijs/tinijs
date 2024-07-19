@@ -31,9 +31,7 @@ export class AppPageUILink extends TiniComponent implements PageWithMetadata {
         <tini-link href="#" italic>Italic link (#${i})</tini-link>
         <tini-link href="#" noUnderline>No underline link (#${i})</tini-link>
         <tini-link href="#" color="success">Color link (#${i})</tini-link>
-        <tini-link href="#" color="gradient-danger"
-          >Gradient link (#${i})</tini-link
-        >
+        <tini-link href="#" gradient="danger">Gradient link (#${i})</tini-link>
         <tini-link href="#" size="xl">Big link (#${i})</tini-link>
         <tini-link href="#" size="xs">Small link (#${i})</tini-link>
         <br />

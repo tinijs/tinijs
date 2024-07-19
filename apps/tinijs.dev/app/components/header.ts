@@ -137,14 +137,14 @@ export class HeaderComponent
 
             <div class="social">
               <a href="https://github.com/tinijs/tinijs" target="_blank"
-                ><icon-github scheme=${ContrastColors.Body}></icon-github
+                ><icon-github color=${ContrastColors.Body}></icon-github
               ></a>
               <a href="https://twitter.com/tini_js" target="_blank"
-                ><icon-x scheme=${ContrastColors.Body}></icon-x
+                ><icon-x color=${ContrastColors.Body}></icon-x
               ></a>
               <a href="https://discord.gg/EABbZVbPAb" target="_blank"
                 ><icon-discord
-                  scheme=${ContrastColors.Body}
+                  color=${ContrastColors.Body}
                   size="lg"
                 ></icon-discord
               ></a>
@@ -156,7 +156,7 @@ export class HeaderComponent
             @click=${() => (this.mobileMenuOpened = !this.mobileMenuOpened)}
           >
             <tini-icon
-              scheme=${ContrastColors.Body}
+              color=${ContrastColors.Body}
               .src=${!this.mobileMenuOpened
                 ? IconMenuComponent.src
                 : IconCloseComponent.src}

@@ -32,8 +32,8 @@
       },
       {
         section: 'select',
-        attrs: {label: 'Scheme', preset: 'colors'},
-        target: 'scheme'
+        attrs: {label: 'Color', preset: 'colors'},
+        target: 'color'
       },
       {
         section: 'select',

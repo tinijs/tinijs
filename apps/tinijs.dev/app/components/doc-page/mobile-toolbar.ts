@@ -40,7 +40,7 @@ export class AppDocPageMobileToolbarComponent extends TiniComponent {
           class="menu-toggler"
           @click=${() => this.toggleMenu.emit()}
         >
-          <icon-menu scheme=${ContrastColors.Body} size=${Sizes.SM}></icon-menu>
+          <icon-menu color=${ContrastColors.Body} size=${Sizes.SM}></icon-menu>
           <span>Menu</span>
         </button>
 
@@ -51,7 +51,7 @@ export class AppDocPageMobileToolbarComponent extends TiniComponent {
         >
           <span>On this page</span>
           <tini-icon
-            scheme=${ContrastColors.Body}
+            color=${ContrastColors.Body}
             size=${Sizes.SM}
             src=${!this.tocOpened ? IconDownComponent.src : IconUpComponent.src}
           ></tini-icon>

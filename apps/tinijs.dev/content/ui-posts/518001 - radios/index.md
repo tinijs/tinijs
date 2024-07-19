@@ -35,13 +35,8 @@
       },
       {
         section: 'select',
-        attrs: {label: 'Scheme', preset: 'colors'},
-        target: 'scheme'
-      },
-      {
-        section: 'select',
-        attrs: {label: 'Scheme (focus + checked)', preset: 'colors'},
-        target: 'checkedScheme'
+        attrs: {label: 'Color', preset: 'colors'},
+        target: 'color'
       },
       {
         section: 'select',

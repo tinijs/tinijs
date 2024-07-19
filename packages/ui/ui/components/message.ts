@@ -16,7 +16,7 @@ export enum MessageParts {
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
+  @property({type: String, reflect: true}) color?: Colors | SubtleColors;
   /* eslint-enable prettier/prettier */
 
   protected render() {

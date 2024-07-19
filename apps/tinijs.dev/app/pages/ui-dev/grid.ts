@@ -25,14 +25,14 @@ export class AppPageUIDevGridComponent extends TiniComponent {
             gridArea="header"
             padding="md"
             height="64px"
-            background="body-subtle"
+            color="body-subtle"
             >Header area</tini-box
           >
           <tini-box
             gridArea="nav"
             padding="md"
             width="150px"
-            background="body-subtle"
+            color="body-subtle"
             >Nav area</tini-box
           >
           <tini-box gridArea="content" padding="md" background="body-subtle"
@@ -42,14 +42,14 @@ export class AppPageUIDevGridComponent extends TiniComponent {
             gridArea="side"
             padding="md"
             width="150px"
-            background="body-subtle"
+            color="body-subtle"
             >Side area</tini-box
           >
           <tini-box
             gridArea="footer"
             padding="md"
             height="64px"
-            background="body-subtle"
+            color="body-subtle"
             >Footer area</tini-box
           >
         </tini-grid>

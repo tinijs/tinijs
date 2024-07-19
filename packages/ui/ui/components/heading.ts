@@ -73,7 +73,7 @@ export const defaultStyles = createStyleBuilder<{
       display: inline;
     }
 
-    :host([color^='gradient']) .main {
+    :host([gradient]) .main {
       position: relative;
       background: var(--gradient);
       -webkit-background-clip: text;
@@ -88,7 +88,7 @@ export const defaultStyles = createStyleBuilder<{
       text-decoration: underline;
     }
 
-    :host([color^='gradient'][underline]) .main::after {
+    :host([gradient][underline]) .main::after {
       content: '';
       position: absolute;
       left: 0;

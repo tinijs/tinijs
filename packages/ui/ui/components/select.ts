@@ -51,7 +51,7 @@ export default class extends TiniElement {
   @property({type: Boolean, reflect: true}) disabled = false;
   @property({type: Boolean, reflect: true}) wrap = false;
   @property({type: Boolean, reflect: true}) block = false;
-  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors;
+  @property({type: String, reflect: true}) color?: Colors | SubtleColors;
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 

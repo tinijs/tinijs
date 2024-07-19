@@ -51,7 +51,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
           href=${this.context.path}
           @click=${() => this.selectItem.emit()}
         >
-          <icon-home scheme=${ContrastColors.Body}></icon-home>
+          <icon-home color=${ContrastColors.Body}></icon-home>
           <span>${this.context.name}</span>
         </a>
         ${sectionRender([this.menuItems], {

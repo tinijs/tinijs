@@ -1,6 +1,6 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent, Colors, Gradients} from '@tinijs/core';
+import {Page, TiniComponent, Colors} from '@tinijs/core';
 import {UseRouter, Router} from '@tinijs/router';
 import {TiniTextComponent} from '../ui/components/text.js';
 import {TiniButtonComponent} from '../ui/components/button.js';
@@ -34,8 +34,7 @@ export class AppPageHome extends TiniComponent {
             <tini-text
               size="xl3"
               weight="bold"
-              color=${Gradients.Body}
-              style="--color: var(--gradient-kale-salad)"
+              gradient="var(--gradient-kale-salad)"
               >Tini</tini-text
             ><br />Web Components Framework
           </h2>
@@ -47,12 +46,12 @@ export class AppPageHome extends TiniComponent {
           </p>
           <div class="actions">
             <tini-button
-              scheme=${Colors.Primary}
+              color=${Colors.Primary}
               @click=${() => this.router.go('/framework')}
               >Get started</tini-button
             >
             <tini-button
-              scheme=${Colors.Medium}
+              color=${Colors.Medium}
               href="https://github.com/tinijs/tinijs"
               target="_blank"
               >View on Github</tini-button

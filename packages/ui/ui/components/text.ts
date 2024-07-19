@@ -94,6 +94,7 @@ export const defaultStyles = createStyleBuilder<{
   css`
     :host {
       --color: var(--color-body-contrast);
+      --gradient: none;
       --font: var(--font-content);
       --size: var(--text-md);
       --align: start;
@@ -122,23 +123,23 @@ export const defaultStyles = createStyleBuilder<{
       text-decoration: underline;
     }
 
-    :host([color^='gradient']) {
-      background: var(--color);
+    :host([gradient]) {
+      background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    :host([color^='gradient'][underline]) {
+    :host([gradient][underline]) {
       position: relative;
     }
 
-    :host([color^='gradient'][underline])::after {
+    :host([gradient][underline])::after {
       content: '';
       position: absolute;
       left: 0;
       bottom: 0.1em;
       width: 100%;
-      background: var(--color);
+      background: var(--gradient);
       height: 0.075em;
     }
   `,
@@ -153,17 +154,17 @@ export const defaultStyles = createStyleBuilder<{
       }
       ${outputs.colorGen(values)}
     `;
-  }, 'color'),
+  }),
 
   generateGradientVariants(values => {
     const {hostSelector, gradient} = values;
     return `
       ${hostSelector} {
-        --color: ${gradient};
+        --gradient: ${gradient};
       }
       ${outputs.gradientGen(values)}
     `;
-  }, 'color'),
+  }),
 
   generateFontVariants(values => {
     const {hostSelector, font} = values;

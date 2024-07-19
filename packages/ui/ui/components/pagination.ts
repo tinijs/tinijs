@@ -33,7 +33,8 @@ export default class extends TiniElement {
   @property({type: Number, reflect: true}) totalPage!: number;
   @property({type: Number, reflect: true}) currentPage!: number;
   @property({type: String, reflect: true}) linkTemplate?: string;
-  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | Gradients | SubtleGradients;
+  @property({type: String, reflect: true}) color?: Colors | SubtleColors;
+  @property({type: String, reflect: true}) gradient?: Gradients | SubtleGradients;
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 

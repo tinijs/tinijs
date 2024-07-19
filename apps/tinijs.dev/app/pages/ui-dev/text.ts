@@ -37,9 +37,17 @@ export class AppPageUIDevTextComponent extends TiniComponent {
       </ui-dev-section>
 
       <ui-dev-section titleText="Colors">
-        ${[...Object.values(Colors), ...Object.values(Gradients)].map(
+        ${Object.values(Colors).map(
           color => html`
             <tini-text color=${color}>Lorem ipsum (color=${color})</tini-text>
+            <br />
+          `
+        )}
+        ${Object.values(Gradients).map(
+          gradient => html`
+            <tini-text gradient=${gradient}
+              >Lorem ipsum (gradient=${gradient})</tini-text
+            >
             <br />
           `
         )}
@@ -106,26 +114,24 @@ export class AppPageUIDevTextComponent extends TiniComponent {
 
       <ui-dev-section titleText="Italics">
         <tini-text italic>Lorem ipsum</tini-text><br />
-        ${[Colors.Primary, Gradients.Primary].map(
-          color => html`
-            <tini-text italic color=${color}
-              >Lorem ipsum (color=${color})</tini-text
-            >
-            <br />
-          `
-        )}
+        <tini-text italic color="primary"
+          >Lorem ipsum (color=primary)</tini-text
+        >
+        <br />
+        <tini-text italic gradient="primary"
+          >Lorem ipsum (color=primary)</tini-text
+        >
       </ui-dev-section>
 
       <ui-dev-section titleText="Underlines">
         <tini-text underline>Lorem ipsum</tini-text><br />
-        ${[Colors.Success, Gradients.Success].map(
-          color => html`
-            <tini-text underline color=${color}
-              >Lorem ipsum (color=${color})</tini-text
-            >
-            <br />
-          `
-        )}
+        <tini-text underline color="success"
+          >Lorem ipsum (color=success)</tini-text
+        >
+        <br />
+        <tini-text underline gradient="success"
+          >Lorem ipsum (gradient=success)</tini-text
+        >
       </ui-dev-section>
     `;
   }

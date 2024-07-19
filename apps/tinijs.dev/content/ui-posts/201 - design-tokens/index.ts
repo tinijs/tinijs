@@ -128,7 +128,7 @@ export class ContentUIPostTokenComponent
         </tr>
 
         ${Object.entries(Gradients).map(([name, value]) => {
-          const varName = `--${value}`;
+          const varName = `--gradient-${value}`;
           return html`
             <tr>
               <td><strong>${name}</strong></td>
@@ -146,7 +146,7 @@ export class ContentUIPostTokenComponent
                   ].map(variantName => {
                     const finalName = !variantName
                       ? varName
-                      : `--${value}-${variantName}`;
+                      : `--gradient-${value}-${variantName}`;
                     return this.getColorOrGradientPreviewTemplate(
                       finalName,
                       variantName

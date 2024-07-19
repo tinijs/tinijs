@@ -123,7 +123,7 @@ export class AppDocPageContentComponent
         <div class="content">${unsafeHTML(post.content)}</div>
 
         <a class="suggest-edit" href=${this.editOnGithubUrl} target="_blank">
-          <icon-edit scheme=${Colors.Primary} size=${Sizes.SM}></icon-edit>
+          <icon-edit color=${Colors.Primary} size=${Sizes.SM}></icon-edit>
           <span>Suggest changes to this page</span>
         </a>
       </div>

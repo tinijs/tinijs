@@ -6,7 +6,7 @@
 }
 +++
 
-<tini-message scheme="warning-subtle"><strong>Tini UI</strong> is currently under heavy development, I may not have time to changelog all the details, so please refer this document for the latest version as well as reaching out to [Discord](https://discord.gg/EABbZVbPAb) or [Issues](https://github.com/tinijs/tinijs/issues/new) for supports. 🙇‍♂️</tini-message>
+<tini-message color="warning-subtle"><strong>Tini UI</strong> is currently under heavy development, I may not have time to changelog all the details, so please refer this document for the latest version as well as reaching out to [Discord](https://discord.gg/EABbZVbPAb) or [Issues](https://github.com/tinijs/tinijs/issues/new) for supports. 🙇‍♂️</tini-message>
 
 TiniJS has a **UI library where I aim to provide every commonly used components and blocks and even whole pages**. Components are architected in a special way where they are custom elements to be used not only with TiniJS, but also with other frameworks or no framework.
 

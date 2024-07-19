@@ -39,7 +39,8 @@ export default class extends TiniElement {
   @property({type: Boolean, reflect: true}) disabled = false;
   @property({type: String, reflect: true}) href?: boolean;
   @property({type: String, reflect: true}) target?: LinkTargets;
-  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | ContrastColors | Gradients | SubtleGradients | ContrastGradients;
+  @property({type: String, reflect: true}) color?: Colors | SubtleColors | ContrastColors;
+  @property({type: String, reflect: true}) gradient?: Gradients | SubtleGradients | ContrastGradients;
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
@@ -143,7 +144,7 @@ export const defaultStyles = createStyleBuilder<{
       text-decoration: none;
     }
 
-    :host([scheme^='gradient']) .main {
+    :host([gradient]) .main {
       background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;

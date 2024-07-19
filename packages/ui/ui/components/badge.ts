@@ -30,7 +30,8 @@ export enum BadgeShapes {
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) shape?: BadgeShapes;
-  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | ContrastColors | Gradients | SubtleGradients | ContrastGradients;
+  @property({type: String, reflect: true}) color?: Colors | SubtleColors | ContrastColors;
+  @property({type: String, reflect: true}) gradient?: Gradients | SubtleGradients | ContrastGradients;
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
