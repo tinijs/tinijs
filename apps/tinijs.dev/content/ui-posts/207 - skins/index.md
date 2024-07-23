@@ -74,7 +74,6 @@ Based on the basic variables above, the system will generate other variables aut
 - 56 gradients coresponding to the colors
 - 4 fonts
 - 13 text sizes
-- 6 font weights
 - 5 line heights
 - 5 letter spacings
 - 5 object sizes

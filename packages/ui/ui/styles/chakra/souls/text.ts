@@ -8,8 +8,6 @@ export const styles = defaultStyles.extends({
   gradientGen: () => '',
   fontGen: () => '',
   textGen: () => '',
-  alignGen: () => '',
-  weightGen: () => '',
   lineGen: () => '',
   letterGen: () => '',
 });

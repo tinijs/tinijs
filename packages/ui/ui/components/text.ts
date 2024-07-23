@@ -1,79 +1,63 @@
-import {html, css, unsafeCSS, type CSSResult} from 'lit';
+import {html, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {
   TiniElement,
   createStyleBuilder,
-  buildVariantNamesAndSelectors,
   Colors,
   Gradients,
   Fonts,
   Texts,
-  Weights,
   Lines,
   Letters,
+  isBuiltinColor,
+  isBuiltinGradient,
+  isBuiltinFont,
+  isBuiltinText,
+  isBuiltinLine,
+  isBuiltinLetter,
   generateColorVariants,
   generateGradientVariants,
   generateFontVariants,
   generateTextVariants,
-  generateWeightVariants,
   generateLineVariants,
   generateLetterVariants,
-  type VariantRenderValues,
 } from '@tinijs/core';
-
-export enum TextAligns {
-  Start = 'start',
-  End = 'end',
-  Left = 'left',
-  Right = 'right',
-  Center = 'center',
-  Justify = 'justify',
-  JustifyAll = 'justify-all',
-  MatchParent = 'match-parent',
-}
-
-export interface AlignRenderValues extends VariantRenderValues {
-  align: string;
-}
-export type AlignVariantRender = (values: AlignRenderValues) => string;
-
-export function generateAlignVariants(
-  render: AlignVariantRender,
-  prefixName?: string
-) {
-  return unsafeCSS(
-    Object.values(TextAligns)
-      .map(name => {
-        prefixName ||= 'align';
-        const align = name;
-        const {fullName, hostSelector, mainSelector} =
-          buildVariantNamesAndSelectors(prefixName, name);
-        return render({
-          name,
-          prefixName,
-          align,
-          fullName,
-          hostSelector,
-          mainSelector,
-        });
-      })
-      .join('')
-  );
-}
 
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: Boolean, reflect: true}) block = false;
-  @property({type: String, reflect: true}) color?: Colors | Gradients;
+  @property({type: String, reflect: true}) color?: Colors;
+  @property({type: String, reflect: true}) gradient?: Gradients;
   @property({type: String, reflect: true}) font?: Fonts;
   @property({type: String, reflect: true}) size?: Texts;
-  @property({type: String, reflect: true}) align?: TextAligns;
-  @property({type: String, reflect: true}) weight?: Weights;
-  @property({type: String, reflect: true}) height?: Lines;
-  @property({type: String, reflect: true}) spacing?: Letters;
+  @property({type: String, reflect: true}) line?: Lines;
+  @property({type: String, reflect: true}) letter?: Letters;
+  @property({type: String, reflect: true}) weight?: string;
+  @property({type: String, reflect: true}) decoration?: string;
+  @property({type: String, reflect: true}) transform?: string;
+  @property({type: String, reflect: true}) word?: string;
+  @property({type: String, reflect: true}) align?: string;
+  @property({type: String, reflect: true}) overflow?: 'clip' | 'ellipsis' | 'fade';
   @property({type: Boolean, reflect: true}) italic = false;
-  @property({type: Boolean, reflect: true}) underline = false;
   /* eslint-enable prettier/prettier */
+
+  protected computedStyles() {
+    const result: string[] = [];
+    /* eslint-disable prettier/prettier */
+    if (this.color && !isBuiltinColor(this.color)) result.push(`--color: ${this.color};`);
+    if (this.gradient && !isBuiltinGradient(this.gradient)) result.push(`--gradient: ${this.gradient};`);
+    if (this.font && !isBuiltinFont(this.font)) result.push(`--font: ${this.font};`);
+    if (this.size && !isBuiltinText(this.size)) result.push(`--size: ${this.size};`);
+    if (this.line && !isBuiltinLine(this.line)) result.push(`--line: ${this.line};`);
+    if (this.letter && !isBuiltinLetter(this.letter)) result.push(`--letter: ${this.letter};`);
+    if (this.weight) result.push(`--weight: ${this.weight};`);
+    if (this.decoration) result.push(`--decoration: ${this.decoration};`);
+    if (this.transform) result.push(`--transform: ${this.transform};`);
+    if (this.word) result.push(`--word: ${this.word};`);
+    if (this.align) result.push(`--align: ${this.align};`);
+    /* eslint-enable prettier/prettier */
+    return `:host { ${result.join('')} }`;
+  }
 
   protected render() {
     return html`<slot></slot>`;
@@ -86,8 +70,6 @@ export const defaultStyles = createStyleBuilder<{
   gradientGen: Parameters<typeof generateGradientVariants>[0];
   fontGen: Parameters<typeof generateFontVariants>[0];
   textGen: Parameters<typeof generateTextVariants>[0];
-  alignGen: Parameters<typeof generateAlignVariants>[0];
-  weightGen: Parameters<typeof generateWeightVariants>[0];
   lineGen: Parameters<typeof generateLineVariants>[0];
   letterGen: Parameters<typeof generateLetterVariants>[0];
 }>(outputs => [
@@ -97,18 +79,24 @@ export const defaultStyles = createStyleBuilder<{
       --gradient: none;
       --font: var(--font-content);
       --size: var(--text-md);
-      --align: start;
+      --line: var(--line-md);
+      --letter: var(--letter-md);
       --weight: normal;
-      --height: var(--line-md);
-      --spacing: var(--letter-md);
+      --decoration: initial;
+      --transform: initial;
+      --word: normal;
+      --align: start;
       display: inline;
       color: var(--color);
       font-family: var(--font);
       font-size: var(--size);
-      text-align: var(--align);
+      line-height: var(--line);
+      letter-spacing: var(--letter);
       font-weight: var(--weight);
-      line-height: var(--height);
-      letter-spacing: var(--spacing);
+      text-decoration: var(--decoration);
+      text-transform: var(--transform);
+      word-spacing: var(--word);
+      text-align: var(--align);
     }
 
     :host([block]) {
@@ -119,28 +107,39 @@ export const defaultStyles = createStyleBuilder<{
       font-style: italic;
     }
 
-    :host([underline]) {
-      text-decoration: underline;
-    }
-
     :host([gradient]) {
       background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    :host([gradient][underline]) {
+    :host([overflow='clip']),
+    :host([overflow='fade']) {
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: clip;
+    }
+
+    :host([overflow='ellipsis']) {
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    :host([overflow='fade']) {
       position: relative;
     }
 
-    :host([gradient][underline])::after {
+    :host([overflow='fade'])::after {
       content: '';
       position: absolute;
-      left: 0;
-      bottom: 0.1em;
-      width: 100%;
-      background: var(--gradient);
-      height: 0.075em;
+      right: 0;
+      top: 0;
+      width: 1.5em;
+      height: calc(var(--line-md) * 1em);
+      background: linear-gradient(to right, transparent, var(--color-body));
     }
   `,
 
@@ -186,43 +185,23 @@ export const defaultStyles = createStyleBuilder<{
     `;
   }, 'size'),
 
-  generateAlignVariants(values => {
-    const {hostSelector, align} = values;
-    return `
-      ${hostSelector} {
-        --align: ${align};
-      }
-      ${outputs.alignGen(values)}
-    `;
-  }),
-
-  generateWeightVariants(values => {
-    const {hostSelector, weight} = values;
-    return `
-      ${hostSelector} {
-        --weight: ${weight};
-      }
-      ${outputs.weightGen(values)}
-    `;
-  }),
-
   generateLineVariants(values => {
     const {hostSelector, line} = values;
     return `
       ${hostSelector} {
-        --height: ${line};
+        --line: ${line};
       }
       ${outputs.lineGen(values)}
     `;
-  }, 'height'),
+  }),
 
   generateLetterVariants(values => {
     const {hostSelector, letter} = values;
     return `
       ${hostSelector} {
-        --spacing: ${letter};
+        --letter: ${letter};
       }
       ${outputs.letterGen(values)}
     `;
-  }, 'spacing'),
+  }),
 ]);

@@ -20,7 +20,6 @@ import {
   Sizes,
   Fonts,
   Texts,
-  Weights,
   Radiuses,
   type EventEmitter,
   type OnCreate,
@@ -131,7 +130,6 @@ export class AppComponentEditorSelectComponent
     sizes: this.buildPresetItems(Sizes, value => value.toUpperCase()),
     fonts: this.buildPresetItems(Fonts),
     texts: this.buildPresetItems(Texts, value => value.toUpperCase()),
-    weights: this.buildPresetItems(Weights),
     radiuses: this.buildPresetItems(Radiuses, value => value.toUpperCase()),
   };
 

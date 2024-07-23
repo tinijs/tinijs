@@ -188,7 +188,7 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
         <div class="content">
           <tini-text>An utility for text</tini-text><br />
           <tini-text font="code">Text font</tini-text><br />
-          <tini-text weight="black">Text weight</tini-text><br />
+          <tini-text weight="900">Text weight</tini-text><br />
           <tini-text italic>Italic text</tini-text><br />
           <tini-text color="medium">Muted text</tini-text><br />
           <tini-text color="success">Color text</tini-text><br />

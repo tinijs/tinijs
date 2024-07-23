@@ -33,7 +33,7 @@ export class AppPageHome extends TiniComponent {
           <h2 style="margin-bottom: 0">
             <tini-text
               size="xl3"
-              weight="bold"
+              weight="700"
               gradient="var(--gradient-kale-salad)"
               >Tini</tini-text
             ><br />Web Components Framework

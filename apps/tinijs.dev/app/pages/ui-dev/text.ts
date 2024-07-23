@@ -7,7 +7,6 @@ import {
   Gradients,
   Fonts,
   Texts,
-  Weights,
   Lines,
   Letters,
 } from '@tinijs/core';
@@ -43,6 +42,8 @@ export class AppPageUIDevTextComponent extends TiniComponent {
             <br />
           `
         )}
+        <tini-text color="magenta">Lorem ipsum (custom)</tini-text>
+        <br />
         ${Object.values(Gradients).map(
           gradient => html`
             <tini-text gradient=${gradient}
@@ -51,6 +52,10 @@ export class AppPageUIDevTextComponent extends TiniComponent {
             <br />
           `
         )}
+        <tini-text gradient="linear-gradient(45deg, green, blue)"
+          >Lorem ipsum (custom)</tini-text
+        >
+        <br />
       </ui-dev-section>
 
       <ui-dev-section titleText="Font types">
@@ -60,6 +65,10 @@ export class AppPageUIDevTextComponent extends TiniComponent {
             <br />
           `
         )}
+        <tini-text font="'Comic Sans MS', sans-serif"
+          >Lorem ipsum (custom)</tini-text
+        >
+        <br />
       </ui-dev-section>
 
       <ui-dev-section titleText="Font sizes">
@@ -69,6 +78,8 @@ export class AppPageUIDevTextComponent extends TiniComponent {
             <br />
           `
         )}
+        <tini-text size="5rem">Lorem ipsum (custom)</tini-text>
+        <br />
       </ui-dev-section>
 
       <ui-dev-section titleText="Aligns">
@@ -78,7 +89,7 @@ export class AppPageUIDevTextComponent extends TiniComponent {
       </ui-dev-section>
 
       <ui-dev-section titleText="Font weights">
-        ${Object.values(Weights).map(
+        ${[100, 200, 300, 400, 500, 600, 700, 800, 900].map(
           weight => html`
             <tini-text weight=${weight}
               >Lorem ipsum (weight=${weight})</tini-text
@@ -90,10 +101,10 @@ export class AppPageUIDevTextComponent extends TiniComponent {
 
       <ui-dev-section titleText="Line heights">
         ${Object.values(Lines).map(
-          height => html`
-            <tini-text block height=${height} style="width: 150px"
+          line => html`
+            <tini-text block line=${line} style="width: 150px"
               >The quick brown fox jumped over the lazy dog
-              <strong>(height=${height})</strong></tini-text
+              <strong>(line=${line})</strong></tini-text
             >
             <br />
           `
@@ -102,10 +113,22 @@ export class AppPageUIDevTextComponent extends TiniComponent {
 
       <ui-dev-section titleText="Letter spacings">
         ${Object.values(Letters).map(
-          spacing => html`
-            <tini-text spacing=${spacing}
+          letter => html`
+            <tini-text letter=${letter}
               >The quick brown fox jumped over the lazy dog
-              <strong>(spacing=${spacing})</strong></tini-text
+              <strong>(letter=${letter})</strong></tini-text
+            >
+            <br />
+          `
+        )}
+      </ui-dev-section>
+
+      <ui-dev-section titleText="Word spacings">
+        ${['normal', '1rem', '4px', '-.4ch'].map(
+          word => html`
+            <tini-text word=${word}
+              >The quick brown fox jumped over the lazy dog
+              <strong>(word=${word})</strong></tini-text
             >
             <br />
           `
@@ -123,14 +146,38 @@ export class AppPageUIDevTextComponent extends TiniComponent {
         >
       </ui-dev-section>
 
-      <ui-dev-section titleText="Underlines">
-        <tini-text underline>Lorem ipsum</tini-text><br />
-        <tini-text underline color="success"
-          >Lorem ipsum (color=success)</tini-text
+      <ui-dev-section titleText="Decorators">
+        ${[
+          'underline',
+          'underline dotted red',
+          'green wavy underline',
+          'underline overline #FF3028',
+        ].map(
+          decoration =>
+            html`<tini-text decoration=${decoration}
+                >Lorem ipsum (decoration=${decoration})</tini-text
+              ><br />`
+        )}
+      </ui-dev-section>
+
+      <ui-dev-section titleText="Transforms">
+        ${['lowercase', 'capitalize', 'uppercase'].map(
+          transform =>
+            html`<tini-text transform=${transform}
+                >Lorem ipsum (transform=${transform})</tini-text
+              ><br />`
+        )}
+      </ui-dev-section>
+
+      <ui-dev-section titleText="Overflows">
+        <tini-text overflow="clip" style="width: 235px"
+          >Lorem ipsum (overflow=clip) more</tini-text
         >
-        <br />
-        <tini-text underline gradient="success"
-          >Lorem ipsum (gradient=success)</tini-text
+        <tini-text overflow="ellipsis" style="width: 275px"
+          >Lorem ipsum (overflow=ellipsis) more</tini-text
+        >
+        <tini-text overflow="fade" style="width: 250px"
+          >Lorem ipsum (overflow=fade) more</tini-text
         >
       </ui-dev-section>
     `;

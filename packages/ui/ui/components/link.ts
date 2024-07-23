@@ -9,11 +9,9 @@ import {
   Colors,
   Gradients,
   Texts,
-  Weights,
   generateColorVariants,
   generateGradientVariants,
   generateTextVariants,
-  generateWeightVariants,
 } from '@tinijs/core';
 
 export enum LinkParts {
@@ -39,7 +37,7 @@ export default class extends TiniElement {
   @property({type: Boolean, reflect: true}) disabled = false;
   @property({type: String, reflect: true}) color?: Colors | Gradients;
   @property({type: String, reflect: true}) size?: Texts;
-  @property({type: String, reflect: true}) weight?: Weights;
+  @property({type: String, reflect: true}) weight?: string;
   @property({type: Boolean, reflect: true}) italic = false;
   @property({type: Boolean, reflect: true}) noUnderline = false;
   /* eslint-enable prettier/prettier */
@@ -134,7 +132,6 @@ export const defaultStyles = createStyleBuilder<{
   colorGen: Parameters<typeof generateColorVariants>[0];
   gradientGen: Parameters<typeof generateGradientVariants>[0];
   textGen: Parameters<typeof generateTextVariants>[0];
-  weightGen: Parameters<typeof generateWeightVariants>[0];
 }>(outputs => [
   css`
     :host {
@@ -217,14 +214,4 @@ export const defaultStyles = createStyleBuilder<{
       ${outputs.textGen(values)}
     `;
   }, 'size'),
-
-  generateWeightVariants(values => {
-    const {hostSelector, weight} = values;
-    return `
-      ${hostSelector} .main {
-        font-weight: ${weight};
-      }
-      ${outputs.weightGen(values)}
-    `;
-  }),
 ]);

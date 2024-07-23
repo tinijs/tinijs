@@ -198,7 +198,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
     alt="ChitChat"
   />
   <div>
-    <div style="font-size: var(--text-lg); font-weight: var(--weight-medium);">ChitChat</div>
+    <div style="font-size: var(--text-lg); font-weight: 500;">ChitChat</div>
     <p style="color: var(--color-medium)">You have a new message!</p>
   </div>
 </div>`;
@@ -219,8 +219,8 @@ export class ContentUIPostBoxComponent extends TiniComponent {
     alt="Jane Doe"
   ></tini-image>
   <tini-flex direction="column" wrap="nowrap">
-    <tini-text size="lg" weight="bold">Jane Doe</tini-text>
-    <tini-text color="medium" weight="medium">Software Engineer</tini-text>
+    <tini-text size="lg" weight="700">Jane Doe</tini-text>
+    <tini-text color="medium" weight="500">Software Engineer</tini-text>
     <tini-box marginTop="xs">
       <tini-button color="primary" size="xs">Message</tini-button>
     </tini-box>
@@ -249,7 +249,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
     alt="ChitChat"
   />
   <div>
-    <div style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--weight-medium)' }}>ChitChat</div>
+    <div style={{ fontSize: 'var(--text-lg)', fontWeight: 500 }}>ChitChat</div>
     <p style={{ color: 'var(--color-medium)' }}>You have a new message!</p>
   </div>
 </div>` +
@@ -297,7 +297,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
             <div
               style="
                 font-size: var(--text-lg);
-                font-weight: var(--weight-medium);
+                font-weight: 500;
               "
             >
               ChitChat
@@ -325,10 +325,8 @@ export class ContentUIPostBoxComponent extends TiniComponent {
             alt="Jane Doe"
           ></tini-image>
           <tini-flex direction="column" wrap="nowrap">
-            <tini-text size="lg" weight="bold">Jane Doe</tini-text>
-            <tini-text color="medium" weight="medium"
-              >Software Engineer</tini-text
-            >
+            <tini-text size="lg" weight="700">Jane Doe</tini-text>
+            <tini-text color="medium" weight="500">Software Engineer</tini-text>
             <tini-box marginTop="xs">
               <tini-button color="primary" size="sm">Message</tini-button>
             </tini-box>

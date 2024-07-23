@@ -24,7 +24,7 @@ export const styles = defaultStyles.extends({
     }
 
     .main {
-      font-weight: var(--weight-bold);
+      font-weight: 700;
       text-transform: uppercase;
       font-size: calc(var(--size) * 0.75);
     }

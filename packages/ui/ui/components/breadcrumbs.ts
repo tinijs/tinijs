@@ -99,7 +99,7 @@ export const defaultStyles = createStyleBuilder<{
       pointer-events: none;
       text-decoration: none;
       color: var(--color-medium);
-      font-weight: var(--weight-normal);
+      font-weight: 400;
     }
 
     .item::before {

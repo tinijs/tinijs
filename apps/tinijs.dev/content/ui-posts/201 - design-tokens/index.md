@@ -59,10 +59,6 @@ To create more advance gradients, define them manually one by one, for example:
 
 <content-ui-post-token block="text"></content-ui-post-token>
 
-### Font weights
-
-<content-ui-post-token block="weight"></content-ui-post-token>
-
 ### Line heights
 
 <content-ui-post-token block="line"></content-ui-post-token>

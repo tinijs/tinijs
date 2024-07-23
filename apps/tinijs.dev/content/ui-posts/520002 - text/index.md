@@ -43,8 +43,8 @@
         target: 'size'
       },
       {
-        section: 'select',
-        attrs: {label: 'Font weight', preset: 'weights'},
+        section: 'input',
+        attrs: {label: 'Font weight'},
         target: 'weight'
       },
       {
@@ -53,7 +53,7 @@
         target: 'italic'
       },
       {
-        section: 'switch',
+        section: 'input',
         attrs: {label: 'Underline'},
         target: 'underline'
       },

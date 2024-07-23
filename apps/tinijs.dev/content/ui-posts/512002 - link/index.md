@@ -57,8 +57,8 @@
         target: 'size'
       },
       {
-        section: 'select',
-        attrs: {label: 'Font weight', preset: 'weights'},
+        section: 'input',
+        attrs: {label: 'Font weight'},
         target: 'weight'
       },
       {

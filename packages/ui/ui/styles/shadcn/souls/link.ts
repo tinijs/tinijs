@@ -11,7 +11,6 @@ export const styles = defaultStyles.extends({
   colorGen: () => '',
   gradientGen: () => '',
   textGen: () => '',
-  weightGen: () => '',
 });
 
 export default {styles};

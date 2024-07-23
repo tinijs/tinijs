@@ -30,7 +30,7 @@ export class AppPageUIText extends TiniComponent implements PageWithMetadata {
         <tini-text font="code">Code text (#${i})</tini-text>
         <tini-text italic>Italic text (#${i})</tini-text>
         <tini-text underline>Underline text (#${i})</tini-text>
-        <tini-text weight="bold">Bold text (#${i})</tini-text>
+        <tini-text weight="700">Bold text (#${i})</tini-text>
         <tini-text color="primary">Color text (#${i})</tini-text>
         <tini-text gradient="primary">Gradient text (#${i})</tini-text>
         <tini-text underline gradient="primary"

@@ -1,13 +1,6 @@
 import {html, css} from 'lit';
 
-import {
-  Component,
-  TiniComponent,
-  Colors,
-  Gradients,
-  Texts,
-  Weights,
-} from '@tinijs/core';
+import {Component, TiniComponent, Colors, Gradients, Texts} from '@tinijs/core';
 
 import {TiniLinkComponent} from '../../ui/components/link.js';
 
@@ -55,7 +48,7 @@ export class AppPageUIDevLinkComponent extends TiniComponent {
       </ui-dev-section>
 
       <ui-dev-section titleText="Font weights">
-        ${Object.values(Weights).map(
+        ${[100, 200, 300, 400, 500, 600, 700, 800, 900].map(
           weight => html`
             <tini-link href="#" weight=${weight}
               >Lorem ipsum (weight=${weight})</tini-link

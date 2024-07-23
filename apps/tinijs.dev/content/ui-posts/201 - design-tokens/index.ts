@@ -10,7 +10,6 @@ import {
   Gradients,
   Fonts,
   Texts,
-  Weights,
   Sizes,
   Spaces,
   Radiuses,
@@ -48,8 +47,6 @@ export class ContentUIPostTokenComponent
         return this.renderFontBlock();
       case 'text':
         return this.renderTextBlock();
-      case 'weight':
-        return this.renderWeightBlock();
       case 'line':
         return this.renderLineBlock();
       case 'letter':
@@ -212,36 +209,6 @@ export class ContentUIPostTokenComponent
               <td>
                 <span style=${styleMap({'font-size': `var(${varName})`})}
                   >Aa</span
-                >
-              </td>
-            </tr>
-          `;
-        })}
-      </table>
-    `;
-  }
-
-  private renderWeightBlock() {
-    return html`
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Key</th>
-          <th>Value</th>
-          <th>Preview</th>
-        </tr>
-
-        ${Object.entries(Weights).map(([name, value]) => {
-          const varName = `--weight-${value}`;
-          const varValue = computedStyle.getPropertyValue(varName);
-          return html`
-            <tr>
-              <td><strong>${name}</strong></td>
-              <td><code>${varName}</code></td>
-              <td><code>${varValue}</code></td>
-              <td>
-                <span style=${styleMap({'font-weight': `var(${varName})`})}
-                  >The quick brown fox jumped over the lazy dog.</span
                 >
               </td>
             </tr>

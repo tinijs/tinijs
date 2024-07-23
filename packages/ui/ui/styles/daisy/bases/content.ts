@@ -51,7 +51,7 @@ export const link = css`
   a {
     color: var(--color-body-contrast);
     text-decoration: underline;
-    font-weight: var(--weight-bold);
+    font-weight: 700;
   }
 `;
 

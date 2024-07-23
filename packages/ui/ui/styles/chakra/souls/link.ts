@@ -15,7 +15,6 @@ export const styles = defaultStyles.extends({
     }
   `,
   textGen: () => '',
-  weightGen: () => '',
 });
 
 export default {styles};

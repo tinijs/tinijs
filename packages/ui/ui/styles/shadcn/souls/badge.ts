@@ -6,7 +6,7 @@ export const styles = defaultStyles.extends({
   statics: css`
     .main {
       padding: 0 calc(var(--size) * 0.75);
-      font-weight: var(--weight-medium);
+      font-weight: 500;
     }
 
     :host(:hover) .bg {

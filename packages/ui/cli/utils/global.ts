@@ -30,18 +30,6 @@ function generateTextVars() {
     .join(JOIN);
 }
 
-function generateWeightVars() {
-  const items: [string, number][] = [
-    ['thin', 100],
-    ['light', 300],
-    ['normal', 400],
-    ['medium', 500],
-    ['bold', 700],
-    ['black', 900],
-  ];
-  return items.map(([name, value]) => `--weight-${name}: ${value};`).join(JOIN);
-}
-
 function generateSizeVars() {
   const items: [string, number][] = [
     ['xs', 0.5],
@@ -199,7 +187,6 @@ function generateShadowVars() {
 export function getSkinUtils() {
   const fontVars = generateFontVars();
   const textVars = generateTextVars();
-  const weightVars = generateWeightVars();
   const sizeVars = generateSizeVars();
   const spaceVars = generateSpaceVars();
   const radiusVars = generateRadiusVars();
@@ -217,7 +204,6 @@ export function getSkinUtils() {
     minifyCSS(`:root {
   ${fontVars}
   ${textVars}
-  ${weightVars}
   ${sizeVars}
   ${spaceVars}
   ${radiusVars}

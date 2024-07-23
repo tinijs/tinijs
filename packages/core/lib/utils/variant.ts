@@ -57,11 +57,6 @@ export interface TextRenderValues extends VariantRenderValues {
 }
 export type TextVariantRender = (values: TextRenderValues) => string;
 
-export interface WeightRenderValues extends VariantRenderValues {
-  weight: string;
-}
-export type WeightVariantRender = (values: WeightRenderValues) => string;
-
 export interface LineRenderValues extends VariantRenderValues {
   line: string;
 }
@@ -208,17 +203,6 @@ export enum Texts {
 }
 export const TEXTS = Object.values(Texts);
 export const AVAILABLE_TEXTS = createVariantAvailabilityMap(TEXTS);
-
-export enum Weights {
-  Thin = 'thin',
-  Light = 'light',
-  Normal = 'normal',
-  Medium = 'medium',
-  Bold = 'bold',
-  Black = 'black',
-}
-export const WEIGHTS = Object.values(Weights);
-export const AVAILABLE_WEIGHTS = createVariantAvailabilityMap(WEIGHTS);
 
 export enum Sizes {
   XS = 'xs',
@@ -400,14 +384,6 @@ export function parseTextValue(raw: string) {
   return !isBuiltinText(raw) ? raw : `var(--text-${raw})`;
 }
 
-export function isBuiltinWeight(raw: string) {
-  return !!AVAILABLE_WEIGHTS[raw];
-}
-
-export function parseWeightValue(raw: string) {
-  return !isBuiltinWeight(raw) ? raw : `var(--weight-${raw})`;
-}
-
 export function isBuiltinSpace(raw: string) {
   return !!AVAILABLE_SPACES[raw];
 }
@@ -421,14 +397,6 @@ export function parseMultipleSpaceValue(raw: string) {
     .split(' ')
     .map(item => parseSingleSpaceValue(item))
     .join(' ');
-}
-
-export function isBuiltinShadow(raw: string) {
-  return !!AVAILABLE_SHADOWS[raw];
-}
-
-export function parseShadowValue(raw: string) {
-  return !isBuiltinShadow(raw) ? raw : `var(--shadow-${raw})`;
 }
 
 export function isBuiltinRadius(raw: string) {
@@ -477,8 +445,32 @@ export function isBuiltinLine(raw: string) {
   return !!AVAILABLE_LINES[raw];
 }
 
+export function parseLineValue(raw: string) {
+  return !isBuiltinLine(raw) ? raw : `var(--line-${raw})`;
+}
+
+export function isBuiltinLetter(raw: string) {
+  return !!AVAILABLE_LETTERS[raw];
+}
+
+export function parseLetterValue(raw: string) {
+  return !isBuiltinLetter(raw) ? raw : `var(--letter-${raw})`;
+}
+
+export function isBuiltinWide(raw: string) {
+  return !!AVAILABLE_WIDES[raw];
+}
+
 export function parseWideValue(raw: string) {
-  return !isBuiltinLine(raw) ? raw : `var(--wide-${raw})`;
+  return !isBuiltinWide(raw) ? raw : `var(--wide-${raw})`;
+}
+
+export function isBuiltinShadow(raw: string) {
+  return !!AVAILABLE_SHADOWS[raw];
+}
+
+export function parseShadowValue(raw: string) {
+  return !isBuiltinShadow(raw) ? raw : `var(--shadow-${raw})`;
 }
 
 /*
@@ -729,28 +721,6 @@ export function generateTextVariants(
         name,
         prefixName,
         text,
-        fullName,
-        hostSelector,
-        mainSelector,
-      });
-    }).join('')
-  );
-}
-
-export function generateWeightVariants(
-  render: WeightVariantRender,
-  prefixName?: string
-) {
-  return unsafeCSS(
-    WEIGHTS.map(name => {
-      prefixName ||= 'weight';
-      const weight = `var(--weight-${name})`;
-      const {fullName, hostSelector, mainSelector} =
-        buildVariantNamesAndSelectors(prefixName, name);
-      return render({
-        name,
-        prefixName,
-        weight,
         fullName,
         hostSelector,
         mainSelector,
