@@ -47,26 +47,6 @@ export interface GradientRenderValues extends ColorRenderValues {
 }
 export type GradientVariantRender = (values: GradientRenderValues) => string;
 
-export interface FontRenderValues extends VariantRenderValues {
-  font: string;
-}
-export type FontVariantRender = (values: FontRenderValues) => string;
-
-export interface TextRenderValues extends VariantRenderValues {
-  text: string;
-}
-export type TextVariantRender = (values: TextRenderValues) => string;
-
-export interface LineRenderValues extends VariantRenderValues {
-  line: string;
-}
-export type LineVariantRender = (values: LineRenderValues) => string;
-
-export interface LetterRenderValues extends VariantRenderValues {
-  letter: string;
-}
-export type LetterVariantRender = (values: LetterRenderValues) => string;
-
 export interface SizeRenderValues extends VariantRenderValues {
   size: string;
 }
@@ -288,6 +268,16 @@ export enum Letters {
 export const LETTERS = Object.values(Letters);
 export const AVAILABLE_LETTERS = createVariantAvailabilityMap(LETTERS);
 
+export enum Words {
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+}
+export const WORDS = Object.values(Words);
+export const AVAILABLE_WORDS = createVariantAvailabilityMap(WORDS);
+
 export enum Wides {
   XS3 = 'xs3',
   XS2 = 'xs2',
@@ -344,7 +334,6 @@ export const AVAILABLE_SHADOWS = createVariantAvailabilityMap(SHADOWS);
 export function isBuiltinColor(raw: string) {
   return !!AVAILABLE_ALL_COLORS[raw];
 }
-
 export function parseColorValue(raw: string) {
   return !isBuiltinColor(raw) ? raw : `var(--color-${raw})`;
 }
@@ -352,7 +341,6 @@ export function parseColorValue(raw: string) {
 export function isBuiltinGradient(raw: string) {
   return !!AVAILABLE_ALL_GRADIENTS[raw];
 }
-
 export function parseGradientValue(raw: string) {
   return !isBuiltinGradient(raw) ? raw : `var(--gradient-${raw})`;
 }
@@ -371,7 +359,6 @@ export function parseColorOrGradientValue(raw: string) {
 export function isBuiltinFont(raw: string) {
   return !!AVAILABLE_FONTS[raw];
 }
-
 export function parseFontValue(raw: string) {
   return !isBuiltinFont(raw) ? raw : `var(--font-${raw})`;
 }
@@ -379,7 +366,6 @@ export function parseFontValue(raw: string) {
 export function isBuiltinText(raw: string) {
   return !!AVAILABLE_TEXTS[raw];
 }
-
 export function parseTextValue(raw: string) {
   return !isBuiltinText(raw) ? raw : `var(--text-${raw})`;
 }
@@ -387,11 +373,9 @@ export function parseTextValue(raw: string) {
 export function isBuiltinSpace(raw: string) {
   return !!AVAILABLE_SPACES[raw];
 }
-
 export function parseSingleSpaceValue(raw: string) {
   return !isBuiltinSpace(raw) ? raw : `var(--space-${raw})`;
 }
-
 export function parseMultipleSpaceValue(raw: string) {
   return raw
     .split(' ')
@@ -402,7 +386,6 @@ export function parseMultipleSpaceValue(raw: string) {
 export function isBuiltinRadius(raw: string) {
   return !!AVAILABLE_RADIUSES[raw];
 }
-
 export function parseRadiusValue(raw: string) {
   return !isBuiltinRadius(raw) ? raw : `var(--radius-${raw})`;
 }
@@ -410,7 +393,6 @@ export function parseRadiusValue(raw: string) {
 export function isBuiltinBorder(raw: string) {
   return !!AVAILABLE_BORDERS[raw];
 }
-
 export function parseBorderValue(raw: string) {
   return raw
     .split(' ')
@@ -427,7 +409,6 @@ export function parseBorderValue(raw: string) {
 export function isBuiltinOutline(raw: string) {
   return !!AVAILABLE_OUTLINES[raw];
 }
-
 export function parseOutlineValue(raw: string) {
   return raw
     .split(' ')
@@ -444,7 +425,6 @@ export function parseOutlineValue(raw: string) {
 export function isBuiltinLine(raw: string) {
   return !!AVAILABLE_LINES[raw];
 }
-
 export function parseLineValue(raw: string) {
   return !isBuiltinLine(raw) ? raw : `var(--line-${raw})`;
 }
@@ -452,15 +432,20 @@ export function parseLineValue(raw: string) {
 export function isBuiltinLetter(raw: string) {
   return !!AVAILABLE_LETTERS[raw];
 }
-
 export function parseLetterValue(raw: string) {
   return !isBuiltinLetter(raw) ? raw : `var(--letter-${raw})`;
+}
+
+export function isBuiltinWord(raw: string) {
+  return !!AVAILABLE_WORDS[raw];
+}
+export function parseWordValue(raw: string) {
+  return !isBuiltinWord(raw) ? raw : `var(--word-${raw})`;
 }
 
 export function isBuiltinWide(raw: string) {
   return !!AVAILABLE_WIDES[raw];
 }
-
 export function parseWideValue(raw: string) {
   return !isBuiltinWide(raw) ? raw : `var(--wide-${raw})`;
 }
@@ -468,7 +453,6 @@ export function parseWideValue(raw: string) {
 export function isBuiltinShadow(raw: string) {
   return !!AVAILABLE_SHADOWS[raw];
 }
-
 export function parseShadowValue(raw: string) {
   return !isBuiltinShadow(raw) ? raw : `var(--shadow-${raw})`;
 }
@@ -682,94 +666,6 @@ export function generateAllGradientVariants(
     ALL_GRADIENTS.map(name =>
       generateGradientVariant(render, name, prefixName)
     ).join('')
-  );
-}
-
-export function generateFontVariants(
-  render: FontVariantRender,
-  prefixName?: string
-) {
-  return unsafeCSS(
-    FONTS.map(name => {
-      prefixName ||= 'font';
-      const font = `var(--font-${name})`;
-      const {fullName, hostSelector, mainSelector} =
-        buildVariantNamesAndSelectors(prefixName, name);
-      return render({
-        name,
-        prefixName,
-        font,
-        fullName,
-        hostSelector,
-        mainSelector,
-      });
-    }).join('')
-  );
-}
-
-export function generateTextVariants(
-  render: TextVariantRender,
-  prefixName?: string
-) {
-  return unsafeCSS(
-    TEXTS.map(name => {
-      prefixName ||= 'text';
-      const text = `var(--text-${name})`;
-      const {fullName, hostSelector, mainSelector} =
-        buildVariantNamesAndSelectors(prefixName, name);
-      return render({
-        name,
-        prefixName,
-        text,
-        fullName,
-        hostSelector,
-        mainSelector,
-      });
-    }).join('')
-  );
-}
-
-export function generateLineVariants(
-  render: LineVariantRender,
-  prefixName?: string
-) {
-  return unsafeCSS(
-    LINES.map(name => {
-      prefixName ||= 'line';
-      const line = `var(--line-${name})`;
-      const {fullName, hostSelector, mainSelector} =
-        buildVariantNamesAndSelectors(prefixName, name);
-      return render({
-        name,
-        prefixName,
-        line,
-        fullName,
-        hostSelector,
-        mainSelector,
-      });
-    }).join('')
-  );
-}
-
-export function generateLetterVariants(
-  render: LetterVariantRender,
-  prefixName?: string
-) {
-  return unsafeCSS(
-    LETTERS.map(name => {
-      prefixName ||= 'letter';
-      const letter = `var(--letter-${name})`;
-      const {fullName, hostSelector, mainSelector} =
-        buildVariantNamesAndSelectors(prefixName, name);
-      return render({
-        name,
-        prefixName,
-        letter,
-        fullName,
-        hostSelector,
-        mainSelector,
-      });
-    }).join('')
   );
 }
 

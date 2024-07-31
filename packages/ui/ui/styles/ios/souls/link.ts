@@ -10,7 +10,6 @@ export const styles = defaultStyles.extends({
   `,
   colorGen: () => '',
   gradientGen: () => '',
-  textGen: () => '',
 });
 
 export default {styles};

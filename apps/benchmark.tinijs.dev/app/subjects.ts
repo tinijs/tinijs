@@ -76,7 +76,7 @@ export const TEXT_CLASS_SUBJECT = info({
   title: 'Class texts',
   desc: 'Texts using classes.',
   path: '/ui/text-class',
-  docPath: '/ui/token',
+  docPath: '/ui/design-tokens',
   batches: [10, 1000, 10000],
 });
 

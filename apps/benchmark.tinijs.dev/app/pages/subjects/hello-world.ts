@@ -25,8 +25,10 @@ export class AppPageHelloWorld extends TiniComponent {
         >,
         <a href="https://tinijs.dev/framework/router" target="_blank">Router</a
         >,
-        <a href="https://tinijs.dev/framework/meta" target="_blank">Meta</a> and
-        <a href="https://tinijs.dev/ui/get-started" target="_blank">UI</a>.
+        <a href="https://tinijs.dev/framework/title-and-meta" target="_blank"
+          >Meta</a
+        >
+        and <a href="https://tinijs.dev/ui/get-started" target="_blank">UI</a>.
       </p>
     `;
   }

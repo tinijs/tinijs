@@ -17,6 +17,7 @@ import {
   Outlines,
   Lines,
   Letters,
+  Words,
   Wides,
   Shadows,
   type OnCreate,
@@ -51,6 +52,8 @@ export class ContentUIPostTokenComponent
         return this.renderLineBlock();
       case 'letter':
         return this.renderLetterBlock();
+      case 'word':
+        return this.renderWordBlock();
       case 'size':
         return this.renderSizeBlock();
       case 'space':
@@ -76,16 +79,16 @@ export class ContentUIPostTokenComponent
     return html`
       <table>
         <tr>
-          <th>Name</th>
-          <th>Base key</th>
+          <th>Property value</th>
+          <th>CSS variable</th>
           <th style="width: 60%">Preview</th>
         </tr>
 
-        ${Object.entries(Colors).map(([name, value]) => {
+        ${Object.entries(Colors).map(([_, value]) => {
           const varName = `--color-${value}`;
           return html`
             <tr>
-              <td><strong>${name}</strong></td>
+              <td><code>${value}</code></td>
               <td><code>${varName}</code></td>
               <td>
                 <div class="color-preview-container">
@@ -119,16 +122,16 @@ export class ContentUIPostTokenComponent
     return html`
       <table>
         <tr>
-          <th>Name</th>
-          <th>Base key</th>
+          <th>Property value</th>
+          <th>CSS variable</th>
           <th style="width: 60%">Preview</th>
         </tr>
 
-        ${Object.entries(Gradients).map(([name, value]) => {
+        ${Object.entries(Gradients).map(([_, value]) => {
           const varName = `--gradient-${value}`;
           return html`
             <tr>
-              <td><strong>${name}</strong></td>
+              <td><code>${value}</code></td>
               <td><code>${varName}</code></td>
               <td>
                 <div class="color-preview-container">
@@ -162,18 +165,18 @@ export class ContentUIPostTokenComponent
     return html`
       <table>
         <tr>
-          <th>Name</th>
-          <th>Key</th>
-          <th>Value</th>
+          <th>Property value</th>
+          <th>CSS variable</th>
+          <th>CSS value</th>
           <th>Preview</th>
         </tr>
 
-        ${Object.entries(Fonts).map(([name, value]) => {
+        ${Object.entries(Fonts).map(([_, value]) => {
           const varName = `--font-${value}`;
           const varValue = computedStyle.getPropertyValue(varName);
           return html`
             <tr>
-              <td><strong>${name}</strong></td>
+              <td><code>${value}</code></td>
               <td><code>${varName}</code></td>
               <td><code>${varValue}</code></td>
               <td>
@@ -192,18 +195,18 @@ export class ContentUIPostTokenComponent
     return html`
       <table>
         <tr>
-          <th>Name</th>
-          <th>Key</th>
-          <th>Value</th>
+          <th>Property value</th>
+          <th>CSS variable</th>
+          <th>CSS value</th>
           <th>Preview</th>
         </tr>
 
-        ${Object.entries(Texts).map(([name, value]) => {
+        ${Object.entries(Texts).map(([_, value]) => {
           const varName = `--text-${value}`;
           const varValue = computedStyle.getPropertyValue(varName);
           return html`
             <tr>
-              <td><strong>${name}</strong></td>
+              <td><code>${value}</code></td>
               <td><code>${varName}</code></td>
               <td><code>${varValue}</code></td>
               <td>
@@ -222,18 +225,18 @@ export class ContentUIPostTokenComponent
     return html`
       <table>
         <tr>
-          <th>Name</th>
-          <th>Key</th>
-          <th>Value</th>
+          <th>Property value</th>
+          <th>CSS variable</th>
+          <th>CSS value</th>
           <th>Preview</th>
         </tr>
 
-        ${Object.entries(Lines).map(([name, value]) => {
+        ${Object.entries(Lines).map(([_, value]) => {
           const varName = `--line-${value}`;
           const varValue = computedStyle.getPropertyValue(varName);
           return html`
             <tr>
-              <td><strong>${name}</strong></td>
+              <td><code>${value}</code></td>
               <td><code>${varName}</code></td>
               <td><code>${varValue}</code></td>
               <td>
@@ -257,18 +260,18 @@ export class ContentUIPostTokenComponent
     return html`
       <table>
         <tr>
-          <th>Name</th>
-          <th>Key</th>
-          <th>Value</th>
+          <th>Property value</th>
+          <th>CSS variable</th>
+          <th>CSS value</th>
           <th>Preview</th>
         </tr>
 
-        ${Object.entries(Letters).map(([name, value]) => {
+        ${Object.entries(Letters).map(([_, value]) => {
           const varName = `--letter-${value}`;
           const varValue = computedStyle.getPropertyValue(varName);
           return html`
             <tr>
-              <td><strong>${name}</strong></td>
+              <td><code>${value}</code></td>
               <td><code>${varName}</code></td>
               <td><code>${varValue}</code></td>
               <td>
@@ -283,21 +286,51 @@ export class ContentUIPostTokenComponent
     `;
   }
 
+  private renderWordBlock() {
+    return html`
+      <table>
+        <tr>
+          <th>Property value</th>
+          <th>CSS variable</th>
+          <th>CSS value</th>
+          <th>Preview</th>
+        </tr>
+
+        ${Object.entries(Words).map(([_, value]) => {
+          const varName = `--word-${value}`;
+          const varValue = computedStyle.getPropertyValue(varName);
+          return html`
+            <tr>
+              <td><code>${value}</code></td>
+              <td><code>${varName}</code></td>
+              <td><code>${varValue}</code></td>
+              <td>
+                <span style=${styleMap({'word-spacing': `var(${varName})`})}
+                  >The quick brown fox jumped over the lazy dog.</span
+                >
+              </td>
+            </tr>
+          `;
+        })}
+      </table>
+    `;
+  }
+
   private renderSizeBlock() {
     return html`
       <table>
         <tr>
-          <th>Name</th>
-          <th>Key</th>
-          <th>Value</th>
+          <th>Property value</th>
+          <th>CSS variable</th>
+          <th>CSS value</th>
         </tr>
 
-        ${Object.entries(Sizes).map(([name, value]) => {
+        ${Object.entries(Sizes).map(([_, value]) => {
           const varName = `--size-${value}`;
           const varValue = computedStyle.getPropertyValue(varName);
           return html`
             <tr>
-              <td><strong>${name}</strong></td>
+              <td><code>${value}</code></td>
               <td><code>${varName}</code></td>
               <td><code>${varValue}</code></td>
             </tr>
@@ -311,18 +344,18 @@ export class ContentUIPostTokenComponent
     return html`
       <table>
         <tr>
-          <th>Name</th>
-          <th>Key</th>
-          <th>Value</th>
+          <th>Property value</th>
+          <th>CSS variable</th>
+          <th>CSS value</th>
           <th>Preview</th>
         </tr>
 
-        ${Object.entries(Spaces).map(([name, value]) => {
+        ${Object.entries(Spaces).map(([_, value]) => {
           const varName = `--space-${value}`;
           const varValue = computedStyle.getPropertyValue(varName);
           return html`
             <tr>
-              <td><strong>${name}</strong></td>
+              <td><code>${value}</code></td>
               <td><code>${varName}</code></td>
               <td><code>${varValue}</code></td>
               <td>
@@ -346,18 +379,18 @@ export class ContentUIPostTokenComponent
     return html`
       <table>
         <tr>
-          <th>Name</th>
-          <th>Key</th>
-          <th>Value</th>
+          <th>Property value</th>
+          <th>CSS variable</th>
+          <th>CSS value</th>
           <th>Preview</th>
         </tr>
 
-        ${Object.entries(Radiuses).map(([name, value]) => {
+        ${Object.entries(Radiuses).map(([_, value]) => {
           const varName = `--radius-${value}`;
           const varValue = computedStyle.getPropertyValue(varName);
           return html`
             <tr>
-              <td><strong>${name}</strong></td>
+              <td><code>${value}</code></td>
               <td><code>${varName}</code></td>
               <td><code>${varValue}</code></td>
               <td>
@@ -381,18 +414,18 @@ export class ContentUIPostTokenComponent
     return html`
       <table>
         <tr>
-          <th>Name</th>
-          <th>Key</th>
-          <th>Value</th>
+          <th>Property value</th>
+          <th>CSS variable</th>
+          <th>CSS value</th>
           <th>Preview</th>
         </tr>
 
-        ${Object.entries(Borders).map(([name, value]) => {
+        ${Object.entries(Borders).map(([_, value]) => {
           const varName = `--border-${value}`;
           const varValue = computedStyle.getPropertyValue(varName);
           return html`
             <tr>
-              <td><strong>${name}</strong></td>
+              <td><code>${value}</code></td>
               <td><code>${varName}</code></td>
               <td><code>${varValue}</code></td>
               <td>
@@ -416,18 +449,18 @@ export class ContentUIPostTokenComponent
     return html`
       <table>
         <tr>
-          <th>Name</th>
-          <th>Key</th>
-          <th>Value</th>
+          <th>Property value</th>
+          <th>CSS variable</th>
+          <th>CSS value</th>
           <th>Preview</th>
         </tr>
 
-        ${Object.entries(Outlines).map(([name, value]) => {
+        ${Object.entries(Outlines).map(([_, value]) => {
           const varName = `--outline-${value}`;
           const varValue = computedStyle.getPropertyValue(varName);
           return html`
             <tr>
-              <td><strong>${name}</strong></td>
+              <td><code>${value}</code></td>
               <td><code>${varName}</code></td>
               <td><code>${varValue}</code></td>
               <td style="padding: 0.25rem">
@@ -453,18 +486,18 @@ export class ContentUIPostTokenComponent
     return html`
       <table>
         <tr>
-          <th>Name</th>
-          <th>Key</th>
+          <th>Property value</th>
+          <th>CSS variable</th>
           <th style="width: 350px">Value</th>
           <th>Preview</th>
         </tr>
 
-        ${Object.entries(Shadows).map(([name, value]) => {
+        ${Object.entries(Shadows).map(([_, value]) => {
           const varName = `--shadow-${value}`;
           const varValue = computedStyle.getPropertyValue(varName);
           return html`
             <tr>
-              <td><strong>${name}</strong></td>
+              <td><code>${value}</code></td>
               <td><code>${varName}</code></td>
               <td><code>${varValue}</code></td>
               <td style="padding: 1rem">
@@ -488,17 +521,17 @@ export class ContentUIPostTokenComponent
     return html`
       <table>
         <tr>
-          <th>Name</th>
-          <th>Key</th>
-          <th>Value</th>
+          <th>Property value</th>
+          <th>CSS variable</th>
+          <th>CSS value</th>
         </tr>
 
-        ${Object.entries(Wides).map(([name, value]) => {
+        ${Object.entries(Wides).map(([_, value]) => {
           const varName = `--wide-${value}`;
           const varValue = computedStyle.getPropertyValue(varName);
           return html`
             <tr>
-              <td><strong>${name}</strong></td>
+              <td><code>${value}</code></td>
               <td><code>${varName}</code></td>
               <td><code>${varValue}</code></td>
             </tr>
@@ -513,7 +546,7 @@ export class ContentUIPostTokenComponent
       <table>
         <tr>
           <th>Viewport</th>
-          <th>Key</th>
+          <th>Query key</th>
           <th>Media query</th>
         </tr>
 

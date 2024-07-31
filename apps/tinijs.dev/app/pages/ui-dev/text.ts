@@ -9,6 +9,7 @@ import {
   Texts,
   Lines,
   Letters,
+  Words,
 } from '@tinijs/core';
 
 import {TiniTextComponent} from '../../ui/components/text.js';
@@ -84,8 +85,8 @@ export class AppPageUIDevTextComponent extends TiniComponent {
 
       <ui-dev-section titleText="Aligns">
         <tini-text block>Lorem ipsum (start)</tini-text>
-        <tini-text block align="center">Lorem ipsum (center)</tini-text>
-        <tini-text block align="end">Lorem ipsum (end)</tini-text>
+        <tini-text align="center">Lorem ipsum (center)</tini-text>
+        <tini-text align="end">Lorem ipsum (end)</tini-text>
       </ui-dev-section>
 
       <ui-dev-section titleText="Font weights">
@@ -102,13 +103,17 @@ export class AppPageUIDevTextComponent extends TiniComponent {
       <ui-dev-section titleText="Line heights">
         ${Object.values(Lines).map(
           line => html`
-            <tini-text block line=${line} style="width: 150px"
+            <tini-text line=${line} max="150px"
               >The quick brown fox jumped over the lazy dog
               <strong>(line=${line})</strong></tini-text
             >
             <br />
           `
         )}
+        <tini-text line="4" max="150px"
+          >The quick brown fox jumped over the lazy dog
+          <strong>(custom)</strong></tini-text
+        >
       </ui-dev-section>
 
       <ui-dev-section titleText="Letter spacings">
@@ -121,10 +126,14 @@ export class AppPageUIDevTextComponent extends TiniComponent {
             <br />
           `
         )}
+        <tini-text letter="0.5em"
+          >The quick brown fox jumped over the lazy dog
+          <strong>(letter=custom)</strong></tini-text
+        >
       </ui-dev-section>
 
       <ui-dev-section titleText="Word spacings">
-        ${['normal', '1rem', '4px', '-.4ch'].map(
+        ${Object.values(Words).map(
           word => html`
             <tini-text word=${word}
               >The quick brown fox jumped over the lazy dog
@@ -133,6 +142,10 @@ export class AppPageUIDevTextComponent extends TiniComponent {
             <br />
           `
         )}
+        <tini-text word="2em"
+          >The quick brown fox jumped over the lazy dog
+          <strong>(word=custom)</strong></tini-text
+        >
       </ui-dev-section>
 
       <ui-dev-section titleText="Italics">
@@ -169,15 +182,83 @@ export class AppPageUIDevTextComponent extends TiniComponent {
         )}
       </ui-dev-section>
 
+      <ui-dev-section titleText="Shadows">
+        <tini-text shadow="#FC0 1px 0 10px">Lorem ipsum</tini-text><br />
+        <tini-text shadow="5px 5px #558ABB">Lorem ipsum</tini-text><br />
+        <tini-text shadow="1px 1px 2px red, 0 0 1em blue, 0 0 0.2em blue"
+          >Lorem ipsum</tini-text
+        >
+      </ui-dev-section>
+
+      <ui-dev-section titleText="Direction & writing mode">
+        <tini-text dir="rtl" max="500px">
+          Use rtl for languages written from right to left (like Hebrew or
+          Arabic), and ltr for those written from left to right (like English
+          and most other languages).
+        </tini-text>
+        <br />
+        <tini-text writing="vertical-rl" max="150px"
+          >拉麺 or ラーメン or らーめん - rāmen!</tini-text
+        >
+      </ui-dev-section>
+
       <ui-dev-section titleText="Overflows">
         <tini-text overflow="clip" style="width: 235px"
           >Lorem ipsum (overflow=clip) more</tini-text
         >
+        <tini-text overflow="clip" size="xs" max="175px"
+          >Lorem ipsum (overflow=clip) more</tini-text
+        >
+        <div style="width: 350px">
+          <tini-text overflow="clip" size="xl"
+            >Lorem ipsum (overflow=clip) more</tini-text
+          >
+        </div>
+        <tini-text overflow="clip" dir="rtl" max="235px"
+          >erom (pilc=wolfrevo) muspi meroL</tini-text
+        >
+        <tini-text overflow="clip" max="120px" writing="vertical-rl"
+          >ラーメン / らーめん</tini-text
+        >
+
+        <br />
+
         <tini-text overflow="ellipsis" style="width: 275px"
           >Lorem ipsum (overflow=ellipsis) more</tini-text
         >
+        <tini-text overflow="ellipsis" size="xs" max="205px"
+          >Lorem ipsum (overflow=ellipsis) more</tini-text
+        >
+        <div style="width: 410px">
+          <tini-text overflow="ellipsis" size="xl"
+            >Lorem ipsum (overflow=ellipsis) more</tini-text
+          >
+        </div>
+        <tini-text dir="rtl" overflow="ellipsis" max="275px"
+          >erom (sispille=wolfrevo) muspi meroL</tini-text
+        >
+        <tini-text overflow="ellipsis" max="130px" writing="vertical-rl"
+          >ラーメン / らーめん</tini-text
+        >
+
+        <br />
+
         <tini-text overflow="fade" style="width: 250px"
           >Lorem ipsum (overflow=fade) more</tini-text
+        >
+        <tini-text overflow="fade" size="xs" max="185px"
+          >Lorem ipsum (overflow=fade) more</tini-text
+        >
+        <div style="width: 375px">
+          <tini-text overflow="fade" size="xl"
+            >Lorem ipsum (overflow=fade) more</tini-text
+          >
+        </div>
+        <tini-text dir="rtl" overflow="fade" max="250px"
+          >erom (edaf=wolfrevo) muspi meroL</tini-text
+        >
+        <tini-text overflow="fade" max="125px" writing="vertical-rl"
+          >ラーメン / らーめん</tini-text
         >
       </ui-dev-section>
     `;

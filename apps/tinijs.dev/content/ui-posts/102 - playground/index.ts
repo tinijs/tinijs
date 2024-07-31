@@ -144,14 +144,14 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
               gridArea="header"
               padding="md"
               height="64px"
-              color="body-subtle"
+              background="body-subtle"
               >Grid header area</tini-box
             >
             <tini-box
               gridArea="nav"
               padding="md"
               width="150px"
-              color="body-subtle"
+              background="body-subtle"
               >Grid nav area</tini-box
             >
             <tini-box gridArea="content" padding="md" background="body-subtle"
@@ -161,14 +161,14 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
               gridArea="side"
               padding="md"
               width="150px"
-              color="body-subtle"
+              background="body-subtle"
               >Grid side area</tini-box
             >
             <tini-box
               gridArea="footer"
               padding="md"
               height="64px"
-              color="body-subtle"
+              background="body-subtle"
               >Grid footer area</tini-box
             >
           </tini-grid>
@@ -195,6 +195,15 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
           <tini-text gradient="danger" size="xl">Big gradient text</tini-text
           ><br />
           <tini-text size="xs">Small text</tini-text><br />
+          <tini-text align="right" max="180px">Aligned text</tini-text>
+          <tini-text dir="rtl">הַלְלוּ־יָהּ (right to left)</tini-text><br />
+          <tini-text overflow="ellipsis" max="165px"
+            >Overflow (ellipsis) text</tini-text
+          >
+          <tini-text overflow="fade" max="140px"
+            >Overflow (fade) text</tini-text
+          >
+          <tini-text writing="vertical-rl">ラーメン (vertical)</tini-text>
         </div>
       </section>
 

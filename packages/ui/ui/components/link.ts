@@ -11,7 +11,6 @@ import {
   Texts,
   generateColorVariants,
   generateGradientVariants,
-  generateTextVariants,
 } from '@tinijs/core';
 
 export enum LinkParts {
@@ -131,7 +130,6 @@ export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
   colorGen: Parameters<typeof generateColorVariants>[0];
   gradientGen: Parameters<typeof generateGradientVariants>[0];
-  textGen: Parameters<typeof generateTextVariants>[0];
 }>(outputs => [
   css`
     :host {
@@ -204,14 +202,4 @@ export const defaultStyles = createStyleBuilder<{
       ${outputs.gradientGen(values)}
     `;
   }, 'color'),
-
-  generateTextVariants(values => {
-    const {hostSelector, text} = values;
-    return `
-      ${hostSelector} {
-        --size: ${text};
-      }
-      ${outputs.textGen(values)}
-    `;
-  }, 'size'),
 ]);

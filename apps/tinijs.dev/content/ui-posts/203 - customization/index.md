@@ -16,7 +16,7 @@ To customize UI packages and components, there are several ways:
 
 At the [setup step](/ui/get-started), you can quickly override skin variables to customize the look of a skin. 
 
-Override skin variables is suitable for a quick change of color, border, radius, ... For a more complex customization, you should [create your own skin](/ui/skin).
+Override skin variables is suitable for a quick change of color, border, radius, ... For a more complex customization, you should [create your own skin](/ui/skins).
 
 ```ts
 const ui = setupUI({

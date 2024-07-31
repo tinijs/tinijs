@@ -8,7 +8,7 @@
 
 ## Pages
 
-**Pages** in TiniJS apps are special components which purpose are to represent views or endpoints of the app. Creating and working with pages is very similar to how we would [work with components](/framework/component).
+**Pages** in TiniJS apps are special components which purpose are to represent views or endpoints of the app. Creating and working with pages is very similar to how we would [work with components](/framework/components).
 
 To quickly create a page, we can use the [Tini CLI](https://tinijs.dev/cli) to generate it.
 

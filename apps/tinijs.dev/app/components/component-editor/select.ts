@@ -20,6 +20,9 @@ import {
   Sizes,
   Fonts,
   Texts,
+  Lines,
+  Letters,
+  Words,
   Radiuses,
   type EventEmitter,
   type OnCreate,
@@ -66,7 +69,7 @@ export class AppComponentEditorSelectComponent
   private allColors = [
     this.colors[0],
     this.subtleColors[0],
-    // this.contrastColors[0],
+    this.contrastColors[0],
   ];
 
   private gradients: SelectOptgroup[] = [
@@ -90,7 +93,7 @@ export class AppComponentEditorSelectComponent
   private allGradients = [
     this.gradients[0],
     this.subtleGradients[0],
-    // this.contrastGradients[0],
+    this.contrastGradients[0],
   ];
 
   private colorsAndGradients: SelectOptgroup[] = [
@@ -130,6 +133,9 @@ export class AppComponentEditorSelectComponent
     sizes: this.buildPresetItems(Sizes, value => value.toUpperCase()),
     fonts: this.buildPresetItems(Fonts),
     texts: this.buildPresetItems(Texts, value => value.toUpperCase()),
+    lines: this.buildPresetItems(Lines, value => value.toUpperCase()),
+    letters: this.buildPresetItems(Letters, value => value.toUpperCase()),
+    words: this.buildPresetItems(Words, value => value.toUpperCase()),
     radiuses: this.buildPresetItems(Radiuses, value => value.toUpperCase()),
   };
 

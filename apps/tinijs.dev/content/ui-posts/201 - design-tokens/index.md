@@ -22,13 +22,13 @@ Each colors has total 7 values for different usage:
 - **Subtle**: very soft
 - **Dull**: very soft and pale
 
-The above `hard`, `soft`, `semi`, `subtle`, `dull` are called color strengths in relation to the body color. Those additional colors are generated automatically by the system based on their base colors, but you can also define them manually in [level 2 skins](/ui/skin).
+The above `hard`, `soft`, `semi`, `subtle`, `dull` are called color strengths in relation to the body color. Those additional colors are generated automatically by the system based on their base colors, but you can also define them manually in [level 2 skins](/ui/skins).
 
 <content-ui-post-token block="color"></content-ui-post-token>
 
 ## Gradients
 
-Gradients are similar to colors, for [level 1 skins](/ui/skin) all gradients are generated automatically based on the app colors.
+Gradients are similar to colors, for [level 1 skins](/ui/skins) all gradients are generated automatically based on the app colors.
 
 To create 2-color gradients which are not based on the app colors, you can define them in pairs, for example:
 
@@ -66,6 +66,10 @@ To create more advance gradients, define them manually one by one, for example:
 ### Letter spacings
 
 <content-ui-post-token block="letter"></content-ui-post-token>
+
+### Word spacings
+
+<content-ui-post-token block="word"></content-ui-post-token>
 
 ## Sizes
 

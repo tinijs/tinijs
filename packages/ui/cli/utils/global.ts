@@ -161,6 +161,17 @@ function generateLetterVars() {
   return items.map(([name, value]) => `--letter-${name}: ${value};`).join(JOIN);
 }
 
+function generateWordVars() {
+  const items: [string, string][] = [
+    ['xs', '-0.25em'],
+    ['sm', '-0.15em'],
+    ['md', 'var(--size-word)'],
+    ['lg', '0.5em'],
+    ['xl', '1em'],
+  ];
+  return items.map(([name, value]) => `--word-${name}: ${value};`).join(JOIN);
+}
+
 function generateWideVars() {
   const items: [string, number][] = [
     ['xs3', 240],
@@ -194,6 +205,7 @@ export function getSkinUtils() {
   const ringVars = generateOutlineVars();
   const lineVars = generateLineVars();
   const letterVars = generateLetterVars();
+  const wordVars = generateWordVars();
   const wideVars = generateWideVars();
   const shadowVars = generateShadowVars();
   return (
@@ -211,6 +223,7 @@ export function getSkinUtils() {
   ${ringVars}
   ${lineVars}
   ${letterVars}
+  ${wordVars}
   ${wideVars}
   ${shadowVars}
 }`)

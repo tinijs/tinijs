@@ -6,7 +6,7 @@
 }
 +++
 
-Bases enforce the styles of native elements, see the preview at [Native Elements](/ui/native-element).
+Bases enforce the styles of native elements, see the preview at [Native Elements](/ui/native-elements).
 
 Base styles can be provided in one or more files under the `bases` folder, upon building the UI package, all base files will be merged together.
 

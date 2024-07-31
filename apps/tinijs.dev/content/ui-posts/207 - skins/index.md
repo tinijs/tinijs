@@ -68,7 +68,7 @@ You can use the **Skin Editor** to modify or create level 1 skins.
 
 ### Level 2 - Override auto-generated variables
 
-Based on the basic variables above, the system will generate other variables automatically as seen in the [Design Tokens](/ui/design-token).
+Based on the basic variables above, the system will generate other variables automatically as seen in the [Design Tokens](/ui/design-tokens).
 
 - 56 colors (8 colors x 7 variants)
 - 56 gradients coresponding to the colors

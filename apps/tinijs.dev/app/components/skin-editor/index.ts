@@ -149,7 +149,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
           Copy the code below and save as
           <code>ui/styles/${familyId}/skins/some-name.ts</code>. You can edit
           the values further if you wish or add overrides for
-          <a href="/ui/token" @click=${() => this.hideCodeModal()}
+          <a href="/ui/design-tokens" @click=${() => this.hideCodeModal()}
             >auto-generated tokens</a
           >.
         </p>
