@@ -1,5 +1,4 @@
 import {html, css} from 'lit';
-import {html as staticHTML} from 'lit/static-html.js';
 
 import {Page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
@@ -10,12 +9,6 @@ import {TiniGridComponent} from '../../ui/components/grid.js';
 import {repeat} from '../../utils/subject.js';
 
 import {GRID_SUBJECT} from '../../subjects.js';
-
-import {
-  COMMON_MEDIA_PROPS,
-  COMMON_CONTAINER_PROPS,
-  COMMON_ATTRS,
-} from './ui-box.js';
 
 const MEDIA_PROPS = {
   display: 'grid',
@@ -35,7 +28,6 @@ const MEDIA_PROPS = {
   gap: 'md',
   rowGap: 'md',
   columnGap: 'md',
-  ...COMMON_MEDIA_PROPS,
 };
 
 const CONTAINER_PROPS = {
@@ -56,7 +48,6 @@ const CONTAINER_PROPS = {
   gap: 'md',
   rowGap: 'md',
   columnGap: 'md',
-  ...COMMON_CONTAINER_PROPS,
 };
 
 @Page({
@@ -74,7 +65,7 @@ export class AppPageUIGrid extends TiniComponent implements PageWithMetadata {
   protected render() {
     return repeat(
       Number(this.query.items || 1),
-      i => staticHTML`
+      i => html`
         <tini-grid
           display="grid"
           template="auto 1fr auto / auto 1fr auto"
@@ -93,7 +84,6 @@ export class AppPageUIGrid extends TiniComponent implements PageWithMetadata {
           gap="md"
           rowGap="md"
           columnGap="md"
-          ${COMMON_ATTRS}
           .mediaQueries=${{
             xs: MEDIA_PROPS,
             sm: MEDIA_PROPS,

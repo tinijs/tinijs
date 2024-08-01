@@ -6,7 +6,7 @@
 }
 +++
 
-Base styles is used to set the styles for native elements like **headings**, **text**, **link**, ... For more details, please see [Bases](/ui/base).
+Base styles is used to set the styles for native elements like **headings**, **text**, **link**, ... For more details, please see [Bases](/ui/bases).
 
 Below is the preview of the base styles of the current activated theme. You may want to switch to another theme of a some other family to see the differences using the **Skin Editor** panel.
 

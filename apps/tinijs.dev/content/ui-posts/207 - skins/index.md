@@ -56,6 +56,7 @@ At the basic level, a skin contains a fundamental set of variables, includes:
 | `--size-outline`                  | Outline size                                     |
 | `--size-line`                     | Line height                                      |
 | `--size-letter`                   | Letter spacing                                   |
+| `--size-word`                     | Word spacing                                     |
 | _Shadow group_                    |
 | `--shadow-xs`                     | Extra small shadow                               |
 | `--shadow-sm`                     | Small shadow                                     |
@@ -76,6 +77,7 @@ Based on the basic variables above, the system will generate other variables aut
 - 13 text sizes
 - 5 line heights
 - 5 letter spacings
+- 5 word spacings
 - 5 object sizes
 - 14 space sizes
 - 10 border radiuses

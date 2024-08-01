@@ -29,6 +29,71 @@ export class ContentUIPostTextComponent extends TiniComponent {
     return html`
       <app-component-editor
         name="text"
+        .examples=${{
+          muted: {
+            content: 'Muted text',
+            items: [
+              {target: 'color', value: 'medium'},
+              {
+                target: 'inner',
+                value: 'Muted text',
+              },
+            ],
+          },
+          decoration: {
+            content: 'Advanced decoration',
+            items: [
+              {target: 'decoration', value: 'green wavy underline'},
+              {
+                target: 'inner',
+                value: 'Decorated text',
+              },
+            ],
+          },
+          shadow: {
+            content: 'Text shadow',
+            items: [
+              {target: 'shadow', value: '#FC0 1px 0 10px'},
+              {
+                target: 'inner',
+                value: 'Text shadow',
+              },
+            ],
+          },
+          'overflow-ellipsis': {
+            content: 'Overflow ellipsis',
+            items: [
+              {target: 'overflow', value: 'ellipsis'},
+              {target: 'max', value: '270px'},
+              {
+                target: 'inner',
+                value:
+                  'This is a long text that will be truncated with an ellipsis',
+              },
+            ],
+          },
+          rtl: {
+            content: 'Right to left',
+            items: [
+              {target: 'dir', value: 'rtl'},
+              {
+                target: 'inner',
+                value:
+                  'בְּרֵאשִׁית בָּרָא אֱלֹהִים אֵת הַשָּׁמַיִם וְאֵת הָאָרֶץ',
+              },
+            ],
+          },
+          vertical: {
+            content: 'Vertical text',
+            items: [
+              {target: 'writing', value: 'vertical-rl'},
+              {
+                target: 'inner',
+                value: 'ラーメン',
+              },
+            ],
+          },
+        }}
         .sections=${[
           {
             section: 'html',
@@ -63,7 +128,7 @@ export class ContentUIPostTextComponent extends TiniComponent {
           },
           {
             section: 'input',
-            attrs: {label: 'Weight', placeholder: '100 to 900'},
+            attrs: {label: 'Weight', placeholder: 'normal, bold, 100 to 900'},
             target: 'weight',
           },
           {

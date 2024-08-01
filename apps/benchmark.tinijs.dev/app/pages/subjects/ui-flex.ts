@@ -1,5 +1,4 @@
-import {css} from 'lit';
-import {html as staticHTML} from 'lit/static-html.js';
+import {html, css} from 'lit';
 
 import {Page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
@@ -10,12 +9,6 @@ import {TiniFlexComponent} from '../../ui/components/flex.js';
 import {repeat} from '../../utils/subject.js';
 
 import {FLEX_SUBJECT} from '../../subjects.js';
-
-import {
-  COMMON_MEDIA_PROPS,
-  COMMON_CONTAINER_PROPS,
-  COMMON_ATTRS,
-} from './ui-box.js';
 
 const MEDIA_PROPS = {
   display: 'flex',
@@ -31,7 +24,6 @@ const MEDIA_PROPS = {
   gap: 'md',
   rowGap: 'md',
   columnGap: 'md',
-  ...COMMON_MEDIA_PROPS,
 };
 
 const CONTAINER_PROPS = {
@@ -48,7 +40,6 @@ const CONTAINER_PROPS = {
   gap: 'md',
   rowGap: 'md',
   columnGap: 'md',
-  ...COMMON_CONTAINER_PROPS,
 };
 
 @Page({
@@ -66,7 +57,7 @@ export class AppPageUIFlex extends TiniComponent implements PageWithMetadata {
   protected render() {
     return repeat(
       Number(this.query.items || 1),
-      i => staticHTML`
+      i => html`
         <tini-flex
           display="flex"
           flow="row nowrap"
@@ -81,7 +72,6 @@ export class AppPageUIFlex extends TiniComponent implements PageWithMetadata {
           gap="md"
           rowGap="md"
           columnGap="md"
-          ${COMMON_ATTRS}
           .mediaQueries=${{
             xs: MEDIA_PROPS,
             sm: MEDIA_PROPS,

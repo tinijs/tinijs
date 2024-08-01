@@ -41,6 +41,51 @@ export class AppComponentBenchmarkComponent
     this.report = await response.json();
   }
 
+  private extractNumber(str: string) {
+    return Number(str.replace(/[^0-9.]+/g, ''));
+  }
+
+  private getScoreClass(score: number) {
+    if (score >= 0.9) return 'ok';
+    if (score >= 0.5) return 'md';
+    return 'ng';
+  }
+
+  private getFCPClass(raw: string) {
+    const fcp = this.extractNumber(raw);
+    if (fcp <= 1.8) return 'ok';
+    if (fcp <= 3) return 'md';
+    return 'ng';
+  }
+
+  private getLCPClass(raw: string) {
+    const lcp = this.extractNumber(raw);
+    if (lcp <= 2.5) return 'ok';
+    if (lcp <= 4) return 'md';
+    return 'ng';
+  }
+
+  private getTBTClass(raw: string) {
+    const tbt = this.extractNumber(raw);
+    if (tbt <= 200) return 'ok';
+    if (tbt <= 600) return 'md';
+    return 'ng';
+  }
+
+  private getCLSClass(raw: string) {
+    const cls = this.extractNumber(raw);
+    if (cls <= 0.1) return 'ok';
+    if (cls <= 0.25) return 'md';
+    return 'ng';
+  }
+
+  private getSIClass(raw: string) {
+    const si = this.extractNumber(raw);
+    if (si <= 3.4) return 'ok';
+    if (si <= 5.8) return 'md';
+    return 'ng';
+  }
+
   protected render() {
     return sectionRender([this.report], {
       loading: () => this.getLoadingTemplate(),
@@ -64,8 +109,8 @@ export class AppComponentBenchmarkComponent
           ? nothing
           : html`
               <p>
-                The below result is audited using Lighthouse API with Headless
-                Chrome, please see
+                The result is audited using Lighthouse API with Headless Chrome,
+                please see
                 <a
                   href=${`https://github.com/tinijs/tinijs/blob/main/apps/benchmark.tinijs.dev/app/pages/subjects/${this.reportId}.ts`}
                   target="_blank"
@@ -91,12 +136,14 @@ export class AppComponentBenchmarkComponent
               ([key, value]) => html`
                 <tr>
                   <td>${Number(key).toLocaleString()}</td>
-                  <td>${value.score * 100}</td>
-                  <td>${value.fcp}</td>
-                  <td>${value.lcp}</td>
-                  <td>${value.tbt}</td>
-                  <td>${value.cls}</td>
-                  <td>${value.si}</td>
+                  <td class=${this.getScoreClass(value.score)}>
+                    ${value.score * 100}
+                  </td>
+                  <td class=${this.getFCPClass(value.fcp)}>${value.fcp}</td>
+                  <td class=${this.getLCPClass(value.lcp)}>${value.lcp}</td>
+                  <td class=${this.getTBTClass(value.tbt)}>${value.tbt}</td>
+                  <td class=${this.getCLSClass(value.cls)}>${value.cls}</td>
+                  <td class=${this.getSIClass(value.si)}>${value.si}</td>
                 </tr>
               `
             )}
@@ -106,5 +153,15 @@ export class AppComponentBenchmarkComponent
     `;
   }
 
-  static styles = css``;
+  static styles = css`
+    .ng {
+      color: red;
+    }
+    .md {
+      color: orange;
+    }
+    .ok {
+      color: green;
+    }
+  `;
 }

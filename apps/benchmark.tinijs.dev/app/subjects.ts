@@ -13,7 +13,15 @@ export const BOX_SUBJECT = info({
   desc: 'The tini-box component.',
   path: '/ui/box',
   docPath: '/ui/box',
-  batches: [1, 500, 5000],
+  batches: [1, 1000, 10000],
+});
+
+export const BOX_OVERLOAD_SUBJECT = info({
+  title: 'tini-box (overloaded)',
+  desc: 'The tini-box component (overloaded).',
+  path: '/ui/box-overload',
+  docPath: '/ui/box',
+  batches: [1, 100, 1000],
 });
 
 export const FLEX_SUBJECT = info({
@@ -21,7 +29,7 @@ export const FLEX_SUBJECT = info({
   desc: 'The tini-flex component.',
   path: '/ui/flex',
   docPath: '/ui/flex',
-  batches: [1, 300, 3000],
+  batches: [1, 500, 5000],
 });
 
 export const GRID_SUBJECT = info({
@@ -69,20 +77,29 @@ export const TEXT_SUBJECT = info({
   desc: 'The tini-text component.',
   path: '/ui/text',
   docPath: '/ui/text',
-  batches: [10, 1000, 10000],
+  batches: [15, 1000, 10000],
 });
 
 export const TEXT_CLASS_SUBJECT = info({
-  title: 'Class texts',
+  title: 'Class-styled texts',
   desc: 'Texts using classes.',
   path: '/ui/text-class',
-  docPath: '/ui/design-tokens',
-  batches: [10, 1000, 10000],
+  docPath: '/ui/design-tokens#typography',
+  batches: [15, 1000, 10000],
+});
+
+export const TEXT_INLINE_SUBJECT = info({
+  title: 'Inline-styled texts',
+  desc: 'Texts using inline styles.',
+  path: '/ui/text-inline',
+  docPath: '/ui/design-tokens#typography',
+  batches: [15, 1000, 10000],
 });
 
 export default [
   HELLO_WORLD_SUBJECT,
   BOX_SUBJECT,
+  BOX_OVERLOAD_SUBJECT,
   FLEX_SUBJECT,
   GRID_SUBJECT,
   CONTAINER_SUBJECT,
@@ -91,4 +108,5 @@ export default [
   IMAGE_SUBJECT,
   TEXT_SUBJECT,
   TEXT_CLASS_SUBJECT,
+  TEXT_INLINE_SUBJECT,
 ];

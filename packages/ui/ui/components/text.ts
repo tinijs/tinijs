@@ -83,6 +83,7 @@ export const defaultStyles = createStyleBuilder<{
 
     :host([block]),
     :host([align]),
+    :host([overflow]),
     :host([max]) {
       display: block;
     }
@@ -101,7 +102,6 @@ export const defaultStyles = createStyleBuilder<{
     :host([overflow='clip']),
     :host([overflow='ellipsis']),
     :host([overflow='fade']) {
-      display: block;
       overflow: hidden;
       white-space: nowrap;
     }

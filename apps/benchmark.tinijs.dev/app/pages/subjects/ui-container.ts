@@ -1,5 +1,4 @@
 import {html, css} from 'lit';
-import {html as staticHTML} from 'lit/static-html.js';
 
 import {Page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
@@ -11,24 +10,16 @@ import {repeat} from '../../utils/subject.js';
 
 import {CONTAINER_SUBJECT} from '../../subjects.js';
 
-import {
-  COMMON_MEDIA_PROPS,
-  COMMON_CONTAINER_PROPS,
-  COMMON_ATTRS,
-} from './ui-box.js';
-
 const MEDIA_PROPS = {
   display: 'initial',
   size: 'lg',
   align: 'center',
-  ...COMMON_MEDIA_PROPS,
 };
 
 const CONTAINER_PROPS = {
   display: 'initial',
   size: 'xl',
   align: 'right',
-  ...COMMON_CONTAINER_PROPS,
 };
 
 @Page({
@@ -49,12 +40,11 @@ export class AppPageUIContainer
   protected render() {
     return repeat(
       Number(this.query.items || 1),
-      i => staticHTML`
+      i => html`
         <tini-container
           display="initial"
           size="md"
           align="left"
-          ${COMMON_ATTRS}
           .mediaQueries=${{
             xs: MEDIA_PROPS,
             sm: MEDIA_PROPS,
