@@ -47,12 +47,12 @@ Use buttons to trigger actions.
       },
       {
         section: 'select',
-        attrs: {label: 'Color', preset: 'allColors'},
+        attrs: {label: 'Color', preset: 'schemableColors'},
         target: 'color'
       },
       {
         section: 'select',
-        attrs: {label: 'Gradient', preset: 'allGradients'},
+        attrs: {label: 'Gradient', preset: 'schemableGradients'},
         target: 'gradient'
       },
       {

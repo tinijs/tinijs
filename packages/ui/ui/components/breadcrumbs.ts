@@ -1,10 +1,4 @@
-import {
-  html,
-  css,
-  type PropertyValues,
-  type CSSResult,
-  type TemplateResult,
-} from 'lit';
+import {html, css, type CSSResult, type TemplateResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {
@@ -29,17 +23,11 @@ export default class extends TiniElement {
   @property({type: Array}) items!: BreadcrumbsItem[];
   /* eslint-enable prettier/prettier */
 
-  private validateProperties() {
+  protected handleProperties() {
     if (!this.items?.length)
       throw new Error(
         'Property "items" is required and must contain at least 1 item.'
       );
-  }
-
-  willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    // default and validations
-    this.validateProperties();
   }
 
   protected render() {

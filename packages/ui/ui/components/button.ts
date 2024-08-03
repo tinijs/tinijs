@@ -12,8 +12,8 @@ import {
   SubtleGradients,
   ContrastGradients,
   Sizes,
-  generateAllColorVariants,
-  generateAllGradientVariants,
+  generateSchemableColorVariants,
+  generateSchemableGradientVariants,
   generateSizeVariants,
 } from '@tinijs/core';
 
@@ -33,6 +33,9 @@ export enum ButtonModes {
 }
 
 export default class extends TiniElement {
+  role = 'button';
+  tabIndex = 0;
+
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) mode?: ButtonModes;
   @property({type: Boolean, reflect: true}) block = false;
@@ -43,13 +46,6 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) gradient?: Gradients | SubtleGradients | ContrastGradients;
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
-
-  connectedCallback() {
-    super.connectedCallback();
-    // a11y
-    this.setAttribute('role', 'button');
-    this.setAttribute('tabindex', '0');
-  }
 
   protected render() {
     return this.partRender(
@@ -87,8 +83,8 @@ export default class extends TiniElement {
 
 export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
-  colorGen: Parameters<typeof generateAllColorVariants>[0];
-  gradientGen: Parameters<typeof generateAllGradientVariants>[0];
+  colorGen: Parameters<typeof generateSchemableColorVariants>[0];
+  gradientGen: Parameters<typeof generateSchemableGradientVariants>[0];
   sizeGen: Parameters<typeof generateSizeVariants>[0];
 }>(outputs => [
   css`
@@ -218,7 +214,7 @@ export const defaultStyles = createStyleBuilder<{
 
   outputs.statics,
 
-  generateAllColorVariants(values => {
+  generateSchemableColorVariants(values => {
     const {hostSelector, baseColor, color, contrast} = values;
     return `
       ${hostSelector} {
@@ -230,7 +226,7 @@ export const defaultStyles = createStyleBuilder<{
     `;
   }),
 
-  generateAllGradientVariants(values => {
+  generateSchemableGradientVariants(values => {
     const {hostSelector, baseColor, gradient, contrast, gradientContrast} =
       values;
     return `

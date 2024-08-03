@@ -13,7 +13,7 @@ import {BOX_OVERLOAD_SUBJECT} from '../../subjects.js';
 import {
   MEDIA_PROPS as BOX_MEDIA_PROPS,
   CONTAINER_PROPS as BOX_CONTAINER_PROPS,
-} from './ui-box.js';
+} from './ui-box-full.js';
 
 export const MEDIA_PROPS = {
   ...BOX_MEDIA_PROPS,

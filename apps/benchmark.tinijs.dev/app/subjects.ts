@@ -13,7 +13,15 @@ export const BOX_SUBJECT = info({
   desc: 'The tini-box component.',
   path: '/ui/box',
   docPath: '/ui/box',
-  batches: [1, 1000, 10000],
+  batches: [7, 500, 1000],
+});
+
+export const BOX_FULL_SUBJECT = info({
+  title: 'tini-box (full)',
+  desc: 'The tini-box component (full).',
+  path: '/ui/box-full',
+  docPath: '/ui/box',
+  batches: [1, 500, 1000],
 });
 
 export const BOX_OVERLOAD_SUBJECT = info({
@@ -21,7 +29,7 @@ export const BOX_OVERLOAD_SUBJECT = info({
   desc: 'The tini-box component (overloaded).',
   path: '/ui/box-overload',
   docPath: '/ui/box',
-  batches: [1, 100, 1000],
+  batches: [1, 500, 1000],
 });
 
 export const FLEX_SUBJECT = info({
@@ -29,7 +37,7 @@ export const FLEX_SUBJECT = info({
   desc: 'The tini-flex component.',
   path: '/ui/flex',
   docPath: '/ui/flex',
-  batches: [1, 500, 5000],
+  batches: [1, 500, 1000],
 });
 
 export const GRID_SUBJECT = info({
@@ -37,7 +45,7 @@ export const GRID_SUBJECT = info({
   desc: 'The tini-grid component.',
   path: '/ui/grid',
   docPath: '/ui/grid',
-  batches: [1, 100, 1000],
+  batches: [1, 500, 1000],
 });
 
 export const CONTAINER_SUBJECT = info({
@@ -45,7 +53,7 @@ export const CONTAINER_SUBJECT = info({
   desc: 'The tini-container component.',
   path: '/ui/container',
   docPath: '/ui/container',
-  batches: [1, 100, 1000],
+  batches: [1, 500, 1000],
 });
 
 export const HEADING_SUBJECT = info({
@@ -69,7 +77,7 @@ export const IMAGE_SUBJECT = info({
   desc: 'The tini-image component.',
   path: '/ui/image',
   docPath: '/ui/image',
-  batches: [3, 100, 1000],
+  batches: [7, 500, 1000],
 });
 
 export const TEXT_SUBJECT = info({
@@ -99,6 +107,7 @@ export const TEXT_INLINE_SUBJECT = info({
 export default [
   HELLO_WORLD_SUBJECT,
   BOX_SUBJECT,
+  BOX_FULL_SUBJECT,
   BOX_OVERLOAD_SUBJECT,
   FLEX_SUBJECT,
   GRID_SUBJECT,

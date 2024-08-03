@@ -1,4 +1,4 @@
-import {html, css, type PropertyValues, type CSSResult} from 'lit';
+import {html, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {
@@ -11,8 +11,8 @@ import {
   Gradients,
   SubtleGradients,
   Sizes,
-  generateAllColorVariants,
-  generateAllGradientVariants,
+  generateSchemableColorVariants,
+  generateSchemableGradientVariants,
   generateSizeVariants,
 } from '@tinijs/core';
 
@@ -38,7 +38,7 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
-  private validateProperties() {
+  protected handleProperties() {
     // validations
     if (!this.totalPage || this.totalPage < 1) {
       throw new Error(
@@ -51,12 +51,6 @@ export default class extends TiniElement {
     } else if (this.currentPage > this.totalPage) {
       this.currentPage = this.totalPage;
     }
-  }
-
-  willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    // default and validations
-    this.validateProperties();
   }
 
   private buildHref(pageNum: number) {
@@ -157,8 +151,8 @@ export default class extends TiniElement {
 
 export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
-  colorGen: Parameters<typeof generateAllColorVariants>[0];
-  gradientGen: Parameters<typeof generateAllGradientVariants>[0];
+  colorGen: Parameters<typeof generateSchemableColorVariants>[0];
+  gradientGen: Parameters<typeof generateSchemableGradientVariants>[0];
   sizeGen: Parameters<typeof generateSizeVariants>[0];
 }>(outputs => [
   css`
@@ -228,7 +222,7 @@ export const defaultStyles = createStyleBuilder<{
 
   outputs.statics,
 
-  generateAllColorVariants(values => {
+  generateSchemableColorVariants(values => {
     const {hostSelector, fullName, color, contrast} = values;
     return `
       .${fullName} {
@@ -240,7 +234,7 @@ export const defaultStyles = createStyleBuilder<{
     `;
   }),
 
-  generateAllGradientVariants(values => {
+  generateSchemableGradientVariants(values => {
     const {hostSelector, fullName, color, contrast, gradient} = values;
     return `
       .${fullName} {

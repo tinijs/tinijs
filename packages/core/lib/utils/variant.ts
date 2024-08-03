@@ -63,7 +63,7 @@ export interface ShadowRenderValues extends VariantRenderValues {
 export type ShadowVariantRender = (values: ShadowRenderValues) => string;
 
 export enum ColorSuffixes {
-  None = 'none',
+  Base = 'base',
   Hard = 'hard',
   Soft = 'soft',
   Semi = 'semi',
@@ -73,7 +73,7 @@ export enum ColorSuffixes {
 }
 
 export enum GradientSuffixes {
-  None = ColorSuffixes.None,
+  Base = ColorSuffixes.Base,
   Hard = ColorSuffixes.Hard,
   Soft = ColorSuffixes.Soft,
   Semi = ColorSuffixes.Semi,
@@ -92,6 +92,36 @@ export enum Colors {
   Warning = 'warning',
   Danger = 'danger',
 }
+export enum HardColors {
+  Body = 'body-hard',
+  Medium = 'medium-hard',
+  Primary = 'primary-hard',
+  Secondary = 'secondary-hard',
+  Info = 'info-hard',
+  Success = 'success-hard',
+  Warning = 'warning-hard',
+  Danger = 'danger-hard',
+}
+export enum SoftColors {
+  Body = 'body-soft',
+  Medium = 'medium-soft',
+  Primary = 'primary-soft',
+  Secondary = 'secondary-soft',
+  Info = 'info-soft',
+  Success = 'success-soft',
+  Warning = 'warning-soft',
+  Danger = 'danger-soft',
+}
+export enum SemiColors {
+  Body = 'body-semi',
+  Medium = 'medium-semi',
+  Primary = 'primary-semi',
+  Secondary = 'secondary-semi',
+  Info = 'info-semi',
+  Success = 'success-semi',
+  Warning = 'warning-semi',
+  Danger = 'danger-semi',
+}
 export enum SubtleColors {
   Body = 'body-subtle',
   Medium = 'medium-subtle',
@@ -101,6 +131,16 @@ export enum SubtleColors {
   Success = 'success-subtle',
   Warning = 'warning-subtle',
   Danger = 'danger-subtle',
+}
+export enum DullColors {
+  Body = 'body-dull',
+  Medium = 'medium-dull',
+  Primary = 'primary-dull',
+  Secondary = 'secondary-dull',
+  Info = 'info-dull',
+  Success = 'success-dull',
+  Warning = 'warning-dull',
+  Danger = 'danger-dull',
 }
 export enum ContrastColors {
   Body = 'body-contrast',
@@ -113,9 +153,26 @@ export enum ContrastColors {
   Danger = 'danger-contrast',
 }
 export const COLORS = Object.values(Colors);
+export const HARD_COLORS = Object.values(HardColors);
+export const SOFT_COLORS = Object.values(SoftColors);
+export const SEMI_COLORS = Object.values(SemiColors);
 export const SUBTLE_COLORS = Object.values(SubtleColors);
+export const DULL_COLORS = Object.values(DullColors);
 export const CONTRAST_COLORS = Object.values(ContrastColors);
-export const ALL_COLORS = [...COLORS, ...SUBTLE_COLORS, ...CONTRAST_COLORS];
+export const SCHEMABLE_COLORS = [
+  ...COLORS,
+  ...SUBTLE_COLORS,
+  ...CONTRAST_COLORS,
+];
+export const ALL_COLORS = [
+  ...COLORS,
+  ...HARD_COLORS,
+  ...SOFT_COLORS,
+  ...SEMI_COLORS,
+  ...SUBTLE_COLORS,
+  ...DULL_COLORS,
+  ...CONTRAST_COLORS,
+];
 export const AVAILABLE_ALL_COLORS = createVariantAvailabilityMap(ALL_COLORS);
 
 export enum Gradients {
@@ -128,6 +185,36 @@ export enum Gradients {
   Warning = Colors.Warning,
   Danger = Colors.Danger,
 }
+export enum HardGradients {
+  Body = HardColors.Body,
+  Medium = HardColors.Medium,
+  Primary = HardColors.Primary,
+  Secondary = HardColors.Secondary,
+  Info = HardColors.Info,
+  Success = HardColors.Success,
+  Warning = HardColors.Warning,
+  Danger = HardColors.Danger,
+}
+export enum SoftGradients {
+  Body = SoftColors.Body,
+  Medium = SoftColors.Medium,
+  Primary = SoftColors.Primary,
+  Secondary = SoftColors.Secondary,
+  Info = SoftColors.Info,
+  Success = SoftColors.Success,
+  Warning = SoftColors.Warning,
+  Danger = SoftColors.Danger,
+}
+export enum SemiGradients {
+  Body = SemiColors.Body,
+  Medium = SemiColors.Medium,
+  Primary = SemiColors.Primary,
+  Secondary = SemiColors.Secondary,
+  Info = SemiColors.Info,
+  Success = SemiColors.Success,
+  Warning = SemiColors.Warning,
+  Danger = SemiColors.Danger,
+}
 export enum SubtleGradients {
   Body = SubtleColors.Body,
   Medium = SubtleColors.Medium,
@@ -137,6 +224,16 @@ export enum SubtleGradients {
   Success = SubtleColors.Success,
   Warning = SubtleColors.Warning,
   Danger = SubtleColors.Danger,
+}
+export enum DullGradients {
+  Body = DullColors.Body,
+  Medium = DullColors.Medium,
+  Primary = DullColors.Primary,
+  Secondary = DullColors.Secondary,
+  Info = DullColors.Info,
+  Success = DullColors.Success,
+  Warning = DullColors.Warning,
+  Danger = DullColors.Danger,
 }
 export enum ContrastGradients {
   Body = ContrastColors.Body,
@@ -149,11 +246,24 @@ export enum ContrastGradients {
   Danger = ContrastColors.Danger,
 }
 export const GRADIENTS = COLORS as unknown as Gradients[];
+export const HARD_GRADIENTS = HARD_COLORS as unknown as HardGradients[];
+export const SOFT_GRADIENTS = SOFT_COLORS as unknown as SoftGradients[];
+export const SEMI_GRADIENTS = SEMI_COLORS as unknown as SemiGradients[];
 export const SUBTLE_GRADIENTS = SUBTLE_COLORS as unknown as SubtleGradients[];
+export const DULL_GRADIENTS = DULL_COLORS as unknown as DullGradients[];
 export const CONTRAST_GRADIENTS =
   CONTRAST_COLORS as unknown as ContrastGradients[];
-export const ALL_GRADIENTS = ALL_COLORS as unknown as Array<
+export const SCHEMABLE_GRADIENTS = SCHEMABLE_COLORS as unknown as Array<
   Gradients | SubtleGradients | ContrastGradients
+>;
+export const ALL_GRADIENTS = ALL_COLORS as unknown as Array<
+  | Gradients
+  | HardGradients
+  | SoftGradients
+  | SemiGradients
+  | SubtleGradients
+  | DullGradients
+  | ContrastGradients
 >;
 export const AVAILABLE_ALL_GRADIENTS = AVAILABLE_ALL_COLORS;
 
@@ -549,14 +659,14 @@ export function generateContrastColorVariants(
     ).join('')
   );
 }
-export function generateAllColorVariants(
+export function generateSchemableColorVariants(
   render: ColorVariantRender,
   prefixName?: string
 ) {
   return unsafeCSS(
-    ALL_COLORS.map(name => generateColorVariant(render, name, prefixName)).join(
-      ''
-    )
+    SCHEMABLE_COLORS.map(name =>
+      generateColorVariant(render, name, prefixName)
+    ).join('')
   );
 }
 
@@ -658,12 +768,12 @@ export function generateContrastGradientVariants(
     ).join('')
   );
 }
-export function generateAllGradientVariants(
+export function generateSchemableGradientVariants(
   render: GradientVariantRender,
   prefixName?: string
 ) {
   return unsafeCSS(
-    ALL_GRADIENTS.map(name =>
+    SCHEMABLE_GRADIENTS.map(name =>
       generateGradientVariant(render, name, prefixName)
     ).join('')
   );
@@ -756,7 +866,7 @@ const DECREASE_BODY_COLOR_STRENGTHS = {
 };
 
 export function deriveColorStrength(
-  target: Exclude<ColorSuffixes, 'none' | 'contrast'>,
+  target: Exclude<ColorSuffixes, 'base' | 'contrast'>,
   color: string
 ) {
   switch (target) {
@@ -858,7 +968,7 @@ export function generateGradientTokens(
     const direction = 'var(--gradient-direction, 180deg)';
     return Object.values(ColorSuffixes)
       .map(suffix => {
-        const isBase = suffix === ColorSuffixes.None;
+        const isBase = suffix === ColorSuffixes.Base;
         const isContrast = suffix === ColorSuffixes.Contrast;
         const fullName = `${name}${isBase ? '' : `-${suffix}`}`;
         const colorStart = isBase
@@ -893,7 +1003,7 @@ export function generateOfficialGradientTokens() {
   const buildEndVarForContrast = (name: string) =>
     `--gradient-${name}-contrast-end: color-mix(in oklab, var(--color-${name}-contrast), black 15%);`;
   const generate = (name: string, suffix: ColorSuffixes) => {
-    const isBase = suffix === ColorSuffixes.None;
+    const isBase = suffix === ColorSuffixes.Base;
     const isContrast = suffix === ColorSuffixes.Contrast;
     const fullName = `${name}${isBase ? '' : `-${suffix}`}`;
     // start and end
