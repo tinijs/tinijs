@@ -195,8 +195,10 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
           <tini-text gradient="danger" size="xl">Big gradient text</tini-text
           ><br />
           <tini-text size="xs">Small text</tini-text><br />
-          <tini-text align="right" max="180px">Aligned text</tini-text>
-          <tini-text dir="rtl">הַלְלוּ־יָהּ (right to left)</tini-text><br />
+          <tini-text align="right" max="250px">Aligned text</tini-text>
+          <tini-text dir="rtl" max="250px"
+            >הַלְלוּ־יָהּ (right to left)</tini-text
+          >
           <tini-text overflow="ellipsis" max="165px"
             >Overflow (ellipsis) text</tini-text
           >
@@ -204,6 +206,142 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
             >Overflow (fade) text</tini-text
           >
           <tini-text writing="vertical-rl">ラーメン (vertical)</tini-text>
+        </div>
+      </section>
+
+      <section>
+        <h3>
+          <span>Image</span>
+          <a href="/ui/image">Detail</a>
+        </h3>
+        <div class="content">
+          <tini-image
+            src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1000&q=80"
+            alt="Placeholder"
+          ></tini-image>
+
+          <p class="desc">Width, height & aspect ratio</p>
+          <div
+            style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;"
+          >
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=250&h=250&q=80"
+              alt="Placeholder"
+              width="150px"
+              height="150px"
+            ></tini-image>
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=250&h=250&q=80"
+              alt="Placeholder"
+              height="150px"
+              ratio="16/9"
+            ></tini-image>
+          </div>
+
+          <p class="desc">Radius</p>
+          <div
+            style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;"
+          >
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              height="150px"
+              radius="xl"
+            ></tini-image>
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              height="150px"
+              radius="half"
+            ></tini-image>
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="250px"
+              height="150px"
+              radius="full"
+            ></tini-image>
+          </div>
+
+          <p class="desc">Padding, border & shadow</p>
+          <div
+            style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;"
+          >
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              height="150px"
+              padding="sm"
+              border="md solid body-subtle"
+            ></tini-image>
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              height="150px"
+              padding="3px"
+              border="3px solid success"
+              radius="half"
+              innerRadius="match"
+            ></tini-image>
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              height="150px"
+              padding="sm"
+              shadow="xl"
+            ></tini-image>
+          </div>
+
+          <p class="desc">Shape</p>
+          <div
+            style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;"
+          >
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              shape="squircle"
+            ></tini-image>
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              shape="triangle"
+            ></tini-image>
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              shape="rounded-hexagon"
+            ></tini-image>
+          </div>
+
+          <p class="desc">Background, filter & blend</p>
+          <div
+            style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;"
+          >
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              height="150px"
+              filter="grayscale(1)"
+            ></tini-image>
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              height="150px"
+              background="linear-gradient(45deg, red, blue)"
+              innerOpacity="0.7"
+              blend="multiply"
+            ></tini-image>
+          </div>
         </div>
       </section>
 
@@ -239,36 +377,6 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
           ><br />
           <tini-link href="#" size="xs">Small link</tini-link><br />
           <tini-link href="#" noUnderline>Force no underline</tini-link><br />
-        </div>
-      </section>
-
-      <section>
-        <h3>
-          <span>Image</span>
-          <a href="/ui/image">Detail</a>
-        </h3>
-        <div class="content">
-          <tini-image
-            src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1000&q=80"
-            alt="Placeholder"
-          ></tini-image>
-
-          <p class="desc">Width & height</p>
-          <tini-image
-            src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=250&h=250&q=80"
-            alt="Placeholder"
-            width="250px"
-            height="250px"
-          ></tini-image>
-
-          <p class="desc">Radius</p>
-          <tini-image
-            src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
-            alt="Placeholder"
-            width="150px"
-            height="150px"
-            radius="half"
-          ></tini-image>
         </div>
       </section>
 

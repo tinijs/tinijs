@@ -23,6 +23,11 @@ export const routes: Route[] = [
         action: () => import('./pages/subjects/ui-box.js'),
       },
       {
+        path: '/ui/box-full',
+        component: 'app-page-ui-box-full',
+        action: () => import('./pages/subjects/ui-box-full.js'),
+      },
+      {
         path: '/ui/box-overload',
         component: 'app-page-ui-box-overload',
         action: () => import('./pages/subjects/ui-box-overload.js'),

@@ -1,4 +1,4 @@
-import {html, nothing, css, type PropertyValues, type CSSResult} from 'lit';
+import {html, nothing, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {
@@ -41,17 +41,11 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
-  private validateProperties() {
+  protected handleProperties() {
     if (!this.items.length)
       throw new Error(
         'Property "items" is required  and must contain at least 1 item.'
       );
-  }
-
-  protected willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    // default and validations
-    this.validateProperties();
   }
 
   protected render() {

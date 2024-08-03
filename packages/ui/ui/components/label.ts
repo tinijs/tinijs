@@ -7,7 +7,7 @@ import {
   Colors,
   SubtleColors,
   Sizes,
-  generateAllColorVariants,
+  generateSchemableColorVariants,
   generateSizeVariants,
 } from '@tinijs/core';
 
@@ -44,7 +44,7 @@ export default class extends TiniElement {
 
 export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
-  colorGen: Parameters<typeof generateAllColorVariants>[0];
+  colorGen: Parameters<typeof generateSchemableColorVariants>[0];
   sizeGen: Parameters<typeof generateSizeVariants>[0];
 }>(outputs => [
   css`
@@ -78,7 +78,7 @@ export const defaultStyles = createStyleBuilder<{
 
   outputs.statics,
 
-  generateAllColorVariants(values => {
+  generateSchemableColorVariants(values => {
     const {hostSelector, fullName, isSubtle, baseColor, color} = values;
     return `
       .${fullName} {

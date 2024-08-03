@@ -43,7 +43,7 @@ export default class extends TiniElement {
 
   private readonly codeRef = createRef<HTMLElement>();
 
-  private validateProperties() {
+  protected handleProperties() {
     if (!this.language) throw new Error('Property "language" is required.');
     if (!this.content) throw new Error('Property "content" is required.');
   }
@@ -52,8 +52,6 @@ export default class extends TiniElement {
   private codeClasses: ClassInfo = {};
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // default and validations
-    this.validateProperties();
     // main and code classes parts
     this.mainClasses = {
       [CodeParts.Main]: true,

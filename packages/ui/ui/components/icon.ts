@@ -11,8 +11,8 @@ import {
   SubtleGradients,
   ContrastGradients,
   Sizes,
-  generateAllColorVariants,
-  generateAllGradientVariants,
+  generateSchemableColorVariants,
+  generateSchemableGradientVariants,
   generateSizeVariants,
 } from '@tinijs/core';
 
@@ -90,8 +90,8 @@ export default class extends TiniElement {
 
 export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
-  colorGen: Parameters<typeof generateAllColorVariants>[0];
-  gradientGen: Parameters<typeof generateAllGradientVariants>[0];
+  colorGen: Parameters<typeof generateSchemableColorVariants>[0];
+  gradientGen: Parameters<typeof generateSchemableGradientVariants>[0];
   sizeGen: Parameters<typeof generateSizeVariants>[0];
 }>(outputs => [
   css`
@@ -153,7 +153,7 @@ export const defaultStyles = createStyleBuilder<{
 
   outputs.statics,
 
-  generateAllColorVariants(values => {
+  generateSchemableColorVariants(values => {
     const {hostSelector, color} = values;
     return `
       ${hostSelector} {
@@ -163,7 +163,7 @@ export const defaultStyles = createStyleBuilder<{
     `;
   }),
 
-  generateAllGradientVariants(values => {
+  generateSchemableGradientVariants(values => {
     const {hostSelector, gradient} = values;
     return `
       ${hostSelector} {

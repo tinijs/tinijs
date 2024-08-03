@@ -1,10 +1,4 @@
-import {
-  html,
-  css,
-  type PropertyValues,
-  type TemplateResult,
-  type CSSResult,
-} from 'lit';
+import {html, css, type TemplateResult, type CSSResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 
@@ -32,15 +26,9 @@ export default class extends TiniElement {
   @property({type: Array}) items!: TableItem[][];
   /* eslint-enable prettier/prettier */
 
-  private validateProperties() {
+  protected handleProperties() {
     if (!this.items?.length)
       throw new Error('Property "items" must be a 2-dimensional array.');
-  }
-
-  willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    // default and validations
-    this.validateProperties();
   }
 
   private processCell(item: TableItem) {

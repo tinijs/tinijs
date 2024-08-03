@@ -33,14 +33,39 @@ export class AppPageUIImage extends TiniComponent implements PageWithMetadata {
     return repeat(
       Number(this.query.items || 1),
       () => html`
-        <tini-image src=${SVG} alt="Placeholder"></tini-image>
-        <tini-image src=${JPG} width="350px" alt="Placeholder"></tini-image>
+        <tini-image src=${JPG} width="500px" alt="Placeholder"></tini-image>
+        <tini-image src=${PNG} width="500px" ratio="16/9"></tini-image>
         <tini-image
-          src=${PNG}
-          width="250px"
-          height="250px"
-          radius="half"
-          alt="Placeholder"
+          src=${SVG}
+          width="500px"
+          height="500px"
+          radius="quarter"
+          fit="cover"
+        ></tini-image>
+        <tini-image
+          src=${JPG}
+          width="500px"
+          height="500px"
+          padding="md"
+          border="md solid body-subtle"
+          shadow="xl"
+        ></tini-image>
+        <tini-image
+          src=${JPG}
+          width="500px"
+          background="linear-gradient(90deg, red, blue)"
+          innerOpacity="0.5"
+          blend="multiply"
+        ></tini-image>
+        <tini-image src=${JPG} width="500px" shape="hexagon"></tini-image>
+        <tini-image
+          src=${JPG}
+          width="500px"
+          height="500px"
+          background="medium"
+          padding="xl"
+          mask="radial-gradient(circle, black 0%, black 50%, transparent 70%)"
+          innerMask="match"
         ></tini-image>
       `,
       IMAGE_SUBJECT

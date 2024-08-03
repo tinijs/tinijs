@@ -11,5 +11,6 @@ export const UI_POST_COMPONENT_REGISTRY: ComponentLoaderRegistry = {
   container: () => import('./404 - container/index.js'),
   dialog: () => import('./504001 - dialog/index.js'),
   modal: () => import('./513002 - modal/index.js'),
+  image: () => import('./509002 - image/index.js'),
   text: () => import('./520002 - text/index.js'),
 };

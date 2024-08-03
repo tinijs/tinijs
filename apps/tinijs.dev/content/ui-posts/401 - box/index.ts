@@ -95,6 +95,19 @@ export class ContentUIPostBoxComponent extends TiniComponent {
               },
             ],
           },
+          ratio: {
+            content: 'Aspect ratio',
+            items: [
+              {target: 'padding', value: 'md'},
+              {target: 'background', value: 'body-subtle'},
+              {target: 'width', value: '250px'},
+              {target: 'ratio', value: '16/9'},
+              {
+                target: 'inner',
+                value: '<span>Box with 16/9 aspect ratio</span>',
+              },
+            ],
+          },
           borders: {
             content: 'Borders',
             items: [

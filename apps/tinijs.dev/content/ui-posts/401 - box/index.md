@@ -18,25 +18,25 @@ Fundamental layout building block.
 
 ## API
 
-| Property            | Value                                                                                                                                                                  | Default |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| `display`           | `none`, `block`, `inline` or `inline-block`                                                                                                                            | -       |
+| Property            | Value                                                                                                                                                                       | Default |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `display`           | `none`, `block`, `inline` or `inline-block`                                                                                                                                 | -       |
 | _For Flex children_ |
-| `flex`              | `string`                                                                                                                                                               | -       |
-| `flexBasis`         | `string`                                                                                                                                                               | -       |
-| `flexShrink`        | `string`                                                                                                                                                               | -       |
-| `flexGrow`          | `string`                                                                                                                                                               | -       |
+| `flex`              | `string`                                                                                                                                                                    | -       |
+| `flexBasis`         | `string`                                                                                                                                                                    | -       |
+| `flexShrink`        | `string`                                                                                                                                                                    | -       |
+| `flexGrow`          | `string`                                                                                                                                                                    | -       |
 | _For Grid children_ |
-| `gridColumn`        | `string`                                                                                                                                                               | -       |
-| `gridColumnStart`   | `string`                                                                                                                                                               | -       |
-| `gridColumnEnd`     | `string`                                                                                                                                                               | -       |
-| `gridRow`           | `string`                                                                                                                                                               | -       |
-| `gridRowStart`      | `string`                                                                                                                                                               | -       |
-| `gridRowEnd`        | `string`                                                                                                                                                               | -       |
-| `gridArea`          | `string`                                                                                                                                                               | -       |
+| `gridColumn`        | `string`                                                                                                                                                                    | -       |
+| `gridColumnStart`   | `string`                                                                                                                                                                    | -       |
+| `gridColumnEnd`     | `string`                                                                                                                                                                    | -       |
+| `gridRow`           | `string`                                                                                                                                                                    | -       |
+| `gridRowStart`      | `string`                                                                                                                                                                    | -       |
+| `gridRowEnd`        | `string`                                                                                                                                                                    | -       |
+| `gridArea`          | `string`                                                                                                                                                                    | -       |
 | _Responsive_        |
-| `mediaQueries`      | `Record<string, BoxProps>` - query keys can be [breakpoints](/ui/design-tokens#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `(min-width: 500px)`                | -       |
-| `containerQueries`  | `Record<string, BoxProps>` - query keys can be [breakpoints](/ui/design-tokens#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `container-name (min-width: 500px)` | -       |
+| `mediaQueries`      | `Record<string, BoxStyleProps>` - query keys can be [breakpoints](/ui/design-tokens#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `(min-width: 500px)`                | -       |
+| `containerQueries`  | `Record<string, BoxStyleProps>` - query keys can be [breakpoints](/ui/design-tokens#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `container-name (min-width: 500px)` | -       |
 
 ### Common utilities
 
@@ -63,6 +63,7 @@ The below properties are also available for [flex](/ui/flex), [grid](/ui/grid) a
 | `bottom`              | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
 | `left`                | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
 | `zIndex`              | `string`                                                                                                                | -       |
+| `ratio`               | `string`                                                                                                                | -       |
 | `width`               | [Wides](/ui/design-tokens#wides) or valid CSS values                                                                    | -       |
 | `minWidth`            | [Wides](/ui/design-tokens#wides) or valid CSS values                                                                    | -       |
 | `maxWidth`            | [Wides](/ui/design-tokens#wides) or valid CSS values                                                                    | -       |
@@ -126,10 +127,14 @@ Here are 2 examples inspired by Tailwind if you like to compare [Tini UI](/ui) t
 
 Using `tini-box` is fine for most cases, but if you need to render a lot of boxes, you might want to consider using native elements with classes or inline styles.
 
-### All properties
+### Basic usage
 
 <app-component-benchmark reportId="ui-box"></app-component-benchmark>
 
-### All common properties
+### All properties and queries
+
+<app-component-benchmark reportId="ui-box-full"></app-component-benchmark>
+
+### All common properties and queries
 
 <app-component-benchmark reportId="ui-box-overload"></app-component-benchmark>

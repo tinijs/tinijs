@@ -47,7 +47,7 @@ export class AppPageUIDevBoxComponent extends TiniComponent {
             width="xs2"
             height="4rem"
             padding="md"
-            >None</tini-box
+            >Zero</tini-box
           >
           <tini-box background="#3b82f6" width="xs2" height="4rem" padding="md"
             >Default</tini-box

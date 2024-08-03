@@ -18,6 +18,7 @@ import {
   extractScriptsFromTheming,
   extractStylesFromDirectOrRecordStyles,
   stylesToAdoptableStyles,
+  stylesToText,
   type ActiveTheme,
   type Theming,
   type CSSResultOrNativeOrRaw,
@@ -25,6 +26,7 @@ import {
   type DirectOrRecordStyles,
 } from './ui.js';
 
+import {BREAKPOINT_VALUES} from '../utils/variant.js';
 import {
   UnstableStates,
   registerComponents,
@@ -81,9 +83,9 @@ export class TiniElement extends LitElement {
   static events?: EventForwardingInput;
 
   /* eslint-disable prettier/prettier */
+  @property({type: Boolean, reflect: true}) restyleAtUpdate = false;
   @property({converter: stringOrObjectOrArrayConverter}) styleDeep?: DirectOrRecordStyles;
   @property({converter: stringOrObjectOrArrayConverter}) events?: EventForwardingInput;
-  @property({type: Boolean, reflect: true}) restyleAtUpdate = false;
   /* eslint-enable prettier/prettier */
 
   private customTemplates = this.getTemplates();
@@ -94,29 +96,12 @@ export class TiniElement extends LitElement {
     (this.constructor as typeof TiniElement).componentMetadata.restyleAtUpdate
   );
 
-  emitEvent<Payload>(
-    name: string,
-    payload?: Payload,
-    options?: Omit<CustomEventInit<Payload>, 'detail'>
-  ) {
-    this.dispatchEvent(
-      new CustomEvent(name, {
-        ...options,
-        detail: payload,
-      })
-    );
+  protected handleProperties() {
+    // placeholder for defaults and validations
   }
 
-  protected createRenderRoot() {
-    const renderRoot =
-      this.shadowRoot ??
-      this.attachShadow(
-        (this.constructor as typeof LitElement).shadowRootOptions
-      );
-    if (!this.willAdoptStylesAtUpdate) {
-      this.adoptStyles(renderRoot);
-    }
-    return renderRoot;
+  protected computedStyles(props: Record<string, any>): Styles {
+    return [];
   }
 
   private handleThemeChanges = (e: any) => {
@@ -136,11 +121,17 @@ export class TiniElement extends LitElement {
     // continue update cycle
     return this.requestUpdate();
   };
-  protected themeChanged(activeTheme: ActiveTheme): void {
-    // placeholder for the onTheme() hook
-  }
-  protected computedStyles(): Styles {
-    return [];
+
+  protected createRenderRoot() {
+    const renderRoot =
+      this.shadowRoot ??
+      this.attachShadow(
+        (this.constructor as typeof LitElement).shadowRootOptions
+      );
+    if (!this.willAdoptStylesAtUpdate) {
+      this.adoptStyles(renderRoot);
+    }
+    return renderRoot;
   }
 
   connectedCallback() {
@@ -157,7 +148,14 @@ export class TiniElement extends LitElement {
     removeEventListener(THEME_CHANGE_EVENT, this.handleThemeChanges);
   }
 
+  protected themeChanged(activeTheme: ActiveTheme): void {
+    // placeholder for the onTheme() hook
+  }
+
   protected willUpdate(changedProperties: PropertyValues<this>) {
+    // defaults and validations
+    this.handleProperties();
+    // adopt styles at update
     if (this.willAdoptStylesAtUpdate) {
       this.adoptStyles(this.shadowRoot || this);
     }
@@ -188,6 +186,19 @@ export class TiniElement extends LitElement {
             )}
             ${!siblingsTemplate ? nothing : siblingsTemplate(this, context)}
           `;
+  }
+
+  emitEvent<Payload>(
+    name: string,
+    payload?: Payload,
+    options?: Omit<CustomEventInit<Payload>, 'detail'>
+  ) {
+    this.dispatchEvent(
+      new CustomEvent(name, {
+        ...options,
+        detail: payload,
+      })
+    );
   }
 
   protected deriveClassNames(
@@ -225,10 +236,49 @@ export class TiniElement extends LitElement {
     forwardEvents(this, eventForwardings);
   }
 
+  private finalizeComputedStyles() {
+    const result: string[] = [];
+    const {mediaQueries, containerQueries} = this as unknown as {
+      mediaQueries?: Record<string, Record<string, unknown>>;
+      containerQueries?: Record<string, Record<string, unknown>>;
+    };
+    // main
+    const mainStyles = this.computedStyles(this);
+    if (mainStyles instanceof Array ? mainStyles.length : mainStyles) {
+      result.push(stylesToText(mainStyles));
+    }
+    // media queries
+    if (mediaQueries) {
+      for (const [key, value] of Object.entries(mediaQueries)) {
+        const query = !BREAKPOINT_VALUES[key]
+          ? key
+          : `(min-width: ${BREAKPOINT_VALUES[key]})`;
+        const styles = this.computedStyles(value);
+        if (styles instanceof Array ? styles.length : styles) {
+          result.push(`@media ${query} { ${stylesToText(styles)} }`);
+        }
+      }
+    }
+    // container queries
+    if (containerQueries) {
+      for (const [key, value] of Object.entries(containerQueries)) {
+        const query = !BREAKPOINT_VALUES[key]
+          ? key
+          : `(min-width: ${BREAKPOINT_VALUES[key]})`;
+        const styles = this.computedStyles(value);
+        if (styles instanceof Array ? styles.length : styles) {
+          result.push(`@container ${query} { ${stylesToText(styles)} }`);
+        }
+      }
+    }
+    // result
+    return result;
+  }
+
   private adoptStyles(renderRoot: HTMLElement | DocumentFragment) {
     const optionalUI = getOptionalUI();
     const styles = (this.constructor as typeof LitElement).elementStyles
-      .concat(stylesToAdoptableStyles(this.computedStyles()))
+      .concat(stylesToAdoptableStyles(this.finalizeComputedStyles()))
       .concat(
         stylesToAdoptableStyles(
           extractStylesFromDirectOrRecordStyles(

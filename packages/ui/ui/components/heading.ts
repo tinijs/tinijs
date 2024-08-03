@@ -17,6 +17,8 @@ export enum HeadingParts {
 }
 
 export default class extends TiniElement {
+  role = 'heading';
+
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) level?: string;
   @property({type: String, reflect: true}) color?: Colors | Gradients;
@@ -25,11 +27,6 @@ export default class extends TiniElement {
   /* eslint-enable prettier/prettier */
 
   private readonly mainTag = this.buildMainTag();
-
-  connectedCallback() {
-    super.connectedCallback();
-    this.setAttribute('role', 'heading');
-  }
 
   private buildMainTag() {
     let level = Number(this.level?.replace(/^(h|H)/, ''));

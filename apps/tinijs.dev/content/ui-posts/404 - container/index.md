@@ -18,14 +18,14 @@ Constrains the maximum width of page content.
 
 ## API
 
-| Property           | Value                                                                                                                                                                        | Default |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| `display`          | `none` or `initial`                                                                                                                                                          | -       |
-| `size`             | [Wides](/ui/design-tokens#wides) or valid CSS values                                                                                                                         | -       |
-| `align`            | `left`, `center` or `right`                                                                                                                                                  | -       |
+| Property           | Value                                                                                                                                                                             | Default |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `display`          | `none` or `initial`                                                                                                                                                               | -       |
+| `size`             | [Wides](/ui/design-tokens#wides) or valid CSS values                                                                                                                              | -       |
+| `align`            | `left`, `center` or `right`                                                                                                                                                       | -       |
 | _Responsive_       |
-| `mediaQueries`     | `Record<string, ContainerProps>` - query keys can be [breakpoints](/ui/design-tokens#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `(min-width: 500px)`                | -       |
-| `containerQueries` | `Record<string, ContainerProps>` - query keys can be [breakpoints](/ui/design-tokens#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `container-name (min-width: 500px)` | -       |
+| `mediaQueries`     | `Record<string, ContainerStyleProps>` - query keys can be [breakpoints](/ui/design-tokens#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `(min-width: 500px)`                | -       |
+| `containerQueries` | `Record<string, ContainerStyleProps>` - query keys can be [breakpoints](/ui/design-tokens#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `container-name (min-width: 500px)` | -       |
 
 ### Common utilities
 
