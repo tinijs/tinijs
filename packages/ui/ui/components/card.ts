@@ -1,5 +1,5 @@
 import {html, css, type CSSResult} from 'lit';
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 import {TiniElement, ElementParts, createStyleBuilder} from '@tinijs/core';
 
 export enum CardParts {

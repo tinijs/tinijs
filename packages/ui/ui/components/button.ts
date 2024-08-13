@@ -1,5 +1,5 @@
 import {html, css, type CSSResult} from 'lit';
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   TiniElement,
@@ -16,8 +16,6 @@ import {
   generateSchemableGradientVariants,
   generateSizeVariants,
 } from '@tinijs/core';
-
-import {LinkTargets} from './link.js';
 
 export type Component = import('./button.js').default;
 
@@ -41,7 +39,7 @@ export default class extends TiniElement {
   @property({type: Boolean, reflect: true}) block = false;
   @property({type: Boolean, reflect: true}) disabled = false;
   @property({type: String, reflect: true}) href?: boolean;
-  @property({type: String, reflect: true}) target?: LinkTargets;
+  @property({type: String, reflect: true}) target?: string;
   @property({type: String, reflect: true}) color?: Colors | SubtleColors | ContrastColors;
   @property({type: String, reflect: true}) gradient?: Gradients | SubtleGradients | ContrastGradients;
   @property({type: String, reflect: true}) size?: Sizes;

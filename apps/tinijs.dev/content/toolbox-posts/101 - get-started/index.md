@@ -6,6 +6,8 @@
 }
 +++
 
+<tini-message color="warning-subtle">The development of <strong>Tini Toolbox</strong> is currently pending because I'm focusing on <a href="/ui">Tini UI</a>. In the meantime, anything that works on browsers probably works in TiniJS apps, therefore please use those libraries directly. For more details about working with utilites, please see <a href="/framework/adding-features">features and interoperable</a>. 🙇‍♂️</tini-message>
+
 **Tini Toolbox** is a collection of commonly used utilities and services for building web applications. It is aimed to provide every useful tools from a wide range of categories in a unified place.
 
 The utils and services can be used with TiniJS framework and other frameworks or no framework.

@@ -1,5 +1,5 @@
 import {html, css, type CSSResult} from 'lit';
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,
@@ -38,7 +38,7 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
-  protected handleProperties() {
+  protected beforeUpdate() {
     // validations
     if (!this.totalPage || this.totalPage < 1) {
       throw new Error(

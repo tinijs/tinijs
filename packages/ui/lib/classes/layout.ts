@@ -1,5 +1,5 @@
 import {html} from 'lit';
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 import {
   TiniElement,
   parseColorValue,

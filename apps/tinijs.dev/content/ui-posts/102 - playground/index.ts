@@ -190,20 +190,23 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
           <tini-text font="code">Text font</tini-text><br />
           <tini-text weight="900">Text weight</tini-text><br />
           <tini-text italic>Italic text</tini-text><br />
+          <tini-text decoration="underline wavy danger"
+            >Decorated text</tini-text
+          ><br />
           <tini-text color="medium">Muted text</tini-text><br />
           <tini-text color="success">Color text</tini-text><br />
-          <tini-text gradient="danger" size="xl">Big gradient text</tini-text
+          <tini-text gradient="linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%)"
+            >Gradient text</tini-text
           ><br />
+          <tini-text size="xl">Big text</tini-text><br />
           <tini-text size="xs">Small text</tini-text><br />
-          <tini-text align="right" max="250px">Aligned text</tini-text>
-          <tini-text dir="rtl" max="250px"
-            >הַלְלוּ־יָהּ (right to left)</tini-text
-          >
+          <tini-text align="end" max="250px">Aligned text</tini-text>
+          <tini-text dir="rtl" max="200px">הַלְלוּ־יָהּ (RTL)</tini-text>
           <tini-text overflow="ellipsis" max="165px"
-            >Overflow (ellipsis) text</tini-text
+            >Overflow (ellipsis) long long long</tini-text
           >
           <tini-text overflow="fade" max="140px"
-            >Overflow (fade) text</tini-text
+            >Overflow (fade) long long long</tini-text
           >
           <tini-text writing="vertical-rl">ラーメン (vertical)</tini-text>
         </div>
@@ -353,12 +356,52 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
         <div class="content">
           <tini-heading>Heading level 1</tini-heading>
           <tini-heading level="2">Heading level 2</tini-heading>
-          <tini-heading level="3" color="success"
-            >Color heading level 3</tini-heading
+          <tini-heading level="3">Heading level 3</tini-heading>
+          <tini-heading level="4">Heading level 4</tini-heading>
+          <tini-heading level="5">Heading level 5</tini-heading>
+          <tini-heading level="6">Heading level 6</tini-heading>
+
+          <p class="desc">Permalink</p>
+          <tini-heading level="3" preset="selfLink"
+            >Self permalink, always</tini-heading
           >
-          <tini-heading level="4" gradient="danger"
-            >Gradient heading level 4</tini-heading
+          <tini-heading level="3" preset="selfLink" selfLinkVisibility="hover"
+            >Self permalink, hover</tini-heading
           >
+          <tini-heading
+            level="3"
+            preset="selfLink"
+            selfLinkDecoration="underline wavy danger"
+            >Self permalink, custom underline</tini-heading
+          >
+          <tini-heading level="3" preset="insideLinkAfter" insideLinkSize="0.75"
+            >After permalink, always</tini-heading
+          >
+          <tini-heading
+            level="3"
+            preset="insideLinkBefore"
+            insideLinkSize="0.75"
+            insideLinkSpace="0"
+            >Before permalink, adaptive</tini-heading
+          >
+          <tini-heading level="3" preset="insideLinkAfter" insideLinkSymbol="🔗"
+            >After permalink with <a href="#">link</a> and <code>code</code> and
+            custom symbol</tini-heading
+          >
+
+          <p class="desc">Other</p>
+          <tini-heading level="3">
+            <tini-text color="medium">Muted heading</tini-text>
+          </tini-heading>
+          <tini-heading level="3">
+            <tini-text color="success">Color heading</tini-text>
+          </tini-heading>
+          <tini-heading level="3">
+            <tini-text
+              gradient="linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%)"
+              >Gradient heading</tini-text
+            >
+          </tini-heading>
         </div>
       </section>
 

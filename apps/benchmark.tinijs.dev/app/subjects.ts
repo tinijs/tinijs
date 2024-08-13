@@ -13,7 +13,7 @@ export const BOX_SUBJECT = info({
   desc: 'The tini-box component.',
   path: '/ui/box',
   docPath: '/ui/box',
-  batches: [7, 500, 1000],
+  batches: [7, 1000, 2000],
 });
 
 export const BOX_FULL_SUBJECT = info({
@@ -21,7 +21,7 @@ export const BOX_FULL_SUBJECT = info({
   desc: 'The tini-box component (full).',
   path: '/ui/box-full',
   docPath: '/ui/box',
-  batches: [1, 500, 1000],
+  batches: [1, 1000, 2000],
 });
 
 export const BOX_OVERLOAD_SUBJECT = info({
@@ -29,7 +29,7 @@ export const BOX_OVERLOAD_SUBJECT = info({
   desc: 'The tini-box component (overloaded).',
   path: '/ui/box-overload',
   docPath: '/ui/box',
-  batches: [1, 500, 1000],
+  batches: [1, 1000, 2000],
 });
 
 export const FLEX_SUBJECT = info({
@@ -37,7 +37,7 @@ export const FLEX_SUBJECT = info({
   desc: 'The tini-flex component.',
   path: '/ui/flex',
   docPath: '/ui/flex',
-  batches: [1, 500, 1000],
+  batches: [1, 1000, 2000],
 });
 
 export const GRID_SUBJECT = info({
@@ -56,20 +56,28 @@ export const CONTAINER_SUBJECT = info({
   batches: [1, 500, 1000],
 });
 
-export const HEADING_SUBJECT = info({
-  title: 'tini-heading',
-  desc: 'The tini-heading component.',
-  path: '/ui/heading',
-  docPath: '/ui/heading',
-  batches: [6, 100, 1000],
+export const TEXT_SUBJECT = info({
+  title: 'tini-text',
+  desc: 'The tini-text component.',
+  path: '/ui/text',
+  docPath: '/ui/text',
+  batches: [15, 1000, 2000],
 });
 
-export const LINK_SUBJECT = info({
-  title: 'tini-link',
-  desc: 'The tini-link component.',
-  path: '/ui/link',
-  docPath: '/ui/link',
-  batches: [8, 100, 1000],
+export const TEXT_CLASS_SUBJECT = info({
+  title: 'Class-styled texts',
+  desc: 'Texts using classes.',
+  path: '/ui/text-class',
+  docPath: '/ui/design-tokens#typography',
+  batches: [15, 1000, 2000],
+});
+
+export const TEXT_INLINE_SUBJECT = info({
+  title: 'Inline-styled texts',
+  desc: 'Texts using inline styles.',
+  path: '/ui/text-inline',
+  docPath: '/ui/design-tokens#typography',
+  batches: [15, 1000, 2000],
 });
 
 export const IMAGE_SUBJECT = info({
@@ -80,28 +88,20 @@ export const IMAGE_SUBJECT = info({
   batches: [7, 500, 1000],
 });
 
-export const TEXT_SUBJECT = info({
-  title: 'tini-text',
-  desc: 'The tini-text component.',
-  path: '/ui/text',
-  docPath: '/ui/text',
-  batches: [15, 1000, 10000],
+export const HEADING_SUBJECT = info({
+  title: 'tini-heading',
+  desc: 'The tini-heading component.',
+  path: '/ui/heading',
+  docPath: '/ui/heading',
+  batches: [7, 500, 1000],
 });
 
-export const TEXT_CLASS_SUBJECT = info({
-  title: 'Class-styled texts',
-  desc: 'Texts using classes.',
-  path: '/ui/text-class',
-  docPath: '/ui/design-tokens#typography',
-  batches: [15, 1000, 10000],
-});
-
-export const TEXT_INLINE_SUBJECT = info({
-  title: 'Inline-styled texts',
-  desc: 'Texts using inline styles.',
-  path: '/ui/text-inline',
-  docPath: '/ui/design-tokens#typography',
-  batches: [15, 1000, 10000],
+export const LINK_SUBJECT = info({
+  title: 'tini-link',
+  desc: 'The tini-link component.',
+  path: '/ui/link',
+  docPath: '/ui/link',
+  batches: [8, 500, 1000],
 });
 
 export default [
@@ -112,10 +112,10 @@ export default [
   FLEX_SUBJECT,
   GRID_SUBJECT,
   CONTAINER_SUBJECT,
-  HEADING_SUBJECT,
-  LINK_SUBJECT,
-  IMAGE_SUBJECT,
   TEXT_SUBJECT,
   TEXT_CLASS_SUBJECT,
   TEXT_INLINE_SUBJECT,
+  IMAGE_SUBJECT,
+  HEADING_SUBJECT,
+  LINK_SUBJECT,
 ];

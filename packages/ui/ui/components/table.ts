@@ -1,5 +1,5 @@
 import {html, css, type TemplateResult, type CSSResult} from 'lit';
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 
 import {TiniElement, ElementParts, createStyleBuilder} from '@tinijs/core';
@@ -26,7 +26,7 @@ export default class extends TiniElement {
   @property({type: Array}) items!: TableItem[][];
   /* eslint-enable prettier/prettier */
 
-  protected handleProperties() {
+  protected beforeUpdate() {
     if (!this.items?.length)
       throw new Error('Property "items" must be a 2-dimensional array.');
   }

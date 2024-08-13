@@ -1,5 +1,5 @@
 import {html, css, type PropertyValues, type CSSResult} from 'lit';
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
 import {ref, createRef} from 'lit/directives/ref.js';
 
@@ -8,9 +8,10 @@ import {
   partAttrMap,
   ElementParts,
   createStyleBuilder,
-  mergeDirectOrRecordStyles,
   type DirectOrRecordStyles,
 } from '@tinijs/core';
+
+type ComponentConstructor = typeof import('./code.js').default;
 
 export enum CodeParts {
   Main = ElementParts.Main,
@@ -27,13 +28,11 @@ export type CodeConfig = {
   theme?: DirectOrRecordStyles;
 };
 
-type ComponentConstructor = typeof import('./code.js').default;
-
 export default class extends TiniElement {
   private static highlight: CodeHighlight = code => code;
   static config(config: CodeConfig) {
     this.highlight = config.highlight;
-    this.styles = mergeDirectOrRecordStyles(this.styles, config.theme);
+    if (config.theme) this.addStyles(config.theme);
   }
 
   /* eslint-disable prettier/prettier */
@@ -43,7 +42,7 @@ export default class extends TiniElement {
 
   private readonly codeRef = createRef<HTMLElement>();
 
-  protected handleProperties() {
+  protected beforeUpdate() {
     if (!this.language) throw new Error('Property "language" is required.');
     if (!this.content) throw new Error('Property "content" is required.');
   }

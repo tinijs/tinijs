@@ -19,6 +19,8 @@ import {
   extractStylesFromDirectOrRecordStyles,
   stylesToAdoptableStyles,
   stylesToText,
+  mergeDirectOrRecordStyles,
+  type UI,
   type ActiveTheme,
   type Theming,
   type CSSResultOrNativeOrRaw,
@@ -38,6 +40,11 @@ import {
   type EventForwardingInput,
 } from '../utils/event.js';
 
+export enum ElementParts {
+  BG = 'bg',
+  Main = 'main',
+}
+
 export interface ComponentMetadata {
   customMainSelector?: string;
   restyleAtUpdate?: boolean;
@@ -46,9 +53,10 @@ export interface ComponentMetadata {
   unstableMessage?: string;
 }
 
-export enum ElementParts {
-  BG = 'bg',
-  Main = 'main',
+export interface ComputedStylesQuery {
+  type: 'media' | 'container';
+  key: string;
+  value: string;
 }
 
 export const stringOrObjectOrArrayConverter: ComplexAttributeConverter = {
@@ -82,6 +90,10 @@ export class TiniElement extends LitElement {
   static styles?: any; // any = DirectOrRecordStyles
   static events?: EventForwardingInput;
 
+  static addStyles(styles: DirectOrRecordStyles) {
+    this.styles = mergeDirectOrRecordStyles(this.styles, styles);
+  }
+
   /* eslint-disable prettier/prettier */
   @property({type: Boolean, reflect: true}) restyleAtUpdate = false;
   @property({converter: stringOrObjectOrArrayConverter}) styleDeep?: DirectOrRecordStyles;
@@ -91,16 +103,15 @@ export class TiniElement extends LitElement {
   private customTemplates = this.getTemplates();
   private themingScripts = this.getScripts();
 
-  private readonly willAdoptStylesAtUpdate = !!(
+  private readonly willApplyStylesAtUpdate = !!(
     this.restyleAtUpdate ||
     (this.constructor as typeof TiniElement).componentMetadata.restyleAtUpdate
   );
 
-  protected handleProperties() {
-    // placeholder for defaults and validations
-  }
-
-  protected computedStyles(props: Record<string, any>): Styles {
+  protected computedStyles(
+    props: Record<string, any>,
+    query?: ComputedStylesQuery
+  ): Styles {
     return [];
   }
 
@@ -115,8 +126,8 @@ export class TiniElement extends LitElement {
     // re-adopt styles
     const component = this.constructor as typeof LitElement;
     component.elementStyles = component.finalizeStyles(component.styles);
-    if (!this.willAdoptStylesAtUpdate) {
-      this.adoptStyles(this.shadowRoot || this);
+    if (!this.willApplyStylesAtUpdate) {
+      this.applyStyles(this.shadowRoot || this);
     }
     // continue update cycle
     return this.requestUpdate();
@@ -128,8 +139,8 @@ export class TiniElement extends LitElement {
       this.attachShadow(
         (this.constructor as typeof LitElement).shadowRootOptions
       );
-    if (!this.willAdoptStylesAtUpdate) {
-      this.adoptStyles(renderRoot);
+    if (!this.willApplyStylesAtUpdate) {
+      this.applyStyles(renderRoot);
     }
     return renderRoot;
   }
@@ -152,17 +163,21 @@ export class TiniElement extends LitElement {
     // placeholder for the onTheme() hook
   }
 
+  protected beforeUpdate(changedProperties: PropertyValues<this>) {
+    // placeholder for before update
+  }
+
   protected willUpdate(changedProperties: PropertyValues<this>) {
-    // defaults and validations
-    this.handleProperties();
+    // before update
+    this.beforeUpdate(changedProperties);
     // adopt styles at update
-    if (this.willAdoptStylesAtUpdate) {
-      this.adoptStyles(this.shadowRoot || this);
+    if (this.willApplyStylesAtUpdate) {
+      this.applyStyles(this.shadowRoot || this);
     }
   }
 
   protected updated(changedProperties: PropertyValues<this>) {
-    this.adoptScripts();
+    this.applyScripts();
     this.forwardEvents();
   }
 
@@ -236,46 +251,7 @@ export class TiniElement extends LitElement {
     forwardEvents(this, eventForwardings);
   }
 
-  private finalizeComputedStyles() {
-    const result: string[] = [];
-    const {mediaQueries, containerQueries} = this as unknown as {
-      mediaQueries?: Record<string, Record<string, unknown>>;
-      containerQueries?: Record<string, Record<string, unknown>>;
-    };
-    // main
-    const mainStyles = this.computedStyles(this);
-    if (mainStyles instanceof Array ? mainStyles.length : mainStyles) {
-      result.push(stylesToText(mainStyles));
-    }
-    // media queries
-    if (mediaQueries) {
-      for (const [key, value] of Object.entries(mediaQueries)) {
-        const query = !BREAKPOINT_VALUES[key]
-          ? key
-          : `(min-width: ${BREAKPOINT_VALUES[key]})`;
-        const styles = this.computedStyles(value);
-        if (styles instanceof Array ? styles.length : styles) {
-          result.push(`@media ${query} { ${stylesToText(styles)} }`);
-        }
-      }
-    }
-    // container queries
-    if (containerQueries) {
-      for (const [key, value] of Object.entries(containerQueries)) {
-        const query = !BREAKPOINT_VALUES[key]
-          ? key
-          : `(min-width: ${BREAKPOINT_VALUES[key]})`;
-        const styles = this.computedStyles(value);
-        if (styles instanceof Array ? styles.length : styles) {
-          result.push(`@container ${query} { ${stylesToText(styles)} }`);
-        }
-      }
-    }
-    // result
-    return result;
-  }
-
-  private adoptStyles(renderRoot: HTMLElement | DocumentFragment) {
+  private applyStyles(renderRoot: HTMLElement | DocumentFragment) {
     const optionalUI = getOptionalUI();
     const styles = (this.constructor as typeof LitElement).elementStyles
       .concat(stylesToAdoptableStyles(this.finalizeComputedStyles()))
@@ -290,7 +266,7 @@ export class TiniElement extends LitElement {
     adoptStyles(renderRoot as unknown as ShadowRoot, styles);
   }
 
-  private adoptScripts() {
+  private applyScripts() {
     if (!this.themingScripts) return;
     this.themingScripts.deactivate?.(this);
     this.themingScripts.activate?.(this);
@@ -315,6 +291,53 @@ export class TiniElement extends LitElement {
           (this.constructor as typeof TiniElement).theming,
           optionalUI.activeTheme
         );
+  }
+
+  private finalizeComputedStyles() {
+    const result: string[] = [];
+    const {mediaQueries, containerQueries} = this as unknown as {
+      mediaQueries?: Record<string, Record<string, unknown>>;
+      containerQueries?: Record<string, Record<string, unknown>>;
+    };
+    // main
+    const mainStyles = this.computedStyles(this);
+    if (mainStyles instanceof Array ? mainStyles.length : mainStyles) {
+      result.push(stylesToText(mainStyles));
+    }
+    // media queries
+    if (mediaQueries) {
+      for (const [key, value] of Object.entries(mediaQueries)) {
+        const query = !BREAKPOINT_VALUES[key]
+          ? key
+          : `(min-width: ${BREAKPOINT_VALUES[key]})`;
+        const styles = this.computedStyles(value, {
+          type: 'media',
+          key,
+          value: query,
+        });
+        if (styles instanceof Array ? styles.length : styles) {
+          result.push(`@media ${query} { ${stylesToText(styles)} }`);
+        }
+      }
+    }
+    // container queries
+    if (containerQueries) {
+      for (const [key, value] of Object.entries(containerQueries)) {
+        const query = !BREAKPOINT_VALUES[key]
+          ? key
+          : `(min-width: ${BREAKPOINT_VALUES[key]})`;
+        const styles = this.computedStyles(value, {
+          type: 'container',
+          key,
+          value: query,
+        });
+        if (styles instanceof Array ? styles.length : styles) {
+          result.push(`@container ${query} { ${stylesToText(styles)} }`);
+        }
+      }
+    }
+    // result
+    return result;
   }
 
   protected static finalizeStyles(styles?: any) {

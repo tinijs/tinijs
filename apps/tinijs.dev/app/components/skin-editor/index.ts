@@ -1,5 +1,5 @@
 import {html, css, render, nothing} from 'lit';
-import {queryAll} from 'lit/decorators.js';
+import {queryAll} from 'lit/decorators/query-all.js';
 import {repeat} from 'lit/directives/repeat.js';
 import {ref, createRef} from 'lit/directives/ref.js';
 import {

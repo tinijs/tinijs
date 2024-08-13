@@ -1,4 +1,4 @@
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 import {parseSingleSpaceValue, parseMultipleSpaceValue} from '@tinijs/core';
 
 import {

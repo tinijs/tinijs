@@ -1,5 +1,5 @@
 import {html} from 'lit';
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 
 import {
@@ -89,7 +89,7 @@ export default class extends TiniElement {
   @property({type: Object}) containerQueries?: Record<string, ImageStyleProps>;
   /* eslint-enable prettier/prettier */
 
-  protected handleProperties() {
+  protected beforeUpdate() {
     if (!this.src) throw new Error('Property "src" is required.');
   }
 
@@ -158,7 +158,9 @@ export default class extends TiniElement {
         : props.innerMask
     };`);
     /* eslint-enable prettier/prettier */
-    return `:host { ${hostItems.join('')} } .main { ${imgItems.join('')} }`;
+    return `:host { ${hostItems.join('')} } .${
+      ImageParts.Img
+    } { ${imgItems.join('')} }`;
   }
 
   protected render() {

@@ -515,6 +515,14 @@ export async function buildSetup({manualSkinSelection}: UIConfig) {
   return setupTS.toResult('setup.ts');
 }
 
+export async function buildLit() {
+  const litTS = createGenFile();
+  // exports
+  litTS.addExport('lit', ['html', 'css']);
+  // result
+  return litTS.toResult('lit.ts');
+}
+
 export async function buildPackageJSON(
   packageJSON: NonNullable<UIConfig['packageJSON']>,
   withIcons: boolean

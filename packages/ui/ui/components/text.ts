@@ -1,7 +1,9 @@
 import {html} from 'lit';
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 import {
   TiniElement,
+  isRTL,
+  isBuiltinColor,
   parseColorValue,
   parseGradientValue,
   parseFontValue,
@@ -9,6 +11,7 @@ import {
   parseLineValue,
   parseLetterValue,
   parseWordValue,
+  parseSingleSpaceValue,
   parseWideValue,
 } from '@tinijs/core';
 
@@ -21,6 +24,7 @@ export interface TextStyleProps {
   weight?: string;
   italic?: boolean;
   decoration?: string;
+  underlineOffset?: string;
   line?: string;
   letter?: string;
   word?: string;
@@ -31,6 +35,13 @@ export interface TextStyleProps {
   overflow?: 'none' | 'clip' | 'ellipsis' | 'fade';
   max?: string;
   align?: string;
+}
+
+export function parseDecorationValue(raw: string) {
+  return raw
+    .split(' ')
+    .map(item => (isBuiltinColor(item) ? `var(--color-${item})` : item))
+    .join(' ');
 }
 
 export default class extends TiniElement {
@@ -47,6 +58,7 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) weight?: TextStyleProps['weight'];
   @property({type: Boolean, reflect: true}) italic: TextStyleProps['italic'] = false;
   @property({type: String, reflect: true}) decoration?: TextStyleProps['decoration'];
+  @property({type: String, reflect: true}) underlineOffset?: TextStyleProps['underlineOffset'];
   @property({type: String, reflect: true}) line?: TextStyleProps['line'];
   @property({type: String, reflect: true}) letter?: TextStyleProps['letter'];
   @property({type: String, reflect: true}) word?: TextStyleProps['word'];
@@ -60,6 +72,8 @@ export default class extends TiniElement {
 
   protected computedStyles(props: TextStyleProps) {
     const items: string[] = [];
+    const isFinalRTL = props.dir === 'rtl' || isRTL();
+    const isVertical = props.writing?.startsWith('vertical');
     /* eslint-disable prettier/prettier */
     if (props.block !== undefined) items.push(`display: ${props.block ? 'block' : 'inline'};`);
     if (props.align || props.overflow || props.max) items.push('display: block;');
@@ -75,13 +89,20 @@ export default class extends TiniElement {
     if (props.size) items.push(`font-size: ${parseTextValue(props.size)};`);
     if (props.weight) items.push(`font-weight: ${props.weight};`);
     if (props.italic) items.push('font-style: italic;');
-    if (props.decoration) items.push(`text-decoration: ${props.decoration};`);
+    if (props.decoration) {
+      const decoration = parseDecorationValue(props.decoration);
+      items.push(
+        `-webkit-text-decoration: ${decoration};`,
+        `text-decoration: ${decoration};`
+      );
+    }
+    if (props.underlineOffset) items.push(`text-underline-offset: ${parseSingleSpaceValue(props.underlineOffset)};`);
     if (props.line) items.push(`line-height: ${parseLineValue(props.line)};`);
     if (props.letter) items.push(`letter-spacing: ${parseLetterValue(props.letter)};`);
     if (props.word) items.push(`word-spacing: ${parseWordValue(props.word)};`);
     if (props.transform) items.push(`text-transform: ${props.transform};`);
     if (props.shadow) items.push(`text-shadow: ${props.shadow};`);
-    if (props.dir) items.push(`direction: ${props.dir};`);
+    if (props.dir || isFinalRTL) items.push(`direction: ${isFinalRTL ? 'rtl': props.dir};`);
     if (props.writing) items.push(`writing-mode: ${props.writing};`);
     if (props.overflow) {
       if (props.overflow !== 'none') {
@@ -91,13 +112,8 @@ export default class extends TiniElement {
           `text-overflow: ${props.overflow !== 'ellipsis' ? 'clip' : 'ellipsis'};`
         );
         if (props.overflow === 'fade') {
-          if (props.dir === 'rtl') {
-            items.push('mask: linear-gradient(to left, black calc(100% - 2em), transparent);');
-          } else if (props.writing?.startsWith('vertical')) {
-            items.push('mask: linear-gradient(to bottom, black calc(100% - 2em), transparent);');
-          } else {
-            items.push('mask: linear-gradient(to right, black calc(100% - 2em), transparent);');
-          }
+          const gradientDirection = isFinalRTL && isVertical ? 'to top' : isFinalRTL ? 'to left' : isVertical ? 'to bottom' : 'to right';
+          items.push(`mask: linear-gradient(${gradientDirection}, black calc(100% - 2em), transparent);`);
         }
       } else {
         items.push(
@@ -109,7 +125,7 @@ export default class extends TiniElement {
       }
     }
     if (props.max) {
-      if (props.writing?.startsWith('vertical')) {
+      if (isVertical) {
         items.push(`height: ${parseWideValue(props.max)};`);
       } else {
         items.push(`width: ${parseWideValue(props.max)};`);

@@ -105,24 +105,20 @@ export default class extends TiniElement {
   }
 
   protected render() {
-    return this.partRender(
-      LinkParts.Main,
-      mainChildren => html`
-        <a
-          router-ignore
-          ${ref(this.anchorRef)}
-          class=${LinkParts.Main}
-          part=${LinkParts.Main}
-          href=${this.href || '/'}
-          target=${ifDefined(this.target)}
-          rel=${ifDefined(this.rel)}
-          @click=${this.clickLink}
-        >
-          <slot></slot>
-          ${mainChildren()}
-        </a>
-      `
-    );
+    return html`
+      <a
+        router-ignore
+        ${ref(this.anchorRef)}
+        class=${LinkParts.Main}
+        part=${LinkParts.Main}
+        href=${this.href || '/'}
+        target=${ifDefined(this.target)}
+        rel=${ifDefined(this.rel)}
+        @click=${this.clickLink}
+      >
+        <slot></slot>
+      </a>
+    `;
   }
 }
 

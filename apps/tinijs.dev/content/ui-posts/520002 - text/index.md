@@ -26,11 +26,13 @@
 | `weight`           | `string`                                                                                                                                                                     | -       |
 | `italic`           | `boolean`                                                                                                                                                                    | -       |
 | `decoration`       | `string`                                                                                                                                                                     | -       |
+| `underlineOffset`  | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                                                                       | -       |
 | `line`             | [Line heights](/ui/design-tokens#line-heights) or valid CSS values                                                                                                           | -       |
 | `letter`           | [Letter spacings](/ui/design-tokens#letter-spacings) or valid CSS values                                                                                                     | -       |
 | `word`             | [Word spacings](/ui/design-tokens#word-spacings) or valid CSS values                                                                                                         | -       |
 | `transform`        | `string`                                                                                                                                                                     | -       |
 | `shadow`           | `string`                                                                                                                                                                     | -       |
+| `dir`              | `ltr`, `rtl` - either globally (on `<html>` or `<body>`) or locally.                                                                                                         | -       |
 | `writing`          | `string`                                                                                                                                                                     | -       |
 | `overflow`         | `clip`, `ellipsis`, `fade`                                                                                                                                                   | -       |
 | `max`              | Max horizontal width or vertical height, [wides](/ui/design-tokens#wides) or valid CSS values                                                                                | -       |

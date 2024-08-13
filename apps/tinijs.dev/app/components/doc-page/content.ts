@@ -174,7 +174,6 @@ export class AppDocPageContentComponent
             align-items: center;
             margin: 0.75em 0 0.5em;
             padding-bottom: 0;
-            border-bottom: none;
             display: flex;
             align-items: center;
             gap: var(--space-xs);
@@ -187,6 +186,10 @@ export class AppDocPageContentComponent
 
             &:hover .header-anchor {
               visibility: visible;
+            }
+
+            &::after {
+              display: none;
             }
           }
 

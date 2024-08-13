@@ -22,17 +22,17 @@ export class AppPageUIDevTextComponent extends TiniComponent {
 
   protected render() {
     return html`
-      <ui-dev-section titleText="Natives">
+      <ui-dev-section titleText="Basics">
         <span>Lorem ipsum (span)</span><br />
-        <strong>Lorem ipsum (strong)</strong><br />
-        <em>Lorem ipsum (em)</em><br />
-        <p>Lorem ipsum (p)</p>
-      </ui-dev-section>
-
-      <ui-dev-section titleText="Defaults">
         <tini-text>Lorem ipsum (default)</tini-text><br />
+
+        <strong>Lorem ipsum (strong)</strong><br />
         <tini-text weight="bold">Lorem ipsum (weight=bold)</tini-text><br />
+
+        <em>Lorem ipsum (em)</em><br />
         <tini-text italic>Lorem ipsum (italic)</tini-text><br />
+
+        <p>Lorem ipsum (p)</p>
         <tini-text block>Lorem ipsum (block)</tini-text>
       </ui-dev-section>
 
@@ -159,7 +159,7 @@ export class AppPageUIDevTextComponent extends TiniComponent {
         >
       </ui-dev-section>
 
-      <ui-dev-section titleText="Decorators">
+      <ui-dev-section titleText="Decorations">
         ${[
           'underline',
           'underline dotted red',
@@ -171,6 +171,12 @@ export class AppPageUIDevTextComponent extends TiniComponent {
                 >Lorem ipsum (decoration=${decoration})</tini-text
               ><br />`
         )}
+        <tini-text decoration="underline 3px" underlineOffset="sm"
+          >Lorem ipsum (underlineOffset=sm)</tini-text
+        ><br />
+        <tini-text decoration="underline 3px" underlineOffset="1rem"
+          >Lorem ipsum (underlineOffset=1rem)</tini-text
+        ><br />
       </ui-dev-section>
 
       <ui-dev-section titleText="Transforms">

@@ -15,15 +15,12 @@ export class AppPageUIDevImageComponent extends TiniComponent {
 
   protected render() {
     return html`
-      <ui-dev-section titleText="Natives">
+      <ui-dev-section titleText="Basics">
         <img src=${SRC} />
-      </ui-dev-section>
-
-      <ui-dev-section titleText="Default">
         <tini-image src=${SRC}></tini-image>
       </ui-dev-section>
 
-      <ui-dev-section titleText="Ratio, Width, height, radius">
+      <ui-dev-section titleText="Ratio, width, height, radius">
         <tini-image src=${SRC} ratio="16/9" width="250px"></tini-image>
         <tini-image src=${SRC} ratio="4/3" width="250px"></tini-image>
         <tini-image src=${SRC} ratio="1/1" width="250px"></tini-image>

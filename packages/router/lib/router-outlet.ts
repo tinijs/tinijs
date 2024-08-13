@@ -1,5 +1,5 @@
 import {LitElement} from 'lit';
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 
 import {NO_ROUTER_FOR_OUTLET_ERROR} from './consts.js';
 import type {ActivatedRoute, RouteHook, ElemHook} from './types.js';

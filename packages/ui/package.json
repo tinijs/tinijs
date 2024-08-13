@@ -46,6 +46,7 @@
     "@tinijs/cli": "^0.21.1",
     "@tinijs/core": "^0.21.1",
     "@tinijs/project": "^0.21.0",
+    "@tinijs/router": "^0.21.0",
     "colorette": "^2.0.20",
     "consola": "^3.2.3",
     "defu": "^6.1.4",

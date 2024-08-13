@@ -12,3 +12,11 @@ export function listify<Type>(itemOrItems: Type | Type[] | null | undefined) {
       ? itemOrItems
       : [itemOrItems];
 }
+
+export function isRTL() {
+  return document.dir === 'rtl' || document.body.dir === 'rtl';
+}
+
+export function isImageURLOrURI(str: string) {
+  return str.startsWith('http') || str.startsWith('data:image');
+}

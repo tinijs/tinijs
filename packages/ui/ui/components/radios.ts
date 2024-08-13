@@ -1,5 +1,5 @@
 import {html, nothing, css, type CSSResult} from 'lit';
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,
@@ -41,7 +41,7 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
-  protected handleProperties() {
+  protected beforeUpdate() {
     if (!this.items.length)
       throw new Error(
         'Property "items" is required  and must contain at least 1 item.'

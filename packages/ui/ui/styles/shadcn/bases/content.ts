@@ -26,8 +26,18 @@ export const heading = css`
   }
 
   h2 {
+    position: relative;
     font-size: 1.875rem;
     padding-bottom: 0.35em;
+  }
+
+  h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
     border-bottom: var(--border-md) solid var(--color-body-semi);
   }
 
@@ -46,6 +56,22 @@ export const heading = css`
   h6 {
     font-size: 1.1rem;
   }
+
+  h1 a,
+  h2 a,
+  h3 a,
+  h4 a,
+  h5 a,
+  h6 a,
+  h1 code,
+  h2 code,
+  h3 code,
+  h4 code,
+  h5 code,
+  h6 code {
+    font-weight: inherit;
+    font-size: 1em;
+  }
 `;
 
 export const text = bootstrapText;
@@ -55,6 +81,11 @@ export const link = css`
     color: var(--color-primary);
     text-decoration: underline;
     font-weight: 500;
+  }
+
+  a code {
+    font-weight: inherit;
+    font-size: 1em;
   }
 `;
 

@@ -145,6 +145,14 @@ export class ContentUIPostTextComponent extends TiniComponent {
             target: 'decoration',
           },
           {
+            section: 'input',
+            attrs: {
+              label: 'Underline offset',
+              placeholder: 'sm, 0.5rem, ...',
+            },
+            target: 'underlineOffset',
+          },
+          {
             section: 'select',
             attrs: {label: 'Line height', preset: 'lines'},
             target: 'line',
