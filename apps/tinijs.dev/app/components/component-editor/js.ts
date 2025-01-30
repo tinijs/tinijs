@@ -1,12 +1,12 @@
 import {html, css} from 'lit';
+import {property} from 'lit/decorators/property.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import JSON5 from 'json5';
 
 import {
-  Component,
+  component,
+  event,
   TiniComponent,
-  Input,
-  Output,
   EventEmitter,
   type OnCreate,
   type OnChanges,
@@ -14,7 +14,7 @@ import {
 
 import {TiniTextareaComponent} from '../../ui/components/textarea.js';
 
-@Component({
+@component({
   components: [TiniTextareaComponent],
 })
 export class AppComponentEditorJSComponent
@@ -23,13 +23,13 @@ export class AppComponentEditorJSComponent
 {
   static readonly defaultTagName = 'app-component-editor-js';
 
-  @Input() label!: string;
-  @Input() placeholder?: string;
+  @property() label!: string;
+  @property() placeholder?: string;
 
-  @Input() target!: string;
-  @Input({type: Object}) value?: Record<string, any>;
+  @property() target!: string;
+  @property({type: Object}) value?: Record<string, any>;
 
-  @Output() change!: EventEmitter<Record<string, any>>;
+  @event() change!: EventEmitter<Record<string, any>>;
 
   onCreate() {
     if (!this.label) throw new Error('label is required');

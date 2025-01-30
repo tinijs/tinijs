@@ -1,22 +1,22 @@
 import {html, css} from 'lit';
 import {provide} from '@lit/context';
+import {property} from 'lit/decorators/property.js';
+import {state} from 'lit/decorators/state.js';
 import {ref, createRef} from 'lit/directives/ref.js';
 
 import {
-  Component,
+  component,
   TiniComponent,
-  Input,
-  Reactive,
   createComponentLoader,
   type SectionRenderData,
   type OnCreate,
   type OnInit,
   type OnDestroy,
 } from '@tinijs/core';
-import {UseMeta, type Meta} from '@tinijs/meta';
+import {useMeta, type Meta} from '@tinijs/meta';
 import {
-  UseRouter,
-  UseParams,
+  useRouter,
+  useParams,
   ROUTE_CHANGE_EVENT,
   type Router,
   type FragmentItem,
@@ -53,7 +53,7 @@ const componentLoader = createComponentLoader(
   }
 );
 
-@Component({
+@component({
   components: [
     AppDocPageMobileToolbarComponent,
     AppDocPageMenuComponent,
@@ -67,19 +67,19 @@ export class AppDocPageComponent
   implements OnCreate, OnInit, OnDestroy
 {
   static readonly defaultTagName = 'app-doc-page';
-  @UseMeta() readonly meta!: Meta;
-  @UseRouter() readonly router!: Router;
-  @UseParams() readonly params!: {slug?: string};
+  @useMeta() readonly meta!: Meta;
+  @useRouter() readonly router!: Router;
+  @useParams() readonly params!: {slug?: string};
 
   @provide({context: docPageContext})
-  @Input()
+  @property()
   context!: DocPageContext;
 
-  @Input() categoryService!: CategoryService;
-  @Input() postService!: PostService;
+  @property() categoryService!: CategoryService;
+  @property() postService!: PostService;
 
-  @Reactive() mobileMenuOpened = false;
-  @Reactive() mobileTOCOpened = false;
+  @state() mobileMenuOpened = false;
+  @state() mobileTOCOpened = false;
 
   private _currentRoutePath?: string;
   private _mobileToolbarRef = createRef<AppDocPageMobileToolbarComponent>();
@@ -95,16 +95,16 @@ export class AppDocPageComponent
     this._currentRoutePath = this.router.getActiveRoute().routePath;
   }
 
-  @Reactive() menuItems?: Array<{
+  @state() menuItems?: Array<{
     level: number;
     type: 'category' | 'post';
     item: DocCategory | DocPost;
   }>;
-  @Reactive() tocItems: FragmentItem[] = [];
-  @Reactive() allPosts?: DocPost[];
-  @Reactive() post: SectionRenderData<DocPostDetail>;
-  @Reactive() postPrev?: DocPost | null;
-  @Reactive() postNext?: DocPost | null;
+  @state() tocItems: FragmentItem[] = [];
+  @state() allPosts?: DocPost[];
+  @state() post: SectionRenderData<DocPostDetail>;
+  @state() postPrev?: DocPost | null;
+  @state() postNext?: DocPost | null;
 
   async onInit() {
     await this._loadData(this.params.slug);

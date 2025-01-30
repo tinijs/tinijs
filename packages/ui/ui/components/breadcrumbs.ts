@@ -5,7 +5,7 @@ import {
   type CSSResult,
   type TemplateResult,
 } from 'lit';
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,

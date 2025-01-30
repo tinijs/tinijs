@@ -53,7 +53,7 @@ Please provide them in 'app/providers.ts' or correcting its order:
   }
 }
 
-export function App(options: AppOptions = {}) {
+export function app(options: AppOptions = {}) {
   return function (target: any) {
     // register the exit of the app splashscreen
     if (options.splashscreen) {

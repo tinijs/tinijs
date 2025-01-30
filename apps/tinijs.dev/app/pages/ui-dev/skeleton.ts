@@ -1,10 +1,10 @@
 import {html, css} from 'lit';
 
-import {Component, TiniComponent, Radiuses} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
 import {TiniSkeletonComponent} from '../../ui/components/skeleton.js';
 
-@Component({
+@component({
   components: [TiniSkeletonComponent],
 })
 export class AppPageUIDevSkeletonComponent extends TiniComponent {

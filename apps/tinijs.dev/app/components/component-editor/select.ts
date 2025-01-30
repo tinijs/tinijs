@@ -1,4 +1,5 @@
 import {html, css} from 'lit';
+import {property} from 'lit/decorators/property.js';
 
 import {
   TiniSelectComponent,
@@ -7,10 +8,9 @@ import {
 } from '../../ui/components/select.js';
 
 import {
-  Component,
+  component,
+  event,
   TiniComponent,
-  Input,
-  Output,
   Colors,
   SubtleColors,
   ContrastColors,
@@ -28,7 +28,7 @@ import {
 
 import {parseName} from '../../utils/name.js';
 
-@Component({
+@component({
   components: [TiniSelectComponent],
 })
 export class AppComponentEditorSelectComponent
@@ -37,14 +37,14 @@ export class AppComponentEditorSelectComponent
 {
   static readonly defaultTagName = 'app-component-editor-select';
 
-  @Input() label!: string;
-  @Input() preset?: string;
-  @Input({type: Object}) items?: Array<SelectOption | SelectOptgroup>;
+  @property() label!: string;
+  @property() preset?: string;
+  @property({type: Object}) items?: Array<SelectOption | SelectOptgroup>;
 
-  @Input() target!: string;
-  @Input() value?: string;
+  @property() target!: string;
+  @property() value?: string;
 
-  @Output() change!: EventEmitter<string>;
+  @event() change!: EventEmitter<string>;
 
   private colors: SelectOptgroup[] = [
     {

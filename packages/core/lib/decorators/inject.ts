@@ -2,7 +2,7 @@ import {NO_REGISTER_ERROR} from '../consts/error.js';
 
 import {getDIRegistry} from '../utils/di.js';
 
-export function Inject(id?: string) {
+export function inject(id?: string) {
   return function (prototype: any, propertyName: string) {
     const depId = (id || propertyName) as string;
     const dependencyRegistry = getDIRegistry();
@@ -40,6 +40,6 @@ export function Inject(id?: string) {
   };
 }
 
-export function Vendor(id?: string) {
-  return Inject(id);
+export function vendor(id?: string) {
+  return inject(id);
 }

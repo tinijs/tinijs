@@ -1,13 +1,13 @@
 import {html, css, unsafeCSS} from 'lit';
 import {consume} from '@lit/context';
 import {unsafeHTML} from 'lit/directives/unsafe-html.js';
+import {property} from 'lit/decorators/property.js';
 import {ref, createRef} from 'lit/directives/ref.js';
 
 import {
-  Component,
+  component,
+  event,
   TiniComponent,
-  Input,
-  Output,
   EventEmitter,
   sectionRender,
   Sizes,
@@ -15,7 +15,7 @@ import {
   type SectionRenderData,
   type OnRenders,
 } from '@tinijs/core';
-import {UseRouter, type Router, type FragmentItem} from '@tinijs/router';
+import {useRouter, type Router, type FragmentItem} from '@tinijs/router';
 
 import {TiniMessageComponent} from '../../ui/components/message.js';
 import {TiniCodeComponent} from '../../ui/components/code.js';
@@ -30,7 +30,7 @@ import {IconEditComponent} from '../../icons/edit.js';
 
 import {prismThemeDark} from '../../utils/prism.js';
 
-@Component({
+@component({
   components: [
     TiniMessageComponent,
     TiniCodeComponent,
@@ -45,14 +45,14 @@ export class AppDocPageContentComponent
 {
   static readonly defaultTagName = 'app-doc-page-content';
 
-  @UseRouter() readonly router!: Router;
+  @useRouter() readonly router!: Router;
 
   @consume({context: docPageContext}) context!: DocPageContext;
 
-  @Input() postSlug?: string;
-  @Input() post: SectionRenderData<DocPostDetail>;
+  @property() postSlug?: string;
+  @property() post: SectionRenderData<DocPostDetail>;
 
-  @Output() renewFragments!: EventEmitter<FragmentItem[]>;
+  @event() renewFragments!: EventEmitter<FragmentItem[]>;
 
   private _articleRef = createRef<HTMLElement>();
 

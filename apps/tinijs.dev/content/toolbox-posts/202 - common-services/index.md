@@ -29,6 +29,6 @@ const providers = {
 // inject
 import type {CommonService} from '@tinijs/toolbox/common';
 class XXX {
-  @Inject() commonService!: CommonService;
+  @inject() commonService!: CommonService;
 }
 ```

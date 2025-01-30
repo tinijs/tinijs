@@ -1,10 +1,10 @@
 import {html, css} from 'lit';
 
-import {Component, TiniComponent, Colors, Gradients} from '@tinijs/core';
+import {component, TiniComponent, Colors, Gradients} from '@tinijs/core';
 
 import {TiniHeadingComponent} from '../../ui/components/heading.js';
 
-@Component({
+@component({
   components: [TiniHeadingComponent],
 })
 export class AppPageUIDevHeadingComponent extends TiniComponent {

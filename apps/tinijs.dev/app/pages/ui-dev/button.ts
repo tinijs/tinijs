@@ -1,10 +1,10 @@
 import {html, css} from 'lit';
 
-import {Component, TiniComponent, Colors, Gradients, Sizes} from '@tinijs/core';
+import {component, TiniComponent, Colors, Gradients, Sizes} from '@tinijs/core';
 
 import {TiniButtonComponent} from '../../ui/components/button.js';
 
-@Component({
+@component({
   components: [TiniButtonComponent],
 })
 export class AppPageUIDevButtonComponent extends TiniComponent {

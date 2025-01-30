@@ -1,12 +1,12 @@
 import {html, css} from 'lit';
 import {consume} from '@lit/context';
+import {property} from 'lit/decorators/property.js';
 import {classMap} from 'lit/directives/class-map.js';
 
 import {
-  Component,
+  component,
+  event,
   TiniComponent,
-  Input,
-  Output,
   EventEmitter,
   sectionRender,
   ContrastColors,
@@ -28,7 +28,7 @@ export interface MenuItem {
   item: DocCategory | DocPost;
 }
 
-@Component({
+@component({
   components: [IconHomeComponent, TiniLinkComponent, TiniSkeletonComponent],
 })
 export class AppDocPageMenuComponent extends TiniComponent {
@@ -36,10 +36,10 @@ export class AppDocPageMenuComponent extends TiniComponent {
 
   @consume({context: docPageContext}) context!: DocPageContext;
 
-  @Input() mobileOpened?: boolean;
-  @Input() menuItems: SectionRenderData<MenuItem[]>;
+  @property() mobileOpened?: boolean;
+  @property() menuItems: SectionRenderData<MenuItem[]>;
 
-  @Output() selectItem!: EventEmitter<void>;
+  @event() selectItem!: EventEmitter<void>;
 
   protected render() {
     return html`

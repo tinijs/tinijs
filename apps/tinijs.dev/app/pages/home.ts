@@ -1,7 +1,7 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent, Colors, Gradients} from '@tinijs/core';
-import {UseRouter, Router} from '@tinijs/router';
+import {page, TiniComponent, Colors, Gradients} from '@tinijs/core';
+import {useRouter, Router} from '@tinijs/router';
 import {TiniTextComponent} from '../ui/components/text.js';
 import {TiniButtonComponent} from '../ui/components/button.js';
 import {TiniEmbedComponent} from '../ui/components/embed.js';
@@ -10,7 +10,7 @@ import {IconHeartComponent} from '../icons/heart.js';
 
 import {LOGO_URL} from '../consts/common.js';
 
-@Page({
+@page({
   name: 'app-page-home',
   components: [
     TiniTextComponent,
@@ -20,7 +20,7 @@ import {LOGO_URL} from '../consts/common.js';
   ],
 })
 export class AppPageHome extends TiniComponent {
-  @UseRouter() readonly router!: Router;
+  @useRouter() readonly router!: Router;
 
   protected render() {
     return html`

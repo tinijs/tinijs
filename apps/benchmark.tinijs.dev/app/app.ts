@@ -1,7 +1,7 @@
 import {html} from 'lit';
 
 import {
-  App,
+  app,
   TiniComponent,
   registerConfig,
   type AppWithConfig,
@@ -20,7 +20,7 @@ import {globalStyles, shareStyles} from './styles.js';
 
 import './layouts/default.js';
 
-@App({providers})
+@app({providers})
 export class AppRoot
   extends TiniComponent
   implements AppWithConfig<AppConfig>, AppWithRouter, AppWithMeta, AppWithUI

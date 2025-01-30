@@ -1,10 +1,10 @@
 import {html, css} from 'lit';
+import {property} from 'lit/decorators/property.js';
 
 import {
-  Component,
+  component,
+  event,
   TiniComponent,
-  Input,
-  Output,
   type EventEmitter,
   type OnCreate,
 } from '@tinijs/core';
@@ -14,7 +14,7 @@ import {
   type RadiosItem,
 } from '../../ui/components/radios.js';
 
-@Component({
+@component({
   components: [TiniRadiosComponent],
 })
 export class AppComponentEditorRadiosComponent
@@ -23,13 +23,13 @@ export class AppComponentEditorRadiosComponent
 {
   static readonly defaultTagName = 'app-component-editor-radios';
 
-  @Input() label!: string;
-  @Input({type: Object}) items!: RadiosItem[];
+  @property() label!: string;
+  @property({type: Object}) items!: RadiosItem[];
 
-  @Input() target!: string;
-  @Input() value?: string;
+  @property() target!: string;
+  @property() value?: string;
 
-  @Output() change!: EventEmitter<string>;
+  @event() change!: EventEmitter<string>;
 
   onCreate() {
     if (!this.label) throw new Error('label is required');

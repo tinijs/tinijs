@@ -1,10 +1,10 @@
 import {html, css} from 'lit';
 
-import {Component, TiniComponent} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
 import {TiniEmbedComponent} from '../../ui/components/embed.js';
 
-@Component({
+@component({
   components: [TiniEmbedComponent],
 })
 export class AppPageUIDevEmbedComponent extends TiniComponent {

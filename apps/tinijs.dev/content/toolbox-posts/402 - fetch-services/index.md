@@ -29,6 +29,6 @@ const providers = {
 // inject
 import type {FetchService} from '@tinijs/toolbox/fetch';
 class XXX {
-  @Inject() fetchService!: FetchService;
+  @inject() fetchService!: FetchService;
 }
 ```

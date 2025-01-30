@@ -1,18 +1,10 @@
-import {html, css, nothing} from 'lit';
+import {html, css} from 'lit';
 
-import {
-  Component,
-  TiniComponent,
-  Colors,
-  SubtleColors,
-  Gradients,
-  SubtleGradients,
-  Sizes,
-} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
 import {TiniSelectComponent} from '../../ui/components/select.js';
 
-@Component({
+@component({
   components: [TiniSelectComponent],
 })
 export class AppPageUIDevSelectComponent extends TiniComponent {

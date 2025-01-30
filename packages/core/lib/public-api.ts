@@ -12,7 +12,6 @@ export * from './decorators/event.js';
 export * from './decorators/inject.js';
 export * from './decorators/layout.js';
 export * from './decorators/page.js';
-export * from './decorators/property.js';
 export * from './decorators/use.js';
 export * from './decorators/watch.js';
 

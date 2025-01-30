@@ -1,29 +1,23 @@
-import {html, css, nothing} from 'lit';
+import {html, css} from 'lit';
+import {property} from 'lit/decorators/property.js';
 import {consume} from '@lit/context';
 
-import {
-  Component,
-  TiniComponent,
-  Input,
-  Output,
-  EventEmitter,
-  type OnCreate,
-} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
 import type {DocPost} from '../../services/content.js';
 
 import {docPageContext, type DocPageContext} from '../../contexts/doc-page.js';
 
-@Component()
+@component()
 export class AppDocPageSurroundComponent extends TiniComponent {
   static readonly defaultTagName = 'app-doc-page-surround';
 
   @consume({context: docPageContext}) context!: DocPageContext;
 
-  @Input() isFirstPost?: boolean;
+  @property() isFirstPost?: boolean;
 
-  @Input() postPrev?: DocPost;
-  @Input() postNext?: DocPost;
+  @property() postPrev?: DocPost;
+  @property() postNext?: DocPost;
 
   protected render() {
     return html`

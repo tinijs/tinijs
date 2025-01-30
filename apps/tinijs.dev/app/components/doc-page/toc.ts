@@ -1,26 +1,25 @@
 import {html, css} from 'lit';
+import {property} from 'lit/decorators/property.js';
 import {classMap} from 'lit/directives/class-map.js';
 
 import {
-  Component,
-  TiniComponent,
-  Input,
-  Output,
-  EventEmitter,
+  component,
+  event,
   sectionRender,
+  TiniComponent,
+  EventEmitter,
   type SectionRenderData,
-  type OnCreate,
 } from '@tinijs/core';
 import {type FragmentItem} from '@tinijs/router';
 
-@Component()
+@component()
 export class AppDocPageTOCComponent extends TiniComponent {
   static readonly defaultTagName = 'app-doc-page-toc';
 
-  @Input() mobileOpened?: boolean;
-  @Input() tocItems: SectionRenderData<FragmentItem[]>;
+  @property() mobileOpened?: boolean;
+  @property() tocItems: SectionRenderData<FragmentItem[]>;
 
-  @Output() selectItem!: EventEmitter<void>;
+  @event() selectItem!: EventEmitter<void>;
 
   private _scrollTop() {
     this.selectItem.emit();

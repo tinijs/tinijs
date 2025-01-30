@@ -1,10 +1,10 @@
 import {html, css} from 'lit';
 
-import {Component, TiniComponent, Shadows} from '@tinijs/core';
+import {component, TiniComponent, Shadows} from '@tinijs/core';
 
 import {TiniBoxComponent} from '../../ui/components/box.js';
 
-@Component({
+@component({
   components: [TiniBoxComponent],
 })
 export class AppPageUIDevBoxComponent extends TiniComponent {

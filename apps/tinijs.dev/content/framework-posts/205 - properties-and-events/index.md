@@ -10,23 +10,17 @@ Components usually has **properties** and **events** for data exchange and inter
 
 ## Properties
 
-Use the decorator `@Prop()` or `@Input()` or `@property()` to define properties.
+Use the decorator `@property()` to define properties.
 
 ```ts
 import {property} from 'lit/decorators/property.js';
-import {Prop, Input} from '@tinijs/core';
 
-@Component()
+@component()
 export class AppXXXComponent extends TiniComponent {
 
-  // Lit syntax
   @property() prop1?: string;
-
-  // or, TiniJS syntax
-  @Prop() prop2?: {foo: number};
-
-  // or, Angular-alike syntax
-  @Input() prop3?: boolean;
+  @property() prop2?: {foo: number};
+  @property() prop3?: boolean;
 
 }
 ```
@@ -41,19 +35,16 @@ Beside define properties, you can also use **Contexts** as a form of communicati
 
 ## Events
 
-Use the decorator `@Event()` or `@Output()` to define events.
+Use the decorator `@event()` to define events.
 
 ```ts
-import {Event, Output, type EventEmitter} from '@tinijs/core';
+import {event, type EventEmitter} from '@tinijs/core';
 
-@Component()
+@component()
 export class AppXXXComponent extends TiniComponent {
 
-  // TiniJS syntax
-  @Event() event1!: EventEmitter<string>;
-
-  // or, Angular-alike syntax
-  @Output() event2!: EventEmitter<{ foo: number }>;
+  @event() event1!: EventEmitter<string>;
+  @event() event2!: EventEmitter<{ foo: number }>;
 
   emitEvent1() {
     this.event1.emit('Lorem ipsum');

@@ -226,7 +226,7 @@ import {createRouter} from '@tinijs/router';
 
 import {routes} from './routes.js';
 
-@App({})
+@app({})
 export class AppRoot extends TiniComponent {
 
   readonly router = createRouter(routes, {linkTrigger: true});
@@ -261,13 +261,13 @@ You can also use the `<tini-link>` component provided by the [Tini UI](https://t
 You can also navigate between pages in the imperative manner by using the `go()` method from a router instance.
 
 ```ts
-import {getRouter, UseRouter, type Router} from '@tinijs/router';
+import {getRouter, useRouter, type Router} from '@tinijs/router';
 
-@Page({})
+@page({})
 export class AppPageXXX extends TiniComponent {
 
   // via decorator
-  @UseRouter() readonly router!: Router;
+  @useRouter() readonly router!: Router;
 
   // or, via util
   readonly router = getRouter();
@@ -282,16 +282,16 @@ export class AppPageXXX extends TiniComponent {
 Access **current route** and **params** is similar to access router instance.
 
 ```ts
-import {UseRoute, UseParams, type ActivatedRoute} from '@tinijs/router';
+import {useRoute, useParams, type ActivatedRoute} from '@tinijs/router';
 
-@Page({})
+@page({})
 export class AppPageXXX extends TiniComponent {
 
   // current route
-  @UseRoute() readonly route!: ActivatedRoute;
+  @useRoute() readonly route!: ActivatedRoute;
 
   // route params
-  @UseParams() readonly params!: {slug: string};
+  @useParams() readonly params!: {slug: string};
 
 }
 ```
@@ -310,7 +310,7 @@ You can intercept the navigation process by returning a `string` or a `function`
 - `function`: cancel and execute the function
 
 ```ts
-@Page({})
+@page({})
 export class AppPageAccount extends TiniComponent {
 
   onBeforeEnter() {
@@ -332,10 +332,10 @@ Because we use the Shadow DOM to encapsulate our app, the browser seems to be un
 ```ts
 import {ref, createRef} from 'lit/directives/ref.js';
 
-@Page({})
+@page({})
 export class AppPageXXX extends TiniComponent {
 
-  @UseRouter() readonly router!: Router;
+  @useRouter() readonly router!: Router;
 
   private _articleRef = createRef<HTMLElement>();
 

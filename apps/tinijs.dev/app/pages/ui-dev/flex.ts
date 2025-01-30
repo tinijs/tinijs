@@ -1,11 +1,11 @@
 import {html, css} from 'lit';
 
-import {Component, TiniComponent} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
 import {TiniBoxComponent} from '../../ui/components/box.js';
 import {TiniFlexComponent} from '../../ui/components/flex.js';
 
-@Component({
+@component({
   components: [TiniBoxComponent, TiniFlexComponent],
 })
 export class AppPageUIDevFlexComponent extends TiniComponent {

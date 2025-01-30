@@ -1,11 +1,11 @@
 import {html, css} from 'lit';
+import {property} from 'lit/decorators/property.js';
 import {classMap} from 'lit/directives/class-map.js';
 
 import {
-  Component,
+  component,
+  event,
   TiniComponent,
-  Prop,
-  Event,
   Sizes,
   type EventEmitter,
 } from '@tinijs/core';
@@ -19,7 +19,7 @@ import {IconHTMLComponent} from '../icons/html.js';
 
 import {UIConsumerTargets} from '../consts/common.js';
 
-@Component({
+@component({
   components: [
     IconTiniComponent,
     IconVueComponent,
@@ -32,9 +32,9 @@ import {UIConsumerTargets} from '../consts/common.js';
 export class AppConsumerTabsComponent extends TiniComponent {
   static readonly defaultTagName = 'app-consumer-tabs';
 
-  @Prop() target?: string;
+  @property() target?: string;
 
-  @Event() change!: EventEmitter<UIConsumerTargets>;
+  @event() change!: EventEmitter<UIConsumerTargets>;
 
   private changeTarget(target: UIConsumerTargets) {
     this.target = target;

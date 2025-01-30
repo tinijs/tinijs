@@ -1,5 +1,5 @@
 import {html, nothing, css, type PropertyValues, type CSSResult} from 'lit';
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {
   TiniElement,

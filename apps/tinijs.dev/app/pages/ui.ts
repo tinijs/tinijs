@@ -1,6 +1,6 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent, Texts, Spaces, Radiuses} from '@tinijs/core';
+import {page, TiniComponent, Texts, Spaces, Radiuses} from '@tinijs/core';
 
 import {GITHUB_CONTENT_PATH} from '../consts/common.js';
 
@@ -12,7 +12,7 @@ import {AppComponentEditorComponent} from '../components/component-editor/index.
 import {AppComponentUsageComponent} from '../components/component-usage.js';
 import {AppComponentBenchmarkComponent} from '../components/component-benchmark.js';
 
-@Page({
+@page({
   name: 'app-page-ui',
   components: [
     AppDocPageComponent,

@@ -1,6 +1,6 @@
 import {html, css} from 'lit';
 
-import {Component, TiniComponent} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
 import {
   TiniBreadcrumbsComponent,
@@ -13,7 +13,7 @@ const ITEMS: BreadcrumbsItem[] = [
   {content: 'Data', href: '#data'},
 ];
 
-@Component({
+@component({
   components: [TiniBreadcrumbsComponent],
 })
 export class AppPageUIDevBreadcrumbsComponent extends TiniComponent {

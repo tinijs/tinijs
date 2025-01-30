@@ -1,5 +1,5 @@
 import {html, css, type PropertyValues, type CSSResult} from 'lit';
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 import {classMap, type ClassInfo} from 'lit/directives/class-map.js';
 import {ref, createRef} from 'lit/directives/ref.js';
 

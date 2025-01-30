@@ -1,8 +1,8 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent} from '@tinijs/core';
+import {page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
-import {UseQuery} from '@tinijs/router';
+import {useSearchParams} from '@tinijs/router';
 
 import {TiniTextComponent} from '../../ui/components/text.js';
 
@@ -10,7 +10,7 @@ import {repeat} from '../../utils/subject.js';
 
 import {TEXT_SUBJECT} from '../../subjects.js';
 
-@Page({
+@page({
   name: 'app-page-ui-text',
   components: [TiniTextComponent],
 })
@@ -20,11 +20,11 @@ export class AppPageUIText extends TiniComponent implements PageWithMetadata {
     description: 'The tini-text component.',
   };
 
-  @UseQuery() readonly query!: {items?: number};
+  @useSearchParams() readonly searchParams!: {items?: number};
 
   protected render() {
     return repeat(
-      Number(this.query.items || 1),
+      Number(this.searchParams.items || 1),
       i => html`
         <tini-text>Text (#${i})</tini-text>
         <tini-text font="code">Code text (#${i})</tini-text>

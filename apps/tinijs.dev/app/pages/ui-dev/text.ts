@@ -1,7 +1,7 @@
-import {html, css, nothing} from 'lit';
+import {html, css} from 'lit';
 
 import {
-  Component,
+  component,
   TiniComponent,
   Colors,
   Gradients,
@@ -12,7 +12,7 @@ import {
 
 import {TiniTextComponent} from '../../ui/components/text.js';
 
-@Component({
+@component({
   components: [TiniTextComponent],
 })
 export class AppPageUIDevTextComponent extends TiniComponent {

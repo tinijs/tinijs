@@ -1,6 +1,7 @@
 import {html, css, nothing} from 'lit';
+import {property} from 'lit/decorators/property.js';
 
-import {Component, TiniComponent, Input} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
 import {UIConsumerTargets} from '../../../app/consts/common.js';
 
@@ -13,7 +14,7 @@ import {TiniButtonComponent} from '../../../app/ui/components/button.js';
 import {AppComponentEditorComponent} from '../../../app/components/component-editor/index.js';
 import {AppComponentUsageComponent} from '../../../app/components/component-usage.js';
 
-@Component({
+@component({
   components: [
     TiniBoxComponent,
     TiniFlexComponent,
@@ -27,7 +28,7 @@ import {AppComponentUsageComponent} from '../../../app/components/component-usag
 export class ContentUIPostBoxComponent extends TiniComponent {
   static readonly defaultTagName = 'content-ui-post-box';
 
-  @Input() block!: string;
+  @property() block!: string;
 
   onCreate() {
     if (!this.block) throw new Error('block is required');

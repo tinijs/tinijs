@@ -1,8 +1,8 @@
 import {html} from 'lit';
 
-import {Component, TiniComponent} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
-@Component()
+@component()
 export class FooterComponent extends TiniComponent {
   static readonly defaultTagName = 'app-footer';
 
