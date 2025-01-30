@@ -1,8 +1,8 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent} from '@tinijs/core';
+import {page, TiniComponent} from '@tinijs/core';
 
-@Page({
+@page({
   name: 'app-page-hello-world',
 })
 export class AppPageHelloWorld extends TiniComponent {

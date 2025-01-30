@@ -2,12 +2,12 @@ import {
   getRouter,
   getActiveRoute,
   getParams,
-  getQuery,
-  getFragment,
+  getSearchParams,
+  getFragmentId,
   getNavIndicator,
 } from './methods.js';
 
-export function UseRouter() {
+export function useRouter() {
   return function (prototype: any, propertyName: string) {
     Object.defineProperty(prototype, propertyName, {
       get: () => getRouter(),
@@ -15,7 +15,7 @@ export function UseRouter() {
   };
 }
 
-export function UseRoute() {
+export function useRoute() {
   return function (prototype: any, propertyName: string) {
     Object.defineProperty(prototype, propertyName, {
       get: () => getActiveRoute(),
@@ -23,7 +23,7 @@ export function UseRoute() {
   };
 }
 
-export function UseParams() {
+export function useParams() {
   return function (prototype: any, propertyName: string) {
     Object.defineProperty(prototype, propertyName, {
       get: () => getParams(),
@@ -31,23 +31,23 @@ export function UseParams() {
   };
 }
 
-export function UseQuery() {
+export function useSearchParams() {
   return function (prototype: any, propertyName: string) {
     Object.defineProperty(prototype, propertyName, {
-      get: () => getQuery(),
+      get: () => getSearchParams(),
     });
   };
 }
 
-export function UseFragment() {
+export function useFragmentId() {
   return function (prototype: any, propertyName: string) {
     Object.defineProperty(prototype, propertyName, {
-      get: () => getFragment(),
+      get: () => getFragmentId(),
     });
   };
 }
 
-export function UseNavIndicator() {
+export function useNavIndicator() {
   return function (prototype: any, propertyName: string) {
     Object.defineProperty(prototype, propertyName, {
       get: () => getNavIndicator(),

@@ -2,7 +2,7 @@ import {customElement} from 'lit/decorators/custom-element.js';
 
 import {ComponentTypes, type ComponentOptions} from '../classes/component.js';
 
-export function Component(options: ComponentOptions = {}) {
+export function component(options: ComponentOptions = {}) {
   return function (target: any) {
     target.componentType = options.type || ComponentTypes.Component;
     target.components = options.components;

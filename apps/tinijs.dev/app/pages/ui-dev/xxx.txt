@@ -12,7 +12,7 @@ import {
 
 import {TiniXXXComponent} from '../../ui/components/xxx.js';
 
-@Component({
+@component({
   components: [TiniXXXComponent],
 })
 export class AppPageUIDevXXXComponent extends TiniComponent {

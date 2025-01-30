@@ -1,13 +1,13 @@
 import {html, css} from 'lit';
 
-import {Component, TiniComponent, Shadows} from '@tinijs/core';
+import {component, TiniComponent, Shadows} from '@tinijs/core';
 
 import {TiniImageComponent} from '../../ui/components/image.js';
 
 const SRC =
   'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1024&q=80';
 
-@Component({
+@component({
   components: [TiniImageComponent],
 })
 export class AppPageUIDevImageComponent extends TiniComponent {

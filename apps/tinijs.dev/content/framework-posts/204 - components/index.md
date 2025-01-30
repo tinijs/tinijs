@@ -20,9 +20,9 @@ Or, create `app/components/<name>.ts` file manually, a component looks like this
 
 ```ts
 import {html, css} from 'lit';
-import {Component, TiniComponent} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
-@Component()
+@component()
 export class AppXXXComponent extends TiniComponent {
   static readonly defaultTagName = 'app-xxx';
 
@@ -52,7 +52,7 @@ Register components **globally at the app level**, this is convenient since you 
 
 import {AppXXXComponent} from './components/xxx.js';
 
-@App({
+@app({
   components: [AppXXXComponent]
 })
 export class AppRoot extends TiniComponent {}
@@ -65,7 +65,7 @@ Components can also be registering **locally at layout, app or component level**
 
 import {AppXXXComponent} from '../components/xxx.js';
 
-@Component|Page|Layout({
+@component|page|layout({
   components: [AppXXXComponent]
 })
 export class ComponentOrPageOrLayout extends TiniComponent {}
@@ -108,7 +108,7 @@ Then, somewhere in a TiniJS app:
 ```js
 import 'my/lit/element.js';
 
-@Component()
+@component()
 export class MyTiniComponent extends TiniComponent {
   protected render() {
     return html`<my-lit-element></my-lit-element>`;
@@ -121,7 +121,7 @@ export class MyTiniComponent extends TiniComponent {
 You can also convert a Lit element to a Tini component, in 3 steps:
 - Extend `TiniComponent` instead of `LitElement`
 - Move the tag name to `defaultTagName`
-- Use `@Component()` decorator
+- Use `@component()` decorator
 
 For example, the below Lit element:
 
@@ -133,7 +133,7 @@ export class MyComponent extends LitElement {}
 Will be converted to:
 
 ```js
-@Component()
+@component()
 export class MyComponent extends TiniComponent {
   static readonly defaultTagName = 'my-component';
 }

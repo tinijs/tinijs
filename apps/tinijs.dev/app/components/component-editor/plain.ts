@@ -1,14 +1,15 @@
 import {html, css, nothing} from 'lit';
+import {property} from 'lit/decorators/property.js';
 import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 
-import {Component, TiniComponent, Input} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
-@Component()
+@component()
 export class AppComponentEditorPlainComponent extends TiniComponent {
   static readonly defaultTagName = 'app-component-editor-plain';
 
-  @Input() label?: string;
-  @Input() content!: string;
+  @property() label?: string;
+  @property() content!: string;
 
   protected render() {
     return html`

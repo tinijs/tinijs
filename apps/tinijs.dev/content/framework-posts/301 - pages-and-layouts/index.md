@@ -20,9 +20,9 @@ Or, create a `./app/pages/xxx.ts` file manually, a page looks like this:
 
 ```ts
 import {html, css} from 'lit';
-import {Page, TiniComponent} from '@tinijs/core';
+import {page, TiniComponent} from '@tinijs/core';
 
-@Page({
+@page({
   name: 'app-page-xxx',
 })
 export class AppPageXXX extends TiniComponent {
@@ -35,7 +35,7 @@ export class AppPageXXX extends TiniComponent {
 }
 ```
 
-Beside the `@Page()` decorator, everything else would work the same as any component. But, please note the `name: 'app-page-xxx'` property, it plays a role later when we setup the [Tini Router](https://tinijs.dev/framework/router).
+Beside the `@page()` decorator, everything else would work the same as any component. But, please note the `name: 'app-page-xxx'` property, it plays a role later when we setup the [Tini Router](https://tinijs.dev/framework/router).
 
 ## Layouts
 
@@ -51,9 +51,9 @@ Or, create a `./app/layouts/xxx.ts` file manually, a layout looks like this:
 
 ```ts
 import {html, css} from 'lit';
-import {Layout, TiniComponent} from '@tinijs/core';
+import {layout, TiniComponent} from '@tinijs/core';
 
-@Layout({
+@layout({
   name: 'app-layout-xxx',
 })
 export class AppLayoutXXX extends TiniComponent {
@@ -72,7 +72,7 @@ export class AppLayoutXXX extends TiniComponent {
 }
 ```
 
-Beside the `@Layout()` decorator and the `<slot></slot>` in the template, everything else would work the same as any component. But, please note the `name: 'app-layout-xxx'` property, it plays a role later when we setup the [Tini Router](https://tinijs.dev/framework/router).
+Beside the `@layout()` decorator and the `<slot></slot>` in the template, everything else would work the same as any component. But, please note the `name: 'app-layout-xxx'` property, it plays a role later when we setup the [Tini Router](https://tinijs.dev/framework/router).
 
 ## Lit elements
 
@@ -107,7 +107,7 @@ export const routes: Route[] = [
 You can also convert a Lit page to a Tini page, in 3 steps:
 - Extend `TiniComponent` instead of `LitElement`
 - Move the tag name to `options.name`
-- Use `@Page()` decorator
+- Use `@page()` decorator
 
 For example, the below Lit page:
 
@@ -119,7 +119,7 @@ export class MyPage extends LitElement {}
 Will be converted to:
 
 ```js
-@Page({
+@page({
   name: 'my-page'
 })
 export class MyPage extends TiniComponent {}

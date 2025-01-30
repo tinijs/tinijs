@@ -20,12 +20,12 @@ export function getParams() {
   return getRouter().getParams();
 }
 
-export function getQuery() {
-  return getRouter().getQuery();
+export function getSearchParams() {
+  return getRouter().getSearchParams();
 }
 
-export function getFragment() {
-  return getRouter().getFragment();
+export function getFragmentId() {
+  return getRouter().getFragmentId();
 }
 
 export function requestChange() {

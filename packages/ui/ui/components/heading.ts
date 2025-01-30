@@ -1,5 +1,5 @@
 import {css, type CSSResult} from 'lit';
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 import {html, unsafeStatic} from 'lit/static-html.js';
 
 import {

@@ -1,10 +1,10 @@
 import {html} from 'lit';
 
-import {Page, TiniComponent} from '@tinijs/core';
+import {page, TiniComponent} from '@tinijs/core';
 
 import SUBJECTS from '../subjects.js';
 
-@Page({
+@page({
   name: 'app-page-home',
 })
 export class AppPageHome extends TiniComponent {

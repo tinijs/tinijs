@@ -1,10 +1,10 @@
 import {html, css} from 'lit';
 
-import {Component, TiniComponent} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
 import {TiniTableComponent} from '../../ui/components/table.js';
 
-@Component({
+@component({
   components: [TiniTableComponent],
 })
 export class AppPageUIDevTableComponent extends TiniComponent {

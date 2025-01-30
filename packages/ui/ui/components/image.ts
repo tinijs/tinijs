@@ -1,5 +1,5 @@
 import {html, css, type PropertyValues, type CSSResult} from 'lit';
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 
 import {

@@ -1,11 +1,11 @@
 import {html, css, nothing} from 'lit';
+import {property} from 'lit/decorators/property.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {styleMap} from 'lit/directives/style-map.js';
 
 import {
-  Component,
+  component,
   TiniComponent,
-  Input,
   Colors,
   Gradients,
   Fonts,
@@ -25,14 +25,14 @@ import {
 
 const computedStyle = getComputedStyle(document.documentElement);
 
-@Component()
+@component()
 export class ContentUIPostTokenComponent
   extends TiniComponent
   implements OnCreate
 {
   static readonly defaultTagName = 'content-ui-post-token';
 
-  @Input() block!: string;
+  @property() block!: string;
 
   onCreate() {
     if (!this.block) throw new Error('block is required');

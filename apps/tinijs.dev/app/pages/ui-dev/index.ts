@@ -1,18 +1,18 @@
 import {css, nothing} from 'lit';
+import {property} from 'lit/decorators/property.js';
+import {state} from 'lit/decorators/state.js';
 import {html, unsafeStatic} from 'lit/static-html.js';
 
 import {
-  Component,
-  Page,
+  component,
+  page,
   TiniComponent,
-  Input,
-  Reactive,
   createComponentLoader,
   type OnCreate,
   type OnChanges,
 } from '@tinijs/core';
-import {UseMeta, type Meta} from '@tinijs/meta';
-import {UseParams} from '@tinijs/router';
+import {useMeta, type Meta} from '@tinijs/meta';
+import {useParams} from '@tinijs/router';
 
 const componentLoader = createComponentLoader({
   box: () => import('./box.js'),
@@ -46,12 +46,12 @@ const componentLoader = createComponentLoader({
   textarea: () => import('./textarea.js'),
 });
 
-@Component()
+@component()
 class UIDevSectionComponent extends TiniComponent implements OnCreate {
   static readonly defaultTagName = 'ui-dev-section';
 
-  @Input() titleText!: string;
-  @Input() description?: string;
+  @property() titleText!: string;
+  @property() description?: string;
 
   onCreate() {
     if (!this.titleText) throw new Error('titleText is required');
@@ -111,15 +111,15 @@ class UIDevSectionComponent extends TiniComponent implements OnCreate {
   `;
 }
 
-@Page({
+@page({
   name: 'app-page-ui-dev',
   components: [UIDevSectionComponent],
 })
 export class AppPageUIDev extends TiniComponent implements OnCreate, OnChanges {
-  @UseParams() readonly params!: {slug: string};
-  @UseMeta() readonly meta!: Meta;
+  @useParams() readonly params!: {slug: string};
+  @useMeta() readonly meta!: Meta;
 
-  @Reactive() private componentName: string | null | undefined;
+  @state() private componentName: string | null | undefined;
 
   onCreate() {
     componentLoader

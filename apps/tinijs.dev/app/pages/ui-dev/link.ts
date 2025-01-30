@@ -1,7 +1,7 @@
 import {html, css} from 'lit';
 
 import {
-  Component,
+  component,
   TiniComponent,
   Colors,
   Gradients,
@@ -11,7 +11,7 @@ import {
 
 import {TiniLinkComponent} from '../../ui/components/link.js';
 
-@Component({
+@component({
   components: [TiniLinkComponent],
 })
 export class AppPageUIDevLinkComponent extends TiniComponent {

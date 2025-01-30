@@ -1,10 +1,10 @@
 import {html, css} from 'lit';
+import {property} from 'lit/decorators/property.js';
 
 import {
-  Component,
+  component,
+  event,
   TiniComponent,
-  Input,
-  Output,
   type EventEmitter,
   type OnCreate,
 } from '@tinijs/core';
@@ -14,7 +14,7 @@ import {
   type SwitchEventDetail,
 } from '../../ui/components/switch.js';
 
-@Component({
+@component({
   components: [TiniSwitchComponent],
 })
 export class AppComponentEditorSwitchComponent
@@ -23,12 +23,12 @@ export class AppComponentEditorSwitchComponent
 {
   static readonly defaultTagName = 'app-component-editor-switch';
 
-  @Input() label!: string;
+  @property() label!: string;
 
-  @Input() target!: string;
-  @Input() activated?: boolean;
+  @property() target!: string;
+  @property() activated?: boolean;
 
-  @Output() change!: EventEmitter<boolean>;
+  @event() change!: EventEmitter<boolean>;
 
   onCreate() {
     if (!this.label) throw new Error('label is required');

@@ -1,11 +1,11 @@
 import {html, css, nothing} from 'lit';
+import {property} from 'lit/decorators/property.js';
+import {state} from 'lit/decorators/state.js';
 
 import {
-  Component,
-  TiniComponent,
-  Prop,
-  Reactive,
+  component,
   sectionRender,
+  TiniComponent,
   type SectionRenderData,
   type OnCreate,
 } from '@tinijs/core';
@@ -22,17 +22,17 @@ type BenckmarkReport = Record<
   }
 >;
 
-@Component()
+@component()
 export class AppComponentBenchmarkComponent
   extends TiniComponent
   implements OnCreate
 {
   static readonly defaultTagName = 'app-component-benchmark';
 
-  @Prop() reportId!: string;
-  @Prop({type: Boolean, reflect: true}) noNote = false;
+  @property() reportId!: string;
+  @property({type: Boolean, reflect: true}) noNote = false;
 
-  @Reactive() private report: SectionRenderData<BenckmarkReport>;
+  @state() private report: SectionRenderData<BenckmarkReport>;
 
   async onCreate() {
     if (!this.reportId) throw new Error('reportId is required');

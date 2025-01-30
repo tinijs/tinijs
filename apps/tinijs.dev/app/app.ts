@@ -1,9 +1,9 @@
 import {html} from 'lit';
 
 import {
-  App,
-  TiniComponent,
+  app,
   registerConfig,
+  TiniComponent,
   type AppWithConfig,
 } from '@tinijs/core';
 import {createRouter, type AppWithRouter} from '@tinijs/router';
@@ -40,7 +40,7 @@ TiniCodeComponent.config({
   theme: prismThemeDark,
 });
 
-@App({
+@app({
   providers,
   components: [
     TiniBoxComponent,

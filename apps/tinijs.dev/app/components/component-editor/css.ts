@@ -1,18 +1,18 @@
 import {html, css} from 'lit';
+import {property} from 'lit/decorators/property.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 
 import {TiniTextareaComponent} from '../../ui/components/textarea.js';
 
 import {
-  Component,
+  component,
+  event,
   TiniComponent,
-  Input,
-  Output,
   EventEmitter,
   type OnCreate,
 } from '@tinijs/core';
 
-@Component({
+@component({
   components: [TiniTextareaComponent],
 })
 export class AppComponentEditorCSSComponent
@@ -21,13 +21,13 @@ export class AppComponentEditorCSSComponent
 {
   static readonly defaultTagName = 'app-component-editor-css';
 
-  @Input() label!: string;
-  @Input() placeholder?: string;
+  @property() label!: string;
+  @property() placeholder?: string;
 
-  @Input() target!: string;
-  @Input() value?: string;
+  @property() target!: string;
+  @property() value?: string;
 
-  @Output() change!: EventEmitter<string>;
+  @event() change!: EventEmitter<string>;
 
   onCreate() {
     if (!this.label) throw new Error('label is required');

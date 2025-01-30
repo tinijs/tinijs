@@ -1,5 +1,5 @@
 import {html, css, type PropertyValues, CSSResult} from 'lit';
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 import {styleMap, type StyleInfo} from 'lit/directives/style-map.js';
 
 import {TiniElement, ElementParts, createStyleBuilder} from '@tinijs/core';

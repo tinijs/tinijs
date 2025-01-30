@@ -1,11 +1,11 @@
 import {html, css, nothing, type TemplateResult} from 'lit';
+import {property} from 'lit/decorators/property.js';
+import {state} from 'lit/decorators/state.js';
 import {classMap} from 'lit/directives/class-map.js';
 
 import {
-  Component,
+  component,
   TiniComponent,
-  Prop,
-  Reactive,
   type OnCreate,
   type OnChanges,
 } from '@tinijs/core';
@@ -20,7 +20,7 @@ import {buildUsageCode, type BuildCodeDef} from '../utils/code.js';
 
 import {AppConsumerTabsComponent} from './consumer-tabs.js';
 
-@Component({
+@component({
   components: [TiniCodeComponent, AppConsumerTabsComponent],
 })
 export class AppComponentUsageComponent
@@ -29,9 +29,9 @@ export class AppComponentUsageComponent
 {
   static readonly defaultTagName = 'app-component-usage';
 
-  @Prop() codes!: Array<BuildCodeDef | Record<string, TemplateResult>>;
+  @property() codes!: Array<BuildCodeDef | Record<string, TemplateResult>>;
 
-  @Reactive() uiConsumerTarget?: UIConsumerTargets;
+  @state() uiConsumerTarget?: UIConsumerTargets;
 
   onCreate() {
     if (!this.codes?.length) throw new Error('codes is required');

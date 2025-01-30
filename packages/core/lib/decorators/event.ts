@@ -17,7 +17,7 @@ export class EventEmitter<Payload> {
   }
 }
 
-export function Event(options?: EventOptions<unknown>) {
+export function event(options?: EventOptions<unknown>) {
   return function (prototype: any, propertyName: string) {
     const emitterKey = Symbol();
     Object.defineProperty(prototype, propertyName, {
@@ -31,5 +31,3 @@ export function Event(options?: EventOptions<unknown>) {
     });
   };
 }
-
-export const Output = Event;

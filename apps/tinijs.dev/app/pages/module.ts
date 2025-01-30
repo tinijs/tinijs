@@ -1,6 +1,6 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent, Texts, Spaces, Radiuses} from '@tinijs/core';
+import {page, TiniComponent, Texts, Spaces, Radiuses} from '@tinijs/core';
 
 import {GITHUB_CONTENT_PATH} from '../consts/common.js';
 
@@ -8,7 +8,7 @@ import {moduleCategoryService, modulePostService} from '../services/content.js';
 
 import {AppDocPageComponent} from '../components/doc-page/index.js';
 
-@Page({
+@page({
   name: 'app-page-module',
   components: [AppDocPageComponent],
 })
