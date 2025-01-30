@@ -1,6 +1,6 @@
 import type {Store} from './types.js';
 
-export function Subscribe<States>(
+export function globalState<States>(
   store: Store<States>,
   stateKey?: keyof States | null,
   reactive = true

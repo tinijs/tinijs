@@ -1,10 +1,10 @@
 import {html} from 'lit';
 
-import {Page, TiniComponent} from '@tinijs/core';
+import {page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata, PageMetadata} from '@tinijs/meta';
 import {TiniLinkComponent} from '../ui/components/link.js';
 
-@Page({
+@page({
   name: 'app-page-404',
   components: [TiniLinkComponent],
 })

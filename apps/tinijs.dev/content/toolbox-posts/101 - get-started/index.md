@@ -43,19 +43,19 @@ TiniJS provides a dependency injection mechanism that allows you to lazy load an
 
 ```ts
 // provide dependencies in app.ts
-@App({
+@app({
   providers = {
     fetchService: () => import('@tinijs/toolbox/fetch/service.js');
   }
 });
 
 // later, inject dependencies elsewhere
-import {Inject} from '@tinijs/core';
+import {inject} from '@tinijs/core';
 import type {FetchService} from '@tinijs/toolbox/fetch';
 
 class XXX {
 
-  @Inject() fetchService!: FetchService;
+  @inject() fetchService!: FetchService;
 
   async onInit() {
     const result = await this.fetchService.get('...');

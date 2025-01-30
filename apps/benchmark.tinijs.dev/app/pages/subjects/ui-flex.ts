@@ -1,8 +1,8 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent} from '@tinijs/core';
+import {page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
-import {UseQuery} from '@tinijs/router';
+import {useSearchParams} from '@tinijs/router';
 
 import {TiniFlexComponent} from '../../ui/components/flex.js';
 
@@ -42,7 +42,7 @@ const CONTAINER_PROPS = {
   columnGap: 'md',
 };
 
-@Page({
+@page({
   name: 'app-page-ui-flex',
   components: [TiniFlexComponent],
 })
@@ -52,11 +52,11 @@ export class AppPageUIFlex extends TiniComponent implements PageWithMetadata {
     description: FLEX_SUBJECT.desc,
   };
 
-  @UseQuery() readonly query!: {items?: number};
+  @useSearchParams() readonly searchParams!: {items?: number};
 
   protected render() {
     return repeat(
-      Number(this.query.items || 1),
+      Number(this.searchParams.items || 1),
       i => html`
         <tini-flex
           display="flex"

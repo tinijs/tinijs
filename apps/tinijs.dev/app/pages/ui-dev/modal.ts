@@ -1,18 +1,10 @@
-import {html, css, nothing} from 'lit';
+import {html, css} from 'lit';
 
-import {
-  Component,
-  TiniComponent,
-  Colors,
-  SubtleColors,
-  Gradients,
-  SubtleGradients,
-  Sizes,
-} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
 import {TiniModalComponent} from '../../ui/components/modal.js';
 
-@Component({
+@component({
   components: [TiniModalComponent],
 })
 export class AppPageUIDevModalComponent extends TiniComponent {

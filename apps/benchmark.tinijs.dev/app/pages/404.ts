@@ -1,9 +1,9 @@
 import {html} from 'lit';
 
-import {Page, TiniComponent} from '@tinijs/core';
+import {page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata, PageMetadata} from '@tinijs/meta';
 
-@Page({
+@page({
   name: 'app-page-404',
 })
 export class AppPage404 extends TiniComponent implements PageWithMetadata {

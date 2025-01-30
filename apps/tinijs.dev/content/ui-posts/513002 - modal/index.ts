@@ -1,12 +1,12 @@
 import {html, css} from 'lit';
 import {ref, createRef} from 'lit/directives/ref.js';
 
-import {Component, TiniComponent} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
 import {TiniButtonComponent} from '../../../app/ui/components/button.js';
 import {TiniModalComponent} from '../../../app/ui/components/modal.js';
 
-@Component({
+@component({
   components: [TiniButtonComponent, TiniModalComponent],
 })
 export class ContentUIPostModalComponent extends TiniComponent {

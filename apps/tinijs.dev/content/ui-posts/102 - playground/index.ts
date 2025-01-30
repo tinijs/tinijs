@@ -17,12 +17,12 @@ import {TiniIconComponent} from '../../../app/ui/components/icon.js';
 import {TiniBadgeComponent} from '../../../app/ui/components/badge.js';
 import {TiniButtonComponent} from '../../../app/ui/components/button.js';
 
-import {Component, TiniComponent} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
 const ICON_SRC =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 16 16'%3E%3Cpath fill='%23000' fill-rule='evenodd' d='M8 1.314C12.438-3.248 23.534 4.735 8 15C-7.534 4.736 3.562-3.248 8 1.314'/%3E%3C/svg%3E";
 
-@Component({
+@component({
   components: [
     AppThemeSelectorComponent,
     TiniBoxComponent,

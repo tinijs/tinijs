@@ -1,18 +1,19 @@
 import {html, css, nothing} from 'lit';
+import {property} from 'lit/decorators/property.js';
 
-import {Component, TiniComponent, Input, Sizes} from '@tinijs/core';
+import {component, TiniComponent, Sizes} from '@tinijs/core';
 
 import {MAIN_STORE} from '../../stores/main.js';
 
 import {IconThemeComponent} from '../../icons/theme.js';
 
-@Component({
+@component({
   components: [IconThemeComponent],
 })
 export class AppSkinEditorTogglerComponent extends TiniComponent {
   static readonly defaultTagName = 'app-skin-editor-toggler';
 
-  @Input({type: Boolean, reflect: true}) showText = false;
+  @property({type: Boolean, reflect: true}) showText = false;
 
   private _toggleSkinEditor() {
     MAIN_STORE.skinEditorShown = !MAIN_STORE.skinEditorShown;

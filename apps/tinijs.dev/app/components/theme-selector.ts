@@ -1,10 +1,10 @@
 import {html, css} from 'lit';
 
 import {
-  Component,
+  component,
+  event,
+  useUI,
   TiniComponent,
-  Event,
-  UseUI,
   type UI,
   type EventEmitter,
 } from '@tinijs/core';
@@ -14,15 +14,15 @@ import {
   type SelectOption,
 } from '../ui/components/select.js';
 
-@Component({
+@component({
   components: [TiniSelectComponent],
 })
 export class AppThemeSelectorComponent extends TiniComponent {
   static readonly defaultTagName = 'app-theme-selector';
 
-  @UseUI() readonly ui!: UI;
+  @useUI() readonly ui!: UI;
 
-  @Event() change!: EventEmitter<string>;
+  @event() change!: EventEmitter<string>;
 
   private buildThemeOptions(familyId: string, items: SelectOption[]) {
     return items.map(item => {

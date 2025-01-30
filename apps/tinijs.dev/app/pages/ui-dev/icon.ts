@@ -1,6 +1,6 @@
 import {html, css} from 'lit';
 
-import {Component, TiniComponent, Colors, Gradients, Sizes} from '@tinijs/core';
+import {component, TiniComponent, Colors, Gradients, Sizes} from '@tinijs/core';
 
 import {TiniIconComponent} from '../../ui/components/icon.js';
 
@@ -12,7 +12,7 @@ const URI_COLOR =
 const URI_ANIMATED =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='meteoconsUvIndex1Fill0' x1='150' x2='234' y1='119.2' y2='264.8' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23fbbf24'/%3E%3Cstop offset='.5' stop-color='%23fbbf24'/%3E%3Cstop offset='1' stop-color='%23f59e0b'/%3E%3C/linearGradient%3E%3CclipPath id='meteoconsUvIndex1Fill1'%3E%3Cpath fill='none' d='M64 64h384v192H328a72 72 0 0 0-72 72v120H64Z'/%3E%3C/clipPath%3E%3Csymbol id='meteoconsUvIndex1Fill2' viewBox='0 0 384 384'%3E%3Ccircle cx='192' cy='192' r='84' fill='url(%23meteoconsUvIndex1Fill0)' stroke='%23f8af18' stroke-miterlimit='10' stroke-width='6'/%3E%3Cpath fill='none' stroke='%23fbbf24' stroke-linecap='round' stroke-miterlimit='10' stroke-width='24' d='M192 61.7V12m0 360v-49.7m92.2-222.5l35-35M64.8 319.2l35.1-35.1m0-184.4l-35-35m254.5 254.5l-35.1-35.1M61.7 192H12m360 0h-49.7'%3E%3CanimateTransform additive='sum' attributeName='transform' dur='1s' repeatCount='indefinite' type='rotate' values='0 192 192; 45 192 192'/%3E%3C/path%3E%3C/symbol%3E%3C/defs%3E%3Cg clip-path='url(%23meteoconsUvIndex1Fill1)'%3E%3Cuse width='384' height='384' href='%23meteoconsUvIndex1Fill2' transform='translate(64 64)'/%3E%3Cpath fill='none' stroke='%23f8af18' stroke-miterlimit='10' stroke-width='6' d='M254 338v-10a74 74 0 0 1 74-74h10'/%3E%3C/g%3E%3Crect width='144' height='144' x='280' y='280' fill='%2391c700' rx='48'/%3E%3Cpath fill='%23fff' d='M366.4 388h-19v-45h-17.8v-12.6h3q7.8 0 12.4-3.4q4.2-3.1 5.5-10.2l.2-.8h15.6Z'/%3E%3C/svg%3E";
 
-@Component({
+@component({
   components: [TiniIconComponent],
 })
 export class AppPageUIDevIconComponent extends TiniComponent {

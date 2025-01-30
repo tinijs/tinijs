@@ -1,10 +1,10 @@
 import {html, css} from 'lit';
+import {state} from 'lit/decorators/state.js';
 import {classMap} from 'lit/directives/class-map.js';
 
 import {
-  Component,
+  component,
   TiniComponent,
-  Reactive,
   ContrastColors,
   type OnCreate,
   type OnDestroy,
@@ -25,7 +25,7 @@ import {IconDiscordComponent} from '../icons/discord.js';
 import {AppSkinEditorTogglerComponent} from './skin-editor/toggler.js';
 import {AppSkinEditorComponent} from './skin-editor/index.js';
 
-@Component({
+@component({
   components: [
     TiniLinkComponent,
     TiniIconComponent,
@@ -42,7 +42,7 @@ export class HeaderComponent
 {
   static readonly defaultTagName = 'app-header';
 
-  @Reactive() mobileMenuOpened = false;
+  @state() mobileMenuOpened = false;
 
   private _onRouteChange = () => (this.mobileMenuOpened = false);
   onCreate() {

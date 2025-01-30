@@ -1,11 +1,11 @@
 import {html, css} from 'lit';
 
-import {Layout, TiniComponent} from '@tinijs/core';
+import {layout, TiniComponent} from '@tinijs/core';
 
 import {HeaderComponent} from '../components/header.js';
 import {FooterComponent} from '../components/footer.js';
 
-@Layout({
+@layout({
   name: 'app-layout-default',
   components: [HeaderComponent, FooterComponent],
 })

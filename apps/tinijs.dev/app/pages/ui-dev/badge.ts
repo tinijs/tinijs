@@ -1,10 +1,10 @@
 import {html, css} from 'lit';
 
-import {Component, TiniComponent, Colors, Gradients, Sizes} from '@tinijs/core';
+import {component, TiniComponent, Colors, Gradients, Sizes} from '@tinijs/core';
 
 import {TiniBadgeComponent} from '../../ui/components/badge.js';
 
-@Component({
+@component({
   components: [TiniBadgeComponent],
 })
 export class AppPageUIDevBadgeComponent extends TiniComponent {

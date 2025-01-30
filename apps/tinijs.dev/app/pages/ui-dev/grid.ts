@@ -1,11 +1,11 @@
 import {html, css} from 'lit';
 
-import {Component, TiniComponent} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
 import {TiniBoxComponent} from '../../ui/components/box.js';
 import {TiniGridComponent} from '../../ui/components/grid.js';
 
-@Component({
+@component({
   components: [TiniBoxComponent, TiniGridComponent],
 })
 export class AppPageUIDevGridComponent extends TiniComponent {

@@ -1,8 +1,8 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent} from '@tinijs/core';
+import {page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
-import {UseQuery} from '@tinijs/router';
+import {useSearchParams} from '@tinijs/router';
 
 import {TiniImageComponent} from '../../ui/components/image.js';
 
@@ -17,7 +17,7 @@ const PNG = new URL('../../assets/placeholders/image.png', import.meta.url)
 const SVG = new URL('../../assets/placeholders/image.svg', import.meta.url)
   .href;
 
-@Page({
+@page({
   name: 'app-page-ui-image',
   components: [TiniImageComponent],
 })
@@ -27,11 +27,11 @@ export class AppPageUIImage extends TiniComponent implements PageWithMetadata {
     description: IMAGE_SUBJECT.desc,
   };
 
-  @UseQuery() readonly query!: {items?: number};
+  @useSearchParams() readonly searchParams!: {items?: number};
 
   protected render() {
     return repeat(
-      Number(this.query.items || 1),
+      Number(this.searchParams.items || 1),
       () => html`
         <tini-image src=${JPG} width="500px" alt="Placeholder"></tini-image>
         <tini-image src=${PNG} width="500px" ratio="16/9"></tini-image>

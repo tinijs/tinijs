@@ -1,11 +1,11 @@
 import {html, css} from 'lit';
+import {property} from 'lit/decorators/property.js';
 import {ref, createRef} from 'lit/directives/ref.js';
 
 import {
-  Component,
+  component,
+  event,
   TiniComponent,
-  Input,
-  Output,
   EventEmitter,
   Sizes,
   ContrastColors,
@@ -17,17 +17,17 @@ import {IconUpComponent} from '../../icons/up.js';
 import {IconDownComponent} from '../../icons/down.js';
 import {IconMenuComponent} from '../../icons/menu.js';
 
-@Component({
+@component({
   components: [TiniIconComponent, IconMenuComponent],
 })
 export class AppDocPageMobileToolbarComponent extends TiniComponent {
   static readonly defaultTagName = 'app-doc-page-mobile-toolbar';
 
-  @Input() menuOpened?: boolean;
-  @Input() tocOpened?: boolean;
+  @property() menuOpened?: boolean;
+  @property() tocOpened?: boolean;
 
-  @Output() toggleMenu!: EventEmitter<void>;
-  @Output() toggleTOC!: EventEmitter<void>;
+  @event() toggleMenu!: EventEmitter<void>;
+  @event() toggleTOC!: EventEmitter<void>;
 
   menuTogglerRef = createRef<HTMLButtonElement>();
   tocTogglerRef = createRef<HTMLButtonElement>();

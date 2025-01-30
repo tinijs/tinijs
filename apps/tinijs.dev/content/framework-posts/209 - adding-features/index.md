@@ -8,15 +8,15 @@
 
 ## The app instance
 
-As in previous topics, we can see that a TiniJS app is started with an app root defined in `./app/app.ts`, the file contains a class named `AppRoot` which extends the `TiniComponent` class and is decorated with the `@App()` decorator.
+As in previous topics, we can see that a TiniJS app is started with an app root defined in `./app/app.ts`, the file contains a class named `AppRoot` which extends the `TiniComponent` class and is decorated with the `@app()` decorator.
 
 The app root is where we initiate the app and incorporate features, a minimal app constructor looks like this:
 
 ```ts
 import {html, css} from 'lit';
-import {App, TiniComponent} from '@tinijs/core';
+import {app, TiniComponent} from '@tinijs/core';
 
-@App()
+@app()
 export class AppRoot extends TiniComponent {
 
   protected render() {
@@ -44,7 +44,7 @@ const app = document.getElementById('xxx');
 - Using util and decorator:
 
 ```ts
-import {getApp, UseApp} from '@tinijs/core';
+import {getApp, useApp} from '@tinijs/core';
 
 import type {AppRoot} from '../app.ts';
 
@@ -59,10 +59,10 @@ const meta = app.meta;
 /*
  * Or, via decorator
  */
-@Page({})
+@page({})
 export class AppPageXXX extends TiniComponent {
 
-  @UseApp() readonly app!: AppRoot;
+  @useApp() readonly app!: AppRoot;
 
   onCreate() {
     const config = this.app.config;
@@ -162,25 +162,25 @@ export const providers: DependencyProviders = {
   }
 };
 
-@App({ providers })
+@app({ providers })
 export class AppRoot extends TiniComponent {}
 ```
 
 - Step 3: **Inject dependencies**:
 
 ```ts
-import {Inject} from '@tinijs/core';
+import {inject} from '@tinijs/core';
 
 import type {FooConst} from '../consts/foo.js';
 import type {FooUtil} from '../utils/foo.js';
 import type {FooService} from '../services/foo.js';
 
-@Page({})
+@page({})
 export class AppPageXXX extends TiniComponent {
 
-  @Inject() FOO!: FooConst;
-  @Inject() foo!: FooUtil;
-  @Inject() fooService!: FooService;
+  @inject() FOO!: FooConst;
+  @inject() foo!: FooUtil;
+  @inject() fooService!: FooService;
 
   // lazy load dependencies are available started from onInit() lifecycle hook
   onInit() {
@@ -227,7 +227,7 @@ import {provide} from '@lit/context';
 
 import {pluginsContext, plugins} from './contexts/plugins.ts';
 
-@App()
+@app()
 export class AppRoot extends TiniComponent {
 
   @provide({context: pluginsContext}) $plugins = plugins;
@@ -242,7 +242,7 @@ import {consume} from '@lit/context';
 
 import {pluginsContext, type PluginsContext} from '../contexts/plugins.ts';
 
-@Page({})
+@page({})
 export class AppPageXXX extends TiniComponent {
 
   @consume({context: pluginsContext}) $plugins!: PluginsContext;
@@ -268,7 +268,7 @@ For demonstration, we will use **Vue 3** in a TiniJS app, install `npm i vue`.
 import {ref, createRef, type Ref} from 'lit/directives/ref.js';
 import {createApp} from 'vue/dist/vue.esm-bundler.js';
 
-@Page({})
+@page({})
 export class AppPageXXX extends TiniComponent {
   
   private readonly vueAppRef: Ref<HTMLDivElement> = createRef();

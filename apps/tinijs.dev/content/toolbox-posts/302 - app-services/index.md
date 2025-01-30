@@ -29,6 +29,6 @@ const providers = {
 // inject
 import type {AppService} from '@tinijs/toolbox/app';
 class XXX {
-  @Inject() appService!: AppService;
+  @inject() appService!: AppService;
 }
 ```

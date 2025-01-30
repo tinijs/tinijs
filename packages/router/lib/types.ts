@@ -48,8 +48,8 @@ export interface MatchResult {
   regexp?: RegExp;
   keys?: Key[];
   params?: Record<string, any>;
-  query?: Record<string, any>;
-  fragment?: string;
+  searchParams?: Record<string, any>;
+  fragmentId?: string;
   pageRoute?: Route;
   layoutRoute?: Route;
 }

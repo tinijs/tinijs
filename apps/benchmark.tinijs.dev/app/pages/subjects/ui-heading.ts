@@ -1,8 +1,8 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent} from '@tinijs/core';
+import {page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
-import {UseQuery} from '@tinijs/router';
+import {useSearchParams} from '@tinijs/router';
 
 import {TiniTextComponent} from '../../ui/components/text.js';
 import {TiniHeadingComponent} from '../../ui/components/heading.js';
@@ -11,7 +11,7 @@ import {repeat} from '../../utils/subject.js';
 
 import {HEADING_SUBJECT} from '../../subjects.js';
 
-@Page({
+@page({
   name: 'app-page-ui-heading',
   components: [TiniTextComponent, TiniHeadingComponent],
 })
@@ -24,11 +24,11 @@ export class AppPageUIHeading
     description: HEADING_SUBJECT.desc,
   };
 
-  @UseQuery() readonly query!: {items?: number};
+  @useSearchParams() readonly searchParams!: {items?: number};
 
   protected render() {
     return repeat(
-      Number(this.query.items || 1),
+      Number(this.searchParams.items || 1),
       i => html`
         <tini-heading>Heading default (#${i})</tini-heading>
         <tini-heading level="1">Heading level 1 (#${i})</tini-heading>

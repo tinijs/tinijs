@@ -158,12 +158,12 @@ export class Router {
     return this.getActiveRoute()?.params || {};
   }
 
-  getQuery() {
-    return this.getActiveRoute()?.query || {};
+  getSearchParams() {
+    return this.getActiveRoute()?.searchParams || {};
   }
 
-  getFragment() {
-    return this.getActiveRoute()?.fragment || '';
+  getFragmentId() {
+    return this.getActiveRoute()?.fragmentId || '';
   }
 
   match(url: URL): MatchResult {
@@ -224,22 +224,22 @@ export class Router {
     } = !matchedRoutePath || !matchedExecResult
       ? ({} as ReturnType<Router['extractParams']>)
       : this.extractParams(matchedRoutePath, matchedExecResult);
-    const query = {} as Record<string, any>;
+    const searchParams = {} as Record<string, any>;
     url.searchParams.forEach((value, key) => {
       if (!/\[\]$/.test(key)) {
-        query[key] = value;
+        searchParams[key] = value;
       } else {
         key = key.slice(0, -2);
-        if (!query[key]) {
-          query[key] = [value];
+        if (!searchParams[key]) {
+          searchParams[key] = [value];
         } else {
-          query[key] = Array.isArray(query[key])
-            ? query[key].concat(value)
-            : [query[key], value];
+          searchParams[key] = Array.isArray(searchParams[key])
+            ? searchParams[key].concat(value)
+            : [searchParams[key], value];
         }
       }
     });
-    const fragment = url.hash.replace(/^#/, '');
+    const fragmentId = url.hash.replace(/^#/, '');
     const result: MatchResult = {
       url,
       path,
@@ -247,8 +247,8 @@ export class Router {
       regexp,
       keys,
       params,
-      query,
-      fragment,
+      searchParams,
+      fragmentId,
       layoutRoute: matched?.layout,
       pageRoute: matched?.page,
     };

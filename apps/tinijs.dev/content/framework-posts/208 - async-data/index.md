@@ -15,10 +15,10 @@ The `@lit/task` package provides a `Task` reactive controller to help manage thi
 ```ts
 import {Task} from '@lit/task';
 
-@Component()
+@component()
 export class AppXXXComponent extends TiniComponent {
 
-  @Reactive() productId?: string;
+  @state() productId?: string;
 
   private _productTask = new Task(this, {
     task: async ([productId], {signal}) => {
@@ -56,10 +56,10 @@ Similar to Task Render, Section Render renders a section of a page based on **th
 ```ts
 import {sectionRender, type SectionRenderData} from '@tinijs/core';
 
-@Component()
+@component()
 export class AppXXXComponent extends TiniComponent {
 
-  @Reactive() product: SectionRenderData<Product>;
+  @state() product: SectionRenderData<Product>;
 
   async onInit() {
     this.product = await fetchProduct();

@@ -1,16 +1,16 @@
 import {html, css, nothing} from 'lit';
+import {property} from 'lit/decorators/property.js';
 import {pascalCase} from 'change-case';
 
 import {
-  Component,
+  component,
+  useUI,
   TiniComponent,
-  Prop,
-  UseUI,
   type UI,
   type OnCreate,
   type OnChanges,
 } from '@tinijs/core';
-import {Subscribe} from '@tinijs/store';
+import {globalState} from '@tinijs/store';
 
 import {MAIN_STORE} from '../stores/main.js';
 
@@ -20,7 +20,7 @@ import {UIConsumerTargets} from '../consts/common.js';
 
 import {AppConsumerTabsComponent} from './consumer-tabs.js';
 
-@Component({
+@component({
   components: [TiniCodeComponent, AppConsumerTabsComponent],
 })
 export class AppComponentImportComponent
@@ -29,10 +29,10 @@ export class AppComponentImportComponent
 {
   static readonly defaultTagName = 'app-component-import';
 
-  @UseUI() readonly ui!: UI;
-  @Subscribe(MAIN_STORE) uiConsumerTarget = MAIN_STORE.uiConsumerTarget;
+  @useUI() readonly ui!: UI;
+  @globalState(MAIN_STORE) uiConsumerTarget = MAIN_STORE.uiConsumerTarget;
 
-  @Prop() componentName!: string;
+  @property() componentName!: string;
 
   onCreate() {
     if (!this.componentName) throw new Error('componentName is required');
@@ -53,10 +53,10 @@ export class AppComponentImportComponent
         return `import { ${constructorName} } from '${importPath}';
 
 // globally in app.ts
-@App({ components: [ ${constructorName} ] })
+@app({ components: [ ${constructorName} ] })
 
 // or, locally in layouts, pages and components
-@Layout|Page|Component({ components: [ ${constructorName} ] })`;
+@layout|page|component({ components: [ ${constructorName} ] })`;
       }
       case UIConsumerTargets.React: {
         const reactTag = `Tini${className}`;

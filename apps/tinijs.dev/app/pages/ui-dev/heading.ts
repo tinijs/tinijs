@@ -1,12 +1,12 @@
 import {html, css} from 'lit';
 
-import {Component, TiniComponent} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
 import {TiniTextComponent} from '../../ui/components/text.js';
 import {TiniHeadingComponent} from '../../ui/components/heading.js';
 
-@Component({
-  components: [TiniTextComponent, TiniHeadingComponent],
+@component({
+  components: [TiniHeadingComponent],
 })
 export class AppPageUIDevHeadingComponent extends TiniComponent {
   static readonly defaultTagName = 'app-page-ui-dev-heading';

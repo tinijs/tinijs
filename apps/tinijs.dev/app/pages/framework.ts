@@ -1,7 +1,7 @@
 import {html} from 'lit';
 
 import {
-  Page,
+  page,
   TiniComponent,
   SubtleColors,
   Texts,
@@ -19,7 +19,7 @@ import {
 
 import {AppDocPageComponent} from '../components/doc-page/index.js';
 
-@Page({
+@page({
   name: 'app-page-framework',
   components: [TiniMessageComponent, AppDocPageComponent],
 })

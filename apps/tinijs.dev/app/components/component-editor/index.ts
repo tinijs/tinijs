@@ -1,4 +1,6 @@
 import {html, css, nothing, type TemplateResult} from 'lit';
+import {property} from 'lit/decorators/property.js';
+import {state} from 'lit/decorators/state.js';
 import {ref, createRef} from 'lit/directives/ref.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {html as staticHTML, unsafeStatic} from 'lit/static-html.js';
@@ -10,18 +12,16 @@ import type {InteractStatic} from '@interactjs/core/InteractStatic.js';
 import screenfull from 'screenfull';
 
 import {
-  Component,
-  TiniComponent,
-  Input,
-  Reactive,
+  component,
   createComponentLoader,
+  TiniComponent,
   ContrastColors,
   Sizes,
   type OnCreate,
   type OnChanges,
   type OnFirstRender,
 } from '@tinijs/core';
-import {Subscribe} from '@tinijs/store';
+import {globalState} from '@tinijs/store';
 
 import {TiniLinkComponent} from '../../ui/components/link.js';
 import {TiniIconComponent} from '../../ui/components/icon.js';
@@ -117,7 +117,7 @@ const componentLoader = createComponentLoader(
   }
 );
 
-@Component({
+@component({
   components: [
     TiniLinkComponent,
     TiniIconComponent,
@@ -146,16 +146,16 @@ export class AppComponentEditorComponent
 {
   static readonly defaultTagName = 'app-component-editor';
 
-  @Subscribe(MAIN_STORE) uiConsumerTarget = MAIN_STORE.uiConsumerTarget;
+  @globalState(MAIN_STORE) uiConsumerTarget = MAIN_STORE.uiConsumerTarget;
 
-  @Input() name!: string;
-  @Input({type: Object}) examples?: Record<string, QuickExample>;
-  @Input({type: Object}) sections!: FunctionSection[];
+  @property() name!: string;
+  @property({type: Object}) examples?: Record<string, QuickExample>;
+  @property({type: Object}) sections!: FunctionSection[];
 
-  @Reactive() commonViewport?: string;
-  @Reactive() isFullscreen = false;
-  @Reactive() selectedExampleValue = '_default';
-  @Reactive() data?: ComponentData;
+  @state() commonViewport?: string;
+  @state() isFullscreen = false;
+  @state() selectedExampleValue = '_default';
+  @state() data?: ComponentData;
 
   private readonly _mainRef = createRef<HTMLDivElement>();
   private readonly _previewRef = createRef<HTMLDivElement>();

@@ -1,8 +1,8 @@
 import {html} from 'lit';
 
-import {Layout, TiniComponent} from '@tinijs/core';
+import {layout, TiniComponent} from '@tinijs/core';
 
-@Layout({
+@layout({
   name: 'app-layout-default',
 })
 export class AppLayoutDefault extends TiniComponent {

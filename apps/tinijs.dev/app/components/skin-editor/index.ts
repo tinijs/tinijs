@@ -3,15 +3,15 @@ import {queryAll} from 'lit/decorators/query-all.js';
 import {repeat} from 'lit/directives/repeat.js';
 import {ref, createRef} from 'lit/directives/ref.js';
 import {
-  Component,
-  TiniComponent,
-  UseUI,
+  component,
+  useUI,
   listify,
   stylesToText,
+  TiniComponent,
   type UI,
   type Styles,
 } from '@tinijs/core';
-import {Subscribe} from '@tinijs/store';
+import {globalState} from '@tinijs/store';
 
 import {TiniCodeComponent} from '../../ui/components/code.js';
 import {TiniButtonComponent} from '../../ui/components/button.js';
@@ -32,7 +32,7 @@ import {buildColorVariants} from '../../utils/color.js';
 
 import {IconCodeComponent} from '../../icons/code.js';
 
-@Component({
+@component({
   components: [
     TiniCodeComponent,
     TiniButtonComponent,
@@ -44,9 +44,9 @@ import {IconCodeComponent} from '../../icons/code.js';
 export class AppSkinEditorComponent extends TiniComponent {
   static readonly defaultTagName = 'app-skin-editor';
 
-  @UseUI() readonly ui!: UI;
+  @useUI() readonly ui!: UI;
   @queryAll('.field') private allInputs!: NodeListOf<HTMLElement>;
-  @Subscribe(MAIN_STORE) skinEditorShown = MAIN_STORE.skinEditorShown;
+  @globalState(MAIN_STORE) skinEditorShown = MAIN_STORE.skinEditorShown;
 
   private modalRef = createRef<TiniModalComponent>();
   private modalContentRef = createRef<HTMLDivElement>();

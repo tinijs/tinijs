@@ -254,9 +254,9 @@ export default ${className};\n`;
 function getLayoutMainContent({className, tagName}: Names) {
   return `import {html, css} from 'lit';
 
-import {Layout, TiniComponent} from '@tinijs/core';
+import {layout, TiniComponent} from '@tinijs/core';
 
-@Layout({
+@layout({
   name: '${tagName}',
 })
 export class ${className} extends TiniComponent {
@@ -272,9 +272,9 @@ export class ${className} extends TiniComponent {
 function getPageMainContent({className, tagName}: Names) {
   return `import {html, css} from 'lit';
 
-import {Page, TiniComponent} from '@tinijs/core';
+import {page, TiniComponent} from '@tinijs/core';
 
-@Page({
+@page({
   name: '${tagName}',
 })
 export class ${className} extends TiniComponent {
@@ -289,23 +289,24 @@ export class ${className} extends TiniComponent {
 
 function getComponentMainContent({className, tagName}: Names) {
   return `import {html, css} from 'lit';
+import {property} from 'lit/decorators/property.js';
 
-import {Component, TiniComponent, Prop, Event, type EventEmitter, type OnCreate} from '@tinijs/core';
+import {component, event, TiniComponent, type EventEmitter, type OnCreate} from '@tinijs/core';
 
-@Component()
+@component()
 export class ${className} extends TiniComponent implements OnCreate {
   static readonly defaultTagName = '${tagName}';
 
-  @Prop() prop?: string;
+  @property() prop?: string;
 
-  @Event() event!: EventEmitter<any>;
+  @event() evt!: EventEmitter<any>;
 
   onCreate() {
     // element connected
   }
 
   emitEvent() {
-    this.event.emit('any payload');
+    this.evt.emit('any payload');
   }
 
   protected render() {

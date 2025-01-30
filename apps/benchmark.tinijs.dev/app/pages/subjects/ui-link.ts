@@ -1,8 +1,8 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent} from '@tinijs/core';
+import {page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
-import {UseQuery} from '@tinijs/router';
+import {useSearchParams} from '@tinijs/router';
 
 import {TiniLinkComponent} from '../../ui/components/link.js';
 
@@ -10,7 +10,7 @@ import {repeat} from '../../utils/subject.js';
 
 import {LINK_SUBJECT} from '../../subjects.js';
 
-@Page({
+@page({
   name: 'app-page-ui-link',
   components: [TiniLinkComponent],
 })
@@ -20,11 +20,11 @@ export class AppPageUILink extends TiniComponent implements PageWithMetadata {
     description: LINK_SUBJECT.desc,
   };
 
-  @UseQuery() readonly query!: {items?: number};
+  @useSearchParams() readonly searchParams!: {items?: number};
 
   protected render() {
     return repeat(
-      Number(this.query.items || 1),
+      Number(this.searchParams.items || 1),
       i => html`
         <tini-link href="#">Link (#${i})</tini-link>
         <tini-link href="#" disabled>Disabled link (#${i})</tini-link>
