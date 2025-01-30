@@ -173,7 +173,7 @@ export class BaseLayoutElement extends TiniElement {
   @property({type: String, reflect: true}) cursor?: LayoutStyleProps['cursor'];
   /* eslint-enable prettier/prettier */
 
-  protected commonItems(props: LayoutStyleProps) {
+  protected commonStyleItems(props: LayoutStyleProps) {
     const items: string[] = [];
     /* eslint-disable prettier/prettier */
     if (props.container) items.push(`container: ${props.container};`);

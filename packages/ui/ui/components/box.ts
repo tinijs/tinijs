@@ -54,7 +54,7 @@ export default class extends BaseLayoutElement {
         'The values "grid" and "inline-grid" are not available for tini-box, please use tini-grid instead.'
       );
     }
-    const items = this.commonItems(props);
+    const items = this.commonStyleItems(props);
     /* eslint-disable prettier/prettier */
     if (props.display) items.push(`display: ${props.display};`);
     // flex

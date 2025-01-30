@@ -567,6 +567,13 @@ export function parseShadowValue(raw: string) {
   return !isBuiltinShadow(raw) ? raw : `var(--shadow-${raw})`;
 }
 
+export function parseDecorationValue(raw: string) {
+  return raw
+    .split(' ')
+    .map(item => (isBuiltinColor(item) ? `var(--color-${item})` : item))
+    .join(' ');
+}
+
 /*
  * =============================================================================
  * Utils for generating variants

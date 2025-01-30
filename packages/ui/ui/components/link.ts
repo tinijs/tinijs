@@ -44,7 +44,7 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) activeStartsWith?: string;
   @property({type: String, reflect: true}) activeEndsWith?: string;
   @property({type: Array, reflect: true}) activePatterns?: string[];
-  @property({type: Boolean, reflect: true}) activeIncludeQuery = false;
+  @property({type: Boolean, reflect: true}) activeIncludeSearchParams = false;
   // styles
   @property({type: Boolean, reflect: true}) block: LinkStyleProps['block'] = false;
   @property({type: String, reflect: true}) color?: LinkStyleProps['color'];
@@ -113,10 +113,10 @@ export default class extends TiniElement {
       `${location.origin}${location.pathname}`
     );
     const locationValue = `${normalizedLocationURL.pathname}${
-      !this.activeIncludeQuery ? '' : normalizedLocationURL.search
+      !this.activeIncludeSearchParams ? '' : normalizedLocationURL.search
     }`;
     const linkValue = `${normalizedLinkURL.pathname}${
-      !this.activeIncludeQuery ? '' : normalizedLinkURL.search
+      !this.activeIncludeSearchParams ? '' : normalizedLinkURL.search
     }`;
     return ((cachedActiveStatuses[cacheKey] ||= {})[normalizedLocation] = this
       .activePatterns?.length

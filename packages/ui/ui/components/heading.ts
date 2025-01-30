@@ -8,13 +8,12 @@ import {
   createStyleBuilder,
   parseColorValue,
   parseSingleSpaceValue,
+  parseDecorationValue,
   isRTL,
   isImageURLOrURI,
   type DirectOrRecordStyles,
   type ComputedStylesQuery,
 } from '@tinijs/core';
-
-import {parseDecorationValue} from './text.js';
 
 type ComponentConstructor = typeof import('./heading.js').default;
 

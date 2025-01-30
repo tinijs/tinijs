@@ -1,14 +1,14 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent} from '@tinijs/core';
+import {page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
-import {UseQuery} from '@tinijs/router';
+import {useSearchParams} from '@tinijs/router';
 
 import {repeat} from '../../utils/subject.js';
 
 import {TEXT_CLASS_SUBJECT} from '../../subjects.js';
 
-@Page({
+@page({
   name: 'app-page-ui-text-class',
 })
 export class AppPageUITextClass
@@ -20,11 +20,11 @@ export class AppPageUITextClass
     description: TEXT_CLASS_SUBJECT.desc,
   };
 
-  @UseQuery() readonly query!: {items?: number};
+  @useSearchParams() readonly searchParams!: {items?: number};
 
   protected render() {
     return repeat(
-      Number(this.query.items || 1),
+      Number(this.searchParams.items || 1),
       i => html`
         <span>Text (#${i})</span>
         <span class="code">Code text (#${i})</span>

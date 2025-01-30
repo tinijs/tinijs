@@ -59,7 +59,7 @@ export default class extends BaseLayoutElement {
         'For tini-grid, the display property only accepts "grid", "inline-grid" or "none" value.'
       );
     }
-    const items = this.commonItems(props);
+    const items = this.commonStyleItems(props);
     /* eslint-disable prettier/prettier */
     /* if (props.display) */ items.push(`display: ${props.display || 'grid'};`);
     if (props.template) items.push(`grid-template: ${props.template};`);

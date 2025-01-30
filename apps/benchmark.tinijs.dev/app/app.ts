@@ -2,8 +2,8 @@ import {html} from 'lit';
 
 import {
   app,
-  TiniComponent,
   registerConfig,
+  TiniComponent,
   type AppWithConfig,
 } from '@tinijs/core';
 import {createRouter, type AppWithRouter} from '@tinijs/router';

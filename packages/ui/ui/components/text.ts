@@ -3,7 +3,6 @@ import {property} from 'lit/decorators/property.js';
 import {
   TiniElement,
   isRTL,
-  isBuiltinColor,
   parseColorValue,
   parseGradientValue,
   parseFontValue,
@@ -13,6 +12,7 @@ import {
   parseWordValue,
   parseSingleSpaceValue,
   parseWideValue,
+  parseDecorationValue,
 } from '@tinijs/core';
 
 export interface TextStyleProps {
@@ -35,13 +35,6 @@ export interface TextStyleProps {
   overflow?: 'none' | 'clip' | 'ellipsis' | 'fade';
   max?: string;
   align?: string;
-}
-
-export function parseDecorationValue(raw: string) {
-  return raw
-    .split(' ')
-    .map(item => (isBuiltinColor(item) ? `var(--color-${item})` : item))
-    .join(' ');
 }
 
 export default class extends TiniElement {

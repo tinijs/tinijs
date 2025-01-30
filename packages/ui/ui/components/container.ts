@@ -31,7 +31,7 @@ export default class extends BaseLayoutElement {
         'For tini-container, the display property only accepts "initial" or "none" value.'
       );
     }
-    const items = this.commonItems(props);
+    const items = this.commonStyleItems(props);
     /* eslint-disable prettier/prettier */
     if (props.display) items.push(`display: ${props.display};`);
     if (props.size) items.push(`max-width: ${parseWideValue(props.size)};`);

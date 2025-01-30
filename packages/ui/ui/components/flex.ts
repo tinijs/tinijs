@@ -51,7 +51,7 @@ export default class extends BaseLayoutElement {
         'For tini-flex, the display property only accepts "flex", "inline-flex" or "none" value.'
       );
     }
-    const items = this.commonItems(props);
+    const items = this.commonStyleItems(props);
     /* eslint-disable prettier/prettier */
     /* if (props.display) */ items.push(`display: ${props.display || 'flex'};`);
     if (props.flow) items.push(`flex-flow: ${props.flow};`);

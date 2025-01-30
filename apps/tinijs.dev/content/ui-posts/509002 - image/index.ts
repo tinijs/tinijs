@@ -1,6 +1,7 @@
 import {html, css, nothing} from 'lit';
+import {property} from 'lit/decorators/property.js';
 
-import {Component, TiniComponent, Input} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
 import {AppComponentEditorComponent} from '../../../app/components/component-editor/index.js';
 
@@ -29,13 +30,13 @@ const SHAPE_ITEMS = [
   {content: 'Rounded triangle', value: 'rounded-triangle'},
 ];
 
-@Component({
+@component({
   components: [AppComponentEditorComponent],
 })
 export class ContentUIPostImageComponent extends TiniComponent {
   static readonly defaultTagName = 'content-ui-post-image';
 
-  @Input() block!: string;
+  @property() block!: string;
 
   onCreate() {
     if (!this.block) throw new Error('block is required');
