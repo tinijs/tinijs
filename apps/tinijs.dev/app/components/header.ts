@@ -99,31 +99,31 @@ export class HeaderComponent
           <div class=${classMap({navbar: true, opened: this.mobileMenuOpened})}>
             <nav class="menu">
               <tini-link
-                active="active"
+                activeStartsAuto
                 href="/framework"
                 @click=${this._closeMobileMenu}
                 >Framework</tini-link
               >
               <tini-link
-                active="active"
+                activeStartsAuto
                 href="/ui"
                 @click=${this._closeMobileMenu}
                 >UI</tini-link
               >
               <tini-link
-                active="active"
+                activeStartsAuto
                 href="/module"
                 @click=${this._closeMobileMenu}
                 >Modules</tini-link
               >
               <tini-link
-                active="active"
+                activeStartsAuto
                 href="/toolbox"
                 @click=${this._closeMobileMenu}
                 >Toolbox</tini-link
               >
               <tini-link
-                active="active"
+                activeStartsAuto
                 href="/cli"
                 @click=${this._closeMobileMenu}
                 >CLI</tini-link
@@ -196,7 +196,7 @@ export class HeaderComponent
       tini-link {
         border-bottom: 1px solid var(--color-body-semi);
 
-        &::part(main) {
+        &::part(a) {
           display: block;
           padding: var(--space-sm) 0;
           color: var(--color-body-contrast);
@@ -259,14 +259,16 @@ export class HeaderComponent
         tini-link {
           border-bottom: none;
 
-          &::part(main) {
+          &::part(a) {
             padding: var(--space-xs2) var(--space-md);
             border-radius: var(--radius-md);
           }
-          &:hover::part(main) {
+
+          &:hover::part(a) {
             background: var(--color-body-soft);
           }
-          &.active::part(main) {
+
+          &[linkIsActive]::part(a) {
             background: var(--color-body-semi);
           }
         }

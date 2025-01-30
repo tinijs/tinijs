@@ -1,5 +1,6 @@
 import {html, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators/property.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import normalizeUrl from 'normalize-url';
 import {pathToRegexp} from 'path-to-regexp';
 
@@ -8,12 +9,15 @@ import {
   createStyleBuilder,
   parseColorValue,
   parseSingleSpaceValue,
+  parseDecorationValue,
 } from '@tinijs/core';
 import {ROUTE_CHANGE_EVENT} from '@tinijs/router';
 
-import {parseDecorationValue} from './text.js';
-
 type ComponentConstructor = typeof import('./link.js').default;
+
+export enum LinkParts {
+  A = 'a',
+}
 
 export interface LinkStyleProps {
   block?: boolean;
@@ -40,44 +44,41 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) type?: string;
   @property({type: Boolean, reflect: true}) disabled = false;
   // active
-  @property({type: Boolean, reflect: true}) activeStarts = false;
+  @property({type: Boolean, reflect: true}) activeFull = false;
+  @property({type: Boolean, reflect: true}) activeStartsAuto = false;
   @property({type: String, reflect: true}) activeStartsWith?: string;
   @property({type: String, reflect: true}) activeEndsWith?: string;
   @property({type: Array, reflect: true}) activePatterns?: string[];
-  @property({type: Boolean, reflect: true}) activeIncludeSearchParams = false;
+  @property({type: Boolean, reflect: true}) activeIncludesSearchParams = false;
   // styles
   @property({type: Boolean, reflect: true}) block: LinkStyleProps['block'] = false;
   @property({type: String, reflect: true}) color?: LinkStyleProps['color'];
   @property({type: String, reflect: true}) decoration?: LinkStyleProps['decoration'];
   @property({type: String, reflect: true}) underlineOffset?: LinkStyleProps['underlineOffset'];
   @property({type: String, reflect: true}) opacity?: LinkStyleProps['opacity'];
-  // pseudo
-  @property({type: Object, reflect: true}) hover?: LinkStyleProps;
-  @property({type: Object, reflect: true}) active?: LinkStyleProps & {hover?: LinkStyleProps};
+  // styles for pseudo and active
+  @property({type: Object, reflect: true}) hoverStyles?: LinkStyleProps;
+  @property({type: Object, reflect: true}) activeStyles?: LinkStyleProps & {hoverStyles?: LinkStyleProps};
   /* eslint-enable prettier/prettier */
-
-  private anchorElement?: HTMLAnchorElement;
-  private renewLinkElement() {
-    const a = document.createElement('a');
-    a.href = this.href;
-    if (this.target) a.target = this.target;
-    if (this.rel) a.rel = this.rel;
-    if (this.download) a.download = this.download;
-    if (this.referrerpolicy) a.referrerPolicy = this.referrerpolicy;
-    if (this.hreflang) a.hreflang = this.hreflang;
-    if (this.type) a.type = this.type;
-    return (this.anchorElement = a);
-  }
 
   private static cachedActiveStatuses: Record<string, Record<string, boolean>> =
     {};
   private getActiveStatus() {
+    // 0. turned off (default)
+    if (
+      !this.activeFull &&
+      !this.activeStartsAuto &&
+      !this.activeStartsWith &&
+      !this.activeEndsWith &&
+      !this.activePatterns?.length
+    )
+      return false;
+    // 1. ignore
     const locationURL = new URL(location.href);
     const linkURL = new URL(
       this.href,
       `${location.origin}${location.pathname}`
     );
-    // 0. ignore
     if (
       this.href === '#' || // empty hash
       (this.target && this.target !== '_self') || // has target
@@ -88,7 +89,7 @@ export default class extends TiniElement {
       linkURL.origin !== locationURL.origin // cross origin
     )
       return false;
-    // 1. from cache
+    // 2. from cache
     const normalizedLocation = normalizeUrl(locationURL.href);
     const normalizedLink = normalizeUrl(linkURL.href);
     const cachedActiveStatuses = (this.constructor as ComponentConstructor)
@@ -99,24 +100,24 @@ export default class extends TiniElement {
         ? [this.activeStartsWith || '$starts$', this.activeEndsWith] // B. ends with & starts with (or default starts)
         : this.activeStartsWith
           ? [this.activeStartsWith] // C. starts with
-          : this.activeStarts
+          : this.activeStartsAuto
             ? ['$starts$'] // D. default starts
             : ['$full$']; // E. full
     const cacheKey = [normalizedLink, ...modeArr].join('///');
     if (cachedActiveStatuses[cacheKey]?.[normalizedLocation] !== undefined) {
       return cachedActiveStatuses[cacheKey][normalizedLocation];
     }
-    // 2. no cache
+    // 3. no cache
     const normalizedLocationURL = new URL(normalizedLocation);
     const normalizedLinkURL = new URL(
       normalizedLink,
       `${location.origin}${location.pathname}`
     );
     const locationValue = `${normalizedLocationURL.pathname}${
-      !this.activeIncludeSearchParams ? '' : normalizedLocationURL.search
+      !this.activeIncludesSearchParams ? '' : normalizedLocationURL.search
     }`;
     const linkValue = `${normalizedLinkURL.pathname}${
-      !this.activeIncludeSearchParams ? '' : normalizedLinkURL.search
+      !this.activeIncludesSearchParams ? '' : normalizedLinkURL.search
     }`;
     return ((cachedActiveStatuses[cacheKey] ||= {})[normalizedLocation] = this
       .activePatterns?.length
@@ -130,7 +131,7 @@ export default class extends TiniElement {
           ) // B. ends with & starts with (or default starts)
         : this.activeStartsWith
           ? locationValue.startsWith(this.activeStartsWith) // C. starts with
-          : this.activeStarts
+          : this.activeStartsAuto
             ? locationValue.startsWith(normalizedLinkURL.pathname) // D. default starts
             : linkValue === locationValue &&
               (!normalizedLinkURL.hash ||
@@ -138,32 +139,14 @@ export default class extends TiniElement {
   }
 
   private handleRouteChanged = () => {
-    if (!this.active) return;
-    this.requestUpdate();
-  };
-
-  private handleHostClicked = (e: MouseEvent) => {
-    if (!this.anchorElement) return;
-    if ((this.target && this.target !== '_self') || this.download) {
-      this.anchorElement.dispatchEvent(
-        new MouseEvent('click', {
-          bubbles: false,
-          cancelable: true,
-        })
-      );
-    } else {
-      const url = new URL(this.anchorElement.href);
-      history.pushState({}, '', url.href);
-      dispatchEvent(new PopStateEvent('popstate'));
-    }
+    this.updateActiveStatus(); // update active status on route change
   };
 
   connectedCallback() {
     super.connectedCallback();
-    this.renewLinkElement();
-    // events
-    this.addEventListener('click', this.handleHostClicked);
     addEventListener(ROUTE_CHANGE_EVENT, this.handleRouteChanged);
+    // update initial active status
+    this.updateActiveStatus();
   }
 
   disconnectedCallback() {
@@ -175,12 +158,17 @@ export default class extends TiniElement {
     if (!this.href) throw new Error('href is required');
   }
 
-  protected computedStyles(props: LinkStyleProps) {
-    const isActive = !this.active ? false : this.getActiveStatus();
-    console.log({isActive});
+  private updateActiveStatus() {
+    const isActive = this.getActiveStatus();
+    if (isActive) {
+      this.setAttribute('linkIsActive', '');
+    } else {
+      this.removeAttribute('linkIsActive');
+    }
+  }
 
+  private buildStyleItems(props: LinkStyleProps) {
     const items: string[] = [];
-    const hoverItems: string[] = [];
     /* eslint-disable prettier/prettier */
     if (props.block !== undefined) items.push(`display: ${props.block ? 'block' : 'inline'};`);
     if (props.color) items.push(`color: ${parseColorValue(props.color)};`);
@@ -196,18 +184,53 @@ export default class extends TiniElement {
     }
     if (props.opacity) items.push(`opacity: ${props.opacity};`);
     /* eslint-enable prettier/prettier */
-    // set active status
-    if (isActive) {
-      this.setAttribute('activeLink', '');
-    } else {
-      this.removeAttribute('activeLink');
+    return items;
+  }
+
+  protected computedStyles(props: LinkStyleProps) {
+    const result: string[] = [];
+    // base styles
+    const items = this.buildStyleItems(props);
+    result.push(`:host { ${items.join('')} }`);
+    // pseudo :hover styles
+    if (this.hoverStyles) {
+      const hoverItems = this.buildStyleItems(this.hoverStyles);
+      result.push(`:host(:hover) { ${hoverItems.join('')} }`);
+    }
+    // active styles
+    if (this.activeStyles) {
+      const activeItems = this.buildStyleItems(this.activeStyles);
+      result.push(`:host([linkIsActive]) { ${activeItems.join('')} }`);
+      if (this.activeStyles.hoverStyles) {
+        const activeHoverItems = this.buildStyleItems(
+          this.activeStyles.hoverStyles
+        );
+        result.push(
+          `:host([linkIsActive]:hover) { ${activeHoverItems.join('')} }`
+        );
+      }
     }
     // result
-    return `:host { ${items.join('')} }`;
+    return result.join('');
   }
 
   protected render() {
-    return html`<slot></slot>`;
+    return html`
+      <a
+        class=${LinkParts.A}
+        part=${LinkParts.A}
+        href=${this.href}
+        target=${ifDefined(this.target)}
+        rel=${ifDefined(this.rel)}
+        download=${ifDefined(this.download)}
+        referrerpolicy=${ifDefined(this.referrerpolicy)}
+        hreflang=${ifDefined(this.hreflang)}
+        type=${ifDefined(this.type)}
+        aria-disabled=${ifDefined(this.disabled ? 'true' : undefined)}
+      >
+        <slot></slot>
+      </a>
+    `;
   }
 }
 
@@ -215,14 +238,9 @@ export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
 }>(outputs => [
   css`
-    :host {
-      cursor: pointer;
-    }
-
-    :host([disabled]) {
+    a[aria-disabled='true'] {
       cursor: not-allowed;
       pointer-events: none;
-      opacity: 0.5;
     }
   `,
 
