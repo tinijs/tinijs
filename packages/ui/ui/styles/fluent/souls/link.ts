@@ -8,8 +8,6 @@ export const styles = defaultStyles.extends({
       visibility: visible;
     }
   `,
-  colorGen: () => '',
-  gradientGen: () => '',
 });
 
 export default {styles};

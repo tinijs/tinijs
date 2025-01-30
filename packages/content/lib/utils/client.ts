@@ -11,7 +11,7 @@ export function createContentClient<Item, Detail>(
   collectionName: string,
   options: ContentClientOptions = {}
 ) {
-  const baseUrl = options.baseUrl || `${window.location.origin}/tini-content`;
+  const baseUrl = options.baseUrl || `${location.origin}/tini-content`;
   delete options.baseUrl;
   return new ContentClient<Item, Detail>(collectionName, baseUrl, options);
 }

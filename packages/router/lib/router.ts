@@ -325,7 +325,7 @@ export class Router {
           testHref.startsWith('mailto:') || // mailto protocol
           testHref.startsWith('tel:') || // tel protocol
           anchor.hasAttribute('download') || // has download
-          anchor.hasAttribute('router-ignore') || // has router-ignore
+          anchor.hasAttribute('routerIgnore') || // has routerIgnore
           (anchor.origin || this.getAnchorOrigin(anchor)) !== locationOrigin // cross origin
         )
           return;

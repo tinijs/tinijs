@@ -9,16 +9,6 @@ export const styles = defaultStyles.extends({
       visibility: visible;
     }
   `,
-  colorGen: ({hostSelector, baseName}) => `
-    ${hostSelector} .main:hover {
-      color: var(--color-${baseName}-hard);
-    }
-  `,
-  gradientGen: ({hostSelector, baseName}) => `
-    ${hostSelector} .main:hover {
-      --gradient: var(--gradient-${baseName}-hard);
-    }
-  `,
 });
 
 export default {styles};
