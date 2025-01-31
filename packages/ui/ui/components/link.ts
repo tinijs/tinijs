@@ -4,27 +4,13 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import normalizeUrl from 'normalize-url';
 import {pathToRegexp} from 'path-to-regexp';
 
-import {
-  TiniElement,
-  createStyleBuilder,
-  parseColorValue,
-  parseSingleSpaceValue,
-  parseDecorationValue,
-} from '@tinijs/core';
+import {TiniElement, createStyleBuilder} from '@tinijs/core';
 import {ROUTE_CHANGE_EVENT} from '@tinijs/router';
 
 type ComponentConstructor = typeof import('./link.js').default;
 
 export enum LinkParts {
   A = 'a',
-}
-
-export interface LinkStyleProps {
-  block?: boolean;
-  color?: string;
-  decoration?: string;
-  underlineOffset?: string;
-  opacity?: string;
 }
 
 export default class extends TiniElement {
@@ -50,15 +36,6 @@ export default class extends TiniElement {
   @property({type: String, reflect: true}) activeEndsWith?: string;
   @property({type: Array, reflect: true}) activePatterns?: string[];
   @property({type: Boolean, reflect: true}) activeIncludesSearchParams = false;
-  // styles
-  @property({type: Boolean, reflect: true}) block: LinkStyleProps['block'] = false;
-  @property({type: String, reflect: true}) color?: LinkStyleProps['color'];
-  @property({type: String, reflect: true}) decoration?: LinkStyleProps['decoration'];
-  @property({type: String, reflect: true}) underlineOffset?: LinkStyleProps['underlineOffset'];
-  @property({type: String, reflect: true}) opacity?: LinkStyleProps['opacity'];
-  // styles for pseudo and active
-  @property({type: Object, reflect: true}) hoverStyles?: LinkStyleProps;
-  @property({type: Object, reflect: true}) activeStyles?: LinkStyleProps & {hoverStyles?: LinkStyleProps};
   /* eslint-enable prettier/prettier */
 
   private static cachedActiveStatuses: Record<string, Record<string, boolean>> =
@@ -165,53 +142,6 @@ export default class extends TiniElement {
     } else {
       this.removeAttribute('linkIsActive');
     }
-  }
-
-  private buildStyleItems(props: LinkStyleProps) {
-    const items: string[] = [];
-    /* eslint-disable prettier/prettier */
-    if (props.block !== undefined) items.push(`display: ${props.block ? 'block' : 'inline'};`);
-    if (props.color) items.push(`color: ${parseColorValue(props.color)};`);
-    if (props.decoration) {
-      const decoration = parseDecorationValue(props.decoration);
-      items.push(
-        `-webkit-text-decoration: ${decoration};`,
-        `text-decoration: ${decoration};`
-      );
-    }
-    if (props.underlineOffset) {
-      items.push(`text-underline-offset: ${parseSingleSpaceValue(props.underlineOffset)};`);
-    }
-    if (props.opacity) items.push(`opacity: ${props.opacity};`);
-    /* eslint-enable prettier/prettier */
-    return items;
-  }
-
-  protected computedStyles(props: LinkStyleProps) {
-    const result: string[] = [];
-    // base styles
-    const items = this.buildStyleItems(props);
-    result.push(`:host { ${items.join('')} }`);
-    // pseudo :hover styles
-    if (this.hoverStyles) {
-      const hoverItems = this.buildStyleItems(this.hoverStyles);
-      result.push(`:host(:hover) { ${hoverItems.join('')} }`);
-    }
-    // active styles
-    if (this.activeStyles) {
-      const activeItems = this.buildStyleItems(this.activeStyles);
-      result.push(`:host([linkIsActive]) { ${activeItems.join('')} }`);
-      if (this.activeStyles.hoverStyles) {
-        const activeHoverItems = this.buildStyleItems(
-          this.activeStyles.hoverStyles
-        );
-        result.push(
-          `:host([linkIsActive]:hover) { ${activeHoverItems.join('')} }`
-        );
-      }
-    }
-    // result
-    return result.join('');
   }
 
   protected render() {
