@@ -1,6 +1,6 @@
 import {html, css} from 'lit';
 
-import {component, TiniComponent, Colors, Gradients, Texts} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
 import {TiniLinkComponent} from '../../ui/components/link.js';
 
@@ -20,22 +20,18 @@ export class AppPageUIDevLinkComponent extends TiniComponent {
         <tini-link href="#" target="_blank">Lorem ipsum (_blank, B)</tini-link
         ><br />
 
-        <tini-link href="#" disabled>Lorem ipsum (disabled)</tini-link>
-      </ui-dev-section>
-
-      <ui-dev-section titleText="No underline">
-        <tini-link href="#" noUnderline>Lorem ipsum</tini-link><br />
-        ${[Colors.Success, Gradients.Success].map(
-          color => html`
-            <tini-link href="#" noUnderline color=${color}
-              >Lorem ipsum (color=${color})</tini-link
-            >
-            <br />
-          `
-        )}
+        <tini-link href="#" disabled>Lorem ipsum (disabled)</tini-link><br />
+        <tini-link activeFull href="/ui/link/dev"
+          >Lorem ipsum (active)</tini-link
+        >
       </ui-dev-section>
     `;
   }
 
-  static styles = css``;
+  static styles = css`
+    tini-link[linkIsActive]::part(a) {
+      color: var(--color-success);
+      font-weight: bold;
+    }
+  `;
 }

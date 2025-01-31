@@ -3,12 +3,7 @@ import {css} from 'lit';
 import {defaultStyles} from '../../../components/link.js';
 
 export const styles = defaultStyles.extends({
-  statics: css`
-    :host([gradient]) .main::after,
-    :host([gradient]) .main:hover::after {
-      visibility: visible;
-    }
-  `,
+  statics: css``,
 });
 
 export default {styles};

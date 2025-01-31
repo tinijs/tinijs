@@ -105,11 +105,11 @@ export default class extends TiniElement {
         ? locationValue.endsWith(this.activeEndsWith) &&
           locationValue.startsWith(
             this.activeStartsWith || normalizedLinkURL.pathname
-          ) // B. ends with & starts with (or default starts)
+          ) // B. ends with & starts with (or auto starts)
         : this.activeStartsWith
           ? locationValue.startsWith(this.activeStartsWith) // C. starts with
           : this.activeStartsAuto
-            ? locationValue.startsWith(normalizedLinkURL.pathname) // D. default starts
+            ? locationValue.startsWith(normalizedLinkURL.pathname) // D. auto starts
             : linkValue === locationValue &&
               (!normalizedLinkURL.hash ||
                 normalizedLinkURL.hash === normalizedLocationURL.hash)); // E. full
@@ -168,9 +168,14 @@ export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
 }>(outputs => [
   css`
+    :host {
+      display: inline;
+    }
+
     a[aria-disabled='true'] {
       cursor: not-allowed;
       pointer-events: none;
+      opacity: 0.5;
     }
   `,
 
