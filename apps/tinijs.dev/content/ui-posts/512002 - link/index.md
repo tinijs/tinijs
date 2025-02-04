@@ -12,76 +12,49 @@
 
 ## Editor
 
-{%
-  app 'component-editor', {
-    name: 'link',
-    sections: [
-      {
-        section: 'html',
-        attrs: {label: 'Inner'},
-        target: 'inner',
-        value: 'This is a link.'
-      },
-      {
-        section: 'input',
-        attrs: {label: 'Href'},
-        target: 'href',
-        value: '#'
-      },
-      {
-        section: 'select',
-        attrs: {
-          label: 'Target',
-          items: [
-            {content: 'Default', value: '_default'},
-            {content: '_blank', value: '_blank'},
-            {content: '_parent', value: '_parent'},
-            {content: '_top', value: '_top'}
-          ]
-        },
-        target: 'target'
-      },
-      {
-        section: 'switch',
-        attrs: {label: 'Disabled'},
-        target: 'disabled'
-      },
-      {
-        section: 'select',
-        attrs: {label: 'Color', preset: 'colorsAndGradients'},
-        target: 'color'
-      },
-      {
-        section: 'select',
-        attrs: {label: 'Font size', preset: 'texts'},
-        target: 'size'
-      },
-      {
-        section: 'select',
-        attrs: {label: 'Font weight', preset: 'weights'},
-        target: 'weight'
-      },
-      {
-        section: 'switch',
-        attrs: {label: 'Italic'},
-        target: 'italic'
-      },
-      {
-        section: 'switch',
-        attrs: {label: 'No underline'},
-        target: 'noUnderline'
-      },
-      {
-        section: 'css',
-        attrs: {
-          label: 'Style deep',
-          placeholder: ':host, .main, .any { ... }'
-        },
-        target: 'styleDeep'
-      }
-    ]
-  }
-%}{% endapp %}
+<content-ui-post-link block="editor"></content-ui-post-link>
+
+## API
+
+| Property                             | Description                                                                                                    | Value        |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------------- | ------------ |
+| `href`                               | Anchor [href](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#href)                                | **Required** |
+| `target`                             | Anchor [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#target)                            | -            |
+| `rel`                                | The [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel) attribute                          | -            |
+| `download`                           | Anchor [download](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download)                        | -            |
+| `referrerpolicy`                     | Anchor [referrerpolicy](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#referrerpolicy)            | -            |
+| `hreflang`                           | Anchor [hreflang](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#hreflang)                        | -            |
+| `type`                               | Anchor [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#type)                                | -            |
+| `disabled`                           | `boolean` - mark the link as disabled                                                                          | -            |
+| *Active status*                      |
+| `activeFull`                         | `boolean` - math full `pathname` with or without the `hash` part                                               | -            |
+| `activeStartsAuto`                   | `boolean` - `pathname` starts with the same value as the current url `pathname`                                | -            |
+| `activeStartsWith`, `activeEndsWith` | `string` - `pathname` starts/ends with custom strings (if no `activeStartsWith` use the auto start)            | -            |
+| `activePatterns`                     | `string[]` - array of RegExp patterns, please see [path-to-regexp](https://github.com/pillarjs/path-to-regexp) | -            |
+| `activeIncludesSearchParams`         | `boolean` - also check for search params                                                                       | -            |
+
+### Parts
+
+| Part           | styleDeep  | Description               |
+| -------------- | ---------- | ------------------------- |
+| `tini-link {}` | `:host {}` | The tini-link element     |
+| `::part(a) {}` | `.a {}`    | The native anchor element |
+
+### Handle active links
+
+By default the `tini-link` component acts similar to the native anchor element, but with the ability to handle the active status of the link. The active status can be set by using the `activeFull`, `activeStartsAuto`, `activeStartsWith`, `activeEndsWith`, `activePatterns` and `activeIncludesSearchParams` properties.
+
+The active status is evaluated initially and updated on route changes, reflected by the `linkIsActive` attribute, therefore it can be used to style the link based on its active status.
+
+```css
+tini-link::part(a) {
+  /* base link style */
+}
+
+tini-link[linkIsActive]::part(a) {
+  /* active link style */
+}
+```
 
 ## Benchmark
 

@@ -20,8 +20,11 @@ import {
   Sizes,
   Fonts,
   Texts,
-  Weights,
+  Lines,
+  Letters,
+  Words,
   Radiuses,
+  Shadows,
   type EventEmitter,
   type OnCreate,
 } from '@tinijs/core';
@@ -64,10 +67,10 @@ export class AppComponentEditorSelectComponent
       options: this.buildPresetItems(ContrastColors),
     },
   ];
-  private allColors = [
+  private schemableColors = [
     this.colors[0],
     this.subtleColors[0],
-    // this.contrastColors[0],
+    this.contrastColors[0],
   ];
 
   private gradients: SelectOptgroup[] = [
@@ -88,10 +91,10 @@ export class AppComponentEditorSelectComponent
       options: this.buildPresetItems(ContrastGradients),
     },
   ];
-  private allGradients = [
+  private schemableGradients = [
     this.gradients[0],
     this.subtleGradients[0],
-    // this.contrastGradients[0],
+    this.contrastGradients[0],
   ];
 
   private colorsAndGradients: SelectOptgroup[] = [
@@ -106,9 +109,9 @@ export class AppComponentEditorSelectComponent
     this.contrastColors[0],
     this.contrastGradients[0],
   ];
-  private allColorsAndAllGradients: SelectOptgroup[] = [
-    ...this.allColors,
-    ...this.allGradients,
+  private schemableColorsAndSchemableGradients: SelectOptgroup[] = [
+    ...this.schemableColors,
+    ...this.schemableGradients,
   ];
 
   private presetDefaultItem: SelectOption = {
@@ -119,20 +122,24 @@ export class AppComponentEditorSelectComponent
     colors: this.colors,
     subtleColors: this.subtleColors,
     contrastColors: this.contrastColors,
-    allColors: this.allColors,
+    schemableColors: this.schemableColors,
     gradients: this.gradients,
     subtleGradients: this.subtleGradients,
     contrastGradients: this.contrastGradients,
-    allGradients: this.allGradients,
+    schemableGradients: this.schemableGradients,
     colorsAndGradients: this.colorsAndGradients,
     subtleColorsAndSubtleGradients: this.subtleColorsAndSubtleGradients,
     contrastColorsAndContrastGradients: this.contrastColorsAndContrastGradients,
-    allColorsAndAllGradients: this.allColorsAndAllGradients,
+    schemableColorsAndSchemableGradients:
+      this.schemableColorsAndSchemableGradients,
     sizes: this.buildPresetItems(Sizes, value => value.toUpperCase()),
     fonts: this.buildPresetItems(Fonts),
     texts: this.buildPresetItems(Texts, value => value.toUpperCase()),
-    weights: this.buildPresetItems(Weights),
+    lines: this.buildPresetItems(Lines, value => value.toUpperCase()),
+    letters: this.buildPresetItems(Letters, value => value.toUpperCase()),
+    words: this.buildPresetItems(Words, value => value.toUpperCase()),
     radiuses: this.buildPresetItems(Radiuses, value => value.toUpperCase()),
+    shadows: this.buildPresetItems(Shadows, value => value.toUpperCase()),
   };
 
   onCreate() {

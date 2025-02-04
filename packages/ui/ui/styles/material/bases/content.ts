@@ -43,6 +43,22 @@ export const heading = css`
   h6 {
     font-size: 1.1rem;
   }
+
+  h1 a,
+  h2 a,
+  h3 a,
+  h4 a,
+  h5 a,
+  h6 a,
+  h1 code,
+  h2 code,
+  h3 code,
+  h4 code,
+  h5 code,
+  h6 code {
+    font-weight: inherit;
+    font-size: 1em;
+  }
 `;
 
 export const text = bootstrapText;
@@ -56,6 +72,11 @@ export const link = css`
 
   a:hover {
     text-decoration: underline;
+  }
+
+  a code {
+    font-weight: inherit;
+    font-size: 1em;
   }
 `;
 

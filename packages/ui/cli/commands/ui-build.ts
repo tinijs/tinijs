@@ -18,6 +18,7 @@ import {
   buildBases,
   buildComponents,
   buildSetup,
+  buildLit,
   buildPackageJSON,
   transpileAndRemoveTSFiles,
   buildBundled,
@@ -110,6 +111,10 @@ export const uiBuildCommand = createCLICommand(
       // build setup
       const setupResult = await buildSetup(config);
       results.push(setupResult);
+
+      // build Lit
+      const litResult = await buildLit();
+      results.push(litResult);
 
       // build package.json
       if (config.packageJSON) {

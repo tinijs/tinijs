@@ -1,5 +1,5 @@
 import {html, css, render, nothing} from 'lit';
-import {queryAll} from 'lit/decorators.js';
+import {queryAll} from 'lit/decorators/query-all.js';
 import {repeat} from 'lit/directives/repeat.js';
 import {ref, createRef} from 'lit/directives/ref.js';
 import {
@@ -149,7 +149,7 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
           Copy the code below and save as
           <code>ui/styles/${familyId}/skins/some-name.ts</code>. You can edit
           the values further if you wish or add overrides for
-          <a href="/ui/token" @click=${() => this.hideCodeModal()}
+          <a href="/ui/design-tokens" @click=${() => this.hideCodeModal()}
             >auto-generated tokens</a
           >.
         </p>
@@ -289,10 +289,10 @@ export default css\`:root {\n  ${allVariables.join('\n  ')}\n}\`;
       <div class="foot">
         <tini-button
           class="show-code"
-          scheme="primary"
+          color="primary"
           @click=${this.showCodeModal}
         >
-          <icon-code scheme="primary-contrast" size="sm"></icon-code>
+          <icon-code color="primary-contrast" size="sm"></icon-code>
           <span>Show code</span>
         </tini-button>
       </div>

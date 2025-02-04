@@ -1,13 +1,6 @@
 import {html, css} from 'lit';
 
-import {
-  component,
-  TiniComponent,
-  Colors,
-  Gradients,
-  Texts,
-  Weights,
-} from '@tinijs/core';
+import {component, TiniComponent} from '@tinijs/core';
 
 import {TiniLinkComponent} from '../../ui/components/link.js';
 
@@ -19,77 +12,26 @@ export class AppPageUIDevLinkComponent extends TiniComponent {
 
   protected render() {
     return html`
-      <ui-dev-section titleText="Natives">
-        <a href="#">Lorem ipsum</a><br />
-        <a href="#" target="_blank">Lorem ipsum (target=_blank)</a>
-      </ui-dev-section>
+      <ui-dev-section titleText="Basics">
+        <a href="#">Lorem ipsum (A)</a><br />
+        <tini-link href="#">Lorem ipsum (B)</tini-link><br />
 
-      <ui-dev-section titleText="Defaults">
-        <tini-link href="#">Lorem ipsum</tini-link><br />
-        <tini-link href="#" target="_blank"
-          >Lorem ipsum (target=_blank)</tini-link
+        <a href="#" target="_blank">Lorem ipsum (_blank, A)</a><br />
+        <tini-link href="#" target="_blank">Lorem ipsum (_blank, B)</tini-link
         ><br />
-        <tini-link href="#" disabled>Lorem ipsum (disabled)</tini-link>
-      </ui-dev-section>
 
-      <ui-dev-section titleText="Colors">
-        ${[...Object.values(Colors), ...Object.values(Gradients)].map(
-          color => html`
-            <tini-link href="#" color=${color}
-              >Lorem ipsum (color=${color})</tini-link
-            >
-            <br />
-          `
-        )}
-      </ui-dev-section>
-
-      <ui-dev-section titleText="Font sizes">
-        ${Object.values(Texts).map(
-          size => html`
-            <tini-link href="#" size=${size}
-              >Lorem ipsum (size=${size})</tini-link
-            >
-            <br />
-          `
-        )}
-      </ui-dev-section>
-
-      <ui-dev-section titleText="Font weights">
-        ${Object.values(Weights).map(
-          weight => html`
-            <tini-link href="#" weight=${weight}
-              >Lorem ipsum (weight=${weight})</tini-link
-            >
-            <br />
-          `
-        )}
-      </ui-dev-section>
-
-      <ui-dev-section titleText="Italics">
-        <tini-link href="#" italic>Lorem ipsum</tini-link><br />
-        ${[Colors.Primary, Gradients.Primary].map(
-          color => html`
-            <tini-link href="#" italic color=${color}
-              >Lorem ipsum (color=${color})</tini-link
-            >
-            <br />
-          `
-        )}
-      </ui-dev-section>
-
-      <ui-dev-section titleText="No Underlines">
-        <tini-link href="#" noUnderline>Lorem ipsum</tini-link><br />
-        ${[Colors.Success, Gradients.Success].map(
-          color => html`
-            <tini-link href="#" noUnderline color=${color}
-              >Lorem ipsum (color=${color})</tini-link
-            >
-            <br />
-          `
-        )}
+        <tini-link href="#" disabled>Lorem ipsum (disabled)</tini-link><br />
+        <tini-link activeFull href="/ui/link/dev"
+          >Lorem ipsum (active)</tini-link
+        >
       </ui-dev-section>
     `;
   }
 
-  static styles = css``;
+  static styles = css`
+    tini-link[linkIsActive]::part(a) {
+      color: var(--color-success);
+      font-weight: bold;
+    }
+  `;
 }

@@ -123,7 +123,7 @@ export class AppDocPageContentComponent
         <div class="content">${unsafeHTML(post.content)}</div>
 
         <a class="suggest-edit" href=${this.editOnGithubUrl} target="_blank">
-          <icon-edit scheme=${Colors.Primary} size=${Sizes.SM}></icon-edit>
+          <icon-edit color=${Colors.Primary} size=${Sizes.SM}></icon-edit>
           <span>Suggest changes to this page</span>
         </a>
       </div>
@@ -136,7 +136,7 @@ export class AppDocPageContentComponent
         margin-top: var(--toolbar-height);
         padding: var(--space-xl);
 
-        @media (min-width: 1200px) {
+        @media (min-width: 1280px) {
           margin-top: 0;
           padding: var(--space-xl2) var(--space-xl4) var(--space-xl4);
         }
@@ -174,7 +174,6 @@ export class AppDocPageContentComponent
             align-items: center;
             margin: 0.75em 0 0.5em;
             padding-bottom: 0;
-            border-bottom: none;
             display: flex;
             align-items: center;
             gap: var(--space-xs);
@@ -187,6 +186,10 @@ export class AppDocPageContentComponent
 
             &:hover .header-anchor {
               visibility: visible;
+            }
+
+            &::after {
+              display: none;
             }
           }
 

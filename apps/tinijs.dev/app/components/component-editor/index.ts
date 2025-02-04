@@ -231,8 +231,8 @@ export class AppComponentEditorComponent
       const targetWidth = {
         [CommonViewports.Mobile]: 320,
         [CommonViewports.Tablet]: 768,
-        [CommonViewports.Desktop]: 992,
-        [CommonViewports.TV]: 1400,
+        [CommonViewports.Desktop]: 1024,
+        [CommonViewports.TV]: 1640,
       }[viewport];
       this.commonViewport = viewport;
       this._resizableRef.value!.style.width = `${
@@ -419,7 +419,7 @@ export class AppComponentEditorComponent
             @click=${() => this.changeCommonViewport(CommonViewports.Mobile)}
           >
             <icon-mobile
-              scheme=${ContrastColors.Body}
+              color=${ContrastColors.Body}
               size=${Sizes.XS}
             ></icon-mobile>
           </button>
@@ -430,7 +430,7 @@ export class AppComponentEditorComponent
             @click=${() => this.changeCommonViewport(CommonViewports.Tablet)}
           >
             <icon-tablet
-              scheme=${ContrastColors.Body}
+              color=${ContrastColors.Body}
               size=${Sizes.XS}
             ></icon-tablet>
           </button>
@@ -441,7 +441,7 @@ export class AppComponentEditorComponent
             @click=${() => this.changeCommonViewport(CommonViewports.Desktop)}
           >
             <icon-desktop
-              scheme=${ContrastColors.Body}
+              color=${ContrastColors.Body}
               size=${Sizes.XS}
             ></icon-desktop>
           </button>
@@ -451,12 +451,12 @@ export class AppComponentEditorComponent
             })}
             @click=${() => this.changeCommonViewport(CommonViewports.TV)}
           >
-            <icon-tv scheme=${ContrastColors.Body} size=${Sizes.XS}></icon-tv>
+            <icon-tv color=${ContrastColors.Body} size=${Sizes.XS}></icon-tv>
           </button>
           <span class="separator"></span>
           <button @click=${this.toggleFullScreen}>
             <tini-icon
-              scheme=${ContrastColors.Body}
+              color=${ContrastColors.Body}
               src=${this.isFullscreen
                 ? IconCollapseComponent.src
                 : IconExpandComponent.src}
@@ -677,7 +677,7 @@ export class AppComponentEditorComponent
       }
     }
 
-    @media (min-width: 1400px) {
+    @media (min-width: 1440px) {
       .main {
         flex-flow: row;
 

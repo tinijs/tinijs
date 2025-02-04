@@ -23,6 +23,16 @@ export const routes: Route[] = [
         action: () => import('./pages/subjects/ui-box.js'),
       },
       {
+        path: '/ui/box-full',
+        component: 'app-page-ui-box-full',
+        action: () => import('./pages/subjects/ui-box-full.js'),
+      },
+      {
+        path: '/ui/box-overload',
+        component: 'app-page-ui-box-overload',
+        action: () => import('./pages/subjects/ui-box-overload.js'),
+      },
+      {
         path: '/ui/flex',
         component: 'app-page-ui-flex',
         action: () => import('./pages/subjects/ui-flex.js'),
@@ -58,9 +68,14 @@ export const routes: Route[] = [
         action: () => import('./pages/subjects/ui-text.js'),
       },
       {
-        path: '/ui/text-native',
-        component: 'app-page-ui-text-native',
-        action: () => import('./pages/subjects/ui-text-native.js'),
+        path: '/ui/text-class',
+        component: 'app-page-ui-text-class',
+        action: () => import('./pages/subjects/ui-text-class.js'),
+      },
+      {
+        path: '/ui/text-inline',
+        component: 'app-page-ui-text-inline',
+        action: () => import('./pages/subjects/ui-text-inline.js'),
       },
       // 404
       {

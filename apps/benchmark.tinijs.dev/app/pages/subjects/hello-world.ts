@@ -2,13 +2,15 @@ import {html, css} from 'lit';
 
 import {page, TiniComponent} from '@tinijs/core';
 
+import {HELLO_WORLD_SUBJECT} from '../../subjects.js';
+
 @page({
   name: 'app-page-hello-world',
 })
 export class AppPageHelloWorld extends TiniComponent {
   readonly metadata = {
-    title: 'Hello world',
-    description: 'A hello world page.',
+    title: HELLO_WORLD_SUBJECT.title,
+    description: HELLO_WORLD_SUBJECT.desc,
   };
 
   protected render() {
@@ -23,8 +25,10 @@ export class AppPageHelloWorld extends TiniComponent {
         >,
         <a href="https://tinijs.dev/framework/router" target="_blank">Router</a
         >,
-        <a href="https://tinijs.dev/framework/meta" target="_blank">Meta</a> and
-        <a href="https://tinijs.dev/ui/get-started" target="_blank">UI</a>.
+        <a href="https://tinijs.dev/framework/title-and-meta" target="_blank"
+          >Meta</a
+        >
+        and <a href="https://tinijs.dev/ui/get-started" target="_blank">UI</a>.
       </p>
     `;
   }

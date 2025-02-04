@@ -5,7 +5,7 @@ import {defaultStyles} from '../../../components/badge.js';
 export const styles = defaultStyles.extends({
   statics: css`
     .main {
-      font-weight: var(--weight-bold);
+      font-weight: 700;
       padding: 0 calc(var(--size) * 0.5);
     }
 

@@ -64,7 +64,7 @@ export class AppLayoutDefault extends TiniComponent {
       }
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 1024px) {
       app-footer {
         z-index: 800;
       }

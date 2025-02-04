@@ -8,9 +8,10 @@ import {
   partAttrMap,
   ElementParts,
   createStyleBuilder,
-  mergeDirectOrRecordStyles,
   type DirectOrRecordStyles,
 } from '@tinijs/core';
+
+type ComponentConstructor = typeof import('./code.js').default;
 
 export enum CodeParts {
   Main = ElementParts.Main,
@@ -27,13 +28,11 @@ export type CodeConfig = {
   theme?: DirectOrRecordStyles;
 };
 
-type ComponentConstructor = typeof import('./code.js').default;
-
 export default class extends TiniElement {
   private static highlight: CodeHighlight = code => code;
   static config(config: CodeConfig) {
     this.highlight = config.highlight;
-    this.styles = mergeDirectOrRecordStyles(this.styles, config.theme);
+    if (config.theme) this.addStyles(config.theme);
   }
 
   /* eslint-disable prettier/prettier */
@@ -43,7 +42,7 @@ export default class extends TiniElement {
 
   private readonly codeRef = createRef<HTMLElement>();
 
-  private validateProperties() {
+  protected beforeUpdate() {
     if (!this.language) throw new Error('Property "language" is required.');
     if (!this.content) throw new Error('Property "content" is required.');
   }
@@ -52,8 +51,6 @@ export default class extends TiniElement {
   private codeClasses: ClassInfo = {};
   willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
-    // default and validations
-    this.validateProperties();
     // main and code classes parts
     this.mainClasses = {
       [CodeParts.Main]: true,

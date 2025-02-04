@@ -19,7 +19,7 @@ There are 3 ways to install Tini CLI:
 
 ### Create a new project
 
-There are several TiniJS starters for getting started with TiniJS quickly, you can find them in the [Starters](/framework/starter) page.
+There are several TiniJS starters for getting started with TiniJS quickly, you can find them in the [Starters](/framework/starter-templates) page.
 
 ```bash
 npx @tinijs/cli@latest new my-app

@@ -5,7 +5,7 @@ import {defaultStyles} from '../../../components/breadcrumbs.js';
 export const styles = defaultStyles.extends({
   statics: css`
     .item-active {
-      font-weight: var(--weight-bold);
+      font-weight: 700;
     }
 
     .item::before {

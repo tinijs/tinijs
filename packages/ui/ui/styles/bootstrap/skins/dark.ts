@@ -34,6 +34,7 @@ export default css`:root {
   --size-outline: 1px;
   --size-line: 1.5;
   --size-letter: normal;
+  --size-word: normal;
   /* shadows */
   --shadow-xs: 0 0 0 1px #00000026;
   --shadow-sm: 0 1px 3px 0 #00000033, 0 1px 2px 0 #00000029;

@@ -56,6 +56,7 @@ At the basic level, a skin contains a fundamental set of variables, includes:
 | `--size-outline`                  | Outline size                                     |
 | `--size-line`                     | Line height                                      |
 | `--size-letter`                   | Letter spacing                                   |
+| `--size-word`                     | Word spacing                                     |
 | _Shadow group_                    |
 | `--shadow-xs`                     | Extra small shadow                               |
 | `--shadow-sm`                     | Small shadow                                     |
@@ -68,22 +69,22 @@ You can use the **Skin Editor** to modify or create level 1 skins.
 
 ### Level 2 - Override auto-generated variables
 
-Based on the basic variables above, the system will generate other variables automatically as seen in the [Design Tokens](/ui/design-token).
+Based on the basic variables above, the system will generate other variables automatically as seen in the [Design Tokens](/ui/design-tokens).
 
-- Each color will has 5 more variants
-- 8 gradients coresponding to the colors
-- `--font-art` variable
-- 12 text sizes
-- 6 font weights
+- 56 colors (8 colors x 7 variants)
+- 56 gradients coresponding to the colors
+- 4 fonts
+- 13 text sizes
 - 5 line heights
 - 5 letter spacings
+- 5 word spacings
 - 5 object sizes
-- 12 space sizes
+- 14 space sizes
 - 10 border radiuses
 - 5 border sizes
 - 5 outline sizes
-- `--shadow-none` variable
-- 15 wide variables
+- 7 shadows
+- 13 wide variables
 
 At this level, you can fine tune a skin futher by providing above variables manually.
 

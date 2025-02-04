@@ -12,7 +12,7 @@ To quickly create a TiniJS project, you can use the [Tini CLI](/cli) to initiali
 npx @tinijs/cli@latest new my-app
 ```
 
-The above command creates an app by downloading the **Bare** template. In the future, I would like to provide several starter templates. You can also create your own templates and share them with the community or for your own private use. Currently, these templates available at [Starters page](/framework/starter).
+The above command creates an app by downloading the **Bare** template. In the future, I would like to provide several starter templates. You can also create your own templates and share them with the community or for your own private use. Currently, these templates available at [Starters page](/framework/starter-templates).
 
 Now, inside the project you can run `npm run dev` to start the development server. You may start development by edit the file `./app/app.ts` which is the root component of the app.
 

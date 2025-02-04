@@ -1,10 +1,12 @@
 export function info({
   title,
+  desc,
   path,
   docPath,
   batches,
 }: {
   title: string;
+  desc: string;
   path: string;
   docPath: string;
   batches: number[];
@@ -19,6 +21,7 @@ export function info({
     encodeURIComponent(`https://benchmark.tinijs.dev${url}`);
   return {
     title,
+    desc,
     path,
     docPath,
     batches,

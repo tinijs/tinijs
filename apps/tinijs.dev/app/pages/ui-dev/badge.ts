@@ -21,46 +21,70 @@ export class AppPageUIDevBadgeComponent extends TiniComponent {
 
       <ui-dev-section titleText="Colors">
         ${Object.values(Colors).map(
-          scheme => html`
-            <tini-badge scheme=${scheme}>${scheme}</tini-badge>
-            <tini-badge scheme=${`${scheme}-subtle`}
-              >${`${scheme}-subtle`}</tini-badge
+          color => html`
+            <tini-badge color=${color}>${color}</tini-badge>
+            <tini-badge color=${`${color}-subtle`}
+              >${`${color}-subtle`}</tini-badge
             >
-            <tini-badge scheme=${`${scheme}-contrast`}
-              >${`${scheme}-contrast`}</tini-badge
+            <tini-badge color=${`${color}-contrast`}
+              >${`${color}-contrast`}</tini-badge
             >
           `
         )}
         <br />
         ${Object.values(Gradients).map(
-          scheme => html`
-            <tini-badge shape="pill" scheme=${scheme}>${scheme}</tini-badge>
-            <tini-badge shape="pill" scheme=${`${scheme}-subtle`}
-              >${`${scheme}-subtle`}</tini-badge
+          gradient => html`
+            <tini-badge shape="pill" gradient=${gradient}
+              >${gradient}</tini-badge
             >
-            <tini-badge shape="pill" scheme=${`${scheme}-contrast`}
-              >${`${scheme}-contrast`}</tini-badge
+            <tini-badge shape="pill" gradient=${`${gradient}-subtle`}
+              >${`${gradient}-subtle`}</tini-badge
             >
-          `
-        )}
-        <br />
-        ${[...Object.values(Colors), ...Object.values(Gradients)].map(
-          scheme => html`
-            <tini-badge shape="circle" scheme=${scheme}>A</tini-badge>
-            <tini-badge shape="circle" scheme=${`${scheme}-subtle`}
-              >9</tini-badge
-            >
-            <tini-badge shape="circle" scheme=${`${scheme}-contrast`}
-              >9</tini-badge
+            <tini-badge shape="pill" gradient=${`${gradient}-contrast`}
+              >${`${gradient}-contrast`}</tini-badge
             >
           `
         )}
         <br />
-        ${[...Object.values(Colors), ...Object.values(Gradients)].map(
-          scheme => html`
-            <tini-badge shape="dot" scheme=${scheme}></tini-badge>
-            <tini-badge shape="dot" scheme=${`${scheme}-subtle`}></tini-badge>
-            <tini-badge shape="dot" scheme=${`${scheme}-contrast`}></tini-badge>
+        ${Object.values(Colors).map(
+          color => html`
+            <tini-badge shape="circle" color=${color}>A</tini-badge>
+            <tini-badge shape="circle" color=${`${color}-subtle`}>9</tini-badge>
+            <tini-badge shape="circle" color=${`${color}-contrast`}
+              >9</tini-badge
+            >
+          `
+        )}
+        ${Object.values(Gradients).map(
+          gradient => html`
+            <tini-badge shape="circle" gradient=${gradient}>A</tini-badge>
+            <tini-badge shape="circle" gradient=${`${gradient}-subtle`}
+              >9</tini-badge
+            >
+            <tini-badge shape="circle" gradient=${`${gradient}-contrast`}
+              >9</tini-badge
+            >
+          `
+        )}
+        <br />
+        ${Object.values(Colors).map(
+          color => html`
+            <tini-badge shape="dot" color=${color}></tini-badge>
+            <tini-badge shape="dot" color=${`${color}-subtle`}></tini-badge>
+            <tini-badge shape="dot" color=${`${color}-contrast`}></tini-badge>
+          `
+        )}
+        ${Object.values(Gradients).map(
+          gradient => html`
+            <tini-badge shape="dot" gradient=${gradient}></tini-badge>
+            <tini-badge
+              shape="dot"
+              gradient=${`${gradient}-subtle`}
+            ></tini-badge>
+            <tini-badge
+              shape="dot"
+              gradient=${`${gradient}-contrast`}
+            ></tini-badge>
           `
         )}
       </ui-dev-section>

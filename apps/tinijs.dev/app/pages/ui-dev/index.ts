@@ -91,7 +91,10 @@ class UIDevSectionComponent extends TiniComponent implements OnCreate {
       .title {
         text-transform: uppercase;
         padding-bottom: 0;
-        border-bottom: none;
+
+        &::after {
+          display: none;
+        }
       }
 
       .title,

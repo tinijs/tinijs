@@ -12,7 +12,7 @@ export const styles = defaultStyles.extends({
 
     .item {
       text-decoration: none;
-      font-weight: var(--weight-normal);
+      font-weight: 400;
     }
 
     .item:hover {

@@ -49,27 +49,38 @@ export class AppPageUIDevIconComponent extends TiniComponent {
         <tini-icon src=${URI_ANIMATED} title="Animated icon"></tini-icon>
       </ui-dev-section>
 
-      <ui-dev-section titleText="Schemes">
-        ${[Object.values(Colors), Object.values(Gradients)].map(
-          list => html`
-            ${list.map(
-              scheme =>
-                html`<tini-icon
-                  src=${URI}
-                  scheme=${scheme}
-                  title=${`scheme=${scheme}`}
-                ></tini-icon><tini-icon
-                  src=${URI}
-                  scheme=${`${scheme}-subtle`}
-                  title=${`scheme=${scheme}-subtle`}
-                ></tini-icon></tini-icon><tini-icon
-                  src=${URI}
-                  scheme=${`${scheme}-contrast`}
-                  title=${`scheme=${scheme}-contrast`}
-                ></tini-icon>`
-            )}
-            <br />
-          `
+      <ui-dev-section titleText="Colors and gradients">
+        ${Object.values(Colors).map(
+          color =>
+            html`<tini-icon
+              src=${URI}
+              color=${color}
+              title=${`color=${color}`}
+            ></tini-icon><tini-icon
+              src=${URI}
+              color=${`${color}-subtle`}
+              title=${`color=${color}-subtle`}
+            ></tini-icon></tini-icon><tini-icon
+              src=${URI}
+              color=${`${color}-contrast`}
+              title=${`color=${color}-contrast`}
+            ></tini-icon>`
+        )}
+        ${Object.values(Gradients).map(
+          gradient =>
+            html`<tini-icon
+              src=${URI}
+              gradient=${gradient}
+              title=${`gradient=${gradient}`}
+            ></tini-icon><tini-icon
+              src=${URI}
+              gradient=${`${gradient}-subtle`}
+              title=${`gradient=${gradient}-subtle`}
+            ></tini-icon></tini-icon><tini-icon
+              src=${URI}
+              gradient=${`${gradient}-contrast`}
+              title=${`gradient=${gradient}-contrast`}
+            ></tini-icon>`
         )}
       </ui-dev-section>
 
@@ -82,7 +93,7 @@ export class AppPageUIDevIconComponent extends TiniComponent {
               title=${`size=${size}`}
             ></tini-icon>
             <tini-icon
-              scheme="primary"
+              color="primary"
               src=${URI}
               size=${size}
               title=${`size=${size}`}

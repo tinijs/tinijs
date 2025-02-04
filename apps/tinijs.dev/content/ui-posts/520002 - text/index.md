@@ -12,63 +12,53 @@
 
 ## Editor
 
-{%
-  app 'component-editor', {
-    name: 'text',
-    sections: [
-      {
-        section: 'html',
-        attrs: {label: 'Inner'},
-        target: 'inner',
-        value: 'This is a text.'
-      },
-      {
-        section: 'switch',
-        attrs: {label: 'Block'},
-        target: 'block'
-      },
-      {
-        section: 'select',
-        attrs: {label: 'Color', preset: 'colorsAndGradients'},
-        target: 'color'
-      },
-      {
-        section: 'select',
-        attrs: {label: 'Font type', preset: 'fonts'},
-        target: 'font'
-      },
-      {
-        section: 'select',
-        attrs: {label: 'Font size', preset: 'texts'},
-        target: 'size'
-      },
-      {
-        section: 'select',
-        attrs: {label: 'Font weight', preset: 'weights'},
-        target: 'weight'
-      },
-      {
-        section: 'switch',
-        attrs: {label: 'Italic'},
-        target: 'italic'
-      },
-      {
-        section: 'switch',
-        attrs: {label: 'Underline'},
-        target: 'underline'
-      },
-      {
-        section: 'css',
-        attrs: {
-          label: 'Style deep',
-          placeholder: ':host, .main, .any { ... }'
-        },
-        target: 'styleDeep'
-      }
-    ]
-  }
-%}{% endapp %}
+<content-ui-post-text block="editor"></content-ui-post-text>
+
+## API
+
+| Property           | Value                                                                                                                                                                        | Default |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `block`            | `boolean`                                                                                                                                                                    | -       |
+| `color`            | [Colors](/ui/design-tokens#colors) or valid CSS values                                                                                                                       | -       |
+| `gradient`         | [Gradients](/ui/design-tokens#gradients) or valid CSS values                                                                                                                 | -       |
+| `font`             | [Font families](/ui/design-tokens#font-families) or valid CSS values                                                                                                         | -       |
+| `size`             | [Font sizes](/ui/design-tokens#font-sizes) or valid CSS values                                                                                                               | -       |
+| `weight`           | `string`                                                                                                                                                                     | -       |
+| `italic`           | `boolean`                                                                                                                                                                    | -       |
+| `decoration`       | `string`                                                                                                                                                                     | -       |
+| `underlineOffset`  | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                                                                       | -       |
+| `line`             | [Line heights](/ui/design-tokens#line-heights) or valid CSS values                                                                                                           | -       |
+| `letter`           | [Letter spacings](/ui/design-tokens#letter-spacings) or valid CSS values                                                                                                     | -       |
+| `word`             | [Word spacings](/ui/design-tokens#word-spacings) or valid CSS values                                                                                                         | -       |
+| `transform`        | `string`                                                                                                                                                                     | -       |
+| `shadow`           | `string`                                                                                                                                                                     | -       |
+| `dir`              | `ltr`, `rtl` - either globally (on `<html>` or `<body>`) or locally.                                                                                                         | -       |
+| `writing`          | `string`                                                                                                                                                                     | -       |
+| `overflow`         | `clip`, `ellipsis`, `fade`                                                                                                                                                   | -       |
+| `max`              | Max horizontal width or vertical height, [wides](/ui/design-tokens#wides) or valid CSS values                                                                                | -       |
+| `align`            | `string`                                                                                                                                                                     | -       |
+| _Responsive_       |
+| `mediaQueries`     | `Record<string, TextStyleProps>` - query keys can be [breakpoints](/ui/design-tokens#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `(min-width: 500px)`                | -       |
+| `containerQueries` | `Record<string, TextStyleProps>` - query keys can be [breakpoints](/ui/design-tokens#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `container-name (min-width: 500px)` | -       |
+
+### Parts
+
+| Part           | styleDeep  | Description           |
+| -------------- | ---------- | --------------------- |
+| `tini-text {}` | `:host {}` | The tini-text element |
 
 ## Benchmark
 
+Using `tini-text` is fine for most cases, but if you need to render a lot of text, you might want to consider using classes or inline styles.
+
+### Using `tini-text`
+
 <app-component-benchmark reportId="ui-text"></app-component-benchmark>
+
+### Using classes
+
+<app-component-benchmark reportId="ui-text-class"></app-component-benchmark>
+
+### Using inline styles
+
+<app-component-benchmark reportId="ui-text-inline"></app-component-benchmark>

@@ -58,7 +58,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
             ],
           },
           'backgroumd-color-padding-radius': {
-            content: 'Background, color and radius',
+            content: 'Background, text color and radius',
             items: [
               {target: 'padding', value: 'md'},
               {target: 'background', value: 'primary'},
@@ -66,7 +66,8 @@ export class ContentUIPostBoxComponent extends TiniComponent {
               {target: 'radius', value: 'md'},
               {
                 target: 'inner',
-                value: '<span>Box with primary background</span>',
+                value:
+                  '<span>Box with primary background and border radius</span>',
               },
             ],
           },
@@ -78,7 +79,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
               {target: 'margin', value: 'xl'},
               {
                 target: 'inner',
-                value: '<span>Box with extra-large margin</span>',
+                value: '<span>Box with extra large margin</span>',
               },
             ],
           },
@@ -92,6 +93,19 @@ export class ContentUIPostBoxComponent extends TiniComponent {
               {
                 target: 'inner',
                 value: '<span>Box with custom width and height</span>',
+              },
+            ],
+          },
+          ratio: {
+            content: 'Aspect ratio',
+            items: [
+              {target: 'padding', value: 'md'},
+              {target: 'background', value: 'body-subtle'},
+              {target: 'width', value: '250px'},
+              {target: 'ratio', value: '16/9'},
+              {
+                target: 'inner',
+                value: '<span>Box with 16/9 aspect ratio</span>',
               },
             ],
           },
@@ -198,7 +212,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
     alt="ChitChat"
   />
   <div>
-    <div style="font-size: var(--text-lg); font-weight: var(--weight-medium);">ChitChat</div>
+    <div style="font-size: var(--text-lg); font-weight: 500;">ChitChat</div>
     <p style="color: var(--color-medium)">You have a new message!</p>
   </div>
 </div>`;
@@ -219,10 +233,10 @@ export class ContentUIPostBoxComponent extends TiniComponent {
     alt="Jane Doe"
   ></tini-image>
   <tini-flex direction="column" wrap="nowrap">
-    <tini-text size="lg" weight="bold">Jane Doe</tini-text>
-    <tini-text color="medium" weight="medium">Software Engineer</tini-text>
+    <tini-text size="lg" weight="700">Jane Doe</tini-text>
+    <tini-text color="medium" weight="500">Software Engineer</tini-text>
     <tini-box marginTop="xs">
-      <tini-button scheme="primary" size="xs">Message</tini-button>
+      <tini-button color="primary" size="xs">Message</tini-button>
     </tini-box>
   </tini-flex>
 </tini-flex>`;
@@ -249,7 +263,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
     alt="ChitChat"
   />
   <div>
-    <div style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--weight-medium)' }}>ChitChat</div>
+    <div style={{ fontSize: 'var(--text-lg)', fontWeight: 500 }}>ChitChat</div>
     <p style={{ color: 'var(--color-medium)' }}>You have a new message!</p>
   </div>
 </div>` +
@@ -297,7 +311,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
             <div
               style="
                 font-size: var(--text-lg);
-                font-weight: var(--weight-medium);
+                font-weight: 500;
               "
             >
               ChitChat
@@ -325,12 +339,10 @@ export class ContentUIPostBoxComponent extends TiniComponent {
             alt="Jane Doe"
           ></tini-image>
           <tini-flex direction="column" wrap="nowrap">
-            <tini-text size="lg" weight="bold">Jane Doe</tini-text>
-            <tini-text color="medium" weight="medium"
-              >Software Engineer</tini-text
-            >
+            <tini-text size="lg" weight="700">Jane Doe</tini-text>
+            <tini-text color="medium" weight="500">Software Engineer</tini-text>
             <tini-box marginTop="xs">
-              <tini-button scheme="primary" size="sm">Message</tini-button>
+              <tini-button color="primary" size="sm">Message</tini-button>
             </tini-box>
           </tini-flex>
         </tini-flex>

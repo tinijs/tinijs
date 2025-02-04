@@ -4,6 +4,7 @@ import {page, TiniComponent} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
 import {useSearchParams} from '@tinijs/router';
 
+import {TiniTextComponent} from '../../ui/components/text.js';
 import {TiniHeadingComponent} from '../../ui/components/heading.js';
 
 import {repeat} from '../../utils/subject.js';
@@ -12,15 +13,15 @@ import {HEADING_SUBJECT} from '../../subjects.js';
 
 @page({
   name: 'app-page-ui-heading',
-  components: [TiniHeadingComponent],
+  components: [TiniTextComponent, TiniHeadingComponent],
 })
 export class AppPageUIHeading
   extends TiniComponent
   implements PageWithMetadata
 {
   readonly metadata = {
-    title: 'tini-heading',
-    description: 'The tini-heading component.',
+    title: HEADING_SUBJECT.title,
+    description: HEADING_SUBJECT.desc,
   };
 
   @useSearchParams() readonly searchParams!: {items?: number};
@@ -29,21 +30,27 @@ export class AppPageUIHeading
     return repeat(
       Number(this.searchParams.items || 1),
       i => html`
-        <tini-heading>Heading level 1 (#${i})</tini-heading>
-        <tini-heading italic level="2"
-          >Italic heading level 2 (#${i})</tini-heading
+        <tini-heading>Heading default (#${i})</tini-heading>
+        <tini-heading level="1">Heading level 1 (#${i})</tini-heading>
+        <tini-heading level="3" preset="selfLink"
+          >Self permalink (#${i})</tini-heading
         >
-        <tini-heading underline level="3"
-          >Underline heading level 3 (#${i})</tini-heading
+        <tini-heading level="3" preset="insideLinkAfter"
+          >After permalink (#${i})</tini-heading
         >
-        <tini-heading color="primary" level="4"
-          >Color heading level 4 (#${i})</tini-heading
+        <tini-heading
+          style="margin-left: 2rem"
+          level="3"
+          preset="insideLinkBefore"
+          >Before permalink (#${i})</tini-heading
         >
-        <tini-heading color="gradient-primary" level="5"
-          >Gradient heading level 5 (#${i})</tini-heading
+        <tini-heading level="3"
+          ><tini-text color="primary">Color (#${i})</tini-text></tini-heading
         >
-        <tini-heading underline color="gradient-primary" level="6"
-          >Underline gradient heading level 6 (#${i})</tini-heading
+        <tini-heading level="3"
+          ><tini-text gradient="danger"
+            >Gradient (#${i})</tini-text
+          ></tini-heading
         >
       `,
       HEADING_SUBJECT

@@ -52,7 +52,13 @@ export class Router {
       container,
       items: Array.from(container.querySelectorAll('[id]')).reduce(
         (result, element) => {
-          if (element instanceof HTMLElement && element.id) {
+          if (
+            element instanceof HTMLElement &&
+            ['TINI-HEADING', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(
+              element.tagName
+            ) &&
+            element.id
+          ) {
             result[element.id] = element;
           }
           return result;
@@ -87,11 +93,13 @@ export class Router {
             title = title.slice(0, -symbol.length).trim();
           }
         }
-        const level = Number(element.tagName.replace(/^H/i, ''));
+        const level = Number(
+          (element as any).level || element.tagName.replace(/^H/i, '')
+        );
         return {
           id,
           title,
-          level: isNaN(level) ? 0 : level,
+          level: isNaN(level) ? 1 : level,
           element,
         } as FragmentItem;
       })
@@ -317,7 +325,7 @@ export class Router {
           testHref.startsWith('mailto:') || // mailto protocol
           testHref.startsWith('tel:') || // tel protocol
           anchor.hasAttribute('download') || // has download
-          anchor.hasAttribute('router-ignore') || // has router-ignore
+          anchor.hasAttribute('routerIgnore') || // has routerIgnore
           (anchor.origin || this.getAnchorOrigin(anchor)) !== locationOrigin // cross origin
         )
           return;

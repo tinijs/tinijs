@@ -188,49 +188,27 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
         <div class="content">
           <tini-text>An utility for text</tini-text><br />
           <tini-text font="code">Text font</tini-text><br />
-          <tini-text weight="black">Text weight</tini-text><br />
+          <tini-text weight="900">Text weight</tini-text><br />
           <tini-text italic>Italic text</tini-text><br />
+          <tini-text decoration="underline wavy danger"
+            >Decorated text</tini-text
+          ><br />
           <tini-text color="medium">Muted text</tini-text><br />
           <tini-text color="success">Color text</tini-text><br />
-          <tini-text color="gradient-danger" size="xl"
-            >Big gradient text</tini-text
+          <tini-text gradient="linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%)"
+            >Gradient text</tini-text
           ><br />
+          <tini-text size="xl">Big text</tini-text><br />
           <tini-text size="xs">Small text</tini-text><br />
-        </div>
-      </section>
-
-      <section>
-        <h3>
-          <span>Heading</span>
-          <a href="/ui/heading">Detail</a>
-        </h3>
-        <div class="content">
-          <tini-heading>Heading level 1</tini-heading>
-          <tini-heading level="2">Heading level 2</tini-heading>
-          <tini-heading level="3" color="success"
-            >Color heading level 3</tini-heading
+          <tini-text align="end" max="250px">Aligned text</tini-text>
+          <tini-text dir="rtl" max="200px">הַלְלוּ־יָהּ (RTL)</tini-text>
+          <tini-text overflow="ellipsis" max="165px"
+            >Overflow (ellipsis) long long long</tini-text
           >
-          <tini-heading level="4" color="gradient-danger"
-            >Gradient heading level 4</tini-heading
+          <tini-text overflow="fade" max="140px"
+            >Overflow (fade) long long long</tini-text
           >
-        </div>
-      </section>
-
-      <section>
-        <h3>
-          <span>Link</span>
-          <a href="/ui/link">Detail</a>
-        </h3>
-        <div class="content">
-          <tini-link href="#">An utility for link</tini-link><br />
-          <tini-link href="#" disabled>Disabled link</tini-link><br />
-          <tini-link href="#" italic>Italic link</tini-link><br />
-          <tini-link href="#" color="success">Color link</tini-link><br />
-          <tini-link href="#" color="gradient-danger" size="xl"
-            >Big gradient link</tini-link
-          ><br />
-          <tini-link href="#" size="xs">Small link</tini-link><br />
-          <tini-link href="#" noUnderline>Force no underline</tini-link><br />
+          <tini-text writing="vertical-rl">ラーメン (vertical)</tini-text>
         </div>
       </section>
 
@@ -245,22 +223,203 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
             alt="Placeholder"
           ></tini-image>
 
-          <p class="desc">Width & height</p>
-          <tini-image
-            src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=250&h=250&q=80"
-            alt="Placeholder"
-            width="250px"
-            height="250px"
-          ></tini-image>
+          <p class="desc">Width, height & aspect ratio</p>
+          <div
+            style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;"
+          >
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=250&h=250&q=80"
+              alt="Placeholder"
+              width="150px"
+              height="150px"
+            ></tini-image>
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=250&h=250&q=80"
+              alt="Placeholder"
+              height="150px"
+              ratio="16/9"
+            ></tini-image>
+          </div>
 
           <p class="desc">Radius</p>
-          <tini-image
-            src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
-            alt="Placeholder"
-            width="150px"
-            height="150px"
-            radius="half"
-          ></tini-image>
+          <div
+            style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;"
+          >
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              height="150px"
+              radius="xl"
+            ></tini-image>
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              height="150px"
+              radius="half"
+            ></tini-image>
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="250px"
+              height="150px"
+              radius="full"
+            ></tini-image>
+          </div>
+
+          <p class="desc">Padding, border & shadow</p>
+          <div
+            style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;"
+          >
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              height="150px"
+              padding="sm"
+              border="md solid body-subtle"
+            ></tini-image>
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              height="150px"
+              padding="3px"
+              border="3px solid success"
+              radius="half"
+              innerRadius="match"
+            ></tini-image>
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              height="150px"
+              padding="sm"
+              shadow="xl"
+            ></tini-image>
+          </div>
+
+          <p class="desc">Shape</p>
+          <div
+            style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;"
+          >
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              shape="squircle"
+            ></tini-image>
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              shape="triangle"
+            ></tini-image>
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              shape="rounded-hexagon"
+            ></tini-image>
+          </div>
+
+          <p class="desc">Background, filter & blend</p>
+          <div
+            style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;"
+          >
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              height="150px"
+              filter="grayscale(1)"
+            ></tini-image>
+            <tini-image
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Placeholder"
+              width="150px"
+              height="150px"
+              background="linear-gradient(45deg, red, blue)"
+              innerOpacity="0.7"
+              blend="multiply"
+            ></tini-image>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h3>
+          <span>Heading</span>
+          <a href="/ui/heading">Detail</a>
+        </h3>
+        <div class="content">
+          <tini-heading>Heading level 1</tini-heading>
+          <tini-heading level="2">Heading level 2</tini-heading>
+          <tini-heading level="3">Heading level 3</tini-heading>
+          <tini-heading level="4">Heading level 4</tini-heading>
+          <tini-heading level="5">Heading level 5</tini-heading>
+          <tini-heading level="6">Heading level 6</tini-heading>
+
+          <p class="desc">Permalink</p>
+          <tini-heading level="3" preset="selfLink"
+            >Self permalink, always</tini-heading
+          >
+          <tini-heading level="3" preset="selfLink" selfLinkVisibility="hover"
+            >Self permalink, hover</tini-heading
+          >
+          <tini-heading
+            level="3"
+            preset="selfLink"
+            selfLinkDecoration="underline wavy danger"
+            >Self permalink, custom underline</tini-heading
+          >
+          <tini-heading level="3" preset="insideLinkAfter" insideLinkSize="0.75"
+            >After permalink, always</tini-heading
+          >
+          <tini-heading
+            level="3"
+            preset="insideLinkBefore"
+            insideLinkSize="0.75"
+            insideLinkSpace="0"
+            >Before permalink, adaptive</tini-heading
+          >
+          <tini-heading level="3" preset="insideLinkAfter" insideLinkSymbol="🔗"
+            >After permalink with <a href="#">link</a> and <code>code</code> and
+            custom symbol</tini-heading
+          >
+
+          <p class="desc">Other</p>
+          <tini-heading level="3">
+            <tini-text color="medium">Muted heading</tini-text>
+          </tini-heading>
+          <tini-heading level="3">
+            <tini-text color="success">Color heading</tini-text>
+          </tini-heading>
+          <tini-heading level="3">
+            <tini-text
+              gradient="linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%)"
+              >Gradient heading</tini-text
+            >
+          </tini-heading>
+        </div>
+      </section>
+
+      <section>
+        <h3>
+          <span>Link</span>
+          <a href="/ui/link">Detail</a>
+        </h3>
+        <div class="content">
+          <tini-link href="#">An utility for link</tini-link><br />
+          <tini-link href="#" disabled>Disabled link</tini-link><br />
+          <tini-link href="#" italic>Italic link</tini-link><br />
+          <tini-link href="#" color="success">Color link</tini-link><br />
+          <tini-link href="#" gradient="danger" size="xl"
+            >Big gradient link</tini-link
+          ><br />
+          <tini-link href="#" size="xs">Small link</tini-link><br />
+          <tini-link href="#" noUnderline>Force no underline</tini-link><br />
         </div>
       </section>
 
@@ -383,7 +542,7 @@ function sayHello() {
           <a href="/ui/icon">Detail</a>
         </h3>
         <div class="content">
-          <tini-icon src=${ICON_SRC} scheme="body-contrast"></tini-icon>
+          <tini-icon src=${ICON_SRC} color="body-contrast"></tini-icon>
           <tini-icon
             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 32 32'%3E%3Cg fill='none'%3E%3Cpath fill='%2300d26a' d='M6 6c4.665-2.332 8.5.5 10 2.5c1.5-2 5.335-4.832 10-2.5c6 3 4.5 10.5 0 15c-2.196 2.196-6.063 6.063-8.891 8.214a1.763 1.763 0 0 1-2.186-.041C12.33 27.08 8.165 23.165 6 21C1.5 16.5 0 9 6 6'/%3E%3Cpath fill='%2314a085' d='M16 8.5v3.049c1.27-2.684 4.425-6.269 9.658-5.712c-4.51-2.03-8.195.712-9.658 2.663m-4.054-2.963C10.26 4.95 8.225 4.887 6 6C0 9 1.5 16.5 6 21c2.165 2.165 6.33 6.08 8.923 8.173a1.763 1.763 0 0 0 2.186.04c.254-.193.516-.4.785-.619c-2.854-2.142-6.86-5.518-9.035-7.462c-4.957-4.43-6.61-11.814 0-14.768a9.706 9.706 0 0 1 3.087-.827'/%3E%3Cellipse cx='23.477' cy='12.594' fill='%2300f397' rx='2.836' ry='4.781' transform='rotate(30 23.477 12.594)'/%3E%3C/g%3E%3C/svg%3E"
           ></tini-icon>
@@ -392,22 +551,22 @@ function sayHello() {
           ></tini-icon>
 
           <p class="desc">Color & gradient</p>
-          <tini-icon src=${ICON_SRC} scheme="primary"></tini-icon>
-          <tini-icon src=${ICON_SRC} scheme="success"></tini-icon>
-          <tini-icon src=${ICON_SRC} scheme="danger"></tini-icon>
+          <tini-icon src=${ICON_SRC} color="primary"></tini-icon>
+          <tini-icon src=${ICON_SRC} color="success"></tini-icon>
+          <tini-icon src=${ICON_SRC} color="danger"></tini-icon>
           <br />
-          <tini-icon src=${ICON_SRC} scheme="primary-subtle"></tini-icon>
-          <tini-icon src=${ICON_SRC} scheme="success-subtle"></tini-icon>
-          <tini-icon src=${ICON_SRC} scheme="danger-subtle"></tini-icon>
+          <tini-icon src=${ICON_SRC} color="primary-subtle"></tini-icon>
+          <tini-icon src=${ICON_SRC} color="success-subtle"></tini-icon>
+          <tini-icon src=${ICON_SRC} color="danger-subtle"></tini-icon>
           <br />
-          <tini-icon src=${ICON_SRC} scheme="gradient-primary"></tini-icon>
-          <tini-icon src=${ICON_SRC} scheme="gradient-success"></tini-icon>
-          <tini-icon src=${ICON_SRC} scheme="gradient-danger"></tini-icon>
+          <tini-icon src=${ICON_SRC} gradient="primary"></tini-icon>
+          <tini-icon src=${ICON_SRC} gradient="success"></tini-icon>
+          <tini-icon src=${ICON_SRC} gradient="danger"></tini-icon>
 
           <p class="desc">Sizes</p>
-          <tini-icon src=${ICON_SRC} scheme="primary" size="xs"></tini-icon>
-          <tini-icon src=${ICON_SRC} scheme="primary"></tini-icon>
-          <tini-icon src=${ICON_SRC} scheme="primary" size="xl"></tini-icon>
+          <tini-icon src=${ICON_SRC} color="primary" size="xs"></tini-icon>
+          <tini-icon src=${ICON_SRC} color="primary"></tini-icon>
+          <tini-icon src=${ICON_SRC} color="primary" size="xl"></tini-icon>
         </div>
       </section>
 
@@ -418,35 +577,35 @@ function sayHello() {
         </h3>
         <div class="content">
           <tini-badge>Badge</tini-badge>
-          <tini-badge scheme="success">Badge</tini-badge>
-          <tini-badge scheme="warning">Badge</tini-badge>
-          <tini-badge scheme="danger">Badge</tini-badge>
+          <tini-badge color="success">Badge</tini-badge>
+          <tini-badge color="warning">Badge</tini-badge>
+          <tini-badge color="danger">Badge</tini-badge>
           <br />
-          <tini-badge scheme="primary-subtle">Subtle</tini-badge>
-          <tini-badge scheme="success-subtle">Subtle</tini-badge>
-          <tini-badge scheme="warning-subtle">Subtle</tini-badge>
-          <tini-badge scheme="danger-subtle">Subtle</tini-badge>
+          <tini-badge color="primary-subtle">Subtle</tini-badge>
+          <tini-badge color="success-subtle">Subtle</tini-badge>
+          <tini-badge color="warning-subtle">Subtle</tini-badge>
+          <tini-badge color="danger-subtle">Subtle</tini-badge>
           <br />
-          <tini-badge scheme="gradient-primary">Gradient</tini-badge>
-          <tini-badge scheme="gradient-success">Gradient</tini-badge>
-          <tini-badge scheme="gradient-warning">Gradient</tini-badge>
-          <tini-badge scheme="gradient-danger">Gradient</tini-badge>
+          <tini-badge gradient="primary">Gradient</tini-badge>
+          <tini-badge gradient="success">Gradient</tini-badge>
+          <tini-badge gradient="warning">Gradient</tini-badge>
+          <tini-badge gradient="danger">Gradient</tini-badge>
 
           <p class="desc">Pill, circle & dot</p>
           <tini-badge shape="pill">Pill</tini-badge>
-          <tini-badge shape="pill" scheme="success">Pill</tini-badge>
-          <tini-badge shape="pill" scheme="warning">Pill</tini-badge>
-          <tini-badge shape="pill" scheme="danger">Pill</tini-badge>
+          <tini-badge shape="pill" color="success">Pill</tini-badge>
+          <tini-badge shape="pill" color="warning">Pill</tini-badge>
+          <tini-badge shape="pill" color="danger">Pill</tini-badge>
           <br />
           <tini-badge shape="circle">9</tini-badge>
-          <tini-badge shape="circle" scheme="success">9</tini-badge>
-          <tini-badge shape="circle" scheme="warning">9</tini-badge>
-          <tini-badge shape="circle" scheme="danger">9</tini-badge>
+          <tini-badge shape="circle" color="success">9</tini-badge>
+          <tini-badge shape="circle" color="warning">9</tini-badge>
+          <tini-badge shape="circle" color="danger">9</tini-badge>
           <br />
           <tini-badge shape="dot"></tini-badge>
-          <tini-badge shape="dot" scheme="success"></tini-badge>
-          <tini-badge shape="dot" scheme="warning"></tini-badge>
-          <tini-badge shape="dot" scheme="danger"></tini-badge>
+          <tini-badge shape="dot" color="success"></tini-badge>
+          <tini-badge shape="dot" color="warning"></tini-badge>
+          <tini-badge shape="dot" color="danger"></tini-badge>
 
           <p class="desc">Sizes</p>
           <tini-badge size="xs">Badge</tini-badge>
@@ -462,21 +621,21 @@ function sayHello() {
         </h3>
         <div class="content">
           <tini-button>Button</tini-button>
-          <tini-button scheme="success">Button</tini-button>
-          <tini-button scheme="warning">Button</tini-button>
-          <tini-button scheme="danger">Button</tini-button>
+          <tini-button color="success">Button</tini-button>
+          <tini-button color="warning">Button</tini-button>
+          <tini-button color="danger">Button</tini-button>
           <br />
           <br />
-          <tini-button scheme="primary-subtle">Subtle</tini-button>
-          <tini-button scheme="success-subtle">Subtle</tini-button>
-          <tini-button scheme="warning-subtle">Subtle</tini-button>
-          <tini-button scheme="danger-subtle">Subtle</tini-button>
+          <tini-button color="primary-subtle">Subtle</tini-button>
+          <tini-button color="success-subtle">Subtle</tini-button>
+          <tini-button color="warning-subtle">Subtle</tini-button>
+          <tini-button color="danger-subtle">Subtle</tini-button>
           <br />
           <br />
-          <tini-button scheme="gradient-primary">Gradient</tini-button>
-          <tini-button scheme="gradient-success">Gradient</tini-button>
-          <tini-button scheme="gradient-warning">Gradient</tini-button>
-          <tini-button scheme="gradient-danger">Gradient</tini-button>
+          <tini-button gradient="primary">Gradient</tini-button>
+          <tini-button gradient="success">Gradient</tini-button>
+          <tini-button gradient="warning">Gradient</tini-button>
+          <tini-button gradient="danger">Gradient</tini-button>
 
           <p class="desc">Sizes</p>
           <tini-button size="xs">Button</tini-button>

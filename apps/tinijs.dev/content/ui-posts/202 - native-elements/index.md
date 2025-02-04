@@ -6,7 +6,7 @@
 }
 +++
 
-Base styles is used to set the styles for native elements like **headings**, **text**, **link**, ... For more details, please see [Bases](/ui/base).
+Base styles is used to set the styles for native elements like **headings**, **text**, **link**, ... For more details, please see [Bases](/ui/bases).
 
 Below is the preview of the base styles of the current activated theme. You may want to switch to another theme of a some other family to see the differences using the **Skin Editor** panel.
 
@@ -130,7 +130,7 @@ function foo() {
 ## picture
 
 <picture>
-  <source srcset="https://placehold.co/800x600?text=srcset%3Ddesktop" media="(min-width: 992px)">
+  <source srcset="https://placehold.co/800x600?text=srcset%3Ddesktop" media="(min-width: 1024px)">
   <source srcset="https://placehold.co/600x400?text=srcset%3Dtablet" media="(min-width: 768px)">
   <img src="https://placehold.co/500x300?text=srcset%3Dmobile" alt="Lorem ipsum">
 </picture>

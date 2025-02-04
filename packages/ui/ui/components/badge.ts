@@ -11,8 +11,8 @@ import {
   SubtleGradients,
   ContrastGradients,
   Sizes,
-  generateAllColorVariants,
-  generateAllGradientVariants,
+  generateSchemableColorVariants,
+  generateSchemableGradientVariants,
   generateSizeVariants,
 } from '@tinijs/core';
 
@@ -30,7 +30,8 @@ export enum BadgeShapes {
 export default class extends TiniElement {
   /* eslint-disable prettier/prettier */
   @property({type: String, reflect: true}) shape?: BadgeShapes;
-  @property({type: String, reflect: true}) scheme?: Colors | SubtleColors | ContrastColors | Gradients | SubtleGradients | ContrastGradients;
+  @property({type: String, reflect: true}) color?: Colors | SubtleColors | ContrastColors;
+  @property({type: String, reflect: true}) gradient?: Gradients | SubtleGradients | ContrastGradients;
   @property({type: String, reflect: true}) size?: Sizes;
   /* eslint-enable prettier/prettier */
 
@@ -50,8 +51,8 @@ export default class extends TiniElement {
 
 export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
-  colorGen: Parameters<typeof generateAllColorVariants>[0];
-  gradientGen: Parameters<typeof generateAllGradientVariants>[0];
+  colorGen: Parameters<typeof generateSchemableColorVariants>[0];
+  gradientGen: Parameters<typeof generateSchemableGradientVariants>[0];
   sizeGen: Parameters<typeof generateSizeVariants>[0];
 }>(outputs => [
   css`
@@ -114,7 +115,7 @@ export const defaultStyles = createStyleBuilder<{
 
   outputs.statics,
 
-  generateAllColorVariants(values => {
+  generateSchemableColorVariants(values => {
     const {hostSelector, color, contrast} = values;
     return `
       ${hostSelector} {
@@ -125,7 +126,7 @@ export const defaultStyles = createStyleBuilder<{
     `;
   }),
 
-  generateAllGradientVariants(values => {
+  generateSchemableGradientVariants(values => {
     const {hostSelector, gradient, contrast} = values;
     return `
       ${hostSelector} {

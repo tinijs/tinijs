@@ -96,7 +96,7 @@ class XXX extends TiniComponent {
         ]}
       >
         <tini-button
-          scheme="primary"
+          color="primary"
           @click=${() => this.alertDialogRef.value?.show()}
           >Open alert</tini-button
         >

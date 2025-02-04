@@ -12,7 +12,11 @@ import {
 } from '@tinijs/core';
 import {type FragmentItem} from '@tinijs/router';
 
-@component()
+import {TiniLinkComponent} from '../../ui/components/link.js';
+
+@component({
+  components: [TiniLinkComponent],
+})
 export class AppDocPageTOCComponent extends TiniComponent {
   static readonly defaultTagName = 'app-doc-page-toc';
 
@@ -55,8 +59,11 @@ export class AppDocPageTOCComponent extends TiniComponent {
         ${tocItems!.map(
           ({id, title, level}) =>
             html`<li class=${classMap({[`level-${level}`]: true})}>
-              <a href=${`#${id}`} @click=${() => this.selectItem.emit()}
-                >${title}</a
+              <tini-link
+                activeFull
+                href=${`#${id}`}
+                @click=${() => this.selectItem.emit()}
+                >${title}</tini-link
               >
             </li>`
         )}
@@ -131,23 +138,31 @@ export class AppDocPageTOCComponent extends TiniComponent {
           padding-left: var(--space-xl3);
         }
 
-        a {
-          display: block;
-          padding: var(--space-xs2) var(--space-md);
-          color: var(--color-medium);
-          text-decoration: none;
-          font-weight: normal;
-          font-size: var(--text-sm);
+        tini-link {
+          &::part(a) {
+            display: block;
+            padding: var(--space-xs2) var(--space-md);
+            color: var(--color-medium);
+            text-decoration: none;
+            font-weight: normal;
+            font-size: var(--text-sm);
+          }
 
-          &:hover {
+          &:hover::part(a) {
             text-decoration: none;
             color: var(--color-body-contrast);
+          }
+
+          &[linkIsActive]::part(a) {
+            color: var(--color-body-contrast);
+            cursor: default;
+            pointer-events: none;
           }
         }
       }
     }
 
-    @media (min-width: 1200px) {
+    @media (min-width: 1280px) {
       :host {
         border-left: 1px solid var(--color-body-semi);
       }

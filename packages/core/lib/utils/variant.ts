@@ -1,15 +1,13 @@
 import {unsafeCSS} from 'lit';
 
-export function isGradient(name: string | undefined) {
-  return !!name?.startsWith('gradient-');
-}
-
-export function isSubtle(name: string | undefined) {
-  return name?.slice(-6) === '-subtle';
-}
-
-export function isContrast(name: string | undefined) {
-  return name?.slice(-9) === '-contrast';
+export function createVariantAvailabilityMap(list: string[]) {
+  return list.reduce(
+    (result, item) => {
+      result[item] = item;
+      return result;
+    },
+    {} as Record<string, string>
+  );
 }
 
 export interface VariantRenderValues {
@@ -35,6 +33,7 @@ export interface ColorRenderValues extends VariantRenderValues {
   contrast: string;
 }
 export type ColorVariantRender = (values: ColorRenderValues) => string;
+
 export interface GradientRenderValues extends ColorRenderValues {
   baseGradient: string;
   baseGradientHard: string;
@@ -47,21 +46,6 @@ export interface GradientRenderValues extends ColorRenderValues {
   gradientContrast: string;
 }
 export type GradientVariantRender = (values: GradientRenderValues) => string;
-
-export interface FontRenderValues extends VariantRenderValues {
-  font: string;
-}
-export type FontVariantRender = (values: FontRenderValues) => string;
-
-export interface TextRenderValues extends VariantRenderValues {
-  text: string;
-}
-export type TextVariantRender = (values: TextRenderValues) => string;
-
-export interface WeightRenderValues extends VariantRenderValues {
-  weight: string;
-}
-export type WeightVariantRender = (values: WeightRenderValues) => string;
 
 export interface SizeRenderValues extends VariantRenderValues {
   size: string;
@@ -79,13 +63,23 @@ export interface ShadowRenderValues extends VariantRenderValues {
 export type ShadowVariantRender = (values: ShadowRenderValues) => string;
 
 export enum ColorSuffixes {
-  None = 'none',
+  Base = 'base',
   Hard = 'hard',
   Soft = 'soft',
   Semi = 'semi',
   Subtle = 'subtle',
   Dull = 'dull',
   Contrast = 'contrast',
+}
+
+export enum GradientSuffixes {
+  Base = ColorSuffixes.Base,
+  Hard = ColorSuffixes.Hard,
+  Soft = ColorSuffixes.Soft,
+  Semi = ColorSuffixes.Semi,
+  Subtle = ColorSuffixes.Subtle,
+  Dull = ColorSuffixes.Dull,
+  Contrast = ColorSuffixes.Contrast,
 }
 
 export enum Colors {
@@ -98,6 +92,36 @@ export enum Colors {
   Warning = 'warning',
   Danger = 'danger',
 }
+export enum HardColors {
+  Body = 'body-hard',
+  Medium = 'medium-hard',
+  Primary = 'primary-hard',
+  Secondary = 'secondary-hard',
+  Info = 'info-hard',
+  Success = 'success-hard',
+  Warning = 'warning-hard',
+  Danger = 'danger-hard',
+}
+export enum SoftColors {
+  Body = 'body-soft',
+  Medium = 'medium-soft',
+  Primary = 'primary-soft',
+  Secondary = 'secondary-soft',
+  Info = 'info-soft',
+  Success = 'success-soft',
+  Warning = 'warning-soft',
+  Danger = 'danger-soft',
+}
+export enum SemiColors {
+  Body = 'body-semi',
+  Medium = 'medium-semi',
+  Primary = 'primary-semi',
+  Secondary = 'secondary-semi',
+  Info = 'info-semi',
+  Success = 'success-semi',
+  Warning = 'warning-semi',
+  Danger = 'danger-semi',
+}
 export enum SubtleColors {
   Body = 'body-subtle',
   Medium = 'medium-subtle',
@@ -107,6 +131,16 @@ export enum SubtleColors {
   Success = 'success-subtle',
   Warning = 'warning-subtle',
   Danger = 'danger-subtle',
+}
+export enum DullColors {
+  Body = 'body-dull',
+  Medium = 'medium-dull',
+  Primary = 'primary-dull',
+  Secondary = 'secondary-dull',
+  Info = 'info-dull',
+  Success = 'success-dull',
+  Warning = 'warning-dull',
+  Danger = 'danger-dull',
 }
 export enum ContrastColors {
   Body = 'body-contrast',
@@ -119,48 +153,119 @@ export enum ContrastColors {
   Danger = 'danger-contrast',
 }
 export const COLORS = Object.values(Colors);
+export const HARD_COLORS = Object.values(HardColors);
+export const SOFT_COLORS = Object.values(SoftColors);
+export const SEMI_COLORS = Object.values(SemiColors);
 export const SUBTLE_COLORS = Object.values(SubtleColors);
+export const DULL_COLORS = Object.values(DullColors);
 export const CONTRAST_COLORS = Object.values(ContrastColors);
-export const ALL_COLORS = [...COLORS, ...SUBTLE_COLORS, ...CONTRAST_COLORS];
+export const SCHEMABLE_COLORS = [
+  ...COLORS,
+  ...SUBTLE_COLORS,
+  ...CONTRAST_COLORS,
+];
+export const ALL_COLORS = [
+  ...COLORS,
+  ...HARD_COLORS,
+  ...SOFT_COLORS,
+  ...SEMI_COLORS,
+  ...SUBTLE_COLORS,
+  ...DULL_COLORS,
+  ...CONTRAST_COLORS,
+];
+export const AVAILABLE_ALL_COLORS = createVariantAvailabilityMap(ALL_COLORS);
 
 export enum Gradients {
-  Body = 'gradient-body',
-  Medium = 'gradient-medium',
-  Primary = 'gradient-primary',
-  Secondary = 'gradient-secondary',
-  Info = 'gradient-info',
-  Success = 'gradient-success',
-  Warning = 'gradient-warning',
-  Danger = 'gradient-danger',
+  Body = Colors.Body,
+  Medium = Colors.Medium,
+  Primary = Colors.Primary,
+  Secondary = Colors.Secondary,
+  Info = Colors.Info,
+  Success = Colors.Success,
+  Warning = Colors.Warning,
+  Danger = Colors.Danger,
+}
+export enum HardGradients {
+  Body = HardColors.Body,
+  Medium = HardColors.Medium,
+  Primary = HardColors.Primary,
+  Secondary = HardColors.Secondary,
+  Info = HardColors.Info,
+  Success = HardColors.Success,
+  Warning = HardColors.Warning,
+  Danger = HardColors.Danger,
+}
+export enum SoftGradients {
+  Body = SoftColors.Body,
+  Medium = SoftColors.Medium,
+  Primary = SoftColors.Primary,
+  Secondary = SoftColors.Secondary,
+  Info = SoftColors.Info,
+  Success = SoftColors.Success,
+  Warning = SoftColors.Warning,
+  Danger = SoftColors.Danger,
+}
+export enum SemiGradients {
+  Body = SemiColors.Body,
+  Medium = SemiColors.Medium,
+  Primary = SemiColors.Primary,
+  Secondary = SemiColors.Secondary,
+  Info = SemiColors.Info,
+  Success = SemiColors.Success,
+  Warning = SemiColors.Warning,
+  Danger = SemiColors.Danger,
 }
 export enum SubtleGradients {
-  Body = 'gradient-body-subtle',
-  Medium = 'gradient-medium-subtle',
-  Primary = 'gradient-primary-subtle',
-  Secondary = 'gradient-secondary-subtle',
-  Info = 'gradient-info-subtle',
-  Success = 'gradient-success-subtle',
-  Warning = 'gradient-warning-subtle',
-  Danger = 'gradient-danger-subtle',
+  Body = SubtleColors.Body,
+  Medium = SubtleColors.Medium,
+  Primary = SubtleColors.Primary,
+  Secondary = SubtleColors.Secondary,
+  Info = SubtleColors.Info,
+  Success = SubtleColors.Success,
+  Warning = SubtleColors.Warning,
+  Danger = SubtleColors.Danger,
+}
+export enum DullGradients {
+  Body = DullColors.Body,
+  Medium = DullColors.Medium,
+  Primary = DullColors.Primary,
+  Secondary = DullColors.Secondary,
+  Info = DullColors.Info,
+  Success = DullColors.Success,
+  Warning = DullColors.Warning,
+  Danger = DullColors.Danger,
 }
 export enum ContrastGradients {
-  Body = 'gradient-body-contrast',
-  Medium = 'gradient-medium-contrast',
-  Primary = 'gradient-primary-contrast',
-  Secondary = 'gradient-secondary-contrast',
-  Info = 'gradient-info-contrast',
-  Success = 'gradient-success-contrast',
-  Warning = 'gradient-warning-contrast',
-  Danger = 'gradient-danger-contrast',
+  Body = ContrastColors.Body,
+  Medium = ContrastColors.Medium,
+  Primary = ContrastColors.Primary,
+  Secondary = ContrastColors.Secondary,
+  Info = ContrastColors.Info,
+  Success = ContrastColors.Success,
+  Warning = ContrastColors.Warning,
+  Danger = ContrastColors.Danger,
 }
-export const GRADIENTS = Object.values(Gradients);
-export const SUBTLE_GRADIENTS = Object.values(SubtleGradients);
-export const CONTRAST_GRADIENTS = Object.values(ContrastGradients);
-export const ALL_GRADIENTS = [
-  ...GRADIENTS,
-  ...SUBTLE_GRADIENTS,
-  ...CONTRAST_GRADIENTS,
-];
+export const GRADIENTS = COLORS as unknown as Gradients[];
+export const HARD_GRADIENTS = HARD_COLORS as unknown as HardGradients[];
+export const SOFT_GRADIENTS = SOFT_COLORS as unknown as SoftGradients[];
+export const SEMI_GRADIENTS = SEMI_COLORS as unknown as SemiGradients[];
+export const SUBTLE_GRADIENTS = SUBTLE_COLORS as unknown as SubtleGradients[];
+export const DULL_GRADIENTS = DULL_COLORS as unknown as DullGradients[];
+export const CONTRAST_GRADIENTS =
+  CONTRAST_COLORS as unknown as ContrastGradients[];
+export const SCHEMABLE_GRADIENTS = SCHEMABLE_COLORS as unknown as Array<
+  Gradients | SubtleGradients | ContrastGradients
+>;
+export const ALL_GRADIENTS = ALL_COLORS as unknown as Array<
+  | Gradients
+  | HardGradients
+  | SoftGradients
+  | SemiGradients
+  | SubtleGradients
+  | DullGradients
+  | ContrastGradients
+>;
+export const AVAILABLE_ALL_GRADIENTS = AVAILABLE_ALL_COLORS;
 
 export enum Fonts {
   Title = 'title',
@@ -169,6 +274,7 @@ export enum Fonts {
   Art = 'art',
 }
 export const FONTS = Object.values(Fonts);
+export const AVAILABLE_FONTS = createVariantAvailabilityMap(FONTS);
 
 export enum Texts {
   XS3 = 'xs3',
@@ -183,18 +289,10 @@ export enum Texts {
   XL4 = 'xl4',
   XL5 = 'xl5',
   XL6 = 'xl6',
+  XL7 = 'xl7',
 }
 export const TEXTS = Object.values(Texts);
-
-export enum Weights {
-  Thin = 'thin',
-  Light = 'light',
-  Normal = 'normal',
-  Medium = 'medium',
-  Bold = 'bold',
-  Black = 'black',
-}
-export const WEIGHTS = Object.values(Weights);
+export const AVAILABLE_TEXTS = createVariantAvailabilityMap(TEXTS);
 
 export enum Sizes {
   XS = 'xs',
@@ -204,6 +302,7 @@ export enum Sizes {
   XL = 'xl',
 }
 export const SIZES = Object.values(Sizes);
+export const AVAILABLE_SIZES = createVariantAvailabilityMap(SIZES);
 
 export enum Spaces {
   Zero = 'zero',
@@ -219,8 +318,10 @@ export enum Spaces {
   XL4 = 'xl4',
   XL5 = 'xl5',
   XL6 = 'xl6',
+  XL7 = 'xl7',
 }
 export const SPACES = Object.values(Spaces);
+export const AVAILABLE_SPACES = createVariantAvailabilityMap(SPACES);
 
 export enum Radiuses {
   Zero = 'zero',
@@ -235,6 +336,7 @@ export enum Radiuses {
   Full = 'full',
 }
 export const RADIUSES = Object.values(Radiuses);
+export const AVAILABLE_RADIUSES = createVariantAvailabilityMap(RADIUSES);
 
 export enum Borders {
   Zero = 'zero',
@@ -244,6 +346,7 @@ export enum Borders {
   XL = 'xl',
 }
 export const BORDERS = Object.values(Borders);
+export const AVAILABLE_BORDERS = createVariantAvailabilityMap(BORDERS);
 
 export enum Outlines {
   Zero = 'zero',
@@ -253,6 +356,7 @@ export enum Outlines {
   XL = 'xl',
 }
 export const OUTLINES = Object.values(Outlines);
+export const AVAILABLE_OUTLINES = createVariantAvailabilityMap(OUTLINES);
 
 export enum Lines {
   XS = 'xs',
@@ -262,6 +366,7 @@ export enum Lines {
   XL = 'xl',
 }
 export const LINES = Object.values(Lines);
+export const AVAILABLE_LINES = createVariantAvailabilityMap(LINES);
 
 export enum Letters {
   XS = 'xs',
@@ -271,11 +376,19 @@ export enum Letters {
   XL = 'xl',
 }
 export const LETTERS = Object.values(Letters);
+export const AVAILABLE_LETTERS = createVariantAvailabilityMap(LETTERS);
+
+export enum Words {
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+}
+export const WORDS = Object.values(Words);
+export const AVAILABLE_WORDS = createVariantAvailabilityMap(WORDS);
 
 export enum Wides {
-  XS6 = 'xs6',
-  XS5 = 'xs5',
-  XS4 = 'xs4',
   XS3 = 'xs3',
   XS2 = 'xs2',
   XS = 'xs',
@@ -288,8 +401,27 @@ export enum Wides {
   XL4 = 'xl4',
   XL5 = 'xl5',
   XL6 = 'xl6',
+  XL7 = 'xl7',
 }
 export const WIDES = Object.values(Wides);
+export const AVAILABLE_WIDES = createVariantAvailabilityMap(WIDES);
+
+export enum Breakpoints {
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+}
+export const BREAKPOINTS = Object.values(Breakpoints);
+export const AVAILABLE_BREAKPOINTS = createVariantAvailabilityMap(BREAKPOINTS);
+export const BREAKPOINT_VALUES: Record<string, string> = {
+  [Breakpoints.XS]: '576px',
+  [Breakpoints.SM]: '768px',
+  [Breakpoints.MD]: '1024px',
+  [Breakpoints.LG]: '1280px',
+  [Breakpoints.XL]: '1640px',
+};
 
 export enum Shadows {
   None = 'none',
@@ -301,6 +433,152 @@ export enum Shadows {
   Inset = 'inset',
 }
 export const SHADOWS = Object.values(Shadows);
+export const AVAILABLE_SHADOWS = createVariantAvailabilityMap(SHADOWS);
+
+/*
+ * =============================================================================
+ * Value parsers
+ * =============================================================================
+ */
+
+export function isBuiltinColor(raw: string) {
+  return !!AVAILABLE_ALL_COLORS[raw];
+}
+export function parseColorValue(raw: string) {
+  return !isBuiltinColor(raw) ? raw : `var(--color-${raw})`;
+}
+
+export function isBuiltinGradient(raw: string) {
+  return !!AVAILABLE_ALL_GRADIENTS[raw];
+}
+export function parseGradientValue(raw: string) {
+  return !isBuiltinGradient(raw) ? raw : `var(--gradient-${raw})`;
+}
+
+export function parseColorOrGradientValue(raw: string) {
+  const gradientPrefix = 'gradient-';
+  const isGradient = raw.startsWith(gradientPrefix);
+  if (isGradient) raw = raw.replace(gradientPrefix, '');
+  return isGradient && isBuiltinGradient(raw)
+    ? `var(--gradient-${raw})`
+    : isBuiltinColor(raw)
+      ? `var(--color-${raw})`
+      : raw;
+}
+
+export function isBuiltinFont(raw: string) {
+  return !!AVAILABLE_FONTS[raw];
+}
+export function parseFontValue(raw: string) {
+  return !isBuiltinFont(raw) ? raw : `var(--font-${raw})`;
+}
+
+export function isBuiltinText(raw: string) {
+  return !!AVAILABLE_TEXTS[raw];
+}
+export function parseTextValue(raw: string) {
+  return !isBuiltinText(raw) ? raw : `var(--text-${raw})`;
+}
+
+export function isBuiltinSpace(raw: string) {
+  return !!AVAILABLE_SPACES[raw];
+}
+export function parseSingleSpaceValue(raw: string) {
+  return !isBuiltinSpace(raw) ? raw : `var(--space-${raw})`;
+}
+export function parseMultipleSpaceValue(raw: string) {
+  return raw
+    .split(' ')
+    .map(item => parseSingleSpaceValue(item))
+    .join(' ');
+}
+
+export function isBuiltinRadius(raw: string) {
+  return !!AVAILABLE_RADIUSES[raw];
+}
+export function parseRadiusValue(raw: string) {
+  return !isBuiltinRadius(raw) ? raw : `var(--radius-${raw})`;
+}
+
+export function isBuiltinBorder(raw: string) {
+  return !!AVAILABLE_BORDERS[raw];
+}
+export function parseBorderValue(raw: string) {
+  return raw
+    .split(' ')
+    .map(item =>
+      isBuiltinBorder(item)
+        ? `var(--border-${item})`
+        : isBuiltinColor(item)
+          ? `var(--color-${item})`
+          : item
+    )
+    .join(' ');
+}
+
+export function isBuiltinOutline(raw: string) {
+  return !!AVAILABLE_OUTLINES[raw];
+}
+export function parseOutlineValue(raw: string) {
+  return raw
+    .split(' ')
+    .map(item =>
+      isBuiltinOutline(item)
+        ? `var(--outline-${item})`
+        : isBuiltinColor(item)
+          ? `var(--color-${item})`
+          : item
+    )
+    .join(' ');
+}
+
+export function isBuiltinLine(raw: string) {
+  return !!AVAILABLE_LINES[raw];
+}
+export function parseLineValue(raw: string) {
+  return !isBuiltinLine(raw) ? raw : `var(--line-${raw})`;
+}
+
+export function isBuiltinLetter(raw: string) {
+  return !!AVAILABLE_LETTERS[raw];
+}
+export function parseLetterValue(raw: string) {
+  return !isBuiltinLetter(raw) ? raw : `var(--letter-${raw})`;
+}
+
+export function isBuiltinWord(raw: string) {
+  return !!AVAILABLE_WORDS[raw];
+}
+export function parseWordValue(raw: string) {
+  return !isBuiltinWord(raw) ? raw : `var(--word-${raw})`;
+}
+
+export function isBuiltinWide(raw: string) {
+  return !!AVAILABLE_WIDES[raw];
+}
+export function parseWideValue(raw: string) {
+  return !isBuiltinWide(raw) ? raw : `var(--wide-${raw})`;
+}
+
+export function isBuiltinShadow(raw: string) {
+  return !!AVAILABLE_SHADOWS[raw];
+}
+export function parseShadowValue(raw: string) {
+  return !isBuiltinShadow(raw) ? raw : `var(--shadow-${raw})`;
+}
+
+export function parseDecorationValue(raw: string) {
+  return raw
+    .split(' ')
+    .map(item => (isBuiltinColor(item) ? `var(--color-${item})` : item))
+    .join(' ');
+}
+
+/*
+ * =============================================================================
+ * Utils for generating variants
+ * =============================================================================
+ */
 
 export function buildVariantNamesAndSelectors(
   prefixName: string,
@@ -317,7 +595,7 @@ function generateColorVariant(
   name: Colors | SubtleColors | ContrastColors,
   prefixName?: string
 ) {
-  prefixName ||= 'scheme';
+  prefixName ||= 'color';
   const nameArr = name.split('-');
   const isSubtle = nameArr[nameArr.length - 1] === 'subtle';
   const isContrast = nameArr[nameArr.length - 1] === 'contrast';
@@ -388,14 +666,14 @@ export function generateContrastColorVariants(
     ).join('')
   );
 }
-export function generateAllColorVariants(
+export function generateSchemableColorVariants(
   render: ColorVariantRender,
   prefixName?: string
 ) {
   return unsafeCSS(
-    ALL_COLORS.map(name => generateColorVariant(render, name, prefixName)).join(
-      ''
-    )
+    SCHEMABLE_COLORS.map(name =>
+      generateColorVariant(render, name, prefixName)
+    ).join('')
   );
 }
 
@@ -404,7 +682,7 @@ function generateGradientVariant(
   name: Gradients | SubtleGradients | ContrastGradients,
   prefixName?: string
 ) {
-  prefixName ||= 'scheme';
+  prefixName ||= 'gradient';
   const nameArr = name.replace('gradient-', '').split('-');
   const isSubtle = nameArr[nameArr.length - 1] === 'subtle';
   const isContrast = nameArr[nameArr.length - 1] === 'contrast';
@@ -429,7 +707,7 @@ function generateGradientVariant(
   const baseGradientSubtle = `var(--gradient-${baseName}-subtle)`;
   const baseGradientDull = `var(--gradient-${baseName}-dull)`;
   const baseGradientContrast = `var(--gradient-${baseName}-contrast)`;
-  const gradient = `var(--${name})`;
+  const gradient = `var(--gradient-${name})`;
   const gradientContrast =
     isSubtle || isContrast ? baseGradient : baseGradientContrast;
   // names and selectors
@@ -497,80 +775,14 @@ export function generateContrastGradientVariants(
     ).join('')
   );
 }
-export function generateAllGradientVariants(
+export function generateSchemableGradientVariants(
   render: GradientVariantRender,
   prefixName?: string
 ) {
   return unsafeCSS(
-    ALL_GRADIENTS.map(name =>
+    SCHEMABLE_GRADIENTS.map(name =>
       generateGradientVariant(render, name, prefixName)
     ).join('')
-  );
-}
-
-export function generateFontVariants(
-  render: FontVariantRender,
-  prefixName?: string
-) {
-  return unsafeCSS(
-    FONTS.map(name => {
-      prefixName ||= 'font';
-      const font = `var(--font-${name})`;
-      const {fullName, hostSelector, mainSelector} =
-        buildVariantNamesAndSelectors(prefixName, name);
-      return render({
-        name,
-        prefixName,
-        font,
-        fullName,
-        hostSelector,
-        mainSelector,
-      });
-    }).join('')
-  );
-}
-
-export function generateTextVariants(
-  render: TextVariantRender,
-  prefixName?: string
-) {
-  return unsafeCSS(
-    TEXTS.map(name => {
-      prefixName ||= 'text';
-      const text = `var(--text-${name})`;
-      const {fullName, hostSelector, mainSelector} =
-        buildVariantNamesAndSelectors(prefixName, name);
-      return render({
-        name,
-        prefixName,
-        text,
-        fullName,
-        hostSelector,
-        mainSelector,
-      });
-    }).join('')
-  );
-}
-
-export function generateWeightVariants(
-  render: WeightVariantRender,
-  prefixName?: string
-) {
-  return unsafeCSS(
-    WEIGHTS.map(name => {
-      prefixName ||= 'weight';
-      const weight = `var(--weight-${name})`;
-      const {fullName, hostSelector, mainSelector} =
-        buildVariantNamesAndSelectors(prefixName, name);
-      return render({
-        name,
-        prefixName,
-        weight,
-        fullName,
-        hostSelector,
-        mainSelector,
-      });
-    }).join('')
   );
 }
 
@@ -640,6 +852,12 @@ export function generateShadowVariants(
   );
 }
 
+/*
+ * =============================================================================
+ * Utils for working with colors and gradients tokens
+ * =============================================================================
+ */
+
 export type ColorTokenDef = [string, string];
 
 export interface GradientTokenDef {
@@ -655,7 +873,7 @@ const DECREASE_BODY_COLOR_STRENGTHS = {
 };
 
 export function deriveColorStrength(
-  target: Exclude<ColorSuffixes, 'none' | 'contrast'>,
+  target: Exclude<ColorSuffixes, 'base' | 'contrast'>,
   color: string
 ) {
   switch (target) {
@@ -757,7 +975,7 @@ export function generateGradientTokens(
     const direction = 'var(--gradient-direction, 180deg)';
     return Object.values(ColorSuffixes)
       .map(suffix => {
-        const isBase = suffix === ColorSuffixes.None;
+        const isBase = suffix === ColorSuffixes.Base;
         const isContrast = suffix === ColorSuffixes.Contrast;
         const fullName = `${name}${isBase ? '' : `-${suffix}`}`;
         const colorStart = isBase
@@ -792,7 +1010,7 @@ export function generateOfficialGradientTokens() {
   const buildEndVarForContrast = (name: string) =>
     `--gradient-${name}-contrast-end: color-mix(in oklab, var(--color-${name}-contrast), black 15%);`;
   const generate = (name: string, suffix: ColorSuffixes) => {
-    const isBase = suffix === ColorSuffixes.None;
+    const isBase = suffix === ColorSuffixes.Base;
     const isContrast = suffix === ColorSuffixes.Contrast;
     const fullName = `${name}${isBase ? '' : `-${suffix}`}`;
     // start and end

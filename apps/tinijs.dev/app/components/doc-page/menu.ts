@@ -51,7 +51,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
           href=${this.context.path}
           @click=${() => this.selectItem.emit()}
         >
-          <icon-home scheme=${ContrastColors.Body}></icon-home>
+          <icon-home color=${ContrastColors.Body}></icon-home>
           <span>${this.context.name}</span>
         </a>
         ${sectionRender([this.menuItems], {
@@ -94,7 +94,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
               </li>`
             : html`<li class=${classMap({[`level-${level}`]: true})}>
                 <tini-link
-                  active="active"
+                  activeFull
                   href=${`${this.context.path}/${item.slug}`}
                   @click=${() => this.selectItem.emit()}
                   >${item.title}</tini-link
@@ -179,19 +179,19 @@ export class AppDocPageMenuComponent extends TiniComponent {
           padding-top: 0;
         }
 
-        tini-link::part(main) {
+        tini-link::part(a) {
           color: var(--color-medium);
           text-decoration: none;
           font-weight: normal;
           font-size: var(--text-sm);
         }
 
-        tini-link:hover::part(main) {
+        tini-link:hover::part(a) {
           text-decoration: none;
           color: var(--color-body-contrast);
         }
 
-        tini-link::part(active) {
+        tini-link[linkIsActive]::part(a) {
           color: var(--color-body-contrast);
           cursor: default;
           pointer-events: none;
@@ -199,7 +199,7 @@ export class AppDocPageMenuComponent extends TiniComponent {
       }
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 1024px) {
       .menu {
         position: fixed;
         transform: none;

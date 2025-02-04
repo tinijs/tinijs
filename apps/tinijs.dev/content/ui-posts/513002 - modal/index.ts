@@ -16,7 +16,7 @@ export class ContentUIPostModalComponent extends TiniComponent {
 
   protected render() {
     return html`
-      <tini-button scheme="primary" @click=${() => this.modalRef.value?.show()}
+      <tini-button color="primary" @click=${() => this.modalRef.value?.show()}
         >Open modal</tini-button
       >
       <tini-modal

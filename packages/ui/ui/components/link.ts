@@ -1,230 +1,183 @@
 import {html, css, type CSSResult} from 'lit';
 import {property} from 'lit/decorators/property.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {ref, createRef} from 'lit/directives/ref.js';
-import {
-  TiniElement,
-  ElementParts,
-  createStyleBuilder,
-  Colors,
-  Gradients,
-  Texts,
-  Weights,
-  generateColorVariants,
-  generateGradientVariants,
-  generateTextVariants,
-  generateWeightVariants,
-} from '@tinijs/core';
+import normalizeUrl from 'normalize-url';
+import {pathToRegexp} from 'path-to-regexp';
+
+import {TiniElement, createStyleBuilder} from '@tinijs/core';
+import {ROUTE_CHANGE_EVENT} from '@tinijs/router';
+
+type ComponentConstructor = typeof import('./link.js').default;
 
 export enum LinkParts {
-  Main = ElementParts.Main,
-}
-
-export enum LinkTargets {
-  Self = '_self',
-  Blank = '_blank',
-  Parent = '_parent',
-  Top = '_top',
+  A = 'a',
 }
 
 export default class extends TiniElement {
-  private readonly ROUTER_CHANGE_EVENT = 'tini:route-change';
-  private anchorRef = createRef<HTMLAnchorElement>();
+  static readonly componentMetadata = {
+    restyleAtUpdate: true,
+  };
+
+  role = 'link';
 
   /* eslint-disable prettier/prettier */
-  @property({type: String, reflect: true}) href?: string;
+  @property({type: String, reflect: true}) href!: string;
+  @property({type: String, reflect: true}) target?: string;
   @property({type: String, reflect: true}) rel?: string;
-  @property({type: String, reflect: true}) target?: LinkTargets;
-  @property({type: String, reflect: true}) active?: string;
+  @property({type: String, reflect: true}) download?: string;
+  @property({type: String, reflect: true}) referrerpolicy?: string;
+  @property({type: String, reflect: true}) hreflang?: string;
+  @property({type: String, reflect: true}) type?: string;
   @property({type: Boolean, reflect: true}) disabled = false;
-  @property({type: String, reflect: true}) color?: Colors | Gradients;
-  @property({type: String, reflect: true}) size?: Texts;
-  @property({type: String, reflect: true}) weight?: Weights;
-  @property({type: Boolean, reflect: true}) italic = false;
-  @property({type: Boolean, reflect: true}) noUnderline = false;
+  // active
+  @property({type: Boolean, reflect: true}) activeFull = false;
+  @property({type: Boolean, reflect: true}) activeStartsAuto = false;
+  @property({type: String, reflect: true}) activeStartsWith?: string;
+  @property({type: String, reflect: true}) activeEndsWith?: string;
+  @property({type: Array, reflect: true}) activePatterns?: string[];
+  @property({type: Boolean, reflect: true}) activeIncludesSearchParams = false;
   /* eslint-enable prettier/prettier */
+
+  private static cachedActiveStatuses: Record<string, Record<string, boolean>> =
+    {};
+  private getActiveStatus() {
+    // 0. turned off (default)
+    if (
+      !this.activeFull &&
+      !this.activeStartsAuto &&
+      !this.activeStartsWith &&
+      !this.activeEndsWith &&
+      !this.activePatterns?.length
+    )
+      return false;
+    // 1. ignore
+    const locationURL = new URL(location.href);
+    const linkURL = new URL(
+      this.href,
+      `${location.origin}${location.pathname}`
+    );
+    if (
+      this.href === '#' || // empty hash
+      (this.target && this.target !== '_self') || // has target
+      /^javascript:(void\(0\);?)|;$/.test(linkURL.href) || // js void
+      linkURL.href.startsWith('mailto:') || // mailto protocol
+      linkURL.href.startsWith('tel:') || // tel protocol
+      this.download || // has download
+      linkURL.origin !== locationURL.origin // cross origin
+    )
+      return false;
+    // 2. from cache
+    const normalizedLocation = normalizeUrl(locationURL.href);
+    const normalizedLink = normalizeUrl(linkURL.href);
+    const cachedActiveStatuses = (this.constructor as ComponentConstructor)
+      .cachedActiveStatuses;
+    const modeArr = this.activePatterns?.length
+      ? this.activePatterns // A. patterns
+      : this.activeEndsWith
+        ? [this.activeStartsWith || '$starts$', this.activeEndsWith] // B. ends with & starts with (or default starts)
+        : this.activeStartsWith
+          ? [this.activeStartsWith] // C. starts with
+          : this.activeStartsAuto
+            ? ['$starts$'] // D. default starts
+            : ['$full$']; // E. full
+    const cacheKey = [normalizedLink, ...modeArr].join('///');
+    if (cachedActiveStatuses[cacheKey]?.[normalizedLocation] !== undefined) {
+      return cachedActiveStatuses[cacheKey][normalizedLocation];
+    }
+    // 3. no cache
+    const normalizedLocationURL = new URL(normalizedLocation);
+    const normalizedLinkURL = new URL(
+      normalizedLink,
+      `${location.origin}${location.pathname}`
+    );
+    const locationValue = `${normalizedLocationURL.pathname}${
+      !this.activeIncludesSearchParams ? '' : normalizedLocationURL.search
+    }`;
+    const linkValue = `${normalizedLinkURL.pathname}${
+      !this.activeIncludesSearchParams ? '' : normalizedLinkURL.search
+    }`;
+    return ((cachedActiveStatuses[cacheKey] ||= {})[normalizedLocation] = this
+      .activePatterns?.length
+      ? this.activePatterns.some(
+          item => !!pathToRegexp(item).exec(locationValue)
+        ) // A. patterns
+      : this.activeEndsWith
+        ? locationValue.endsWith(this.activeEndsWith) &&
+          locationValue.startsWith(
+            this.activeStartsWith || normalizedLinkURL.pathname
+          ) // B. ends with & starts with (or auto starts)
+        : this.activeStartsWith
+          ? locationValue.startsWith(this.activeStartsWith) // C. starts with
+          : this.activeStartsAuto
+            ? locationValue.startsWith(normalizedLinkURL.pathname) // D. auto starts
+            : linkValue === locationValue &&
+              (!normalizedLinkURL.hash ||
+                normalizedLinkURL.hash === normalizedLocationURL.hash)); // E. full
+  }
+
+  private handleRouteChanged = () => {
+    this.updateActiveStatus(); // update active status on route change
+  };
 
   connectedCallback() {
     super.connectedCallback();
-    if (this.active)
-      window.addEventListener(
-        this.ROUTER_CHANGE_EVENT,
-        this.updateActiveStatus
-      );
+    addEventListener(ROUTE_CHANGE_EVENT, this.handleRouteChanged);
+    // update initial active status
+    this.updateActiveStatus();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    if (this.active)
-      window.removeEventListener(
-        this.ROUTER_CHANGE_EVENT,
-        this.updateActiveStatus
-      );
+    removeEventListener(ROUTE_CHANGE_EVENT, this.handleRouteChanged);
   }
 
-  updated() {
-    if (this.active) this.updateActiveStatus();
+  protected beforeUpdate() {
+    if (!this.href) throw new Error('href is required');
   }
 
-  private updateActiveStatus = (e?: any) => {
-    if (!this.active || !this.anchorRef.value) return;
-    const currentUrl = new URL(
-      !this.href ? '/' : this.href,
-      window.location.origin
-    );
-    const eventUrl = (e as CustomEvent)?.detail.url;
-    const currentActive = e
-      ? currentUrl.href === `${eventUrl.origin}${eventUrl.pathname}`
-      : currentUrl.href ===
-        `${window.location.origin}${window.location.pathname}`;
-    // anchor tag
-    const partList = this.anchorRef.value.getAttribute('part') || '';
-    this.anchorRef.value.setAttribute(
-      'part',
-      (currentActive
-        ? `${partList} ${this.active}`
-        : partList.replace(this.active, '')
-      ).trim()
-    );
-    // the host
-    this.classList[currentActive ? 'add' : 'remove'](this.active);
-  };
-
-  private clickLink(e: PointerEvent) {
-    if (
-      !this.anchorRef.value ||
-      (this.target && this.target !== LinkTargets.Self)
-    )
-      return;
-    // navigate
-    if (this.anchorRef.value.href !== window.location.href) {
-      const url = new URL(this.anchorRef.value.href);
-      history.pushState({}, '', url.href);
-      dispatchEvent(new PopStateEvent('popstate'));
+  private updateActiveStatus() {
+    const isActive = this.getActiveStatus();
+    if (isActive) {
+      this.setAttribute('linkIsActive', '');
+    } else {
+      this.removeAttribute('linkIsActive');
     }
-    // default
-    e.preventDefault();
-    window.scrollTo(0, 0);
   }
 
   protected render() {
-    return this.partRender(
-      LinkParts.Main,
-      mainChildren => html`
-        <a
-          router-ignore
-          ${ref(this.anchorRef)}
-          class=${LinkParts.Main}
-          part=${LinkParts.Main}
-          href=${this.href || '/'}
-          target=${ifDefined(this.target)}
-          rel=${ifDefined(this.rel)}
-          @click=${this.clickLink}
-        >
-          <slot></slot>
-          ${mainChildren()}
-        </a>
-      `
-    );
+    return html`
+      <a
+        class=${LinkParts.A}
+        part=${LinkParts.A}
+        href=${this.href}
+        target=${ifDefined(this.target)}
+        rel=${ifDefined(this.rel)}
+        download=${ifDefined(this.download)}
+        referrerpolicy=${ifDefined(this.referrerpolicy)}
+        hreflang=${ifDefined(this.hreflang)}
+        type=${ifDefined(this.type)}
+        aria-disabled=${ifDefined(this.disabled ? 'true' : undefined)}
+      >
+        <slot></slot>
+      </a>
+    `;
   }
 }
 
 export const defaultStyles = createStyleBuilder<{
   statics: CSSResult;
-  colorGen: Parameters<typeof generateColorVariants>[0];
-  gradientGen: Parameters<typeof generateGradientVariants>[0];
-  textGen: Parameters<typeof generateTextVariants>[0];
-  weightGen: Parameters<typeof generateWeightVariants>[0];
 }>(outputs => [
   css`
     :host {
-      --color: var(--color-primary);
-      --gradient: none;
-      --size: var(--text-md);
-      display: inline-block;
+      display: inline;
     }
 
-    .main {
-      color: var(--color);
-      font-size: var(--size);
-    }
-
-    :host([color^='gradient']) .main {
-      position: relative;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    :host([color^='gradient']) .main::after {
-      visibility: hidden;
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      background: var(--gradient);
-      height: 0.08em;
-    }
-
-    :host([disabled]) .main {
+    a[aria-disabled='true'] {
       cursor: not-allowed;
       pointer-events: none;
       opacity: 0.5;
     }
-
-    :host([italic]) .main {
-      font-style: italic;
-    }
-
-    :host([noUnderline]) .main {
-      text-decoration: none !important;
-    }
-
-    :host([color^='gradient'][noUnderline]) .main::after {
-      visibility: hidden !important;
-    }
   `,
 
   outputs.statics,
-
-  generateColorVariants(values => {
-    const {hostSelector, color} = values;
-    return `
-      ${hostSelector} {
-        --color: ${color};
-      }
-      ${outputs.colorGen(values)}
-    `;
-  }, 'color'),
-
-  generateGradientVariants(values => {
-    const {hostSelector, gradient} = values;
-    return `
-      ${hostSelector} {
-        --gradient: ${gradient};
-      }
-      ${outputs.gradientGen(values)}
-    `;
-  }, 'color'),
-
-  generateTextVariants(values => {
-    const {hostSelector, text} = values;
-    return `
-      ${hostSelector} {
-        --size: ${text};
-      }
-      ${outputs.textGen(values)}
-    `;
-  }, 'size'),
-
-  generateWeightVariants(values => {
-    const {hostSelector, weight} = values;
-    return `
-      ${hostSelector} .main {
-        font-weight: ${weight};
-      }
-      ${outputs.weightGen(values)}
-    `;
-  }),
 ]);
