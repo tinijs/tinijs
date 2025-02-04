@@ -73,7 +73,7 @@ addEventListener('message', event => {
 import {useSW, type SW} from '@tinijs/pwa';
 
 @page({})
-export class AppPageXXX extends TiniComponent {
+export class AppPageXXX extends TiniElement {
   @useSW() readonly sw!: SW;
 
   async onReady() {

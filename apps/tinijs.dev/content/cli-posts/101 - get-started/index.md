@@ -84,7 +84,7 @@ List of built-in commands:
 | [`dev`](/cli/dev)               | Start a development server.                           |
 | [`build`](/cli/build)           | Build the project for production.                     |
 | [`preview`](/cli/preview)       | Preview the production build.                         |
-| [`generate`](/cli/generate)     | Generate assets like components, pages, layouts, etc. |
+| [`generate`](/cli/generate)     | Generate assets like elements, pages, layouts, etc. |
 | [`module add`](/cli/module-add) | Add a Tini Module to the project.                     |
 
 List of official expandable commands:

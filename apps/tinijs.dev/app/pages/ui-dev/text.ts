@@ -1,8 +1,8 @@
 import {html, css} from 'lit';
 
 import {
-  component,
-  TiniComponent,
+  element,
+  TiniElement,
   Colors,
   Gradients,
   Fonts,
@@ -12,12 +12,12 @@ import {
   Words,
 } from '@tinijs/core';
 
-import {TiniTextComponent} from '../../ui/components/text.js';
+import {TiniTextElement} from '../../ui/elements/text.js';
 
-@component({
-  components: [TiniTextComponent],
+@element({
+  elements: [TiniTextElement],
 })
-export class AppPageUIDevTextComponent extends TiniComponent {
+export class AppPageUIDevTextElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-text';
 
   protected render() {

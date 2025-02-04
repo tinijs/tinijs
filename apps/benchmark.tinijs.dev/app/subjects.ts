@@ -10,7 +10,7 @@ export const HELLO_WORLD_SUBJECT = info({
 
 export const BOX_SUBJECT = info({
   title: 'tini-box',
-  desc: 'The tini-box component.',
+  desc: 'The tini-box element.',
   path: '/ui/box',
   docPath: '/ui/box',
   batches: [7, 1000, 2000],
@@ -18,7 +18,7 @@ export const BOX_SUBJECT = info({
 
 export const BOX_FULL_SUBJECT = info({
   title: 'tini-box (full)',
-  desc: 'The tini-box component (full).',
+  desc: 'The tini-box element (full).',
   path: '/ui/box-full',
   docPath: '/ui/box',
   batches: [1, 1000, 2000],
@@ -26,7 +26,7 @@ export const BOX_FULL_SUBJECT = info({
 
 export const BOX_OVERLOAD_SUBJECT = info({
   title: 'tini-box (overloaded)',
-  desc: 'The tini-box component (overloaded).',
+  desc: 'The tini-box element (overloaded).',
   path: '/ui/box-overload',
   docPath: '/ui/box',
   batches: [1, 1000, 2000],
@@ -34,7 +34,7 @@ export const BOX_OVERLOAD_SUBJECT = info({
 
 export const FLEX_SUBJECT = info({
   title: 'tini-flex',
-  desc: 'The tini-flex component.',
+  desc: 'The tini-flex element.',
   path: '/ui/flex',
   docPath: '/ui/flex',
   batches: [1, 1000, 2000],
@@ -42,7 +42,7 @@ export const FLEX_SUBJECT = info({
 
 export const GRID_SUBJECT = info({
   title: 'tini-grid',
-  desc: 'The tini-grid component.',
+  desc: 'The tini-grid element.',
   path: '/ui/grid',
   docPath: '/ui/grid',
   batches: [1, 500, 1000],
@@ -50,7 +50,7 @@ export const GRID_SUBJECT = info({
 
 export const CONTAINER_SUBJECT = info({
   title: 'tini-container',
-  desc: 'The tini-container component.',
+  desc: 'The tini-container element.',
   path: '/ui/container',
   docPath: '/ui/container',
   batches: [1, 500, 1000],
@@ -58,7 +58,7 @@ export const CONTAINER_SUBJECT = info({
 
 export const TEXT_SUBJECT = info({
   title: 'tini-text',
-  desc: 'The tini-text component.',
+  desc: 'The tini-text element.',
   path: '/ui/text',
   docPath: '/ui/text',
   batches: [15, 1000, 2000],
@@ -82,7 +82,7 @@ export const TEXT_INLINE_SUBJECT = info({
 
 export const IMAGE_SUBJECT = info({
   title: 'tini-image',
-  desc: 'The tini-image component.',
+  desc: 'The tini-image element.',
   path: '/ui/image',
   docPath: '/ui/image',
   batches: [7, 500, 1000],
@@ -90,7 +90,7 @@ export const IMAGE_SUBJECT = info({
 
 export const HEADING_SUBJECT = info({
   title: 'tini-heading',
-  desc: 'The tini-heading component.',
+  desc: 'The tini-heading element.',
   path: '/ui/heading',
   docPath: '/ui/heading',
   batches: [7, 500, 1000],
@@ -98,7 +98,7 @@ export const HEADING_SUBJECT = info({
 
 export const LINK_SUBJECT = info({
   title: 'tini-link',
-  desc: 'The tini-link component.',
+  desc: 'The tini-link element.',
   path: '/ui/link',
   docPath: '/ui/link',
   batches: [8, 500, 1000],

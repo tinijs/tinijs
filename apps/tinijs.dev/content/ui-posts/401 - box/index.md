@@ -10,7 +10,7 @@ Fundamental layout building block.
 
 ## Import
 
-<app-component-import componentName="box"></app-component-import>
+<app-element-import elementName="box"></app-element-import>
 
 ## Editor
 
@@ -135,12 +135,12 @@ Using `tini-box` is fine for most cases, but if you need to render a lot of boxe
 
 ### Basic usage
 
-<app-component-benchmark reportId="ui-box"></app-component-benchmark>
+<app-element-benchmark reportId="ui-box"></app-element-benchmark>
 
 ### All properties and queries
 
-<app-component-benchmark reportId="ui-box-full"></app-component-benchmark>
+<app-element-benchmark reportId="ui-box-full"></app-element-benchmark>
 
 ### All common properties and queries
 
-<app-component-benchmark reportId="ui-box-overload"></app-component-benchmark>
+<app-element-benchmark reportId="ui-box-overload"></app-element-benchmark>

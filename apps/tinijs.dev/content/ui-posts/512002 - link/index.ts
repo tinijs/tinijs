@@ -1,14 +1,14 @@
 import {html, css, nothing} from 'lit';
 import {property} from 'lit/decorators/property.js';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {AppComponentEditorComponent} from '../../../app/components/component-editor/index.js';
+import {AppElementEditorElement} from '../../../app/elements/element-editor/index.js';
 
-@component({
-  components: [AppComponentEditorComponent],
+@element({
+  elements: [AppElementEditorElement],
 })
-export class ContentUIPostLinkComponent extends TiniComponent {
+export class ContentUIPostLinkElement extends TiniElement {
   static readonly defaultTagName = 'content-ui-post-link';
 
   @property() block!: string;
@@ -28,7 +28,7 @@ export class ContentUIPostLinkComponent extends TiniComponent {
 
   private renderEditorBlock() {
     return html`
-      <app-component-editor
+      <app-element-editor
         name="link"
         .sections=${[
           {
@@ -70,7 +70,7 @@ export class ContentUIPostLinkComponent extends TiniComponent {
             target: 'styleDeep',
           },
         ]}
-      ></app-component-editor>
+      ></app-element-editor>
     `;
   }
 

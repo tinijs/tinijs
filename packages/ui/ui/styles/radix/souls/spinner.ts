@@ -1,6 +1,6 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/spinner.js';
+import {defaultStyles} from '../../../elements/spinner.js';
 
 export const styles = defaultStyles.extends({
   statics: css``,

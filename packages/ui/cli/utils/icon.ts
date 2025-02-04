@@ -31,14 +31,14 @@ export async function buildIcons(config: UIConfig) {
     const iconTS = createGenFile();
 
     // prepare info
-    const iconImportName = `Icon${className}Component`;
+    const iconImportName = `Icon${className}Element`;
     indexTS.addImport(`./icons/${name}.js`, [iconImportName]);
     indexTS.data.availableIcons.push(iconImportName);
 
-    // construct component file
-    iconTS.addImport('../components/icon.js', ['TiniIconComponent']);
+    // construct element file
+    iconTS.addImport('../elements/icon.js', ['TiniIconElement']);
     iconTS.addBlock(
-      `export class ${iconImportName} extends TiniIconComponent`,
+      `export class ${iconImportName} extends TiniIconElement`,
       `{
 static readonly defaultTagName = 'icon-${tagName}';
 static readonly src = \`${dataURI}\`;   

@@ -22,7 +22,7 @@ When using with TiniJS, there are 3 main patterns:
 
 ## Pattern 1: Imports
 
-Just import the services and utils directly to your components, pages, ...
+Just import the services and utils directly to your elements, pages, ...
 
 This is the common and most convienient way to work with services and utils.
 
@@ -39,7 +39,7 @@ const result = await fetchService.get('...');
 
 ## Pattern 2: Provide/Inject (Lazy DI)
 
-TiniJS provides a dependency injection mechanism that allows you to lazy load and inject services and utils to your components, pages, ...
+TiniJS provides a dependency injection mechanism that allows you to lazy load and inject services and utils to your elements, pages, ...
 
 ```ts
 // provide dependencies in app.ts

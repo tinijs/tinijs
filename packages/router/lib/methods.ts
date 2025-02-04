@@ -1,4 +1,4 @@
-import type {NavIndicatorComponent, ActivatedRoute} from './types.js';
+import type {NavIndicatorElement, ActivatedRoute} from './types.js';
 import {
   GLOBAL_TINI,
   NAV_INDICATOR_ID,
@@ -63,7 +63,7 @@ export function getNavIndicator() {
 }
 
 export function showNavIndicator() {
-  const node = getNavIndicator() as NavIndicatorComponent;
+  const node = getNavIndicator() as NavIndicatorElement;
   if (!node) return;
   if (node.show instanceof Function) {
     node.show();
@@ -73,7 +73,7 @@ export function showNavIndicator() {
 }
 
 export function hideNavIndicator() {
-  const node = getNavIndicator() as NavIndicatorComponent;
+  const node = getNavIndicator() as NavIndicatorElement;
   if (!node) return;
   if (node.hide instanceof Function) {
     node.hide();

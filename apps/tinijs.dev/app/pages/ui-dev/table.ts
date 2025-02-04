@@ -1,13 +1,13 @@
 import {html, css} from 'lit';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniTableComponent} from '../../ui/components/table.js';
+import {TiniTableElement} from '../../ui/elements/table.js';
 
-@component({
-  components: [TiniTableComponent],
+@element({
+  elements: [TiniTableElement],
 })
-export class AppPageUIDevTableComponent extends TiniComponent {
+export class AppPageUIDevTableElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-table';
 
   protected render() {

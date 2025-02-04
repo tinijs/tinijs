@@ -1,7 +1,9 @@
-import {ComponentTypes, type ComponentOptions} from '../classes/component.js';
+import {ElementTypes} from '../classes/element.js';
 
-import {component} from './component.js';
+import type {ElementOptions} from '../utils/element.js';
 
-export function page(options?: Omit<ComponentOptions, 'type'>) {
-  return component({...options, type: ComponentTypes.Page});
+import {element} from './element.js';
+
+export function page(options?: Omit<ElementOptions, 'type'>) {
+  return element({...options, type: ElementTypes.Page});
 }

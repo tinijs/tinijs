@@ -1,13 +1,13 @@
 import {html, css} from 'lit';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniLabelComponent} from '../../ui/components/label.js';
+import {TiniLabelElement} from '../../ui/elements/label.js';
 
-@component({
-  components: [TiniLabelComponent],
+@element({
+  elements: [TiniLabelElement],
 })
-export class AppPageUIDevLabelComponent extends TiniComponent {
+export class AppPageUIDevLabelElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-label';
 
   protected render() {

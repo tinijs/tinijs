@@ -8,15 +8,15 @@
 
 <tini-message color="warning-subtle"><strong>Tini UI</strong> is currently under heavy development, I may not have time to changelog all the details, so please refer this document for the latest version as well as reaching out to [Discord](https://discord.gg/EABbZVbPAb) or [Issues](https://github.com/tinijs/tinijs/issues/new) for supports. 🙇‍♂️</tini-message>
 
-TiniJS has a **UI library where I aim to provide every commonly used components and blocks and even whole pages**. Components are architected in a special way where they are custom elements to be used not only with TiniJS, but also with other frameworks or no framework.
+TiniJS has a **UI library where I aim to provide every commonly used elements and blocks and even whole pages**. Elements are architected in a special way where they are custom elements to be used not only with TiniJS, but also with other frameworks or no framework.
 
-Working with reusable components is easy, usually in the form of passing props to the custom element tag. Customization can be done via props or CSS `::part()` or custom theme family or completely clone a component source, ...
+Working with reusable elements is easy, usually in the form of passing props to the custom element tag. Customization can be done via props or CSS `::part()` or custom theme family or completely clone a element source, ...
 
 ## Concepts
 
-Components are also able to accommodate almost any design systems with as little effort as possible. This is achieved via a theming system; the concept is this:
+Elements are also able to accommodate almost any design systems with as little effort as possible. This is achieved via a theming system; the concept is this:
 
-- Components are written **only once**, they are **headless** (without specific styles)
+- Elements are written **only once**, they are **headless** (without specific styles)
 - Themes are organized into **Families** (aka. design systems), families define their own base characteristics, for example: Bootstrap, Material, Fluent, ...
 - Upon the base characteristics, a family have style variants, called **Skins**, for example, the Bootstrap family may have: Light skin, Dark skin, ...
 - A so called **Theme** is a combination of a family and a skin, for example: `bootstrap/light`, `material/dark`, ...
@@ -62,7 +62,7 @@ CDN is the simplest way to get started with Tini UI, just include the script tag
 <script type="module">
 
 import { setupUI, availableSkins } from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap@0.21.1/bundled/setup.js';
-import { availableComponents } from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap@0.21.1/bundled/component.js';
+import { availableElements } from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap@0.21.1/bundled/element.js';
 
 // setup the UI
 const ui = setupUI({
@@ -70,8 +70,8 @@ const ui = setupUI({
   // include all skins
   skins: availableSkins,
 
-  // register all components
-  components: availableComponents,
+  // register all elements
+  elements: availableElements,
 
 });
 
@@ -81,7 +81,7 @@ ui.setTheme(isDark ? 'bootstrap/dark' : 'bootstrap/light');
 </script>
 ```
 
-- **Step 2**: Use the components
+- **Step 2**: Use the elements
 
 ```html
 <tini-text color="success">Lorem ipsum</tini-text>
@@ -102,8 +102,8 @@ npm i @tinijs/ui-material
 
 ```ts
 import { setupUI, materialLightSkin, materialDarkSkin } from '@tinijs/ui-material/setup.js';
-import { TiniTextComponent } from '@tinijs/ui-material/components/text.js';
-import { TiniButtonComponent } from '@tinijs/ui-material/components/button.js';
+import { TiniTextElement } from '@tinijs/ui-material/elements/text.js';
+import { TiniButtonElement } from '@tinijs/ui-material/elements/button.js';
 
 // setup the UI
 const ui = setupUI({
@@ -114,10 +114,10 @@ const ui = setupUI({
     'material/dark': materialDarkSkin,
   },
 
-  // register some components
-  components: [
-    TiniTextComponent,
-    TiniButtonComponent,
+  // register some elements
+  elements: [
+    TiniTextElement,
+    TiniButtonElement,
   ]
 
 });
@@ -126,7 +126,7 @@ const ui = setupUI({
 ui.setTheme(themeId);
 ```
 
-- **Step 3**: Use components
+- **Step 3**: Use elements
 
 ```html
 <tini-text color="success">Lorem ipsum</tini-text>
@@ -137,7 +137,7 @@ ui.setTheme(themeId);
 
 With [Tini CLI](/cli), you can build UI packages for using locally in a project or as an sharable package for your entire organization.
 
-It also allows you to override the default bases, skins and components as well as develop your own theme families with your own design systems and private components.
+It also allows you to override the default bases, skins and elements as well as develop your own theme families with your own design systems and private elements.
 
 - **Step 1**: Config and build UI packages
 
@@ -182,8 +182,8 @@ By default, the result will be output to the `app/ui` folder, the folder should 
 
 ```ts
 import { setupUI, type AppWithUI } from './ui/setup.js';
-import { TiniTextComponent } from './ui/components/text.js';
-import { TiniButtonComponent } from './ui/components/button.js';
+import { TiniTextElement } from './ui/elements/text.js';
+import { TiniButtonElement } from './ui/elements/button.js';
 
 // setup the UI
 const ui = setupUI({
@@ -191,10 +191,10 @@ const ui = setupUI({
   // skins are included automatically
   // based on the config above in tini.config.ts
 
-  // register some components
-  components: [
-    TiniTextComponent,
-    TiniButtonComponent,
+  // register some elements
+  elements: [
+    TiniTextElement,
+    TiniButtonElement,
   ]
 
 });
@@ -203,7 +203,7 @@ const ui = setupUI({
 ui.setTheme(themeId);
 ```
 
-- **Step 3**: Use components
+- **Step 3**: Use elements
 
 ```html
 <tini-text color="success">Lorem ipsum</tini-text>
@@ -217,16 +217,16 @@ Whether you use CDN, prebuilt packages or build UI with Tini CLI, there are some
 | Endpoint                         | Description                                                                    |
 | -------------------------------- | ------------------------------------------------------------------------------ |
 | `/setup.js`                      | `setupUI()`, all the skins and `availableSkins` (an object contains all skins) |
-| _Official components_            |
-| `/component.js`                  | all the components and `availableComponents` (an array of all)      |
-| `/components/<name>.js`          | specific component only                                                         |
-| _Icon components (if available)_ |
-| `/icon.js`                       | all the icon components and `availableIcons` (an array of all) |
-| `/icons/<name>.js`               | specific icon component only                                                    |
+| _Official elements_            |
+| `/element.js`                  | all the elements and `availableElements` (an array of all)      |
+| `/elements/<name>.js`          | specific element only                                                         |
+| _Icon elements (if available)_ |
+| `/icon.js`                       | all the icon elements and `availableIcons` (an array of all) |
+| `/icons/<name>.js`               | specific icon element only                                                    |
 
 ## Setup UI details
 
-The `setupUI()` function is the beginning of the UI system, it returns an UI instance of your app. This is where you choose which skins to be included, global styles, share styles and optionaly register components globally.
+The `setupUI()` function is the beginning of the UI system, it returns an UI instance of your app. This is where you choose which skins to be included, global styles, share styles and optionaly register elements globally.
 
 The value of **Styles** can be one of these:
 - Raw CSS `string`
@@ -246,11 +246,11 @@ const ui = setupUI({
   globals: Styles;
 
   // shared styles available in the Shadow DOM
-  // but only for elements which extends TiniElement or TiniComponent
+  // but only for elements which extends TiniElement
   shares: Styles;
 
-  // optionally register components globally
-  components: Component[];
+  // optionally register elements globally
+  elements: Element[];
 
   // remove 'hidden' attribute from body for server rendered pages
   // or provide a custom hanlder

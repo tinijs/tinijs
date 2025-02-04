@@ -16,17 +16,17 @@ See an online example: [Tini UI - Vanilla Playground](https://stackblitz.com/edi
 <script type="module">
 
   import { setupUI, availableSkins } from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap@0.21.1/bundled/setup.js';
-  import { availableComponents } from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap@0.21.1/bundled/component.js';
+  import { availableElements } from 'https://cdn.jsdelivr.net/npm/@tinijs/ui-bootstrap@0.21.1/bundled/element.js';
 
   setupUI({
     skins: availableSkins,
-    components: availableComponents,
+    elements: availableElements,
   });
 
 </script>
 ```
 
-- **Step 2**: use the components
+- **Step 2**: use the elements
 
 ```html
 <tini-text color="success">Lorem ipsum</tini-text>

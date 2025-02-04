@@ -1,9 +1,9 @@
 import {html, css, nothing} from 'lit';
 import {property} from 'lit/decorators/property.js';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {AppComponentEditorComponent} from '../../../app/components/component-editor/index.js';
+import {AppElementEditorElement} from '../../../app/elements/element-editor/index.js';
 
 const SRC =
   'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=350&q=80';
@@ -30,10 +30,10 @@ const SHAPE_ITEMS = [
   {content: 'Rounded triangle', value: 'rounded-triangle'},
 ];
 
-@component({
-  components: [AppComponentEditorComponent],
+@element({
+  elements: [AppElementEditorElement],
 })
-export class ContentUIPostImageComponent extends TiniComponent {
+export class ContentUIPostImageElement extends TiniElement {
   static readonly defaultTagName = 'content-ui-post-image';
 
   @property() block!: string;
@@ -53,7 +53,7 @@ export class ContentUIPostImageComponent extends TiniComponent {
 
   private renderEditorBlock() {
     return html`
-      <app-component-editor
+      <app-element-editor
         name="image"
         .examples=${{
           'width-height': {
@@ -314,7 +314,7 @@ export class ContentUIPostImageComponent extends TiniComponent {
             target: 'styleDeep',
           },
         ]}
-      ></app-component-editor>
+      ></app-element-editor>
     `;
   }
 

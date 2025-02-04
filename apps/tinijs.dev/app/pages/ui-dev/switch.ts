@@ -1,13 +1,13 @@
 import {html, css} from 'lit';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniSwitchComponent} from '../../ui/components/switch.js';
+import {TiniSwitchElement} from '../../ui/elements/switch.js';
 
-@component({
-  components: [TiniSwitchComponent],
+@element({
+  elements: [TiniSwitchElement],
 })
-export class AppPageUIDevSwitchComponent extends TiniComponent {
+export class AppPageUIDevSwitchElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-switch';
 
   protected render() {

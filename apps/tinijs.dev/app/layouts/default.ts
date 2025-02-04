@@ -1,15 +1,15 @@
 import {html, css} from 'lit';
 
-import {layout, TiniComponent} from '@tinijs/core';
+import {layout, TiniElement} from '@tinijs/core';
 
-import {HeaderComponent} from '../components/header.js';
-import {FooterComponent} from '../components/footer.js';
+import {AppHeaderElement} from '../elements/header.js';
+import {AppFooterElement} from '../elements/footer.js';
 
 @layout({
   name: 'app-layout-default',
-  components: [HeaderComponent, FooterComponent],
+  elements: [AppHeaderElement, AppFooterElement],
 })
-export class AppLayoutDefault extends TiniComponent {
+export class AppLayoutDefault extends TiniElement {
   protected render() {
     return html`
       <div

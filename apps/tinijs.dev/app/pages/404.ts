@@ -1,14 +1,14 @@
 import {html} from 'lit';
 
-import {page, TiniComponent} from '@tinijs/core';
+import {page, TiniElement} from '@tinijs/core';
 import type {PageWithMetadata, PageMetadata} from '@tinijs/meta';
-import {TiniLinkComponent} from '../ui/components/link.js';
+import {TiniLinkElement} from '../ui/elements/link.js';
 
 @page({
   name: 'app-page-404',
-  components: [TiniLinkComponent],
+  elements: [TiniLinkElement],
 })
-export class AppPage404 extends TiniComponent implements PageWithMetadata {
+export class AppPage404 extends TiniElement implements PageWithMetadata {
   readonly metadata: PageMetadata = {
     title: 'Oops',
     description: 'Error 404, page not found!',

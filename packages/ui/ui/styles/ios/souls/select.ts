@@ -1,6 +1,6 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/select.js';
+import {defaultStyles} from '../../../elements/select.js';
 
 export const styles = defaultStyles.extends({
   statics: css``,

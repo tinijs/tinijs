@@ -1,6 +1,6 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/radios.js';
+import {defaultStyles} from '../../../elements/radios.js';
 
 export const styles = defaultStyles.extends({
   statics: css``,

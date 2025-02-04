@@ -1,13 +1,13 @@
 import {html, css} from 'lit';
 
-import {component, TiniComponent, Colors, Gradients, Sizes} from '@tinijs/core';
+import {element, TiniElement, Colors, Gradients, Sizes} from '@tinijs/core';
 
-import {TiniButtonComponent} from '../../ui/components/button.js';
+import {TiniButtonElement} from '../../ui/elements/button.js';
 
-@component({
-  components: [TiniButtonComponent],
+@element({
+  elements: [TiniButtonElement],
 })
-export class AppPageUIDevButtonComponent extends TiniComponent {
+export class AppPageUIDevButtonElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-button';
 
   protected render() {

@@ -1,13 +1,13 @@
 import {html, css} from 'lit';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniDialogComponent} from '../../ui/components/dialog.js';
+import {TiniDialogElement} from '../../ui/elements/dialog.js';
 
-@component({
-  components: [TiniDialogComponent],
+@element({
+  elements: [TiniDialogElement],
 })
-export class AppPageUIDevDialogComponent extends TiniComponent {
+export class AppPageUIDevDialogElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-dialog';
 
   protected render() {

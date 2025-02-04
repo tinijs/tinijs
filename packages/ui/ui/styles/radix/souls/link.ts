@@ -1,6 +1,6 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/link.js';
+import {defaultStyles} from '../../../elements/link.js';
 
 export const styles = defaultStyles.extends({
   statics: css``,

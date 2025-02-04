@@ -3,21 +3,21 @@ import {html, css} from 'lit';
 import {
   app,
   registerConfig,
-  TiniComponent,
+  TiniElement,
   type AppWithConfig,
 } from '@tinijs/core';
 import {createRouter, type AppWithRouter} from '@tinijs/router';
 import {initMeta, type AppWithMeta} from '@tinijs/meta';
 
 import {setupUI, type AppWithUI} from './ui/setup.js';
-import {TiniBoxComponent} from './ui/components/box.js';
+import {TiniBoxElement} from './ui/elements/box.js';
 import {
-  TiniHeadingComponent,
+  TiniHeadingElement,
   headingInsideLinkPreset,
-} from './ui/components/heading.js';
-import {TiniTextComponent} from './ui/components/text.js';
-import {TiniIconComponent} from './ui/components/icon.js';
-import {TiniCodeComponent} from './ui/components/code.js';
+} from './ui/elements/heading.js';
+import {TiniTextElement} from './ui/elements/text.js';
+import {TiniIconElement} from './ui/elements/icon.js';
+import {TiniCodeElement} from './ui/elements/code.js';
 
 import type {AppConfig} from './types/common.js';
 
@@ -31,7 +31,7 @@ import {globalStyles} from './styles.js';
 
 import './layouts/default';
 
-TiniHeadingComponent.config({
+TiniHeadingElement.config({
   presets: {
     foo1: headingInsideLinkPreset({
       symbol: '🤪',
@@ -74,30 +74,30 @@ TiniHeadingComponent.config({
   `,
 });
 
-TiniIconComponent.config({
+TiniIconElement.config({
   resolve: (name, provider) =>
     provider === 'iconify'
       ? `https://api.iconify.design/${name}.svg`
       : `/icons/${name}${~name.indexOf('.') ? '' : '.svg'}`,
 });
 
-TiniCodeComponent.config({
+TiniCodeElement.config({
   highlight: prismHighlight,
   theme: prismThemeDark,
 });
 
 @app({
   providers,
-  components: [
-    TiniBoxComponent,
-    TiniHeadingComponent,
-    TiniTextComponent,
-    TiniIconComponent,
-    TiniCodeComponent,
+  elements: [
+    TiniBoxElement,
+    TiniHeadingElement,
+    TiniTextElement,
+    TiniIconElement,
+    TiniCodeElement,
   ],
 })
 export class AppRoot
-  extends TiniComponent
+  extends TiniElement
   implements AppWithConfig<AppConfig>, AppWithRouter, AppWithMeta, AppWithUI
 {
   readonly config = registerConfig(config);

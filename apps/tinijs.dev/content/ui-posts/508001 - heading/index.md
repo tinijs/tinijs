@@ -2,13 +2,13 @@
 {
   "status": "publish",
   "title": "Heading",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Import
 
-<app-component-import componentName="heading"></app-component-import>
+<app-element-import elementName="heading"></app-element-import>
 
 ## Editor
 
@@ -48,7 +48,7 @@
 
 ### What are heading links?
 
-The term **link** in the context of the `tini-heading` component refers to these 2 kinds of things:
+The term **link** in the context of the `tini-heading` element refers to these 2 kinds of things:
 - Child links: normal links inside the heading
 - Permalinks (or anchor links): which is attached to the heading as an additional part of the heading
 
@@ -58,19 +58,19 @@ There are 2 built-in types of permalink:
 
 ### Heading presets
 
-Heading presets are a set of predefined configurations for the heading component.
+Heading presets are a set of predefined configurations for the heading element.
 
 There are 3 built-in presets:
 - `selfLink`: heading with a permalink on the heading itself
 - `insideLinkBefore`: inside permalink before the heading with the `#` symbol, visible on hover for desktop and always visible for mobile
 - `insideLinkAfter`: inside permalink after the heading with the `#` symbol, always visible
 
-Though some of the properties can be customized using the attributes, but it's recommended to register custom presets. At the beginning of the app, config the `tini-heading` component:
+Though some of the properties can be customized using the attributes, but it's recommended to register custom presets. At the beginning of the app, config the `tini-heading` element:
 
 ```js
-import {TiniHeadingComponent} from '/path/to/ui/components/heading.js';
+import {TiniHeadingElement} from '/path/to/ui/elements/heading.js';
 
-TiniHeadingComponent.config({
+TiniHeadingElement.config({
   presets: {}, // custom presets
   styles: css``, // additional styles
 });
@@ -81,9 +81,9 @@ TiniHeadingComponent.config({
 Use the `headingSelfLinkPreset()` helper to create a custom `selfLink` preset:
 
 ```js
-import {headingSelfLinkPreset} from '/path/to/ui/components/heading.js';
+import {headingSelfLinkPreset} from '/path/to/ui/elements/heading.js';
 
-TiniHeadingComponent.config({
+TiniHeadingElement.config({
   presets: {
     presetName: headingSelfLinkPreset({
       visibility?: 'always' | 'hover' | 'adaptive',
@@ -100,9 +100,9 @@ TiniHeadingComponent.config({
 Use the `headingInsideLinkPreset()` helper to create a custom `insideLink` preset:
 
 ```js
-import {headingInsideLinkPreset} from '/path/to/ui/components/heading.js';
+import {headingInsideLinkPreset} from '/path/to/ui/elements/heading.js';
 
-TiniHeadingComponent.config({
+TiniHeadingElement.config({
   presets: {
     presetName: headingInsideLinkPreset({
       symbol?: string, // symbol text or image URL/URI
@@ -122,7 +122,7 @@ TiniHeadingComponent.config({
 Provide a `render()` function to render the custom heading with or without a permalink, use `styles` to provide styles, use `<slot></slot>` to display heading value.
 
 ```js
-TiniHeadingComponent.config({
+TiniHeadingElement.config({
   presets: {
     presetName: {
       render: ({linkHref}) => html`
@@ -155,4 +155,4 @@ Or locally on the `tini-heading` element.
 
 ## Benchmark
 
-<app-component-benchmark reportId="ui-heading"></app-component-benchmark>
+<app-element-benchmark reportId="ui-heading"></app-element-benchmark>

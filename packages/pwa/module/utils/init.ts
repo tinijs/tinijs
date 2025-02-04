@@ -1,4 +1,4 @@
-import {modifyHTMLFile, modifyComponentAlikeFile} from '@tinijs/cli';
+import {modifyHTMLFile, modifyElementAlikeFile} from '@tinijs/cli';
 
 import {PACKAGE_NAME} from '../../lib/consts.js';
 
@@ -21,7 +21,7 @@ export async function injectMetaTags(srcDir: string) {
 }
 
 export async function injectServiceWorker(srcDir: string) {
-  return modifyComponentAlikeFile(`${srcDir}/app.ts`, 'AppRoot', modify =>
+  return modifyElementAlikeFile(`${srcDir}/app.ts`, 'AppRoot', modify =>
     modify
       .addImport(
         `import {registerServiceWorker, type AppWithSW} from '${PACKAGE_NAME}';`,

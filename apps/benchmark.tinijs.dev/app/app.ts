@@ -3,7 +3,7 @@ import {html} from 'lit';
 import {
   app,
   registerConfig,
-  TiniComponent,
+  TiniElement,
   type AppWithConfig,
 } from '@tinijs/core';
 import {createRouter, type AppWithRouter} from '@tinijs/router';
@@ -22,7 +22,7 @@ import './layouts/default.js';
 
 @app({providers})
 export class AppRoot
-  extends TiniComponent
+  extends TiniElement
   implements AppWithConfig<AppConfig>, AppWithRouter, AppWithMeta, AppWithUI
 {
   readonly config = registerConfig(config);

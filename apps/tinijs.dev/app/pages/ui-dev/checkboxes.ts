@@ -1,13 +1,13 @@
 import {html, css} from 'lit';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniCheckboxesComponent} from '../../ui/components/checkboxes.js';
+import {TiniCheckboxesElement} from '../../ui/elements/checkboxes.js';
 
-@component({
-  components: [TiniCheckboxesComponent],
+@element({
+  elements: [TiniCheckboxesElement],
 })
-export class AppPageUIDevCheckboxesComponent extends TiniComponent {
+export class AppPageUIDevCheckboxesElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-checkboxes';
 
   protected render() {

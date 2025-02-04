@@ -2,37 +2,39 @@ import {css} from 'lit';
 
 import {type ThemingScripts} from '@tinijs/core';
 
-import {defaultStyles} from '../../../components/button.js';
+import {defaultStyles} from '../../../elements/button.js';
 
-const cleanupRipple = (elem: HTMLElement) => {
-  const lastRippleElem = (elem as any).lastRippleElem;
-  if (lastRippleElem) lastRippleElem.remove();
+const cleanupRipple = (element: HTMLElement) => {
+  const lastRippleElement = (element as any).lastRippleElement;
+  if (lastRippleElement) lastRippleElement.remove();
 };
 
 const rippleEffect = (e: MouseEvent) => {
-  const elem = e.target as HTMLElement;
+  const element = e.target as HTMLElement;
   const {clientX, clientY} = e;
-  const {width, height, top, left} = elem.getBoundingClientRect();
+  const {width, height, top, left} = element.getBoundingClientRect();
   // create a ripple element
   const diameter = Math.max(width, height);
   const radius = diameter / 2;
-  const rippleElem = document.createElement('div');
-  rippleElem.style.width = rippleElem.style.height = `${diameter}px`;
-  rippleElem.style.left = `${clientX - left - radius}px`;
-  rippleElem.style.top = `${clientY - top - radius}px`;
-  rippleElem.classList.add('ripple');
+  const rippleElement = document.createElement('div');
+  rippleElement.style.width = rippleElement.style.height = `${diameter}px`;
+  rippleElement.style.left = `${clientX - left - radius}px`;
+  rippleElement.style.top = `${clientY - top - radius}px`;
+  rippleElement.classList.add('ripple');
   // activate the ripple effect
-  cleanupRipple(elem);
-  elem.shadowRoot!.appendChild(((elem as any).lastRippleElem = rippleElem));
+  cleanupRipple(element);
+  element.shadowRoot!.appendChild(
+    ((element as any).lastRippleElement = rippleElement)
+  );
 };
 
 export const scripts: ThemingScripts = {
-  activate: elem => {
-    elem.addEventListener('click', rippleEffect);
+  activate: element => {
+    element.addEventListener('click', rippleEffect);
   },
-  deactivate: elem => {
-    cleanupRipple(elem);
-    elem.removeEventListener('click', rippleEffect);
+  deactivate: element => {
+    cleanupRipple(element);
+    element.removeEventListener('click', rippleEffect);
   },
 };
 

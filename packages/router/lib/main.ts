@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {ComponentTypes, LifecycleHooks, registerGlobalHook} from '@tinijs/core';
+import {ElementTypes, LifecycleHooks, registerGlobalHook} from '@tinijs/core';
 
 import type {Route, RouterOptions} from './types.js';
 import {ROUTE_CHANGE_EVENT} from './consts.js';
@@ -13,7 +13,7 @@ export function createRouter(routes: Route[], options: RouterOptions = {}) {
     router.indicatorSchedule = null;
     // exit
     registerGlobalHook(
-      ComponentTypes.Page,
+      ElementTypes.Page,
       LifecycleHooks.OnChildrenReady,
       () => {
         if (router.indicatorSchedule === null) return;

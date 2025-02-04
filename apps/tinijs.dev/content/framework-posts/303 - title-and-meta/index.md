@@ -20,7 +20,7 @@ To **update page title and meta** when navigating to different pages, init a met
 import {initMeta} from '@tinijs/meta';
 
 @app({})
-export class AppRoot extends TiniComponent {
+export class AppRoot extends TiniElement {
 
   readonly meta = initMeta({
     metadata: undefined, // "undefined" means use the extracted values from index.html
@@ -38,7 +38,7 @@ When `autoPageMetadata: true` for page which is static, meta can be provide via 
 import type {PageMetadata} from '@tinijs/meta';
 
 @page({})
-export class AppPageXXX extends TiniComponent {
+export class AppPageXXX extends TiniElement {
 
   readonly metadata: PageMetadata = {
     title: 'Some title',
@@ -57,7 +57,7 @@ For pages with data comes from the server, we can access the meta instance and s
 import {useMeta, Meta} from '@tinijs/meta';
 
 @page({})
-export class AppPageXXX extends TiniComponent {
+export class AppPageXXX extends TiniElement {
 
   @useMeta() readonly meta!: Meta;
 

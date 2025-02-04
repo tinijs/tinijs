@@ -1,6 +1,6 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/label.js';
+import {defaultStyles} from '../../../elements/label.js';
 
 export const styles = defaultStyles.extends({
   statics: css``,

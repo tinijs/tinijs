@@ -2,18 +2,18 @@
 {
   "status": "publish",
   "title": "Code",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Import
 
-<app-component-import componentName="code"></app-component-import>
+<app-element-import elementName="code"></app-element-import>
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'code',
     sections: [
       {

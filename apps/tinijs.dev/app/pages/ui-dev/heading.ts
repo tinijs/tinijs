@@ -1,14 +1,14 @@
 import {html, css} from 'lit';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniTextComponent} from '../../ui/components/text.js';
-import {TiniHeadingComponent} from '../../ui/components/heading.js';
+import {TiniTextElement} from '../../ui/elements/text.js';
+import {TiniHeadingElement} from '../../ui/elements/heading.js';
 
-@component({
-  components: [TiniHeadingComponent],
+@element({
+  elements: [TiniHeadingElement],
 })
-export class AppPageUIDevHeadingComponent extends TiniComponent {
+export class AppPageUIDevHeadingElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-heading';
 
   protected render() {

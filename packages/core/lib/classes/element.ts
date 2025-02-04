@@ -20,7 +20,6 @@ import {
   stylesToAdoptableStyles,
   stylesToText,
   mergeDirectOrRecordStyles,
-  type UI,
   type ActiveTheme,
   type Theming,
   type CSSResultOrNativeOrRaw,
@@ -30,27 +29,40 @@ import {
 
 import {BREAKPOINT_VALUES} from '../utils/variant.js';
 import {
-  UnstableStates,
-  registerComponents,
-  type RegisterComponentsList,
-} from '../utils/component.js';
+  registerElements,
+  type ElementMetadata,
+  type RegisterElementsList,
+} from '../utils/element.js';
 import {
   parseAndMergeEventForwardings,
   forwardEvents,
   type EventForwardingInput,
 } from '../utils/event.js';
+import {
+  runGlobalHooks,
+  LifecycleHooks,
+  type OnCreate,
+  type OnDestroy,
+  type OnTheme,
+  type OnChanges,
+  type OnFirstRender,
+  type OnRenders,
+  type OnChildrenRender,
+  type OnChildrenReady,
+  type OnInit,
+  type OnReady,
+} from '../utils/hook.js';
 
 export enum ElementParts {
   BG = 'bg',
   Main = 'main',
 }
 
-export interface ComponentMetadata {
-  customMainSelector?: string;
-  restyleAtUpdate?: boolean;
-  // dev only
-  unstable?: UnstableStates;
-  unstableMessage?: string;
+export enum ElementTypes {
+  App = 'app',
+  Layout = 'layout',
+  Page = 'page',
+  Element = 'element',
 }
 
 export interface ComputedStylesQuery {
@@ -81,12 +93,13 @@ export const stringOrObjectOrArrayConverter: ComplexAttributeConverter = {
 };
 
 export class TiniElement extends LitElement {
-  static readonly componentName: string = 'element';
   static readonly defaultTagName: string = 'tini-element';
-  static readonly componentMetadata: ComponentMetadata = {};
+  static readonly elementName: string = 'element';
+  static readonly elementType: ElementTypes = ElementTypes.Element;
+  static readonly elementMetadata: ElementMetadata = {};
 
   static theming?: Theming;
-  static components?: RegisterComponentsList;
+  static elements?: RegisterElementsList;
   static styles?: any; // any = DirectOrRecordStyles
   static events?: EventForwardingInput;
 
@@ -105,7 +118,7 @@ export class TiniElement extends LitElement {
 
   private readonly willApplyStylesAtUpdate = !!(
     this.restyleAtUpdate ||
-    (this.constructor as typeof TiniElement).componentMetadata.restyleAtUpdate
+    (this.constructor as typeof TiniElement).elementMetadata.restyleAtUpdate
   );
 
   protected computedStyles(
@@ -124,8 +137,8 @@ export class TiniElement extends LitElement {
       this.themingScripts = this.getScripts();
     }
     // re-adopt styles
-    const component = this.constructor as typeof LitElement;
-    component.elementStyles = component.finalizeStyles(component.styles);
+    const element = this.constructor as typeof LitElement;
+    element.elementStyles = element.finalizeStyles(element.styles);
     if (!this.willApplyStylesAtUpdate) {
       this.applyStyles(this.shadowRoot || this);
     }
@@ -146,21 +159,38 @@ export class TiniElement extends LitElement {
   }
 
   connectedCallback() {
-    // register components
-    const components = (this.constructor as typeof TiniElement).components;
-    if (components) registerComponents(components);
+    // register elements
+    const elements = (this.constructor as typeof TiniElement).elements;
+    if (elements) registerElements(elements);
     // continue connectedCallback
     super.connectedCallback();
+    // add theme changes listener
     addEventListener(THEME_CHANGE_EVENT, this.handleThemeChanges);
+
+    // subscribe store
+    this.subscribeStore();
+    // run hooks
+    runGlobalHooks(LifecycleHooks.OnCreate, this);
+    (this as typeof this & OnCreate).onCreate?.();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    // remove theme changes listener
     removeEventListener(THEME_CHANGE_EVENT, this.handleThemeChanges);
+
+    // run hooks
+    runGlobalHooks(LifecycleHooks.OnDestroy, this);
+    (this as typeof this & OnDestroy).onDestroy?.();
+    // unsubscribe store
+    this.unsubscribeStore();
   }
 
   protected themeChanged(activeTheme: ActiveTheme): void {
     // placeholder for the onTheme() hook
+
+    runGlobalHooks(LifecycleHooks.OnTheme, this);
+    (this as typeof this & OnTheme).onTheme?.(activeTheme);
   }
 
   protected beforeUpdate(changedProperties: PropertyValues<this>) {
@@ -174,11 +204,50 @@ export class TiniElement extends LitElement {
     if (this.willApplyStylesAtUpdate) {
       this.applyStyles(this.shadowRoot || this);
     }
+
+    runGlobalHooks(LifecycleHooks.OnChanges, this);
+    (this as typeof this & OnChanges).onChanges?.(changedProperties);
+  }
+
+  protected override firstUpdated(changedProperties: PropertyValues<this>) {
+    // process children rendering
+    const root = this.shadowRoot as ShadowRoot;
+    const children = root.querySelectorAll(
+      '[await]'
+    ) as unknown as TiniElement[];
+    if (!children.length) {
+      this.childrenRender();
+      this.childrenReady();
+    } else {
+      const childrenList = Array.from(children);
+      this.getChildrenLifecyclePromise(childrenList, 'childrenRender').then(
+        () => this.childrenRender()
+      );
+      this.getChildrenLifecyclePromise(childrenList, 'childrenReady').then(() =>
+        this.childrenReady()
+      );
+    }
+    // run hooks
+    runGlobalHooks(LifecycleHooks.OnFirstRender, this);
+    (this as typeof this & OnFirstRender).onFirstRender?.(changedProperties);
   }
 
   protected updated(changedProperties: PropertyValues<this>) {
     this.applyScripts();
     this.forwardEvents();
+
+    runGlobalHooks(LifecycleHooks.OnRenders, this);
+    (this as typeof this & OnRenders).onRenders?.(changedProperties);
+  }
+
+  private childrenRender() {
+    runGlobalHooks(LifecycleHooks.OnChildrenRender, this);
+    (this as typeof this & OnChildrenRender).onChildrenRender?.();
+  }
+
+  private childrenReady() {
+    runGlobalHooks(LifecycleHooks.OnChildrenReady, this);
+    (this as typeof this & OnChildrenReady).onChildrenReady?.();
   }
 
   protected partRender(
@@ -362,5 +431,96 @@ export class TiniElement extends LitElement {
     );
     // result
     return stylesToAdoptableStyles(elementStyles);
+  }
+
+  /**
+   * Extended parts previously defined in the TiniElement class.
+   */
+
+  private pendingDependencies?: Array<() => Promise<unknown>>;
+  private storeManager?: {
+    pending: Array<[any, string, string, boolean]>;
+    unsubscribes: Array<() => void>;
+  };
+
+  private initialized = false;
+
+  protected override async scheduleUpdate() {
+    // A: subsequent updates
+    if (this.initialized) {
+      super.scheduleUpdate();
+    }
+    // B: no dependencies
+    else if (!this.pendingDependencies?.length) {
+      this.digestDI();
+    }
+    // C: has dependencies
+    else {
+      for (let i = 0; i < this.pendingDependencies.length; i++) {
+        await this.pendingDependencies[i]();
+      }
+      this.digestDI();
+    }
+  }
+
+  private digestDI() {
+    this.initialized = true;
+    this.pendingDependencies = [];
+    // run hooks
+    runGlobalHooks(LifecycleHooks.OnInit, this);
+    const onInit = (this as typeof this & OnInit).onInit?.();
+    if (!onInit?.then) {
+      this.digestOnInit();
+    } else {
+      onInit.then(() => this.digestOnInit());
+    }
+    // continue
+    super.scheduleUpdate();
+  }
+
+  private digestOnInit() {
+    setTimeout(() => {
+      runGlobalHooks(LifecycleHooks.OnReady, this);
+      (this as unknown as OnReady).onReady?.();
+    }, 0);
+  }
+
+  private getChildrenLifecyclePromise(
+    children: TiniElement[],
+    hookName: 'childrenRender' | 'childrenReady'
+  ) {
+    const promises = children
+      .filter(item => !!item[hookName])
+      .map(item => {
+        let resolve = () => {};
+        const original = item[hookName];
+        item[hookName] = () => {
+          original.call(item);
+          resolve();
+        };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return new Promise(r => (resolve = r as any));
+      });
+    return Promise.all(promises);
+  }
+
+  private subscribeStore() {
+    if (!this.storeManager?.pending?.length) return;
+    const unsubscribes = (this.storeManager.unsubscribes ||= []);
+    this.storeManager.pending.forEach(
+      ([store, stateKey, propertyName, reactive]) => {
+        const unsubscribe = store.subscribe(stateKey, (value: unknown) => {
+          (this as any)[propertyName] = value;
+          if (reactive) this.requestUpdate();
+        });
+        unsubscribes.push(unsubscribe);
+      }
+    );
+  }
+
+  private unsubscribeStore() {
+    if (!this.storeManager?.unsubscribes?.length) return;
+    this.storeManager.unsubscribes.forEach(unsubscribe => unsubscribe());
+    this.storeManager.unsubscribes = [];
   }
 }

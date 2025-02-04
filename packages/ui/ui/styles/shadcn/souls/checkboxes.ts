@@ -1,6 +1,6 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/checkboxes.js';
+import {defaultStyles} from '../../../elements/checkboxes.js';
 
 export const styles = defaultStyles.extends({
   statics: css``,

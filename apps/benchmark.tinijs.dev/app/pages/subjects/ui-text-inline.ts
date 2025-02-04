@@ -1,6 +1,6 @@
 import {html, css} from 'lit';
 
-import {page, TiniComponent} from '@tinijs/core';
+import {page, TiniElement} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
 import {useSearchParams} from '@tinijs/router';
 
@@ -12,7 +12,7 @@ import {TEXT_INLINE_SUBJECT} from '../../subjects.js';
   name: 'app-page-ui-text-inline',
 })
 export class AppPageUITextInline
-  extends TiniComponent
+  extends TiniElement
   implements PageWithMetadata
 {
   readonly metadata = {

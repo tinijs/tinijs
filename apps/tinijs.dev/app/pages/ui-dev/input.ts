@@ -1,13 +1,13 @@
 import {html, css} from 'lit';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniInputComponent} from '../../ui/components/input.js';
+import {TiniInputElement} from '../../ui/elements/input.js';
 
-@component({
-  components: [TiniInputComponent],
+@element({
+  elements: [TiniInputElement],
 })
-export class AppPageUIDevInputComponent extends TiniComponent {
+export class AppPageUIDevInputElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-input';
 
   protected render() {

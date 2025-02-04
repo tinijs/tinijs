@@ -23,7 +23,7 @@ import {getSkinUtils, getCommonStyles} from './global.js';
 
 const {ModuleKind, ScriptTarget} = typescript;
 
-export type AvailableComponent = AvailableFile;
+export type AvailableElement = AvailableFile;
 
 export interface AvailableThemeFamily {
   bases: Record<string, AvailableFile>;
@@ -31,15 +31,15 @@ export interface AvailableThemeFamily {
   souls: Record<string, AvailableFile>;
 }
 
-export interface ComponentBuildInstructions {
+export interface ElementBuildInstructions {
   raw?: boolean;
-  components?: string[];
+  elements?: string[];
   reactEvents?: Record<string, string>;
   reactAnyProp?: boolean;
 }
 
-export interface AvailableComponentsAndThemeFamilies {
-  components: Record<string, AvailableComponent>;
+export interface AvailableElementsAndThemeFamilies {
+  elements: Record<string, AvailableElement>;
   themeFamilies: Record<string, AvailableThemeFamily>;
 }
 
@@ -93,16 +93,16 @@ async function rewriteImportPath(
   }
 }
 
-export async function listAvailableComponents(sourceDirs: string[]) {
-  const result = {} as Record<string, AvailableComponent>;
+export async function listAvailableElements(sourceDirs: string[]) {
+  const result = {} as Record<string, AvailableElement>;
   for (const sourceDir of sourceDirs) {
-    const componentsDir = resolve(resolveSourceDir(sourceDir), 'components');
-    (!pathExistsSync(componentsDir) ? [] : await readdir(componentsDir))
+    const elementsDir = resolve(resolveSourceDir(sourceDir), 'elements');
+    (!pathExistsSync(elementsDir) ? [] : await readdir(elementsDir))
       .filter(jtsFilter)
       .forEach(file => {
         const parsed = parse(file);
         result[parsed.name] = {
-          path: resolve(componentsDir, file),
+          path: resolve(elementsDir, file),
           parsed,
         };
       });
@@ -321,93 +321,91 @@ export async function buildBases(
   return results;
 }
 
-export async function buildComponents(
+export async function buildElements(
   ourDir: string,
-  components: Record<string, AvailableComponent>,
+  elements: Record<string, AvailableElement>,
   themeFamilies: Record<string, AvailableThemeFamily>,
   config: UIConfig
 ) {
   const results: GenFileResult[] = [];
 
   const indexTS = createGenFile({
-    availableComponents: [] as string[],
+    availableElements: [] as string[],
   });
 
-  for (const [componentId, {path: componentPath}] of Object.entries(
-    components
-  )) {
-    const componentTS = createGenFile({
-      depComponents: [] as string[],
+  for (const [elementId, {path: elementPath}] of Object.entries(elements)) {
+    const elementTS = createGenFile({
+      depElements: [] as string[],
       themingSouls: {} as Record<string, string>,
     });
 
     // load build instructions
-    const buildInstructions: ComponentBuildInstructions = safeDestr(
-      (await readFile(componentPath, 'utf8')).match(
+    const buildInstructions: ElementBuildInstructions = safeDestr(
+      (await readFile(elementPath, 'utf8')).match(
         /\/\*\*\*([\s\S]*?)\*\*\*\//
       )?.[1] || '{}'
     );
 
-    // dep components
-    if (buildInstructions.components) {
-      buildInstructions.components.forEach(depComponentId => {
-        const depComponents = parseName(depComponentId);
-        const depComponentImportName = `Tini${depComponents.className}Component`;
-        const depComponentImportPath = `./${depComponentId}.js`;
-        componentTS.addImport(depComponentImportPath, [depComponentImportName]);
-        componentTS.data.depComponents.push(depComponentImportName);
+    // dep elements
+    if (buildInstructions.elements) {
+      buildInstructions.elements.forEach(depElementId => {
+        const depElements = parseName(depElementId);
+        const depElementImportName = `Tini${depElements.className}Element`;
+        const depElementImportPath = `./${depElementId}.js`;
+        elementTS.addImport(depElementImportPath, [depElementImportName]);
+        elementTS.data.depElements.push(depElementImportName);
       });
     }
 
-    // original component
-    const componentNames = parseName(componentId);
-    const componentImportName = `Tini${componentNames.className}Component`;
-    const componentImportPath = await rewriteImportPath(
-      componentPath,
-      `${ourDir}/components`,
+    // original element
+    const elementNames = parseName(elementId);
+    const elementImportName = `Tini${elementNames.className}Element`;
+    const elementImportPath = await rewriteImportPath(
+      elementPath,
+      `${ourDir}/elements`,
       config.rewritePath
     );
-    componentTS.addImport(componentImportPath, 'OriginalComponent');
-    componentTS.addExport(componentImportPath, '*');
-    indexTS.addImport(`./components/${componentId}.js`, [componentImportName]);
-    indexTS.data.availableComponents.push(componentImportName);
+    elementTS.addImport(elementImportPath, 'OriginalElement');
+    elementTS.addExport(elementImportPath, '*');
+    indexTS.addImport(`./elements/${elementId}.js`, [elementImportName]);
+    indexTS.data.availableElements.push(elementImportName);
 
-    // component souls
-    componentTS.addImport('@tinijs/core', ['processThemingEntry']);
+    // element souls
+    elementTS.addImport('@tinijs/core', ['processThemingEntry']);
     for (const [familyId] of Object.entries(config.families || {})) {
-      const availableSoul = themeFamilies[familyId]?.souls[componentId];
+      const availableSoul = themeFamilies[familyId]?.souls[elementId];
       if (availableSoul) {
         const familyNames = parseName(familyId);
         const soulImportName = `${familyNames.varName}Soul`;
         const soulImportPath = await rewriteImportPath(
           availableSoul.path,
-          `${ourDir}/components`,
+          `${ourDir}/elements`,
           config.rewritePath
         );
-        componentTS.addImport(soulImportPath, soulImportName);
-        componentTS.data.themingSouls[familyId] =
+        elementTS.addImport(soulImportPath, soulImportName);
+        elementTS.data.themingSouls[familyId] =
           `processThemingEntry(${soulImportName})`;
       }
     }
 
-    // construct component file
-    componentTS.addBlock(
-      `export class ${componentImportName} extends OriginalComponent`,
+    // construct element file
+    elementTS.addBlock(
+      `export class ${elementImportName} extends OriginalElement`,
       `{
-  static readonly componentName: string = '${componentNames.tagName}';
-  static readonly defaultTagName: string = 'tini-${componentNames.tagName}';
+  static readonly elementName: string = '${elementNames.tagName}';
+  static readonly defaultTagName: string = 'tini-${elementNames.tagName}';
   ${
     buildInstructions.raw
       ? ''
       : `static readonly theming = ${genObjectFromRaw(
-          componentTS.data.themingSouls
+          elementTS.data.themingSouls
         )};`
   }
   ${
-    !buildInstructions.components
+    !buildInstructions.elements
       ? ''
-      : `static readonly components = ${genArrayFromRaw(
-          componentTS.data.depComponents
+      : `static readonly elements = ${genArrayFromRaw(
+          elementTS.data.depElements
         )};`
   }
 }`
@@ -415,18 +413,18 @@ export async function buildComponents(
 
     // add framework specific
     if (config.framework === 'react') {
-      componentTS
+      elementTS
         .addImport('react', 'React')
         .addImport('@lit/react', ['createComponent']);
 
-      componentTS.addBlock(
-        `export const Tini${componentNames.className} =`,
+      elementTS.addBlock(
+        `export const Tini${elementNames.className} =`,
         `createComponent(${genObjectFromRaw({
           react: 'React',
-          elementClass: `Tini${componentNames.className}Component${
+          elementClass: `Tini${elementNames.className}Element${
             !buildInstructions.reactAnyProp ? '' : ' as any'
           }`,
-          tagName: `'tini-${componentNames.tagName}'`,
+          tagName: `'tini-${elementNames.tagName}'`,
           ...(!buildInstructions.reactEvents
             ? {}
             : {events: JSON.stringify(buildInstructions.reactEvents)}),
@@ -434,15 +432,15 @@ export async function buildComponents(
       );
     }
 
-    results.push(componentTS.toResult(`components/${componentId}.ts`));
+    results.push(elementTS.toResult(`elements/${elementId}.ts`));
   }
 
   indexTS
-    .addBlock('export', `{ ${indexTS.data.availableComponents.join(', ')} }`)
-    .addBlock('export const availableComponents =', [
-      indexTS.data.availableComponents,
+    .addBlock('export', `{ ${indexTS.data.availableElements.join(', ')} }`)
+    .addBlock('export const availableElements =', [
+      indexTS.data.availableElements,
     ]);
-  results.push(indexTS.toResult('component.ts'));
+  results.push(indexTS.toResult('element.ts'));
 
   // result
   return results;
@@ -456,10 +454,10 @@ export async function buildSetup({manualSkinSelection}: UIConfig) {
     .addImport('@tinijs/core', [
       'listify',
       'initUI',
-      'registerComponents',
+      'registerElements',
       'mergeRecordStyles',
       'mergeDirectOrRecordStyles',
-      'type RegisterComponentsList',
+      'type RegisterElementsList',
       'type UI',
       'type UIInit',
       'type CSSResultOrNativeOrRaw',
@@ -472,8 +470,8 @@ export async function buildSetup({manualSkinSelection}: UIConfig) {
 
   // exports
   setupTS.addExport('@tinijs/core', [
-    'registerComponents',
-    'resolvePendingComponents',
+    'registerElements',
+    'resolvePendingElements',
   ]);
   if (manualSkinSelection) {
     setupTS.addExport('./skin.js', '*');
@@ -485,10 +483,10 @@ export async function buildSetup({manualSkinSelection}: UIConfig) {
     .addBlock(
       'export type UISetup = ',
       (manualSkinSelection ? 'UIInit' : 'Partial<UIInit>') +
-        ' & {components?: RegisterComponentsList, resolvePending?: Parameters<typeof registerComponents>[1]}'
+        ' & {elements?: RegisterElementsList, resolvePending?: Parameters<typeof registerElements>[1]}'
     )
     .addBlock(
-      `export function setupUI({host, globals, skins, shares, options, components, resolvePending}: UISetup${
+      `export function setupUI({host, globals, skins, shares, options, elements, resolvePending}: UISetup${
         manualSkinSelection ? '' : ' = {}'
       })`,
       `{
@@ -504,8 +502,8 @@ export async function buildSetup({manualSkinSelection}: UIConfig) {
     shares: mergeDirectOrRecordStyles(availableBases, shares),
     options,
   });
-  if (components?.length) {
-    registerComponents(components, resolvePending);
+  if (elements?.length) {
+    registerElements(elements, resolvePending);
   }
   return ui;
 }`
@@ -544,8 +542,8 @@ export async function buildPackageJSON(
       './bases/*': './bases/*',
       './skin.js': './skin.js',
       './skins/*': './skins/*',
-      './component.js': './component.js',
-      './components/*': './components/*',
+      './element.js': './element.js',
+      './elements/*': './elements/*',
       ...(!withIcons
         ? {}
         : {

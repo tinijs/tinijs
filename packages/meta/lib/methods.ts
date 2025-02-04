@@ -204,10 +204,10 @@ function _parseSelector(tag: MetaTagDefinition): string {
 
 function _containsAttributes(
   tag: MetaTagDefinition,
-  elem: HTMLMetaElement
+  element: HTMLMetaElement
 ): boolean {
   return Object.keys(tag).every(
-    (key: string) => elem.getAttribute(_getMetaKeyMap(key)) === tag[key]
+    (key: string) => element.getAttribute(_getMetaKeyMap(key)) === tag[key]
   );
 }
 
@@ -224,10 +224,10 @@ function _getOrCreateElement(
 ): HTMLMetaElement {
   if (!forceCreation) {
     const selector: string = _parseSelector(meta);
-    const elem = getMetaTags(selector).filter(elem =>
-      _containsAttributes(meta, elem)
+    const element = getMetaTags(selector).filter(element =>
+      _containsAttributes(meta, element)
     )[0];
-    if (elem !== undefined) return elem;
+    if (element !== undefined) return element;
   }
   const element: HTMLMetaElement = document.createElement(
     'meta'

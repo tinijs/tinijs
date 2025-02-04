@@ -21,8 +21,8 @@ The configuration for Eleventy is in the `content/eleventy.config.cjs`. The defa
   - `parseTOML/stringifyTOML` for working with TOML data.
   - `image/imageUrl/imageData` for working with images.
 - Plugins, libraries, shortcodes:
-  - **App**: shortcode for working with app components
-  - **Tini**: shortcode for working with Tini UI components
+  - **App**: shortcode for working with app elements
+  - **Tini**: shortcode for working with Tini UI elements
   - **Image**: shortcodes for working with images - [link](https://www.11ty.dev/docs/plugins/image/)
   - **Render**: render template inside another template - [link](https://www.11ty.dev/docs/plugins/render/)
   - **Hightlight**: code highlighting - [link](https://www.11ty.dev/docs/plugins/syntaxhighlight/)

@@ -1,18 +1,18 @@
 import {html, css} from 'lit';
 import {ref, createRef} from 'lit/directives/ref.js';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniButtonComponent} from '../../../app/ui/components/button.js';
-import {TiniModalComponent} from '../../../app/ui/components/modal.js';
+import {TiniButtonElement} from '../../../app/ui/elements/button.js';
+import {TiniModalElement} from '../../../app/ui/elements/modal.js';
 
-@component({
-  components: [TiniButtonComponent, TiniModalComponent],
+@element({
+  elements: [TiniButtonElement, TiniModalElement],
 })
-export class ContentUIPostModalComponent extends TiniComponent {
+export class ContentUIPostModalElement extends TiniElement {
   static readonly defaultTagName = 'content-ui-post-modal';
 
-  private readonly modalRef = createRef<TiniModalComponent>();
+  private readonly modalRef = createRef<TiniModalElement>();
 
   protected render() {
     return html`

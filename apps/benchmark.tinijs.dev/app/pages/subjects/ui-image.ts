@@ -1,10 +1,10 @@
 import {html, css} from 'lit';
 
-import {page, TiniComponent} from '@tinijs/core';
+import {page, TiniElement} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
 import {useSearchParams} from '@tinijs/router';
 
-import {TiniImageComponent} from '../../ui/components/image.js';
+import {TiniImageElement} from '../../ui/elements/image.js';
 
 import {repeat} from '../../utils/subject.js';
 
@@ -19,9 +19,9 @@ const SVG = new URL('../../assets/placeholders/image.svg', import.meta.url)
 
 @page({
   name: 'app-page-ui-image',
-  components: [TiniImageComponent],
+  elements: [TiniImageElement],
 })
-export class AppPageUIImage extends TiniComponent implements PageWithMetadata {
+export class AppPageUIImage extends TiniElement implements PageWithMetadata {
   readonly metadata = {
     title: IMAGE_SUBJECT.title,
     description: IMAGE_SUBJECT.desc,

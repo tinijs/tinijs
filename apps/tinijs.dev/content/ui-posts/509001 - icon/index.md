@@ -2,18 +2,18 @@
 {
   "status": "publish",
   "title": "Icon",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Import
 
-<app-component-import componentName="icon"></app-component-import>
+<app-element-import elementName="icon"></app-element-import>
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'icon',
     sections: [
       {

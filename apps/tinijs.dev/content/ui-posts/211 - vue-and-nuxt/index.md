@@ -16,11 +16,11 @@ Try an online example: [Tini UI - Vue Playground](https://stackblitz.com/edit/ti
 
 ```ts
 import { setupUI, availableSkins } from '@tinijs/ui-bootstrap/setup.js';
-import { availableComponents } from '@tinijs/ui-bootstrap/component.js';
+import { availableElements } from '@tinijs/ui-bootstrap/element.js';
 
 setupUI({
   skins: availableSkins,
-  components: availableComponents,
+  elements: availableElements,
 });
 ```
 
@@ -42,7 +42,7 @@ export default defineConfig({
 });
 ```
 
-- **Step 3**: Use Tini UI components in templates
+- **Step 3**: Use Tini UI elements in templates
 
 ```html
 <tini-text color="success">Lorem ipsum</tini-text>
@@ -61,12 +61,12 @@ Try an online example: [Tini UI - Nuxt Playground](https://stackblitz.com/edit/t
 <script setup>
 
   import { setupUI, availableSkins } from '@tinijs/ui-bootstrap/setup.js';
-  import { availableComponents } from '@tinijs/ui-bootstrap/component.js';
+  import { availableElements } from '@tinijs/ui-bootstrap/element.js';
 
   if (process.client) {
     setupUI({
       skins: availableSkins,
-      components: availableComponents,
+      elements: availableElements,
       resolvePending: true, // hide the body to prevent FOUC
     });
   }

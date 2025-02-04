@@ -1,6 +1,6 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/textarea.js';
+import {defaultStyles} from '../../../elements/textarea.js';
 
 export const styles = defaultStyles.extends({
   statics: css``,

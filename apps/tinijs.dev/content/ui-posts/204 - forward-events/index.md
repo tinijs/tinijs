@@ -6,12 +6,12 @@
 }
 +++
 
-For components with many nested children inside the shadow DOM, depends on the individual components, some essential events will be available for listening from the host elements. But, in some situations, it is required to use less common events of some individual child elements. Event forwarding is used to forward events from children to their hosts.
+For elements with many nested children inside the shadow DOM, depends on the individual elements, some essential events will be available for listening from the host elements. But, in some situations, it is required to use less common events of some individual child elements. Event forwarding is used to forward events from children to their hosts.
 
-Let consider an example component:
+Let consider an example element:
 
 ```js
-class ClickMeComponent extends TiniElement {
+class ClickMeElement extends TiniElement {
   static readonly defaultTagName = 'click-me';
 
   render() {
@@ -42,7 +42,7 @@ To add event listeners, for example the `click` event:
 <click-me @click=${this.doSomething}></click-me>
 ```
 
-By doing so, it will trigger the click event when clicking on any part of the component (all the `red`, `green` and `blue` boxes). But if we want to target only the main element (`green` box) or the button element (`blue` box), we can use the `events` property.
+By doing so, it will trigger the click event when clicking on any part of the element (all the `red`, `green` and `blue` boxes). But if we want to target only the main element (`green` box) or the button element (`blue` box), we can use the `events` property.
 
 The `events` property accepts these syntax:
 - **Comma separated list** of events `name,name:newName`
@@ -80,12 +80,12 @@ By default, if no `target` provided, then the event target will be the element w
 ></click-me>
 ```
 
-Sometimes, the main element is not the `part="main"`, in that case, we can set the `componentMetadata.customMainSelector` to whatever we want to be the event target.
+Sometimes, the main element is not the `part="main"`, in that case, we can set the `elementMetadata.customMainSelector` to whatever we want to be the event target.
 
 ```js
-class ClickMeComponent extends TiniElement {
+class ClickMeElement extends TiniElement {
 
-  static readonly componentMetadata = {
+  static readonly elementMetadata = {
     customMainSelector: 'any selector'
   };
 
@@ -118,7 +118,7 @@ To target any other elements, we can use the `target` option.
 We can use the static `events` to pre-define event forwarding, so that we can access the additional events from any instances.
 
 ```js
-class ClickMeComponent extends TiniElement {
+class ClickMeElement extends TiniElement {
 
   static readonly events = [
     'click:clickMain',

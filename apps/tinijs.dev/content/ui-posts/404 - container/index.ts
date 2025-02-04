@@ -1,14 +1,14 @@
 import {html, css, nothing} from 'lit';
 import {property} from 'lit/decorators/property.js';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {AppComponentEditorComponent} from '../../../app/components/component-editor/index.js';
+import {AppElementEditorElement} from '../../../app/elements/element-editor/index.js';
 
-@component({
-  components: [AppComponentEditorComponent],
+@element({
+  elements: [AppElementEditorElement],
 })
-export class ContentUIPostContainerComponent extends TiniComponent {
+export class ContentUIPostContainerElement extends TiniElement {
   static readonly defaultTagName = 'content-ui-post-container';
 
   @property() block!: string;
@@ -28,7 +28,7 @@ export class ContentUIPostContainerComponent extends TiniComponent {
 
   private renderEditorBlock() {
     return html`
-      <app-component-editor
+      <app-element-editor
         name="container"
         .examples=${{
           section: {
@@ -80,7 +80,7 @@ export class ContentUIPostContainerComponent extends TiniComponent {
             },
           },
         ]}
-      ></app-component-editor>
+      ></app-element-editor>
     `;
   }
 

@@ -1,16 +1,16 @@
 import {html, css} from 'lit';
 
-import {component, TiniComponent, Shadows} from '@tinijs/core';
+import {element, TiniElement, Shadows} from '@tinijs/core';
 
-import {TiniImageComponent} from '../../ui/components/image.js';
+import {TiniImageElement} from '../../ui/elements/image.js';
 
 const SRC =
   'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1024&q=80';
 
-@component({
-  components: [TiniImageComponent],
+@element({
+  elements: [TiniImageElement],
 })
-export class AppPageUIDevImageComponent extends TiniComponent {
+export class AppPageUIDevImageElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-image';
 
   protected render() {

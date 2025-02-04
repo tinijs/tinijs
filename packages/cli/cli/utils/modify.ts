@@ -51,7 +51,7 @@ export async function modifyHTMLFile(
   return outputFile(filePath, await formatHTML($.html(), formatOptions));
 }
 
-export class ModifyComponentAlike {
+export class ModifyElementAlike {
   private identifierMatching!: RegExpMatchArray;
 
   constructor(
@@ -68,7 +68,7 @@ export class ModifyComponentAlike {
 
   direct(modifier: (content: string) => string) {
     this.content = modifier(this.content);
-    return this as ModifyComponentAlike;
+    return this as ModifyElementAlike;
   }
 
   addImport(statement: string, afterPackage?: string) {
@@ -81,7 +81,7 @@ export class ModifyComponentAlike {
         `${afterPackageEnding}\n${statement}`
       );
     }
-    return this as ModifyComponentAlike;
+    return this as ModifyElementAlike;
   }
 
   addImplements(names: string) {
@@ -96,7 +96,7 @@ export class ModifyComponentAlike {
       )
     );
     this.loadIdentifierMatching();
-    return this as ModifyComponentAlike;
+    return this as ModifyElementAlike;
   }
 
   addProperty(code: string) {
@@ -105,7 +105,7 @@ export class ModifyComponentAlike {
       matchingContent,
       matchingContent + `\n  ${code}`
     );
-    return this as ModifyComponentAlike;
+    return this as ModifyElementAlike;
   }
 
   addMethod(code: string) {
@@ -135,17 +135,17 @@ export class ModifyComponentAlike {
     return (this.identifierMatching = identifierMatching);
   }
 }
-export async function modifyComponentAlikeFile(
+export async function modifyElementAlikeFile(
   filePath: string,
   className: string,
   modifier: (
-    modify: ModifyComponentAlike
-  ) => Promisable<void | ModifyComponentAlike>,
+    modify: ModifyElementAlike
+  ) => Promisable<void | ModifyElementAlike>,
   formatOptions?: PrettierOptions
 ) {
   filePath = resolve(filePath);
   const content = await readFile(filePath, 'utf8');
-  const modify = new ModifyComponentAlike(filePath, content, className);
+  const modify = new ModifyElementAlike(filePath, content, className);
   await modifier(modify);
   return outputFile(
     filePath,

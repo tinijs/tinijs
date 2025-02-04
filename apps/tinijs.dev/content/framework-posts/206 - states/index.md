@@ -17,8 +17,8 @@ To define local states but not in the form of property, use the `@state()`.
 ```ts
 import {state} from 'lit/decorators/state.js';
 
-@component()
-export class AppXXXComponent extends TiniComponent {
+@element()
+export class AppXXXElement extends TiniElement {
 
   @state() state1?: string;
   @state() state2: number = 123;
@@ -73,8 +73,8 @@ MAIN_STORE.commit('foo', 'bar3');
  * Subscribe to state changes
  */
 
-@component()
-export class AppXXXComponent extends TiniComponent {
+@element()
+export class AppXXXElement extends TiniElement {
 
   // Use the @globalState() decorator
   // this.foo will be updated when MAIN_STORE.foo changes it is reactive by default
@@ -92,7 +92,7 @@ export class AppXXXComponent extends TiniComponent {
       // do something with the new value
     });
   }
-  // NOTE: remember to unsubscribe when the component is destroyed
+  // NOTE: remember to unsubscribe when the element is destroyed
   onDestroy() {
     this.unsubscribeFoo();
   }

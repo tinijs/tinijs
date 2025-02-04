@@ -2,14 +2,14 @@
 {
   "status": "draft",
   "title": "Textarea",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'textarea',
     sections: [
       {
