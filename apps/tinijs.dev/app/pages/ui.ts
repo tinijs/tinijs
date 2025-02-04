@@ -22,7 +22,7 @@ import {AppElementBenchmarkElement} from '../elements/element-benchmark.js';
     AppElementBenchmarkElement,
   ],
 })
-export class AppPageUI extends TiniElement {
+export class AppPageUIElement extends TiniElement {
   protected render() {
     return html`
       <app-doc-page

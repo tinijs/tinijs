@@ -8,7 +8,7 @@ import {TiniLinkElement} from '../ui/elements/link.js';
   name: 'app-page-404',
   elements: [TiniLinkElement],
 })
-export class AppPage404 extends TiniElement implements PageWithMetadata {
+export class AppPage404Element extends TiniElement implements PageWithMetadata {
   readonly metadata: PageMetadata = {
     title: 'Oops',
     description: 'Error 404, page not found!',

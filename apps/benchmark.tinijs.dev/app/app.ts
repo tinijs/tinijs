@@ -21,7 +21,7 @@ import {globalStyles, shareStyles} from './styles.js';
 import './layouts/default.js';
 
 @app({providers})
-export class AppRoot
+export class AppRootElement
   extends TiniElement
   implements AppWithConfig<AppConfig>, AppWithRouter, AppWithMeta, AppWithUI
 {

@@ -15,7 +15,10 @@ import {HEADING_SUBJECT} from '../../subjects.js';
   name: 'app-page-ui-heading',
   elements: [TiniTextElement, TiniHeadingElement],
 })
-export class AppPageUIHeading extends TiniElement implements PageWithMetadata {
+export class AppPageUIHeadingElement
+  extends TiniElement
+  implements PageWithMetadata
+{
   readonly metadata = {
     title: HEADING_SUBJECT.title,
     description: HEADING_SUBJECT.desc,

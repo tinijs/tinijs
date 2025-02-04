@@ -6,7 +6,7 @@ import type {PageWithMetadata, PageMetadata} from '@tinijs/meta';
 @page({
   name: 'app-page-404',
 })
-export class AppPage404 extends TiniElement implements PageWithMetadata {
+export class AppPage404Element extends TiniElement implements PageWithMetadata {
   readonly metadata: PageMetadata = {
     title: 'Oops',
     description: 'Error 404, page not found!',

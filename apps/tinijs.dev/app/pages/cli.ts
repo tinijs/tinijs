@@ -12,7 +12,7 @@ import {AppDocPageElement} from '../elements/doc-page/index.js';
   name: 'app-page-cli',
   elements: [AppDocPageElement],
 })
-export class AppPageCLI extends TiniElement {
+export class AppPageCLIElement extends TiniElement {
   protected render() {
     return html`
       <app-doc-page

@@ -21,7 +21,7 @@ export async function injectMetaTags(srcDir: string) {
 }
 
 export async function injectServiceWorker(srcDir: string) {
-  return modifyElementAlikeFile(`${srcDir}/app.ts`, 'AppRoot', modify =>
+  return modifyElementAlikeFile(`${srcDir}/app.ts`, 'AppRootElement', modify =>
     modify
       .addImport(
         `import {registerServiceWorker, type AppWithSW} from '${PACKAGE_NAME}';`,

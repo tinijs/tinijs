@@ -163,7 +163,7 @@ export const CONTAINER_PROPS = {
   name: 'app-page-ui-box-overload',
   elements: [TiniBoxElement],
 })
-export class AppPageUIBoxOverload
+export class AppPageUIBoxOverloadElement
   extends TiniElement
   implements PageWithMetadata
 {

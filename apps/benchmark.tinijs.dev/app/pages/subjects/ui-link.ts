@@ -14,7 +14,10 @@ import {LINK_SUBJECT} from '../../subjects.js';
   name: 'app-page-ui-link',
   elements: [TiniLinkElement],
 })
-export class AppPageUILink extends TiniElement implements PageWithMetadata {
+export class AppPageUILinkElement
+  extends TiniElement
+  implements PageWithMetadata
+{
   readonly metadata = {
     title: LINK_SUBJECT.title,
     description: LINK_SUBJECT.desc,

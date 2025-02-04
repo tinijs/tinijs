@@ -31,7 +31,7 @@ export async function buildIcons(config: UIConfig) {
     const iconTS = createGenFile();
 
     // prepare info
-    const iconImportName = `Icon${className}Element`;
+    const iconImportName = `TiniIcon${className}Element`;
     indexTS.addImport(`./icons/${name}.js`, [iconImportName]);
     indexTS.data.availableIcons.push(iconImportName);
 
@@ -40,7 +40,7 @@ export async function buildIcons(config: UIConfig) {
     iconTS.addBlock(
       `export class ${iconImportName} extends TiniIconElement`,
       `{
-static readonly defaultTagName = 'icon-${tagName}';
+static readonly defaultTagName = 'tini-icon-${tagName}';
 static readonly src = \`${dataURI}\`;   
 }`
     );
@@ -50,7 +50,7 @@ static readonly src = \`${dataURI}\`;
       iconTS.addImport('react', 'React');
       iconTS.addImport('@lit/react', ['createComponent']);
       iconTS.addBlock(
-        `export const Icon${className} =`,
+        `export const TiniIcon${className} =`,
         `createComponent({
 react: React,
 elementClass: ${iconImportName},

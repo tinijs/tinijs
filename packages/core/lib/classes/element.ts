@@ -434,7 +434,7 @@ export class TiniElement extends LitElement {
   }
 
   /**
-   * Extended parts previously defined in the TiniElement class.
+   * Extended parts previously defined in the TiniComponent class.
    */
 
   private pendingDependencies?: Array<() => Promise<unknown>>;

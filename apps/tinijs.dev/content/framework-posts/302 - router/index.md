@@ -227,7 +227,7 @@ import {createRouter} from '@tinijs/router';
 import {routes} from './routes.js';
 
 @app({})
-export class AppRoot extends TiniElement {
+export class AppRootElement extends TiniElement {
 
   readonly router = createRouter(routes, {linkTrigger: true});
 
@@ -264,7 +264,7 @@ You can also navigate between pages in the imperative manner by using the `go()`
 import {getRouter, useRouter, type Router} from '@tinijs/router';
 
 @page({})
-export class AppPageXXX extends TiniElement {
+export class AppPageXXXElement extends TiniElement {
 
   // via decorator
   @useRouter() readonly router!: Router;
@@ -285,7 +285,7 @@ Access **current route** and **params** is similar to access router instance.
 import {useRoute, useParams, type ActivatedRoute} from '@tinijs/router';
 
 @page({})
-export class AppPageXXX extends TiniElement {
+export class AppPageXXXElement extends TiniElement {
 
   // current route
   @useRoute() readonly route!: ActivatedRoute;
@@ -311,7 +311,7 @@ You can intercept the navigation process by returning a `string` or a `function`
 
 ```ts
 @page({})
-export class AppPageAccount extends TiniElement {
+export class AppPageAccountElement extends TiniElement {
 
   onBeforeEnter() {
     if (user) return; // continue
@@ -333,7 +333,7 @@ Because we use the Shadow DOM to encapsulate our app, the browser seems to be un
 import {ref, createRef} from 'lit/directives/ref.js';
 
 @page({})
-export class AppPageXXX extends TiniElement {
+export class AppPageXXXElement extends TiniElement {
 
   @useRouter() readonly router!: Router;
 

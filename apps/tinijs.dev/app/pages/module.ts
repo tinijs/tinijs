@@ -12,7 +12,7 @@ import {AppDocPageElement} from '../elements/doc-page/index.js';
   name: 'app-page-module',
   elements: [AppDocPageElement],
 })
-export class AppPageModule extends TiniElement {
+export class AppPageModuleElement extends TiniElement {
   protected render() {
     return html`
       <app-doc-page

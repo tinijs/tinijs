@@ -21,7 +21,10 @@ const SVG = new URL('../../assets/placeholders/image.svg', import.meta.url)
   name: 'app-page-ui-image',
   elements: [TiniImageElement],
 })
-export class AppPageUIImage extends TiniElement implements PageWithMetadata {
+export class AppPageUIImageElement
+  extends TiniElement
+  implements PageWithMetadata
+{
   readonly metadata = {
     title: IMAGE_SUBJECT.title,
     description: IMAGE_SUBJECT.desc,

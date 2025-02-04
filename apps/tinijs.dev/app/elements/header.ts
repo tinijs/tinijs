@@ -36,7 +36,10 @@ import {AppSkinEditorElement} from './skin-editor/index.js';
     AppSkinEditorElement,
   ],
 })
-export class AppHeaderElement extends TiniElement implements OnCreate, OnDestroy {
+export class AppHeaderElement
+  extends TiniElement
+  implements OnCreate, OnDestroy
+{
   static readonly defaultTagName = 'app-header';
 
   @state() mobileMenuOpened = false;

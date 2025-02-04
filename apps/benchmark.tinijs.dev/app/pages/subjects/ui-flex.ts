@@ -46,7 +46,10 @@ const CONTAINER_PROPS = {
   name: 'app-page-ui-flex',
   elements: [TiniFlexElement],
 })
-export class AppPageUIFlex extends TiniElement implements PageWithMetadata {
+export class AppPageUIFlexElement
+  extends TiniElement
+  implements PageWithMetadata
+{
   readonly metadata = {
     title: FLEX_SUBJECT.title,
     description: FLEX_SUBJECT.desc,

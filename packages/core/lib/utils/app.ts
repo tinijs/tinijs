@@ -6,10 +6,11 @@ import {TiniElement} from '../classes/element.js';
 import type {RegisterElementsList} from './element.js';
 import type {DependencyProviders} from './di.js';
 
-export type ClientApp<AppRoot extends TiniElement = TiniElement> = AppRoot & {
-  options?: AppOptions;
-  config?: Record<string, unknown>;
-};
+export type ClientApp<AppRootElement extends TiniElement = TiniElement> =
+  AppRootElement & {
+    options?: AppOptions;
+    config?: Record<string, unknown>;
+  };
 
 export interface AppOptions {
   elements?: RegisterElementsList;
@@ -25,9 +26,9 @@ export interface AppWithConfig<AppConfig extends Record<string, unknown>> {
   config: AppConfig;
 }
 
-export function getApp<AppRoot extends TiniElement = TiniElement>() {
+export function getApp<AppRootElement extends TiniElement = TiniElement>() {
   if (!GLOBAL_TINI.clientApp) throw NO_APP_ERROR;
-  return GLOBAL_TINI.clientApp as ClientApp<AppRoot>;
+  return GLOBAL_TINI.clientApp as ClientApp<AppRootElement>;
 }
 
 export function getOptions() {

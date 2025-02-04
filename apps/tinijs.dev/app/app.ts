@@ -96,7 +96,7 @@ TiniCodeElement.config({
     TiniCodeElement,
   ],
 })
-export class AppRoot
+export class AppRootElement
   extends TiniElement
   implements AppWithConfig<AppConfig>, AppWithRouter, AppWithMeta, AppWithUI
 {

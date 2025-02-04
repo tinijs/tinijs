@@ -11,7 +11,7 @@ import {TEXT_INLINE_SUBJECT} from '../../subjects.js';
 @page({
   name: 'app-page-ui-text-inline',
 })
-export class AppPageUITextInline
+export class AppPageUITextInlineElement
   extends TiniElement
   implements PageWithMetadata
 {

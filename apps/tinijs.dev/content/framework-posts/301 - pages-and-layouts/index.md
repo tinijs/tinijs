@@ -25,7 +25,7 @@ import {page, TiniElement} from '@tinijs/core';
 @page({
   name: 'app-page-xxx',
 })
-export class AppPageXXX extends TiniElement {
+export class AppPageXXXElement extends TiniElement {
 
   protected render() {
     return html`<p>This is a page!</p>`;
@@ -56,7 +56,7 @@ import {layout, TiniElement} from '@tinijs/core';
 @layout({
   name: 'app-layout-xxx',
 })
-export class AppLayoutXXX extends TiniElement {
+export class AppLayoutXXXElement extends TiniElement {
 
   protected render() {
     return html`

@@ -55,7 +55,7 @@ import {AppXXXElement} from './elements/xxx.js';
 @app({
   elements: [AppXXXElement]
 })
-export class AppRoot extends TiniElement {}
+export class AppRootElement extends TiniElement {}
 ```
 
 Elements can also be registering **locally at layout, app or element level**. The benefit is that certain elements will come with lazy-load pages instead of app initialization. The drawback is that it is **repetitive** (I think of auto import in the future, it may help a little).

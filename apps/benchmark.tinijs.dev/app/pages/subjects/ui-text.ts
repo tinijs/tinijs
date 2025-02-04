@@ -14,7 +14,10 @@ import {TEXT_SUBJECT} from '../../subjects.js';
   name: 'app-page-ui-text',
   elements: [TiniTextElement],
 })
-export class AppPageUIText extends TiniElement implements PageWithMetadata {
+export class AppPageUITextElement
+  extends TiniElement
+  implements PageWithMetadata
+{
   readonly metadata = {
     title: TEXT_SUBJECT.title,
     description: TEXT_SUBJECT.desc,

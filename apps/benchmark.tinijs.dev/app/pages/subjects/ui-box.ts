@@ -14,7 +14,10 @@ import {BOX_SUBJECT} from '../../subjects.js';
   name: 'app-page-ui-box',
   elements: [TiniBoxElement],
 })
-export class AppPageUIBox extends TiniElement implements PageWithMetadata {
+export class AppPageUIBoxElement
+  extends TiniElement
+  implements PageWithMetadata
+{
   readonly metadata = {
     title: BOX_SUBJECT.title,
     description: BOX_SUBJECT.desc,

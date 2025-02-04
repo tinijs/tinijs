@@ -8,7 +8,7 @@
 
 ## The app instance
 
-As in previous topics, we can see that a TiniJS app is started with an app root defined in `./app/app.ts`, the file contains a class named `AppRoot` which extends the `TiniElement` class and is decorated with the `@app()` decorator.
+As in previous topics, we can see that a TiniJS app is started with an app root defined in `./app/app.ts`, the file contains a class named `AppRootElement` which extends the `TiniElement` class and is decorated with the `@app()` decorator.
 
 The app root is where we initiate the app and incorporate features, a minimal app constructor looks like this:
 
@@ -17,7 +17,7 @@ import {html, css} from 'lit';
 import {app, TiniElement} from '@tinijs/core';
 
 @app()
-export class AppRoot extends TiniElement {
+export class AppRootElement extends TiniElement {
 
   protected render() {
     return html`<h1>Hello, world!</h1>`;
@@ -46,7 +46,7 @@ const app = document.getElementById('xxx');
 ```ts
 import {getApp, useApp} from '@tinijs/core';
 
-import type {AppRoot} from '../app.ts';
+import type {AppRootElement} from '../app.ts';
 
 /*
  * Via util
@@ -60,9 +60,9 @@ const meta = app.meta;
  * Or, via decorator
  */
 @page({})
-export class AppPageXXX extends TiniElement {
+export class AppPageXXXElement extends TiniElement {
 
-  @useApp() readonly app!: AppRoot;
+  @useApp() readonly app!: AppRootElement;
 
   onCreate() {
     const config = this.app.config;
@@ -73,7 +73,7 @@ export class AppPageXXX extends TiniElement {
 }
 ```
 
-Depend on the patterns you choose to add features to an app, the `AppRoot` plays a role as a host for defining such features (pattern 2 and 3) as we will see in the next section.
+Depend on the patterns you choose to add features to an app, the `AppRootElement` plays a role as a host for defining such features (pattern 2 and 3) as we will see in the next section.
 
 ## Add future-proof features
 
@@ -163,7 +163,7 @@ export const providers: DependencyProviders = {
 };
 
 @app({ providers })
-export class AppRoot extends TiniElement {}
+export class AppRootElement extends TiniElement {}
 ```
 
 - Step 3: **Inject dependencies**:
@@ -176,7 +176,7 @@ import type {FooUtil} from '../utils/foo.js';
 import type {FooService} from '../services/foo.js';
 
 @page({})
-export class AppPageXXX extends TiniElement {
+export class AppPageXXXElement extends TiniElement {
 
   @inject() FOO!: FooConst;
   @inject() foo!: FooUtil;
@@ -228,7 +228,7 @@ import {provide} from '@lit/context';
 import {pluginsContext, plugins} from './contexts/plugins.ts';
 
 @app()
-export class AppRoot extends TiniElement {
+export class AppRootElement extends TiniElement {
 
   @provide({context: pluginsContext}) $plugins = plugins;
 
@@ -243,7 +243,7 @@ import {consume} from '@lit/context';
 import {pluginsContext, type PluginsContext} from '../contexts/plugins.ts';
 
 @page({})
-export class AppPageXXX extends TiniElement {
+export class AppPageXXXElement extends TiniElement {
 
   @consume({context: pluginsContext}) $plugins!: PluginsContext;
 
@@ -269,7 +269,7 @@ import {ref, createRef, type Ref} from 'lit/directives/ref.js';
 import {createApp} from 'vue/dist/vue.esm-bundler.js';
 
 @page({})
-export class AppPageXXX extends TiniElement {
+export class AppPageXXXElement extends TiniElement {
   
   private readonly vueAppRef: Ref<HTMLDivElement> = createRef();
   

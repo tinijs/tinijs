@@ -11,7 +11,7 @@ import {TEXT_CLASS_SUBJECT} from '../../subjects.js';
 @page({
   name: 'app-page-ui-text-class',
 })
-export class AppPageUITextClass
+export class AppPageUITextClassElement
   extends TiniElement
   implements PageWithMetadata
 {

@@ -54,7 +54,10 @@ const CONTAINER_PROPS = {
   name: 'app-page-ui-grid',
   elements: [TiniGridElement],
 })
-export class AppPageUIGrid extends TiniElement implements PageWithMetadata {
+export class AppPageUIGridElement
+  extends TiniElement
+  implements PageWithMetadata
+{
   readonly metadata = {
     title: GRID_SUBJECT.title,
     description: GRID_SUBJECT.desc,

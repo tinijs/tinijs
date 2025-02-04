@@ -26,7 +26,7 @@ const CONTAINER_PROPS = {
   name: 'app-page-ui-container',
   elements: [TiniContainerElement],
 })
-export class AppPageUIContainer
+export class AppPageUIContainerElement
   extends TiniElement
   implements PageWithMetadata
 {

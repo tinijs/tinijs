@@ -7,7 +7,7 @@ import {HELLO_WORLD_SUBJECT} from '../../subjects.js';
 @page({
   name: 'app-page-hello-world',
 })
-export class AppPageHelloWorld extends TiniElement {
+export class AppPageHelloWorldElement extends TiniElement {
   readonly metadata = {
     title: HELLO_WORLD_SUBJECT.title,
     description: HELLO_WORLD_SUBJECT.desc,

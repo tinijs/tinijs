@@ -15,7 +15,7 @@ import {AppDocPageElement} from '../elements/doc-page/index.js';
   name: 'app-page-toolbox',
   elements: [AppDocPageElement],
 })
-export class AppPageToolbox extends TiniElement {
+export class AppPageToolboxElement extends TiniElement {
   protected render() {
     return html`
       <app-doc-page

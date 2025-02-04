@@ -9,7 +9,7 @@ import {AppFooterElement} from '../elements/footer.js';
   name: 'app-layout-default',
   elements: [AppHeaderElement, AppFooterElement],
 })
-export class AppLayoutDefault extends TiniElement {
+export class AppLayoutDefaultElement extends TiniElement {
   protected render() {
     return html`
       <div

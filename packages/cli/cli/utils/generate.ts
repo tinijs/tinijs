@@ -114,12 +114,14 @@ async function generateBuiltinMainTemplate(
       const typePascalCase = pascalCase(type);
       const prefixPascalCase = pascalCase(elementPrefix);
       const isElement = type === BuiltinTypes.Element;
-      const isLayoutOrPage =
-        type === BuiltinTypes.Layout || type === BuiltinTypes.Page;
+      const isLayoutOrPageOrIcon =
+        type === BuiltinTypes.Layout ||
+        type === BuiltinTypes.Page ||
+        type === BuiltinTypes.Icon;
       return {
         tagName: isElement
           ? `${elementPrefix}-${tagName}`
-          : isLayoutOrPage
+          : isLayoutOrPageOrIcon
             ? `${elementPrefix}-${type}-${tagName}`
             : tagName,
         className:
@@ -127,8 +129,8 @@ async function generateBuiltinMainTemplate(
             ? `${className}Service`
             : isElement
               ? `${prefixPascalCase}${className}Element`
-              : isLayoutOrPage
-                ? `${prefixPascalCase}${typePascalCase}${className}`
+              : isLayoutOrPageOrIcon
+                ? `${prefixPascalCase}${typePascalCase}${className}Element`
                 : className,
       };
     }
@@ -320,7 +322,7 @@ export class ${className} extends TiniElement implements OnCreate {
 function getIconMainContent({className, tagName}: Names) {
   return `import {TiniIconElement} from 'PACKAGE/elements/icon.js';
 
-export class Icon${className}Element extends TiniIconElement {
+export class ${className} extends TiniIconElement {
   static readonly defaultTagName = 'icon-${tagName}';
   static readonly src = "URL/URI";
 }\n`;

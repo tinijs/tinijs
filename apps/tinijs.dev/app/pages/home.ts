@@ -19,7 +19,7 @@ import {LOGO_URL} from '../consts/common.js';
     IconHeartElement,
   ],
 })
-export class AppPageHome extends TiniElement {
+export class AppPageHomeElement extends TiniElement {
   @useRouter() readonly router!: Router;
 
   protected render() {

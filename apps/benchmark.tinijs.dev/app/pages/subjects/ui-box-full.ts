@@ -44,7 +44,10 @@ export const CONTAINER_PROPS = {
   name: 'app-page-ui-box-full',
   elements: [TiniBoxElement],
 })
-export class AppPageUIBoxFull extends TiniElement implements PageWithMetadata {
+export class AppPageUIBoxFullElement
+  extends TiniElement
+  implements PageWithMetadata
+{
   readonly metadata = {
     title: BOX_FULL_SUBJECT.title,
     description: BOX_FULL_SUBJECT.desc,

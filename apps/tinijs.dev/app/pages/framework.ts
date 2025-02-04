@@ -23,7 +23,7 @@ import {AppDocPageElement} from '../elements/doc-page/index.js';
   name: 'app-page-framework',
   elements: [TiniMessageElement, AppDocPageElement],
 })
-export class AppPageFramework extends TiniElement {
+export class AppPageFrameworkElement extends TiniElement {
   protected render() {
     return html`
       <app-doc-page
