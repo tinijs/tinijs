@@ -405,7 +405,7 @@ export class ContentUIPostPlaygroundElement extends TiniElement {
         </div>
       </section>
 
-      <section>
+      <section class="tini-link-section">
         <h3>
           <span>Link</span>
           <a href="/ui/link">Detail</a>
@@ -413,13 +413,9 @@ export class ContentUIPostPlaygroundElement extends TiniElement {
         <div class="content">
           <tini-link href="#">An utility for link</tini-link><br />
           <tini-link href="#" disabled>Disabled link</tini-link><br />
-          <tini-link href="#" italic>Italic link</tini-link><br />
-          <tini-link href="#" color="success">Color link</tini-link><br />
-          <tini-link href="#" gradient="danger" size="xl"
-            >Big gradient link</tini-link
-          ><br />
-          <tini-link href="#" size="xs">Small link</tini-link><br />
-          <tini-link href="#" noUnderline>Force no underline</tini-link><br />
+          <tini-link activeStartsAuto href="/ui/playground"
+            >Active link</tini-link
+          >
         </div>
       </section>
 
@@ -684,6 +680,11 @@ function sayHello() {
       border-top: 1px solid var(--color-body-semi);
       border-bottom: 1px solid var(--color-body-semi);
       font-size: var(--text-lg);
+      font-weight: bold;
+    }
+
+    .tini-link-section tini-link[linkIsActive]::part(a) {
+      color: var(--color-success);
       font-weight: bold;
     }
   `;
