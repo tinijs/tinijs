@@ -1,14 +1,14 @@
 import {html, css, nothing} from 'lit';
 import {property} from 'lit/decorators/property.js';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {AppComponentEditorComponent} from '../../../app/components/component-editor/index.js';
+import {AppElementEditorElement} from '../../../app/elements/element-editor/index.js';
 
-@component({
-  components: [AppComponentEditorComponent],
+@element({
+  elements: [AppElementEditorElement],
 })
-export class ContentUIPostTextComponent extends TiniComponent {
+export class ContentUIPostTextElement extends TiniElement {
   static readonly defaultTagName = 'content-ui-post-text';
 
   @property() block!: string;
@@ -28,7 +28,7 @@ export class ContentUIPostTextComponent extends TiniComponent {
 
   private renderEditorBlock() {
     return html`
-      <app-component-editor
+      <app-element-editor
         name="text"
         .examples=${{
           muted: {
@@ -254,7 +254,7 @@ export class ContentUIPostTextComponent extends TiniComponent {
             target: 'styleDeep',
           },
         ]}
-      ></app-component-editor>
+      ></app-element-editor>
     `;
   }
 

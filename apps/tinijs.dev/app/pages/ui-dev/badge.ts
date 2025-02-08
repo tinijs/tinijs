@@ -1,13 +1,13 @@
 import {html, css} from 'lit';
 
-import {component, TiniComponent, Colors, Gradients, Sizes} from '@tinijs/core';
+import {element, TiniElement, Colors, Gradients, Sizes} from '@tinijs/core';
 
-import {TiniBadgeComponent} from '../../ui/components/badge.js';
+import {TiniBadgeElement} from '../../ui/elements/badge.js';
 
-@component({
-  components: [TiniBadgeComponent],
+@element({
+  elements: [TiniBadgeElement],
 })
-export class AppPageUIDevBadgeComponent extends TiniComponent {
+export class AppPageUIDevBadgeElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-badge';
 
   protected render() {

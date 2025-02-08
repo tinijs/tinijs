@@ -1,25 +1,25 @@
 import {html, css} from 'lit';
 
-import {page, TiniComponent, Colors} from '@tinijs/core';
+import {page, TiniElement, Colors} from '@tinijs/core';
 import {useRouter, Router} from '@tinijs/router';
-import {TiniTextComponent} from '../ui/components/text.js';
-import {TiniButtonComponent} from '../ui/components/button.js';
-import {TiniEmbedComponent} from '../ui/components/embed.js';
+import {TiniTextElement} from '../ui/elements/text.js';
+import {TiniButtonElement} from '../ui/elements/button.js';
+import {TiniEmbedElement} from '../ui/elements/embed.js';
 
-import {IconHeartComponent} from '../icons/heart.js';
+import {IconHeartElement} from '../icons/heart.js';
 
 import {LOGO_URL} from '../consts/common.js';
 
 @page({
   name: 'app-page-home',
-  components: [
-    TiniTextComponent,
-    TiniButtonComponent,
-    TiniEmbedComponent,
-    IconHeartComponent,
+  elements: [
+    TiniTextElement,
+    TiniButtonElement,
+    TiniEmbedElement,
+    IconHeartElement,
   ],
 })
-export class AppPageHome extends TiniComponent {
+export class AppPageHomeElement extends TiniElement {
   @useRouter() readonly router!: Router;
 
   protected render() {
@@ -36,7 +36,7 @@ export class AppPageHome extends TiniComponent {
               weight="700"
               gradient="var(--gradient-kale-salad)"
               >Tini</tini-text
-            ><br />Web Components Framework
+            ><br />Web Elements Framework
           </h2>
           <p>
             A small, fast and interoperable framework for building
@@ -75,7 +75,7 @@ export class AppPageHome extends TiniComponent {
             <div class="icon">🎨</div>
             <h3>UI</h3>
             <p>
-              A collection of reusable components, blocks, layouts, pages, ...
+              A collection of reusable elements, blocks, layouts, pages, ...
               with many design flavors.
             </p>
           </li>

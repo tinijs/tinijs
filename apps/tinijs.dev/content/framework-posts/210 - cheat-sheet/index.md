@@ -12,7 +12,7 @@ Here is how to apply some common concepts in TiniJS compared to other frameworks
 
 ## App isntance
 
-## Component
+## Element
 
 ## Prop
 

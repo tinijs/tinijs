@@ -1,6 +1,6 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/table.js';
+import {defaultStyles} from '../../../elements/table.js';
 
 export const styles = defaultStyles.extends({
   statics: css``,

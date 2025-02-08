@@ -1,6 +1,6 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/button.js';
+import {defaultStyles} from '../../../elements/button.js';
 
 export const styles = defaultStyles.extends({
   statics: css`

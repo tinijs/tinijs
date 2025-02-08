@@ -92,7 +92,7 @@ export interface LayoutStyleProps {
 }
 
 export class BaseLayoutElement extends TiniElement {
-  static readonly componentMetadata = {
+  static readonly elementMetadata = {
     restyleAtUpdate: true,
   };
 

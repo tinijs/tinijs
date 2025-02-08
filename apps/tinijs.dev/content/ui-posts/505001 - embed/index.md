@@ -2,18 +2,18 @@
 {
   "status": "publish",
   "title": "Embed",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Import
 
-<app-component-import componentName="embed"></app-component-import>
+<app-element-import elementName="embed"></app-element-import>
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'embed',
     sections: [
       {

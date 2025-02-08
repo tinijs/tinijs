@@ -4,8 +4,8 @@ import {classMap} from 'lit/directives/class-map.js';
 import {styleMap} from 'lit/directives/style-map.js';
 
 import {
-  component,
-  TiniComponent,
+  element,
+  TiniElement,
   Colors,
   Gradients,
   Fonts,
@@ -25,11 +25,8 @@ import {
 
 const computedStyle = getComputedStyle(document.documentElement);
 
-@component()
-export class ContentUIPostTokenComponent
-  extends TiniComponent
-  implements OnCreate
-{
+@element()
+export class ContentUIPostTokenElement extends TiniElement implements OnCreate {
   static readonly defaultTagName = 'content-ui-post-token';
 
   @property() block!: string;

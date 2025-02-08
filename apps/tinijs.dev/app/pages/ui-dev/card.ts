@@ -1,13 +1,13 @@
 import {html, css} from 'lit';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniCardComponent} from '../../ui/components/card.js';
+import {TiniCardElement} from '../../ui/elements/card.js';
 
-@component({
-  components: [TiniCardComponent],
+@element({
+  elements: [TiniCardElement],
 })
-export class AppPageUIDevCardComponent extends TiniComponent {
+export class AppPageUIDevCardElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-card';
 
   protected render() {

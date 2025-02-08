@@ -1,13 +1,13 @@
 import {html} from 'lit';
 
-import {page, TiniComponent} from '@tinijs/core';
+import {page, TiniElement} from '@tinijs/core';
 
 import SUBJECTS from '../subjects.js';
 
 @page({
   name: 'app-page-home',
 })
-export class AppPageHome extends TiniComponent {
+export class AppPageHomeElement extends TiniElement {
   protected render() {
     return html`
       <article style="max-width: 1024px; margin: 0 auto; padding: 2rem;">
@@ -26,7 +26,7 @@ export class AppPageHome extends TiniComponent {
         </p>
         <p>
           A simple dashboard for testing performance of the core Framework and
-          UI components.
+          UI elements.
         </p>
         <p>Using local Lighthouse:</p>
         <ul>

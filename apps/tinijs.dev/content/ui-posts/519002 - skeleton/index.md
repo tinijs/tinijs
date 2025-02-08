@@ -2,18 +2,18 @@
 {
   "status": "publish",
   "title": "Skeleton",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Import
 
-<app-component-import componentName="skeleton"></app-component-import>
+<app-element-import elementName="skeleton"></app-element-import>
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'skeleton',
     sections: [
       {

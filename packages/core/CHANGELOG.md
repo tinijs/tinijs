@@ -15,7 +15,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 * remove unused and improve tini-element ([#26](https://github.com/tinijs/tinijs/issues/26)) ([065121f](https://github.com/tinijs/tinijs/commit/065121f901f5530bbbf0d51594c8976752b5f89d))
 * setup more theme families ([#27](https://github.com/tinijs/tinijs/issues/27)) ([86c8807](https://github.com/tinijs/tinijs/commit/86c8807c950d075e3e81b340e33cc3173f36eb59))
-* **ui:** layout components ([#30](https://github.com/tinijs/tinijs/issues/30)) ([6fb621e](https://github.com/tinijs/tinijs/commit/6fb621e0a25a704f1cfb22fc170b713b671067dd))
+* **ui:** layout elements ([#30](https://github.com/tinijs/tinijs/issues/30)) ([6fb621e](https://github.com/tinijs/tinijs/commit/6fb621e0a25a704f1cfb22fc170b713b671067dd))
 
 
 

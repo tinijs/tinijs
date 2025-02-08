@@ -6,11 +6,11 @@
 }
 +++
 
-Component for creating flex layouts.
+Element for creating flex layouts.
 
 ## Import
 
-<app-component-import componentName="flex"></app-component-import>
+<app-element-import elementName="flex"></app-element-import>
 
 ## Editor
 
@@ -49,4 +49,4 @@ Please see [all common utilities](/ui/box#common-utilities).
 
 ## Benchmark
 
-<app-component-benchmark reportId="ui-flex"></app-component-benchmark>
+<app-element-benchmark reportId="ui-flex"></app-element-benchmark>

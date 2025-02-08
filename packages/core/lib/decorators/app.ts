@@ -1,6 +1,6 @@
 import {customElement} from 'lit/decorators/custom-element.js';
 
-import {TiniComponent, ComponentTypes} from '../classes/component.js';
+import {ElementTypes, TiniElement} from '../classes/element.js';
 
 import {GLOBAL_TINI} from '../consts/global.js';
 import {APP_ROOT} from '../consts/common.js';
@@ -58,7 +58,7 @@ export function app(options: AppOptions = {}) {
     // register the exit of the app splashscreen
     if (options.splashscreen) {
       registerGlobalHook(
-        ComponentTypes.Page,
+        ElementTypes.Page,
         LifecycleHooks.OnChildrenReady,
         ({app}) => {
           if (app.options?.splashscreen !== 'auto') return;
@@ -126,8 +126,8 @@ export function app(options: AppOptions = {}) {
 
     // target modifications
     const result = class extends target {
-      static readonly componentType = ComponentTypes.App;
-      static readonly components = options.components;
+      static readonly elementType = ElementTypes.App;
+      static readonly elements = options.elements;
 
       readonly options = options;
 
@@ -136,7 +136,7 @@ export function app(options: AppOptions = {}) {
         if (GLOBAL_TINI.clientApp) {
           throw DUPLICATED_APP_ERROR;
         } else {
-          GLOBAL_TINI.clientApp = this as unknown as TiniComponent;
+          GLOBAL_TINI.clientApp = this as unknown as TiniElement;
         }
       }
     } as any;

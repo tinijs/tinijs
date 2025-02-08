@@ -9,7 +9,7 @@ import type {
 } from '../classes/project.js';
 
 export interface CLIGenerateCommandConfig {
-  componentPrefix?: string;
+  elementPrefix?: string;
   generators?: Record<string, any>;
 }
 

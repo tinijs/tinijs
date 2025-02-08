@@ -1,6 +1,6 @@
 import {html, css} from 'lit';
 
-import {page, TiniComponent} from '@tinijs/core';
+import {page, TiniElement} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
 import {useSearchParams} from '@tinijs/router';
 
@@ -11,8 +11,8 @@ import {TEXT_CLASS_SUBJECT} from '../../subjects.js';
 @page({
   name: 'app-page-ui-text-class',
 })
-export class AppPageUITextClass
-  extends TiniComponent
+export class AppPageUITextClassElement
+  extends TiniElement
   implements PageWithMetadata
 {
   readonly metadata = {

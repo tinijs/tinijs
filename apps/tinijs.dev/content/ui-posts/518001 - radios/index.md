@@ -2,14 +2,14 @@
 {
   "status": "draft",
   "title": "Radios",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'radios',
     sections: [
       {

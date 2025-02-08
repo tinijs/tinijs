@@ -2,18 +2,18 @@
 {
   "status": "publish",
   "title": "Badge",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Import
 
-<app-component-import componentName="badge"></app-component-import>
+<app-element-import elementName="badge"></app-element-import>
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'badge',
     sections: [
       {

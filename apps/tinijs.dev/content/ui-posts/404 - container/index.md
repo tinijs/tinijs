@@ -10,7 +10,7 @@ Constrains the maximum width of page content.
 
 ## Import
 
-<app-component-import componentName="container"></app-component-import>
+<app-element-import elementName="container"></app-element-import>
 
 ## Editor
 
@@ -39,4 +39,4 @@ Please see [all common utilities](/ui/box#common-utilities).
 
 ## Benchmark
 
-<app-component-benchmark reportId="ui-container"></app-component-benchmark>
+<app-element-benchmark reportId="ui-container"></app-element-benchmark>

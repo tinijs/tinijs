@@ -30,8 +30,8 @@ function stringifyData(data, target) {
   return target === 'JSON'
     ? JSON.stringify(data)
     : target === 'YAML'
-    ? YAML.stringify(data)
-    : TOML.stringify(data);
+      ? YAML.stringify(data)
+      : TOML.stringify(data);
 }
 
 module.exports = function (eleventyConfig) {

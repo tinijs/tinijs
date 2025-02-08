@@ -1,28 +1,28 @@
 import {html, css} from 'lit';
 
-import {page, TiniComponent, Texts, Spaces, Radiuses} from '@tinijs/core';
+import {page, TiniElement, Texts, Spaces, Radiuses} from '@tinijs/core';
 
 import {GITHUB_CONTENT_PATH} from '../consts/common.js';
 
 import {uiCategoryService, uiPostService} from '../services/content.js';
 
-import {AppDocPageComponent} from '../components/doc-page/index.js';
-import {AppComponentImportComponent} from '../components/component-import.js';
-import {AppComponentEditorComponent} from '../components/component-editor/index.js';
-import {AppComponentUsageComponent} from '../components/component-usage.js';
-import {AppComponentBenchmarkComponent} from '../components/component-benchmark.js';
+import {AppDocPageElement} from '../elements/doc-page/index.js';
+import {AppElementImportElement} from '../elements/element-import.js';
+import {AppElementEditorElement} from '../elements/element-editor/index.js';
+import {AppElementUsageElement} from '../elements/element-usage.js';
+import {AppElementBenchmarkElement} from '../elements/element-benchmark.js';
 
 @page({
   name: 'app-page-ui',
-  components: [
-    AppDocPageComponent,
-    AppComponentImportComponent,
-    AppComponentEditorComponent,
-    AppComponentUsageComponent,
-    AppComponentBenchmarkComponent,
+  elements: [
+    AppDocPageElement,
+    AppElementImportElement,
+    AppElementEditorElement,
+    AppElementUsageElement,
+    AppElementBenchmarkElement,
   ],
 })
-export class AppPageUI extends TiniComponent {
+export class AppPageUIElement extends TiniElement {
   protected render() {
     return html`
       <app-doc-page
@@ -52,7 +52,7 @@ export class AppPageUI extends TiniComponent {
       </tini-box>
       <article style="margin-top: var(--space-xl)">
         <p>
-          An UI system with a collection of ready-to-use components, pages,
+          An UI system with a collection of ready-to-use elements, pages,
           layouts to be used with TiniJS and other frameworks or no framework.
         </p>
       </article>

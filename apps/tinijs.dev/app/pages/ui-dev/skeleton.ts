@@ -1,13 +1,13 @@
 import {html, css} from 'lit';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniSkeletonComponent} from '../../ui/components/skeleton.js';
+import {TiniSkeletonElement} from '../../ui/elements/skeleton.js';
 
-@component({
-  components: [TiniSkeletonComponent],
+@element({
+  elements: [TiniSkeletonElement],
 })
-export class AppPageUIDevSkeletonComponent extends TiniComponent {
+export class AppPageUIDevSkeletonElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-skeleton';
 
   protected render() {

@@ -1,6 +1,6 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/input.js';
+import {defaultStyles} from '../../../elements/input.js';
 
 export const styles = defaultStyles.extends({
   statics: css``,

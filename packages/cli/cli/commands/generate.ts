@@ -61,7 +61,7 @@ export const generateCommand = createCLICommand(
         srcDir: args.dir || srcDir,
         typePrefixed: args.typePrefixed || false,
         nested: args.nested || false,
-        componentPrefix: (cli?.generate || {}).componentPrefix || 'app',
+        elementPrefix: (cli?.generate || {}).elementPrefix || 'app',
       },
       tiniConfig
     );

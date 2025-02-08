@@ -1,6 +1,6 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/card.js';
+import {defaultStyles} from '../../../elements/card.js';
 
 export const styles = defaultStyles.extends({
   statics: css``,

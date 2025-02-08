@@ -1,10 +1,10 @@
 import {html, css} from 'lit';
 
-import {page, TiniComponent} from '@tinijs/core';
+import {page, TiniElement} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
 import {useSearchParams} from '@tinijs/router';
 
-import {TiniBoxComponent} from '../../ui/components/box.js';
+import {TiniBoxElement} from '../../ui/elements/box.js';
 
 import {repeat} from '../../utils/subject.js';
 
@@ -12,9 +12,12 @@ import {BOX_SUBJECT} from '../../subjects.js';
 
 @page({
   name: 'app-page-ui-box',
-  components: [TiniBoxComponent],
+  elements: [TiniBoxElement],
 })
-export class AppPageUIBox extends TiniComponent implements PageWithMetadata {
+export class AppPageUIBoxElement
+  extends TiniElement
+  implements PageWithMetadata
+{
   readonly metadata = {
     title: BOX_SUBJECT.title,
     description: BOX_SUBJECT.desc,

@@ -1,13 +1,13 @@
 import {html, css} from 'lit';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniEmbedComponent} from '../../ui/components/embed.js';
+import {TiniEmbedElement} from '../../ui/elements/embed.js';
 
-@component({
-  components: [TiniEmbedComponent],
+@element({
+  elements: [TiniEmbedElement],
 })
-export class AppPageUIDevEmbedComponent extends TiniComponent {
+export class AppPageUIDevEmbedElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-embed';
 
   protected render() {

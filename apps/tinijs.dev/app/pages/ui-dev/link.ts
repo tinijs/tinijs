@@ -1,13 +1,13 @@
 import {html, css} from 'lit';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniLinkComponent} from '../../ui/components/link.js';
+import {TiniLinkElement} from '../../ui/elements/link.js';
 
-@component({
-  components: [TiniLinkComponent],
+@element({
+  elements: [TiniLinkElement],
 })
-export class AppPageUIDevLinkComponent extends TiniComponent {
+export class AppPageUIDevLinkElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-link';
 
   protected render() {

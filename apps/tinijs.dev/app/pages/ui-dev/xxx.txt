@@ -1,8 +1,8 @@
 import {html, css, nothing} from 'lit';
 
 import {
-  Component,
-  TiniComponent,
+  element,
+  TiniElement,
   Colors,
   SubtleColors,
   Gradients,
@@ -10,12 +10,12 @@ import {
   Sizes,
 } from '@tinijs/core';
 
-import {TiniXXXComponent} from '../../ui/components/xxx.js';
+import {TiniXXXElement} from '../../ui/elements/xxx.js';
 
-@component({
-  components: [TiniXXXComponent],
+@element({
+  elements: [TiniXXXElement],
 })
-export class AppPageUIDevXXXComponent extends TiniComponent {
+export class AppPageUIDevXXXElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-xxx';
 
   protected render() {

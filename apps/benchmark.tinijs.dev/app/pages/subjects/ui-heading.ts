@@ -1,11 +1,11 @@
 import {html, css} from 'lit';
 
-import {page, TiniComponent} from '@tinijs/core';
+import {page, TiniElement} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
 import {useSearchParams} from '@tinijs/router';
 
-import {TiniTextComponent} from '../../ui/components/text.js';
-import {TiniHeadingComponent} from '../../ui/components/heading.js';
+import {TiniTextElement} from '../../ui/elements/text.js';
+import {TiniHeadingElement} from '../../ui/elements/heading.js';
 
 import {repeat} from '../../utils/subject.js';
 
@@ -13,10 +13,10 @@ import {HEADING_SUBJECT} from '../../subjects.js';
 
 @page({
   name: 'app-page-ui-heading',
-  components: [TiniTextComponent, TiniHeadingComponent],
+  elements: [TiniTextElement, TiniHeadingElement],
 })
-export class AppPageUIHeading
-  extends TiniComponent
+export class AppPageUIHeadingElement
+  extends TiniElement
   implements PageWithMetadata
 {
   readonly metadata = {

@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Button",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
@@ -10,12 +10,12 @@ Use buttons to trigger actions.
 
 ## Import
 
-<app-component-import componentName="button"></app-component-import>
+<app-element-import elementName="button"></app-element-import>
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'button',
     sections: [
       {

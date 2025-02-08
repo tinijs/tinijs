@@ -2,13 +2,13 @@
 {
   "status": "draft",
   "title": "Dialog",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Import
 
-<app-component-import componentName="dialog"></app-component-import>
+<app-element-import elementName="dialog"></app-element-import>
 
 ## Usage
 

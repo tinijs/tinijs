@@ -1,0 +1,72 @@
+import {html, css} from 'lit';
+import {property} from 'lit/decorators/property.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
+import JSON5 from 'json5';
+
+import {
+  element,
+  event,
+  TiniElement,
+  EventEmitter,
+  type OnCreate,
+  type OnChanges,
+} from '@tinijs/core';
+
+import {TiniTextareaElement} from '../../ui/elements/textarea.js';
+
+@element({
+  elements: [TiniTextareaElement],
+})
+export class AppElementEditorJSElement
+  extends TiniElement
+  implements OnCreate, OnChanges
+{
+  static readonly defaultTagName = 'app-element-editor-js';
+
+  @property() label!: string;
+  @property() placeholder?: string;
+
+  @property() target!: string;
+  @property({type: Object}) value?: Record<string, any>;
+
+  @event() change!: EventEmitter<Record<string, any>>;
+
+  onCreate() {
+    if (!this.label) throw new Error('label is required');
+    if (!this.target) throw new Error('target is required');
+  }
+
+  private displayValue?: string;
+  onChanges() {
+    this.displayValue = !this.value ? '' : JSON5.stringify(this.value, null, 2);
+  }
+
+  protected render() {
+    return html`
+      <tini-textarea
+        label=${this.label}
+        placeholder=${ifDefined(this.placeholder)}
+        .value=${this.displayValue}
+        events="change"
+        @change=${({detail}: CustomEvent<InputEvent>) =>
+          this.change.emit(JSON5.parse((detail as any).target.value))}
+      ></tini-textarea>
+    `;
+  }
+
+  static styles = css`
+    tini-textarea {
+      &::part(label) {
+        font-weight: bold;
+        font-size: var(--text-xs);
+        text-transform: uppercase;
+      }
+
+      &::part(textarea) {
+        height: 120px;
+        font-family: var(--font-code);
+        font-size: var(--text-sm);
+      }
+    }
+  `;
+}

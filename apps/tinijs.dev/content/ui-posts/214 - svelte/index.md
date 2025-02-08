@@ -14,15 +14,15 @@ Try an online example: [Tini UI - Svelte Playground](https://stackblitz.com/edit
 
 ```ts
 import { setupUI, availableSkins } from '@tinijs/ui-bootstrap/setup.js';
-import { availableComponents } from '@tinijs/ui-bootstrap/component.js';
+import { availableElements } from '@tinijs/ui-bootstrap/element.js';
 
 setupUI({
   skins: availableSkins,
-  components: availableComponents,
+  elements: availableElements,
 });
 ```
 
-- **Step 2**: Use Tini UI components in templates
+- **Step 2**: Use Tini UI elements in templates
 
 ```html
 <tini-text color="success">Lorem ipsum</tini-text>

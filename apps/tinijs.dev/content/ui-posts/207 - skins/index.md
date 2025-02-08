@@ -88,6 +88,6 @@ Based on the basic variables above, the system will generate other variables aut
 
 At this level, you can fine tune a skin futher by providing above variables manually.
 
-### Level 3 - Component variables
+### Level 3 - Element variables
 
-Skins can also provide variables for specific components.
+Skins can also provide variables for specific elements.

@@ -2,24 +2,24 @@ import {html, css, nothing} from 'lit';
 import {property} from 'lit/decorators/property.js';
 import {ref, createRef} from 'lit/directives/ref.js';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
 import {UIConsumerTargets} from '../../../app/consts/common.js';
 
-import {AppComponentUsageComponent} from '../../../app/components/component-usage.js';
-import {TiniButtonComponent} from '../../../app/ui/components/button.js';
-import {TiniCodeComponent} from '../../../app/ui/components/code.js';
-import {TiniDialogComponent} from '../../../app/ui/components/dialog.js';
+import {AppElementUsageElement} from '../../../app/elements/element-usage.js';
+import {TiniButtonElement} from '../../../app/ui/elements/button.js';
+import {TiniCodeElement} from '../../../app/ui/elements/code.js';
+import {TiniDialogElement} from '../../../app/ui/elements/dialog.js';
 
-@component({
-  components: [
-    TiniButtonComponent,
-    TiniCodeComponent,
-    TiniDialogComponent,
-    AppComponentUsageComponent,
+@element({
+  elements: [
+    TiniButtonElement,
+    TiniCodeElement,
+    TiniDialogElement,
+    AppElementUsageElement,
   ],
 })
-export class ContentUIPostDialogComponent extends TiniComponent {
+export class ContentUIPostDialogElement extends TiniElement {
   static readonly defaultTagName = 'content-ui-post-dialog';
 
   @property() block!: string;
@@ -28,7 +28,7 @@ export class ContentUIPostDialogComponent extends TiniComponent {
     if (!this.block) throw new Error('block is required');
   }
 
-  private readonly alertDialogRef = createRef<TiniDialogComponent>();
+  private readonly alertDialogRef = createRef<TiniDialogElement>();
 
   protected render() {
     switch (this.block) {
@@ -45,11 +45,11 @@ export class ContentUIPostDialogComponent extends TiniComponent {
         language="javascript"
         content=${`import { ref, createRef } from 'lit/directives/ref.js';
 
-import { type TiniDialogComponent } from 'path/to/components/dialog.js';
+import { type TiniDialogElement } from 'path/to/elements/dialog.js';
 
-class XXX extends TiniComponent {
+class XXX extends TiniElement {
 
-  private readonly dialogRef = createRef<TiniDialogComponent>();
+  private readonly dialogRef = createRef<TiniDialogElement>();
 
   showDialog() {
     this.dialogRef.value!.show();
@@ -83,7 +83,7 @@ class XXX extends TiniComponent {
     const svelteCode = html`TODO: Svelte`;
     const vanillaCode = html`TODO: Vanilla`;
     return html`
-      <app-component-usage
+      <app-element-usage
         .codes=${[
           {
             [UIConsumerTargets.Tini]: tiniCode,
@@ -108,7 +108,7 @@ class XXX extends TiniComponent {
         >
           <p>Alert dialog content.</p>
         </tini-dialog>
-      </app-component-usage>
+      </app-element-usage>
     `;
   }
 

@@ -1,4 +1,4 @@
-import {registerGlobalHook, ComponentTypes, LifecycleHooks} from '@tinijs/core';
+import {registerGlobalHook, ElementTypes, LifecycleHooks} from '@tinijs/core';
 
 import {GLOBAL_TINI} from './consts.js';
 import {
@@ -40,7 +40,7 @@ export function initMeta(options?: MetaOptions) {
   // auto page metadata
   if (options?.autoPageMetadata) {
     registerGlobalHook(
-      ComponentTypes.Page,
+      ElementTypes.Page,
       LifecycleHooks.OnReady,
       ({source, app}) =>
         (app as (typeof GLOBAL_TINI)['clientApp'])?.meta?.setPageMetadata(

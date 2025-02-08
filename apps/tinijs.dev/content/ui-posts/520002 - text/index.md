@@ -2,13 +2,13 @@
 {
   "status": "publish",
   "title": "Text",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Import
 
-<app-component-import componentName="text"></app-component-import>
+<app-element-import elementName="text"></app-element-import>
 
 ## Editor
 
@@ -53,12 +53,12 @@ Using `tini-text` is fine for most cases, but if you need to render a lot of tex
 
 ### Using `tini-text`
 
-<app-component-benchmark reportId="ui-text"></app-component-benchmark>
+<app-element-benchmark reportId="ui-text"></app-element-benchmark>
 
 ### Using classes
 
-<app-component-benchmark reportId="ui-text-class"></app-component-benchmark>
+<app-element-benchmark reportId="ui-text-class"></app-element-benchmark>
 
 ### Using inline styles
 
-<app-component-benchmark reportId="ui-text-inline"></app-component-benchmark>
+<app-element-benchmark reportId="ui-text-inline"></app-element-benchmark>

@@ -1,6 +1,6 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/message.js';
+import {defaultStyles} from '../../../elements/message.js';
 
 export const styles = defaultStyles.extends({
   statics: css``,

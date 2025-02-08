@@ -1,11 +1,11 @@
 import {html, css} from 'lit';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
 import {
-  TiniBreadcrumbsComponent,
+  TiniBreadcrumbsElement,
   type BreadcrumbsItem,
-} from '../../ui/components/breadcrumbs.js';
+} from '../../ui/elements/breadcrumbs.js';
 
 const ITEMS: BreadcrumbsItem[] = [
   {content: 'Home', href: '#home'},
@@ -13,10 +13,10 @@ const ITEMS: BreadcrumbsItem[] = [
   {content: 'Data', href: '#data'},
 ];
 
-@component({
-  components: [TiniBreadcrumbsComponent],
+@element({
+  elements: [TiniBreadcrumbsElement],
 })
-export class AppPageUIDevBreadcrumbsComponent extends TiniComponent {
+export class AppPageUIDevBreadcrumbsElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-breadcrumbs';
 
   protected render() {

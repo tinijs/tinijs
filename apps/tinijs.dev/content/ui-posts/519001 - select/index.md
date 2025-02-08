@@ -2,14 +2,14 @@
 {
   "status": "draft",
   "title": "Select",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'select',
     sections: [
       {

@@ -42,12 +42,12 @@ export function parseAndMergeEventForwardings(
 }
 
 export function forwardEvents(
-  elem: TiniElement,
+  element: TiniElement,
   forwardings: EventForwarding[]
 ) {
-  const renderRoot = elem.shadowRoot || elem;
-  const customMainSelector = (elem.constructor as typeof TiniElement)
-    .componentMetadata.customMainSelector as undefined | string;
+  const renderRoot = element.shadowRoot || element;
+  const customMainSelector = (element.constructor as typeof TiniElement)
+    .elementMetadata.customMainSelector as undefined | string;
   forwardings.forEach(
     ({
       name,
@@ -72,7 +72,7 @@ export function forwardEvents(
         forwardedEvents[customEventName] = e => {
           if (!keepPropagation) e.stopPropagation();
           if (preventDefault) e.preventDefault();
-          elem.emitEvent(customEventName, e, dispatchOptions);
+          element.emitEvent(customEventName, e, dispatchOptions);
         };
         targetNode.addEventListener(name, forwardedEvents[customEventName]);
       });

@@ -1,14 +1,14 @@
 import {html, css, nothing} from 'lit';
 import {property} from 'lit/decorators/property.js';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {AppComponentEditorComponent} from '../../../app/components/component-editor/index.js';
+import {AppElementEditorElement} from '../../../app/elements/element-editor/index.js';
 
-@component({
-  components: [AppComponentEditorComponent],
+@element({
+  elements: [AppElementEditorElement],
 })
-export class ContentUIPostGridComponent extends TiniComponent {
+export class ContentUIPostGridElement extends TiniElement {
   static readonly defaultTagName = 'content-ui-post-grid';
 
   @property() block!: string;
@@ -33,7 +33,7 @@ export class ContentUIPostGridComponent extends TiniComponent {
 <tini-box gridArea="side" width="120px" background="body-subtle">Side</tini-box>
 <tini-box gridArea="footer" height="64px" background="body-subtle">Footer</tini-box>`;
     return html`
-      <app-component-editor
+      <app-element-editor
         name="grid"
         .examples=${{
           row: {
@@ -89,7 +89,7 @@ export class ContentUIPostGridComponent extends TiniComponent {
             },
           },
         ]}
-      ></app-component-editor>
+      ></app-element-editor>
     `;
   }
 

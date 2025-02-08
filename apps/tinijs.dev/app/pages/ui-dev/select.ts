@@ -1,13 +1,13 @@
 import {html, css} from 'lit';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniSelectComponent} from '../../ui/components/select.js';
+import {TiniSelectElement} from '../../ui/elements/select.js';
 
-@component({
-  components: [TiniSelectComponent],
+@element({
+  elements: [TiniSelectElement],
 })
-export class AppPageUIDevSelectComponent extends TiniComponent {
+export class AppPageUIDevSelectElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-select';
 
   protected render() {

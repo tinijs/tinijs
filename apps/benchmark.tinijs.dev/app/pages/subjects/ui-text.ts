@@ -1,10 +1,10 @@
 import {html, css} from 'lit';
 
-import {page, TiniComponent} from '@tinijs/core';
+import {page, TiniElement} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
 import {useSearchParams} from '@tinijs/router';
 
-import {TiniTextComponent} from '../../ui/components/text.js';
+import {TiniTextElement} from '../../ui/elements/text.js';
 
 import {repeat} from '../../utils/subject.js';
 
@@ -12,9 +12,12 @@ import {TEXT_SUBJECT} from '../../subjects.js';
 
 @page({
   name: 'app-page-ui-text',
-  components: [TiniTextComponent],
+  elements: [TiniTextElement],
 })
-export class AppPageUIText extends TiniComponent implements PageWithMetadata {
+export class AppPageUITextElement
+  extends TiniElement
+  implements PageWithMetadata
+{
   readonly metadata = {
     title: TEXT_SUBJECT.title,
     description: TEXT_SUBJECT.desc,

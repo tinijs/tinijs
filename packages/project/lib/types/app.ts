@@ -12,7 +12,7 @@ export interface AppDirs {
   classes?: string;
   layouts?: string;
   pages?: string;
-  components?: string;
+  elements?: string;
   icons?: string;
   partials?: string;
   services?: string;

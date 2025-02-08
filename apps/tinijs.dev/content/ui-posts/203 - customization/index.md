@@ -6,7 +6,7 @@
 }
 +++
 
-To customize UI packages and components, there are several ways:
+To customize UI packages and elements, there are several ways:
 
 1. Override skin variables
 2. Use parts
@@ -38,7 +38,7 @@ const ui = setupUI({
 
 ## Use parts
 
-Use `::part()` selector to target a specific part of a component, this is the standard way to customize custom elements.
+Use `::part()` selector to target a specific part of a element, this is the standard way to customize custom elements.
 
 ```css
 tini-button::part(main) {
@@ -48,7 +48,7 @@ tini-button::part(main) {
 
 ## Use `styleDeep` attribute
 
-Write CSS to target any element inside a component shadow DOM.
+Write CSS to target any element inside a element shadow DOM.
 
 ```ts
 class XXX {

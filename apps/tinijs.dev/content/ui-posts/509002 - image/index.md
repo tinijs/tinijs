@@ -2,13 +2,13 @@
 {
   "status": "publish",
   "title": "Image",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Import
 
-<app-component-import componentName="image"></app-component-import>
+<app-element-import elementName="image"></app-element-import>
 
 ## Editor
 
@@ -65,4 +65,4 @@
 
 ## Benchmark
 
-<app-component-benchmark reportId="ui-image"></app-component-benchmark>
+<app-element-benchmark reportId="ui-image"></app-element-benchmark>

@@ -1,56 +1,56 @@
 import {html, css} from 'lit';
 
-import {AppThemeSelectorComponent} from '../../../app/components/theme-selector.js';
-import {TiniBoxComponent} from '../../../app/ui/components/box.js';
-import {TiniFlexComponent} from '../../../app/ui/components/flex.js';
-import {TiniGridComponent} from '../../../app/ui/components/grid.js';
-import {TiniContainerComponent} from '../../../app/ui/components/container.js';
-import {TiniTextComponent} from '../../../app/ui/components/text.js';
-import {TiniHeadingComponent} from '../../../app/ui/components/heading.js';
-import {TiniLinkComponent} from '../../../app/ui/components/link.js';
-import {TiniImageComponent} from '../../../app/ui/components/image.js';
-import {TiniTableComponent} from '../../../app/ui/components/table.js';
-import {TiniEmbedComponent} from '../../../app/ui/components/embed.js';
-import {TiniCodeComponent} from '../../../app/ui/components/code.js';
-import {TiniSkeletonComponent} from '../../../app/ui/components/skeleton.js';
-import {TiniIconComponent} from '../../../app/ui/components/icon.js';
-import {TiniBadgeComponent} from '../../../app/ui/components/badge.js';
-import {TiniButtonComponent} from '../../../app/ui/components/button.js';
+import {AppThemeSelectorElement} from '../../../app/elements/theme-selector.js';
+import {TiniBoxElement} from '../../../app/ui/elements/box.js';
+import {TiniFlexElement} from '../../../app/ui/elements/flex.js';
+import {TiniGridElement} from '../../../app/ui/elements/grid.js';
+import {TiniContainerElement} from '../../../app/ui/elements/container.js';
+import {TiniTextElement} from '../../../app/ui/elements/text.js';
+import {TiniHeadingElement} from '../../../app/ui/elements/heading.js';
+import {TiniLinkElement} from '../../../app/ui/elements/link.js';
+import {TiniImageElement} from '../../../app/ui/elements/image.js';
+import {TiniTableElement} from '../../../app/ui/elements/table.js';
+import {TiniEmbedElement} from '../../../app/ui/elements/embed.js';
+import {TiniCodeElement} from '../../../app/ui/elements/code.js';
+import {TiniSkeletonElement} from '../../../app/ui/elements/skeleton.js';
+import {TiniIconElement} from '../../../app/ui/elements/icon.js';
+import {TiniBadgeElement} from '../../../app/ui/elements/badge.js';
+import {TiniButtonElement} from '../../../app/ui/elements/button.js';
 
-import {component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
 const ICON_SRC =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 16 16'%3E%3Cpath fill='%23000' fill-rule='evenodd' d='M8 1.314C12.438-3.248 23.534 4.735 8 15C-7.534 4.736 3.562-3.248 8 1.314'/%3E%3C/svg%3E";
 
-@component({
-  components: [
-    AppThemeSelectorComponent,
-    TiniBoxComponent,
-    TiniFlexComponent,
-    TiniGridComponent,
-    TiniContainerComponent,
-    TiniTextComponent,
-    TiniHeadingComponent,
-    TiniLinkComponent,
-    TiniImageComponent,
-    TiniTableComponent,
-    TiniEmbedComponent,
-    TiniCodeComponent,
-    TiniSkeletonComponent,
-    TiniIconComponent,
-    TiniBadgeComponent,
-    TiniButtonComponent,
+@element({
+  elements: [
+    AppThemeSelectorElement,
+    TiniBoxElement,
+    TiniFlexElement,
+    TiniGridElement,
+    TiniContainerElement,
+    TiniTextElement,
+    TiniHeadingElement,
+    TiniLinkElement,
+    TiniImageElement,
+    TiniTableElement,
+    TiniEmbedElement,
+    TiniCodeElement,
+    TiniSkeletonElement,
+    TiniIconElement,
+    TiniBadgeElement,
+    TiniButtonElement,
   ],
 })
-export class ContentUIPostPlaygroundComponent extends TiniComponent {
+export class ContentUIPostPlaygroundElement extends TiniElement {
   static readonly defaultTagName = 'content-ui-post-playground';
 
   protected render() {
     return html`
       <article>
         <p>
-          This playground serves a quick tour of how components look and behave
-          in different variants and theme families.
+          This playground serves a quick tour of how elements look and behave in
+          different variants and theme families.
         </p>
         <p>
           For interactive playgrounds using different frameworks, please check
@@ -96,7 +96,7 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
         <p>
           <em
             >Note: use the theme selector below or in the Skin Editor panel to
-            see how components will works in their respective theme family.</em
+            see how elements will works in their respective theme family.</em
           >
         </p>
       </article>
@@ -405,7 +405,7 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
         </div>
       </section>
 
-      <section>
+      <section class="tini-link-section">
         <h3>
           <span>Link</span>
           <a href="/ui/link">Detail</a>
@@ -413,13 +413,9 @@ export class ContentUIPostPlaygroundComponent extends TiniComponent {
         <div class="content">
           <tini-link href="#">An utility for link</tini-link><br />
           <tini-link href="#" disabled>Disabled link</tini-link><br />
-          <tini-link href="#" italic>Italic link</tini-link><br />
-          <tini-link href="#" color="success">Color link</tini-link><br />
-          <tini-link href="#" gradient="danger" size="xl"
-            >Big gradient link</tini-link
-          ><br />
-          <tini-link href="#" size="xs">Small link</tini-link><br />
-          <tini-link href="#" noUnderline>Force no underline</tini-link><br />
+          <tini-link activeStartsAuto href="/ui/playground"
+            >Active link</tini-link
+          >
         </div>
       </section>
 
@@ -684,6 +680,11 @@ function sayHello() {
       border-top: 1px solid var(--color-body-semi);
       border-bottom: 1px solid var(--color-body-semi);
       font-size: var(--text-lg);
+      font-weight: bold;
+    }
+
+    .tini-link-section tini-link[linkIsActive]::part(a) {
+      color: var(--color-success);
       font-weight: bold;
     }
   `;

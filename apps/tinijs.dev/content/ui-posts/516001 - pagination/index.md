@@ -2,14 +2,14 @@
 {
   "status": "draft",
   "title": "Pagination",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'pagination',
     sections: [
       {

@@ -2,13 +2,13 @@
 {
   "status": "publish",
   "title": "Link",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Import
 
-<app-component-import componentName="link"></app-component-import>
+<app-element-import elementName="link"></app-element-import>
 
 ## Editor
 
@@ -42,7 +42,7 @@
 
 ### Handle active links
 
-By default the `tini-link` component acts similar to the native anchor element, but with the ability to handle the active status of the link. The active status can be set by using the `activeFull`, `activeStartsAuto`, `activeStartsWith`, `activeEndsWith`, `activePatterns` and `activeIncludesSearchParams` properties.
+By default the `tini-link` element acts similar to the native anchor element, but with the ability to handle the active status of the link. The active status can be set by using the `activeFull`, `activeStartsAuto`, `activeStartsWith`, `activeEndsWith`, `activePatterns` and `activeIncludesSearchParams` properties.
 
 The active status is evaluated initially and updated on route changes, reflected by the `linkIsActive` attribute, therefore it can be used to style the link based on its active status.
 
@@ -58,4 +58,4 @@ tini-link[linkIsActive]::part(a) {
 
 ## Benchmark
 
-<app-component-benchmark reportId="ui-link"></app-component-benchmark>
+<app-element-benchmark reportId="ui-link"></app-element-benchmark>

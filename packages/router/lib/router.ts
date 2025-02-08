@@ -13,7 +13,7 @@ import type {
 } from './types.js';
 import {ROUTER_OUTLET_TAG_NAME, ROUTE_CHANGE_EVENT} from './consts.js';
 import {go, redirect, back, forward, requestChange} from './methods.js';
-import {RouterOutletComponent} from './router-outlet.js';
+import {RouterOutletElement} from './router-outlet.js';
 
 export class Router {
   private readonly NOT_FOUND_PATH = '/**';
@@ -281,7 +281,7 @@ export class Router {
 
   private registerOutlet() {
     if (customElements.get(ROUTER_OUTLET_TAG_NAME)) return;
-    customElements.define(ROUTER_OUTLET_TAG_NAME, RouterOutletComponent);
+    customElements.define(ROUTER_OUTLET_TAG_NAME, RouterOutletElement);
   }
 
   private registerTriggers() {

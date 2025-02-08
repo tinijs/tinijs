@@ -1,10 +1,10 @@
 import {html, css} from 'lit';
 
-import {page, TiniComponent} from '@tinijs/core';
+import {page, TiniElement} from '@tinijs/core';
 import type {PageWithMetadata} from '@tinijs/meta';
 import {useSearchParams} from '@tinijs/router';
 
-import {TiniFlexComponent} from '../../ui/components/flex.js';
+import {TiniFlexElement} from '../../ui/elements/flex.js';
 
 import {repeat} from '../../utils/subject.js';
 
@@ -44,9 +44,12 @@ const CONTAINER_PROPS = {
 
 @page({
   name: 'app-page-ui-flex',
-  components: [TiniFlexComponent],
+  elements: [TiniFlexElement],
 })
-export class AppPageUIFlex extends TiniComponent implements PageWithMetadata {
+export class AppPageUIFlexElement
+  extends TiniElement
+  implements PageWithMetadata
+{
   readonly metadata = {
     title: FLEX_SUBJECT.title,
     description: FLEX_SUBJECT.desc,
