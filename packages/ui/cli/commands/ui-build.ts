@@ -11,18 +11,19 @@ import {
 import {TINI_CONFIG_TS_FILE} from '@tinijs/project';
 
 import {
-  listAvailableComponents,
+  listAvailableElements,
   listAvailableThemeFamilies,
   buildGlobals,
   buildSkins,
   buildBases,
-  buildComponents,
+  buildElements,
   buildSetup,
+  buildLit,
   buildPackageJSON,
   transpileAndRemoveTSFiles,
   buildBundled,
   DEFAULT_OUT_DIR,
-  type AvailableComponentsAndThemeFamilies,
+  type AvailableElementsAndThemeFamilies,
 } from '../utils/build.js';
 import {buildIcons} from '../utils/icon.js';
 
@@ -43,7 +44,7 @@ export const uiBuildCommand = createCLICommand(
     if (!uiConfig) return callbacks?.onNoConfig?.();
     const cachedAvailable = {} as Record<
       string,
-      AvailableComponentsAndThemeFamilies
+      AvailableElementsAndThemeFamilies
     >;
     const packConfigs = [uiConfig].concat(
       !uiConfig.outPacks
@@ -64,12 +65,12 @@ export const uiBuildCommand = createCLICommand(
       packCount++;
       callbacks?.onStartPack?.(outDir);
 
-      // load available components and theme families
+      // load available elements and theme families
       const {
-        components: availableComponents,
+        elements: availableElements,
         themeFamilies: availableThemeFamilies,
       } = (cachedAvailable[config.sources.join(',')] ||= {
-        components: await listAvailableComponents(config.sources),
+        elements: await listAvailableElements(config.sources),
         themeFamilies: await listAvailableThemeFamilies(config.sources),
       });
 
@@ -93,14 +94,14 @@ export const uiBuildCommand = createCLICommand(
       );
       results.push(...baseResults);
 
-      // build components
-      const componentResults = await buildComponents(
+      // build elements
+      const elementResults = await buildElements(
         outDirPath,
-        availableComponents,
+        availableElements,
         availableThemeFamilies,
         config
       );
-      results.push(...componentResults);
+      results.push(...elementResults);
 
       // build icons
       const {results: iconResults, indexJSON: iconIndexJSON} =
@@ -110,6 +111,10 @@ export const uiBuildCommand = createCLICommand(
       // build setup
       const setupResult = await buildSetup(config);
       results.push(setupResult);
+
+      // build Lit
+      const litResult = await buildLit();
+      results.push(litResult);
 
       // build package.json
       if (config.packageJSON) {

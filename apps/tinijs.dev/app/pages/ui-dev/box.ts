@@ -1,13 +1,13 @@
 import {html, css} from 'lit';
 
-import {Component, TiniComponent, Shadows} from '@tinijs/core';
+import {element, TiniElement, Shadows} from '@tinijs/core';
 
-import {TiniBoxComponent} from '../../ui/components/box.js';
+import {TiniBoxElement} from '../../ui/elements/box.js';
 
-@Component({
-  components: [TiniBoxComponent],
+@element({
+  elements: [TiniBoxElement],
 })
-export class AppPageUIDevBoxComponent extends TiniComponent {
+export class AppPageUIDevBoxElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-box';
 
   protected render() {
@@ -47,7 +47,7 @@ export class AppPageUIDevBoxComponent extends TiniComponent {
             width="xs2"
             height="4rem"
             padding="md"
-            >None</tini-box
+            >Zero</tini-box
           >
           <tini-box background="#3b82f6" width="xs2" height="4rem" padding="md"
             >Default</tini-box

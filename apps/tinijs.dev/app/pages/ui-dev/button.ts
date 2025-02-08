@@ -1,13 +1,13 @@
 import {html, css} from 'lit';
 
-import {Component, TiniComponent, Colors, Gradients, Sizes} from '@tinijs/core';
+import {element, TiniElement, Colors, Gradients, Sizes} from '@tinijs/core';
 
-import {TiniButtonComponent} from '../../ui/components/button.js';
+import {TiniButtonElement} from '../../ui/elements/button.js';
 
-@Component({
-  components: [TiniButtonComponent],
+@element({
+  elements: [TiniButtonElement],
 })
-export class AppPageUIDevButtonComponent extends TiniComponent {
+export class AppPageUIDevButtonElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-button';
 
   protected render() {
@@ -27,24 +27,24 @@ export class AppPageUIDevButtonComponent extends TiniComponent {
         <tini-button block href="#" disabled>Link (disabled)</tini-button>
       </ui-dev-section>
 
-      <ui-dev-section titleText="Schemes">
+      <ui-dev-section titleText="Colors and gradients">
         ${Object.values(Colors).map(
-          scheme =>
-            html`<tini-button scheme=${scheme}>${scheme}</tini-button>
-              <tini-button scheme=${`${scheme}-subtle`}
-                >${scheme}-subtle</tini-button
+          color =>
+            html`<tini-button color=${color}>${color}</tini-button>
+              <tini-button color=${`${color}-subtle`}
+                >${color}-subtle</tini-button
               >
-              <tini-button scheme=${`${scheme}-contrast`}
-                >${scheme}-contrast</tini-button
+              <tini-button color=${`${color}-contrast`}
+                >${color}-contrast</tini-button
               > `
         )}
         ${Object.values(Gradients).map(
-          scheme =>
-            html`<tini-button scheme=${scheme}>${scheme}</tini-button
-              ><tini-button scheme=${`${scheme}-subtle`}
-                >${scheme}-subtle</tini-button
-              ><tini-button scheme=${`${scheme}-contrast`}
-                >${scheme}-contrast</tini-button
+          gradient =>
+            html`<tini-button gradient=${gradient}>${gradient}</tini-button
+              ><tini-button gradient=${`${gradient}-subtle`}
+                >${gradient}-subtle</tini-button
+              ><tini-button gradient=${`${gradient}-contrast`}
+                >${gradient}-contrast</tini-button
               >`
         )}
       </ui-dev-section>

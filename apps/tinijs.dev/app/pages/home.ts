@@ -1,26 +1,26 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent, Colors, Gradients} from '@tinijs/core';
-import {UseRouter, Router} from '@tinijs/router';
-import {TiniTextComponent} from '../ui/components/text.js';
-import {TiniButtonComponent} from '../ui/components/button.js';
-import {TiniEmbedComponent} from '../ui/components/embed.js';
+import {page, TiniElement, Colors} from '@tinijs/core';
+import {useRouter, Router} from '@tinijs/router';
+import {TiniTextElement} from '../ui/elements/text.js';
+import {TiniButtonElement} from '../ui/elements/button.js';
+import {TiniEmbedElement} from '../ui/elements/embed.js';
 
-import {IconHeartComponent} from '../icons/heart.js';
+import {IconHeartElement} from '../icons/heart.js';
 
 import {LOGO_URL} from '../consts/common.js';
 
-@Page({
+@page({
   name: 'app-page-home',
-  components: [
-    TiniTextComponent,
-    TiniButtonComponent,
-    TiniEmbedComponent,
-    IconHeartComponent,
+  elements: [
+    TiniTextElement,
+    TiniButtonElement,
+    TiniEmbedElement,
+    IconHeartElement,
   ],
 })
-export class AppPageHome extends TiniComponent {
-  @UseRouter() readonly router!: Router;
+export class AppPageHomeElement extends TiniElement {
+  @useRouter() readonly router!: Router;
 
   protected render() {
     return html`
@@ -33,11 +33,10 @@ export class AppPageHome extends TiniComponent {
           <h2 style="margin-bottom: 0">
             <tini-text
               size="xl3"
-              weight="bold"
-              color=${Gradients.Body}
-              style="--gradient: var(--gradient-kale-salad)"
+              weight="700"
+              gradient="var(--gradient-kale-salad)"
               >Tini</tini-text
-            ><br />Web Components Framework
+            ><br />Web Elements Framework
           </h2>
           <p>
             A small, fast and interoperable framework for building
@@ -47,12 +46,12 @@ export class AppPageHome extends TiniComponent {
           </p>
           <div class="actions">
             <tini-button
-              scheme=${Colors.Primary}
+              color=${Colors.Primary}
               @click=${() => this.router.go('/framework')}
               >Get started</tini-button
             >
             <tini-button
-              scheme=${Colors.Medium}
+              color=${Colors.Medium}
               href="https://github.com/tinijs/tinijs"
               target="_blank"
               >View on Github</tini-button
@@ -76,7 +75,7 @@ export class AppPageHome extends TiniComponent {
             <div class="icon">🎨</div>
             <h3>UI</h3>
             <p>
-              A collection of reusable components, blocks, layouts, pages, ...
+              A collection of reusable elements, blocks, layouts, pages, ...
               with many design flavors.
             </p>
           </li>

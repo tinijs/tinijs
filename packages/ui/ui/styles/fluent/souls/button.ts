@@ -1,6 +1,6 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/button.js';
+import {defaultStyles} from '../../../elements/button.js';
 
 export const styles = defaultStyles.extends({
   statics: css`
@@ -11,7 +11,7 @@ export const styles = defaultStyles.extends({
     .main {
       padding: calc(var(--size) * 0.35) calc(var(--size) * 2);
       font-size: calc(var(--size) * 0.9);
-      font-weight: var(--weight-medium);
+      font-weight: 500;
     }
 
     :host(:focus-visible) .bg,

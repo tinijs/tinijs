@@ -29,6 +29,6 @@ const providers = {
 // inject
 import type {LocalstorageService} from '@tinijs/toolbox/localstorage';
 class XXX {
-  @Inject() localstorageService!: LocalstorageService;
+  @inject() localstorageService!: LocalstorageService;
 }
 ```

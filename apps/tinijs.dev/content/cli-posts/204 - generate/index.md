@@ -21,9 +21,9 @@ Support these types:
 - `service` - Groups of similar utilities, you can either import or inject them.
 - `layout` - Layouts for pages.
 - `page` - App pages for routing purpose.
-- `component` - Reusable app components implement the TiniComponent class.
-- `icon` - Reusable icon components.
-- `partial` - Small re-usable html tagged templates which can be included in components and pages.
+- `element` - Reusable app elements implement the TiniElement class.
+- `icon` - Reusable icon elements.
+- `partial` - Small re-usable html tagged templates which can be included in elements and pages.
 - `util` - Any type of shareable logic functions, depend on the pattern, you can either import or inject them.
 - `type` - Shared Typescript types.
 

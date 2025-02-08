@@ -2,21 +2,21 @@
 {
   "status": "draft",
   "title": "Card",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'card',
     sections: [
       {
         section: 'html',
         attrs: {label: 'Inner'},
         target: 'inner',
-        value: '<strong class="card-title">Card title</strong>\n<p>Some quick example text to build on the card title and make up the bulk of the card content.</p>\n<tini-button scheme="primary">Go somewhere</tini-button>'
+        value: '<strong class="card-title">Card title</strong>\n<p>Some quick example text to build on the card title and make up the bulk of the card content.</p>\n<tini-button color="primary">Go somewhere</tini-button>'
       },
       {
         section: 'switch',

@@ -20,6 +20,7 @@ function generateTextVars() {
     ['xl4', 4.5],
     ['xl5', 6],
     ['xl6', 7],
+    ['xl7', 10],
   ];
   return items
     .map(
@@ -27,18 +28,6 @@ function generateTextVars() {
         `--text-${name}: calc(var(--size-base) * var(--size-text) * ${value});`
     )
     .join(JOIN);
-}
-
-function generateWeightVars() {
-  const items: [string, number][] = [
-    ['thin', 100],
-    ['light', 300],
-    ['normal', 400],
-    ['medium', 500],
-    ['bold', 700],
-    ['black', 900],
-  ];
-  return items.map(([name, value]) => `--weight-${name}: ${value};`).join(JOIN);
 }
 
 function generateSizeVars() {
@@ -70,6 +59,7 @@ function generateSpaceVars() {
     ['xl4', 4.5],
     ['xl5', 6],
     ['xl6', 8],
+    ['xl7', 10],
   ];
   return (
     '--space-zero: 0;\n  ' +
@@ -171,23 +161,32 @@ function generateLetterVars() {
   return items.map(([name, value]) => `--letter-${name}: ${value};`).join(JOIN);
 }
 
+function generateWordVars() {
+  const items: [string, string][] = [
+    ['xs', '-0.25em'],
+    ['sm', '-0.15em'],
+    ['md', 'var(--size-word)'],
+    ['lg', '0.5em'],
+    ['xl', '1em'],
+  ];
+  return items.map(([name, value]) => `--word-${name}: ${value};`).join(JOIN);
+}
+
 function generateWideVars() {
   const items: [string, number][] = [
-    ['xs6', 48],
-    ['xs5', 72],
-    ['xs4', 96],
-    ['xs3', 150],
+    ['xs3', 240],
     ['xs2', 320],
     ['xs', 480],
     ['sm', 576],
     ['md', 768],
-    ['lg', 992],
-    ['xl', 1024],
-    ['xl2', 1200],
-    ['xl3', 1400],
+    ['lg', 1024],
+    ['xl', 1280],
+    ['xl2', 1440],
+    ['xl3', 1640],
     ['xl4', 1920],
     ['xl5', 2560],
     ['xl6', 3840],
+    ['xl7', 4096],
   ];
   return items.map(([name, value]) => `--wide-${name}: ${value}px;`).join(JOIN);
 }
@@ -199,7 +198,6 @@ function generateShadowVars() {
 export function getSkinUtils() {
   const fontVars = generateFontVars();
   const textVars = generateTextVars();
-  const weightVars = generateWeightVars();
   const sizeVars = generateSizeVars();
   const spaceVars = generateSpaceVars();
   const radiusVars = generateRadiusVars();
@@ -207,6 +205,7 @@ export function getSkinUtils() {
   const ringVars = generateOutlineVars();
   const lineVars = generateLineVars();
   const letterVars = generateLetterVars();
+  const wordVars = generateWordVars();
   const wideVars = generateWideVars();
   const shadowVars = generateShadowVars();
   return (
@@ -217,7 +216,6 @@ export function getSkinUtils() {
     minifyCSS(`:root {
   ${fontVars}
   ${textVars}
-  ${weightVars}
   ${sizeVars}
   ${spaceVars}
   ${radiusVars}
@@ -225,6 +223,7 @@ export function getSkinUtils() {
   ${ringVars}
   ${lineVars}
   ${letterVars}
+  ${wordVars}
   ${wideVars}
   ${shadowVars}
 }`)

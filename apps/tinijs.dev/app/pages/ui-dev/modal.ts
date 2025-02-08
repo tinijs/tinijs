@@ -1,21 +1,13 @@
-import {html, css, nothing} from 'lit';
+import {html, css} from 'lit';
 
-import {
-  Component,
-  TiniComponent,
-  Colors,
-  SubtleColors,
-  Gradients,
-  SubtleGradients,
-  Sizes,
-} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniModalComponent} from '../../ui/components/modal.js';
+import {TiniModalElement} from '../../ui/elements/modal.js';
 
-@Component({
-  components: [TiniModalComponent],
+@element({
+  elements: [TiniModalElement],
 })
-export class AppPageUIDevModalComponent extends TiniComponent {
+export class AppPageUIDevModalElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-modal';
 
   protected render() {

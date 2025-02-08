@@ -1,16 +1,17 @@
 import {html, css, nothing} from 'lit';
+import {property} from 'lit/decorators/property.js';
 
-import {Component, TiniComponent, Input} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {AppComponentEditorComponent} from '../../../app/components/component-editor/index.js';
+import {AppElementEditorElement} from '../../../app/elements/element-editor/index.js';
 
-@Component({
-  components: [AppComponentEditorComponent],
+@element({
+  elements: [AppElementEditorElement],
 })
-export class ContentUIPostGridComponent extends TiniComponent {
+export class ContentUIPostGridElement extends TiniElement {
   static readonly defaultTagName = 'content-ui-post-grid';
 
-  @Input() block!: string;
+  @property() block!: string;
 
   onCreate() {
     if (!this.block) throw new Error('block is required');
@@ -26,13 +27,13 @@ export class ContentUIPostGridComponent extends TiniComponent {
   }
 
   private renderEditorBlock() {
-    const holyGrailInner = `<tini-box gridArea="header" height="64px" background="body-subtle">Header</tini-box>
+    const holyGrailLayoutInner = `<tini-box gridArea="header" height="64px" background="body-subtle">Header</tini-box>
 <tini-box gridArea="nav" width="120px" background="body-subtle">Nav</tini-box>
 <tini-box gridArea="content" background="body-subtle">Content</tini-box>
 <tini-box gridArea="side" width="120px" background="body-subtle">Side</tini-box>
 <tini-box gridArea="footer" height="64px" background="body-subtle">Footer</tini-box>`;
     return html`
-      <app-component-editor
+      <app-element-editor
         name="grid"
         .examples=${{
           row: {
@@ -47,7 +48,7 @@ export class ContentUIPostGridComponent extends TiniComponent {
               },
               {target: 'gap', value: 'md'},
               {target: 'height', value: '250px'},
-              {target: 'inner', value: holyGrailInner},
+              {target: 'inner', value: holyGrailLayoutInner},
             ],
           },
         }}
@@ -88,7 +89,7 @@ export class ContentUIPostGridComponent extends TiniComponent {
             },
           },
         ]}
-      ></app-component-editor>
+      ></app-element-editor>
     `;
   }
 

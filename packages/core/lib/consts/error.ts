@@ -1,8 +1,8 @@
 export const NO_APP_ERROR = new Error(
-  'No TiniJS app available, please init via @App() decorator first.'
+  'No TiniJS app available, please init via @app() decorator first.'
 );
 export const DUPLICATED_APP_ERROR = new Error(
-  'A TiniJS app is already available, you must init @App() only once.'
+  'A TiniJS app is already available, you must init @app() only once.'
 );
 
 export const NO_REGISTER_ERROR = (id: string) =>

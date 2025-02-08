@@ -2,18 +2,18 @@
 {
   "status": "publish",
   "title": "Icon",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Import
 
-<app-component-import componentName="icon"></app-component-import>
+<app-element-import elementName="icon"></app-element-import>
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'icon',
     sections: [
       {
@@ -24,8 +24,13 @@
       },
       {
         section: 'select',
-        attrs: {label: 'Scheme', preset: 'allColorsAndAllGradients'},
-        target: 'scheme'
+        attrs: {label: 'Color', preset: 'schemableColors'},
+        target: 'color'
+      },
+      {
+        section: 'select',
+        attrs: {label: 'Gradient', preset: 'schemableGradients'},
+        target: 'gradient'
       },
       {
         section: 'select',

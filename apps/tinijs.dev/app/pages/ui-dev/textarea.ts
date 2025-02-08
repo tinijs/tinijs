@@ -1,21 +1,13 @@
-import {html, css, nothing} from 'lit';
+import {html, css} from 'lit';
 
-import {
-  Component,
-  TiniComponent,
-  Colors,
-  SubtleColors,
-  Gradients,
-  SubtleGradients,
-  Sizes,
-} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniTextareaComponent} from '../../ui/components/textarea.js';
+import {TiniTextareaElement} from '../../ui/elements/textarea.js';
 
-@Component({
-  components: [TiniTextareaComponent],
+@element({
+  elements: [TiniTextareaElement],
 })
-export class AppPageUIDevTextareaComponent extends TiniComponent {
+export class AppPageUIDevTextareaElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-textarea';
 
   protected render() {

@@ -11,7 +11,7 @@ export interface TemplateContext {
   srcDir: string;
   typePrefixed: boolean;
   nested: boolean;
-  componentPrefix: string;
+  elementPrefix: string;
 }
 
 export type TemplateGenerator = (
@@ -33,7 +33,7 @@ enum BuiltinTypes {
   Service = 'service',
   Layout = 'layout',
   Page = 'page',
-  Component = 'component',
+  Element = 'element',
   Icon = 'icon',
   Partial = 'partial',
   Util = 'util',
@@ -76,7 +76,7 @@ export const BUILTIN_GENERATORS: Record<string, TemplateGenerator> = {
     // TODO: generate spec file
     return [mainTemplate];
   },
-  [BuiltinTypes.Component]: async (context, tiniConfig) => {
+  [BuiltinTypes.Element]: async (context, tiniConfig) => {
     const mainTemplate = await generateBuiltinMainTemplate(context, tiniConfig);
     // TODO: generate spec file
     return [mainTemplate];
@@ -104,7 +104,7 @@ export const BUILTIN_GENERATORS: Record<string, TemplateGenerator> = {
 };
 
 async function generateBuiltinMainTemplate(
-  {type, dest, srcDir, typePrefixed, nested, componentPrefix}: TemplateContext,
+  {type, dest, srcDir, typePrefixed, nested, elementPrefix}: TemplateContext,
   tiniConfig: TiniConfig
 ) {
   const destArr = dest.replace(/\\/g, '/').split('/') as string[];
@@ -112,23 +112,25 @@ async function generateBuiltinMainTemplate(
     destArr[destArr.length - 1].split('.')[0],
     ({className, tagName}) => {
       const typePascalCase = pascalCase(type);
-      const prefixPascalCase = pascalCase(componentPrefix);
-      const isComponent = type === BuiltinTypes.Component;
-      const isLayoutOrPage =
-        type === BuiltinTypes.Layout || type === BuiltinTypes.Page;
+      const prefixPascalCase = pascalCase(elementPrefix);
+      const isElement = type === BuiltinTypes.Element;
+      const isLayoutOrPageOrIcon =
+        type === BuiltinTypes.Layout ||
+        type === BuiltinTypes.Page ||
+        type === BuiltinTypes.Icon;
       return {
-        tagName: isComponent
-          ? `${componentPrefix}-${tagName}`
-          : isLayoutOrPage
-            ? `${componentPrefix}-${type}-${tagName}`
+        tagName: isElement
+          ? `${elementPrefix}-${tagName}`
+          : isLayoutOrPageOrIcon
+            ? `${elementPrefix}-${type}-${tagName}`
             : tagName,
         className:
           type === BuiltinTypes.Service
             ? `${className}Service`
-            : isComponent
-              ? `${prefixPascalCase}${className}Component`
-              : isLayoutOrPage
-                ? `${prefixPascalCase}${typePascalCase}${className}`
+            : isElement
+              ? `${prefixPascalCase}${className}Element`
+              : isLayoutOrPageOrIcon
+                ? `${prefixPascalCase}${typePascalCase}${className}Element`
                 : className,
       };
     }
@@ -147,7 +149,7 @@ async function generateBuiltinMainTemplate(
       [BuiltinTypes.Service]: dirs.services,
       [BuiltinTypes.Layout]: dirs.layouts,
       [BuiltinTypes.Page]: dirs.pages,
-      [BuiltinTypes.Component]: dirs.components,
+      [BuiltinTypes.Element]: dirs.elements,
       [BuiltinTypes.Icon]: dirs.icons,
       [BuiltinTypes.Partial]: dirs.partials,
       [BuiltinTypes.Util]: dirs.utils,
@@ -187,8 +189,8 @@ async function generateBuiltinMainTemplate(
     case BuiltinTypes.Page:
       content = getPageMainContent(names);
       break;
-    case BuiltinTypes.Component:
-      content = getComponentMainContent(names);
+    case BuiltinTypes.Element:
+      content = getElementMainContent(names);
       break;
     case BuiltinTypes.Icon:
       content = getIconMainContent(names);
@@ -254,12 +256,12 @@ export default ${className};\n`;
 function getLayoutMainContent({className, tagName}: Names) {
   return `import {html, css} from 'lit';
 
-import {Layout, TiniComponent} from '@tinijs/core';
+import {layout, TiniElement} from '@tinijs/core';
 
-@Layout({
+@layout({
   name: '${tagName}',
 })
-export class ${className} extends TiniComponent {
+export class ${className} extends TiniElement {
 
   protected render() {
     return html\`<div class="page"><slot></slot></div>\`;
@@ -272,12 +274,12 @@ export class ${className} extends TiniComponent {
 function getPageMainContent({className, tagName}: Names) {
   return `import {html, css} from 'lit';
 
-import {Page, TiniComponent} from '@tinijs/core';
+import {page, TiniElement} from '@tinijs/core';
 
-@Page({
+@page({
   name: '${tagName}',
 })
-export class ${className} extends TiniComponent {
+export class ${className} extends TiniElement {
 
   protected render() {
     return html\`<p>${className}</p>\`;
@@ -287,25 +289,26 @@ export class ${className} extends TiniComponent {
 }\n`;
 }
 
-function getComponentMainContent({className, tagName}: Names) {
+function getElementMainContent({className, tagName}: Names) {
   return `import {html, css} from 'lit';
+import {property} from 'lit/decorators/property.js';
 
-import {Component, TiniComponent, Prop, Event, type EventEmitter, type OnCreate} from '@tinijs/core';
+import {element, event, TiniElement, type EventEmitter, type OnCreate} from '@tinijs/core';
 
-@Component()
-export class ${className} extends TiniComponent implements OnCreate {
+@element()
+export class ${className} extends TiniElement implements OnCreate {
   static readonly defaultTagName = '${tagName}';
 
-  @Prop() prop?: string;
+  @property() prop?: string;
 
-  @Event() event!: EventEmitter<any>;
+  @event() evt!: EventEmitter<any>;
 
   onCreate() {
     // element connected
   }
 
   emitEvent() {
-    this.event.emit('any payload');
+    this.evt.emit('any payload');
   }
 
   protected render() {
@@ -317,9 +320,9 @@ export class ${className} extends TiniComponent implements OnCreate {
 }
 
 function getIconMainContent({className, tagName}: Names) {
-  return `import {TiniIconComponent} from 'PACKAGE/components/icon.js';
+  return `import {TiniIconElement} from 'PACKAGE/elements/icon.js';
 
-export class Icon${className}Component extends TiniIconComponent {
+export class ${className} extends TiniIconElement {
   static readonly defaultTagName = 'icon-${tagName}';
   static readonly src = "URL/URI";
 }\n`;
@@ -328,8 +331,8 @@ export class Icon${className}Component extends TiniIconComponent {
 function getPartialMainContent({varName}: Names) {
   return `import {html} from 'lit';
 
-// Note: remember to registerComponents()
-// if you use other components in this partial
+// Note: remember to registerElements()
+// if you use other elements in this partial
 
 export function ${varName}Partial({
   custom = 'foo'

@@ -2,20 +2,20 @@
 {
   "status": "draft",
   "title": "Spinner",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'spinner',
     sections: [
       {
         section: 'select',
-        attrs: {label: 'Scheme', preset: 'colors'},
-        target: 'scheme'
+        attrs: {label: 'Color', preset: 'colors'},
+        target: 'color'
       },
       {
         section: 'select',

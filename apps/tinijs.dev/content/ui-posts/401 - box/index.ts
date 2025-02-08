@@ -1,33 +1,34 @@
 import {html, css, nothing} from 'lit';
+import {property} from 'lit/decorators/property.js';
 
-import {Component, TiniComponent, Input} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
 import {UIConsumerTargets} from '../../../app/consts/common.js';
 
-import {TiniBoxComponent} from '../../../app/ui/components/box.js';
-import {TiniFlexComponent} from '../../../app/ui/components/flex.js';
-import {TiniTextComponent} from '../../../app/ui/components/text.js';
-import {TiniImageComponent} from '../../../app/ui/components/image.js';
-import {TiniButtonComponent} from '../../../app/ui/components/button.js';
+import {TiniBoxElement} from '../../../app/ui/elements/box.js';
+import {TiniFlexElement} from '../../../app/ui/elements/flex.js';
+import {TiniTextElement} from '../../../app/ui/elements/text.js';
+import {TiniImageElement} from '../../../app/ui/elements/image.js';
+import {TiniButtonElement} from '../../../app/ui/elements/button.js';
 
-import {AppComponentEditorComponent} from '../../../app/components/component-editor/index.js';
-import {AppComponentUsageComponent} from '../../../app/components/component-usage.js';
+import {AppElementEditorElement} from '../../../app/elements/element-editor/index.js';
+import {AppElementUsageElement} from '../../../app/elements/element-usage.js';
 
-@Component({
-  components: [
-    TiniBoxComponent,
-    TiniFlexComponent,
-    TiniTextComponent,
-    TiniImageComponent,
-    TiniButtonComponent,
-    AppComponentEditorComponent,
-    AppComponentUsageComponent,
+@element({
+  elements: [
+    TiniBoxElement,
+    TiniFlexElement,
+    TiniTextElement,
+    TiniImageElement,
+    TiniButtonElement,
+    AppElementEditorElement,
+    AppElementUsageElement,
   ],
 })
-export class ContentUIPostBoxComponent extends TiniComponent {
+export class ContentUIPostBoxElement extends TiniElement {
   static readonly defaultTagName = 'content-ui-post-box';
 
-  @Input() block!: string;
+  @property() block!: string;
 
   onCreate() {
     if (!this.block) throw new Error('block is required');
@@ -46,7 +47,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
 
   private renderEditorBlock() {
     return html`
-      <app-component-editor
+      <app-element-editor
         name="box"
         .examples=${{
           paddings: {
@@ -57,7 +58,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
             ],
           },
           'backgroumd-color-padding-radius': {
-            content: 'Background, color and radius',
+            content: 'Background, text color and radius',
             items: [
               {target: 'padding', value: 'md'},
               {target: 'background', value: 'primary'},
@@ -65,7 +66,8 @@ export class ContentUIPostBoxComponent extends TiniComponent {
               {target: 'radius', value: 'md'},
               {
                 target: 'inner',
-                value: '<span>Box with primary background</span>',
+                value:
+                  '<span>Box with primary background and border radius</span>',
               },
             ],
           },
@@ -77,7 +79,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
               {target: 'margin', value: 'xl'},
               {
                 target: 'inner',
-                value: '<span>Box with extra-large margin</span>',
+                value: '<span>Box with extra large margin</span>',
               },
             ],
           },
@@ -91,6 +93,19 @@ export class ContentUIPostBoxComponent extends TiniComponent {
               {
                 target: 'inner',
                 value: '<span>Box with custom width and height</span>',
+              },
+            ],
+          },
+          ratio: {
+            content: 'Aspect ratio',
+            items: [
+              {target: 'padding', value: 'md'},
+              {target: 'background', value: 'body-subtle'},
+              {target: 'width', value: '250px'},
+              {target: 'ratio', value: '16/9'},
+              {
+                target: 'inner',
+                value: '<span>Box with 16/9 aspect ratio</span>',
               },
             ],
           },
@@ -176,7 +191,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
             },
           },
         ]}
-      ></app-component-editor>
+      ></app-element-editor>
     `;
   }
 
@@ -197,11 +212,11 @@ export class ContentUIPostBoxComponent extends TiniComponent {
     alt="ChitChat"
   />
   <div>
-    <div style="font-size: var(--text-lg); font-weight: var(--weight-medium);">ChitChat</div>
+    <div style="font-size: var(--text-lg); font-weight: 500;">ChitChat</div>
     <p style="color: var(--color-medium)">You have a new message!</p>
   </div>
 </div>`;
-    const example2 = `<!-- Example 2: using Tini UI components -->
+    const example2 = `<!-- Example 2: using Tini UI elements -->
 <tini-flex
   width="400px"
   display="inline-flex"
@@ -218,10 +233,10 @@ export class ContentUIPostBoxComponent extends TiniComponent {
     alt="Jane Doe"
   ></tini-image>
   <tini-flex direction="column" wrap="nowrap">
-    <tini-text size="lg" weight="bold">Jane Doe</tini-text>
-    <tini-text color="medium" weight="medium">Software Engineer</tini-text>
+    <tini-text size="lg" weight="700">Jane Doe</tini-text>
+    <tini-text color="medium" weight="500">Software Engineer</tini-text>
     <tini-box marginTop="xs">
-      <tini-button scheme="primary" size="xs">Message</tini-button>
+      <tini-button color="primary" size="xs">Message</tini-button>
     </tini-box>
   </tini-flex>
 </tini-flex>`;
@@ -248,7 +263,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
     alt="ChitChat"
   />
   <div>
-    <div style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--weight-medium)' }}>ChitChat</div>
+    <div style={{ fontSize: 'var(--text-lg)', fontWeight: 500 }}>ChitChat</div>
     <p style={{ color: 'var(--color-medium)' }}>You have a new message!</p>
   </div>
 </div>` +
@@ -264,7 +279,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
     const svelteCode = tiniCode;
     const vanillaCode = tiniCode;
     return html`
-      <app-component-usage
+      <app-element-usage
         .codes=${[
           {
             [UIConsumerTargets.Tini]: tiniCode,
@@ -296,7 +311,7 @@ export class ContentUIPostBoxComponent extends TiniComponent {
             <div
               style="
                 font-size: var(--text-lg);
-                font-weight: var(--weight-medium);
+                font-weight: 500;
               "
             >
               ChitChat
@@ -324,16 +339,14 @@ export class ContentUIPostBoxComponent extends TiniComponent {
             alt="Jane Doe"
           ></tini-image>
           <tini-flex direction="column" wrap="nowrap">
-            <tini-text size="lg" weight="bold">Jane Doe</tini-text>
-            <tini-text color="medium" weight="medium"
-              >Software Engineer</tini-text
-            >
+            <tini-text size="lg" weight="700">Jane Doe</tini-text>
+            <tini-text color="medium" weight="500">Software Engineer</tini-text>
             <tini-box marginTop="xs">
-              <tini-button scheme="primary" size="sm">Message</tini-button>
+              <tini-button color="primary" size="sm">Message</tini-button>
             </tini-box>
           </tini-flex>
         </tini-flex>
-      </app-component-usage>
+      </app-element-usage>
     `;
   }
 

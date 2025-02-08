@@ -1,13 +1,13 @@
 import {html} from 'lit';
 
-import {Page, TiniComponent} from '@tinijs/core';
+import {page, TiniElement} from '@tinijs/core';
 
 import SUBJECTS from '../subjects.js';
 
-@Page({
+@page({
   name: 'app-page-home',
 })
-export class AppPageHome extends TiniComponent {
+export class AppPageHomeElement extends TiniElement {
   protected render() {
     return html`
       <article style="max-width: 1024px; margin: 0 auto; padding: 2rem;">
@@ -26,7 +26,7 @@ export class AppPageHome extends TiniComponent {
         </p>
         <p>
           A simple dashboard for testing performance of the core Framework and
-          UI components.
+          UI elements.
         </p>
         <p>Using local Lighthouse:</p>
         <ul>
@@ -51,6 +51,7 @@ export class AppPageHome extends TiniComponent {
           <thead>
             <tr>
               <th>Subject</th>
+              <th>Docs</th>
               <th>Variants</th>
               <th>Suggested load</th>
               <th>PSI</th>
@@ -71,13 +72,11 @@ export class AppPageHome extends TiniComponent {
                 const noRepeat = variants <= 1 && suggestedItems <= 1;
                 return html`
                   <tr>
-                    <td>
-                      <a href=${url} target="_blank">${title}</a> &middot;
-                      <a href=${docUrl} target="_blank">Doc</a>
-                    </td>
+                    <td><a href=${url} target="_blank">${title}</a></td>
+                    <td><a href=${docUrl} target="_blank">Link</a></td>
                     <td>${noRepeat ? '' : variants}</td>
                     <td>${noRepeat ? '' : suggestedLoadText}</td>
-                    <td><a href=${psiUrl} target="_blank">Link</a></td>
+                    <td><a href=${psiUrl} target="_blank">View report</a></td>
                     <td></td>
                   </tr>
                 `;

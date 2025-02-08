@@ -2,14 +2,14 @@
 {
   "status": "draft",
   "title": "Pagination",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'pagination',
     sections: [
       {
@@ -22,8 +22,13 @@
       },
       {
         section: 'select',
-        attrs: {label: 'Scheme', preset: 'allColorsAndAllGradients'},
-        target: 'scheme'
+        attrs: {label: 'Color', preset: 'schemableColors'},
+        target: 'color'
+      },
+      {
+        section: 'select',
+        attrs: {label: 'Gradient', preset: 'schemableGradients'},
+        target: 'gradient'
       },
       {
         section: 'select',

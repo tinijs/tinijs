@@ -1,23 +1,23 @@
-import {TiniComponent} from '../classes/component.js';
+import {TiniElement} from '../classes/element.js';
 
 export type EventOptions<Payload> = Omit<CustomEventInit<Payload>, 'detail'>;
 
 export class EventEmitter<Payload> {
   constructor(
-    private component: TiniComponent,
+    private element: TiniElement,
     private eventName: string,
     private options?: EventOptions<Payload>
   ) {}
 
   emit(payload?: Payload, options: EventOptions<Payload> = {}) {
-    return this.component.emitEvent(this.eventName, payload, {
+    return this.element.emitEvent(this.eventName, payload, {
       ...this.options,
       ...options,
     });
   }
 }
 
-export function Event(options?: EventOptions<unknown>) {
+export function event(options?: EventOptions<unknown>) {
   return function (prototype: any, propertyName: string) {
     const emitterKey = Symbol();
     Object.defineProperty(prototype, propertyName, {
@@ -31,5 +31,3 @@ export function Event(options?: EventOptions<unknown>) {
     });
   };
 }
-
-export const Output = Event;

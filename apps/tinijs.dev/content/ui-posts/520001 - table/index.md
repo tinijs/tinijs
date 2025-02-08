@@ -2,18 +2,18 @@
 {
   "status": "publish",
   "title": "Table",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Import
 
-<app-component-import componentName="table"></app-component-import>
+<app-element-import elementName="table"></app-element-import>
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'table',
     sections: [
       {

@@ -1,9 +1,9 @@
 import {html} from 'lit';
 
 import {
-  App,
-  TiniComponent,
+  app,
   registerConfig,
+  TiniElement,
   type AppWithConfig,
 } from '@tinijs/core';
 import {createRouter, type AppWithRouter} from '@tinijs/router';
@@ -20,9 +20,9 @@ import {globalStyles, shareStyles} from './styles.js';
 
 import './layouts/default.js';
 
-@App({providers})
-export class AppRoot
-  extends TiniComponent
+@app({providers})
+export class AppRootElement
+  extends TiniElement
   implements AppWithConfig<AppConfig>, AppWithRouter, AppWithMeta, AppWithUI
 {
   readonly config = registerConfig(config);

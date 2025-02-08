@@ -1,11 +1,11 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/badge.js';
+import {defaultStyles} from '../../../elements/badge.js';
 
 export const styles = defaultStyles.extends({
   statics: css`
     .main {
-      font-weight: var(--weight-medium);
+      font-weight: 500;
     }
   `,
   colorGen: () => '',

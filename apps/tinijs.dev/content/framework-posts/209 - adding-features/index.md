@@ -8,16 +8,16 @@
 
 ## The app instance
 
-As in previous topics, we can see that a TiniJS app is started with an app root defined in `./app/app.ts`, the file contains a class named `AppRoot` which extends the `TiniComponent` class and is decorated with the `@App()` decorator.
+As in previous topics, we can see that a TiniJS app is started with an app root defined in `./app/app.ts`, the file contains a class named `AppRootElement` which extends the `TiniElement` class and is decorated with the `@app()` decorator.
 
 The app root is where we initiate the app and incorporate features, a minimal app constructor looks like this:
 
 ```ts
 import {html, css} from 'lit';
-import {App, TiniComponent} from '@tinijs/core';
+import {app, TiniElement} from '@tinijs/core';
 
-@App()
-export class AppRoot extends TiniComponent {
+@app()
+export class AppRootElement extends TiniElement {
 
   protected render() {
     return html`<h1>Hello, world!</h1>`;
@@ -33,7 +33,7 @@ From anywhere across our app, we can access the app instance using one of the fo
 - Using DOM methods:
 
 ```ts
-// app-root is the only elem in the body
+// app-root is the only element in the body
 const app = document.body.firstElementChild;
 
 // custom app-root placement
@@ -44,9 +44,9 @@ const app = document.getElementById('xxx');
 - Using util and decorator:
 
 ```ts
-import {getApp, UseApp} from '@tinijs/core';
+import {getApp, useApp} from '@tinijs/core';
 
-import type {AppRoot} from '../app.ts';
+import type {AppRootElement} from '../app.ts';
 
 /*
  * Via util
@@ -59,10 +59,10 @@ const meta = app.meta;
 /*
  * Or, via decorator
  */
-@Page({})
-export class AppPageXXX extends TiniComponent {
+@page({})
+export class AppPageXXXElement extends TiniElement {
 
-  @UseApp() readonly app!: AppRoot;
+  @useApp() readonly app!: AppRootElement;
 
   onCreate() {
     const config = this.app.config;
@@ -73,7 +73,7 @@ export class AppPageXXX extends TiniComponent {
 }
 ```
 
-Depend on the patterns you choose to add features to an app, the `AppRoot` plays a role as a host for defining such features (pattern 2 and 3) as we will see in the next section.
+Depend on the patterns you choose to add features to an app, the `AppRootElement` plays a role as a host for defining such features (pattern 2 and 3) as we will see in the next section.
 
 ## Add future-proof features
 
@@ -88,7 +88,7 @@ But when it comes to work with dependencies in TiniJS apps, there are 3 main pat
 
 ### Pattern 1: Imports
 
-Just simply import the utils and services directly to your components, pages. This is the common and most convenient way to work with utils and services.
+Just simply import the utils and services directly to your elements, pages. This is the common and most convenient way to work with utils and services.
 
 You can use the generate command of [Tini CLI](https://tinijs.dev/cli) to quickly scaffold consts, utils and services, run `npx tini generate const|util|service <name>`.
 
@@ -115,7 +115,7 @@ export const fooService = new FooService();
 - Step 2: **Use consts, utils and services**:
 
 ```ts
-// in pages, components, ...
+// in pages, elements, ...
 import {FOO} from '../consts/foo.js';
 import {foo} from '../utils/foo.js';
 import {fooService} from '../services/foo.js';
@@ -123,7 +123,7 @@ import {fooService} from '../services/foo.js';
 
 ### Pattern 2: Provide/Inject
 
-TiniJS also provides a **dependency injection** mechanism (called _Lazy DI_) that allows you to lazy load and inject utils and services to your components, pages.
+TiniJS also provides a **dependency injection** mechanism (called _Lazy DI_) that allows you to lazy load and inject utils and services to your elements, pages.
 
 - Step 1: **Define dependencies** (preferably in their own files):
 
@@ -162,25 +162,25 @@ export const providers: DependencyProviders = {
   }
 };
 
-@App({ providers })
-export class AppRoot extends TiniComponent {}
+@app({ providers })
+export class AppRootElement extends TiniElement {}
 ```
 
 - Step 3: **Inject dependencies**:
 
 ```ts
-import {Inject} from '@tinijs/core';
+import {inject} from '@tinijs/core';
 
 import type {FooConst} from '../consts/foo.js';
 import type {FooUtil} from '../utils/foo.js';
 import type {FooService} from '../services/foo.js';
 
-@Page({})
-export class AppPageXXX extends TiniComponent {
+@page({})
+export class AppPageXXXElement extends TiniElement {
 
-  @Inject() FOO!: FooConst;
-  @Inject() foo!: FooUtil;
-  @Inject() fooService!: FooService;
+  @inject() FOO!: FooConst;
+  @inject() foo!: FooUtil;
+  @inject() fooService!: FooService;
 
   // lazy load dependencies are available started from onInit() lifecycle hook
   onInit() {
@@ -227,8 +227,8 @@ import {provide} from '@lit/context';
 
 import {pluginsContext, plugins} from './contexts/plugins.ts';
 
-@App()
-export class AppRoot extends TiniComponent {
+@app()
+export class AppRootElement extends TiniElement {
 
   @provide({context: pluginsContext}) $plugins = plugins;
 
@@ -242,8 +242,8 @@ import {consume} from '@lit/context';
 
 import {pluginsContext, type PluginsContext} from '../contexts/plugins.ts';
 
-@Page({})
-export class AppPageXXX extends TiniComponent {
+@page({})
+export class AppPageXXXElement extends TiniElement {
 
   @consume({context: pluginsContext}) $plugins!: PluginsContext;
 
@@ -268,8 +268,8 @@ For demonstration, we will use **Vue 3** in a TiniJS app, install `npm i vue`.
 import {ref, createRef, type Ref} from 'lit/directives/ref.js';
 import {createApp} from 'vue/dist/vue.esm-bundler.js';
 
-@Page({})
-export class AppPageXXX extends TiniComponent {
+@page({})
+export class AppPageXXXElement extends TiniElement {
   
   private readonly vueAppRef: Ref<HTMLDivElement> = createRef();
   

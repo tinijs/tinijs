@@ -1,20 +1,20 @@
 import {css, nothing} from 'lit';
+import {property} from 'lit/decorators/property.js';
+import {state} from 'lit/decorators/state.js';
 import {html, unsafeStatic} from 'lit/static-html.js';
 
 import {
-  Component,
-  Page,
-  TiniComponent,
-  Input,
-  Reactive,
-  createComponentLoader,
+  element,
+  page,
+  TiniElement,
+  createElementLoader,
   type OnCreate,
   type OnChanges,
 } from '@tinijs/core';
-import {UseMeta, type Meta} from '@tinijs/meta';
-import {UseParams} from '@tinijs/router';
+import {useMeta, type Meta} from '@tinijs/meta';
+import {useParams} from '@tinijs/router';
 
-const componentLoader = createComponentLoader({
+const elementLoader = createElementLoader({
   box: () => import('./box.js'),
   flex: () => import('./flex.js'),
   grid: () => import('./grid.js'),
@@ -46,12 +46,12 @@ const componentLoader = createComponentLoader({
   textarea: () => import('./textarea.js'),
 });
 
-@Component()
-class UIDevSectionComponent extends TiniComponent implements OnCreate {
+@element()
+class UIDevSectionElement extends TiniElement implements OnCreate {
   static readonly defaultTagName = 'ui-dev-section';
 
-  @Input() titleText!: string;
-  @Input() description?: string;
+  @property() titleText!: string;
+  @property() description?: string;
 
   onCreate() {
     if (!this.titleText) throw new Error('titleText is required');
@@ -91,7 +91,10 @@ class UIDevSectionComponent extends TiniComponent implements OnCreate {
       .title {
         text-transform: uppercase;
         padding-bottom: 0;
-        border-bottom: none;
+
+        &::after {
+          display: none;
+        }
       }
 
       .title,
@@ -111,52 +114,52 @@ class UIDevSectionComponent extends TiniComponent implements OnCreate {
   `;
 }
 
-@Page({
+@page({
   name: 'app-page-ui-dev',
-  components: [UIDevSectionComponent],
+  elements: [UIDevSectionElement],
 })
-export class AppPageUIDev extends TiniComponent implements OnCreate, OnChanges {
-  @UseParams() readonly params!: {slug: string};
-  @UseMeta() readonly meta!: Meta;
+export class AppPageUIDev extends TiniElement implements OnCreate, OnChanges {
+  @useParams() readonly params!: {slug: string};
+  @useMeta() readonly meta!: Meta;
 
-  @Reactive() private componentName: string | null | undefined;
+  @state() private elementName: string | null | undefined;
 
   onCreate() {
-    componentLoader
+    elementLoader
       .load([this.params.slug])
       .then(() => {
-        this.componentName = this.params.slug;
+        this.elementName = this.params.slug;
       })
       .catch(error => {
-        this.componentName = null;
+        this.elementName = null;
       });
   }
 
   onChanges() {
     this.meta.setPageMetadata({
-      title: `Dev center for ${this.componentName} component`,
-      description: `Development center for the ${this.componentName} component.`,
+      title: `Dev center for ${this.elementName} element`,
+      description: `Development center for the ${this.elementName} element.`,
     });
   }
 
   protected render() {
-    return this.componentName === undefined
+    return this.elementName === undefined
       ? html`<p>Loading development center.</p>`
-      : this.componentName === null
+      : this.elementName === null
         ? html`<p>
-            No component with the name
+            No element with the name
             <strong>${this.params.slug}</strong> found.
           </p>`
         : html`
             <h1>
               Dev center for
-              <a href=${`/ui/${this.componentName}`} target="_blank"
-                >${this.componentName}</a
+              <a href=${`/ui/${this.elementName}`} target="_blank"
+                >${this.elementName}</a
               >
-              component
+              element
             </h1>
             ${unsafeStatic(
-              `<app-page-ui-dev-${this.componentName}></app-page-ui-dev-${this.componentName}>`
+              `<app-page-ui-dev-${this.elementName}></app-page-ui-dev-${this.elementName}>`
             )}
           `;
   }

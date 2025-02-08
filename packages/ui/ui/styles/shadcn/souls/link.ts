@@ -1,17 +1,9 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/link.js';
+import {defaultStyles} from '../../../elements/link.js';
 
 export const styles = defaultStyles.extends({
-  statics: css`
-    :host([color^='gradient']) .main::after {
-      visibility: visible;
-    }
-  `,
-  colorGen: () => '',
-  gradientGen: () => '',
-  textGen: () => '',
-  weightGen: () => '',
+  statics: css``,
 });
 
 export default {styles};

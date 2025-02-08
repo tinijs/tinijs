@@ -1,21 +1,13 @@
-import {html, css, nothing} from 'lit';
+import {html, css} from 'lit';
 
-import {
-  Component,
-  TiniComponent,
-  Colors,
-  SubtleColors,
-  Gradients,
-  SubtleGradients,
-  Sizes,
-} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniSpinnerComponent} from '../../ui/components/spinner.js';
+import {TiniSpinnerElement} from '../../ui/elements/spinner.js';
 
-@Component({
-  components: [TiniSpinnerComponent],
+@element({
+  elements: [TiniSpinnerElement],
 })
-export class AppPageUIDevSpinnerComponent extends TiniComponent {
+export class AppPageUIDevSpinnerElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-spinner';
 
   protected render() {

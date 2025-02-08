@@ -31,7 +31,7 @@
   },
   "keywords": [
     "TiniJS",
-    "Web Components",
+    "Web Elements",
     "UI Library"
   ],
   "repository": {
@@ -46,6 +46,7 @@
     "@tinijs/cli": "^0.21.1",
     "@tinijs/core": "^0.21.1",
     "@tinijs/project": "^0.21.0",
+    "@tinijs/router": "^0.21.0",
     "colorette": "^2.0.20",
     "consola": "^3.2.3",
     "defu": "^6.1.4",
@@ -56,6 +57,8 @@
     "isomorphic-dompurify": "^2.9.0",
     "knitwork": "^1.1.0",
     "lit": "^3.1.2",
+    "normalize-url": "^8.0.1",
+    "path-to-regexp": "^7.1.0",
     "pathe": "^1.1.2",
     "svgo": "^3.2.0",
     "typescript": "^5.4.3"

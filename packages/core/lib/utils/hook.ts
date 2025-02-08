@@ -2,7 +2,7 @@ import type {PropertyValues} from 'lit';
 
 import {GLOBAL_TINI} from '../consts/global.js';
 
-import {TiniComponent, ComponentTypes} from '../classes/component.js';
+import {TiniElement, ElementTypes} from '../classes/element.js';
 import type {ActiveTheme} from '../classes/ui.js';
 
 import {getApp, type ClientApp} from './app.js';
@@ -52,34 +52,34 @@ export interface OnChildrenReady {
 }
 
 export type GlobalLifecycleHook = (data: {
-  source: TiniComponent;
+  source: TiniElement;
   app: ClientApp;
 }) => void;
 
 export type LHRegistry = Record<
-  ComponentTypes,
+  ElementTypes,
   Record<LifecycleHooks, GlobalLifecycleHook[]>
 >;
 
 export function registerGlobalHook(
-  componentTypeOrTypes: ComponentTypes | ComponentTypes[],
+  elementTypeOrTypes: ElementTypes | ElementTypes[],
   hookCycleOrCycles: LifecycleHooks | LifecycleHooks[],
   hookAction: GlobalLifecycleHook
 ) {
   // init the registry
   const registry = (GLOBAL_TINI.LHRegistry ||= {} as LHRegistry);
   // cycles & types
-  const componentTypes =
-    typeof componentTypeOrTypes === 'string'
-      ? [componentTypeOrTypes]
-      : componentTypeOrTypes;
+  const elementTypes =
+    typeof elementTypeOrTypes === 'string'
+      ? [elementTypeOrTypes]
+      : elementTypeOrTypes;
   const hookCycles =
     typeof hookCycleOrCycles === 'string'
       ? [hookCycleOrCycles]
       : hookCycleOrCycles;
   // organize
-  for (let i = 0; i < componentTypes.length; i++) {
-    const type = componentTypes[i];
+  for (let i = 0; i < elementTypes.length; i++) {
+    const type = elementTypes[i];
     if (!registry[type]) registry[type] = {} as any;
     for (let j = 0; j < hookCycles.length; j++) {
       const cycle = hookCycles[j];
@@ -91,20 +91,17 @@ export function registerGlobalHook(
   return registry;
 }
 
-export function getGlobalHooks(type: ComponentTypes, cycle: LifecycleHooks) {
+export function getGlobalHooks(type: ElementTypes, cycle: LifecycleHooks) {
   return GLOBAL_TINI.LHRegistry?.[type]?.[cycle];
 }
 
-export function runGlobalHooks(
-  cycle: LifecycleHooks,
-  component: TiniComponent
-) {
+export function runGlobalHooks(cycle: LifecycleHooks, element: TiniElement) {
   const globalHooks = getGlobalHooks(
-    (component.constructor as any).componentType as ComponentTypes,
+    (element.constructor as any).elementType as ElementTypes,
     cycle
   );
   const data = {
-    source: component,
+    source: element,
     app: getApp(),
   };
   globalHooks?.forEach(action => action(data));

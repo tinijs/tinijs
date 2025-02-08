@@ -6,11 +6,11 @@
 }
 +++
 
-Bases enforce the styles of native elements, see the preview at [Native Elements](/ui/native-element).
+Bases enforce the styles of native elements, see the preview at [Native Elements](/ui/native-elements).
 
 Base styles can be provided in one or more files under the `bases` folder, upon building the UI package, all base files will be merged together.
 
-After `setupUI()`, base styles will be applied globally in the light DOM, and will also be available automatically in the shadow DOM for any component which extends `TiniElement` or `TiniComponent`.
+After `setupUI()`, base styles will be applied globally in the light DOM, and will also be available automatically in the shadow DOM for any element which extends `TiniElement`.
 
 ```ts
 export default css`

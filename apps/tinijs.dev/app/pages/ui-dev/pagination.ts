@@ -1,21 +1,13 @@
-import {html, css, nothing} from 'lit';
+import {html, css} from 'lit';
 
-import {
-  Component,
-  TiniComponent,
-  Colors,
-  SubtleColors,
-  Gradients,
-  SubtleGradients,
-  Sizes,
-} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniPaginationComponent} from '../../ui/components/pagination.js';
+import {TiniPaginationElement} from '../../ui/elements/pagination.js';
 
-@Component({
-  components: [TiniPaginationComponent],
+@element({
+  elements: [TiniPaginationElement],
 })
-export class AppPageUIDevPaginationComponent extends TiniComponent {
+export class AppPageUIDevPaginationElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-pagination';
 
   protected render() {

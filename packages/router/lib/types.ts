@@ -5,7 +5,7 @@ import type {Router} from './router.js';
 export interface Route {
   title?: string;
   path: string;
-  component: string;
+  element: string;
   action?: () => Promise<unknown>;
   children?: Omit<Route, 'children'>[];
   data?: Record<string, any>;
@@ -48,15 +48,15 @@ export interface MatchResult {
   regexp?: RegExp;
   keys?: Key[];
   params?: Record<string, any>;
-  query?: Record<string, any>;
-  fragment?: string;
+  searchParams?: Record<string, any>;
+  fragmentId?: string;
   pageRoute?: Route;
   layoutRoute?: Route;
 }
 
 export type ActivatedRoute = MatchResult;
 
-export interface NavIndicatorComponent extends HTMLElement {
+export interface NavIndicatorElement extends HTMLElement {
   show?(): void;
   hide?(): void;
 }

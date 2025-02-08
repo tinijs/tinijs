@@ -2,14 +2,14 @@
 {
   "status": "draft",
   "title": "Select",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'select',
     sections: [
       {
@@ -65,13 +65,8 @@
       },
       {
         section: 'select',
-        attrs: {label: 'Scheme', preset: 'colors'},
-        target: 'scheme'
-      },
-      {
-        section: 'select',
-        attrs: {label: 'Scheme (focus)', preset: 'colors'},
-        target: 'focusScheme'
+        attrs: {label: 'Color', preset: 'colors'},
+        target: 'color'
       },
       {
         section: 'select',

@@ -1,16 +1,17 @@
 import {html, css, nothing} from 'lit';
+import {property} from 'lit/decorators/property.js';
 
-import {Component, TiniComponent, Input} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {AppComponentEditorComponent} from '../../../app/components/component-editor/index.js';
+import {AppElementEditorElement} from '../../../app/elements/element-editor/index.js';
 
-@Component({
-  components: [AppComponentEditorComponent],
+@element({
+  elements: [AppElementEditorElement],
 })
-export class ContentUIPostFlexComponent extends TiniComponent {
+export class ContentUIPostFlexElement extends TiniElement {
   static readonly defaultTagName = 'content-ui-post-flex';
 
-  @Input() block!: string;
+  @property() block!: string;
 
   onCreate() {
     if (!this.block) throw new Error('block is required');
@@ -29,7 +30,7 @@ export class ContentUIPostFlexComponent extends TiniComponent {
     const twoChildren =
       '<div style="width: 15rem; height: 2rem; background: var(--color-body-subtle)">Item 1</div>\n<div style="width: 10rem; height: 4rem; background: var(--color-body-subtle)">Item 2</div>';
     return html`
-      <app-component-editor
+      <app-element-editor
         name="flex"
         .examples=${{
           row: {
@@ -87,7 +88,7 @@ export class ContentUIPostFlexComponent extends TiniComponent {
             },
           },
         ]}
-      ></app-component-editor>
+      ></app-element-editor>
     `;
   }
 

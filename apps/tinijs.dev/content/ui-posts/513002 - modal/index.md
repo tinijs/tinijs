@@ -2,7 +2,7 @@
 {
   "status": "draft",
   "title": "Modal",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
@@ -13,11 +13,11 @@
 ```ts
 import {ref, createRef} from 'lit/directives/ref.js';
 
-import {TiniModalComponent} from 'path/to/components/modal.js';
+import {TiniModalElement} from 'path/to/elements/modal.js';
 
-class XXX extends TiniComponent {
+class XXX extends TiniElement {
 
-  private readonly modalRef = createRef<TiniModalComponent>();
+  private readonly modalRef = createRef<TiniModalElement>();
 
   showModal() {
     this.modalRef.value!.show();

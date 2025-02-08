@@ -1,15 +1,15 @@
 import {html, css} from 'lit';
 
-import {Layout, TiniComponent} from '@tinijs/core';
+import {layout, TiniElement} from '@tinijs/core';
 
-import {HeaderComponent} from '../components/header.js';
-import {FooterComponent} from '../components/footer.js';
+import {AppHeaderElement} from '../elements/header.js';
+import {AppFooterElement} from '../elements/footer.js';
 
-@Layout({
+@layout({
   name: 'app-layout-default',
-  components: [HeaderComponent, FooterComponent],
+  elements: [AppHeaderElement, AppFooterElement],
 })
-export class AppLayoutDefault extends TiniComponent {
+export class AppLayoutDefaultElement extends TiniElement {
   protected render() {
     return html`
       <div
@@ -64,7 +64,7 @@ export class AppLayoutDefault extends TiniComponent {
       }
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 1024px) {
       app-footer {
         z-index: 800;
       }

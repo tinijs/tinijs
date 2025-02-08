@@ -1,6 +1,6 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/icon.js';
+import {defaultStyles} from '../../../elements/icon.js';
 
 export const styles = defaultStyles.extends({
   statics: css``,

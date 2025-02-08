@@ -1,14 +1,14 @@
 import {html, css} from 'lit';
 
-import {Component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniBoxComponent} from '../../ui/components/box.js';
-import {TiniFlexComponent} from '../../ui/components/flex.js';
+import {TiniBoxElement} from '../../ui/elements/box.js';
+import {TiniFlexElement} from '../../ui/elements/flex.js';
 
-@Component({
-  components: [TiniBoxComponent, TiniFlexComponent],
+@element({
+  elements: [TiniBoxElement, TiniFlexElement],
 })
-export class AppPageUIDevFlexComponent extends TiniComponent {
+export class AppPageUIDevFlexElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-flex';
 
   protected render() {

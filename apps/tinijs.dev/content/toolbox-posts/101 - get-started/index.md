@@ -6,6 +6,8 @@
 }
 +++
 
+<tini-message color="warning-subtle">The development of <strong>Tini Toolbox</strong> is currently pending because I'm focusing on <a href="/ui">Tini UI</a>. In the meantime, anything that works on browsers probably works in TiniJS apps, therefore please use those libraries directly. For more details about working with utilites, please see <a href="/framework/adding-features">features and interoperable</a>. 🙇‍♂️</tini-message>
+
 **Tini Toolbox** is a collection of commonly used utilities and services for building web applications. It is aimed to provide every useful tools from a wide range of categories in a unified place.
 
 The utils and services can be used with TiniJS framework and other frameworks or no framework.
@@ -20,7 +22,7 @@ When using with TiniJS, there are 3 main patterns:
 
 ## Pattern 1: Imports
 
-Just import the services and utils directly to your components, pages, ...
+Just import the services and utils directly to your elements, pages, ...
 
 This is the common and most convienient way to work with services and utils.
 
@@ -37,23 +39,23 @@ const result = await fetchService.get('...');
 
 ## Pattern 2: Provide/Inject (Lazy DI)
 
-TiniJS provides a dependency injection mechanism that allows you to lazy load and inject services and utils to your components, pages, ...
+TiniJS provides a dependency injection mechanism that allows you to lazy load and inject services and utils to your elements, pages, ...
 
 ```ts
 // provide dependencies in app.ts
-@App({
+@app({
   providers = {
     fetchService: () => import('@tinijs/toolbox/fetch/service.js');
   }
 });
 
 // later, inject dependencies elsewhere
-import {Inject} from '@tinijs/core';
+import {inject} from '@tinijs/core';
 import type {FetchService} from '@tinijs/toolbox/fetch';
 
 class XXX {
 
-  @Inject() fetchService!: FetchService;
+  @inject() fetchService!: FetchService;
 
   async onInit() {
     const result = await this.fetchService.get('...');

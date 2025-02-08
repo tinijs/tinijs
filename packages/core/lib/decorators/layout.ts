@@ -1,7 +1,9 @@
-import {ComponentTypes, type ComponentOptions} from '../classes/component.js';
+import {ElementTypes} from '../classes/element.js';
 
-import {Component} from './component.js';
+import type {ElementOptions} from '../utils/element.js';
 
-export function Layout(options?: Omit<ComponentOptions, 'type'>) {
-  return Component({...options, type: ComponentTypes.Layout});
+import {element} from './element.js';
+
+export function layout(options?: Omit<ElementOptions, 'type'>) {
+  return element({...options, type: ElementTypes.Layout});
 }

@@ -1,6 +1,6 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/switch.js';
+import {defaultStyles} from '../../../elements/switch.js';
 
 export const styles = defaultStyles.extends({
   statics: css``,

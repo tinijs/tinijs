@@ -70,11 +70,11 @@ addEventListener('message', event => {
 - Communicate with the Service Worker
 
 ```ts
-import {UseSW, type SW} from '@tinijs/pwa';
+import {useSW, type SW} from '@tinijs/pwa';
 
-@Page({})
-export class AppPageXXX extends TiniComponent {
-  @UseSW() readonly sw!: SW;
+@page({})
+export class AppPageXXXElement extends TiniElement {
+  @useSW() readonly sw!: SW;
 
   async onReady() {
     const result = await this.sw.messageSW({type: 'endpoint-1'});

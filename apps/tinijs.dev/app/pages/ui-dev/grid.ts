@@ -1,14 +1,14 @@
 import {html, css} from 'lit';
 
-import {Component, TiniComponent} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniBoxComponent} from '../../ui/components/box.js';
-import {TiniGridComponent} from '../../ui/components/grid.js';
+import {TiniBoxElement} from '../../ui/elements/box.js';
+import {TiniGridElement} from '../../ui/elements/grid.js';
 
-@Component({
-  components: [TiniBoxComponent, TiniGridComponent],
+@element({
+  elements: [TiniBoxElement, TiniGridElement],
 })
-export class AppPageUIDevGridComponent extends TiniComponent {
+export class AppPageUIDevGridElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-grid';
 
   protected render() {

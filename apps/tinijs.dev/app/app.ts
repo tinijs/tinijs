@@ -1,20 +1,23 @@
-import {html} from 'lit';
+import {html, css} from 'lit';
 
 import {
-  App,
-  TiniComponent,
+  app,
   registerConfig,
+  TiniElement,
   type AppWithConfig,
 } from '@tinijs/core';
 import {createRouter, type AppWithRouter} from '@tinijs/router';
 import {initMeta, type AppWithMeta} from '@tinijs/meta';
 
 import {setupUI, type AppWithUI} from './ui/setup.js';
-import {TiniBoxComponent} from './ui/components/box.js';
-import {TiniHeadingComponent} from './ui/components/heading.js';
-import {TiniTextComponent} from './ui/components/text.js';
-import {TiniIconComponent} from './ui/components/icon.js';
-import {TiniCodeComponent} from './ui/components/code.js';
+import {TiniBoxElement} from './ui/elements/box.js';
+import {
+  TiniHeadingElement,
+  headingInsideLinkPreset,
+} from './ui/elements/heading.js';
+import {TiniTextElement} from './ui/elements/text.js';
+import {TiniIconElement} from './ui/elements/icon.js';
+import {TiniCodeElement} from './ui/elements/code.js';
 
 import type {AppConfig} from './types/common.js';
 
@@ -28,30 +31,73 @@ import {globalStyles} from './styles.js';
 
 import './layouts/default';
 
-TiniIconComponent.config({
+TiniHeadingElement.config({
+  presets: {
+    foo1: headingInsideLinkPreset({
+      symbol: '🤪',
+      placement: 'before',
+    }),
+    foo2: headingInsideLinkPreset({
+      symbol: '🤪',
+      placement: 'before',
+      visibility: 'hover',
+    }),
+    bar1: headingInsideLinkPreset({
+      symbol:
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 50 50'%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'%3E%3Cpath stroke='%23306cfe' d='M9.375 40.625a7.375 7.375 0 0 1 0-10.417L14.583 25A7.375 7.375 0 0 1 25 25a7.375 7.375 0 0 1 0 10.417l-5.208 5.208a7.375 7.375 0 0 1-10.417 0m27.083-16.667l5.209-5.208a7.375 7.375 0 0 0 0-10.417v0a7.375 7.375 0 0 0-10.417 0l-5.208 5.209a7.375 7.375 0 0 0 0 10.416v0a7.375 7.375 0 0 0 10.416 0'/%3E%3Cpath stroke='%23344054' d='m20.833 29.167l8.334-8.334'/%3E%3C/g%3E%3C/svg%3E",
+      rawIcon: true,
+    }),
+    bar2: headingInsideLinkPreset({
+      symbol:
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 50 50'%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'%3E%3Cpath stroke='%23306cfe' d='M9.375 40.625a7.375 7.375 0 0 1 0-10.417L14.583 25A7.375 7.375 0 0 1 25 25a7.375 7.375 0 0 1 0 10.417l-5.208 5.208a7.375 7.375 0 0 1-10.417 0m27.083-16.667l5.209-5.208a7.375 7.375 0 0 0 0-10.417v0a7.375 7.375 0 0 0-10.417 0l-5.208 5.209a7.375 7.375 0 0 0 0 10.416v0a7.375 7.375 0 0 0 10.416 0'/%3E%3Cpath stroke='%23344054' d='m20.833 29.167l8.334-8.334'/%3E%3C/g%3E%3C/svg%3E",
+    }),
+    baz: {
+      render: ({linkHref}) =>
+        html`<slot></slot><a class="link" part="link" href=${linkHref}></a>`,
+    },
+  },
+  styles: css`
+    :host([preset='baz']) {
+      display: flex;
+      align-items: center;
+      gap: 0.3em;
+    }
+
+    :host([preset='baz']) .link {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      background: url('https://img.icons8.com/flat-round/64/link--v1.png')
+        no-repeat;
+      background-size: 1em;
+    }
+  `,
+});
+
+TiniIconElement.config({
   resolve: (name, provider) =>
     provider === 'iconify'
       ? `https://api.iconify.design/${name}.svg`
       : `/icons/${name}${~name.indexOf('.') ? '' : '.svg'}`,
 });
 
-TiniCodeComponent.config({
+TiniCodeElement.config({
   highlight: prismHighlight,
   theme: prismThemeDark,
 });
 
-@App({
+@app({
   providers,
-  components: [
-    TiniBoxComponent,
-    TiniHeadingComponent,
-    TiniTextComponent,
-    TiniIconComponent,
-    TiniCodeComponent,
+  elements: [
+    TiniBoxElement,
+    TiniHeadingElement,
+    TiniTextElement,
+    TiniIconElement,
+    TiniCodeElement,
   ],
 })
-export class AppRoot
-  extends TiniComponent
+export class AppRootElement
+  extends TiniElement
   implements AppWithConfig<AppConfig>, AppWithRouter, AppWithMeta, AppWithUI
 {
   readonly config = registerConfig(config);

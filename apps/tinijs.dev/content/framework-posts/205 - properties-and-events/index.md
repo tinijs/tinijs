@@ -6,54 +6,45 @@
 }
 +++
 
-Components usually has **properties** and **events** for data exchange and interaction.
+Elements usually has **properties** and **events** for data exchange and interaction.
 
 ## Properties
 
-Use the decorator `@Prop()` or `@Input()` or `@property()` to define properties.
+Use the decorator `@property()` to define properties.
 
 ```ts
 import {property} from 'lit/decorators/property.js';
-import {Prop, Input} from '@tinijs/core';
 
-@Component()
-export class AppXXXComponent extends TiniComponent {
+@element()
+export class AppXXXElement extends TiniElement {
 
-  // Lit syntax
   @property() prop1?: string;
-
-  // or, TiniJS syntax
-  @Prop() prop2?: {foo: number};
-
-  // or, Angular-alike syntax
-  @Input() prop3?: boolean;
+  @property() prop2?: {foo: number};
+  @property() prop3?: boolean;
 
 }
 ```
 
-Passing properties to components is similar to set attributes in native HTML elements, string values as in `key="value"` and non-string as in `.key=${varOrValue}`.
+Passing properties to elements is similar to set attributes in native HTML elements, string values as in `key="value"` and non-string as in `.key=${varOrValue}`.
 
 ```html
 html`<app-xxx prop1="Lorem ipsum" .prop2={% raw %}${{ foo: 999 }}{% endraw %} prop3></app-xxx>`
 ```
 
-Beside define properties, you can also use **Contexts** as a form of communicating data. Sometime certain values are required by many components in a long-nested chain of components, passing values down the whole chain (aka. prop drilling) would be very annoying. Use contexts to provide and consume such values is more efficient. Please see more detail at <https://lit.dev/docs/data/context/>.
+Beside define properties, you can also use **Contexts** as a form of communicating data. Sometime certain values are required by many elements in a long-nested chain of elements, passing values down the whole chain (aka. prop drilling) would be very annoying. Use contexts to provide and consume such values is more efficient. Please see more detail at <https://lit.dev/docs/data/context/>.
 
 ## Events
 
-Use the decorator `@Event()` or `@Output()` to define events.
+Use the decorator `@event()` to define events.
 
 ```ts
-import {Event, Output, type EventEmitter} from '@tinijs/core';
+import {event, type EventEmitter} from '@tinijs/core';
 
-@Component()
-export class AppXXXComponent extends TiniComponent {
+@element()
+export class AppXXXElement extends TiniElement {
 
-  // TiniJS syntax
-  @Event() event1!: EventEmitter<string>;
-
-  // or, Angular-alike syntax
-  @Output() event2!: EventEmitter<{ foo: number }>;
+  @event() event1!: EventEmitter<string>;
+  @event() event2!: EventEmitter<{ foo: number }>;
 
   emitEvent1() {
     this.event1.emit('Lorem ipsum');

@@ -8,7 +8,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* **ui:** layout components ([#30](https://github.com/tinijs/tinijs/issues/30)) ([6fb621e](https://github.com/tinijs/tinijs/commit/6fb621e0a25a704f1cfb22fc170b713b671067dd))
+* **ui:** layout elements ([#30](https://github.com/tinijs/tinijs/issues/30)) ([6fb621e](https://github.com/tinijs/tinijs/commit/6fb621e0a25a704f1cfb22fc170b713b671067dd))
 
 
 

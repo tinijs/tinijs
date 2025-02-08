@@ -1,6 +1,6 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/modal.js';
+import {defaultStyles} from '../../../elements/modal.js';
 
 export const styles = defaultStyles.extends({
   statics: css``,

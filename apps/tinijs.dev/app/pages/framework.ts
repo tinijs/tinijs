@@ -1,14 +1,14 @@
 import {html} from 'lit';
 
 import {
-  Page,
-  TiniComponent,
+  page,
+  TiniElement,
   SubtleColors,
   Texts,
   Spaces,
   Radiuses,
 } from '@tinijs/core';
-import {TiniMessageComponent} from '../ui/components/message.js';
+import {TiniMessageElement} from '../ui/elements/message.js';
 
 import {GITHUB_CONTENT_PATH} from '../consts/common.js';
 
@@ -17,13 +17,13 @@ import {
   frameworkPostService,
 } from '../services/content.js';
 
-import {AppDocPageComponent} from '../components/doc-page/index.js';
+import {AppDocPageElement} from '../elements/doc-page/index.js';
 
-@Page({
+@page({
   name: 'app-page-framework',
-  components: [TiniMessageComponent, AppDocPageComponent],
+  elements: [TiniMessageElement, AppDocPageElement],
 })
-export class AppPageFramework extends TiniComponent {
+export class AppPageFrameworkElement extends TiniElement {
   protected render() {
     return html`
       <app-doc-page
@@ -49,7 +49,7 @@ export class AppPageFramework extends TiniComponent {
         <tini-heading>Tini Framework</tini-heading>
         <tini-text size=${Texts.LG}>
           A <strong>small</strong>, <strong>fast</strong> and
-          <strong>interoperable</strong> web components framework.
+          <strong>interoperable</strong> web elements framework.
         </tini-text>
       </tini-box>
       <article style="margin-top: var(--space-xl)">
@@ -69,7 +69,7 @@ export class AppPageFramework extends TiniComponent {
           provide a native, lightweight, interoperable platform for building web
           applications.
         </p>
-        <tini-message scheme=${SubtleColors.Primary}
+        <tini-message color=${SubtleColors.Primary}
           >Want to know <strong>Why bother creating TiniJS Framework?</strong
           ><br />Please read the story about
           <a

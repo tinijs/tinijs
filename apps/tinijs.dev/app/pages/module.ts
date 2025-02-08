@@ -1,18 +1,18 @@
 import {html, css} from 'lit';
 
-import {Page, TiniComponent, Texts, Spaces, Radiuses} from '@tinijs/core';
+import {page, TiniElement, Texts, Spaces, Radiuses} from '@tinijs/core';
 
 import {GITHUB_CONTENT_PATH} from '../consts/common.js';
 
 import {moduleCategoryService, modulePostService} from '../services/content.js';
 
-import {AppDocPageComponent} from '../components/doc-page/index.js';
+import {AppDocPageElement} from '../elements/doc-page/index.js';
 
-@Page({
+@page({
   name: 'app-page-module',
-  components: [AppDocPageComponent],
+  elements: [AppDocPageElement],
 })
-export class AppPageModule extends TiniComponent {
+export class AppPageModuleElement extends TiniElement {
   protected render() {
     return html`
       <app-doc-page

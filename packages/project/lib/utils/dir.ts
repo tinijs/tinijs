@@ -28,7 +28,7 @@ export function getProjectDirs({
       services: dirs?.services || 'services',
       layouts: dirs?.layouts || 'layouts',
       pages: dirs?.pages || 'pages',
-      components: dirs?.components || 'components',
+      elements: dirs?.elements || 'elements',
       icons: dirs?.icons || 'icons',
       partials: dirs?.partials || 'partials',
       utils: dirs?.utils || 'utils',

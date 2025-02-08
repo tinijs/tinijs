@@ -10,7 +10,7 @@ Fundamental layout building block.
 
 ## Import
 
-<app-component-import componentName="box"></app-component-import>
+<app-element-import elementName="box"></app-element-import>
 
 ## Editor
 
@@ -18,93 +18,107 @@ Fundamental layout building block.
 
 ## API
 
-| Property            | Type - Description                                                                                                                                          | Default |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| `display`           | `none`, `block`, `inline` or `inline-block`                                                                                                                 | -       |
-| _Responsive_        |
-| `mediaQueries`      | `Record<string, BoxProps>` - query keys can be [breakpoints](/ui/design-token#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `(min-width: 500px)`      | -       |
-| `containerQueries`  | `Record<string, BoxProps>` - query keys can be [breakpoints](/ui/design-token#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `container-name (min-width: 500px)` | -       |
+| Property            | Value                                                                                                                                                                       | Default |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `display`           | `none`, `block`, `inline` or `inline-block`                                                                                                                                 | -       |
 | _For Flex children_ |
-| `flex`              | `string`                                                                                                                                                    | -       |
-| `flexBasis`         | `string`                                                                                                                                                    | -       |
-| `flexShrink`        | `string`                                                                                                                                                    | -       |
-| `flexGrow`          | `string`                                                                                                                                                    | -       |
+| `flex`              | `string`                                                                                                                                                                    | -       |
+| `flexBasis`         | `string`                                                                                                                                                                    | -       |
+| `flexShrink`        | `string`                                                                                                                                                                    | -       |
+| `flexGrow`          | `string`                                                                                                                                                                    | -       |
 | _For Grid children_ |
-| `gridColumn`        | `string`                                                                                                                                                    | -       |
-| `gridColumnStart`   | `string`                                                                                                                                                    | -       |
-| `gridColumnEnd`     | `string`                                                                                                                                                    | -       |
-| `gridRow`           | `string`                                                                                                                                                    | -       |
-| `gridRowStart`      | `string`                                                                                                                                                    | -       |
-| `gridRowEnd`        | `string`                                                                                                                                                    | -       |
-| `gridArea`          | `string`                                                                                                                                                    | -       |
-| _Common utilities_  |
-| `container`         | `string`                                                                                                                                                    | -       |
-| `containerName`     | `string`                                                                                                                                                    | -       |
-| `containerType`     | `string`                                                                                                                                                    | -       |
-| `visibility`        | `string`                                                                                                                                                    | -       |
-| `opacity`           | `string`                                                                                                                                                    | -       |
-| `overflow`          | `string`                                                                                                                                                    | -       |
-| `overflowX`         | `string`                                                                                                                                                    | -       |
-| `overflowY`         | `string`                                                                                                                                                    | -       |
-| `order`             | `string`                                                                                                                                                    | -       |
-| `alignSelf`         | `string`                                                                                                                                                    | -       |
-| `justifySelf`       | `string`                                                                                                                                                    | -       |
-| `placeSelf`         | `string`                                                                                                                                                    | -       |
-| `position`          | `string`                                                                                                                                                    | -       |
-| `inset`             | `string`                                                                                                                                                    | -       |
-| `top`               | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `right`             | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `bottom`            | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `left`              | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `zIndex`            | `string`                                                                                                                                                    | -       |
-| `width`             | `string` - valid CSS values or [wides](/ui/design-token#wides)                                                                                              | -       |
-| `minWidth`          | `string` - valid CSS values or [wides](/ui/design-token#wides)                                                                                              | -       |
-| `maxWidth`          | `string` - valid CSS values or [wides](/ui/design-token#wides)                                                                                              | -       |
-| `height`            | `string` - valid CSS values or [wides](/ui/design-token#wides)                                                                                              | -       |
-| `minHeight`         | `string` - valid CSS values or [wides](/ui/design-token#wides)                                                                                              | -       |
-| `maxHeight`         | `string` - valid CSS values or [wides](/ui/design-token#wides)                                                                                              | -       |
-| `margin`            | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `marginX`           | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `marginY`           | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `marginTop`         | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `marginRight`       | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `marginBottom`      | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `marginLeft`        | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `padding`           | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `paddingX`          | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `paddingY`          | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `paddingTop`        | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `paddingRight`      | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `paddingBottom`     | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `paddingLeft`       | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `color`             | `string` - valid CSS values or [colors](/ui/design-token#colors)                                                                                            | -       |
-| `background`        | `string` - valid CSS values or [colors](/ui/design-token#colors) or [gradients](/ui/design-token#gradients)                                                 | -       |
-| `shadow`            | `string` - valid CSS values or [shadows](/ui/design-token#shadows)                                                                                          | -       |
-| `radius`            | `string` - valid CSS values or [radiuses](/ui/design-token#radiuses)                                                                                        | -       |
-| `radiusTop`         | `string` - valid CSS values or [radiuses](/ui/design-token#radiuses)                                                                                        | -       |
-| `radiusRight`       | `string` - valid CSS values or [radiuses](/ui/design-token#radiuses)                                                                                        | -       |
-| `radiusBottom`      | `string` - valid CSS values or [radiuses](/ui/design-token#radiuses)                                                                                        | -       |
-| `radiusLeft`        | `string` - valid CSS values or [radiuses](/ui/design-token#radiuses)                                                                                        | -       |
-| `border`            | `string` - valid CSS values or [borders](/ui/design-token#borders)                                                                                          | -       |
-| `borderTop`         | `string` - valid CSS values or [borders](/ui/design-token#borders)                                                                                          | -       |
-| `borderRight`       | `string` - valid CSS values or [borders](/ui/design-token#borders)                                                                                          | -       |
-| `borderBottom`      | `string` - valid CSS values or [borders](/ui/design-token#borders)                                                                                          | -       |
-| `borderLeft`        | `string` - valid CSS values or [borders](/ui/design-token#borders)                                                                                          | -       |
-| `outline`           | `string` - valid CSS values or [rings](/ui/design-token#rings)                                                                                              | -       |
-| `outlineOffset`     | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `transform`         | `string`                                                                                                                                                    | -       |
-| `translate`         | `string` - valid CSS values or [spaces](/ui/design-token#spaces)                                                                                            | -       |
-| `scale`             | `string`                                                                                                                                                    | -       |
-| `rotate`            | `string`                                                                                                                                                    | -       |
-| `transition`        | `string`                                                                                                                                                    | -       |
-| `animation`         | `string`                                                                                                                                                    | -       |
-| `isolation`         | `string`                                                                                                                                                    | -       |
-| `filter`            | `string`                                                                                                                                                    | -       |
-| `backdropFilter`    | `string`                                                                                                                                                    | -       |
-| `mixBlendMode`      | `string`                                                                                                                                                    | -       |
-| `clipPath`          | `string`                                                                                                                                                    | -       |
-| `mask`              | `string`                                                                                                                                                    | -       |
-| `cursor`            | `string`                                                                                                                                                    | -       |
+| `gridColumn`        | `string`                                                                                                                                                                    | -       |
+| `gridColumnStart`   | `string`                                                                                                                                                                    | -       |
+| `gridColumnEnd`     | `string`                                                                                                                                                                    | -       |
+| `gridRow`           | `string`                                                                                                                                                                    | -       |
+| `gridRowStart`      | `string`                                                                                                                                                                    | -       |
+| `gridRowEnd`        | `string`                                                                                                                                                                    | -       |
+| `gridArea`          | `string`                                                                                                                                                                    | -       |
+| _Responsive_        |
+| `mediaQueries`      | `Record<string, BoxStyleProps>` - query keys can be [breakpoints](/ui/design-tokens#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `(min-width: 500px)`                | -       |
+| `containerQueries`  | `Record<string, BoxStyleProps>` - query keys can be [breakpoints](/ui/design-tokens#breakpoints) `xs`, `sm`, `md`, `lg`, `xl` or custom `container-name (min-width: 500px)` | -       |
+
+### Common utilities
+
+The below properties are also available for [flex](/ui/flex), [grid](/ui/grid) and [container](/ui/container).
+
+| Property              | Value                                                                                                                   | Default |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------- |
+| `container`           | `string`                                                                                                                | -       |
+| `containerName`       | `string`                                                                                                                | -       |
+| `containerType`       | `string`                                                                                                                | -       |
+| `visibility`          | `string`                                                                                                                | -       |
+| `opacity`             | `string`                                                                                                                | -       |
+| `overflow`            | `string`                                                                                                                | -       |
+| `overflowX`           | `string`                                                                                                                | -       |
+| `overflowY`           | `string`                                                                                                                | -       |
+| `order`               | `string`                                                                                                                | -       |
+| `alignSelf`           | `string`                                                                                                                | -       |
+| `justifySelf`         | `string`                                                                                                                | -       |
+| `placeSelf`           | `string`                                                                                                                | -       |
+| `position`            | `string`                                                                                                                | -       |
+| `inset`               | `string`                                                                                                                | -       |
+| `top`                 | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `right`               | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `bottom`              | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `left`                | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `zIndex`              | `string`                                                                                                                | -       |
+| `ratio`               | `string`                                                                                                                | -       |
+| `width`               | [Wides](/ui/design-tokens#wides) or valid CSS values                                                                    | -       |
+| `minWidth`            | [Wides](/ui/design-tokens#wides) or valid CSS values                                                                    | -       |
+| `maxWidth`            | [Wides](/ui/design-tokens#wides) or valid CSS values                                                                    | -       |
+| `height`              | [Wides](/ui/design-tokens#wides) or valid CSS values                                                                    | -       |
+| `minHeight`           | [Wides](/ui/design-tokens#wides) or valid CSS values                                                                    | -       |
+| `maxHeight`           | [Wides](/ui/design-tokens#wides) or valid CSS values                                                                    | -       |
+| `margin`              | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `marginX`             | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `marginY`             | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `marginTop`           | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `marginRight`         | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `marginBottom`        | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `marginLeft`          | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `padding`             | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `paddingX`            | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `paddingY`            | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `paddingTop`          | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `paddingRight`        | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `paddingBottom`       | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `paddingLeft`         | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `color`               | [Colors](/ui/design-tokens#colors) or valid CSS values                                                                  | -       |
+| `background`          | [Colors](/ui/design-tokens#colors) or `gradient-` prefixed [gradients](/ui/design-tokens#gradients) or valid CSS values | -       |
+| `backgroundBlendMode` | `string`                                                                                                                | -       |
+| `shadow`              | [Shadows](/ui/design-tokens#shadows) or valid CSS values                                                                | -       |
+| `radius`              | [Radiuses](/ui/design-tokens#radiuses) or valid CSS values                                                              | -       |
+| `radiusTop`           | [Radiuses](/ui/design-tokens#radiuses) or valid CSS values                                                              | -       |
+| `radiusRight`         | [Radiuses](/ui/design-tokens#radiuses) or valid CSS values                                                              | -       |
+| `radiusBottom`        | [Radiuses](/ui/design-tokens#radiuses) or valid CSS values                                                              | -       |
+| `radiusLeft`          | [Radiuses](/ui/design-tokens#radiuses) or valid CSS values                                                              | -       |
+| `border`              | [Borders](/ui/design-tokens#borders) or valid CSS values                                                                | -       |
+| `borderTop`           | [Borders](/ui/design-tokens#borders) or valid CSS values                                                                | -       |
+| `borderRight`         | [Borders](/ui/design-tokens#borders) or valid CSS values                                                                | -       |
+| `borderBottom`        | [Borders](/ui/design-tokens#borders) or valid CSS values                                                                | -       |
+| `borderLeft`          | [Borders](/ui/design-tokens#borders) or valid CSS values                                                                | -       |
+| `outline`             | [Outlines](/ui/design-tokens#outlines) or valid CSS values                                                              | -       |
+| `outlineOffset`       | [Spaces](/ui/design-tokens#spaces) or valid CSS values                                                                  | -       |
+| `transform`           | `string`                                                                                                                | -       |
+| `move`                | [Spaces](/ui/design-tokens#spaces) or valid CSS `translate` values                                                      | -       |
+| `scale`               | `string`                                                                                                                | -       |
+| `rotate`              | `string`                                                                                                                | -       |
+| `transition`          | `string`                                                                                                                | -       |
+| `animation`           | `string`                                                                                                                | -       |
+| `isolation`           | `string`                                                                                                                | -       |
+| `filter`              | `string`                                                                                                                | -       |
+| `backdropFilter`      | `string`                                                                                                                | -       |
+| `mixBlendMode`        | `string`                                                                                                                | -       |
+| `clipPath`            | `string`                                                                                                                | -       |
+| `mask`                | `string`                                                                                                                | -       |
+| `cursor`              | `string`                                                                                                                | -       |
+
+### Parts
+
+| Part          | styleDeep  | Description          |
+| ------------- | ---------- | -------------------- |
+| `tini-box {}` | `:host {}` | The tini-box element |
 
 ## Tailwind Comparison
 
@@ -117,4 +131,16 @@ Here are 2 examples inspired by Tailwind if you like to compare [Tini UI](/ui) t
 
 ## Benchmark
 
-<app-component-benchmark reportId="ui-box"></app-component-benchmark>
+Using `tini-box` is fine for most cases, but if you need to render a lot of boxes, you might want to consider using native elements with classes or inline styles.
+
+### Basic usage
+
+<app-element-benchmark reportId="ui-box"></app-element-benchmark>
+
+### All properties and queries
+
+<app-element-benchmark reportId="ui-box-full"></app-element-benchmark>
+
+### All common properties and queries
+
+<app-element-benchmark reportId="ui-box-overload"></app-element-benchmark>

@@ -2,14 +2,14 @@
 {
   "status": "draft",
   "title": "Message",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'message',
     sections: [
       {
@@ -20,8 +20,8 @@
       },
       {
         section: 'select',
-        attrs: {label: 'Scheme', preset: 'colors'},
-        target: 'scheme'
+        attrs: {label: 'Color', preset: 'colors'},
+        target: 'color'
       },
       {
         section: 'css',

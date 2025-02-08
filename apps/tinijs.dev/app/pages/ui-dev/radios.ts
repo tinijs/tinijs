@@ -1,21 +1,13 @@
-import {html, css, nothing} from 'lit';
+import {html, css} from 'lit';
 
-import {
-  Component,
-  TiniComponent,
-  Colors,
-  SubtleColors,
-  Gradients,
-  SubtleGradients,
-  Sizes,
-} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniRadiosComponent} from '../../ui/components/radios.js';
+import {TiniRadiosElement} from '../../ui/elements/radios.js';
 
-@Component({
-  components: [TiniRadiosComponent],
+@element({
+  elements: [TiniRadiosElement],
 })
-export class AppPageUIDevRadiosComponent extends TiniComponent {
+export class AppPageUIDevRadiosElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-radios';
 
   protected render() {

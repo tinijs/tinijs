@@ -13,7 +13,7 @@ import type {
 } from './types.js';
 import {ROUTER_OUTLET_TAG_NAME, ROUTE_CHANGE_EVENT} from './consts.js';
 import {go, redirect, back, forward, requestChange} from './methods.js';
-import {RouterOutletComponent} from './router-outlet.js';
+import {RouterOutletElement} from './router-outlet.js';
 
 export class Router {
   private readonly NOT_FOUND_PATH = '/**';
@@ -52,7 +52,13 @@ export class Router {
       container,
       items: Array.from(container.querySelectorAll('[id]')).reduce(
         (result, element) => {
-          if (element instanceof HTMLElement && element.id) {
+          if (
+            element instanceof HTMLElement &&
+            ['TINI-HEADING', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(
+              element.tagName
+            ) &&
+            element.id
+          ) {
             result[element.id] = element;
           }
           return result;
@@ -87,11 +93,13 @@ export class Router {
             title = title.slice(0, -symbol.length).trim();
           }
         }
-        const level = Number(element.tagName.replace(/^H/i, ''));
+        const level = Number(
+          (element as any).level || element.tagName.replace(/^H/i, '')
+        );
         return {
           id,
           title,
-          level: isNaN(level) ? 0 : level,
+          level: isNaN(level) ? 1 : level,
           element,
         } as FragmentItem;
       })
@@ -150,12 +158,12 @@ export class Router {
     return this.getActiveRoute()?.params || {};
   }
 
-  getQuery() {
-    return this.getActiveRoute()?.query || {};
+  getSearchParams() {
+    return this.getActiveRoute()?.searchParams || {};
   }
 
-  getFragment() {
-    return this.getActiveRoute()?.fragment || '';
+  getFragmentId() {
+    return this.getActiveRoute()?.fragmentId || '';
   }
 
   match(url: URL): MatchResult {
@@ -216,22 +224,22 @@ export class Router {
     } = !matchedRoutePath || !matchedExecResult
       ? ({} as ReturnType<Router['extractParams']>)
       : this.extractParams(matchedRoutePath, matchedExecResult);
-    const query = {} as Record<string, any>;
+    const searchParams = {} as Record<string, any>;
     url.searchParams.forEach((value, key) => {
       if (!/\[\]$/.test(key)) {
-        query[key] = value;
+        searchParams[key] = value;
       } else {
         key = key.slice(0, -2);
-        if (!query[key]) {
-          query[key] = [value];
+        if (!searchParams[key]) {
+          searchParams[key] = [value];
         } else {
-          query[key] = Array.isArray(query[key])
-            ? query[key].concat(value)
-            : [query[key], value];
+          searchParams[key] = Array.isArray(searchParams[key])
+            ? searchParams[key].concat(value)
+            : [searchParams[key], value];
         }
       }
     });
-    const fragment = url.hash.replace(/^#/, '');
+    const fragmentId = url.hash.replace(/^#/, '');
     const result: MatchResult = {
       url,
       path,
@@ -239,8 +247,8 @@ export class Router {
       regexp,
       keys,
       params,
-      query,
-      fragment,
+      searchParams,
+      fragmentId,
       layoutRoute: matched?.layout,
       pageRoute: matched?.page,
     };
@@ -273,7 +281,7 @@ export class Router {
 
   private registerOutlet() {
     if (customElements.get(ROUTER_OUTLET_TAG_NAME)) return;
-    customElements.define(ROUTER_OUTLET_TAG_NAME, RouterOutletComponent);
+    customElements.define(ROUTER_OUTLET_TAG_NAME, RouterOutletElement);
   }
 
   private registerTriggers() {
@@ -317,7 +325,7 @@ export class Router {
           testHref.startsWith('mailto:') || // mailto protocol
           testHref.startsWith('tel:') || // tel protocol
           anchor.hasAttribute('download') || // has download
-          anchor.hasAttribute('router-ignore') || // has router-ignore
+          anchor.hasAttribute('routerIgnore') || // has routerIgnore
           (anchor.origin || this.getAnchorOrigin(anchor)) !== locationOrigin // cross origin
         )
           return;

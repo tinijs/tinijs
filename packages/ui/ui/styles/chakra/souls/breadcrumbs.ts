@@ -1,6 +1,6 @@
 import {css} from 'lit';
 
-import {defaultStyles} from '../../../components/breadcrumbs.js';
+import {defaultStyles} from '../../../elements/breadcrumbs.js';
 
 export const styles = defaultStyles.extends({
   statics: css`
@@ -12,7 +12,7 @@ export const styles = defaultStyles.extends({
 
     .item {
       text-decoration: none;
-      font-weight: var(--weight-normal);
+      font-weight: 400;
     }
 
     .item:hover {

@@ -10,22 +10,18 @@ By default, class properties changes won't trigger the UI changes. In order to t
 
 ## Local states
 
-The properties defined using `@property()` or `@Input()` as we see above are already local states which means changing those properties will trigger `render()`.
+The properties defined using `@property()` as we see above are already local states which means changing those properties will trigger `render()`.
 
-To define local states but not in the form of property, use the `@state()` or `@Reactive()`.
+To define local states but not in the form of property, use the `@state()`.
 
 ```ts
 import {state} from 'lit/decorators/state.js';
-import {Reactive} from '@tinijs/core';
 
-@Component()
-export class AppXXXComponent extends TiniComponent {
+@element()
+export class AppXXXElement extends TiniElement {
 
-  // Lit syntax
   @state() state1?: string;
-
-  // or, TiniJS syntax
-  @Reactive() state2: number = 123;
+  @state() state2: number = 123;
 
   protected render() {
     return html`
@@ -53,7 +49,7 @@ export const MAIN_STORE = createStore({
 After creating a store, you now can **access its states**, **subscribe to state changes** and **mutate states**.
 
 ```ts
-import {Subscribe} from '@tinijs/store';
+import {globalState} from '@tinijs/store';
 
 import {MAIN_STORE} from './stores/main.js';
 
@@ -77,18 +73,18 @@ MAIN_STORE.commit('foo', 'bar3');
  * Subscribe to state changes
  */
 
-@Component()
-export class AppXXXComponent extends TiniComponent {
+@element()
+export class AppXXXElement extends TiniElement {
 
-  // Use the @Subscribe() decorator
+  // Use the @globalState() decorator
   // this.foo will be updated when MAIN_STORE.foo changes it is reactive by default
-  @Subscribe(MAIN_STORE) foo = MAIN_STORE.foo;
+  @globalState(MAIN_STORE) foo = MAIN_STORE.foo;
 
   // use a different variable name
-  @Subscribe(MAIN_STORE, 'foo') xyz = MAIN_STORE.foo;
+  @globalState(MAIN_STORE, 'foo') xyz = MAIN_STORE.foo;
 
   // to turn of reactive, set the third argument to false
-  @Subscribe(MAIN_STORE, null, false) foo = MAIN_STORE.foo;
+  @globalState(MAIN_STORE, null, false) foo = MAIN_STORE.foo;
 
   // Or, subscribe and unsubscribe manually
   onInit() {
@@ -96,7 +92,7 @@ export class AppXXXComponent extends TiniComponent {
       // do something with the new value
     });
   }
-  // NOTE: remember to unsubscribe when the component is destroyed
+  // NOTE: remember to unsubscribe when the element is destroyed
   onDestroy() {
     this.unsubscribeFoo();
   }

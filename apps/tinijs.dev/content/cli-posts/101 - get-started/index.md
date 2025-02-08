@@ -19,7 +19,7 @@ There are 3 ways to install Tini CLI:
 
 ### Create a new project
 
-There are several TiniJS starters for getting started with TiniJS quickly, you can find them in the [Starters](/framework/starter) page.
+There are several TiniJS starters for getting started with TiniJS quickly, you can find them in the [Starters](/framework/starter-templates) page.
 
 ```bash
 npx @tinijs/cli@latest new my-app
@@ -84,7 +84,7 @@ List of built-in commands:
 | [`dev`](/cli/dev)               | Start a development server.                           |
 | [`build`](/cli/build)           | Build the project for production.                     |
 | [`preview`](/cli/preview)       | Preview the production build.                         |
-| [`generate`](/cli/generate)     | Generate assets like components, pages, layouts, etc. |
+| [`generate`](/cli/generate)     | Generate assets like elements, pages, layouts, etc. |
 | [`module add`](/cli/module-add) | Add a Tini Module to the project.                     |
 
 List of official expandable commands:

@@ -2,18 +2,18 @@
 {
   "status": "publish",
   "title": "Badge",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
 ## Import
 
-<app-component-import componentName="badge"></app-component-import>
+<app-element-import elementName="badge"></app-element-import>
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'badge',
     sections: [
       {
@@ -37,8 +37,13 @@
       },
       {
         section: 'select',
-        attrs: {label: 'Scheme', preset: 'allColorsAndAllGradients'},
-        target: 'scheme'
+        attrs: {label: 'Color', preset: 'schemableColors'},
+        target: 'color'
+      },
+      {
+        section: 'select',
+        attrs: {label: 'Gradient', preset: 'schemableGradients'},
+        target: 'gradient'
       },
       {
         section: 'select',

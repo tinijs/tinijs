@@ -1,19 +1,19 @@
 +++json
 {
   "status": "publish",
-  "title": "Icon Components",
+  "title": "Icon Elements",
   "category": "guides"
 }
 +++
 
-Icons can be built from files (svg, png, ico, ...) into prebuilt components.
+Icons can be built from files (svg, png, ico, ...) into prebuilt elements.
 
 ```ts
 export default defineTiniConfig({
 
   ui: {
 
-    // build icon components
+    // build icon elements
     icons?: Array<
       // path to the directory containing the .svg files
       | string
@@ -41,13 +41,13 @@ export default defineTiniConfig({
 });
 ```
 
-Icon components will be output to the `/icons` folder. You can now register and use them as normal components.
+Icon elements will be output to the `/icons` folder. You can now register and use them as normal elements.
 
 ```ts
-import { IconAbcComponent } from './ui/icons/abc.js';
-import { IconXyzComponent } from './ui/icons/xyz.js';
+import { IconAbcElement } from './ui/icons/abc.js';
+import { IconXyzElement } from './ui/icons/xyz.js';
 
-registerComponents([IconAbcComponent, IconXyzComponent]);
+registerElements([IconAbcElement, IconXyzElement]);
 ```
 
 ```html

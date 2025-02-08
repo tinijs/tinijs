@@ -6,7 +6,7 @@ const YAML = require('yaml');
 const TOML = require('@iarna/toml');
 
 const pluginImage = require('./image.plugin.cjs');
-const pluginElem = require('./elem.plugin.cjs');
+const pluginElement = require('./element.plugin.cjs');
 
 module.exports = function (eleventyConfig, options) {
   const {TINI_11TY_INPUT, TINI_11TY_OUTPUT} = process.env;
@@ -57,7 +57,7 @@ module.exports = function (eleventyConfig, options) {
   }
 
   if (useElemPlugin !== false) {
-    eleventyConfig.addPlugin(pluginElem);
+    eleventyConfig.addPlugin(pluginElement);
   }
 
   if (useRenderPlugin !== false) {
@@ -87,7 +87,9 @@ module.exports = function (eleventyConfig, options) {
           class: 'header-anchor',
           symbol: '#',
           ariaHidden: false,
-          ...(useMarkdownItAnchorPermalink instanceof Object ? useMarkdownItAnchorPermalink : {})
+          ...(useMarkdownItAnchorPermalink instanceof Object
+            ? useMarkdownItAnchorPermalink
+            : {}),
         }),
         level: [1, 2, 3, 4],
         slugify: eleventyConfig.getFilter('slugify'),

@@ -2,7 +2,7 @@
 {
   "status": "publish",
   "title": "Button",
-  "category": "components"
+  "category": "elements"
 }
 +++
 
@@ -10,12 +10,12 @@ Use buttons to trigger actions.
 
 ## Import
 
-<app-component-import componentName="button"></app-component-import>
+<app-element-import elementName="button"></app-element-import>
 
 ## Editor
 
 {%
-  app 'component-editor', {
+  app 'element-editor', {
     name: 'button',
     sections: [
       {
@@ -47,8 +47,13 @@ Use buttons to trigger actions.
       },
       {
         section: 'select',
-        attrs: {label: 'Scheme', preset: 'allColorsAndAllGradients'},
-        target: 'scheme'
+        attrs: {label: 'Color', preset: 'schemableColors'},
+        target: 'color'
+      },
+      {
+        section: 'select',
+        attrs: {label: 'Gradient', preset: 'schemableGradients'},
+        target: 'gradient'
       },
       {
         section: 'select',

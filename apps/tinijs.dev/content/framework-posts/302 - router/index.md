@@ -32,16 +32,16 @@ import type {Route} from '@tinijs/router';
 export const routes: Route[] = [
   {
     path: '',
-    component: 'app-layout-default',
+    element: 'app-layout-default',
     children: [
       {
         path: '',
-        component: 'app-page-home',
+        element: 'app-page-home',
         action: () => import('./pages/home.js'),
       },
       {
         path: 'post/:slug',
-        component: 'app-page-post',
+        element: 'app-page-post',
         action: () => import('./pages/post.js'),
       },
 
@@ -50,11 +50,11 @@ export const routes: Route[] = [
   },
   {
     path: 'admin',
-    component: 'app-layout-admin',
+    element: 'app-layout-admin',
     children: [
       {
         path: '',
-        component: 'app-page-admin-home',
+        element: 'app-page-admin-home',
         action: () => import('./pages/admin-home.js'),
       },
 
@@ -63,7 +63,7 @@ export const routes: Route[] = [
   },
   {
      path: '**',
-     component: 'app-page-404',
+     element: 'app-page-404',
      action: () => import('./pages/404.js'),
   },
 ];
@@ -79,11 +79,11 @@ Serve pages directly without a layout.
 export const routes: Route[] = [
   {
     path: '',
-    component: 'app-page-home',
+    element: 'app-page-home',
   },
   {
     path: 'about',
-    component: 'app-page-about',
+    element: 'app-page-about',
   },
 ];
 ```
@@ -96,15 +96,15 @@ Share similar elements between pages.
 export const routes: Route[] = [
   {
     path: '',
-    component: 'app-layout-default',
+    element: 'app-layout-default',
     children: [
       {
         path: '',
-        component: 'app-page-home',
+        element: 'app-page-home',
       },
       {
         path: 'about',
-        component: 'app-page-about',
+        element: 'app-page-about',
       },
     ],
   },
@@ -124,19 +124,19 @@ export const routes: Route[] = [
   // bundled layout
   {
     path: '',
-    component: 'app-layout-default',
+    element: 'app-layout-default',
     children: [
 
       // bundled page
       {
         path: '',
-        component: 'app-page-home',
+        element: 'app-page-home',
       },
 
       // lazy-loaded page
       {
         path: 'about',
-        component: 'app-page-about',
+        element: 'app-page-about',
         action: () => import('./pages/about.js'),
       },
     ],
@@ -145,7 +145,7 @@ export const routes: Route[] = [
   // lazy-loaded layout
   {
     path: 'admin',
-    component: 'app-layout-admin',
+    element: 'app-layout-admin',
     action: () => import('./layouts/admin.js'),
     children: [
       // ...
@@ -173,12 +173,12 @@ The following features are supported:
 // courtesy of: https://hilla.dev/docs/lit/guides/routing#parameters
 
 export const routes: Route[] = [
-  {path: '', component: 'app-page-home'},
-  {path: 'profile/:user', component: 'app-page-profile'},
-  {path: 'image/:size/:color?', component: 'app-page-image'},
-  {path: 'kb/:path*', component: 'app-page-knowledge'},
-  {path: 'image-:size(\\d+)px', component: 'app-page-image'},
-  {path: '(user[s]?)/:id', component: 'app-page-profile'},
+  {path: '', element: 'app-page-home'},
+  {path: 'profile/:user', element: 'app-page-profile'},
+  {path: 'image/:size/:color?', element: 'app-page-image'},
+  {path: 'kb/:path*', element: 'app-page-knowledge'},
+  {path: 'image-:size(\\d+)px', element: 'app-page-image'},
+  {path: '(user[s]?)/:id', element: 'app-page-profile'},
 ];
 ```
 
@@ -192,13 +192,13 @@ There are 2 level of 404: **layout level** and **global level**. The router will
 export const routes: Route[] = [
   {
     path: '',
-    component: 'app-layout-default',
+    element: 'app-layout-default',
     children: [
       // layout routes
 
       {
        path: '**',
-       component: 'app-page-404-layout-default',
+       element: 'app-page-404-layout-default',
        action: () => import('./pages/404-layout-default.js'),
       },
     ],
@@ -209,7 +209,7 @@ export const routes: Route[] = [
   // global 404
   {
      path: '**',
-     component: 'app-page-404-global',
+     element: 'app-page-404-global',
      action: () => import('./pages/404-global.js'),
   },
 ];
@@ -226,8 +226,8 @@ import {createRouter} from '@tinijs/router';
 
 import {routes} from './routes.js';
 
-@App({})
-export class AppRoot extends TiniComponent {
+@app({})
+export class AppRootElement extends TiniElement {
 
   readonly router = createRouter(routes, {linkTrigger: true});
 
@@ -248,7 +248,7 @@ With the option `linkTrigger: true` enabled, you can navigate between pages usin
 <a href="/post/post-1">Post 1</a>
 ```
 
-You can also use the `<tini-link>` component provided by the [Tini UI](https://tinijs.dev/ui) when link trigger disabled (not set or `linkTrigger: false`), it has a similar signature compared to the `a` tag and other useful stuffs, such as **marked as active link**.
+You can also use the `<tini-link>` element provided by the [Tini UI](https://tinijs.dev/ui) when link trigger disabled (not set or `linkTrigger: false`), it has a similar signature compared to the `a` tag and other useful stuffs, such as **marked as active link**.
 
 ```html
 <tini-link href="/">Home</tini-link>
@@ -261,13 +261,13 @@ You can also use the `<tini-link>` component provided by the [Tini UI](https://t
 You can also navigate between pages in the imperative manner by using the `go()` method from a router instance.
 
 ```ts
-import {getRouter, UseRouter, type Router} from '@tinijs/router';
+import {getRouter, useRouter, type Router} from '@tinijs/router';
 
-@Page({})
-export class AppPageXXX extends TiniComponent {
+@page({})
+export class AppPageXXXElement extends TiniElement {
 
   // via decorator
-  @UseRouter() readonly router!: Router;
+  @useRouter() readonly router!: Router;
 
   // or, via util
   readonly router = getRouter();
@@ -282,16 +282,16 @@ export class AppPageXXX extends TiniComponent {
 Access **current route** and **params** is similar to access router instance.
 
 ```ts
-import {UseRoute, UseParams, type ActivatedRoute} from '@tinijs/router';
+import {useRoute, useParams, type ActivatedRoute} from '@tinijs/router';
 
-@Page({})
-export class AppPageXXX extends TiniComponent {
+@page({})
+export class AppPageXXXElement extends TiniElement {
 
   // current route
-  @UseRoute() readonly route!: ActivatedRoute;
+  @useRoute() readonly route!: ActivatedRoute;
 
   // route params
-  @UseParams() readonly params!: {slug: string};
+  @useParams() readonly params!: {slug: string};
 
 }
 ```
@@ -310,8 +310,8 @@ You can intercept the navigation process by returning a `string` or a `function`
 - `function`: cancel and execute the function
 
 ```ts
-@Page({})
-export class AppPageAccount extends TiniComponent {
+@page({})
+export class AppPageAccountElement extends TiniElement {
 
   onBeforeEnter() {
     if (user) return; // continue
@@ -332,10 +332,10 @@ Because we use the Shadow DOM to encapsulate our app, the browser seems to be un
 ```ts
 import {ref, createRef} from 'lit/directives/ref.js';
 
-@Page({})
-export class AppPageXXX extends TiniComponent {
+@page({})
+export class AppPageXXXElement extends TiniElement {
 
-  @UseRouter() readonly router!: Router;
+  @useRouter() readonly router!: Router;
 
   private _articleRef = createRef<HTMLElement>();
 
@@ -350,7 +350,7 @@ export class AppPageXXX extends TiniComponent {
     // add extract all the available headings
     // IMPORTANT!!!:
     //   + never change a local state in onRenders() or updated() or it will cause a render loop
-    //   + store 'fragments' in a global state or emit out to the parent component or employ render checkers
+    //   + store 'fragments' in a global state or emit out to the parent element or employ render checkers
     const fragments = this.router
       .renewFragments(this._articleRef.value!, {delay: 500})
       .retrieveFragments();

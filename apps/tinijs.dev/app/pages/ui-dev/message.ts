@@ -1,21 +1,13 @@
-import {html, css, nothing} from 'lit';
+import {html, css} from 'lit';
 
-import {
-  Component,
-  TiniComponent,
-  Colors,
-  SubtleColors,
-  Gradients,
-  SubtleGradients,
-  Sizes,
-} from '@tinijs/core';
+import {element, TiniElement} from '@tinijs/core';
 
-import {TiniMessageComponent} from '../../ui/components/message.js';
+import {TiniMessageElement} from '../../ui/elements/message.js';
 
-@Component({
-  components: [TiniMessageComponent],
+@element({
+  elements: [TiniMessageElement],
 })
-export class AppPageUIDevMessageComponent extends TiniComponent {
+export class AppPageUIDevMessageElement extends TiniElement {
   static readonly defaultTagName = 'app-page-ui-dev-message';
 
   protected render() {

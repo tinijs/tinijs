@@ -31,14 +31,17 @@ export type ThemingEntry = {
 
 export type ThemingTemplates = Record<
   string,
-  <Elem extends TiniElement>(elem: Elem, context?: any) => TemplateResult
+  <Element extends TiniElement>(
+    element: Element,
+    context?: any
+  ) => TemplateResult
 >;
 
 export type ThemingStyles = Styles;
 
 export interface ThemingScripts {
-  activate?<Elem extends TiniElement>(elem: Elem): void;
-  deactivate?<Elem extends TiniElement>(elem: Elem): void;
+  activate?<Element extends TiniElement>(element: Element): void;
+  deactivate?<Element extends TiniElement>(element: Element): void;
 }
 
 export interface ActiveTheme {

@@ -1,11 +1,11 @@
 import {html} from 'lit';
 
-import {Layout, TiniComponent} from '@tinijs/core';
+import {layout, TiniElement} from '@tinijs/core';
 
-@Layout({
+@layout({
   name: 'app-layout-default',
 })
-export class AppLayoutDefault extends TiniComponent {
+export class AppLayoutDefaultElement extends TiniElement {
   protected render() {
     return html`<main class="page"><slot></slot></main>`;
   }

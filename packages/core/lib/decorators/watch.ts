@@ -28,7 +28,7 @@ export class Watching implements ReactiveController {
   }
 }
 
-export function Watchable(handlerName?: string, skipInitial?: boolean) {
+export function watchable(handlerName?: string, skipInitial?: boolean) {
   return function (prototype: any, propertyName: string) {
     const valueKey = `___${propertyName}`;
     const handlerKey = handlerName || `${propertyName}Changes`;
@@ -65,7 +65,7 @@ export function Watchable(handlerName?: string, skipInitial?: boolean) {
   };
 }
 
-export function Watch() {
+export function watch() {
   return function (prototype: any, propertyName: string) {
     const watcherKey = Symbol();
     Object.defineProperty(prototype, propertyName, {

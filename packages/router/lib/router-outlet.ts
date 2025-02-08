@@ -1,11 +1,11 @@
 import {LitElement} from 'lit';
-import {property} from 'lit/decorators.js';
+import {property} from 'lit/decorators/property.js';
 
 import {NO_ROUTER_FOR_OUTLET_ERROR} from './consts.js';
 import type {ActivatedRoute, RouteHook, ElemHook} from './types.js';
 import {Router} from './router.js';
 
-export class RouterOutletComponent extends LitElement {
+export class RouterOutletElement extends LitElement {
   @property({type: Object}) router!: Router;
   private currentLayout?: string;
   private currentPage?: string;
@@ -23,8 +23,8 @@ export class RouterOutletComponent extends LitElement {
     if (layoutRoute?.action) await layoutRoute.action();
     if (pageRoute?.action) await pageRoute.action();
     // render
-    const layoutTagName = layoutRoute?.component;
-    const pageTagName = pageRoute?.component;
+    const layoutTagName = layoutRoute?.element;
+    const pageTagName = pageRoute?.element;
     if (
       layoutTagName === this.currentLayout &&
       pageTagName === this.currentPage
